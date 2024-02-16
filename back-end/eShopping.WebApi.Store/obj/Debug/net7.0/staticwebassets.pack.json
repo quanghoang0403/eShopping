@@ -1,0 +1,105 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\bootstrap.css",
+      "PackagePath": "staticwebassets\\default\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\default\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\css",
+      "PackagePath": "staticwebassets\\default"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\jquery-3.2.1.min.js",
+      "PackagePath": "staticwebassets\\default\\jquery-3.2.1.min.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\jquery.countdown.js",
+      "PackagePath": "staticwebassets\\default\\jquery.countdown.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\jquery.easing.1.3.js",
+      "PackagePath": "staticwebassets\\default\\jquery.easing.1.3.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\jquery.fullPage.css",
+      "PackagePath": "staticwebassets\\default\\jquery.fullPage.css"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\loader.svg",
+      "PackagePath": "staticwebassets\\default\\loader.svg"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\main.js",
+      "PackagePath": "staticwebassets\\default\\main.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\moment.js",
+      "PackagePath": "staticwebassets\\default\\moment.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\particles.js",
+      "PackagePath": "staticwebassets\\default\\particles.js"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\default\\style.css",
+      "PackagePath": "staticwebassets\\default\\style.css"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\en.json",
+      "PackagePath": "staticwebassets\\language\\web\\en.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\id.json",
+      "PackagePath": "staticwebassets\\language\\web\\id.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\ja.json",
+      "PackagePath": "staticwebassets\\language\\web\\ja.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\ko.json",
+      "PackagePath": "staticwebassets\\language\\web\\ko.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\ms.json",
+      "PackagePath": "staticwebassets\\language\\web\\ms.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\th.json",
+      "PackagePath": "staticwebassets\\language\\web\\th.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\vi.json",
+      "PackagePath": "staticwebassets\\language\\web\\vi.json"
+    },
+    {
+      "Id": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\wwwroot\\language\\web\\zh.json",
+      "PackagePath": "staticwebassets\\language\\web\\zh.json"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.eShopping.WebApi.Store.props",
+      "PackagePath": "build\\eShopping.WebApi.Store.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.eShopping.WebApi.Store.props",
+      "PackagePath": "buildMultiTargeting\\eShopping.WebApi.Store.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.eShopping.WebApi.Store.props",
+      "PackagePath": "buildTransitive\\eShopping.WebApi.Store.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.eShopping.WebApi.Store.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
