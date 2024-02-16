@@ -1,0 +1,5 @@
+D:\tiemdocuchoami\sources\back-end\eShopping\eShopping.Payment\obj\Debug\net7.0\eShopping.Payment.csproj.AssemblyReference.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\eShopping.Payment\obj\Debug\net7.0\eShopping.Payment.GeneratedMSBuildEditorConfig.editorconfig
+D:\tiemdocuchoami\sources\back-end\eShopping\eShopping.Payment\obj\Debug\net7.0\eShopping.Payment.AssemblyInfoInputs.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\eShopping.Payment\obj\Debug\net7.0\eShopping.Payment.AssemblyInfo.cs
+D:\tiemdocuchoami\sources\back-end\eShopping\eShopping.Payment\obj\Debug\net7.0\eShopping.Payment.csproj.CoreCompileInputs.cache

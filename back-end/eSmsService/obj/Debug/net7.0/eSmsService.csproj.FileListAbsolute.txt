@@ -1,0 +1,10 @@
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\eSmsService\obj\Debug\net7.0\eSmsService.csproj.AssemblyReference.cache
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\eSmsService\obj\Debug\net7.0\eSmsService.GeneratedMSBuildEditorConfig.editorconfig
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\eSmsService\obj\Debug\net7.0\eSmsService.AssemblyInfoInputs.cache
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\eSmsService\obj\Debug\net7.0\eSmsService.AssemblyInfo.cs
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\eSmsService\obj\Debug\net7.0\eSmsService.csproj.CoreCompileInputs.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\eSmsService\obj\Debug\net7.0\eSmsService.csproj.AssemblyReference.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\eSmsService\obj\Debug\net7.0\eSmsService.GeneratedMSBuildEditorConfig.editorconfig
+D:\tiemdocuchoami\sources\back-end\eShopping\eSmsService\obj\Debug\net7.0\eSmsService.AssemblyInfoInputs.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\eSmsService\obj\Debug\net7.0\eSmsService.AssemblyInfo.cs
+D:\tiemdocuchoami\sources\back-end\eShopping\eSmsService\obj\Debug\net7.0\eSmsService.csproj.CoreCompileInputs.cache

@@ -1,0 +1,5 @@
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoFoodBeverage.Payment\obj\Debug\net7.0\GoFoodBeverage.Payment.csproj.AssemblyReference.cache
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoFoodBeverage.Payment\obj\Debug\net7.0\GoFoodBeverage.Payment.GeneratedMSBuildEditorConfig.editorconfig
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoFoodBeverage.Payment\obj\Debug\net7.0\GoFoodBeverage.Payment.AssemblyInfoInputs.cache
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoFoodBeverage.Payment\obj\Debug\net7.0\GoFoodBeverage.Payment.AssemblyInfo.cs
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoFoodBeverage.Payment\obj\Debug\net7.0\GoFoodBeverage.Payment.csproj.CoreCompileInputs.cache

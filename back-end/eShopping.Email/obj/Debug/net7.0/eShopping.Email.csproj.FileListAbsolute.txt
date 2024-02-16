@@ -1,0 +1,17 @@
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Email.deps.json
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Email.dll
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Email.pdb
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Common.dll
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Domain.dll
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Common.pdb
+D:\eShopping\back-end\eShopping.Email\bin\Debug\net7.0\eShopping.Domain.pdb
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.csproj.AssemblyReference.cache
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.GeneratedMSBuildEditorConfig.editorconfig
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.AssemblyInfoInputs.cache
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.AssemblyInfo.cs
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.csproj.CoreCompileInputs.cache
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.csproj.CopyComplete
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.dll
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\refint\eShopping.Email.dll
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\eShopping.Email.pdb
+D:\eShopping\back-end\eShopping.Email\obj\Debug\net7.0\ref\eShopping.Email.dll

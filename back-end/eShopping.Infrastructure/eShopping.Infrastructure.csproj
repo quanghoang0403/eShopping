@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Configurations>Debug;Release;Development;Staging;DevRelease;Production</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="BackupDatabase\**" />
+    <EmbeddedResource Remove="BackupDatabase\**" />
+    <None Remove="BackupDatabase\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eShopping.Common\eShopping.Common.csproj" />
+    <ProjectReference Include="..\eShopping.Domain\eShopping.Domain.csproj" />
+    <ProjectReference Include="..\eShopping.Interfaces\eShopping.Interfaces.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Migrations\Functions\UDF_StripHTML.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\foody-platform-and-store-foody-playform.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\remove-customer-segment-objective-order-data.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\s13-payment-config-momo-insert.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\remove-old-bill-configuration.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\calculate-customers-by-segment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\currencies-update.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\s12-update-active-order-package.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\s12-update-pos-package.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\permission-groups.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\permissions.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\S7.calculate-customers-by-segment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\cities-vn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\account-transfer.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\currency-by-country.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\platform-update.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\S1.permissions.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\S1.permission-groups.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\districts-vn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\S1.states.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\S1wards-vn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\wards-vn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\TableType\TVP_Order.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\TableType\TVP_ProductPrice.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\Functions\" />
+    <Folder Include="Migrations\StoredProcedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Migrations\20230724023212_add-store-procedure-customer-order-segment.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+	</ItemGroup>
+</Project>

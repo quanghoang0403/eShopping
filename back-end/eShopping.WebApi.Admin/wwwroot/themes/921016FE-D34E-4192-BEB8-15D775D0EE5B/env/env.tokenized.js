@@ -1,0 +1,3 @@
+var env = {
+  REACT_APP_ROOT_DOMAIN: "__REACT_APP_ROOT_DOMAIN__",
+};

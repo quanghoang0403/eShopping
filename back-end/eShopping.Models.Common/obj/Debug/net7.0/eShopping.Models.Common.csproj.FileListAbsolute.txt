@@ -1,0 +1,17 @@
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Models.Common.deps.json
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Models.Common.dll
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Models.Common.pdb
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Common.dll
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Domain.dll
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Common.pdb
+D:\eShopping\back-end\eShopping.Models.Common\bin\Debug\net7.0\eShopping.Domain.pdb
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.csproj.AssemblyReference.cache
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.AssemblyInfoInputs.cache
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.AssemblyInfo.cs
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.csproj.CoreCompileInputs.cache
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.csproj.CopyComplete
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.dll
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\refint\eShopping.Models.Common.dll
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\eShopping.Models.Common.pdb
+D:\eShopping\back-end\eShopping.Models.Common\obj\Debug\net7.0\ref\eShopping.Models.Common.dll

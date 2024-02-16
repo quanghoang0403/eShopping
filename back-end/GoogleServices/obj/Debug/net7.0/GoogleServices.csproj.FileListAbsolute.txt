@@ -1,0 +1,10 @@
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoogleServices\obj\Debug\net7.0\GoogleServices.csproj.AssemblyReference.cache
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoogleServices\obj\Debug\net7.0\GoogleServices.GeneratedMSBuildEditorConfig.editorconfig
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoogleServices\obj\Debug\net7.0\GoogleServices.AssemblyInfoInputs.cache
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoogleServices\obj\Debug\net7.0\GoogleServices.AssemblyInfo.cs
+D:\tiemdocuchoami\sources\back-end\GoFoodBeverage\GoogleServices\obj\Debug\net7.0\GoogleServices.csproj.CoreCompileInputs.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\GoogleServices\obj\Debug\net7.0\GoogleServices.csproj.AssemblyReference.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\GoogleServices\obj\Debug\net7.0\GoogleServices.GeneratedMSBuildEditorConfig.editorconfig
+D:\tiemdocuchoami\sources\back-end\eShopping\GoogleServices\obj\Debug\net7.0\GoogleServices.AssemblyInfoInputs.cache
+D:\tiemdocuchoami\sources\back-end\eShopping\GoogleServices\obj\Debug\net7.0\GoogleServices.AssemblyInfo.cs
+D:\tiemdocuchoami\sources\back-end\eShopping\GoogleServices\obj\Debug\net7.0\GoogleServices.csproj.CoreCompileInputs.cache

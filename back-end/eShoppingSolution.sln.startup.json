@@ -1,0 +1,22 @@
+{
+  "Version": 3,
+  "ListAllProjects": false,
+  "MultiProjectConfigurations": {
+    "1.Admin": {
+      "Projects": {
+        "eShopping.WebApi.Admin": {}
+      }
+    },
+    "2.Store": {
+      "Projects": {
+        "eShopping.WebApi.Store": {}
+      }
+    },
+    "3.Admin + Store": {
+      "Projects": {
+        "eShopping.WebApi.Admin": {},
+        "eShopping.WebApi.Store": {}
+      }
+    }
+  }
+}

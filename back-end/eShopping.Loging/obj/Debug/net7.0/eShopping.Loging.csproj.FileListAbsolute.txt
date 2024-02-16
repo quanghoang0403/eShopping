@@ -1,0 +1,12 @@
+D:\eShopping\back-end\eShopping.Loging\bin\Debug\net7.0\eShopping.Loging.deps.json
+D:\eShopping\back-end\eShopping.Loging\bin\Debug\net7.0\eShopping.Loging.dll
+D:\eShopping\back-end\eShopping.Loging\bin\Debug\net7.0\eShopping.Loging.pdb
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.csproj.AssemblyReference.cache
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.GeneratedMSBuildEditorConfig.editorconfig
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.AssemblyInfoInputs.cache
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.AssemblyInfo.cs
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.csproj.CoreCompileInputs.cache
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.dll
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\refint\eShopping.Loging.dll
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\eShopping.Loging.pdb
+D:\eShopping\back-end\eShopping.Loging\obj\Debug\net7.0\ref\eShopping.Loging.dll

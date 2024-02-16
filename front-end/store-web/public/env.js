@@ -1,0 +1,4 @@
+var env = {
+  REACT_APP_ROOT_DOMAIN: "//localhost:5200",
+  REACT_APP_INSTRUMENTATION_KEY: "55e689a1-18c6-4c94-a7a6-0404eb27bd61",
+};

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eShopping.Common\eShopping.Common.csproj" />
+    <ProjectReference Include="..\eShopping.Domain\eShopping.Domain.csproj" />
+    <ProjectReference Include="..\eShopping.Interfaces\eShopping.Interfaces.csproj" />
+  </ItemGroup>
+</Project>

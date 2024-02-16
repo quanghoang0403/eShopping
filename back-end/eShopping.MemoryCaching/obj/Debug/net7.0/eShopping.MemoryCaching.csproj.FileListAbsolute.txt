@@ -1,0 +1,12 @@
+D:\eShopping\back-end\eShopping.MemoryCaching\bin\Debug\net7.0\eShopping.MemoryCaching.deps.json
+D:\eShopping\back-end\eShopping.MemoryCaching\bin\Debug\net7.0\eShopping.MemoryCaching.dll
+D:\eShopping\back-end\eShopping.MemoryCaching\bin\Debug\net7.0\eShopping.MemoryCaching.pdb
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.csproj.AssemblyReference.cache
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.GeneratedMSBuildEditorConfig.editorconfig
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.AssemblyInfoInputs.cache
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.AssemblyInfo.cs
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.csproj.CoreCompileInputs.cache
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.dll
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\refint\eShopping.MemoryCaching.dll
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\eShopping.MemoryCaching.pdb
+D:\eShopping\back-end\eShopping.MemoryCaching\obj\Debug\net7.0\ref\eShopping.MemoryCaching.dll

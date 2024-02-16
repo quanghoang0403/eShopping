@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ElasticEmail" Version="4.0.22" />
+    <PackageReference Include="SendGrid" Version="9.28.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eShopping.Common\eShopping.Common.csproj" />
+    <ProjectReference Include="..\eShopping.Domain\eShopping.Domain.csproj" />
+  </ItemGroup>
+</Project>
