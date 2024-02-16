@@ -3,7 +3,12 @@ import "antd/dist/antd.css";
 import jwt_decode from "jwt-decode";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import {
+  EyeIcon,
+  EyeOpenIcon,
+  LockIcon,
+  UserNameIcon,
+} from "constants/icons.constants";
 import {
   resetSession,
   setAuth,
@@ -170,7 +175,7 @@ const LoginPage = (props) => {
                 },
               ]}
             >
-              <Input placeholder="Nhập email của bạn" />
+              <Input prefix={<UserNameIcon />} placeholder="Nhập email của bạn" />
             </Form.Item>
 
             <h4 className="label-input">Mật khẩu</h4>
@@ -184,12 +189,14 @@ const LoginPage = (props) => {
               ]}
             >
               <Input.Password
+                prefix={<LockIcon />}
+                iconRender={(visible) => (visible ? <EyeOpenIcon /> : <EyeIcon />)}
                 placeholder="Nhập mật khẩu"
               />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="login-form-button">
-                "ĐĂNG NHẬP"
+                ĐĂNG NHẬP
               </Button>
             </Form.Item>
           </div>

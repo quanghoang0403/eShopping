@@ -1,0 +1,11 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Layer_1">
+<path id="Vector" d="M10.8 12V15.6L13.2 16.8" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M27.6 19.2V14.4C27.6 13.7376 28.1376 13.2 28.8 13.2H32.2284L31.8228 12.2544C31.4448 11.3724 30.5772 10.8 29.6172 10.8H21.6V27.6H25.26C25.1592 27.1032 25.1784 26.5644 25.3644 26.0088C25.6788 25.068 26.4864 24.324 27.45 24.0912C29.4324 23.6112 31.2 25.0992 31.2 27C31.2 27.2052 31.1784 27.4056 31.14 27.6H34.8V19.2H27.6Z" fill="white"/>
+<path id="Vector_3" d="M28.2 30C29.8568 30 31.2 28.6569 31.2 27C31.2 25.3431 29.8568 24 28.2 24C26.5431 24 25.2 25.3431 25.2 27C25.2 28.6569 26.5431 30 28.2 30Z" stroke="white" stroke-width="2" stroke-miterlimit="10"/>
+<path id="Vector_4" d="M9 30C10.6569 30 12 28.6569 12 27C12 25.3431 10.6569 24 9 24C7.34315 24 6 25.3431 6 27C6 28.6569 7.34315 30 9 30Z" stroke="white" stroke-width="2" stroke-miterlimit="10"/>
+<path id="Vector_5" d="M33.6 26.3999H34.8" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"/>
+<path id="Vector_6" d="M1.19995 26.3999H3.59995" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"/>
+<path id="Vector_7" d="M19.1999 6H3.59995C2.27395 6 1.19995 7.074 1.19995 8.4V27.6H6.05995C5.95915 27.1032 5.97835 26.5644 6.16435 26.0088C6.47875 25.068 7.28635 24.324 8.25115 24.0912C10.2324 23.6112 12 25.0992 12 27C12 27.2052 11.9784 27.4056 11.9399 27.6H21.6V8.4C21.6 7.074 20.5259 6 19.1999 6ZM10.8 21.6C7.48675 21.6 4.79995 18.9132 4.79995 15.6C4.79995 12.2868 7.48675 9.6 10.8 9.6C14.1132 9.6 16.8 12.2868 16.8 15.6C16.8 18.9132 14.1132 21.6 10.8 21.6Z" fill="white"/>
+</g>
+</svg>
