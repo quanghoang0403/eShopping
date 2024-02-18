@@ -1,0 +1,15 @@
+.category-homepage-collapse {
+  h3 {
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .ant-form-item {
+    margin-bottom: 32px;
+  }
+}
+
+.customization-block-category > .ant-collapse-item > .ant-collapse-header[aria-expanded="true"] {
+  svg > path {
+    fill: #fff;
+  }
+}

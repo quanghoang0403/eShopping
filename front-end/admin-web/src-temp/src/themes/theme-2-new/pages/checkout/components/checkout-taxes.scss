@@ -1,0 +1,47 @@
+.checkout-taxes-theme2 {
+  width: fit-content;
+  .taxTitle {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-left: 12px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    user-select: none;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .taxList {
+    margin-top: 12px;
+    .taxItem {
+      padding: 12px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      .taxName {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        color: #282828;
+        user-select: none;
+        width: fit-content;
+      }
+      .taxAmount {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: right;
+        color: #282828;
+        user-select: none;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .checkout-taxes-theme2 {
+  }
+}

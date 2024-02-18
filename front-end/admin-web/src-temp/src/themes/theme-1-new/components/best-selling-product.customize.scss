@@ -1,0 +1,44 @@
+.today-menu-best-selling-product-homepage-theme1 {
+  .today-menu-title {
+    margin-top: 16px;
+  }
+}
+
+.best-selling-product-main {
+  margin: 16px auto;
+
+  .best-selling-product-navigate {
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+
+    .best-selling-product-arrow-left {
+      margin-right: 16px;
+    }
+    .best-selling-product-title {
+      
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 24px;
+      color: #50429b;
+    }
+  }
+}
+
+svg.best-selling-product-icon-title {
+  path {
+    z-index: 100;
+    fill: #fff;
+  }
+}
+
+.banner-detail-body-content {
+  .ant-collapse-item-active {
+    svg.ant-collapse-arrow {
+      path {
+        fill: #fff !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+.blog-detail-top-banner {
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .banner-text {
+    color: #026f30;
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-align: center;
+    width: 90%;
+  }
+}
+
+.blog-detail-top-banner.is-customize {
+  height: 314px;
+  .banner-text {
+    padding-top: 149px;
+    font-size: 36px;
+  }
+}
+
+// Tablet
+@media screen and (max-width: 1200px) {
+  .blog-detail-top-banner {
+    height: 182px;
+    .banner-text {
+      font-size: 24px;
+    }
+  }
+}
+
+// Mobile
+@media screen and (max-width: 575px) {
+  .blog-detail-top-banner {
+    height: 97px;
+    .banner-text {
+      font-size: 24px;
+    }
+  }
+}

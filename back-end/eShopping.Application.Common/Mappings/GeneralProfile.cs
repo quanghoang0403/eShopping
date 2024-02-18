@@ -1,6 +1,7 @@
 using AutoMapper;
 using eShopping.Domain.Entities;
 using eShopping.Models.Common.Address;
+using eShopping.Models.Common.Permission;
 
 namespace eShopping.Application.Common.Mappings
 {
@@ -11,6 +12,9 @@ namespace eShopping.Application.Common.Mappings
             CreateMap<City, CityModel>();
             CreateMap<District, DistrictModel>();
             CreateMap<Ward, WardModel>();
+
+            CreateMap<PermissionGroup, PermissionGroupModel>();
+            CreateMap<Permission, PermissionModel>();
         }
     }
 }

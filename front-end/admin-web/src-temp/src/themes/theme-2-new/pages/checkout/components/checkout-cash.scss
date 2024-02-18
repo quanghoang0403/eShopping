@@ -1,0 +1,92 @@
+.check-out-cash-theme2 {
+  margin: auto;
+  width: 535px !important;
+  height: 452px !important;
+  border-radius: 20px;
+  .ant-modal-content {
+    align-items: center;
+    text-align: center;
+    background: white;
+    width: 535px !important;
+    height: 452px !important;
+    .ant-modal-close {
+      display: none;
+    }
+    .check-out-cash-image {
+      margin-top: 24px;
+      width: 157px;
+      height: 157px;
+    }
+    .check-out-cash-title1 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 44px;
+      align-items: center;
+      text-align: center;
+      color: #db4d29;
+      margin-top: 24px;
+    }
+    .check-out-cash-title2 {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      align-items: center;
+      text-align: center;
+      color: #282828;
+      margin-top: 24px;
+    }
+    .ant-modal-header {
+      border-bottom: 0 none !important;
+    }
+    .ant-modal-footer {
+      border-top: 0 none !important;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      margin-top: 30px !important;
+      .ant-btn-default {
+        all: unset !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        font-size: 20px !important;
+        line-height: 24px !important;
+        align-items: center !important;
+        text-align: center !important;
+        color: #282828 !important;
+        cursor: pointer !important;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+        border: 1px solid #959595 !important;
+        border-radius: 12px !important;
+      }
+      .ant-btn-primary {
+        all: unset !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        font-size: 20px !important;
+        line-height: 24px !important;
+        align-items: center !important;
+        text-align: center !important;
+        color: #fef7ed !important;
+        background-color: #db4d29 !important;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+        cursor: pointer !important;
+        border-radius: 12px !important ;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .check-out-cash-theme2 {
+    margin: auto;
+    width: 100%;
+  }
+}

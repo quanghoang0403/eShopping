@@ -1,0 +1,215 @@
+.card-bank-transfer {
+  .my-24 {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    color: #2b2162;
+  }
+  .switch-content {
+    display: flex;
+  }
+  .use-bank-content {
+    font-weight: 500;
+    height: 24px;
+    font-size: 20px;
+    padding-right: 20px;
+    padding-top:5px;
+  }
+ 
+  .ant-switch-checked .ant-switch-handle::before {
+    background-color: #fff;
+  } 
+
+  .ant-switch-checked {
+    background: #FF8C21 !important;
+    border: #fae6d6;
+  }
+
+  .ant-switch-checked .ant-switch-handle {
+    inset-inline-start: calc(100% - 34px) !important;
+  }
+
+  .ant-switch-checked .ant-switch-inner {
+    display: none;
+  }
+
+  .ant-switch:hover:not(.ant-switch-disabled) {
+    background: #eef1f8;
+  }
+
+  .ant-switch-handle::before {
+    border-radius: 20px;
+  }
+
+  .ant-switch-handle {
+    top: 5px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .ant-switch {
+    width: 80px;
+    height: 40px;
+  }
+
+  .icon-svg-hover:hover path {
+    fill: #817CBA;
+    stroke: unset;
+  }
+  .qrcode-content {
+    width: 182px;
+    height: 182px;
+    padding: 8px;
+    background-color: #f7f5ff;
+    border-radius: 16px;
+    .icon-qrcode {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+  
+  }
+  .card-qr-code {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    .qr-code-wrapper {
+      padding: 10px;
+      background-color: #f7f5ff;
+      border-radius: 16px;
+      height: 182px;
+    }
+    .ant-image-mask {
+      display: none;
+    }
+    .ant-image-mask.download {
+      display: flex;
+      width: 182px;
+      height: 182px;
+      position: absolute;
+      top: 34px;
+      right: 0;
+      bottom: 0;
+      left: 12px;
+      border-radius: 16px;
+      .ant-image-mask-info {
+        overflow: inherit;
+        .anticon {
+          margin-inline-end: 0px;
+        }
+        .anticon-eye {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// tab mode
+@media screen and (max-width: 1600px) {
+  .card-bank-transfer {
+    .card-title-box {
+      padding-bottom: 40px;
+    }
+    .ant-switch {
+      width: 82px;
+      margin-top: 10px;
+    }
+  }
+}
+
+// Mobile mode
+@media screen and (max-width: 740px) {
+  .store-general-config-wrapper {
+    display: block;
+    .left-content {
+      width: 100%;
+      margin-bottom: 16px;
+      .tab-general-config-container {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        display: flex;
+        width: 100%;
+        .tab-general-config {
+          .icon-box {
+            width: 45px;
+            padding-left: 16px;
+          }
+          .text-box {
+            padding-left: 8px;
+            padding-right: 16px;
+          }
+        }
+        .tab-general-config:not(:first-child) {
+          margin-left: 16px;
+        }
+      }
+    }
+    .right-content {
+      width: 100%;
+      padding-left: 0;
+    }
+  }
+
+  .card-bank-transfer {
+    .card-title-box {
+      padding-bottom: 40px;
+    }
+    .ant-switch {
+      width: 82px;
+      height: 32px;
+      margin-top: 10px;
+    }
+  }
+}
+
+
+@media (max-width: 428px) {
+  .card-bank-transfer {
+      .ant-switch {
+          width: 82px;
+          height: 32px;
+          margin-top: 10px;
+      }
+
+      .ant-switch-handle {
+          width: 24px;
+          height: 24px;
+          top: 4px;
+      }
+
+      .ant-switch-checked .ant-switch-handle {
+          inset-inline-start: calc(100% - 29px) !important;
+      }
+
+      .ant-modal-header .ant-modal-title {
+          font-size: 32px;
+      }
+
+      .card-title-box {
+        padding-bottom: 40px;
+      }
+  }
+}
+
+@media (max-width: 380px) {
+  .card-bank-transfer {
+      .card-title-box {
+        padding-bottom: 60px;
+      }
+  }
+}

@@ -1,0 +1,385 @@
+.background-form-info-account-wapper {
+  width: 100%;
+  height: 100%;
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  padding: 24px 0px;
+  .form-input-info-account {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+    //padding: 24px 16px;
+    width: 100%;
+    max-width: 645px;
+    height: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    margin: auto;
+    position: relative;
+    .loading-overlay {
+      position: absolute;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+      }
+    }
+
+    .register-without-otp-message {
+      margin-top: 10px;
+      * {
+        width: 100%;
+      }
+      .message {
+        text-align: center;
+        font-size: 16px;
+        display: grid;
+      }
+    }
+  }
+}
+
+.account-information-form-theme2 {
+  width: 100%;
+  .account-info-title {
+    .arrow-left-title {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .acc-info {
+      font-style: normal;
+      font-weight: 400;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 44px;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .ant-form-item-explain-error {
+    color: #ff4d4f;
+    
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .fnb-input-theme {
+    height: 100%;
+    font-size: 18px;
+    width: 100%;
+
+    .ant-input {
+      font-size: 18px;
+    }
+  }
+  .personal-info-theme2 {
+    width: 100%;
+    margin-top: 36px;
+    padding: 0px 12px;
+
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .personal-info-theme2-row {
+      display: flex;
+      flex-flow: unset;
+      align-items: center;
+      margin-bottom: 20px;
+      .ant-row {
+        margin-bottom: 0px;
+      }
+      .ant-form-item {
+        margin-bottom: 0px;
+      }
+    }
+
+    .personal-info-button-submit {
+      margin: auto;
+    }
+
+    .personal-info-fullname,
+    .personal-info-phone-number,
+    .personal-info-email,
+    .personal-info-birthday,
+    .personal-info-gender,
+    .personal-info-referral-code {
+      .ant-form-item-control-input-content {
+        height: 60px;
+      }
+    }
+    .personal-info-gender {
+      .ant-form-item-control-input-content {
+        display: flex;
+        align-items: center;
+      }
+      .ant-radio-wrapper {
+        .ant-radio-checked {
+          .ant-radio-inner {
+            border-color: #be3e1e;
+            background-color: #db4d29;
+          }
+        }
+      }
+    }
+
+    .title-gender-person-info-registration {
+      font-style: normal;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      color: #000000;
+      margin: 15px;
+    }
+
+    .ant-row {
+      width: 100%;
+    }
+
+    .ant-row .ant-col {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 23px;
+    }
+
+    .ant-col .ant-col-22 {
+      display: block;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .account-info-save {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 234px;
+      height: 48px;
+      background: #db4d29;
+      border-radius: 12px;
+      margin: auto;
+      .content-save-registration {
+        font-weight: 700;
+        font-size: 16px;
+        align-items: center;
+        color: #fef7ed;
+      }
+    }
+
+    .ant-btn-default:disabled {
+      opacity: 0.5;
+    }
+    .ant-picker-input input {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      margin-left: 10px;
+    }
+
+    .fnb-input-customize,
+    .ant-picker {
+      box-shadow: none;
+      height: 56px;
+      width: 100%;
+      border-radius: 12px;
+      .ant-picker-input {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        width: 100%;
+        flex-direction: row-reverse;
+      }
+      .custom-date-picker-registration {
+        height: 50px;
+        width: 100%;
+      }
+    }
+
+    .gender-form-row-registration {
+      display: flex;
+      align-items: center;
+      margin-bottom: 13px;
+      .title-person-info-registration {
+        font-style: normal;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        margin: 15px;
+      }
+      .personal-info-gender {
+        span {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 23px;
+          color: #000000;
+        }
+
+        .ant-form-item {
+          margin: 0;
+        }
+
+        .ant-row {
+          justify-items: center;
+        }
+
+        .ant-radio-group {
+          display: flex;
+          justify-items: center;
+          margin-top: 5px;
+        }
+
+        .ant-form-item-control-input-content {
+          height: fit-content;
+        }
+
+        .ant-radio-wrapper .ant-radio-inner {
+          background: #ffffff;
+          border: 1px solid #a5abde;
+        }
+
+        .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+          border: 1px solid #ff8c21;
+        }
+
+        .ant-radio-wrapper .ant-radio-inner::after {
+          background: #ff8c21;
+        }
+
+        .ant-radio-wrapper .ant-radio-checked .ant-radio-inner::after {
+          transform: scale(-0.6);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1650px) {
+  .background-form-info-account-wapper {
+    height: calc(100vh - 100px);
+    min-height: 900px;
+    padding: unset;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .background-form-info-account-wapper {
+    height: fit-content;
+    .form-input-info-account {
+      width: 100%;
+      padding-top: 5px;
+      height: auto;
+      .arrow-left-title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 10px;
+        color: #282828;
+        margin: auto;
+        svg {
+          margin-right: 20px;
+        }
+      }
+      .account-information-form-theme2 {
+        .personal-info-theme2 {
+          width: 100%;
+          padding: 12px 12px;
+          .button-submit-registration {
+            padding-top: 20px;
+          }
+          .personal-info-theme2-row {
+            display: flex;
+            flex-direction: column;
+            align-items: initial;
+            margin-bottom: 25px;
+            .ant-row {
+              margin-bottom: 0px;
+              flex: 1;
+            }
+            .ant-form-item {
+              margin-bottom: 0px;
+            }
+          }
+        }
+      }
+    }
+
+    .personal-info-theme2 {
+      width: 100%;
+      margin: unset;
+      .account-info-save {
+        width: 100%;
+      }
+      .ant-picker-input input {
+        font-size: 16px;
+        line-height: 27px;
+      }
+      .fnb-input-customize {
+        height: 50px;
+      }
+      .ant-row {
+        width: 100%;
+      }
+      .personal-info-theme2-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        .ant-row {
+          margin-bottom: 0px;
+        }
+        .ant-form-item {
+          margin-bottom: 0px;
+          height: 40px;
+        }
+      }
+
+      .ant-row .ant-col {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 27px;
+        margin-bottom: 4px;
+        width: 100%;
+      }
+
+      .fnb-date-picker {
+        height: 40px;
+      }
+      .personal-info-gender .ant-radio-group {
+        margin: 0;
+        justify-content: space-between;
+      }
+
+      .personal-info-fullname,
+      .personal-info-phone-number,
+      .personal-info-email,
+      .personal-info-birthday,
+      .personal-info-gender,
+      .personal-info-referral-code {
+        margin-bottom: 14px;
+        .ant-form-item {
+          margin: 0;
+        }
+        .ant-form-item-control-input-content {
+          height: fit-content;
+        }
+      }
+    }
+  }
+}

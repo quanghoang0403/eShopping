@@ -1,0 +1,68 @@
+.badge-status {
+    border-radius: 8px;
+    min-height: 36px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    display: inline-flex;
+    word-break: initial;
+
+    span {
+        margin: auto;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+.badge-status.cancelled {
+    background-color: #FFF7F7;
+
+    span {
+        color: #FC0D1B;
+    }
+}
+
+.badge-status.wait-to-confirm {
+    background: #E4EFF6;
+
+    span {
+        color: #428BC1;
+    }
+}
+
+
+.badge-status.confirm {
+    background: #DBD6FF;
+
+    span {
+        color: #2B2162;
+    }
+}
+
+.badge-status.serving {
+    background: #FFE8D2;
+
+    span {
+        color: #FF8C21;
+    }
+}
+
+.badge-status.completed {
+    background: #E7F9E7;
+
+    span {
+        color: #33B530;
+    }
+}
+
+
+//Form supplier
+@media (max-width: 575px) {
+    .badge-status {
+        font-size: 14px;
+    }
+}

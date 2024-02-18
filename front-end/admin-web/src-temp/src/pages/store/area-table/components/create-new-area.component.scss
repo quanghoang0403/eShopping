@@ -1,0 +1,113 @@
+.modal-add-area {
+  .ant-modal-body {
+    padding-top: 0;
+  }
+  .ant-modal-content {
+    border-radius: 32px;
+    .ant-modal-header {
+      border-bottom: none;
+    }
+    .ant-modal-header {
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      .ant-modal-title {
+        color: #2b2162;
+      }
+    }
+    .border-none {
+      align-items: flex-start !important;
+      border: none !important;
+    }
+    .add-area-images {
+      display: flex;
+      flex-direction: column;
+      border: 1px dashed #9f9f9f;
+      border-radius: 16px;
+      height: 168px;
+      justify-content: center;
+      align-items: center;
+      width: 330px;
+      height: 168px;
+      margin-bottom: 48px;
+      .input-area-images {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: baseline;
+      }
+      float: left !important;
+      .image-container img {
+        margin-right: 5px;
+        float: left;
+      }
+    }
+    .text-accept-image {
+      font-size: 16px;
+      margin-top: 12px;
+      width: 282px;
+      height: 42px;
+      text-align: center;
+    }
+    .button-cancel-addnew {
+      border: none;
+      color: #a5abde !important;
+    }
+    .button-add-new {
+      min-width: 95px !important;
+      height: 60px;
+      margin-left: 12px;
+    }
+    .delete-button {
+      border: none;
+    }
+    .add-area-images .image-container img {
+      margin-right: 5px;
+      float: left;
+    }
+
+    .container-input {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (max-width: 764px) {
+  .modal-add-area {
+    top: 20px !important;
+    max-width: 100%;
+
+    .ant-modal-header {
+      padding: 24px 16px;
+    }
+    .ant-modal-body {
+      padding: 8px 16px 24px 16px;
+    }
+    .ant-modal-content {
+      border-radius: 16px 16px 0 0 !important;
+      .add-area-images {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        gap: 12px;
+        width: 100%;
+      }
+    }
+    .ant-modal-close-x {
+      margin-top: 24px;
+    }
+    .close-modal-icon {
+      height: 40px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      svg > path {
+        stroke: #50429b;
+      }
+    }
+    .container-input {
+      margin-top: 24px;
+    }
+  }
+}

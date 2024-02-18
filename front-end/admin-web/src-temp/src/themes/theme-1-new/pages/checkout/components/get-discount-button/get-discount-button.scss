@@ -1,0 +1,231 @@
+.promotion-checkout-modal {
+  .discount-code-type {
+    max-width: 260px;
+  }
+  border-radius: 20px;
+  .ant-modal-content {
+    border-radius: 20px;
+    padding: unset;
+    touch-action: none;
+    .ant-modal-body {
+      padding: 24px 16px 0px;
+      .get-discount-button-checkout-theme1 {
+        .promotion-title {
+          font-style: normal;
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 30px;
+          text-align: center;
+          letter-spacing: 0.3px;
+          color: #000000;
+          margin-bottom: 16px;
+        }
+        .promotion-textbox {
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          .ant-form-item {
+            width: 100%;
+            margin-bottom: unset;
+          }
+          .discount-code-textbox {
+            background-color: #ffffff;
+            box-shadow: 0px 3px 15px rgba(49, 61, 174, 0.25);
+            border-radius: 12px;
+            padding: 14px 16px;
+
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 23px;
+          }
+          .redeem-btn {
+            background-color: #026f30;
+            border-radius: 12px;
+            padding: 16px 21px;
+            min-width: fit-content;
+            &:hover {
+              cursor: pointer;
+            }
+            .redeem-text {
+              font-style: normal;
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 20px;
+              color: #ffffff;
+              min-width: fit-content;
+              user-select: none;
+            }
+          }
+          input::placeholder {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 23px;
+            color: #aaaaaa;
+          }
+        }
+
+        .promotion-checkout-list {
+          min-height: calc(100vh - 250px);
+          max-height: calc(100vh - 250px);
+          overflow-y: scroll;
+          overflow-x: hidden;
+          padding-bottom: 16px;
+          .store-promotion,
+          .my-voucher {
+            h3 {
+              font-style: normal;
+              font-weight: 500;
+              font-size: 18px;
+              line-height: 23px;
+              letter-spacing: 0.3px;
+              color: #000000;
+              margin-bottom: 16px;
+            }
+            .store-promotion-list {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            .my-voucher-list {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .fnb-discount-code-card-theme-1 {
+                margin-bottom: 16px;
+                touch-action: none;
+              }
+            }
+          }
+          .store-promotion {
+            margin-bottom: 16px;
+          }
+        }
+
+        .no-promotion-checkout {
+          width: 100%;
+          min-height: 600px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .message-calculation-discount-code {
+          color: #f00;
+
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          margin-bottom: 12px;
+        }
+      }
+      .toast-message-calculation-discount-code {
+        bottom: 16px;
+      }
+    }
+    .ant-modal-footer {
+    }
+  }
+}
+
+/*Mobile:  <576px*/
+@media (max-width: 575px) {
+  .drawer-checkout-discount {
+    border-radius: 16px 16px 0 0;
+    height: 100vh;
+    overflow-y: hidden;
+    .ant-drawer-header {
+      border-bottom: none;
+    }
+    .ant-drawer-body {
+      padding: 0 16px 16px 16px;
+      padding-bottom: 32px;
+    }
+    .box-title-promotion {
+      display: flex;
+      align-content: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+    }
+    .ant-drawer-title {
+      font-size: 20px;
+      line-height: 25px;
+      .title-promotion {
+        width: 90%;
+        justify-content: center;
+        display: flex;
+      }
+      .icon-promotion {
+        display: flex;
+      }
+    }
+    .ant-drawer-wrapper-body {
+      padding-bottom: -32px;
+    }
+    .get-discount-button-checkout-theme1 {
+      .promotion-title {
+        font-size: 20px;
+        line-height: 25px;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 16px;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+        letter-spacing: 0.3px;
+        color: #000000;
+      }
+      .promotion-textbox {
+        margin-bottom: 16px;
+      }
+      .promotion-checkout-list {
+        .store-promotion,
+        .my-voucher {
+          h3 {
+            font-size: 16px;
+            line-height: 20px;
+            margin-bottom: 16px;
+          }
+          .my-voucher-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            .fnb-discount-code-card-theme-1 {
+              margin-bottom: 24px;
+            }
+          }
+        }
+      }
+
+      .fnb-discount-code-card-theme-1.apply {
+        touch-action: auto !important;
+      }
+      .store-promotion {
+        margin-bottom: 16px !important;
+      }
+      .no-promotion-checkout {
+        min-height: calc(100vh - 300px);
+      }
+    }
+  }
+}
+
+/* Scroll bar */
+.promotion-checkout-list::-webkit-scrollbar {
+  width: 3px;
+}
+.promotion-checkout-list::-webkit-scrollbar-thumb {
+  outline: none;
+  border-radius: 2px;
+  background-color: #026f30;
+}

@@ -1,0 +1,33 @@
+.menu-management-table {
+  .grid-status-column .status-active,
+  .grid-status-column .status-scheduled,
+  .grid-status-column .status-finished {
+    width: fit-content;
+    min-width: fit-content;
+    text-align: center;
+    padding: 6px 12px;
+  }
+  .discount-text,
+  .discount-max,
+  .start-text,
+  .end-text {
+    color: #9f9f9f;
+  }
+  .menu-managemant-action-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      margin-left: 15px;
+    }
+  }
+
+  .text-column-menu-items {
+    width: fit-content;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+}
+

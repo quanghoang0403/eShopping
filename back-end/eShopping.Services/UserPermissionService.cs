@@ -43,9 +43,9 @@ namespace eShopping.Services.User
                     .Find(g => permisionGroupIds.Any(gpid => gpid == g.Id))
                     .AsNoTracking()
                     .Include(g => g.Permissions)
-                    .Select(g => g.Permissions)
-                    .AsEnumerable()
-                    .Any(listP => listP.Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id)));
+                    .SelectMany(g => g.Permissions)
+                    .Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id));
+
                 return hasPerminssion;
             }
             catch

@@ -1,0 +1,219 @@
+.reserve-table-detail-container {
+  width: 100%;
+  height: max-content;
+  .back-component {
+    align-items: center;
+    display: flex;
+    padding: 24px;
+    background: #f4f4f4;
+    padding-bottom: 48px;
+    .back-icon:hover {
+      cursor: pointer;
+      path {
+        font-weight: bold;
+      }
+    }
+    .back-icon {
+      margin-right: 12px;
+    }
+    span {
+      color: #000;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 21.135px;
+    }
+  }
+  .reserve-table-detail-main {
+    max-width: 100%;
+    .reserve-table-detail-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      max-width: 100%;
+      border-radius: 8px;
+      background: #fff6ed;
+      .reserve-table-detail-info-left {
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        padding-right: 0px;
+        gap: 31px;
+        .title-name-reserve-table {
+          flex-direction: row;
+          display: flex;
+          gap: 8px;
+          .reserve-table-detail-icon {
+            padding: 8px;
+            border-radius: 60px;
+            background: #fff;
+          }
+          .title-name {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #282828;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            .title-reserve-table {
+            }
+            .name-reserve-table {
+              font-size: 28px;
+            }
+          }
+        }
+        .status-reserve-table {
+          .title-status {
+            border-radius: 8px;
+            display: flex;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 28px;
+            margin-bottom: 4px;
+            padding: 4px 8px;
+            width: fit-content;
+          }
+          .platform {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+            text-align: right;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 28px;
+            letter-spacing: 0.3px;
+          }
+        }
+        .order-reserve-table {
+          .title-order-reserve-table {
+            color: #959595;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+          }
+          .name-order-reserve-table {
+            color: #137fe3;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            margin-left: 4px;
+          }
+          .name-order-reserve-table:hover {
+            cursor: pointer;
+          }
+        }
+        .btn-cancel-reserve-table {
+          padding: 12px 16px;
+          border-radius: 12px;
+          border: 1px solid #959595;
+          height: 48px;
+          color: #959595;
+          text-align: center;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 24px;
+          width: 80%;
+        }
+      }
+      .reserve-table-detail-info-right {
+        padding: 15px 30px;
+      }
+    }
+    .reserve-table-detail-content {
+      padding: 24px 16px;
+      .title-text-reserve-table-detail-content {
+        color: #959595;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+      }
+      .name-text-reserve-table-detail-content {
+        color: #282828;
+        text-align: justify;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0.3px;
+        word-break: break-word;
+      }
+      .title-area,
+      .title-table {
+        padding-bottom: 8px;
+      }
+      .area-table:nth-child(n + 3) {
+        border-top: 1px solid #f3f3f3;
+        padding-top: 8px;
+      }
+      .area-table:last-child {
+        padding-bottom: 0;
+      }
+      .area-table {
+        padding-bottom: 8px;
+        .name-area,
+        .name-table {
+          color: #282828;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 24px;
+          letter-spacing: 0.3px;
+        }
+      }
+      .arrival-time {
+        border-radius: 8px;
+        background: #ff8c21;
+        display: flex;
+        font-size: 16px;
+        font-style: normal;
+        padding: 4px 8px;
+        width: fit-content;
+        color: #fff;
+        font-weight: 700;
+        line-height: 24px;
+      }
+      .address-book-arrival-info {
+        color: #282828;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .reserve-table-detail-container {
+    .reserve-table-detail-main .reserve-table-detail-info {
+      .reserve-table-detail-info-left {
+        padding: 15px;
+        padding-right: 0;
+      }
+      .reserve-table-detail-info-right {
+        padding: 15px 10px;
+        svg {
+          width: 100%;
+          height: 157px;
+        }
+      }
+    }
+    .reserve-table-detail-content {
+      .mt {
+        margin-top: 4px;
+      }
+    }
+  }
+}

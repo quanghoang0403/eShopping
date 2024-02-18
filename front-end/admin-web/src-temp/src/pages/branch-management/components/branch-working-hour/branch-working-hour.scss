@@ -1,0 +1,175 @@
+.card-working-hour {
+  .card-title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    color: #2b2162;
+  }
+  .text-label {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .specific-time-container {
+    min-height: 435px;
+    background: #f7f5ff;
+    border-radius: 24px;
+    padding: 24px;
+    .option-tab {
+      height: 72px;
+      background: #50429b;
+      border-radius: 16px;
+      width: 100%;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      padding-left: 16px;
+      .text-title {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        color: #ffffff;
+      }
+      .ant-radio-wrapper {
+        width: 100%;
+      }
+    }
+    .option-tab.inactive {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid #ffffff;
+      backdrop-filter: blur(6px);
+      .text-title {
+        color: #000000;
+      }
+    }
+    .specific-day-option-box {
+      padding-left: 16px;
+      padding-right: 16px;
+      .day-of-week-box {
+        width: 100%;
+        height: 57px;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        .icon-box {
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          cursor: pointer;
+          .icon {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+      .day-of-week-box.active {
+        background: #ffffff;
+        .icon-box {
+          .icon {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+    }
+    .card-select-time-option {
+      height: 100%;
+      min-height: 388px;
+      .ant-card-body {
+        .select-time-option-row {
+          .ant-form-item {
+            margin-bottom: 48px;
+          }
+          .icon-box {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            cursor: pointer;
+            .icon {
+              padding-bottom: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .mr-10 {
+    margin-right: 10px;
+  }
+
+  .my-24 {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+
+  .mt-16 {
+    margin-top: 16px;
+  }
+
+  .mt-24 {
+    margin-top: 24px;
+  }
+
+  .fnb-date-picker.working-hour-time-picker {
+    input {
+      padding-left: 0 !important;
+    }
+    .ant-picker-suffix {
+      display: none !important;
+    }
+  }
+}
+
+// Mobile
+@media (max-width: 575px) {
+  .card-working-hour {
+    .card-title {
+      font-size: 20px;
+      line-height: 25px;
+    }
+    .fnb-form-label {
+      font-size: 18px;
+      line-height: 23px;
+    }
+    .text-label {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .specific-time-container {
+      min-height: 152px;
+      padding: 16px 12px;
+      .option-tab {
+        height: 48px;
+        border-radius: 12px;
+      }
+      .specific-day-option-box {
+        .day-of-week-box {
+          height: 48px;
+        }
+      }
+    }
+    .card-select-time-option {
+      border: none;
+      .ant-card-body {
+        padding: 0;
+        .select-time-option-row {
+          background: #f7f5ff;
+          border-radius: 12px;
+          padding: 12px 8px;
+          margin-bottom: 16px;
+          .icon-box {
+            margin-top: 40px;
+          }
+          .ant-form-item-explain-error {
+            position: inherit;
+          }
+        }
+      }
+    }
+    .my-24 {
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+  }
+}

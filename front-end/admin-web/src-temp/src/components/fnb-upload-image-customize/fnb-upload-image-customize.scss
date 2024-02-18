@@ -1,0 +1,9 @@
+.uploadImageContent {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.text-non-image .accepts-image {
+  display: block;
+}

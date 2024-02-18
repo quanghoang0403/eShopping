@@ -1,0 +1,146 @@
+ .fnb-title-header {
+   text-transform: uppercase;
+ }
+
+ .ant-row.fnb-row-page-header {
+   align-items: center;
+   justify-content: left;
+ }
+
+ .text-center {
+   text-align: center;
+ }
+
+ .reservation-detail-card {
+   .guest-infomation,
+   .table-infomation {
+     margin-bottom: 30px;
+     background: #ffffff;
+     border-radius: 12px;
+
+     .title-session {
+       height: 96px;
+       display: flex;
+       align-items: center;
+       padding-left: 24px;
+       padding-right: 24px;
+
+       span {
+         font-weight: 700;
+         font-size: 24px;
+         line-height: 30px;
+         color: #2B2162;
+       }
+     }
+
+     .text-container {
+       padding-left: 24px;
+       padding-right: 24px;
+
+       .text-label {
+         font-weight: 400;
+         font-size: 20px;
+         line-height: 21px;
+         letter-spacing: 0.3px;
+         color: #9f9f9f;
+         margin-bottom: 8px;
+       }
+
+       .text-detail {
+         font-weight: 500;
+         font-size: 18px;
+         line-height: 26px;
+         letter-spacing: 0.3px;
+         color: #000000;
+         margin-bottom: 32px;
+       }
+     }
+
+     .order-id {
+      .text-detail {
+        color: rgb(48, 81, 255);
+      }
+    }
+
+     .table-infomation {
+       .assign-tables {
+         .text-detail {
+           margin-bottom: 10px;
+         }
+       }
+
+       .ant-row:last-child {
+         margin-bottom: 22px;
+       }
+     }
+   }
+ }
+
+ .fnb-row-page-header {
+   .btn-back {
+     background: #f7f5ff !important;
+     border: transparent !important;
+     min-width: 40px !important;
+     height: 30px !important;
+
+     svg {
+       margin-top: 5px;
+     }
+   }
+ }
+
+ //Form supplier
+ @media (max-width: 575px) {
+  .fnb-row-page-header {
+      .btn-back {
+        padding: 0 !important;
+
+        svg {
+          width: 20px;
+          height: 15px;
+        }
+      }
+    }
+
+   .reservation-detail-card {
+     .guest-infomation,
+     .table-infomation {
+       .title-session {
+         height: 74px;
+
+         span {
+           font-weight: 700;
+           font-size: 20px;
+           line-height: 30px;
+           color: #2B2162;
+         }
+       }
+
+       .text-container {
+         .text-label {
+           font-weight: 500;
+           font-size: 16px;
+         }
+
+         .text-detail {
+           font-weight: 500;
+           font-size: 14px;
+           line-height: 26px;
+           margin-bottom: 18px;
+         }
+       }
+     }
+
+     .table-infomation {
+       .assign-tables {
+         .text-detail {
+           margin-bottom: 10px;
+         }
+       }
+
+       .ant-row:last-child {
+         margin-bottom: 0;
+       }
+     }
+   }
+ }

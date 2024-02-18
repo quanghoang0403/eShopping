@@ -1,0 +1,330 @@
+import { ShopBranchStoreFill } from "constants/icons.constants";
+import { PermissionKeys } from "constants/permission-key.constants";
+import { BranchManagement } from "pages/branch-management/branch-management.page";
+import { BranchPurchasePage } from "pages/branch-management/branch-purchase/branch-purchase.page";
+import EditBranchPage from "pages/branch-management/edit-branch/index";
+import CreateNewBranch from "pages/branch-management/new-branch-management/index";
+import Settings from "pages/settings";
+import StaffPage from "pages/staff-management";
+import CreateNewStaff from "pages/staff-management/create-new-staff";
+import EditStaff from "pages/staff-management/edit-staff";
+import EditGroupPermission from "pages/staff-management/permission-group/components/edit-group-permission.component";
+import NewPermissionGroup from "pages/staff-management/permission-group/new-permission-group";
+import i18n from "utils/i18n";
+import AreaTableManagement from "./area-table/area-table.page";
+import { FeeAndTaxManagement } from "./fee-tax/fee-tax.page";
+import CreateNewDiscountCode from "./promotion/create-new-discount-code/create-new-discount-code.page";
+import CreateNewFlashSale from "./promotion/create-new-flashsale/create-new-flashsale.page";
+import CreateNewPromotion from "./promotion/create-new-promotion";
+import DetailPromotionManagement from "./promotion/detail-promotion";
+import EditDiscountCode from "./promotion/edit-discount-code/edit-discount-code.page";
+import EditFlashSaleComponent from "./promotion/edit-flashsale/edit-flashsale.page";
+import EditPromotion from "./promotion/edit-promotion";
+import FlashSaleDiscount from "./promotion/flashsale-discount.page";
+import ViewDiscountCodePage from "./promotion/view-discount-code/view-discount-code.page";
+import ViewFlashSaleComponent from "./promotion/view-flashsale/view-flashsale.page";
+import SliderManagement from "./slider-management";
+const { t } = i18n;
+
+const route = {
+  key: "app.store",
+  position: 4,
+  path: "#",
+  icon: <ShopBranchStoreFill />,
+  name: t("menu.store"),
+  isMenu: true,
+  exact: true,
+  auth: true,
+  child: [
+    {
+      key: "app.store.area-table",
+      position: 4,
+      path: "/store/area-table",
+      name: t("menu.storeManagement.areaTable"),
+      isMenu: true,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.VIEW_AREA_TABLE,
+      component: AreaTableManagement,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/promotion",
+      name: t("menu.storeManagement.promotion"),
+      isMenu: true,
+      exact: true,
+      auth: true,
+      permission: [PermissionKeys.VIEW_PROMOTION, PermissionKeys.VIEW_FLASH_SALE, PermissionKeys.VIEW_DISCOUNT_CODE],
+      component: FlashSaleDiscount,
+      child: [],
+    },
+    {
+      key: "app.store.promotion.detail",
+      position: 4,
+      path: "/store/promotion/:tabName",
+      name: t("menu.storeManagement.promotion"),
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: [PermissionKeys.VIEW_PROMOTION, PermissionKeys.VIEW_FLASH_SALE, PermissionKeys.VIEW_DISCOUNT_CODE],
+      component: FlashSaleDiscount,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/discount/create-new",
+      name: "Create New Promotion",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.CREATE_PROMOTION,
+      component: CreateNewPromotion,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/discount/edit/:id",
+      name: "Edit Promotion",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.EDIT_PROMOTION,
+      component: EditPromotion,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/discount/detail/:id",
+      name: "Detail Promotion Management",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.VIEW_PROMOTION,
+      component: DetailPromotionManagement,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/flashSale/create-new",
+      name: "Create New FlashSale",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.CREATE_FLASH_SALE,
+      component: CreateNewFlashSale,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/flashSale/edit/:id",
+      name: "Edit FlashSale",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.EDIT_FLASH_SALE,
+      component: EditFlashSaleComponent,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/flashSale/view/:id",
+      name: "View FlashSale",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.VIEW_FLASH_SALE,
+      component: ViewFlashSaleComponent,
+      child: [],
+    },
+    /// Discount code
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/discountCode/view/:discountCodeId",
+      name: "View Discount code",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.VIEW_DISCOUNT_CODE,
+      component: ViewDiscountCodePage,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/discountCode/create-new",
+      name: "Create New Discount Code",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.CREATE_DISCOUNT_CODE,
+      component: CreateNewDiscountCode,
+      child: [],
+    },
+    {
+      key: "app.store.promotion",
+      position: 4,
+      path: "/store/discountCode/edit/:id",
+      name: "Edit Discount Code",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.EDIT_DISCOUNT_CODE,
+      component: EditDiscountCode,
+      child: [],
+    },
+
+    /// Branch
+    {
+      key: "app.branch",
+      position: 4,
+      path: "/branch",
+      name: t("menu.storeManagement.branch"),
+      isMenu: true,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.ADMIN,
+      component: BranchManagement,
+      child: [],
+    },
+    {
+      key: "app.branch.create-branch",
+      focus: "app.branch",
+      position: 1,
+      path: "/branch/create-new",
+      isMenu: false,
+      exact: false,
+      auth: true,
+      component: CreateNewBranch,
+      child: [],
+    },
+    {
+      key: "app.branch.edit",
+      focus: "app.branch",
+      position: 1,
+      path: "/branch/edit/:id",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      component: EditBranchPage,
+      child: [],
+    },
+    {
+      key: "app.branch",
+      position: 1,
+      path: "/branch/branch-purchase",
+      isMenu: false,
+      exact: false,
+      auth: true,
+      component: BranchPurchasePage,
+      child: [],
+    },
+
+    /// Staff
+    {
+      key: "app.staff",
+      position: 4,
+      path: "/staff",
+      name: t("menu.storeManagement.staff"),
+      isMenu: true,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.ADMIN,
+      component: StaffPage,
+      child: [],
+    },
+    {
+      key: "app.staff.create-new",
+      focus: "app.staff",
+      position: 4,
+      path: "/staff/create-new",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      component: CreateNewStaff,
+      child: [],
+    },
+    {
+      key: "app.staff.edit-staff",
+      focus: "app.staff",
+      position: 4,
+      path: "/staff/edit/:id",
+      isMenu: false,
+      exact: true,
+      auth: true,
+      component: EditStaff,
+      child: [],
+    },
+
+    {
+      key: "app.permission.group.new",
+      position: 2,
+      focus: "app.staff",
+      path: "/permission-group/create-new",
+      isMenu: false,
+      exact: false,
+      auth: true,
+      component: NewPermissionGroup,
+      child: [],
+    },
+    {
+      key: "app.permission.group.edit",
+      position: 2,
+      focus: "app.staff",
+      path: "/permission-group/edit/:id",
+      isMenu: false,
+      exact: false,
+      auth: true,
+      component: EditGroupPermission,
+      child: [],
+    },
+    ///FEE
+    {
+      key: "app.store.fee-tax",
+      position: 4,
+      path: "/store/fee-tax",
+      name: t("menu.storeManagement.feeAndTax"),
+      isMenu: true,
+      exact: true,
+      auth: true,
+      permission: [PermissionKeys.VIEW_FEE, PermissionKeys.VIEW_TAX],
+      component: FeeAndTaxManagement,
+      child: [],
+    },
+    /// Configure Slider
+    {
+      key: "app.config.slider",
+      position: 9,
+      path: "/config-slider",
+      name: t("menu.storeManagement.configSlider"),
+      isMenu: false,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.VIEW_FEE,
+      component: SliderManagement,
+      child: [],
+    },
+    /// Configure
+    {
+      key: "app.config",
+      position: 4,
+      path: "/config",
+      name: t("menu.storeManagement.config"),
+      isMenu: true,
+      exact: true,
+      auth: true,
+      permission: PermissionKeys.ADMIN,
+      component: Settings,
+      child: [],
+    },
+  ],
+};
+export default route;

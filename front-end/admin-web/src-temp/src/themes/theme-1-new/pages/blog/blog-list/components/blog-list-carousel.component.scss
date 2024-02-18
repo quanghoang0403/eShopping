@@ -1,0 +1,40 @@
+.blog-list-slide-original-theme {
+  width: 100%;
+  height: 420px;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: cover !important;
+  min-height: 420px;
+  max-height: 420px !important;
+  .slide-image {
+    width: 100% !important;
+    object-fit: cover !important;
+    height: 420px;
+    max-height: 420px;
+  }
+  .slick-dots {
+    position: absolute;
+    bottom: 22px;
+    li button::before {
+      content: "";
+    }
+    li {
+      margin-right: 28px;
+    }
+    li button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #273b4a;
+    }
+    li.slick-active button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+  }
+  img {
+    width: 100%;
+  }
+}

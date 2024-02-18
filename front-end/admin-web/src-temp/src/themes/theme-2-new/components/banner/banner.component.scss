@@ -1,0 +1,40 @@
+.banner-homepage-theme2 {
+  width: 100%;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 100% 100% !important;
+  height: auto;
+  .banner-top-img {
+    width: 100%;
+    object-fit: cover;
+    height: auto;
+    object-position: center;
+  }
+  .slick-dots {
+    position: absolute;
+    bottom: 22px;
+    li button::before {
+      content: "";
+    }
+    li {
+      margin-right: 28px;
+    }
+    li button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #db4d29;
+    }
+    li.slick-active button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+  }
+}
+@media screen and (max-width: 575px) {
+  .banner-homepage-theme2 {
+    height: auto;
+  }
+}

@@ -1,0 +1,44 @@
+.name-and-value-popover {
+  .ant-popover-content {
+    max-width: 80vw !important;
+    max-height: 100%;
+    margin: auto;
+    .ant-popover-inner {
+      .ant-popover-inner-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        .discount-item {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          margin-top: 6px;
+          .name {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #000000;
+            user-select: none;
+            height: fit-content;
+          }
+          .value {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #000000;
+            user-select: none;
+            margin-left: 20px;
+          }
+        }
+        .discount-title {
+          margin-top: 0px;
+          padding-bottom: 6px;
+          border-bottom: 0.5px dashed #d1d1d1;
+        }
+        .weight-700 {
+          font-weight: 700 !important;
+        }
+      }
+    }
+  }
+}

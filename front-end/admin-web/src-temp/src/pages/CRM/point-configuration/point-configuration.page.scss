@@ -1,0 +1,32 @@
+.point-configuration {
+  .area-table-management-list {
+    background-color: #ffffff;
+    
+    .loyalty-chk,
+    .referral-chk {
+      height: 60px;
+      padding: 0px 24px;
+      border: none;
+      outline: none;
+      background-color: hsla(252, 100%, 98%, 1);
+      display: flex;
+      align-items: center;
+      span {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 25px;
+        color: #817cba;
+      }      
+      border-radius: 16px;
+    }
+    .ant-radio-button-wrapper-checked.loyalty-chk,
+    .ant-radio-button-wrapper-checked.referral-chk {
+      background: hsla(249, 40%, 43%, 1);
+      span {
+        color: #ffffff;
+      }
+    }
+  }
+}

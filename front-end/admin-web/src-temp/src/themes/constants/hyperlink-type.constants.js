@@ -1,0 +1,14 @@
+export const HyperlinkType = {
+  HOME_PAGE: 1,
+  PRODUCTS: 2,
+  CONTACT: 3,
+  ABOUT_US: 4,
+  BLOGS: 5,
+  URL: 6,
+  CATEGORY: 7,
+  PRODUCT_DETAIL: 8,
+  MY_PAGES: 9,
+  BLOG_DETAIL: 10,
+  SUB_MENU: 11,
+  MY_NOTIFICATION: 12,
+};

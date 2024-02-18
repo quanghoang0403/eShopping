@@ -1,0 +1,40 @@
+.note-text-area {
+  position: relative;
+  .text-area {
+    width: 100%;
+    color: #282828;
+    background: #f9f9f9;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    padding: 20px 16px 20px 50px;
+    border: none;
+  }
+  .note-icon {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 16px;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .note-text-area {
+    position: relative;
+    .text-area {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      padding: 12px 16px 12px 50px;
+      border: none;
+    }
+    .note-icon {
+      top: 12px;
+      left: 16px;
+    }
+  }
+}

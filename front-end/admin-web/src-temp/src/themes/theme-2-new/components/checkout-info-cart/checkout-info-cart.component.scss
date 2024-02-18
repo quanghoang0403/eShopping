@@ -1,0 +1,16 @@
+.checkout-info-cart {
+  font-style: normal;
+  border-radius: 12px;
+  .ant-card-head {
+    background: #f9f9f9;
+    color: #db4d29;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+  }
+  .ant-card.ant-card-bordered {
+    border-radius: 12px;
+  }
+}

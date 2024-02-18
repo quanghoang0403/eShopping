@@ -1,0 +1,131 @@
+.mm40x25 {
+  width: 151.18110236px;
+  height: 94.488188976px;
+}
+
+.mm50x30 {
+  width: 188.97637795px;
+  height: 113.38582677px;
+}
+
+.mm50x40 {
+  width: 188.97637795px;
+  height: 151.18110236px;
+}
+
+.template-stamp {
+  border: 1px solid #aaa;
+  font-size: 11px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  margin-top: 14px;
+}
+
+.template-stamp > tr > td {
+  padding: 1px;
+}
+
+.border-div {
+  padding-right: 20px;
+}
+
+.div-vertically {
+  display: flex;
+  align-items: center;
+  background-color: #f7f5ff;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 24px;
+  .preview-barcode {
+    .preview-title {
+      font-family: "Plus Jakarta Sans";
+      font-style: normal;
+      font-size: 24px;
+      color: #2b2162;
+      line-height: 36px;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+    }
+    .text-center {
+      .detail-qrcode {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .mm40x25 .detail-qrcode {
+      margin-top: 15px;
+    }
+    .mm50x30 .detail-qrcode {
+      margin-top: 17px;
+    }
+    .mm50x40 .detail-qrcode {
+      margin-top: 20px;
+    }
+    .preview-data {
+      display: flex;
+      gap: 1px;
+      align-items: center;
+    }
+  }
+}
+
+.fnb-card-full {
+  .card-title-barcode {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-size: 24px;
+    line-height: 60px;
+    color: #2b2162;
+    font-weight: 700;
+  }
+  .card-title-config {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-size: 24px;
+    line-height: 36px;
+    color: #2b2162;
+    font-weight: 700;
+  }
+  .ant-select-selector {
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25) !important;
+    background: #ffffff !important;
+    cursor: pointer !important;
+  }
+  .form-item-left-barcode {
+    padding-right: 12px;
+    padding-bottom: 12px;
+  }
+  .form-item-right-barcode {
+    padding-left: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .fnb-card-full {
+    .div-vertically {
+      margin-top: 24px;
+      height: 260px;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .fnb-card-full {
+    .float-right{
+      .ant-btn{
+        font-size: 18px!important;
+      }
+    }
+
+    .div-vertically {
+      margin-top: 24px;
+      height: 260px;
+    }
+  }
+}

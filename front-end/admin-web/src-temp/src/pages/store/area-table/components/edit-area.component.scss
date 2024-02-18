@@ -1,0 +1,126 @@
+.modal-add-area {
+  .ant-modal-content {
+    border-radius: 32px;
+    .ant-modal-header {
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      .ant-modal-title {
+        color: #2b2162;
+      }
+    }
+    .text-accept-image {
+      font-size: 16px;
+      margin-top: 12px;
+      width: 282px;
+      height: 42px;
+      text-align: center;
+    }
+    .border-none {
+      align-items: flex-start !important;
+    }
+    .add-area-images {
+      display: flex;
+      flex-direction: column;
+      border: 1px dashed #9f9f9f;
+      border-radius: 16px;
+      height: 168px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 48px;
+      .input-area-images {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: flex-start !important;
+        align-items: baseline;
+      }
+      float: left !important;
+      .image-container img {
+        margin-right: 5px;
+        float: left;
+      }
+    }
+    .btnCancel {
+      border: none;
+      color: #50429b !important;
+    }
+    .checkbox-status {
+      .ant-radio-group {
+        height: 60px;
+        align-items: center;
+        display: flex;
+        gap: 52px;
+      }
+      .ant-radio-wrapper {
+        align-items: center;
+        font-size: 18px;
+        .ant-radio {
+          top: 0;
+        }
+      }
+    }
+    .delete-button {
+      text-align: left !important;
+      color: #ed4c5c !important;
+      font-weight: 500 !important;
+      justify-content: center;
+    }
+  }
+  .button-drop-menu {
+    max-width: 24px;
+    min-width: 24px !important;
+    max-height: 24px;
+    align-items: center;
+    justify-content: center;
+    top: 20px;
+    border-radius: 4px !important;
+    display: flex;
+    align-items: center;
+    color: #a5abde !important;
+    background: #ffffff !important;
+    border: #7f7f7f !important;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25);
+  }
+  .container-input {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 764px) {
+  .modal-add-area {
+    .ant-modal-content {
+      .add-area-images {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        gap: 12px;
+        margin-bottom: 0;
+        width: 100%;
+      }
+      .checkbox-status {
+        .ant-radio-group {
+          gap: 16px;
+        }
+      }
+      .ant-modal-header {
+        padding: 24px 16px;
+      }
+      .ant-modal-body {
+        padding: 8px 16px 24px 16px;
+      }
+      .ant-modal-close-x {
+        margin-top: 24px;
+      }
+      .close-modal-icon {
+        height: 40px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        svg > path {
+          stroke: #50429b;
+        }
+      }
+    }
+  }
+}

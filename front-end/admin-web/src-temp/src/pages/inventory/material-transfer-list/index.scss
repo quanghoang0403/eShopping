@@ -1,0 +1,202 @@
+.tableTransferMaterial {
+  .statusTransfer {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 16px;
+    font-family: Plus Jakarta Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    cursor: pointer;
+  }
+  .statusTransfer-Draft {border-radius: 16px;
+    background: rgba(133, 133, 133, 0.10);
+    color: #858585;
+  }
+  .statusTransfer-Canceled {
+    color: #DB1B1B;
+    background: rgba(219, 27, 27, 0.10);
+  }
+  .statusTransfer-Completed {
+    color: #33B530;
+    background: rgba(51, 181, 48, 0.10);
+  }
+  .statusTransfer-Completed {
+    color: #33B530;
+    background: rgba(51, 181, 48, 0.10);
+  }
+  
+  .statusTransfer-Delivering {
+    color: #50429B;
+    background: rgba(80, 66, 155, 0.10);
+  }
+  .addressTransfer {
+    color: #282828;
+    font-family: Plus Jakarta Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  .transferId {
+    color: #428BC1;
+    font-family: Plus Jakarta Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    cursor: pointer;
+  }
+  .createdBy {
+    color: #282828;
+    font-family: Plus Jakarta Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  .createdDate {
+    color: #282828;
+    font-family: Plus Jakarta Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+  }
+  .addressContainer {
+    position: relative;
+    .toolTipAddress {
+      display: none;
+      position: absolute;
+      padding: 8px 12px;
+      align-items: flex-start;
+      border-radius: 4px;
+      background: #50429B;
+      box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.20);
+      span {
+        color: #FFF;
+        font-family: Plus Jakarta Sans;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+    &:hover{
+      cursor: pointer;
+      .toolTipAddress {
+        display: block;
+      }
+    }
+  }
+
+}
+.fnb-row-page-header {
+  margin-bottom: 30px;
+  margin-top: 5px;
+
+  .page-title {
+      float: left;
+      margin-right: auto;
+  }
+
+  .page-action-group {
+      float: right;
+  }
+}
+
+/*Create Transfer Material*/
+.fz16 {
+  font-size: 16px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.h-bg-brad-transfer-material-class {
+  height: 74px;
+  background: #fbfbfb;
+  border-radius: 16px;
+}
+
+.bold-materials {
+  font-weight: bold;
+}
+
+.create-new-transfer-material-form {
+  .title-group {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: unset !important;
+    color: #2B2162;
+    font-family: Plus Jakarta Sans;
+  }
+}
+
+@media (max-width: 428px) {
+  .tableTransferMaterial {
+    .colCreatedBy {
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .fnb-row-page-header {
+    .colPageTitle {
+      padding: 8px 12px;
+    }
+  }
+}
+
+/*Create Transfer Material*/
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.pr10 {
+  padding-right: 10px;
+}
+
+.pl20 {
+  padding-left: 20px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.fwb {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.fz20 {
+  font-size: 20px;
+}
+
+.fz24 {
+  font-size: 24px;
+}
+
+.fz26 {
+  font-size: 26px;
+}
+
+.display-contents {
+  display: contents !important;
+}

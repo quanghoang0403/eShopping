@@ -1,0 +1,199 @@
+.topping-horizontal {
+  .group-product-topping-item {
+    height: fit-content;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: unset;
+    border-bottom: 1px solid #e6e6e6;
+    gap: 10px;
+
+    .topping-name {
+      height: 100%;
+      display: grid;
+      align-items: center;
+      padding: 8px 0;
+      margin-left: 16px;
+
+      .name {
+        font-size: 16px;
+        font-weight: 500;
+        word-break: break-word;
+      }
+
+      .topping-price-value {
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      .topping-original-price-value {
+        color: #959595;
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        text-decoration-line: line-through;
+        padding-right: 12px;
+      }
+    }
+
+    .topping-change-quantity {
+      display: inline-flex;
+      align-items: center;
+      justify-content: end;
+      margin-right: 16px;
+
+      .topping-quantity-btn-increase,
+      .topping-quantity-btn-decrease {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: self-end;
+        justify-content: center;
+        font-weight: bold;
+        cursor: pointer;
+        align-items: center;
+      }
+
+      .topping-quantity-btn-decrease {
+        background: #f9f1df;
+        color: #51526c;
+      }
+
+      .topping-quantity-btn-increase {
+        background: #db4d29;
+        color: #fff;
+      }
+
+      .topping-quantity-value {
+        margin: 0 20px;
+        font-size: 18px;
+      }
+    }
+  }
+}
+.topping-vertical {
+  .options {
+    .topping-item {
+      font-size: 24px;
+      line-height: 24px;
+      border-top: 1px dashed #000000;
+      padding: 26px 0px;
+      margin-left: 26px;
+      margin-right: 26px;
+      .topping-name {
+        font-size: 24px !important;
+        line-height: 24px !important;
+        font-weight: 400;
+      }
+      .topping-price {
+        font-size: 24px !important;
+        line-height: 24px !important;
+        margin-top: 10px;
+        font-weight: 700;
+        margin-bottom: 0px !important;
+      }
+      .modify-quantity {
+        float: right;
+        .btn-reduce {
+          width: 52px;
+          height: 52px;
+          min-width: unset !important;
+          border-radius: 8px;
+          float: right;
+          border: 0px !important;
+        }
+        .btn-increase {
+          width: 52px;
+          height: 52px;
+          min-width: unset !important;
+          border-radius: 8px;
+          float: right;
+          border: 0px !important;
+        }
+        .quantity-product {
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 30px;
+          align-items: center;
+          padding: 14px 40px;
+          height: 52px;
+          float: right;
+        }
+      }
+    }
+    .topping-item:first-child {
+      border-top: 0px !important;
+    }
+  }
+
+  /* Mobile - ant-xs */
+  @media (max-width: 575px) {
+    .options {
+      .topping-item {
+        font-size: 16px;
+        line-height: 24px;
+        border-top: 1px dashed #000000;
+        padding: 16px 0px;
+        margin-left: 16px;
+        margin-right: 16px;
+        .topping-name {
+          font-size: 16px !important;
+          line-height: 24px !important;
+          font-weight: 400;
+        }
+        .topping-price {
+          font-size: 16px !important;
+          line-height: 24px !important;
+          margin-top: 10px;
+          font-weight: 700;
+          margin-bottom: 0px !important;
+        }
+        .modify-quantity {
+          float: right;
+          width: 100%;
+          margin: auto;
+          .btn-reduce {
+            width: 36px !important;
+            height: 36px !important;
+            min-width: unset !important;
+            border-radius: 8px;
+            float: right;
+            border: 0px !important;
+            svg {
+              width: 36px !important;
+              height: 36px !important;
+            }
+          }
+          .btn-increase {
+            width: 36px !important;
+            height: 36px !important;
+            min-width: unset !important;
+            border-radius: 8px;
+            float: right;
+            border: 0px !important;
+            svg {
+              width: 36px !important;
+              height: 36px !important;
+            }
+          }
+          .quantity-product {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 20px;
+            align-items: center;
+            padding: 8px 28px;
+            height: 36px;
+            float: right;
+          }
+        }
+      }
+      .topping-item:first-child {
+        border-top: 0px !important;
+      }
+    }
+  }
+}

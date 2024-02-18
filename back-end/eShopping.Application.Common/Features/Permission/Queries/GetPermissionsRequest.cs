@@ -48,10 +48,7 @@ namespace GoFoodBeverage.Application.Features.Settings.Queries
         public async Task<GetPermissionsResponse> Handle(GetPermissionsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = _userProvider.GetLoggedUserModelFromJwt(request.Token);
-            var permissionsResponse = new List<PermissionModel>();
-            var permissionGroupsResponse = new List<PermissionModel>();
 
-            // Get all permission assigned to user and check
             var permisionGroup = _unitOfWork
                 .StaffPermissionGroup
                 .GetAll()
@@ -61,17 +58,17 @@ namespace GoFoodBeverage.Application.Features.Settings.Queries
                 .Select(s => s.PermissionGroup)
                 .ToList();
 
-            var permisions = _unitOfWork
-                .PermissionGroups
-                .Find(g => permisionGroup.Any(gpid => gpid.Id == g.Id))
+            var permissionIds = permisionGroup.Select(gpid => gpid.Id);
+            var permissions = _unitOfWork.PermissionGroups
+                .Where(g => permissionIds.Contains(g.Id))
                 .AsNoTracking()
                 .Include(g => g.Permissions)
-                .Select(g => g.Permissions)
+                .SelectMany(g => g.Permissions)
+                //.ProjectTo<PermissionModel>(_mapperConfiguration)
                 .ToList();
 
-            permissionGroupsResponse = _mapper.Map<List<PermissionGroupModel>>(permisionGroup);
-            permissionsResponse = _mapper.Map<List<PermissionModel>>(permisions);
-
+            var permissionGroupsResponse = _mapper.Map<List<PermissionGroupModel>>(permisionGroup);
+            var permissionsResponse = _mapper.Map<List<PermissionModel>>(permissions);
             return new GetPermissionsResponse()
             {
                 Permissions = permissionsResponse,

@@ -17,7 +17,19 @@ const configureStoreOptions = () => {
     whitelist: ["session"],
   };
   const persistedReducer = persistReducer(persistConfig, rootReducer);
-  const store = configureStore({ reducer: persistedReducer }, enhancer);
+  // const store = configureStore({
+  //   reducer: persistedReducer,
+  //   middleware: (getDefaultMiddleware) =>
+  //     getDefaultMiddleware({
+  //       serializableCheck: false, // Disable serializable check as we are using redux-persist
+  //     }),
+  //   devTools: process.env.NODE_ENV !== "production",
+  //   enhancer
+  // });
+  const store = configureStore({
+    reducer: persistedReducer,
+    enhancer
+  });
   const persister = persistStore(store);
   return { persister, store };
 };

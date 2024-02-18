@@ -1,11 +1,9 @@
 import { Layout } from "antd";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Route } from "react-router-dom";
 import { store } from "store";
-import { calculateUsedTime } from "store/modules/processing/processing.actions";
 import { resetSession } from "store/modules/session/session.actions";
 import { hasPermission, tokenExpired } from "utils/helpers";
 import { getStorage, localStorageKeys } from "utils/localStorage.helpers";
@@ -14,7 +12,7 @@ import TopBar from "../top-bar/index";
 
 const { Content } = Layout;
 export default function PrivateRoute(props) {
-  const [t] = useTranslation();
+
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -48,8 +46,6 @@ export default function PrivateRoute(props) {
     // filter menus from routes where isMenu === true
     const menuItems = routes.filter((route) => route.isMenu === true);
     setMenuItems(menuItems);
-    /// calculate used time
-    store.dispatch(calculateUsedTime());
   }, []);
 
   const checkTokenExpired = () => {
@@ -63,7 +59,7 @@ export default function PrivateRoute(props) {
 
   return (
     <>
-      <SideMenu t={t} menuItems={menuItems} route={route} routes={routes} isChild={isChild} parentKey={parentKey} />
+      <SideMenu menuItems={menuItems} route={route} routes={routes} isChild={isChild} parentKey={parentKey} />
       <Layout className="fnb-site-layout">
         <TopBar menuItems={menuItems} route={route} routes={routes} isChild={isChild} parentKey={parentKey} />
         <Content className="main-content-bg main-body">

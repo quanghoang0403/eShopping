@@ -1,0 +1,180 @@
+$layout-max-width: 1200px;
+$header-height: 60px;
+$pos-cart-summary-height: 56px;
+$footer-height: 88px;
+$discount-code-button-height: 56px;
+$summary-height: 255px;
+.pos-cart-layout {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  * {
+    font-family: inherit;
+  }
+  a {
+    text-decoration: none;
+  }
+  .pos-cart-page {
+    position: relative;
+    width: 100%;
+    max-width: $layout-max-width;
+    margin: auto;
+    .pos-cart-header {
+      position: relative;
+      .title {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 23px;
+        letter-spacing: 0.3px;
+        text-align: center;
+        color: #026f30;
+      }
+    }
+    .pos-cart-summary {
+      position: relative;
+      width: 100%;
+      padding: 16px 48px;
+      background: #fff;
+      .title {
+        color: #26262c;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+      }
+      .quantity {
+        color: #026f30;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+      }
+    }
+    /* Scroll bar */
+    .pos-cart-body::-webkit-scrollbar {
+      width: 3px;
+    }
+    .pos-cart-body {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - $header-height - $pos-cart-summary-height - $footer-height);
+      overflow-y: scroll;
+      padding: 0px 24px;
+      transition: all 1s ease;
+      .cart-items {
+        min-height: calc(
+          100vh - $header-height - $pos-cart-summary-height - $footer-height - $discount-code-button-height -
+            $summary-height
+        );
+      }
+      .cart-note {
+        width: calc(100% - 48px);
+        margin: 20px 24px 0px 24px;
+        .cart-note-input {
+          padding: 12px 24px;
+          border-radius: 16px;
+          font-size: 16px;
+          line-height: 32px;
+          height: 56px;
+          svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+    .pos-cart-footer {
+      position: relative;
+      bottom: 0px;
+      width: 100%;
+      padding: 20px 48px;
+      background: #fff;
+      user-select: none;
+      .button {
+        width: 100%;
+        border-radius: 12px;
+        background: #026f30;
+        padding: 12px 16px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0.3px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        svg {
+          width: 24px;
+          height: 24px;
+          padding: 4px;
+        }
+      }
+    }
+  }
+}
+.edit-cart-item-box-drawer {
+  max-width: 1200px;
+  margin: auto;
+}
+
+@media (max-width: 575px) {
+  $summary-height: 38px;
+  $footer-height: 80px;
+  .choose-options-header {
+    display: none;
+  }
+  .pos-cart-layout {
+    .pos-cart-page {
+      .pos-cart-header {
+        .title {
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 20px;
+          letter-spacing: 0.3px;
+          text-align: center;
+          color: #026f30;
+        }
+      }
+      .pos-cart-summary {
+        padding: 0px 16px 16px 16px;
+        .title {
+          line-height: 20px;
+        }
+        .quantity {
+          line-height: 20px;
+        }
+      }
+      .pos-cart-body {
+        height: calc(var(--window-height) - $header-height - $summary-height - $footer-height);
+        overflow-y: scroll;
+        padding: 0px 16px;
+        .cart-items {
+          $summary-height: 251px;
+          min-height: calc(
+            100vh - $header-height - $pos-cart-summary-height - $footer-height - $discount-code-button-height -
+              $summary-height
+          );
+        }
+        .cart-note {
+          width: 100%;
+          margin: 12px 0px 0px 0px;
+          .cart-note-input {
+            padding: 12px;
+            border-radius: 16px;
+            font-size: 16px;
+            line-height: 24px;
+            height: 48px;
+            svg {
+              width: 20px;
+              height: 20px;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+      .pos-cart-footer {
+        padding: 16px;
+      }
+    }
+  }
+}

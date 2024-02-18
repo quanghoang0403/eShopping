@@ -1,0 +1,134 @@
+.card-discount-code-detail {
+  .title-session {
+    height: 25px;
+    display: flex;
+    align-items: center;
+    padding-right: 24px;
+    margin-bottom: 25px;
+
+    span {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 30px;
+      color: #2b2162;
+    }
+  }
+
+  .view-detail-text {
+    height: 25px;
+    display: flex;
+    align-items: center;
+    color: #50429b;
+    margin-bottom: 25px;
+
+    span {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: #50429b;
+    }
+  }
+
+  .text-container {
+    padding-right: 24px;
+
+    .text-label {
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 21px;
+      letter-spacing: 0.3px;
+      color: #9f9f9f;
+      margin-bottom: 8px;
+    }
+
+    .text-detail {
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 21px;
+      letter-spacing: 0.3px;
+      color: #000000;
+      margin-bottom: 32px;
+    }
+    .text-detail-disable {
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 21px;
+      letter-spacing: 0.3px;
+      color: #000000;
+      margin-bottom: 32px;
+      margin-left: 35px;
+    }
+  }
+
+  .selected-customer-segment {
+    position: inherit !important;
+  }
+
+  .material-view-branch-select {
+    padding: 20px 15px;
+  }
+}
+
+.modal-usage-detail {
+  .ant-modal-content {
+    border-radius: 32px;
+    height: 810px;
+    .ant-modal-close {
+      margin-top: 24px;
+      margin-right: 20px;
+    }
+    .title-container {
+      .modal-title {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40px;
+        color: #2B2162;
+        background: unset;
+        text-align: center;
+      }
+    }
+    .table-usage-detail {
+      margin-top: 24px;
+      width: 1920px;
+    }
+  }
+}
+
+.fnb-row-page-header {
+  .action-stop {
+    min-width: unset !important;
+  }
+}
+@media (max-width: 500px) {
+  .modal-usage-detail {
+    .ant-modal-content {
+      border-radius: 20px;
+      .ant-modal-close {
+        margin-top: 16px;
+        margin-right: 8px;
+        .ant-modal-close-x {
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+      .title-container {
+        .modal-title {
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 25px;
+          color: #50429B;
+        }
+      }
+    }
+  }
+}
+
+.mt-36 {
+  margin-top: 36px;
+}
+
+.mt-48 {
+  margin-top: 48px;
+}

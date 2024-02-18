@@ -1,0 +1,34 @@
+.theme-preview {
+  width: 100%;
+  .theme1-header-for-admin {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 100vw;
+    z-index: 999;
+  }
+  #themeBestSellingProduct {
+    max-width: 100vw;
+  }
+  .theme2-header {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 999;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile */
+@media (max-width: 740px) {
+  .theme-preview {
+    .theme1-header-for-admin {
+      position: unset;
+      top: unset;
+      z-index: unset;
+      #themeHeader {
+        height: 100%;
+      }
+    }
+  }
+}

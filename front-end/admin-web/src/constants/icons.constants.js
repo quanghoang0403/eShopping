@@ -104,7 +104,7 @@
 // export { ReactComponent as CouldUploadIcon } from "assets/icons/cloud-upload-file.svg";
 // export { ReactComponent as CocaColaIcon } from "assets/icons/coca-cola.svg";
 // export { ReactComponent as CoffeeIcon } from "assets/icons/coffee.svg";
-// export { ReactComponent as CollapseIcon } from "assets/icons/collapse_icon.svg";
+export { ReactComponent as CollapseIcon } from "assets/icons/collapse_icon.svg";
 // export { ReactComponent as ComboDetailStoreWebIcon } from "assets/icons/combo-detail-store-web.svg";
 // export { ReactComponent as CompletedStepIcon } from "assets/icons/completed-step-icon.svg";
 // export { ReactComponent as CompletedIcon } from "assets/icons/completed.svg";
@@ -143,7 +143,7 @@
 // export { ReactComponent as EllipsisOutlined } from "assets/icons/ellipsis-outlined.svg";
 // export { ReactComponent as EnterprisePaymentMethodIcon } from "assets/icons/enterprise-payment-method.svg";
 // export { ReactComponent as ExclamationIcon } from "assets/icons/exclamation.svg";
-// export { ReactComponent as ExpandIcon } from "assets/icons/expand_icon.svg";
+export { ReactComponent as ExpandIcon } from "assets/icons/expand_icon.svg";
 // export { ReactComponent as ExportFileOutlinedIcon } from "assets/icons/export-file-outlined.svg";
 // export { ReactComponent as ExportOutlinedIcon } from "assets/icons/export-outlined.svg";
 // export { ReactComponent as ExportShiftIcon } from "assets/icons/export-shift.svg";

@@ -1,0 +1,354 @@
+.group-button {
+  display: flex;
+  justify-content: right;
+  @media (max-width: 500px) {
+    .ant-btn {
+      min-width: 1px;
+    }
+  }
+}
+
+.update-button {
+  min-width: 107px !important;
+}
+
+.delete-button {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 18px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  letter-spacing: 0.3px;
+  color: #db1b1b !important;
+  background: unset !important;
+  box-shadow: unset !important;
+  min-width: 100px !important;
+}
+
+.cancel-button {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 18px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  letter-spacing: 0.3px;
+  color: #50429b !important;
+  background: unset !important;
+  box-shadow: unset !important;
+  min-width: 103px !important;
+}
+
+.foody-platform-title {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-size: 24px;
+  line-height: 60px;
+  color: #2b2162;
+  font-weight: 700;
+}
+
+.foody-platform-choice {
+  border-radius: 16px;
+  width: 100%;
+  .active {
+    background-color: #ebe7ff;
+    border-radius: 14px;
+  }
+}
+.foody-platform-config-container {
+  width: 100%;
+}
+.col-icon {
+  min-width: 88px;
+}
+.col-title {
+  display: flex;
+  .icon {
+    align-self: self-start;
+  }
+  .title-image {
+    border-radius: 14px;
+    min-width: 88px;
+    min-height: 88px;
+  }
+}
+.col-switch {
+  display: flex;
+  button {
+    align-self: center;
+  }
+  .ant-switch {
+    width: 80px;
+    height: 40px;
+    background-color: #eef1f8;
+    border: #a5abde solid 1px;
+    .ant-switch-handle {
+      height: 30px;
+      width: 30px;
+      top: 4px;
+    }
+    .ant-switch-handle::before {
+      border-radius: 50%;
+      background-color: #ffff;
+    }
+    .ant-switch-inner {
+      display: none;
+    }
+  }
+  .ant-switch-checked {
+    border: none;
+    background: #ff8c21 !important;
+    .ant-switch-handle {
+      inset-inline-start: calc(100% - 30px) !important;
+    }
+  }
+}
+.foody-platform-setting {
+  width: 100%;
+  @media (max-width: 500px) {
+    padding: 0px !important;
+  }
+  .foody-platform-config {
+    background: #ffff;
+    border-radius: 16px;
+    height: 100%;
+    @media (min-width: 501px) {
+      padding: 0px 24px !important;
+    }
+    @media (max-width: 500px) {
+      padding: 0px 0px !important;
+    }
+    .component-FoodyPlatformConfig {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: 501px) {
+  .component-FoodyPlatformConfig {
+    height: auto;
+  }
+  .title {
+    color: #2b2162;
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .platform-name,
+  .partner-commission {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .discount-switch-title {
+    font-size: 20px;
+  }
+  .discount-switch-button {
+    display: inline-block;
+    width: 55px !important;
+  }
+  .discount-switch-icon {
+    margin-left: 2px;
+  }
+  .partner-switch-button {
+    display: inline-block;
+    width: 55px !important;
+  }
+  .partner-switch-title {
+    font-size: 20px;
+  }
+  .partner-switch-icon {
+    margin-left: 2px;
+  }
+  .col-title {
+    .title-center {
+      align-self: center;
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+}
+@media (max-width: 500px) {
+  .component-FoodyPlatformConfig {
+    height: auto;
+  }
+  .title {
+    color: #2b2162;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .discount-switch-button {
+    width: 55px !important;
+    display: block;
+    float: left;
+    margin-top: 10px;
+  }
+
+  .discount-switch-title {
+    display: block;
+    float: left;
+    width: 230px;
+    font-size: 16px;
+  }
+
+  .discount-switch-icon {
+    display: block;
+    float: left;
+    margin-top: 10px;
+    margin-left: 0px;
+  }
+
+  .partner-switch-button {
+    display: block;
+    float: left;
+    width: 55px !important;
+  }
+
+  .partner-switch-title {
+    display: block;
+    float: left;
+    font-size: 16px;
+  }
+
+  .partner-switch-icon {
+    display: block;
+    float: left;
+    margin-left: 0px;
+  }
+  .platform-name,
+  .partner-commission {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .discount-switch {
+    padding: 6px !important;
+  }
+  .promotion-switch {
+    padding: 6px !important;
+  }
+  .modal-foody-platform {
+    .ant-modal-content {
+      .ant-modal-body {
+        padding: 0px 7px;
+      }
+    }
+  }
+  .col-title {
+    .title-center {
+      align-self: center;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
+
+.platform-menu {
+  margin-bottom: 24px;
+}
+
+.delete-confirm-modal {
+  word-break: break-word;
+}
+.modal-foody-platform {
+  .ant-modal-content {
+    .ant-modal-header {
+      background-color: #fff !important;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+
+    .ant-modal-title {
+      color: #2b2162 !important;
+      text-align: center !important;
+    }
+    .ant-modal-body {
+      margin-top: 0px !important;
+      padding-top: 0px !important;
+    }
+  }
+}
+
+.required-field {
+  color: #db1b1b;
+}
+
+.image-placeholder {
+  text-align: center;
+}
+
+.exclamation-circle {
+  width: 24px;
+  height: 24px;
+}
+
+.tooltip-foody-platform {
+  .ant-tooltip-content {
+    .ant-tooltip-inner,
+    .ant-tooltip-arrow-content {
+      text-align: left !important;
+    }
+  }
+}
+
+.limited-character {
+  text-overflow: ellipsis;
+  white-space: break-spaces;
+  overflow: hidden;
+  padding-right: 10px;
+  word-break: break-word;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+}
+
+.limited-character-two-lines {
+  @extend .limited-character;
+  -webkit-line-clamp: 2;
+}
+
+.limited-character-one-line {
+  @extend .limited-character;
+  -webkit-line-clamp: 1;
+}
+
+.warning-text {
+  color: #ff8c21;
+}
+
+.alert-text {
+  color: #fc0d1b;
+}
+
+.delete-confirm-modal {
+  .ant-btn-dangerous {
+    background-color: #fc0d1b;
+    color: #fff;
+  }
+  .ant-btn-dangerous:hover {
+    background-color: #fc0d1b;
+    color: #fff;
+  }
+  .ant-btn-dangerous:focus {
+    background-color: #fc0d1b;
+    color: #fff;
+  }
+}
+
+.stop-confirmation-modal {
+  .ant-btn-dangerous {
+    background-color: #ff8c21;
+    color: #fff;
+  }
+  .ant-btn-dangerous:hover {
+    background-color: #ff8c21;
+    color: #fff;
+  }
+  .ant-btn-dangerous:focus {
+    background-color: #ff8c21;
+    color: #fff;
+  }
+}

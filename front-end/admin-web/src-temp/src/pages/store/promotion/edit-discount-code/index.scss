@@ -1,0 +1,35 @@
+.discount-code-page {
+  .checkbox-group {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .icon-btn-promo {
+    margin-right: 12px;
+  }
+
+  .padding-left {
+    padding-left: 24px;
+  }
+  .btn-generate-code {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox-platform {
+    margin-right: 36px;
+  }
+
+  .code {
+    text-transform: uppercase;
+  }
+
+  .code:placeholder-shown {
+    text-transform: none;
+  }
+
+  .check-box-select-all {
+    margin-top: -38px;
+    float: right;
+  }
+}

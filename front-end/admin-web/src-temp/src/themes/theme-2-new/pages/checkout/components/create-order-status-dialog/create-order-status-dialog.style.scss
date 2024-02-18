@@ -1,0 +1,78 @@
+.create-order-status-dialog {
+  width: 435px !important;
+
+  font-style: normal;
+  .ant-modal-content {
+    margin-top: 20px;
+    width: 100%;
+    height: 352px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding-bottom: 15px;
+
+    h1 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 44px;
+      color: #db4d29;
+    }
+
+    p {
+      color: #282828;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+  .icon {
+    display: flex;
+    svg {
+      margin: auto;
+    }
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .button-action {
+    display: flex;
+    button {
+      height: 48px;
+      border: 1px solid #959595;
+      border-radius: 12px;
+      color: #959595;
+
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    button:last-child {
+      margin-left: 8px;
+      background: #db4d29;
+      color: #fef7ed;
+      border: 1px solid #db4d29;
+    }
+    .center {
+      margin: auto;
+      padding-top: 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .create-order-status-dialog {
+    .button-action button {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 24px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+}

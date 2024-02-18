@@ -1,0 +1,95 @@
+$momo_background: url("../../../assets/images/checkout-momo-background.png");
+.check-out-momo-failed-theme1 {
+  margin: auto;
+  width: 1415px !important;
+  .ant-modal-content {
+    background-image: $momo_background;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 1415px !important;
+    height: 806px;
+    border-radius: 40px;
+    margin: auto;
+    .ant-modal-close {
+      color: white;
+      .ant-modal-close-x {
+        font-size: 24px;
+      }
+    }
+    .check-out-failed-box {
+      background: #ffffff;
+      border-radius: 20px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      width: 533px;
+      height: 731px;
+      align-items: center;
+      margin-top: 24px;
+      margin-left: 24px;
+      .checkoutFailed {
+        width: 150px;
+        height: 150px;
+        margin-top: 93px;
+        object-fit: contain !important;
+      }
+      .title_failed {
+        
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 36px;
+        align-items: center;
+        text-align: center;
+        margin-top: 67px;
+        color: #ff0000;
+        user-select: none;
+      }
+      .error {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 36px;
+        align-items: center;
+        text-align: center;
+        margin-top: 10px;
+        color: #000000;
+        user-select: none;
+      }
+      .close {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 25px;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.3px;
+        color: #000000;
+        margin-top: 242px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .check-out-momo-failed-theme1 {
+    .ant-modal-content {
+      background: 0 !important;
+      width: 100% !important;
+      .ant-modal-close {
+        display: none;
+      }
+      .check-out-failed-box {
+        width: 100% !important;
+        margin-top: 0;
+        margin-left: 0;
+      }
+    }
+  }
+}

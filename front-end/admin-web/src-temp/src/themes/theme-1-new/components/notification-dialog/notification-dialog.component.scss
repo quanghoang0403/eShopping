@@ -1,0 +1,119 @@
+@media (max-width: 600px) {
+  .confirmation-modal {
+    width: 361 !important;
+    .ant-modal-content {
+      .ant-modal-body {
+        padding-top: 20px;
+        min-height: 120px !important;
+        .confirmation-dialog-content {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 20px;
+          span {
+            line-height: 24px;
+          }
+        }
+      }
+      .ant-modal-footer {
+        padding-top: 40px !important;
+        padding-bottom: 15px !important;
+        button {
+          font-size: 16px !important;
+          line-height: 20px !important;
+          text-align: center;
+        }
+        button:first-child {
+          padding-left: 50px !important;
+        }
+        button:last-child {
+          padding-right: 50px !important;
+        }
+      }
+    }
+  }
+}
+
+.confirmation-modal {
+  background: #ffffff;
+  border-radius: 20px;
+  
+  font-style: normal;
+  padding-bottom: 0;
+  width: 685px !important;
+
+  .ant-modal-content {
+    border-radius: 20px;
+    padding: 0;
+    .ant-modal-header {
+      border-radius: 20px 20px 0 0;
+      margin: 0;
+      min-height: 48px;
+      display: flex;
+      background: #ffffff;
+    }
+    .ant-modal-header .ant-modal-title {
+      padding-top: 40px;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 40px;
+      margin: auto;
+      color: #026f30;
+    }
+
+    .ant-modal-body {
+      min-height: 240px;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 30px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #000000;
+      background-image: url("./Union.png");
+      background-size: 102% 100%;
+      background-position: center;
+      position: sticky;
+      .confirmation-dialog-content {
+        padding-bottom: 50px;
+        span {
+          line-height: 24px;
+        }
+      }
+    }
+
+    .ant-modal-footer {
+      margin: 0;
+      padding-top: 40px;
+      margin-top: -40px;
+      padding-bottom: 70px;
+      text-align: center;
+      background: #026f30;
+      border-radius: 0px 0px 20px 20px;
+
+      button {
+        background: #026f30;
+        border: unset;
+        box-shadow: unset;
+        color: white;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 30px;
+      }
+      button:first-child {
+        float: left;
+        padding-left: 100px;
+      }
+      button:last-child {
+        font-weight: bolder;
+        float: right;
+        padding-right: 100px;
+      }
+    }
+  }
+
+  .confirmation-dialog-content {
+    margin: auto;
+  }
+}

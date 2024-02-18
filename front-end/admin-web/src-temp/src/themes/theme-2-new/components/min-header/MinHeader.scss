@@ -1,0 +1,51 @@
+.min-header {
+  background-color: #db4d29;
+  width: 100%;
+  height: 96px;
+  position: fixed;
+  align-items: center;
+  padding: 8px;
+  z-index: 10;
+  .addon-before {
+    display: flex;
+    justify-content: flex-start;
+    .arrow-left-icon {
+      margin: 0px 8px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+  .addon-between {
+    display: flex;
+    justify-content: center;
+    height: 100% ;
+  }
+  .addon-after {
+    display: flex;
+    justify-content: flex-end;
+    .cart-quantity {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgb(255, 255, 255);;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: -17px;
+      user-select: none;
+    }
+    .cart-icon {
+      height: 24px;
+      margin: 0px 35px;
+    }
+    .close-icon {
+      height: 24px;
+      margin: 0px 8px;
+    }
+    .cart-quantity {
+      margin-right: 20px;
+    }
+  }
+}

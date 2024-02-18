@@ -1,4 +1,5 @@
 import { Image, Layout, Menu } from "antd";
+import { CollapseIcon, ExpandIcon, SettingFill } from "constants/icons.constants";
 import { DefaultConstants } from "constants/string.constants";
 import { useEffect, useState } from "react";
 import { Link, NavLink, withRouter } from "react-router-dom";
@@ -11,7 +12,7 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 function SideMenu(props) {
-  const { t, menuItems, route, isChild, parentKey } = props;
+  const { menuItems, route, isChild, parentKey } = props;
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState("");
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([]);
@@ -74,7 +75,7 @@ function SideMenu(props) {
                 onTitleClick={() => onFocusFirstItem(childs)}
                 key={item.key}
                 icon={item.icon}
-                title={t(item.name)}
+                title={item.name}
               >
                 {childs.map((child) => {
                   var isShow = child?.permission && hasPermission(child.permission);
@@ -82,7 +83,7 @@ function SideMenu(props) {
                     return (
                       <Menu.Item style={{ paddingLeft: "0px !important" }} key={child.key}>
                         <Link to={child.path} />
-                        {t(child.name)}
+                        {child.name}
                       </Menu.Item>
                     );
                 })}
@@ -97,7 +98,7 @@ function SideMenu(props) {
           return (
             <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.path} />
-              {t(item.name)}
+              {item.name}
             </Menu.Item>
           );
         } else if (!item?.permission && user?.accountType === DefaultConstants.ADMIN_ACCOUNT) {
@@ -105,7 +106,7 @@ function SideMenu(props) {
           return (
             <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.path} />
-              {t(item.name)}
+              {item.name}
             </Menu.Item>
           );
         }
@@ -129,16 +130,16 @@ function SideMenu(props) {
     <div className="trigger-footer">
       <NavLink to="/settings" className="settings">
         <span className="icon-setting">
-          {/* <SettingFill /> */}
+          <SettingFill />
         </span>
-        <span className="title-setting">{t("menu.settings")}</span>
+        <span className="title-setting">Cài đặt</span>
       </NavLink>
       <div onClick={handleClickSettingNavigate} className="icon-navigate">
         <span className="icon-expand">
-          {/* <ExpandIcon /> */}
+          <ExpandIcon />
         </span>
         <span className="icon-collapse">
-          {/* <CollapseIcon /> */}
+          <CollapseIcon />
         </span>
       </div>
     </div>

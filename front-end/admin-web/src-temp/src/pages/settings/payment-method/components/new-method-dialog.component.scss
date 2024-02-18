@@ -1,0 +1,45 @@
+.new-method-dialog-component {
+    width: 764px;
+    max-width: 764px;
+    border-radius: 32px;
+    .ant-modal-content {
+        border-radius: 32px;
+        .ant-modal-header{
+            background: none;            
+            padding: 24px;
+            .ant-modal-title  {
+                font-size: 32px;
+                text-align: center;
+                color: #2b2162;
+            }
+        }
+        .ant-modal-body {
+            padding-top: 0px;
+        }
+    }
+    .non-image {
+        max-width: 100%;
+    }
+    .action-button-group {
+        justify-content: center;
+    }
+
+    .fnb-form-label {
+        color: #282828;
+    }
+
+    .upload-image-url {
+        color: #0080F6;
+    }
+
+    .ant-typography-disabled {
+        color: #9F9F9F;
+    }
+
+    .ant-btn-default {
+        border: none !important;
+        background: #D9D9D900;
+        box-shadow: none;
+    }
+}
+

@@ -1,0 +1,257 @@
+.loyalty-point-configuration {
+  .box-enable {
+    border-radius: 24px;
+    background: #fff;
+  }
+
+  .row-enable-config {
+    flex-wrap: nowrap;
+    .title-enable {
+      color: #2b2162;
+      font-size: 24px;
+      font-family: Plus Jakarta Sans;
+      font-weight: 700;
+      margin: 0 32px 0 0;
+    }
+
+    .switch-enable {
+      width: 48px;
+    }
+
+    .ant-form-item {
+      margin-bottom: 0;
+      align-items: center;
+      display: flex;
+    }
+  }
+
+  .row-point-program {
+    .ant-form-item {
+      margin-bottom: 12px;
+    }
+
+    .border-div {
+      padding: 24px;
+    }
+
+    .input-date {
+      width: 389px;
+      margin-bottom: 0;
+      svg > path {
+        fill: #a5abde;
+      }
+    }
+
+    .ant-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .date-message {
+      color: #282828;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+      line-height: 24px;
+      letter-spacing: 0.3px;
+      margin-left: 36px;
+    }
+
+    .end-time-utc {
+      color: #282828;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+      line-height: 24px;
+      letter-spacing: 0.3px;
+      margin-left: 24px;
+    }
+    label.ant-checkbox-wrapper.ant-checkbox-wrapper-in-form-item {
+      margin-top: 0 !important;
+    }
+  }
+
+  .row-earn-point {
+    .border-div {
+      padding: 24px;
+    }
+
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+
+    .earning-point-change {
+      width: 564px;
+    }
+
+    .earn-point {
+      margin-bottom: 0;
+    }
+
+    .title-exchange {
+      color: #282828;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+      line-height: 21px;
+      letter-spacing: 0.3px;
+    }
+
+    .earn-point {
+      color: #282828;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+      line-height: 24px;
+      letter-spacing: 0.3px;
+      margin-left: 24px;
+    }
+
+    .input-earn-point {
+      display: flex;
+      align-items: center;
+      margin-bottom: 45px;
+    }
+
+    .spent-earn-point {
+      color: #000;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+    }
+  }
+
+  .row-redeem-point {
+    .border-div {
+      padding: 24px;
+    }
+
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+    .earn-point {
+      margin-bottom: 0;
+    }
+
+    .title-exchange {
+      color: #282828;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+      line-height: 21px;
+      letter-spacing: 0.3px;
+    }
+
+    .earn-point {
+      color: #282828;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+      line-height: 24px;
+      letter-spacing: 0.3px;
+      margin-left: 24px;
+      margin-right: 40px;
+    }
+
+    .input-earn-point {
+      display: flex;
+      align-items: center;
+      margin-bottom: 45px;
+    }
+
+    .spent-earn-point {
+      color: #000;
+      font-size: 20px;
+      font-family: Plus Jakarta Sans;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .btn-save-data {
+      margin: 0;
+      padding: 0 20px;
+      min-width: 0;
+      font-size: 16px;
+    }
+
+    .btn-cancel-data {
+      font-size: 16px !important;
+    }
+
+    .revert-order-item .ant-space-item {
+      padding: 0;
+    }
+
+    .row-point-program {
+      .input-date {
+        margin-bottom: 12px;
+      }
+
+      .date-message {
+        margin-bottom: 12px;
+      }
+      .end-time-utc {
+        margin-left: 36px;
+      }
+    }
+
+    .row-earn-point {
+      .border-div {
+        padding: 9px;
+      }
+
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+
+      .earning-point-change {
+        width: 157px;
+      }
+
+      .earn-point {
+        margin-bottom: 0;
+      }
+
+      .title-exchange {
+        color: #282828;
+        font-size: 20px;
+        font-family: Plus Jakarta Sans;
+        line-height: 21px;
+        letter-spacing: 0.3px;
+      }
+
+      .earn-point {
+        font-size: 17px;
+      }
+
+      .input-earn-point {
+        flex-wrap: nowrap;
+      }
+
+      .spent-earn-point {
+        color: #000;
+        font-size: 20px;
+        font-family: Plus Jakarta Sans;
+      }
+    }
+
+    .row-redeem-point {
+      .border-div {
+        padding: 9px;
+      }
+
+      .earn-point {
+        font-size: 17px;
+        margin-right: 24px;
+      }
+
+      .earn-point-message {
+        width: 138px;
+        margin-left: 0;
+      }
+
+      .input-earn-point {
+        flex-wrap: nowrap;
+      }
+
+      .spent-earn-point {
+        color: #000;
+        font-size: 20px;
+        font-family: Plus Jakarta Sans;
+      }
+    }
+  }
+}

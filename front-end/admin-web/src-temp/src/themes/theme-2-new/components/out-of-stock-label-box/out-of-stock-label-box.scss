@@ -1,0 +1,64 @@
+.out-of-stock-label-box {
+  width: 215px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(40, 40, 40, 0.9);
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  z-index: 99;
+
+  .text-label {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+  }
+}
+
+.out-of-stock-label-box.small-size {
+  width: 149px;
+  height: 56px;
+  .text-label {
+    font-size: 16px;
+  }
+}
+
+.out-of-stock-label-box.is-cart-item {
+  width: 59px;
+  height: 20px;
+  border-radius: 8px;
+  .text-label {
+    font-size: 8px;
+  }
+}
+
+.out-of-stock-opacity {
+  opacity: 0.5;
+}
+
+.btn-out-of-stock-disabled {
+  cursor: not-allowed !important;
+  svg {
+    rect {
+      fill: #eda694 !important;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .out-of-stock-label-box {
+    width: 149px;
+    height: 56px;
+    .text-label {
+      font-size: 16px;
+    }
+  }
+}

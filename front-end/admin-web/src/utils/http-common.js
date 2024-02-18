@@ -1,22 +1,13 @@
 import { message } from "antd";
 import axios from "axios";
-import { logService } from "services/log/log.service";
 import { resetSession } from "store/modules/session/session.actions";
 import { env, ENVIRONMENT } from "../env";
 import { store } from "../store";
-import { startDataServiceProcessing, stopDataServiceProcessing } from "../store/modules/processing/processing.actions";
 import { tokenExpired } from "./helpers";
 import { getStorage, localStorageKeys } from "./localStorage.helpers";
 
-const logType = {
-  normal: "",
-  success: "SUCCESS",
-  error: "ERROR",
-};
-
 const date = new Date();
 const timezoneOffset = date.getTimezoneOffset();
-const options = { prefix: "DATA_SERVICE", color: "green", enableLog: false };
 const http = axios.create({
   baseURL: `${env.REACT_APP_ROOT_DOMAIN}/api`,
   withCredentials: true,
@@ -31,11 +22,6 @@ const http = axios.create({
 
 http.interceptors.request.use(
   async (config) => {
-    //#region AI logging
-    _handleAILogging(config, logType.normal, "");
-    //#endregion
-
-    store.dispatch(startDataServiceProcessing());
     if (config.withCredentials) {
       const token = _getToken();
       if (token) {
@@ -49,33 +35,17 @@ http.interceptors.request.use(
       }
     }
 
-    const usedTimePreviousAction = getStorage(localStorageKeys.USED_TIME);
-    if (usedTimePreviousAction) {
-      config.headers["used-time"] = usedTimePreviousAction;
-    }
-
     return config;
   },
   (error) => {
-    //#region AI logging
-    const { config } = error?.response;
-    _handleAILogging(config, logType.error, error);
-    //#endregion
-
     return Promise.reject(error);
   },
 );
 
 http.interceptors.response.use(
   async (response) => {
-    //#region AI logging
     const { config } = response;
-    _handleAILogging(config, logType.success, response);
-    //#endregion
-
     _httpLogging(response?.data);
-
-    store.dispatch(stopDataServiceProcessing());
 
     if (config?.responseType === "blob") {
       return response;
@@ -88,20 +58,11 @@ http.interceptors.response.use(
     return response;
   },
   (error) => {
-    //#region AI logging
-    if (error && error.response) {
-      const { config } = error?.response;
-      _handleAILogging(config, logType.error, error);
-    }
-    //#endregion
-
     _httpLogging(error?.response);
-
-    store.dispatch(stopDataServiceProcessing());
 
     const responseTokenExpired = error?.response?.headers["token-expired"];
     if (responseTokenExpired && responseTokenExpired === "true") {
-      store.dispatch(resetSession());
+      // store.dispatch(resetSession());
       window.location.href = "/login";
       return Promise.reject(error?.response);
     }
@@ -184,7 +145,7 @@ const _getToken = () => {
 
 /// Clear session and redirect to login page
 const _redirectToLoginPage = () => {
-  store.dispatch(resetSession());
+  // store.dispatch(resetSession());
   window.location.href = "/login";
 };
 
@@ -196,20 +157,6 @@ const _redirectToNotFoundPage = () => {
 const _httpLogging = (data) => {
   if (env.NODE_ENV === ENVIRONMENT.Development) {
     console.log("%cresponse >>", "color: #349f01", data);
-  }
-};
-
-const _handleAILogging = (httpConfig, logType, data) => {
-  const { method, url } = httpConfig;
-  const logName = `${method.toUpperCase()} ${url} >>> ${logType}: `;
-  const jsonData = JSON.stringify(data);
-  switch (logType) {
-    case logType.error:
-      logService.trackException(logName, jsonData, options);
-      break;
-    default:
-      logService.trackTrace(logName, jsonData, options);
-      break;
   }
 };
 

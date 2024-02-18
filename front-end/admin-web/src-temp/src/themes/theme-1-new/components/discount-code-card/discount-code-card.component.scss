@@ -1,0 +1,533 @@
+.fnb-discount-code-card-theme-1 {
+  width: 100%;
+  border-radius: 16px;
+  position: relative;
+  margin-left: 1px;
+  .discount-code-apply {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    display: none;
+    span {
+      
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 23px;
+      letter-spacing: 0.3px;
+      color: #ffffff;
+      margin-left: 10px;
+    }
+  }
+  .discount-code-apply.apply-total {
+    display: flex;
+  }
+
+  .discount-code-content {
+    background-color: #fff;
+    border: 1px solid #f7fbff;
+    box-shadow: 0px 2px 3px rgba(137, 136, 140, 0.25);
+    border-radius: 12px;
+    padding: 15px 26px 11px 15px;
+    position: relative;
+    z-index: 2;
+    min-height: 172px;
+    margin-bottom: 5px;
+    .discount-code-content-name {
+      display: flex;
+      cursor: pointer;
+      span {
+        
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 23px;
+        letter-spacing: 0.3px;
+        color: #000000;
+        margin: 0 12px 10px 0;
+      }
+    }
+    .discount-code-code {
+      margin: 0 0 8px 36px;
+      span {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        color: #000000;
+        padding: 2px 6px;
+        background-color: #e4e4e4;
+        border-radius: 2px;
+      }
+    }
+    .discount-code-type-redeem {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 0 0px 36px;
+      .discount-code-type {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #898a8d;
+      }
+      .discount-code-redeem {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #5e8dec;
+        min-width: fit-content;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+    .discount-code-currency {
+      width: fit-content;
+      border: 1px solid #026f30;
+      border-radius: 6px;
+      display: flex;
+      margin: 8px 0 12px 36px;
+      span {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+      }
+      .value {
+        background-color: #fff;
+        padding: 5px 10px;
+        border-radius: 6px 0 0 6px;
+        span {
+          color: #026f30;
+        }
+      }
+      .currency {
+        background-color: #026f30;
+        padding: 5px 10px;
+        border-radius: 0 4px 4px 0;
+        span {
+          color: #ffffff;
+        }
+      }
+    }
+    .discount-code-hr {
+      border-top: 1px dashed #c1c1c1;
+    }
+    .discount-code-inverted {
+      position: absolute;
+      right: -10px;
+      bottom: 35px;
+      z-index: 3;
+      background-color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: rgb(217, 217, 217) 5px 1px 5px -4px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    }
+    .discount-code-datetime {
+      display: flex;
+      margin-top: 12px;
+      span {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #898a8d;
+        margin-left: 14px;
+      }
+    }
+    .discount-code-card {
+      background-color: #026f30;
+      border-radius: 32px;
+      padding: 8px 16px;
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 99;
+      &:hover {
+        cursor: pointer;
+      }
+      span {
+        
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #ffffff;
+      }
+    }
+    .discount-code-card-active {
+      background-color: unset;
+      border: 1px solid #db4d29;
+      cursor: pointer;
+      border-radius: 32px;
+      padding: 8px 16px;
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 99;
+      span {
+        color: #ff3448;
+      }
+    }
+
+    .discount-code-card.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  .discount-code-content-store-discount {
+    background-color: #fff;
+    border: 1px solid #f7fbff;
+    box-shadow: 0px 2px 3px rgba(137, 136, 140, 0.25);
+    border-radius: 12px;
+    padding: 15px 0 11px 15px;
+    position: relative;
+    z-index: 2;
+    .discount-code-content-name {
+      display: flex;
+      margin-bottom: 8px;
+      cursor: pointer;
+      span {
+        
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 23px;
+        letter-spacing: 0.3px;
+        color: #000000;
+        margin-bottom: 4px;
+      }
+      .discount-icon {
+        margin-right: 12px;
+      }
+    }
+    .discount-code-code {
+      margin: 0 0 9px 36px;
+      span {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        color: #000000;
+        padding: 2px 6px;
+        background-color: #e4e4e4;
+        border-radius: 2px;
+      }
+    }
+    .discount-code-type-redeem {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 0 0px 36px;
+      .discount-code-type {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #898a8d;
+      }
+      .discount-code-redeem {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #5e8dec;
+        min-width: fit-content;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+    .discount-code-currency {
+      width: fit-content;
+      border: 1px solid #026f30;
+      border-radius: 6px;
+      display: flex;
+      margin: 8px 0 12px 36px;
+      span {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+      }
+      .value {
+        background-color: #fff;
+        padding: 5px 10px;
+        border-radius: 6px 0 0 6px;
+        span {
+          color: #026f30;
+        }
+      }
+      .currency {
+        background-color: #026f30;
+        padding: 5px 10px;
+        border-radius: 0 4px 4px 0;
+        span {
+          color: #ffffff;
+        }
+      }
+    }
+    .discount-code-hr {
+      border-top: 1px dashed #c1c1c1;
+      width: 94%;
+    }
+    .discount-code-inverted {
+      position: absolute;
+      right: -10px;
+      bottom: 35px;
+      z-index: 3;
+      background-color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: rgb(217, 217, 217) 5px 1px 5px -4px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    }
+    .discount-code-datetime {
+      display: flex;
+      margin: 12px 0 0 0;
+      span {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #898a8d;
+        margin-left: 14px;
+      }
+    }
+    .discount-code-card {
+      background-color: #026f30;
+      border-radius: 32px;
+      padding: 8px 16px;
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 99;
+      &:hover {
+        cursor: pointer;
+      }
+      span {
+        
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #ffffff;
+      }
+    }
+    .discount-code-card-active {
+      background-color: unset;
+      border: 1px solid #db4d29;
+      cursor: pointer;
+      border-radius: 32px;
+      padding: 8px 16px;
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 99;
+      span {
+        color: #ff3448;
+      }
+    }
+
+    .discount-code-card.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+  .discount-code-content-store-discount.disabled {
+    opacity: 0.4;
+  }
+}
+.fnb-discount-code-card-theme-1.apply {
+  background-color: #026f30;
+  padding: 16px;
+  border: 1px solid #f7fbff;
+  box-shadow: 0px 2px 3px rgba(137, 136, 140, 0.25);
+  touch-action: none;
+  .discount-code-content {
+    .discount-code-inverted {
+      background-color: #026f30;
+      box-shadow: none;
+    }
+  }
+}
+
+/*Mobile:  <576px*/
+@media (max-width: 575px) {
+  .my-voucher-list {
+    .fnb-discount-code-card-theme-1 {
+      .discount-code-content-store-discount {
+        .discount-code-card {
+          right: 12px;
+          top: 44%;
+        }
+        .discount-code-type-redeem {
+          width: 45%;
+        }
+      }
+    }
+  }
+  .fnb-discount-code-card-theme-1 {
+    width: 100%;
+    .discount-code-apply {
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+      span {
+        font-size: 13px;
+        line-height: 16px;
+        margin-left: 17px;
+      }
+    }
+    .discount-code-content {
+      margin-right: 7px;
+      padding: 16px 0 10px 16px;
+      .discount-code-content-name {
+        svg {
+          width: 24px;
+          min-width: 24px;
+          height: 24px;
+        }
+        span {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+      .discount-code-type-redeem {
+        .discount-code-type {
+          font-size: 13px;
+        }
+      }
+      .discount-code-currency {
+        span {
+          font-size: 13px;
+          line-height: 16px;
+        }
+        .value {
+          padding: 3px 10px 6px;
+        }
+        .currency {
+          padding: 2px 10px 4px;
+        }
+      }
+      .discount-code-inverted {
+        bottom: 28px;
+      }
+      .discount-code-datetime {
+        margin-top: 10px !important;
+        svg {
+          width: 16px;
+          min-width: 16px;
+          height: 16px;
+        }
+        span {
+          font-size: 13px;
+          line-height: 16px;
+        }
+        .discount-code-redeem {
+          
+          font-style: normal;
+          font-weight: 400;
+          font-size: 13px;
+          line-height: 15px;
+          right: 14px;
+          position: absolute;
+          color: #5e8dec;
+          min-width: fit-content;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+      .discount-code-card {
+        padding: 6px 12px;
+        right: 12px;
+        span {
+          font-size: 13px;
+          line-height: 16px;
+        }
+      }
+    }
+    .discount-code-content-store-discount {
+      .discount-code-content-name {
+        span {
+          font-size: 16px;
+        }
+      }
+      .discount-code-type-redeem {
+        .discount-code-type {
+          font-size: 13px;
+        }
+      }
+      .discount-code-currency {
+        span {
+          font-size: 13px;
+          line-height: 16px;
+        }
+      }
+      .discount-code-inverted {
+        bottom: 26px;
+      }
+      .discount-code-datetime {
+        span {
+          font-size: 13px;
+        }
+        margin: 8px 0 0 0 !important;
+      }
+      .discount-code-hr {
+        width: 100%;
+      }
+    }
+  }
+  .fnb-discount-code-card-theme-1.apply {
+    background-color: #026f30;
+    width: 100%;
+    padding: 16px;
+    border: unset;
+    box-shadow: unset;
+    touch-action: none;
+  }
+}
+
+.discount-code-card-check-out-modal {
+  .discount-code-content {
+    margin-right: 12px;
+    .discount-code-type-redeem {
+      .discount-code-type {
+        line-height: "normal";
+      }
+    }
+    .discount-code-card {
+      padding: 4px 16px;
+      top: 44%;
+    }
+    .discount-code-card-active {
+      margin-right: -20px;
+      padding: 3px 14px;
+    }
+  }
+}
+.fnb-discount-code-card-theme-1.apply {
+  touch-action: none;
+  .discount-code-content-store-discount {
+    margin: 0px !important;
+  }
+}

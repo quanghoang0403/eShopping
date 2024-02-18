@@ -1,0 +1,549 @@
+.my-profile-info {
+  padding-bottom: 20px !important;
+  #firstName {
+    border: none !important;
+  }
+}
+
+.profile-page-background {
+  scroll-margin-top: 120px;
+  font-style: normal;
+  font-weight: 600;
+  .profile-page-wrapper {
+    display: flex;
+    padding-top: 85px;
+    padding-bottom: 32px;
+    .web-d-none {
+      display: none;
+    }
+    .profile-left-side {
+      width: 392px;
+      .profile-membership {
+        background: #fecc2f;
+        width: 111px;
+        height: 26.42px;
+        border-radius: 26.4183px;
+        font-size: 12px;
+        line-height: 26.42px;
+        color: #ffffff;
+        text-align: center;
+      }
+      .profile-contain {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 25px;
+        margin-top: 8px;
+        .profile-image {
+          height: 120px;
+          width: 120px;
+          position: relative;
+          .profile-img {
+            border-radius: 60px;
+          }
+          .upload-profile-img {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            cursor: pointer;
+          }
+        }
+        .profile-name {
+          font-size: 20px;
+          line-height: 21px;
+          color: #000000;
+          width: calc(100% - 130px);
+        }
+      }
+      .profile-infor-contain {
+        display: flex;
+        gap: 32px;
+        flex-direction: column;
+        .profile-infor {
+          font-size: 16px;
+          line-height: 21px;
+          color: #000000;
+          margin-left: 15px;
+          display: flex;
+          gap: 15px;
+          cursor: pointer;
+        }
+        .profile-infor-active {
+          color: #db4d29;
+        }
+        .none-text-decoration {
+          text-decoration: none !important;
+        }
+      }
+    }
+    .profile-right-side {
+      min-height: auto;
+      width: 808px;
+      background: #fff;
+      border-radius: 8px;
+      max-height: max-content;
+      .my-profile-info {
+        padding-bottom: 16px;
+      }
+      .profile-card-title {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 21px;
+        color: #000000;
+        padding: 16px;
+        border-bottom: 1px solid #f4f4f4;
+        margin-bottom: 36px;
+      }
+      .profile-card-row {
+        display: flex;
+        align-items: center;
+        margin-left: 28px;
+        .profile-card-label {
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 20px;
+          color: #000000;
+          margin-bottom: 24px;
+          width: 145px;
+          display: flex;
+          justify-content: left;
+          margin-right: 24px;
+        }
+        .profile-card-input {
+          width: 444.69px;
+          height: 56px;
+          border-radius: 12px;
+          .ant-input {
+            height: 53px !important;
+            margin-top: -4px;
+          }
+        }
+        .profile-text-input {
+          width: 444.69px;
+          height: 56px;
+          border-radius: 12px;
+          font-size: 16px;
+          .ant-input {
+            height: 54px !important;
+            margin-top: -4px;
+          }
+        }
+
+        .toast-message-confirm {
+          right: 50%;
+          position: relative;
+        }
+      }
+      .profile-card-row.current-password {
+        margin-bottom: 12px;
+      }
+      .exist-phone-code {
+        color: #ff4d4f;
+        margin-left: 200px;
+        margin-bottom: 10px;
+        margin-top: -15px;
+      }
+      .profile-card-button {
+        display: flex;
+        justify-content: center;
+      }
+      .btn-update {
+        width: 135px;
+        height: 48px;
+        background: #db4d29;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+        color: #fef7ed;
+        border: 1px solid #db4d29;
+        cursor: pointer;
+
+        &:disabled {
+          background: #EDA694 !important;
+          border: 1px solid #EDA694;
+          cursor: not-allowed;
+        }
+      }
+      .profile-date-time-picker {
+        width: 444.69px;
+      }
+    }
+    .profile-right-side.bottom {
+      margin-top: 24px;
+      .btn-password {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 12px;
+        margin-top: 6px;
+        .btn-update-password {
+          margin-left: 16px;
+          width: 135px;
+          height: 48px;
+          background: #db4d29;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 20px;
+          color: #fef7ed;
+          border: 1px solid #db4d29;
+          cursor: pointer;
+        }
+        .btn-cancel {
+          display: flex;
+          width: 78px;
+          height: 48px;
+          padding: 12px 16px;
+          justify-content: center;
+          align-items: center;
+          border-radius: 12px;
+          border: 1px solid #e2e2e2;
+          background: #fff;
+          .content {
+            color: #282828;
+            text-align: center;
+            
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+          }
+        }
+      }
+      .profile-password-setup {
+        display: flex;
+        align-items: center;
+        padding: 0px 0px 12px;
+        flex-direction: column;
+        .title-warning {
+          
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 20px;
+          padding: 16px;
+        }
+        .title-setup {
+          color: #db4d29;
+          text-align: center;
+          
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 20px;
+          text-decoration-line: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  /* */
+  @media (max-width: 1200px) and (min-width: 991px) {
+    .page-container {
+      .profile-page-wrapper {
+        flex-wrap: wrap;
+        row-gap: 30px;
+        justify-content: center;
+        .profile-left-side {
+          width: 800px;
+        }
+      }
+    }
+  }
+
+  /* Tablet */
+  @media (max-width: 992px) and (min-width: 741px) {
+    .profile-page-wrapper {
+      flex-direction: column;
+      .tablet-d-none {
+        display: none;
+      }
+      .web-d-none {
+        display: block;
+      }
+      .profile-left-side {
+        padding-left: 20px;
+      }
+      .navigate-profile-page {
+        display: flex;
+        gap: 12px;
+        font-size: 20px;
+        line-height: 21px;
+        color: #000000;
+        margin-bottom: 16px;
+        padding: 24px 0 24px 5%;
+      }
+      .profile-loyalty-point-hide {
+        display: none;
+      }
+      .profile-left-side {
+        height: 100%;
+        width: 100%;
+        .btn-logout {
+          height: 48px;
+          background: #db4d29;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 20px;
+          color: #fef7ed;
+          border: none;
+          max-width: 500px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .container-profile-right-side {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .profile-right-side {
+        padding: 24px 0 24px 5%;
+        width: 90%;
+      }
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 740px) {
+    .page-container {
+      margin: 0 16px;
+      max-width: 100%;
+    }
+    .profile-page-wrapper {
+      flex-direction: column;
+      .mobile-d-none {
+        display: none;
+      }
+      .web-d-none {
+        display: block;
+      }
+      .navigate-profile-page {
+        display: flex;
+        gap: 12px;
+        font-size: 20px;
+        line-height: 21px;
+        color: #000000;
+        margin-bottom: 16px;
+      }
+      .profile-loyalty-point-hide {
+        display: none;
+      }
+      .profile-left-side {
+        height: 100%;
+        width: 100%;
+        .btn-logout {
+          height: 48px;
+          background: #db4d29;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 20px;
+          color: #fef7ed;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      .profile-right-side {
+        height: 100%;
+        width: 100%;
+        .my-profile-info {
+          margin: 28px 0px;
+          padding-top: 15px;
+        }
+        .profile-card-row {
+          flex-direction: column;
+          align-items: unset !important;
+          margin: 0 12px !important;
+          .profile-card-label {
+            display: block;
+            margin-bottom: 8px;
+          }
+          .profile-card-input {
+            width: 100%;
+          }
+          .profile-password-input {
+            width: 100%;
+          }
+          .profile-text-input {
+            width: 100%;
+          }
+        }
+        .profile-date-time-picker {
+          width: 100%;
+        }
+        .btn-update {
+          display: block;
+          margin: auto;
+          margin-top: 12px;
+        }
+      }
+    }
+  }
+  .profile-right-side.bottom {
+    .btn-password {
+      margin-bottom: -10px;
+      margin-top: -10px;
+    }
+  }
+}
+
+.fnb-date-time-picker {
+  width: 100%;
+  height: 60px;
+  border-radius: 16px;
+  box-shadow: 0px 1px 4px rgb(0 0 0 / 25%);
+
+  .ant-picker-input {
+    flex-direction: row-reverse;
+    input {
+      font-size: 14px;
+      line-height: 17px;
+      padding: 12px 16px;
+    }
+  }
+}
+
+.fnb-date-time-picker-dropdown {
+  font-size: 18px;
+  border-radius: 16px;
+
+  .ant-picker-cell-selected {
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50%;
+    background-color: #db4d29;
+    .ant-picker-cell-inner {
+      background: #db4d29 !important;
+    }
+  }
+
+  .ant-picker-cell-inner {
+    width: 25px;
+    border-color: #db4d29;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ant-picker-panel-container {
+    border-radius: 16px;
+    .ant-picker-panel {
+      .ant-picker-footer {
+        display: none;
+        .ant-picker-ranges {
+          .ant-picker-ok {
+            button.ant-btn.ant-btn-primary.ant-btn-sm {
+              min-width: 80px !important;
+              height: 40px !important;
+            }
+          }
+        }
+      }
+
+      .ant-picker-datetime-panel {
+        .ant-picker-date-panel {
+          .ant-picker-header {
+            background: #ffffff !important;
+            font-size: 18px;
+            border-bottom: unset;
+            .ant-picker-header-view {
+              .ant-picker-month-btn {
+                color: #db4d29 !important;
+              }
+            }
+            padding: 0 30px !important;
+          }
+
+          .ant-picker-header * {
+            color: #000 !important;
+            font-weight: bold;
+          }
+
+          .ant-picker-header button:hover {
+            font-weight: bold !important;
+          }
+        }
+
+        .ant-picker-time-panel {
+          .ant-picker-header {
+            background: #ffffff !important;
+            font-size: 18px;
+            border-bottom: unset;
+            padding: 0 30px !important;
+          }
+
+          .ant-picker-header * {
+            color: #000 !important;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
+.profile-page-background .ant-radio-checked .ant-radio-inner {
+  border-color: #db4d29 !important ;
+  background-color: #db4d29 !important ;
+}
+.ant-input-affix-wrapper:hover {
+  border-color: unset !important ;
+}
+
+.profile-page-background .ant-radio-checked .ant-radio-inner:after {
+  background-color: white !important ;
+}
+
+.profile-page-background .ant-radio:hover .ant-radio-inner {
+  border-color: #db4d29 !important ;
+}
+
+.profile-page-background {
+  .page-container-my-reservation {
+    .profile-right-side.bottom {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 992px) and (min-width: 576px) {
+  .page-container-loyalty-point {
+    .profile-page-wrapper {
+      .profile-left-side {
+        display: none;
+      }
+    }
+  }
+}
+// Table & Desktop
+@media (min-width: 576px) {
+  .profile-page-background {
+    .page-container {
+      .container-profile-right-side {
+        .profile-right-side-my-reservation {
+          padding: 0px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .profile-page-background {
+    .page-container-my-reservation {
+      .profile-page-wrapper {
+        padding-top: 12px;
+      }
+    }
+  }
+}

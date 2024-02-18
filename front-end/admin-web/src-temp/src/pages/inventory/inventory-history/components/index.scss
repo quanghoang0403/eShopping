@@ -1,0 +1,102 @@
+.inventory-history-tooltip {
+  border-radius: 16px;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 25px;
+  color: #282828;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  margin-left: 12px;
+  margin-right: 16px;
+
+  .unit {
+    margin-left: 16px;
+    float: left;
+  }
+  .quantity {
+    margin-right: 16px;
+    float: right;
+  }
+  .ant-popover-inner-content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 403px;
+  }
+}
+
+.inventory-history-tooltip-arrow-icon {
+  margin-left: 33px;
+  cursor: pointer;
+}
+
+.inventory-history-time {
+  color: #9f9f9f;
+}
+
+.inventory-history-action {
+  height: 36px;
+  border-radius: 16px;
+  padding: 6px 10px 6px 12px;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  align-items: center;
+}
+
+.table-inventory-history-text-time {
+  min-width: 164px;
+}
+
+.table-inventory-history-text-material {
+  min-width: 321px;
+}
+
+.table-inventory-history-text-branch {
+  min-width: 305px;
+}
+
+.table-inventory-history-text-unit {
+  min-width: 185px;
+}
+
+.table-inventory-history-text-change {
+  min-width: 144px;
+}
+
+.table-inventory-history-text-remain {
+  min-width: 144px;
+}
+
+.table-inventory-history-text-action {
+  min-width: 257px;
+}
+
+.table-inventory-history-text-note {
+  min-width: 364px;
+}
+
+.table-inventory-history-text-reference {
+  min-width: 144px;
+}
+
+.table-inventory-history-text-createBy {
+  min-width: 210px;
+}
+
+[aria-current="inventory-history-filter"] {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+}
+
+.table-text-branch-overflow {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,55 @@
+.change-quantity {
+  height: 40px;
+  display: flex;
+  .btn {
+    transition: opacity 0.3s;
+    transition: transform 0.3s;
+  }
+  .btn:active {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  .btn-decrease,
+  .btn-increase {
+    cursor: pointer;
+  }
+  .btn-disable {
+    cursor: not-allowed !important;
+    svg {
+      rect {
+        opacity: 0.6;
+      }
+    }
+  }
+  .quantity {
+    width: 100px; //hard assign so that when increasing or decreasing the number, the width will not change
+    color: var(--colordefault-body-text, #282828);
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+  }
+}
+
+.change-quantity-small {
+  .btn-decrease,
+  .btn-increase {
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  .quantity {
+    width: 55px; //hard assign so that when increasing or decreasing the number, the width will not change
+    color: var(--colordefault-body-text, #282828);
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+  }
+}

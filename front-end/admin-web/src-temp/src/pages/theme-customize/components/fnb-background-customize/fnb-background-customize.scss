@@ -1,0 +1,45 @@
+.backgroundType {
+  float: right;
+  padding-right: 0px !important;
+}
+
+.backgroundType .radioBackgroundType span {
+  padding-right: 0;
+  .ant-radio-wrapper {
+    margin-right: 0 !important;
+  }
+}
+
+.buttonResetColor {
+  margin-left: 29px;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.resetBackgroundColorIcon {
+  cursor: pointer;
+}
+
+.tooltipBox {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  background: #50429b;
+  border-radius: 5px;
+}
+
+.tooltipText {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+}
+
+.popover {
+  right: 0;
+}

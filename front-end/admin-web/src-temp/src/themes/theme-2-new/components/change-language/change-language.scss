@@ -1,0 +1,116 @@
+.flag {
+  width: 22px;
+  margin-right: 10px;
+}
+
+.link-language {
+  
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+
+  display: flex;
+  align-items: center;
+
+  color: #ffffff;
+  .Flag-Default {
+    margin-top: 4px;
+    padding-right: 15px;
+  }
+}
+
+.language-top-bar {
+  border-radius: 16px;
+  top: 63px;
+  position: fixed;
+  .ant-popover-content {
+    width: 135px;
+    height: 104px;
+    .ant-popover-arrow {
+      display: none;
+    }
+    .ant-popover-inner {
+      width: 135px;
+      height: 104px;
+      .ant-popover-inner-content {
+        padding: 12px;
+        .pointer {
+          align-items: center;
+          padding: 10px 8px;
+          gap: 10px;
+          width: 111px;
+          height: 44px;
+          background: #ffffff;
+          border-radius: 12px;
+          a {
+            width: 81px;
+            height: 20px;
+            margin-left: 10px;
+            
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height, or 143% */
+            align-items: center;
+            position: absolute;
+            color: #282828;
+            order: 1;
+          }
+          a:hover {
+            color: #db4d29;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .link-language {
+    padding: 16px 12px;
+    gap: 12px;
+
+    width: 347px;
+    height: 60px;
+    color: #282828;
+    
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    position: absolute;
+    bottom: 11%;
+    .Flag-Default {
+    }
+    .link-language-icon-mobile {
+      position: absolute;
+      right: 10%;
+    }
+  }
+  .pointer-language-mobile {
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    height: 64px;
+
+    background: #ffffff;
+    a {
+      width: 395px;
+      height: 32px;
+
+      
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 32px;
+      /* identical to box height, or 160% */
+      align-items: center;
+      margin-left: 15px;
+      color: #282828;
+    }
+  }
+}

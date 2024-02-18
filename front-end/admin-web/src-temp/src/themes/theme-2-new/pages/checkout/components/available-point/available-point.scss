@@ -1,0 +1,86 @@
+.check_out_theme2_container {
+  * {
+    font-family: inherit;
+  }
+  .check_out_shipping {
+    .available-point {
+      padding: 15px;
+      .available-point-title {
+        .available-point-icon {
+          margin-top: 1px;
+        }
+        .available-point-content {
+          margin: auto auto auto 13px;
+          .available-point-text {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: #282828;
+          }
+          .available-point-text-point {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: #ffa318;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .check_out_theme2_container {
+    .check_out_shipping {
+      .available-point-title {
+        justify-content: space-between;
+        .available-point-content {
+          margin: auto auto auto 13px;
+          .available-point-text {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: #282828;
+          }
+          .available-point-text-point {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: #ffa318;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .check_out_theme2_container {
+    .check_out_shipping {
+      .available-point-title {
+        justify-content: space-between;
+        .available-point-content {
+          margin: auto auto auto 13px;
+          .available-point-text {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: #282828;
+          }
+          .available-point-text-point {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: #ffa318;
+          }
+        }
+      }
+    }
+  }
+}

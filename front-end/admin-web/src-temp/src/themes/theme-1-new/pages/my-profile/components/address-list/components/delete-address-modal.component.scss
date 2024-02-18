@@ -1,0 +1,40 @@
+.my-profile-delete-address-modal {
+  .ant-modal-content {
+    border-radius: 36px;
+    button.ant-modal-close {
+      display: none;
+    }
+
+    .ant-modal-header {
+      .ant-modal-title {
+        text-align: center;
+        font-size: 2rem;
+      }
+    }
+    .ant-modal-body {
+      .delete-container {
+        .content {
+          font-size: 1.2rem;
+          text-align: center;
+        }
+      }
+    }
+    .ant-modal-footer {
+      display: flex;
+      justify-content: center;
+      button {
+        font-size: 1.2rem;
+        height: fit-content;
+      }
+
+      .ant-btn-default {
+        border: none;
+        color: black;
+        font-weight: bold;
+      }
+      .ant-btn-primary {
+        background: #026f30;
+      }
+    }
+  }
+}

@@ -1,0 +1,173 @@
+.check-out-cash-theme1,
+.check-out-cash-theme1-vn {
+  margin: auto;
+  border-radius: 20px 20px 0px 0px;
+  .ant-modal-content {
+    align-items: center;
+    text-align: center;
+    background-image: url("../../../assets/images/checkout-cash-background.png");
+    background-position: center;
+    background-size: 105% 105%;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    width: 685px !important;
+    height: 481px !important;
+    .ant-modal-close {
+      display: none;
+    }
+    .check-out-cash-image {
+      width: 80px;
+      height: 80px;
+      margin-top: 82px;
+    }
+    .check-out-cash-title1 {
+      
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 40px;
+      text-align: center;
+      margin-top: 55px;
+      color: #026f30;
+    }
+    .check-out-cash-title2 {
+      
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
+      margin-top: 24px;
+      color: #000000;
+      white-space: nowrap;
+    }
+    .ant-modal-header {
+      border-bottom: 0 none !important;
+    }
+    .ant-modal-footer {
+      border-top: 0 none !important;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      padding-top: 70px;
+      .new-order {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+        color: #ffffff;
+        padding-left: 60px;
+        cursor: pointer;
+      }
+      .view-order {
+        
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+        color: #ffffff;
+        padding-right: 60px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .check-out-cash-theme1 {
+    margin: auto;
+    .ant-modal-content {
+      margin-left: 8px;
+      width: calc(100% - 16px) !important;
+      height: 304px !important;
+      .check-out-cash-image {
+        margin-top: 28px !important;
+      }
+      .check-out-cash-title1 {
+        
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        margin-top: 17px;
+      }
+      .check-out-cash-title2 {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        margin-top: 8px;
+      }
+      .ant-modal-footer {
+        padding-top: 45px !important;
+        .new-order {
+          
+          font-style: normal !important;
+          font-weight: 400 !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
+          padding-left: 0 !important;
+        }
+        .view-order {
+          
+          font-style: normal !important;
+          font-weight: 700 !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
+          padding-right: 0 !important;
+        }
+      }
+    }
+  }
+  .check-out-cash-theme1-vn {
+    margin: auto;
+    .ant-modal-content {
+      margin-left: 8px;
+      width: calc(100% - 16px) !important;
+      height: 304px !important;
+      .check-out-cash-image {
+        margin-top: 28px !important;
+      }
+      .check-out-cash-title1 {
+        
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        margin-top: 17px;
+      }
+      .check-out-cash-title2 {
+        
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        margin-top: 8px;
+        white-space: unset !important;
+      }
+      .ant-modal-footer {
+        padding-top: 30px !important;
+        .new-order {
+          
+          font-style: normal !important;
+          font-weight: 400 !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
+          padding-left: 0 !important;
+        }
+        .view-order {
+          
+          font-style: normal !important;
+          font-weight: 700 !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
+          padding-right: 0 !important;
+        }
+      }
+    }
+  }
+}

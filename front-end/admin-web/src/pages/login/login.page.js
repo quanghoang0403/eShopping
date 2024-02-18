@@ -27,7 +27,6 @@ import "../../stylesheets/authenticator.scss";
 const LoginPage = (props) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [loginInfo, setLoginInfo] = useState(null);
   const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
@@ -81,10 +80,10 @@ const LoginPage = (props) => {
     let auth = { token: token, user: userInfo };
     /// get permissions
     permissionDataService.getPermissionsAsync(token).then((res) => {
-      const { permissions, permissionGroup } = res;
-      if (permissions.length > 0 && permissionGroup.length > 0) {
+      const { permissions, permissionGroups } = res;
+      if (permissions.length > 0 && permissionGroups.length > 0) {
         message.success("Bạn đã đăng nhập thành công.");
-        dispatch(setPermissionGroup(permissionGroup));
+        dispatch(setPermissionGroup(permissionGroups));
         setUserAuth(auth, token, permissions);
         props.history.push("/home");
       } else {
@@ -96,26 +95,6 @@ const LoginPage = (props) => {
   const redirectHomePage = () => {
     props.history.push("/home");
     message.success("Bạn đã đăng nhập thành công.");
-  };
-
-  const checkAccountLogin = (values) => {
-    setLoginInfo(values);
-    loginDataService
-      .checkAccountLoginAsync(values)
-      .then((res) => {
-        if (res.success) {
-          if (res.stores.length <= 1) {
-            let valueSubmitLogin = {
-              ...values,
-              accountId: res.stores[0]?.accountId,
-            };
-            onFinish(valueSubmitLogin);
-          }
-        } else {
-          setIsLogin(false);
-        }
-      })
-      .then((error) => {});
   };
 
   const checkTokenExpired = () => {
@@ -148,7 +127,7 @@ const LoginPage = (props) => {
           className="login-form login-inner login-inner__spacing"
           name="basic"
           autoComplete="off"
-          onFinish={checkAccountLogin}
+          onFinish={onFinish}
           form={form}
         >
           <div className="frm-content">
@@ -163,7 +142,7 @@ const LoginPage = (props) => {
             <h1 className="label-login">Đăng nhập</h1>
             <h4 className="label-input">Email</h4>
             <Form.Item
-              name="userName"
+              name="email"
               rules={[
                 {
                   required: true,

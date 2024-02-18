@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj": {}
+    "E:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj": {}
   },
   "projects": {
-    "D:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj",
         "projectName": "eShopping.Application.Admin",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Application.Admin\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Application.Admin\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,29 +28,29 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj"
+              "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj"
               }
             }
           }
@@ -117,18 +117,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj",
         "projectName": "eShopping.Application.Common",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Application.Common\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Application.Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -145,29 +145,29 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj"
+              "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj"
               }
             }
           }
@@ -234,18 +234,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj",
         "projectName": "eShopping.Application.Store",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Application.Store\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Application.Store\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -262,23 +262,23 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Application.Admin\\eShopping.Application.Admin.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj"
+              "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
               }
             }
           }
@@ -333,18 +333,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj",
         "projectName": "eShopping.Common",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Common\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -361,8 +361,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -454,18 +454,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj",
         "projectName": "eShopping.Domain",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Domain\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -539,18 +539,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj",
         "projectName": "eShopping.Email",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Email\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Email\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -567,11 +567,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -615,18 +615,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj",
         "projectName": "eShopping.EventBusRabbitMQ",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -643,8 +643,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj"
+              "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj"
               }
             }
           }
@@ -692,18 +692,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj",
         "projectName": "eShopping.EventBus",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.EventBus\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.EventBus\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -747,18 +747,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj",
         "projectName": "eShopping.Infrastructure",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Infrastructure\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -775,14 +775,14 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
               }
             }
           }
@@ -818,18 +818,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj",
         "projectName": "eShopping.Interfaces",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -846,11 +846,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -886,18 +886,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj",
         "projectName": "eShopping.Loging",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Loging\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Loging\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -971,18 +971,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj",
         "projectName": "eShopping.MemoryCaching",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\eShopping.MemoryCaching.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.MemoryCaching\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.MemoryCaching\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1032,18 +1032,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
         "projectName": "eShopping.Models.Admin",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1060,11 +1060,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -1100,18 +1100,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj",
         "projectName": "eShopping.Models.Common",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Common\\eShopping.Models.Common.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Models.Common\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Models.Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1128,11 +1128,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -1162,18 +1162,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj",
         "projectName": "eShopping.Models.Store",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Models.Store\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Models.Store\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1190,11 +1190,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -1224,18 +1224,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj",
         "projectName": "eShopping.RedisCaching",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.RedisCaching\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.RedisCaching\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1297,18 +1297,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj",
         "projectName": "eShopping.Services",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Services\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1325,20 +1325,20 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj"
+              "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.EventBus\\eShopping.EventBus.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Infrastructure\\eShopping.Infrastructure.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Loging\\eShopping.Loging.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj"
+              "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj"
               }
             }
           }
@@ -1438,18 +1438,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj",
         "projectName": "eShopping.Storage",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.Storage\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.Storage\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1466,8 +1466,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
               }
             }
           }
@@ -1523,18 +1523,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj": {
+    "E:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj",
+        "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj",
         "projectName": "eShopping.WebApi.Store",
-        "projectPath": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj",
+        "projectPath": "E:\\eShopping\\back-end\\eShopping.WebApi.Store\\eShopping.WebApi.Store.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\eShopping\\back-end\\eShopping.WebApi.Store\\obj\\",
+        "outputPath": "E:\\eShopping\\back-end\\eShopping.WebApi.Store\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1545,39 +1545,38 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Application.Common\\eShopping.Application.Common.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Application.Store\\eShopping.Application.Store.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Email\\eShopping.Email.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj"
+              "E:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.EventBusRabbitMQ\\eShopping.EventBusRabbitMQ.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Interfaces\\eShopping.Interfaces.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Store\\eShopping.Models.Store.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj"
+              "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.RedisCaching\\eShopping.RedisCaching.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Services\\eShopping.Services.csproj"
               },
-              "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
-                "projectPath": "D:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj"
+              "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj": {
+                "projectPath": "E:\\eShopping\\back-end\\eShopping.Storage\\eShopping.Storage.csproj"
               }
             }
           }
@@ -1630,7 +1629,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

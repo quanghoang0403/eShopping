@@ -1,0 +1,96 @@
+.theme2-checkout-summary {
+  width: 100%;
+  min-height: 165px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  .checkout-summary-container {
+    padding: 16px;
+    .sub-total,
+    .discount,
+    .fee-tax,
+    .shipping-fee,
+    .total {
+      display: flex;
+      justify-content: space-between;
+      span {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #282828;
+      }
+    }
+    .sub-total,
+    .total {
+      span {
+        font-weight: 700;
+      }
+    }
+    .discount,
+    .fee-tax,
+    .shipping-fee {
+      margin-top: 12px;
+      .text-box {
+        display: flex;
+        .icon-box {
+          display: flex;
+          align-items: center;
+          margin-left: 7px;
+        }
+      }
+    }
+
+    .line {
+      margin-top: 12px;
+      height: 1px;
+      background: #f3f3f3;
+    }
+
+    .total {
+      margin-top: 12px;
+      span {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+
+    .checkout-summary-detail-collapse {
+      .ant-collapse-header {
+        padding: 0;
+        background: #f9f9f9;
+        border: none;
+        cursor: auto !important;
+      }
+    }
+    .discount-code-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .discount-code-tag {
+      margin-top: 8px;
+      background: #ece8fe;
+      border: 1px solid #cdc6ff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: #50429b;
+      width: fit-content;
+      .remove-icon {
+        height: 14px;
+        float: right;
+        margin-left: 8px;
+        cursor: pointer;
+      }
+    }
+    .discount {
+      .checkout-discount-popover {
+        left: -15px !important;
+        width: 360px;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+.close-branch-theme-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    color: #282828;
+    margin-left: 24px;
+    .closed {
+      font-weight: 700;
+      color: #ff4646;
+    }
+    .time {
+      font-weight: 700;
+    }
+  }
+}
+
+/*Mobile:  <576px*/
+@media (max-width: 575px) {
+  .close-branch-theme-1 {
+    margin: 0 16px;
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+    p {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+      line-height: 24px;
+      margin-left: 16px;
+    }
+  }
+}

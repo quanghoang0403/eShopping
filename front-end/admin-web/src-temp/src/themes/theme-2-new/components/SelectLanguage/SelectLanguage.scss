@@ -1,0 +1,47 @@
+.select-language {
+  background-color: #ffffff;
+  border: unset;
+  border-radius: unset;
+  padding: 16px 12px;
+  gap: 12px;
+  height: 60px;
+  position: absolute;
+  bottom: 11%;
+  width: 100%;
+  .ant-card-body {
+    display: flex;
+    padding: 0px;
+    border-radius: 0;
+    position: relative;
+    span {
+      margin: auto 0;
+    }
+    .lang-flag {
+      display: flex;
+    }
+    .lang-name {
+      margin-left: 10px;
+    }
+    .change-icon {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .select-language {
+    .lang-name {
+      
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      align-items: center;
+    }
+    .change-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

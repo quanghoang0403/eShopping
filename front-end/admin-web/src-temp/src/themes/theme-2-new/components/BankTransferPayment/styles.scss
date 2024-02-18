@@ -1,0 +1,84 @@
+.bank-transfer-theme2 {
+  border-radius: 12px;
+  background: #f9f9f9;
+  padding: 16px;
+  margin-top: 16px;
+
+  .bank-name,
+  .account-number,
+  .account-holder,
+  .content {
+    margin-top: 12px;
+  }
+
+  .title {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    height: auto !important;
+  }
+  .qr-code {
+    width: 227px;
+    height: 227px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+  }
+
+  .bank-name-title,
+  .account-number-title,
+  .account-holder-title,
+  .content-title {
+    color: #959595;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    margin: 4px 0px;
+  }
+
+  .bank-name-text,
+  .account-number-text,
+  .account-holder-text,
+  .content-text {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  .value-copy-icon {
+    display: flex;
+    justify-content: space-between;
+    .copy-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .account-number-text,
+  .account-holder-text,
+  .content-text {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  .bank-transfer-theme2 {
+    .content-bank-account {
+      .qr-code {
+        display: none;
+      }
+    }
+  }
+}
+
+.notification-copy-theme-2 {
+  height: 56px;
+  padding: 16px 24px !important;
+}

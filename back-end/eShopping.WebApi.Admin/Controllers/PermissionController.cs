@@ -1,4 +1,5 @@
 ﻿using eShopping.WebApi.Admin.Controllers.Base;
+using GoFoodBeverage.Application.Features.Settings.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,15 @@ namespace eShopping.WebApi.Admin.Controllers
     {
         public PermissionController(IMediator mediator) : base(mediator)
         {
-            [AllowAnonymous]
-            [HttpGet]
-            [Route("get-permissions")]
-            public async Task<IActionResult> GetPermissionsAsync([FromQuery] string token)
-            {
-                var response = await _mediator.Send(new GetPermissionsRequest() { Token = token });
-                return await SafeOkAsync(response);
-            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("get-permissions")]
+        public async Task<IActionResult> GetPermissionsAsync([FromQuery] string token)
+        {
+            var response = await _mediator.Send(new GetPermissionsRequest() { Token = token });
+            return await SafeOkAsync(response);
         }
     }
 }

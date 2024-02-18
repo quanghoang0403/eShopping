@@ -1,0 +1,18 @@
+.ant-tooltip-content:has(.combo-list-name-tooltip) {
+  width: 391px;
+  
+  .ant-tooltip-inner {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    font-style: normal;
+    .combo-list-name-tooltip {
+      color: #FFFFFF;
+    }
+  }
+}
+
+.ant-tooltip-content:has(.combo-list-name-tooltip):has(.is-tooltip-mobile) {
+  width: auto;
+}

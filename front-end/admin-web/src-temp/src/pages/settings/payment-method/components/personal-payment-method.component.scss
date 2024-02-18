@@ -1,0 +1,38 @@
+.component-title {
+    display: flex;
+    align-items: flex-start;
+    height: 60px;
+    .list-button{
+        margin-left: auto;
+    }
+    .title {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .method-title {
+        max-width: 100%;
+    }  
+    @media (min-width: 500px) {
+        .method-title {
+            max-width: calc(100% - 253.172px);
+        }        
+    }
+}
+@media (max-width: 500px) {
+    .component-title {
+        flex-wrap: wrap;
+    }
+}
+.personal-payment-config {
+    .upload-image-url {
+        color: #0080F6;
+    }
+    
+    .ant-typography-disabled {
+        color: #9F9F9F;
+    }
+
+    .select-logo{
+        margin-bottom: 30px;
+    }
+}

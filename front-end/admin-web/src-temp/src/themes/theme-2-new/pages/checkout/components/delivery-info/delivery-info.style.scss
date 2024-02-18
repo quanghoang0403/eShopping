@@ -1,0 +1,128 @@
+.card-delivery-info {
+  width: 100%;
+  .ant-card-body {
+    padding: 0px;
+  }
+  .delivery-info {
+    width: 100%;
+    border-radius: 12px 12px 12px 12px;
+    border: 1px solid #1CA362;
+    .title-delivery-method {
+      .title-delivery-method-icon {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        background-color: #fff6ed;
+        border-bottom: 1px solid #1CA362;
+        border-radius: 12px 12px 0px 0px;
+        width: 100%;
+        justify-content: space-between;
+        .title-delivery-method-button {
+          .title-text-change {
+            margin-right: 15px;
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+        .title-delivery-method-icon-child {
+          display: flex;
+          align-items: center;
+        }
+        .title-text {
+          font-size: 16px;
+          font-weight: 700;
+          margin-left: 10px;
+        }
+      }
+    }
+    .content-delivery-method {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .left-content-delivery {
+      display: flex;
+      margin-right: 16px;
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .right-content-delivery {
+      width: 100%;
+    }
+    .address-info {
+      display: flex;
+    }
+    .form-edit-receiver {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      .edit-receiver {
+        display: flex;
+        .ant-form-item {
+          margin-bottom: 20px;
+          .ant-input-affix-wrapper {
+            padding: 0 0 4px 0;
+            border-width: 0;
+            border-bottom: 1px solid #dbdbdb !important;
+            border-radius: 0;
+            box-shadow: none;
+            .ant-input {
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 20px;
+              &::placeholder {
+                font-weight: 500;
+              }
+            }
+            .ant-input-suffix svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+        .detail-receiver {
+          margin-bottom: 0;
+        }
+      }
+      .ant-form-item-explain-error {
+        color: #D30000;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; 
+      }
+    }
+    .icon-edit {
+      margin-right: 8px;
+    }
+    .title-text,
+    .detail-text,
+    .link-text {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .detail-text {
+      padding-top: 4px;
+      font-weight: 700;
+      .detail-text-color {
+        border-radius: 8px;
+        background: #1CA362;
+        padding: 4px 8px;
+        color: #ffffff;
+        margin-top: 8px;
+      }
+    }
+    .title-text,
+    .link-text {
+      font-weight: 400;
+    }
+    .link-text {
+      color: #1976d2;
+      cursor: pointer;
+    }
+  }
+}

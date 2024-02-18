@@ -1,0 +1,141 @@
+.list-menu-tree {
+  background: #fff;
+  margin-top:24px;
+  padding: 24px;
+  border-radius: 16px;
+  min-height: 60vh;
+  &__title {
+    color: #2B2162;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .fnb-add-new-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 24px;
+  }
+  .sortable-tree-list-menu {
+    overflow: scroll;
+    display: flex;
+    overflow-y: hidden;
+    padding-bottom: 14px;
+    cursor: grab;
+  }
+}
+//customer menu tree library
+.rst__tree {
+  .rst__node {
+    .rst__nodeContent {
+      .rst__collapseButton {
+        //Hide collapse button
+        display: none;
+      }
+
+      .rst__rowWrapper {
+        padding: 0 !important;
+
+        .rst__row {
+          .rst__moveHandle {
+            width: 75px;
+            position: absolute;
+            border: none;
+            background: none;
+            box-shadow: none;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+              -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+          }
+
+          .rst__rowContents {
+            border: unset;
+            padding: unset;
+            background: unset;
+            box-shadow: unset;
+          }
+
+          .rst__rowLabel {
+            padding-right: unset !important;
+            box-shadow: unset !important;
+            padding-top: unset !important;
+            padding-bottom: unset !important;
+            margin-top: unset !important;
+            margin-bottom: unset !important;
+            height: 80px !important;
+          }
+        }
+      }
+    }
+   
+    .rst__rowLandingPad {
+      border-radius: 16px !important;
+      border: 3px dashed #dbd6ff !important;
+      background: #fff !important;
+      height: 80px !important;
+      margin-top: 12px !important;
+    }
+
+    .rst__lineHalfHorizontalRight::before,
+    .rst__lineFullVertical::after,
+    .rst__lineHalfVerticalTop::after,
+    .rst__lineHalfVerticalBottom::after,
+    .rstcustom__lineChildren::after,
+    .rst__lineChildren::after  {
+      background-color: #4b3e91;
+    }
+
+    .rst__lineFullVertical::after,
+    .rst__lineHalfVerticalTop::after,
+    .rst__lineHalfVerticalBottom::after,
+    .rstcustom__lineChildren::after,
+    .rst__lineChildren::after  {
+      width: 2px !important;
+    }
+
+    .rst__lineHalfHorizontalRight::before {
+      height: 2px !important;
+    }
+
+    .rst__tree .rst__node .rst__lineHalfHorizontalRight::before {
+      height: 2px !important;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .rst__tree {
+    .rst__node {
+      height: 100px !important;
+      .rst__nodeContent {
+          .rst__rowWrapper {
+            .rst__row {
+              .rst__rowLabel {
+                height: 60px !important;
+              }
+            }
+          }
+        }
+      .rst__lineHalfHorizontalRight::before {
+        top: calc(50% + 5px);
+      }
+      .rst__lineHalfVerticalBottom::after {
+        height: calc(50% - 5px);
+    }
+      .rst__rowLabel {
+        height: 60px !important;
+      }
+      .rst__lineHalfVerticalTop::after {
+        height: calc(50% + 5px);
+      }
+      .rst__rowLandingPad {
+        height: 65px !important;
+        margin-top: 25px !important;
+      }
+    }
+  }
+  
+}

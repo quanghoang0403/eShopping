@@ -1,0 +1,30 @@
+.fnb-tabs-theme1 {
+  .ant-tabs-nav {
+    .ant-tabs-nav-wrap {
+      .ant-tabs-nav-list {
+        padding-left: 60px;
+        .ant-tabs-tab {
+          
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 23px;
+          color: #959595;
+        }
+        .ant-tabs-tab-active {
+          .ant-tabs-tab-btn {
+            
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 23px;
+            color: #026f30 !important;
+          }
+        }
+        .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+          background: #026f30;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.form-customize-product-list {
+  .ant-collapse-header {
+    cursor: pointer !important;
+    svg.product-list-icon-title.ant-collapse-arrow > path {
+      z-index: 100;
+      fill: #fff;
+    }
+  }
+}
+.size-group {
+  font-size: 20px;
+}

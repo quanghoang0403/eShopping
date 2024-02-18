@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import { compose } from "redux";
 import { store } from "store";
-import { calculateUsedTime } from "store/modules/processing/processing.actions";
 import PrivateRoute from "./components/private-route";
 import routes from "./pages/routes";
 
@@ -15,7 +14,6 @@ import "./stylesheets/main.scss";
 function App(props) {
   const ref = React.useRef(null);
   useEffect(() => {
-    store.dispatch(calculateUsedTime());
     if (props.loading) {
       ref.current.continuousStart();
     } else {

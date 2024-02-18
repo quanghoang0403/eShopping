@@ -1,0 +1,77 @@
+.opTop {
+  z-index: 100;
+}
+.fee-name,
+.fee-description {
+  .text-line-clamp-2 {
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}
+
+.text-color-feeName {
+  color: blue;
+}
+.text-color-desc {
+  color: #000000;
+}
+.fee-table {
+  .fee-status {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    padding: 8px 16px;
+    border-radius: 16px;
+    width: fit-content;
+  }
+
+  .active {
+    color: #33b530;
+    background: rgba(51, 181, 48, 0.1);
+  }
+
+  .scheduled {
+    background: rgba(255, 140, 33, 0.1);
+    color: #ff8c21;
+  }
+
+  .finished {
+    background: rgba(255, 140, 33, 0.1);
+    color: #db1b1b;
+  }
+  .ant-table-content {
+    tr {
+      .fnb-no-column-fee {
+        overflow-wrap: inherit !important;
+      }
+    }
+  }
+  .grid-status-column {
+    z-index: 1;
+  }
+}
+
+@media (max-width: 992px) {
+  .fee-table {
+    .ant-table-content {
+      tr {
+        .fnb-time-column-fee {
+          p {
+            font-size: 16px;
+            transform: translateX(-20px);
+          }
+          .fnb-start-date,
+          .fnb-end-date {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}

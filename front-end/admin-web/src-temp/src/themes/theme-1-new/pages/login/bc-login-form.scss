@@ -1,0 +1,102 @@
+$spacing: 24px;
+$errorBoxHeight: 40px;
+
+.login_page_theme1_container {
+  min-height: 550px;
+  .bc-register-form-container {
+    min-height: unset !important;
+  }
+}
+
+// Mobile
+.bc-login-form-container {
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px;
+  height: fit-content;
+  width: 560px;
+  margin: auto;
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+  .bc-login-form {
+    position: relative;
+
+    .login_title {
+      padding-bottom: $spacing;
+    }
+    .bc-row {
+      margin-bottom: $spacing;
+    }
+
+    .form-footer-session {
+      width: 100%;
+      gap: calc($spacing);
+    }
+
+    .register-link {
+      padding-left: 5px;
+      padding-right: 4px;
+      text-decoration: underline;
+    }
+  }
+  .login-detail-password {
+    margin-bottom: $spacing;
+  }
+  .login_title {
+    font-size: 28px;
+  }
+  .empty-row {
+    height: 60px;
+  }
+}
+
+// Tablet
+@media (min-width: 576px) and (max-width: 1199px) {
+  .login_page_theme1_container {
+    min-height: 650px;
+  }
+  .bc-login-form-container {
+    .bc-login-form {
+      .login_title {
+        padding-bottom: calc($spacing * 0.5);
+      }
+    }
+  }
+}
+
+// Desktop
+@media (min-width: 1200px) {
+  .login_page_theme1_container {
+    min-height: 750px;
+  }
+  .bc-login-form-container {
+    margin: 0;
+    margin-right: 100px;
+    padding: 40px 50px 50px 50px;
+    margin-top: 136px;
+    .bc-login-form {
+      .login_title {
+        padding-bottom: calc($spacing * 2);
+      }
+      .bc-row {
+        margin-bottom: calc($spacing * 2);
+      }
+      .form-footer-session {
+        gap: calc($spacing * 1.5);
+      }
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .login_page_theme1_container {
+    .bc-register-form-container {
+      .bc-form {
+        height: 275px !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.maximum-limit-flash-sale-notify {
+  width: 100%;
+  background-color: #fff0f1;
+  border: 1px solid #e80f1c;
+  border-radius: 8px;
+  display: flex;
+  padding: 16px;
+  margin: 28px 0 24px;
+
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  span {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #282828;
+    margin-left: 12px;
+    user-select: none;
+  }
+}
+
+.maximum-limit-flash-sale-notify + .group-multiple-price {
+  margin-top: 0px !important;
+}
+
+/*Mobile*/
+@media (max-width: 575px) {
+  .maximum-limit-flash-sale-notify {
+    min-height: auto;
+  }
+}

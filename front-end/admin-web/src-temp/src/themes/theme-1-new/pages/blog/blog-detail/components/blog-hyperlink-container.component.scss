@@ -1,0 +1,51 @@
+.hyperlink-container {
+  height: 72px;
+  border-radius: 16px;
+  background-color: #fff;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  color: #8d8d8d;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  .ml-8 {
+    margin-left: 8px;
+  }
+  .title-text {
+    color: #026f30;
+    font-weight: 700;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Tablet
+@media screen and (max-width: 1200px) {
+  .hyperlink-container {
+    .title-text {
+      max-width: calc(100vw - 350px);
+    }
+  }
+}
+
+// Mobile
+@media screen and (max-width: 575px) {
+  .hyperlink-container {
+    border-radius: 8px;
+    height: 36px;
+    font-size: 13px;
+    font-weight: 400;
+    padding-left: 16px;
+    .title-text {
+      max-width: calc(100vw - 250px);
+    }
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

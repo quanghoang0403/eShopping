@@ -1,0 +1,18 @@
+.change-language-desktop {
+  .header-language {
+    border-radius: 16px;
+    margin-right: 24px;
+    width: 150px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .header-rectangle {
+      width: 2px;
+      height: 32px;
+      background: #d9d9d9;
+      top: 33px;
+      margin-right: 12px;
+    }
+  }
+}

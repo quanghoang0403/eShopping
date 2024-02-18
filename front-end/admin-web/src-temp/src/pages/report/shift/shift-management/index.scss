@@ -1,0 +1,13 @@
+.text-align-center {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+
+  .shift-value {
+    white-space: nowrap;
+  }
+}
+
+.text-align-top {
+  vertical-align: top;
+}

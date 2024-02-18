@@ -1,0 +1,231 @@
+.reserve-area-popover-class-name-overwrite {
+  position: fixed;
+  top: 100px;
+  left: 25%;
+  .ant-modal {
+    width: 50dvw !important;
+    .ant-modal-content {
+      max-height: 85dvh;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      border-radius: 16px;
+      padding: 32px;
+      overflow: hidden;
+      transform: translate(0, 0);
+      animation-delay: 0s;
+      animation-duration: 0.8s;
+      animation-name: drawer-animation;
+      @keyframes drawer-animation {
+        from {
+          transform: translate(0, 200%);
+        }
+        to {
+          transform: translate(0, 0);
+        }
+      }
+      .ant-modal-header {
+        .ant-modal-title {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          text-align: left;
+          text-transform: none;
+          .reserve-modal-table {
+            .title {
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 28px;
+              text-align: initial;
+              margin-right: 14px;
+            }
+            .button {
+              position: absolute;
+              top: 32px;
+              right: 32px;
+
+              svg {
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+
+      .ant-modal-body {
+        width: 100%;
+        height: fit-content;
+        overflow: auto;
+        .reserve-area-table-body {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+
+          p {
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+          }
+
+          img {
+            max-width: 100%;
+          }
+          .ant-image {
+            width: 100%;
+            .image {
+              width: 100%;
+              max-height: 328px;
+              border-radius: 18px;
+              object-fit: cover;
+            }
+          }
+          .information {
+            display: flex;
+            flex-direction: column;
+            .detail {
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 28px;
+            }
+            .seats {
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 24px;
+            }
+          }
+        }
+
+        &::-webkit-scrollbar-track {
+          border-radius: 20px;
+          background-color: transparent;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+
+        &::-webkit-scrollbar {
+          width: 4px;
+          height: 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 20px;
+          background-color: "";
+        }
+
+        .ant-card {
+          border-radius: 16px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1199px) and (min-width: 576px) {
+  .reserve-area-popover-class-name-overwrite {
+    .ant-modal {
+      width: 100dvw !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: 100dvh !important;
+      top: 0px;
+      .ant-modal-content {
+        width: 100dvw !important;
+        padding: 32px 20px;
+        position: absolute;
+        bottom: 0px;
+        max-height: 90%;
+        overflow: scroll;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+    }
+  }
+}
+@media (max-width: 575px) {
+  .reserve-area-popover-class-name-overwrite {
+    .ant-modal {
+      width: 100dvw !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: 100dvh !important;
+      top: 0px;
+      .ant-modal-content {
+        width: 100dvw !important;
+        padding: 32px 20px;
+        position: absolute;
+        bottom: 0px;
+        max-height: 90%;
+        overflow: scroll;
+        gap: 20px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        .ant-modal-header {
+          margin-bottom: 0px;
+          .ant-modal-title {
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 28px;
+            .reserve-modal-table {
+              .title {
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 28px;
+              }
+              .button {
+                top: 32px;
+                right: 16px;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                svg {
+                  width: 18px;
+                  height: 18px;
+                }
+              }
+            }
+          }
+        }
+        .ant-modal-body .reserve-area-table-body {
+          p {
+            color: #000;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 24px; /* 160% */
+          }
+          .ant-image .image {
+            height: 227px;
+          }
+          .information {
+            .seats {
+              color: #000;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 24px; /* 171.429% */
+            }
+            .detail {
+              margin-bottom: 17px;
+              color: #000;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}

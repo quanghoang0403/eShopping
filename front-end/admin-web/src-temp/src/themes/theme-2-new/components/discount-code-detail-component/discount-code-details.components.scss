@@ -1,0 +1,323 @@
+.discount-code-detail-modal {
+  .ant-modal .ant-modal-close {
+    top: 19px;
+    .ant-modal-close-x {
+      svg {
+        width: 19.2px;
+        height: 19.2px;
+      }
+    }
+  }
+  border-radius: 20px;
+  .ant-modal-content {
+    border-radius: 20px;
+    padding: 0;
+    .ant-modal-header {
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      margin-bottom: 0px;
+      .ant-modal-title {
+        padding: 0px;
+      }
+    }
+    .ant-modal-body {
+      padding: 0px;
+      padding-bottom: 24px !important;
+    }
+  }
+}
+.modal-title {
+  color: #000000;
+  
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  text-transform: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding: 16px 24px;
+  background: #db4d29;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.discount-code-detail {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 24px;
+  .discount-code-detail-header {
+    padding-bottom: 20px;
+    padding: 24px 0px 0px 24px;
+    .row-icon-discount {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .row-name {
+      color: #282828;
+      text-align: center;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 32px;
+      margin-bottom: 8px;
+    }
+    .row-discount-code-type {
+      margin-bottom: 8px;
+      .discount-code-type {
+        color: #282828;
+        text-align: center;
+        font-feature-settings: "clig" off, "liga" off;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .row-code {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 20px;
+      border-bottom: 1px dotted #cdcdcd;
+      .code {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 8px;
+        border-radius: 12px;
+        background: #fdf6f4;
+        cursor: pointer;
+        .code-text {
+          color: #db4d29;
+          font-feature-settings: "clig" off, "liga" off;
+          
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 16px;
+          letter-spacing: 0.3px;
+        }
+        svg {
+          margin-right: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+  .discount-code-detail-body {
+    padding: 20px 0px 0px 24px;
+    .row-group-title-detail {
+      margin-bottom: 16px;
+    }
+    .text-title {
+      color: #737373;
+      
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+      letter-spacing: 0.3px;
+      display: block;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+    .detail {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 8px;
+      .text-detail {
+        color: #282828;
+        
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: 0.3px;
+        display: block;
+        width: 100%;
+      }
+    }
+    .text-detail {
+      color: #282828;
+      
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px; /* 142.857% */
+      letter-spacing: 0.3px;
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 575px) {
+  .discount-code-detail-modal {
+    .ant-modal .ant-modal-close {
+      top: 19px;
+    }
+    border-radius: 20px;
+    .ant-modal-content {
+      border-radius: 20px;
+      padding: 0;
+      .ant-modal-header {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        margin-bottom: 0px;
+        .ant-modal-title {
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 32px;
+          padding: 0px;
+        }
+      }
+      .ant-modal-body {
+        padding: 0px;
+        padding-bottom: 16px !important;
+      }
+    }
+  }
+  .modal-title {
+    color: #fff;
+    
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+  }
+  .discount-code-detail {
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 16px;
+    .discount-code-detail-header {
+      padding: 16px 0px 0px 16px;
+      .row-icon-discount {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        svg {
+          height: 96px;
+          width: 96px;
+        }
+      }
+      .row-name {
+        color: #282828;
+        text-align: center;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 32px;
+        margin-bottom: 8px;
+      }
+      .row-discount-code-type {
+        margin-bottom: 8px;
+        .discount-code-type {
+          color: #282828;
+          text-align: center;
+          font-feature-settings: "clig" off, "liga" off;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .row-code {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 20px;
+        .code {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 4px 8px;
+          border-radius: 12px;
+          background: #fdf6f4;
+          cursor: pointer;
+          .code-text {
+            color: #db4d29;
+            font-feature-settings: "clig" off, "liga" off;
+            
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 16px;
+            letter-spacing: 0.3px;
+          }
+          svg {
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+    }
+    .discount-code-detail-body {
+      padding: 20px 0px 0px 16px;
+      .row-group-title-detail {
+        margin-bottom: 16px;
+      }
+      .text-title {
+        color: #737373;
+        
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: 0.3px;
+        display: block;
+        margin-bottom: 4px;
+        width: 100%;
+      }
+      .detail {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 4px;
+        .text-detail {
+          color: #282828;
+          
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 16px; /* 133.333% */
+          letter-spacing: 0.3px;
+          display: block;
+          width: 100%;
+        }
+      }
+      .text-detail {
+        color: #282828;
+        
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px; /* 133.333% */
+        letter-spacing: 0.3px;
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}

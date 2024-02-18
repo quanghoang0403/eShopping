@@ -1,0 +1,84 @@
+.discount-code-page {
+  .checkbox-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .icon-btn-promo {
+    margin-right: 12px;
+  }
+
+  .padding-left {
+    padding-left: 24px;
+  }
+  .btn-generate-code {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox-platform {
+    margin-right: 36px;
+  }
+
+  .code {
+    text-transform: uppercase;
+  }
+
+  .code:placeholder-shown {
+    text-transform: none;
+  }
+
+  .ant-form-item-explain-error {
+    position: unset;
+  }
+
+  .multiple-select-product {
+    .ant-select-selector {
+      max-height: 200px;
+      overflow: scroll;
+    }
+  }
+
+  .radio-group-discount.custom-flex {
+    display: flex;
+    .custom-flex-cell {
+      margin-top: 0;
+      span {
+        line-height: 60px;
+      }
+    }
+  }
+  .selected-customer-segment {
+    bottom: 13.5rem !important;
+  }
+  .fnb-date-picker-discount-code {
+    input {
+      position: relative;
+      padding-left: 0px;
+      float: right;
+    }
+
+    .ant-picker-suffix {
+      margin-right: 0px;
+    }
+  }
+}
+
+.m-18 {
+  margin-top: 18px;
+}
+
+@media (max-width: 575px) {
+  .discount-code-page {
+    .btn-generate-code {
+      margin-left: -24px !important;
+      margin-bottom: 16px;
+    }
+
+    .selected-customer-segment {
+      bottom: 18.5rem !important;
+      font-size: 16px !important;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+$white-color: #fff;
+$light-orange-color: #d6b570;
+$width: 368px;
+
+.fnb-typorapyh-ellipsis {
+    color: $white-color;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: calc($width - 100px);
+    width: 100%;
+    span {
+        font-style: normal;
+        font-weight: 600;
+    }
+    margin-bottom: 0px !important;
+}

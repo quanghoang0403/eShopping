@@ -1,0 +1,326 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
+@import "./stylesheets/bc-form.scss";
+:root {
+  --heightHeaderTheme1Mobile: 60px; /* Giá trị mặc định của biến */
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100% !important;
+}
+
+body > iframe#webpack-dev-server-client-overlay {
+  display: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --maxWidthContainer: 1556px;
+  --container-theme1: 1556px;
+  --heightHeaderTheme1: 100px;
+  --heightHeaderMobileTheme1: 60px;
+  --primaryColorTheme1: #026f30;
+  --errorColor: #ff4d4f;
+  --errorBg: rgba(255, 0, 0, 0.05);
+  --borderColor: #6d6d6d;
+  --primaryColor: #50429b;
+
+  --formControlBg: #f8f8f8;
+  --bcButtonBg: #00c6be;
+  --bcButtonDisabled: #7fe2de;
+  --lightBg: #e5fcfb;
+}
+
+body::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--primaryColorTheme1);
+  border-radius: 2px;
+}
+
+.go-container {
+  max-width: var(--maxWidthContainer);
+}
+
+// Custom theme 1
+.theme-1 {
+  // Radio button
+  .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+    border-color: var(--primaryColorTheme1);
+    background-color: var(--primaryColorTheme1);
+  }
+  .ant-radio-wrapper:hover .ant-radio-inner {
+    border-color: var(--primaryColorTheme1);
+  }
+}
+
+#original-theme {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .theme1-original-header {
+    height: var(--heightHeaderTheme1);
+  }
+}
+
+.main-session {
+  max-width: var(--container-theme1);
+  margin: 0 auto;
+}
+
+.text-line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.text-line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.ant-picker {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum", "tnum";
+  padding: 4px 11px 4px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.fnb-date-picker {
+  height: 60px;
+  font-size: 18px;
+  border: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.3px;
+  color: #9f9f9f;
+  padding-left: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+
+  input {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.3px;
+    position: absolute;
+    float: left;
+    padding-left: 40px;
+  }
+
+  .ant-picker-input {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .ant-picker-suffix {
+    width: 20px;
+    display: flex;
+    flex: none;
+    align-self: center;
+    margin-right: 20px;
+    color: rgba(0, 0, 0, 0.25);
+    line-height: 1;
+    pointer-events: none;
+  }
+}
+.fnb-date-picker:hover {
+  box-shadow: 0px 1px 4px rgba(2, 111, 48, 1);
+  border-radius: 12px;
+  border: none;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.fnb-input[disabled] {
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  background: #f7f7f7;
+  border: none;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+@media (max-width: 1200px) {
+  #original-theme {
+    .theme1-original-header {
+      height: 64px;
+    }
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  #original-theme {
+    .theme1-original-header {
+      height: var(--heightHeaderTheme1Mobile);
+    }
+  }
+  .content-component-wrapper {
+    padding-top: 0 !important;
+  }
+
+  .content-component-wrapper {
+    padding-top: 20px;
+  }
+
+  .toast-message-add-to-cart-theme1 {
+    width: 96vw !important;
+  }
+}
+
+.content-start {
+  display: flex;
+  justify-content: start;
+}
+.content-center {
+  display: flex;
+  justify-content: center;
+}
+.content-end {
+  display: flex;
+  justify-content: end;
+}
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+
+.d-flex {
+  display: flex;
+}
+.pointer {
+  cursor: pointer;
+}
+
+.toast-message {
+  width: auto;
+  border-radius: 16px;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  .ant-notification-notice-message {
+    margin-bottom: 0 !important;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  &.success {
+    border: 1px solid #12b178;
+    background: #f2fbf8;
+  }
+  &.error {
+    border: 1px solid #b11212;
+    background: #fbf2f2;
+  }
+  &.theme-dark {
+    border: none;
+    border-radius: 16px;
+    background: #333e5a;
+    .ant-notification-notice-content {
+      .ant-notification-notice-with-icon {
+        .ant-notification-notice-message {
+          color: #ffffff;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 22px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 575px) {
+  .content-component-wrapper {
+    margin: 0 auto;
+  }
+}
+// DEBUG STYLES
+.bg-red {
+  background-color: red;
+}
+
+.bg-blue {
+  background-color: blue;
+}
+
+.bg-yellow {
+  background-color: yellow;
+}
+
+.package-expired-modal {
+  .ant-modal-content {
+    .ant-modal-body {
+      .package-expired-modal-content {
+        .text-detail {
+          font-size: 18px !important;
+        }
+        .bottom-content {
+          .left-content,
+          .right-content {
+            .text-box {
+              font-size: 18px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.ant-picker-input input {
+  font-family: inherit;
+}
+
+.ant-picker-panel-container {
+  * {
+    font-family: inherit;
+  }
+}

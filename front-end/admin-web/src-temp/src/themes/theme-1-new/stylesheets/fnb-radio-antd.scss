@@ -1,0 +1,68 @@
+.radio-style {
+  .ant-radio-wrapper .ant-radio {
+    border: #ff8c21;
+    background: #fff;
+    width: 24px;
+    height: 24px;
+    top: 0;
+  }
+
+  .ant-radio .ant-radio-checked {
+    position: relative;
+  }
+  .ant-radio + span {
+    padding-right: 12px;
+    padding-left: 12px;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    color: #000000;
+  }
+
+  .ant-radio-wrapper .ant-radio-inner {
+    width: 24px;
+    height: 24px;
+  }
+
+  .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+    background: #fff;
+  }
+
+  .ant-radio-wrapper .ant-radio-inner::after {
+    background-color: #ff8c21;
+    width: 16px;
+    height: 16px;
+    left: 50%;
+    top: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+    border-radius: 16px;
+    position: absolute;
+  }
+
+  .ant-radio-wrapper .ant-radio-checked .ant-radio-inner:after {
+    border-color: #ff8c21;
+    transform: scale(1);
+  }
+
+  .ant-radio-input:focus + .ant-radio-inner {
+    box-shadow: 0 0 0 3px #fff6e6;
+  }
+
+  .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+    border-color: #ff8c21;
+  }
+
+  .ant-radio-wrapper:hover .ant-radio,
+  .ant-radio-wrapper:hover .ant-radio-inner,
+  .ant-radio:hover .ant-radio-inner,
+  .ant-radio-input:focus + .ant-radio-inner {
+    border-color: #ff8c21;
+  }
+
+  .ant-radio-disabled {
+    border: 1px solid #f4f4f4;
+    width: 24px;
+    height: 24px;
+  }
+}

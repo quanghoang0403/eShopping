@@ -4,7 +4,6 @@ import { Avatar, Drawer, Image, Layout, Menu, Popover } from "antd";
 import Paragraph from "antd/lib/typography/Paragraph";
 import { DefaultConstants } from "constants/string.constants";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { store } from "store";
@@ -16,7 +15,6 @@ const { Header } = Layout;
 const { SubMenu } = Menu;
 
 function TopBar(props) {
-  const [t] = useTranslation();
   const reduxState = useSelector((state) => state);
   const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props;
   const [visible, setVisible] = useState(false);
@@ -97,14 +95,14 @@ function TopBar(props) {
             <span className="avt-staff-icon">
               <StaffUserFill width={28} height={28} />
             </span>
-            <a>{t("topBar.myAccount")}</a>
+            <a>Thông tin tài khoản</a>
           </div>
           <hr />
           <div onClick={() => logOut()} className="pointer log-out-border">
             <span className="avt-menu-icon">
               <LogoutIcon width={28} height={28} />
             </span>
-            <a>{t("topBar.logOut")}</a>
+            <a>Đăng xuất</a>
           </div>
         </div>
       </div>
@@ -155,14 +153,14 @@ function TopBar(props) {
         });
         if (isAccess === true) {
           return (
-            <SubMenu key={item.key} icon={item.icon} title={t(item.name)}>
+            <SubMenu key={item.key} icon={item.icon} title={item.name}>
               {childs.map((child) => {
                 let isShow = child?.permission && hasPermission(child.permission);
                 if (child.isMenu === true && isShow === true)
                   return (
                     <Menu.Item style={{ paddingLeft: "0px !important" }} key={child.key}>
                       <Link to={child.path} />
-                      {t(child.name)}
+                      {child.name}
                     </Menu.Item>
                   );
               })}
@@ -176,7 +174,7 @@ function TopBar(props) {
           return (
             <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.path} />
-              {t(item.name)}
+              {item.name}
             </Menu.Item>
           );
         } else if (!item?.permission && user?.accountType === DefaultConstants.ADMIN_ACCOUNT) {
@@ -184,7 +182,7 @@ function TopBar(props) {
           return (
             <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.path} />
-              {t(item.name)}
+              {item.name}
             </Menu.Item>
           );
         }

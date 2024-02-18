@@ -6199,11 +6199,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
+      "projectUniqueName": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
       "projectName": "eShopping.Models.Admin",
-      "projectPath": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
+      "projectPath": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\eShopping.Models.Admin.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\eShopping\\back-end\\eShopping.Models.Admin\\obj\\",
+      "outputPath": "E:\\eShopping\\back-end\\eShopping.Models.Admin\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6220,11 +6220,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
-              "projectPath": "D:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
+            "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj": {
+              "projectPath": "E:\\eShopping\\back-end\\eShopping.Common\\eShopping.Common.csproj"
             },
-            "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
-              "projectPath": "D:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
+            "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj": {
+              "projectPath": "E:\\eShopping\\back-end\\eShopping.Domain\\eShopping.Domain.csproj"
             }
           }
         }
@@ -6260,7 +6260,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

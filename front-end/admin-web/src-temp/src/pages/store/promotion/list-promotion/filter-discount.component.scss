@@ -1,0 +1,292 @@
+.form-filter-discount-popover {
+  height: auto !important;
+  max-height: 920px !important;
+  width: 788px !important;
+  border: 0px;
+}
+
+.form-filter-discount-popover .first-column {
+  width: 146px;
+  padding-right: 24px;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #50429b;
+}
+
+.form-filter-discount-popover > div.ant-card-body > div.ant-row {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin-bottom: 24px;
+  flex-flow: nowrap;
+}
+
+.form-filter-discount-popover .second-column {
+  width: 333px;
+}
+
+.discount-filter {
+  .ant-card-body {
+    padding-top: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  width: 788px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 406px;
+  max-width: 788px;
+
+  .form-filter-discount-popover {
+    .first-column {
+      width: 245px;
+    }
+    .second-column {
+      width: 495px;
+      .ant-form-item {
+        margin-bottom: 0px;
+      }
+      .discount-filter-input-number {
+        width: 215px;
+      }
+
+      .ant-input-number-group-addon {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        color: #282828;
+      }
+
+      .icon-between-date {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .second-column div.ant-radio-group > label.ant-radio-button-wrapper {
+      margin-right: 12px;
+      margin-top: 12px;
+    }
+  }
+  .form-filter-discount-popover::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .form-filter-discount-popover::-webkit-scrollbar-track {
+    border-radius: 2px;
+  }
+
+  .form-filter-discount-popover::-webkit-scrollbar-thumb {
+    background: #50429b;
+    border-radius: 2px;
+  }
+
+  .form-filter-discount-popover::-webkit-scrollbar-thumb:hover {
+    background: #817cba;
+  }
+}
+
+.discount-filter-scroll {
+  border-radius: 16px;
+  padding: 0px;
+  .row-reset-filter {
+    float: right;
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+.discount-code-filter-scroll {
+  border-radius: 16px;
+  padding: 0px;
+  .row-reset-filter {
+    float: right;
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+.discount-code-filter {
+  .ant-card-body {
+    padding-top: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  width: 788px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 390px;
+  max-width: 788px;
+
+  .form-filter-discount-popover {
+    .first-column {
+      width: 245px;
+    }
+    .second-column {
+      width: 495px;
+      .ant-form-item {
+        margin-bottom: 0px;
+      }
+      .discount-filter-input-number {
+        width: 215px;
+      }
+
+      .ant-input-number-group-addon {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        color: #282828;
+      }
+
+      .icon-between-date {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .second-column div.ant-radio-group > label.ant-radio-button-wrapper {
+      margin-right: 12px;
+      margin-top: 12px;
+    }
+  }
+  .form-filter-discount-popover::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .form-filter-discount-popover::-webkit-scrollbar-track {
+    border-radius: 2px;
+  }
+
+  .form-filter-discount-popover::-webkit-scrollbar-thumb {
+    background: #50429b;
+    border-radius: 2px;
+  }
+
+  .form-filter-discount-popover::-webkit-scrollbar-thumb:hover {
+    background: #817cba;
+  }
+}
+
+@media (max-width: 575px) {
+  .discount-filter-scroll {
+    width: 386px;
+    .row-reset-filter {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  }
+
+  .discount-code-filter-scroll {
+    width: 369px;
+    .row-reset-filter {
+      margin-top: 0px !important;
+      margin-bottom: 24px;
+    }
+  }
+
+  .filter-discount-management {
+    .ant-popover-inner {
+      margin-left: -21px;
+      width: 362px !important;
+    }
+  }
+
+  .filter-discount-code-management {
+    .ant-popover-inner {
+      width: 362px !important;
+      margin-left: 12px;
+    }
+  }
+  .form-filter-discount-popover {
+    width: 364px !important;
+  }
+
+  .form-filter-discount-popover > div.ant-card-body > div.ant-row {
+    flex-direction: column;
+  }
+
+  .form-filter-discount-popover .first-column {
+    width: 100% !important;
+    padding-right: 0px;
+  }
+
+  .form-filter-discount-popover .second-column {
+    width: 92% !important;
+    margin-right: 8%;
+  }
+
+  .discount-filter {
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    max-height: 980px;
+    max-width: 364px;
+    .ant-card-body {
+      padding-left: 5px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    .first-column {
+      width: 100%;
+    }
+    .second-column {
+      width: 50%;
+      .ant-form-item {
+        margin-bottom: 0px;
+      }
+
+      .fnb-input-number {
+        height: 48px;
+      }
+      .ant-input-number-group-addon {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .discount-filter-scroll {
+    border-radius: 16px;
+    padding: 0px;
+
+    .row-reset-filter {
+      float: right;
+      margin-right: 2%;
+    }
+  }
+
+  .discount-code-filter {
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    max-height: 980px;
+    max-width: 364px;
+    .ant-card-body {
+      padding-left: 5px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    .first-column {
+      width: 100%;
+    }
+    .second-column {
+      width: 50%;
+      .ant-form-item {
+        margin-bottom: 0px;
+      }
+
+      .fnb-input-number {
+        height: 48px;
+      }
+      .ant-input-number-group-addon {
+        font-size: 16px;
+      }
+    }
+  }
+}

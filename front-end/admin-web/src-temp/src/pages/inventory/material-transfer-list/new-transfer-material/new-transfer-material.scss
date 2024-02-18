@@ -1,0 +1,96 @@
+.mb-15 {
+    margin-bottom: 15px;
+}
+.ml-10 {
+    margin-left: 10px;
+}
+
+.ant-form-item-material-error {
+    font-style    : normal;
+    font-weight   : 400;
+    font-size     : 14px;
+    line-height   : 20px;
+    letter-spacing: 0.3px;
+    color         : #ff0000;
+    padding-top   : 8px;
+    position      : absolute ;
+    margin-left   : 5px;
+}
+
+.fnb-text-area-with-count textarea {
+    height: 90px !important;
+}
+
+.note-purchase-order {
+    display: inline-block !important;
+}
+
+.input-quantity {
+    width: 65%;
+    .ant-form-item-explain-error {
+        letter-spacing: 0px;
+        width: 240px;
+    }
+    .ant-row.ant-form-item-row
+    {
+        padding-top:20px
+    }
+}
+
+.input-unit {
+    width: 90%;
+    .ant-form-item-explain-error {
+        letter-spacing: 0px;
+        width: 240px;
+    }
+    .ant-row.ant-form-item-row
+    {
+        padding-top:20px
+    }
+}
+
+@media (max-width: 575px){
+    .ant-btn.ant-btn-default.cancel-leave-button {
+        background: transparent !important;
+        margin-right: 16px !important;
+    }
+
+    .create-new-transfer-material-form {
+        .ant-card.ant-card-bordered.mt-1.fnb-card.h-auto {
+            width: 343px;
+        }
+
+        .fnb-row-page-header {
+            margin-bottom: 1em;
+
+            .ant-col {
+                .ant-space {
+                    float: left !important;
+
+                    .ant-space-item {
+                        padding-left: 0;
+                        border: none;
+                    }
+                }
+            }
+        }
+
+        .ant-input-textarea {
+            height: 200px !important;
+        }
+
+        .fnb-input {
+            padding: 9px;
+        }
+    }
+
+    ::-webkit-scrollbar {
+        display: block !important;
+    }
+}
+
+@media (max-width: 1790px) {
+    .fnb-table-new-transfer .ant-table-tbody>tr>.ant-table-cell {
+        height: 128px !important;
+    }
+}

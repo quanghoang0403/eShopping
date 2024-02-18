@@ -1,0 +1,29 @@
+.select-background-general-component {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #282828;
+  margin-top: 32px;
+
+  .ant-form-item {
+    margin-bottom: 0px;
+  }
+
+  .select-background-item {
+    margin-bottom: 30px;
+  }
+
+  .select-background-item.color-image-radio {
+    label:nth-child(n + 2) {
+      margin-right: 0px;
+      span:nth-child(n + 2) {
+        padding-right: 0px;
+      }
+    }
+  }
+
+  .background-color {
+    display: flex;
+  }
+}

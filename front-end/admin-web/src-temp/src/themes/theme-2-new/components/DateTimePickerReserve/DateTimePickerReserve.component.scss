@@ -1,0 +1,486 @@
+.input-date-time-picker-custom-theme-2 {
+  * {
+    font-family: inherit;
+  }
+  height: 48px;
+  width: 100%;
+  color: #282828;
+
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-radius: 12px;
+  input {
+    color: #282828 !important;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+  }
+  .ant-input {
+    color: #282828;
+
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+  }
+  .ant-input-suffix {
+    cursor: pointer;
+    svg {
+      path {
+        stroke: #776b16;
+      }
+    }
+  }
+  .ant-input-prefix {
+    .icon-prefix {
+      margin-right: 12px;
+      svg {
+        path {
+          fill: #292d32;
+        }
+      }
+    }
+  }
+  input {
+    cursor: pointer;
+  }
+  .ant-input {
+    height: auto !important;
+  }
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.empty-label {
+  .ant-form-item-row {
+    .ant-form-item-label {
+      height: 33.14px;
+      flex: none;
+    }
+  }
+}
+.popover-date-time-picker {
+  * {
+    font-family: inherit;
+  }
+  padding-top: 0px;
+  .ant-popover-content {
+    .ant-popover-arrow {
+      visibility: hidden;
+    }
+    width: 353px;
+    height: 382px;
+    .ant-popover-inner {
+      padding: 24px 24px 28px 24px !important;
+      border-radius: 24px;
+      width: 100%;
+      height: fit-content;
+      .ant-popover-title {
+        margin-bottom: 0px;
+        .button-date-time {
+          display: flex;
+          width: 147px;
+          height: 45px;
+          padding: 10px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          border-radius: 12px;
+          border: none;
+        }
+        .ant-btn-primary {
+          background: #776b16;
+          border: none;
+        }
+      }
+      .ant-popover-inner-content {
+        .time-picker-col::-webkit-scrollbar {
+          width: 0px;
+          height: 0px;
+        }
+        .time-picker-col {
+          display: grid;
+          gap: 6px;
+          max-height: 296px;
+          height: auto;
+          overflow: scroll;
+          .time-picker-custom {
+            cursor: pointer;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 12px;
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            .hours {
+              color: var(--colordefault-body-text, #282828);
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 24px; /* 133.333% */
+              letter-spacing: 0.3px;
+            }
+            .unshow-icon {
+              display: none;
+            }
+            .show-icon {
+              display: block;
+            }
+          }
+          .select {
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: auto auto;
+            padding: 16px 12px;
+            justify-content: space-between;
+            background: var(--Colot_Btn, #f9f9f9);
+            .hours {
+              color: var(--colordefault-body-text, #282828);
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 24px; /* 133.333% */
+              letter-spacing: 0.3px;
+            }
+            .unshow-icon {
+              display: none;
+            }
+            .show-icon {
+              display: block;
+              width: fit-content;
+              justify-content: flex-end;
+              width: 24px;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              svg {
+                height: 18px;
+                width: 18px;
+                path {
+                  fill: #db4d29;
+                }
+              }
+            }
+          }
+        }
+        .react-calendar {
+          border: none;
+
+          .react-calendar__navigation {
+            margin-bottom: 24px;
+            margin-left: 28px;
+            margin-right: 28px;
+            height: fit-content;
+            .react-calendar__navigation__arrow {
+              min-width: 22px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              .left-icon {
+                transform: scaleX(1);
+              }
+              .right-icon {
+                transform: scaleX(-1);
+              }
+            }
+            .react-calendar__navigation__label {
+              .react-calendar__navigation__label__labelText {
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                text-transform: capitalize;
+              }
+              .react-calendar__navigation__label__labelText {
+                color: red;
+              }
+
+              /* Màu đen cho năm */
+              .react-calendar__navigation__label__labelText--from {
+                color: black;
+              }
+            }
+          }
+          .react-calendar__viewContainer {
+            padding: 0px 6px;
+            .react-calendar__month-view {
+              .react-calendar__month-view__weekdays {
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+                .react-calendar__month-view__weekdays__weekday {
+                  max-width: 38px;
+                  abbr {
+                    color: #19181a;
+                    text-align: center;
+
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 24px; /* 133.333% */
+                    line-height: normal;
+                    text-decoration: none;
+                    text-transform: initial;
+                  }
+                }
+              }
+              .react-calendar__month-view__days {
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+                .react-calendar__tile:enabled:hover,
+                .react-calendar__tile:enabled:focus {
+                  border-radius: 50px;
+                }
+                .react-calendar__tile {
+                  text-align: center;
+                  display: flex !important;
+                  align-items: center !important;
+                  justify-content: center !important;
+
+                  font-size: 15.521px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: normal;
+                  max-width: 38px;
+                  max-height: 38px;
+                  abbr {
+                    text-align: center;
+
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 24px;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                }
+                .react-calendar__month-view__days__day--weekend {
+                  color: #000000;
+                }
+                .react-calendar__month-view__days__day--weekend:disabled {
+                  color: #979797;
+                }
+                .react-calendar__tile:disabled {
+                  background-color: transparent !important;
+                  color: #979797;
+                }
+                .react-calendar__tile--active {
+                  color: #fefefe;
+                  display: flex;
+                  border-radius: 50px;
+                  background: #db4d29 !important;
+                  width: 38px;
+                  height: 38px;
+                  padding: 6px;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  flex-shrink: 0;
+                  position: relative;
+                  abbr {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                }
+                .react-calendar__tile--now {
+                  background: transparent;
+                  border: #db4d29 1px solid;
+                  border-radius: 50px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.popover-time-picker {
+  .ant-popover-content {
+    width: 168px;
+    border-radius: 12px;
+    .ant-popover-inner {
+      border-radius: 12px;
+      padding: 12px !important;
+    }
+  }
+}
+@media screen and (max-width: 575px) {
+  .input-date-time-picker-custom-theme-2 {
+    width: 100%;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    height: 58px;
+  }
+  .popover-date-time-picker {
+    .ant-popover-content {
+      height: 382px !important;
+      .ant-popover-inner {
+        padding: 24px 32px;
+        border-radius: 24px;
+        width: 100%;
+        height: fit-content;
+        .ant-popover-title {
+          margin-bottom: 0px;
+          .button-date-time {
+            width: 147px;
+            height: 45px;
+            padding: 10px;
+            gap: 10px;
+          }
+        }
+        .ant-popover-inner-content {
+          .time-picker-col {
+            gap: 6px;
+            height: 296px;
+            .time-picker-custom {
+              padding: 10px;
+              border-radius: 8px;
+              .hours {
+                color: #000;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+              }
+              .unshow-icon {
+                display: none;
+              }
+              .show-icon {
+                display: none;
+              }
+            }
+            .select {
+              padding: 10px;
+              border-radius: 8px;
+              background: var(--Colot_Btn, #f9f9f9);
+              .hours {
+                color: #000;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+              }
+              .unshow-icon {
+                display: none;
+              }
+              .show-icon {
+                display: block;
+              }
+            }
+          }
+          .react-calendar {
+            border: none;
+            .react-calendar__navigation {
+              margin-bottom: 24px;
+              .react-calendar__navigation__label {
+                .react-calendar__navigation__label__labelText {
+                  color: #db4d29;
+
+                  font-size: 18px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: normal;
+                }
+              }
+            }
+            .react-calendar__viewContainer {
+              padding: 0px 0px;
+              .react-calendar__month-view {
+                .react-calendar__month-view__weekdays {
+                  width: 303px;
+                  .react-calendar__month-view__weekdays__weekday {
+                    abbr {
+                      color: #000;
+                      text-align: center;
+
+                      font-size: 15.521px;
+                      font-style: normal;
+                      font-weight: 500;
+                      line-height: normal;
+                      text-decoration: none;
+                      text-transform: initial;
+                    }
+                  }
+                }
+                .react-calendar__month-view__days {
+                  gap: 6px;
+                  width: 303px;
+                  .react-calendar__tile {
+                    text-align: center;
+
+                    font-size: 15.521px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                    max-width: 38px;
+                    max-height: 38px;
+                  }
+                  .react-calendar__month-view__days__day--weekend {
+                    color: #000000;
+                  }
+                  .react-calendar__month-view__days__day--weekend:disabled {
+                    color: #979797;
+                  }
+                  .react-calendar__tile:disabled {
+                    background-color: transparent;
+                  }
+                  .react-calendar__tile--active {
+                    display: flex;
+                    color: #fefefe;
+                    border-radius: 8px;
+                    background: #db4d29 !important;
+                    width: 38px;
+                    height: 38px;
+                    padding: 6px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    flex-shrink: 0;
+                  }
+                  .react-calendar__tile--now {
+                    background: transparent;
+                    border: #db4d29 1px solid;
+                    border-radius: 50px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 1199px) {
+  .input-date-time-picker-custom-theme-2 {
+    width: 100%;
+    color: #988d8d;
+
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    .ant-input-suffix {
+      svg {
+        path {
+          stroke: #776b16;
+        }
+      }
+    }
+  }
+}

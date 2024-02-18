@@ -1,0 +1,310 @@
+$title-color: #026f30;
+
+.blog-container {
+  display: flex;
+  flex-direction: column;
+  .blog-title {
+    display: flex;
+    flex: 0.5;
+    justify-content: center;
+    padding-top: 40px;
+    span {
+      color: $title-color;
+      text-align: center;
+      font-size: 36px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .blog-body {
+    display: flex;
+    flex: 8.5;
+    justify-content: center;
+    padding-left: 182px;
+    padding-top: 48px;
+    .image-card {
+      position: relative;
+      display: inline-block;
+    }
+    .post-blog-date {
+      position: absolute;
+      top: 32px;
+      left: 52px;
+      background: #273b4a;
+      border-radius: 8px;
+      width: 106px;
+      height: 106px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      .date {
+        color: #fff;
+        text-align: center;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 32px;
+        letter-spacing: 0.3px;
+        margin-bottom: 18px;
+      }
+      .month {
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.3px;
+      }
+    }
+    .card {
+      position: absolute;
+      top: 78%;
+      left: 52px;
+      background-color: white;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      max-height: 232px;
+      max-width: 454px;
+      z-index: 1000;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      padding-left: 24px;
+      min-height: 172px;
+      .title {
+        color: $title-color;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 32px;
+        margin-bottom: 12px;
+      }
+      .body {
+        display: flex;
+        flex-direction: column;
+        .view-author {
+          display: flex;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+          margin-bottom: 16px;
+          .view {
+            svg {
+              margin-right: 8px;
+            }
+            margin-right: 24px;
+            display: flex;
+            align-items: center;
+            color: #000;
+          }
+          .author {
+            svg {
+              margin-right: 8px;
+            }
+            display: flex;
+            margin-left: 16px;
+            align-items: center;
+            span {
+              color: #000;
+            }
+          }
+          hr {
+            background: #d9d9d9;
+            width: 1px;
+          }
+        }
+
+        .description {
+          color: #000;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 28px;
+          overflow: hidden;
+          max-height: 56px;
+          margin-top: 0;
+        }
+      }
+      .button-see-more {
+        padding: 16px;
+        color: #fff;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px;
+        height: 36px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        background: #ff9c41;
+        border: none;
+        width: fit-content;
+        display: none;
+        margin-top: 16px;
+        margin-bottom: 8px;
+      }
+    }
+    .thumbnail {
+      overflow: hidden;
+      position: relative;
+      display: inline-block;
+      border-radius: 16px;
+    }
+
+    .image-card .imageBlog {
+      display: block;
+      width: 924px;
+      height: 560px;
+      transition: transform 0.5s ease;
+      object-fit: cover;
+    }
+
+    @media (hover: hover) {
+      .image-card:hover .imageBlog {
+        transform: scale(1.2);
+      }
+
+      .image-card:hover .button-see-more {
+        display: inline-flex;
+      }
+
+      .image-card:hover .post-blog-date {
+        background: #fff;
+        color: #273b4a;
+        .date {
+          color: #273b4a;
+        }
+        .month {
+          color: #273b4a;
+        }
+      }
+
+      .image-card:hover .description {
+        min-height: 56px;
+      }
+    }
+  }
+  .blog-footer {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 183px;
+    gap: 24px;
+    padding-top: 24px;
+    .next-arrow {
+      transform: scaleX(-1);
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .blog-container {
+    max-height: 676px;
+    padding: 24px;
+    padding-bottom: 0;
+    .blog-title {
+      padding-top: 0;
+      span {
+        font-size: 24px;
+      }
+    }
+    .blog-footer {
+      padding-top: 24px;
+      margin-right: 12px;
+      .pre-arrow,
+      .next-arrow {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .blog-body {
+      padding: 12px;
+      .thumbnail {
+        max-height: 355px;
+        width: 100%;
+      }
+      .image-card {
+        width: 100%;
+        .imageBlog {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .blog-container {
+    max-height: 485px;
+    padding: 16px;
+    padding-bottom: 16px;
+    .blog-footer {
+      padding-top: 12px;
+      margin-right: 0;
+      gap: 16px;
+      .pre-arrow,
+      .next-arrow {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    .blog-body {
+      padding: 0;
+      margin-top: 20px;
+      .image-card .imageBlog {
+        height: 218px;
+      }
+      .post-blog-date {
+        top: 12px;
+        left: 16px;
+        padding: 8px;
+        width: 80px;
+        height: 80px;
+        .date {
+          font-size: 20px;
+          margin-bottom: 0;
+        }
+        .month {
+          font-size: 15px;
+        }
+      }
+      .card {
+        left: 16px;
+        top: 68%;
+        max-width: 245px;
+        .title {
+          font-size: 17px;
+          margin-bottom: 8px;
+        }
+        .body {
+          .view-author {
+            margin-bottom: 8px;
+            .view {
+              font-size: 13px;
+            }
+            .author {
+              font-size: 13px;
+            }
+          }
+          .description {
+            font-size: 15px;
+          }
+        }
+        .button-see-more {
+          margin-bottom: 0;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}
