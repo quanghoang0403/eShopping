@@ -1,7 +1,6 @@
 
 import { LogoutIcon, MenuIcon, SettingFill, ShopIcon, StaffUserFill } from "constants/icons.constants";
 import { Avatar, Drawer, Image, Layout, Menu, Popover } from "antd";
-import Paragraph from "antd/lib/typography/Paragraph";
 import { DefaultConstants } from "constants/string.constants";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,19 +8,16 @@ import { Link, NavLink } from "react-router-dom";
 import { store } from "store";
 import { hasPermission } from "utils/helpers";
 import "./index.scss";
-import ShopParagraph from "components/shop-paragraph/shop-paragraph";
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
 
 function TopBar(props) {
-  const reduxState = useSelector((state) => state);
   const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props;
   const [visible, setVisible] = useState(false);
   const [visiblePopoverUser, setVisiblePopoverUser] = useState(false);
   const [selectedKey, setSelectedKey] = useState("");
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([]);
-  const [storeInfo, setStoreInfo] = useState({});
 
   useEffect(() => {
     if (route.focus) {
@@ -34,11 +30,6 @@ function TopBar(props) {
       setCurrentSubMenuKeys([parentKey]);
     }
   }, [route]);
-
-  useEffect(() => {
-    const info = reduxState?.session?.informationPublishStore;
-    setStoreInfo(info);
-  }, [reduxState?.session?.informationPublishStore]);
 
   const logOut = () => {
     var request = { UserId: signedInUser?.userId };
@@ -67,29 +58,7 @@ function TopBar(props) {
           </Avatar>
         </div>
         <div className="avatar-infor account-name">{signedInUser?.fullName}</div>
-        <div className="avatar-infor account-email">{signedInUser?.emailAddress}</div>
-        <div className="store-info">
-          <div className="account-store-name">
-            <ShopIcon className="shop-icon" />
-          </div>
-          <div className="account-store-name">
-            <span>
-              <ShopParagraph>{storeInfo?.title}</ShopParagraph>
-            </span>
-          </div>
-          <div span={24} className="account-store-address">
-            <Paragraph
-              className="paragraph-style"
-              placement="top"
-              ellipsis={`${storeInfo?.address?.address1} ${storeInfo?.address?.address2}, ${storeInfo?.address?.cityTown},`}
-              color="#50429B"
-            >
-              <span>
-              {`${storeInfo?.address?.address1} ${storeInfo?.address?.address2}, ${storeInfo?.address?.cityTown},`}
-              </span>
-            </Paragraph>
-          </div>
-        </div>
+        <div className="avatar-infor account-email">{signedInUser?.email}</div>
         <div className="account-popover-content">
           <div onClick={() => onOpenMyAccount()} className="pointer manage-account">
             <span className="avt-staff-icon">
@@ -207,21 +176,19 @@ function TopBar(props) {
             <div className="store-info-box">
               <div className="store-logo">
                 <img
-                  src={!Boolean(storeInfo?.logo) ? "" : storeInfo?.logo}
-                  alt={!Boolean(storeInfo?.logo) ? "" : storeInfo?.logo}
-                  title={!Boolean(storeInfo?.logo) ? "" : storeInfo?.logo}
+                  src={""}
+                  alt={""}
+                  title={""}
                 />
               </div>
 
               <div className="store-information">
-                <span className="store-label" title={storeInfo?.title}>
-                  {storeInfo?.title}
+                <span className="store-label" title="">
+                  Tiệm đồ cúc họa mi
                 </span>
-                {storeInfo?.domainName && (
-                  <a href={storeInfo?.domainName} className="store-name" target={"_blank"} rel="noreferrer">
-                    {storeInfo?.domainName}
-                  </a>
-                )}
+                <a href="https://tiemdocuchoami.vn/" className="store-name" target={"_blank"} rel="noreferrer">
+                  https://tiemdocuchoami.vn/
+                </a>
               </div>
             </div>
           </div>

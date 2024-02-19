@@ -5,4 +5,5 @@ export const claimTypesConstants = {
   permissions: "PERMISSIONS",
   fullName: "FULL_NAME",
   email: "EMAIL",
+  thumbnail: "THUMBNAIL",
 };

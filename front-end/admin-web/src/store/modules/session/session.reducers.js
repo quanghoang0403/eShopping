@@ -4,7 +4,6 @@ import { encryptWithAES } from "utils/securityHelpers";
 import actionTypes from "./session.types";
 
 const sessionInitialState = {
-  storeInfo: {},
   auth: {},
   currentUser: {},
   lastUpdated: 1439478405547,
@@ -103,25 +102,12 @@ const sessionReducer = (state = sessionInitialState, action) => {
           },
         },
       };
-    case actionTypes.STORE_LOGO:
-      return {
-        ...state,
-        storeLogo: action?.storeLogoUrl,
-      };
-
-    case actionTypes.SET_STORE_INFO:
-      return {
-        ...state,
-        storeInfo: action.storeInfo,
-        lastUpdated: Moment.utc().format("x"),
-      };
     default:
       return state;
   }
 };
 
 export const sessionSelector = (state) => state.session;
-export const storeInfoSelector = (state) => state?.session?.storeInfo ?? null;
 export const authSelector = (state) => state?.session?.auth;
 
 export default sessionReducer;

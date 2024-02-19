@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetSession } from "store/modules/session/session.actions";
 import { tokenExpired } from "utils/helpers";
 import { getStorage, localStorageKeys } from "utils/localStorage.helpers";
-function Home(props) {
+function HomePage(props) {
 
   const dispatch = useDispatch();
 
@@ -31,4 +31,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default HomePage;

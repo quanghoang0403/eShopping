@@ -167,13 +167,12 @@ li.ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open.ant-menu-subme
   color: $color-white;
 }
 
-ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light > li.ant-menu-item:first-child {
+ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light > li.ant-menu-item {
   color: $color-light-purple-1;
   border-radius: 12px;
 }
 
 ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light > li.ant-menu-item:last-child {
-  color: $color-light-purple-1;
   position: relative;
   bottom: 0;
 }

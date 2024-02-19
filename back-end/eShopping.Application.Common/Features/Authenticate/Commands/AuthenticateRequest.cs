@@ -88,10 +88,11 @@ namespace eShopping.Application.Features.Users.Commands
             user.Password = account.Password;
             user.AccountType = account.AccountType.GetDescription();
             user.PhoneNumber = account.PhoneNumber;
+            user.Thumbnail = account.Thumbnail;
 
             AuthenticateResponse response = new()
             {
-                Thumbnail = user.Thumbnail,
+                Thumbnail = account.Thumbnail,
                 Token = _jwtService.GenerateAccessToken(user)
             };
 

@@ -1,3 +1,0 @@
-function TopEllipseBox(props) {
-  return <></>;
-}

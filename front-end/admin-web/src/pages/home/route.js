@@ -1,18 +1,18 @@
-import Home from ".";
-// import { HomeFill } from "constants/icons.constants";
+import HomePage from ".";
+import { HomeFill } from "constants/icons.constants";
 // Define the route
 const route = [
   {
     key: "app.home",
     position: 0,
     path: "/",
-    // icon: <HomeFill />,
+    icon: <HomeFill />,
     name: "Trang chủ",
     isMenu: true,
     exact: true,
     auth: true,
     permission: "public",
-    component: Home,
+    component: HomePage,
     child: [],
   },
   {
@@ -20,13 +20,13 @@ const route = [
     focus: "app.home",
     position: 0,
     path: "/home",
-    // icon: <HomeFill />,
+    icon: <HomeFill />,
     name: "Home",
     isMenu: false,
     exact: true,
     auth: true,
     permission: "public",
-    component: Home,
+    component: HomePage,
     child: [],
   },
 ];

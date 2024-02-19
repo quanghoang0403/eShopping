@@ -21,8 +21,9 @@ export const getUserInfo = () => {
       userId: claims[claimTypesConstants.id],
       accountId: claims[claimTypesConstants.accountId],
       fullName: claims[claimTypesConstants.fullName],
-      emailAddress: claims[claimTypesConstants.email],
+      email: claims[claimTypesConstants.email],
       accountType: claims[claimTypesConstants.accountType],
+      thumbnail: claims[claimTypesConstants.thumbnail],
     };
 
     return user;

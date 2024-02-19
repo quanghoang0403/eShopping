@@ -70,7 +70,7 @@ namespace eShopping.Application.Admin.Providers
             {
                 Id = id.Value.ToGuid(),
                 AccountId = accountId.Value.ToGuid(),
-                FullName = fullName.Value,
+                FullName = fullName?.Value,
                 Email = email?.Value
             };
 
@@ -94,7 +94,7 @@ namespace eShopping.Application.Admin.Providers
             {
                 Id = id.Value.ToGuid(),
                 AccountId = accountId.Value.ToGuid(),
-                FullName = fullName.Value,
+                FullName = fullName?.Value,
                 Email = email?.Value,
                 PhoneNumber = phoneNumber?.Value,
             };

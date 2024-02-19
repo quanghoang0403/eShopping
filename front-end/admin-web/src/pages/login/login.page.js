@@ -14,7 +14,6 @@ import {
   setAuth,
   setPermissionGroup,
   setPermissions,
-  setStoreLogo,
   setToken,
 } from "store/modules/session/session.actions";
 import { getParamsFromUrl, tokenExpired } from "utils/helpers";
@@ -51,8 +50,7 @@ const LoginPage = (props) => {
     loginDataService
       .authenticate(values)
       .then((res) => {
-        const { token, thumbnail, storeLogoUrl } = res;
-        dispatch(setStoreLogo(storeLogoUrl));
+        const { token, thumbnail } = res;
         var user = getUserInfo(token);
         var auth = {
           ...user,
@@ -69,8 +67,9 @@ const LoginPage = (props) => {
       userId: claims[claimTypesConstants.id],
       accountId: claims[claimTypesConstants.accountId],
       fullName: claims[claimTypesConstants.fullName],
-      emailAddress: claims[claimTypesConstants.email],
+      email: claims[claimTypesConstants.email],
       accountType: claims[claimTypesConstants.accountType],
+      thumbnail: claims[claimTypesConstants.thumbnail],
     };
     return user;
   };
@@ -90,11 +89,6 @@ const LoginPage = (props) => {
         message.error("Xin lỗi! Nhưng bạn không có quyền truy cập vào trang này.");
       }
     });
-  };
-
-  const redirectHomePage = () => {
-    props.history.push("/home");
-    message.success("Bạn đã đăng nhập thành công.");
   };
 
   const checkTokenExpired = () => {
@@ -119,7 +113,7 @@ const LoginPage = (props) => {
     <div className="c-authenticator">
       <div className="form-logo">
         <div>
-          {/* <Image preview={false} src={foodBeverageLogo} width={300} /> */}
+          {/* <Image preview={false} src={logo} width={300} /> */}
         </div>
       </div>
       <div className="div-form login-contain login-contain__right">

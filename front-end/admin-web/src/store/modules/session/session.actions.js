@@ -33,24 +33,12 @@ export function resetSession() {
   };
 }
 
-export const setLanguageSession = (data) => {
-  return { type: actionTypes.LANGUAGE_SESSION, payload: data };
-};
-
 export const setThumbnailUser = (thumbnail) => {
   return { type: actionTypes.SET_THUMBNAIL, thumbnail };
 };
 
 export const setFullNameUser = (fullName) => {
   return { type: actionTypes.SET_FULL_NAME, fullName };
-};
-
-export const setStoreLogo = (storeLogoUrl) => {
-  return { type: actionTypes.STORE_LOGO, storeLogoUrl };
-};
-
-export const setStoreInformation = (storeInfo) => {
-  return { type: actionTypes.SET_STORE_INFO, storeInfo };
 };
 
 export const setSelectedSubMenuId = (data) => {

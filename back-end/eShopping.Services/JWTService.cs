@@ -75,6 +75,10 @@ namespace eShopping.Services
             {
                 claims.Add(new Claim(ClaimTypesConstants.PHONE_NUMBER, user.PhoneNumber));
             }
+            if (!string.IsNullOrWhiteSpace(user.Thumbnail))
+            {
+                claims.Add(new Claim(ClaimTypesConstants.THUMBNAIL, user.Thumbnail));
+            }
 
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature);
             var twtToken = new JwtSecurityToken(
