@@ -22,6 +22,7 @@ import { claimTypesConstants } from "../../constants/claim-types.constants";
 import loginDataService from "../../data-services/login/login-data.service";
 import permissionDataService from "data-services/permission/permission-data.service";
 import "../../stylesheets/authenticator.scss";
+import logo from "assets/images/logo.png";
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
@@ -113,7 +114,7 @@ const LoginPage = (props) => {
     <div className="c-authenticator">
       <div className="form-logo">
         <div>
-          {/* <Image preview={false} src={logo} width={300} /> */}
+          <Image preview={false} src={logo} width={300} />
         </div>
       </div>
       <div className="div-form login-contain login-contain__right">
