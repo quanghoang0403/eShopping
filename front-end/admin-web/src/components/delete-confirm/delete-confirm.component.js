@@ -2,7 +2,6 @@ import { Button, Modal, Space, Tooltip } from "antd";
 import { DELAYED_TIME } from "constants/default.constants";
 import { TrashFill } from "constants/icons.constants";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Prompt, useHistory } from "react-router";
 import { hasPermission } from "utils/helpers";
 import "./delete-confirm.component.scss";
@@ -30,7 +29,6 @@ export default function DeleteConfirmComponent({
   centered,
   modalContainerStyle
 }) {
-  const [t] = useTranslation();
   const history = useHistory();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentRedirectPath, setCurrentRedirectPath] = useState(null);
@@ -140,7 +138,7 @@ export default function DeleteConfirmComponent({
                 <div className="fnb-table-action-icon">
                   <Tooltip
                     placement="top"
-                    title={t("button.delete")}
+                    title="Xoá"
                     color="#50429B"
                     zIndex={10}
                   >

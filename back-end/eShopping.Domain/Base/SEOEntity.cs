@@ -6,9 +6,13 @@ namespace eShopping.Domain.Base
     public abstract class SEOEntity : BaseEntity
     {
         [MaxLength(255)]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         public string Content { get; set; }
+
+        [MaxLength(100)]
+        [Description("SEO Configuration: SEO on Keyword")]
+        public string KeywordSEO { get; set; }
 
         [MaxLength(2048)]
         [Description("SEO Configuration: URL Link")]
