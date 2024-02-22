@@ -9,6 +9,113 @@ import { decryptWithAES } from "./securityHelpers";
 
 export const browserHistory = createBrowserHistory();
 
+
+export const getCurrency = () => {
+  const { session } = store.getState();
+  const { auth } = session;
+  if (auth?.user) {
+    return auth?.user?.currencyCode ?? "";
+  }
+  return "";
+};
+
+export const getSuffixShortValue = (number) => {
+  if (!number || number === 0) {
+    return "";
+  }
+  const absNumber = Math.abs(number);
+  let suffixShoftValue = "";
+  if (absNumber >= 1000000) {
+    suffixShoftValue = "millions";
+  }
+  if (absNumber >= 1000000000) {
+    suffixShoftValue = "billions";
+  }
+  if (absNumber >= 1000000000000)
+  {
+    suffixShoftValue = "trillions";
+  }
+
+  return suffixShoftValue;
+};
+
+export const getShortValue = (number) => {
+  if (!number || number === 0) {
+    return "0";
+  }
+
+  if (number < 1000000) {
+    return formatTextNumber(number);
+  }
+  const absNumber = Math.abs(number);
+  const tier = Math.floor(Math.log10(absNumber) / 3);
+  if (tier === 0) {
+    return number.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+  }
+  const scaled = number / Math.pow(1000, tier);
+  return scaled.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(".00", "");
+};
+
+export const getCurrencyWithSymbol = () => {
+  const { session } = store.getState();
+  const { auth } = session;
+  if (auth?.user) {
+    return auth?.user?.currencySymbol ?? "VND";
+  }
+  return "VND";
+};
+
+/// Format Currency with code
+export const formatCurrency = (number, decimalScale = 2) => {
+  let convertNumber = parseFloat(number);
+  if (convertNumber >= 0) {
+    const currencyCode = ` ${getCurrency()}`;
+    return (
+      <CurrencyFormat
+        value={convertNumber}
+        displayType={"text"}
+        thousandSeparator={true}
+        suffix={currencyCode}
+        decimalScale={decimalScale}
+      />
+    );
+  }
+  return "";
+};
+
+/// Format Currency with code
+export const formatCurrencyWithoutSuffix = (number) => {
+  let convertNumber = parseFloat(number);
+  if (convertNumber >= 0) {
+    return <CurrencyFormat value={convertNumber} displayType={"text"} thousandSeparator={true} />;
+  }
+  return "";
+};
+
+/// Format Currency without currency symbol
+export const formatCurrencyWithoutSymbol = (number) => {
+  let convertNumber = parseFloat(number);
+  if (convertNumber >= 0) {
+    return <CurrencyFormat value={convertNumber} displayType={"text"} thousandSeparator={true} />;
+  }
+  return "";
+};
+
+/// Format Currency with symbol
+export const formatCurrencyWithSymbol = (number) => {
+  let convertNumber = parseFloat(number);
+  const currencySymbol =  ' đ';
+  return <CurrencyFormat value={convertNumber} displayType={"text"} thousandSeparator={true} suffix={currencySymbol} />;
+};
+
+export const getUnitNumberType = (number) => {
+  if (number >= 1_000_000_000_000) return 4;
+  if (number >= 1_000_000_000) return 3;
+  if (number >= 1_000_000) return 2;
+  if (number >= 1_000) return 1;
+  return 0;
+};
+
 export const formatNumber = (number, decimalScale = 2) => {
   if (!Boolean(number)) {
     return number;

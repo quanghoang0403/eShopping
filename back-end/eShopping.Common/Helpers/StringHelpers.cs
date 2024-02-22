@@ -1,5 +1,4 @@
 using eShopping.Common.Extensions;
-using eShopping.Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -46,15 +45,6 @@ namespace eShopping.Common.Helpers
             "ýỳỵỷỹ",
 
             "ÝỲỴỶỸ"
-        };
-
-        public static readonly Dictionary<EnumNumberUnitType, decimal> NumberUnits = new Dictionary<EnumNumberUnitType, decimal>
-        {
-            { EnumNumberUnitType.Default , 1 },
-            { EnumNumberUnitType.Thousand , 1_000 },
-            { EnumNumberUnitType.Million, 1_000_000 },
-            { EnumNumberUnitType.Billion, 1_000_000 },
-            { EnumNumberUnitType.Trillion, 1_000_000_000 }
         };
 
         public static string UserCodeGenerator(string type)
@@ -160,23 +150,6 @@ namespace eShopping.Common.Helpers
             return currency.ToString();
         }
 
-        public static EnumNumberUnitType GetNumberUnit(decimal currency)
-        {
-            decimal K = 1_000,
-                M = 1_000_000,
-                B = 1_000_000_000,
-                T = 1_000_000_000_000;
-            if (currency >= T)
-                return EnumNumberUnitType.Trillion;
-            if (currency >= B)
-                return EnumNumberUnitType.Billion;
-            if (currency >= M)
-                return EnumNumberUnitType.Million;
-            if (currency >= K)
-                return EnumNumberUnitType.Thousand;
-
-            return EnumNumberUnitType.Default;
-        }
 
         /// <summary>
         /// Created date: 2022-01-10
@@ -232,14 +205,18 @@ namespace eShopping.Common.Helpers
         {
             //Check null or empty String
             if (String.IsNullOrWhiteSpace(str))
+            {
                 return String.Empty;
+            }
 
             str = str.Trim();
 
             for (int i = 1; i < VietnameseSigns.Length; i++)
             {
                 for (int j = 0; j < VietnameseSigns[i].Length; j++)
+                {
                     str = str.Replace(VietnameseSigns[i][j], VietnameseSigns[0][i - 1]);
+                }
             }
             return str;
         }
@@ -253,7 +230,9 @@ namespace eShopping.Common.Helpers
         {
             //Check null or empty String
             if (String.IsNullOrWhiteSpace(str))
+            {
                 return String.Empty;
+            }
 
             str = str.ToLower().RemoveSign4VietnameseString();
 
@@ -277,9 +256,9 @@ namespace eShopping.Common.Helpers
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
                         {
                             streamWriter.Write(plainText);
                         }
@@ -305,9 +284,9 @@ namespace eShopping.Common.Helpers
 
                 using (MemoryStream memoryStream = new MemoryStream(buffer))
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                     {
-                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        using (StreamReader streamReader = new StreamReader(cryptoStream))
                         {
                             return streamReader.ReadToEnd();
                         }
@@ -350,7 +329,9 @@ namespace eShopping.Common.Helpers
         public static string ReplaceParameter(this string originalString, Dictionary<string, string> parameters)
         {
             if (string.IsNullOrEmpty(originalString) || parameters.Count == 0)
+            {
                 return originalString;
+            }
 
             string replacedString = Regex.Replace(originalString, "{{(.*?)}}", match =>
             {
@@ -448,7 +429,11 @@ namespace eShopping.Common.Helpers
             var splitWords = input.Split(' ');
             foreach (string word in splitWords)
             {
-                if (String.IsNullOrEmpty(word)) continue;
+                if (String.IsNullOrEmpty(word))
+                {
+                    continue;
+                }
+
                 concatInitialWordsOfName += word[0];
             }
 

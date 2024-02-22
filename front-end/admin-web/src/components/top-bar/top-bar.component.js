@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { store } from "store";
 import { hasPermission } from "utils/helpers";
+import logo from "assets/images/logo.png";
 import "./index.scss";
 
 const { Header } = Layout;
@@ -176,18 +177,18 @@ function TopBar(props) {
             <div className="store-info-box">
               <div className="store-logo">
                 <img
-                  src={""}
-                  alt={""}
-                  title={""}
+                  src={logo}
+                  alt="Rose clothing"
+                  title="Rose clothing"
                 />
               </div>
 
               <div className="store-information">
                 <span className="store-label" title="">
-                  Tiệm đồ cúc họa mi
+                  Rose Clothing
                 </span>
-                <a href="https://tiemdocuchoami.vn/" className="store-name" target={"_blank"} rel="noreferrer">
-                  https://tiemdocuchoami.vn/
+                <a href="https://roseclothing.vn/" className="store-name" target={"_blank"} rel="noreferrer">
+                  https://roseclothing.vn/
                 </a>
               </div>
             </div>
