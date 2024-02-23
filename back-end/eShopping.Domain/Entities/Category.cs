@@ -8,7 +8,7 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Category))]
     public class Category : SEOEntity
     {
-        public int SortOrder { set; get; }
+        public int Priority { set; get; }
         public bool IsShowOnHome { set; get; }
         public Guid? ParentId { set; get; }
 

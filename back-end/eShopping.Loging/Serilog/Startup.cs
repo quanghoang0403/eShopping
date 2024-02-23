@@ -9,7 +9,7 @@ namespace eShopping.Loging.Serilog
 {
     public static class SerilogStartupExtension
     {
-        private static string defaultRoleName = "eShopping.WebApi.Admin";
+        private static string defaultRoleName = "eShopping.WebApi";
 
         public static void EnableSqlCommandTextInstrumentation(this IServiceCollection services, IConfiguration configuration)
         {

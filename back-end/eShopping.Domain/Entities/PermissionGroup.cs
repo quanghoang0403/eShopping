@@ -18,7 +18,7 @@ namespace eShopping.Domain.Entities
         public string Name { get; set; }
 
         [Description("The order number of permission group")]
-        public int? SortOrder { get; set; }
+        public int? Priority { get; set; }
 
         public virtual ICollection<Permission> Permissions { get; set; }
 

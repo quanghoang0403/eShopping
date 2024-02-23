@@ -22,7 +22,7 @@ namespace eShopping.Domain.Entities
 
         public int QuantitySold { get; set; }
 
-        public int SortOrder { get; set; }
+        public int Priority { get; set; }
 
         public virtual Product Product { get; set; }
 

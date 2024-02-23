@@ -6,17 +6,17 @@
       "Projects": {
         "eShopping.WebApi.Admin": {}
       }
-    },
-    "2.Store": {
-      "Projects": {
-        "eShopping.WebApi.Store": {}
-      }
-    },
-    "3.Admin + Store": {
-      "Projects": {
-        "eShopping.WebApi.Admin": {},
-        "eShopping.WebApi.Store": {}
-      }
     }
+    //"2.Store": {
+    //  "Projects": {
+    //    "eShopping.WebApi.Store": {}
+    //  }
+    //},
+    //"3.Admin + Store": {
+    //  "Projects": {
+    //    "eShopping.WebApi.Admin": {},
+    //    "eShopping.WebApi.Store": {}
+    //  }
+    //}
   }
 }

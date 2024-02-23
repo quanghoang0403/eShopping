@@ -193,7 +193,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SortOrder")
+                    b.Property<int>("Priority")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -363,7 +363,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SortOrder")
+                    b.Property<int>("Priority")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -546,7 +546,7 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("SortOrder")
+                    b.Property<int?>("Priority")
                         .HasColumnType("int")
                         .HasComment("The order number of permission group");
 
@@ -696,7 +696,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<int>("QuantitySold")
                         .HasColumnType("int");
 
-                    b.Property<int>("SortOrder")
+                    b.Property<int>("Priority")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

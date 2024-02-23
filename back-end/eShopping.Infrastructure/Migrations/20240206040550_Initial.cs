@@ -52,7 +52,7 @@ namespace eShopping.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
                     IsShowOnHome = table.Column<bool>(type: "bit", nullable: false),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -111,7 +111,7 @@ namespace eShopping.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SortOrder = table.Column<int>(type: "int", nullable: true, comment: "The order number of permission group"),
+                    Priority = table.Column<int>(type: "int", nullable: true, comment: "The order number of permission group"),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -256,7 +256,7 @@ namespace eShopping.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ImageType = table.Column<int>(type: "int", nullable: false),
-                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -315,7 +315,7 @@ namespace eShopping.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     QuantityLeft = table.Column<int>(type: "int", nullable: false),
                     QuantitySold = table.Column<int>(type: "int", nullable: false),
-                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),

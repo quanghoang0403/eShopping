@@ -14,7 +14,9 @@ namespace eShopping.Domain.Entities
 
         public EnumStatus Status { get; set; }
 
-        public int SortOrder { set; get; }
+        public int Priority { set; get; }
+
+        public string Thumbnail { set; get; }
 
         public virtual ICollection<ProductInCategory> ProductInCategories { get; set; }
 

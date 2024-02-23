@@ -21,7 +21,7 @@ namespace eShopping.Services
         public static IServiceCollection AutoInjectServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Manual config for mediator's target project
-            //services.AddMediatR(AppDomain.CurrentDomain.Load("eShopping.Application.Admin"));
+            //services.AddMediatR(AppDomain.CurrentDomain.Load("eShopping.Application"));
 
             services.AddDbContext<eShoppingDbContext>(options =>
             {

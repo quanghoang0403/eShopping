@@ -11,7 +11,11 @@ namespace eShopping.Interfaces.Repositories
 
         Task<Category> GetCategoryDetailByUrlAsync(string categoryUrl);
 
+        Task<Category> GetCategoryDetailByNameAsync(string categoryName);
+
         IQueryable<Category> GetCategoryListByProductId(Guid productId);
+
+        Task<Category> CheckExistProductCategoryNameInStoreAsync(Guid productCategoryId, string productCategoryName);
 
     }
 }

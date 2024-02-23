@@ -12,7 +12,7 @@ namespace eShopping.Domain.Entities
 
         public EnumImageTypeObject ImageType { get; set; }
 
-        public int SortOrder { get; set; }
+        public int Priority { get; set; }
 
         public string ImagePath { get; set; }
     }
