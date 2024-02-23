@@ -76,6 +76,9 @@ namespace eShopping.Application.Features.Products.Commands
             });
 
             var newProductCategory = _mapper.Map<Category>(request);
+            var accountId = loggedUser.AccountId.Value;
+            newProductCategory.CreatedUser = accountId;
+            newProductCategory.CreatedTime = DateTime.UtcNow;
             var productIds = request.Products.Select(p => p.Id);
             var productInCategories = _unitOfWork.ProductInCategories.Find(p => productIds.Any(pid => pid == p.ProductId));
             _unitOfWork.ProductInCategories.RemoveRange(productInCategories);

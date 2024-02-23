@@ -1,7 +1,9 @@
-﻿using eShopping.Common.Exceptions;
+﻿using AutoMapper;
+using eShopping.Common.Exceptions;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.Models.Products;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -42,31 +44,23 @@ namespace eShopping.Application.Features.Products.Commands
         public List<ProductOptionModel> ProductOptions { get; set; }
     }
 
-    public class ProductOptionModel
-    {
-        public string Name { get; set; }
-
-        public decimal Price { set; get; }
-
-        public int QuantityLeft { get; set; }
-
-        public int QuantitySold { get; set; }
-    }
-
     public class CreateMaterialRequestHandler : IRequestHandler<CreateProductRequest, bool>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
+        private readonly IMapper _mapper;
 
         public CreateMaterialRequestHandler(
             IMediator mediator,
             IUnitOfWork unitOfWork,
-            IUserProvider userProvider)
+            IUserProvider userProvider,
+            IMapper mapper)
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
+            _mapper = mapper;
         }
 
         public async Task<bool> Handle(CreateProductRequest request, CancellationToken cancellationToken)
@@ -79,22 +73,11 @@ namespace eShopping.Application.Features.Products.Commands
             // TO DO
 
             // Add product
+            var product = _mapper.Map<Product>(request);
             var accountId = loggedUser.AccountId.Value;
-            var product = new Product()
-            {
-                Name = request.Name,
-                Content = request.Content,
-                UrlSEO = request.UrlSEO,
-                TitleSEO = request.Content,
-                DescriptionSEO = request.DescriptionSEO,
-                Description = request.Description,
-                ViewCount = 0,
-                IsFeatured = false,
-                Thumbnail = request.Thumbnail,
-                CreatedUser = accountId,
-                LastSavedUser = accountId,
-                LastSavedTime = DateTime.UtcNow
-            };
+            product.CreatedUser = accountId;
+            product.CreatedTime = DateTime.UtcNow;
+
             await _unitOfWork.Products.AddAsync(product);
 
             // Add map category
@@ -119,8 +102,7 @@ namespace eShopping.Application.Features.Products.Commands
                     ObjectId = product.Id,
                     ImagePath = path,
                     CreatedUser = accountId,
-                    LastSavedUser = accountId,
-                    LastSavedTime = DateTime.UtcNow
+                    CreatedTime = DateTime.UtcNow
                 };
                 productImages.Add(image);
             }
@@ -130,17 +112,10 @@ namespace eShopping.Application.Features.Products.Commands
             List<ProductOption> productOptions = new();
             foreach (var option in request.ProductOptions)
             {
-                ProductOption optionToAdd = new()
-                {
-                    ProductId = product.Id,
-                    Name = option.Name,
-                    Price = option.Price,
-                    QuantityLeft = option.QuantityLeft,
-                    QuantitySold = option.QuantitySold,
-                    CreatedUser = accountId,
-                    LastSavedUser = accountId,
-                    LastSavedTime = DateTime.UtcNow
-                };
+                var optionToAdd = _mapper.Map<ProductOption>(option);
+                optionToAdd.ProductId = product.Id;
+                optionToAdd.CreatedUser = accountId;
+                optionToAdd.CreatedTime = DateTime.UtcNow;
                 productOptions.Add(optionToAdd);
             }
             await _unitOfWork.ProductOptions.AddRangeAsync(productOptions);

@@ -65,6 +65,8 @@ namespace eShopping.Application.Features.Products.Commands
 
         public async Task<bool> Handle(UpdateProductCategoryRequest request, CancellationToken cancellationToken)
         {
+            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
+
             var productCategory = await _unitOfWork.Categories.GetCategoryDetailByIdAsync(request.Id);
             ThrowError.Against(productCategory == null, "Cannot find product category information");
 
@@ -101,6 +103,9 @@ namespace eShopping.Application.Features.Products.Commands
             }
 
             var modifiedProductCategory = _mapper.Map<Category>(request);
+            var accountId = loggedUser.AccountId.Value;
+            modifiedProductCategory.LastSavedUser = accountId;
+            modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
             await _unitOfWork.Categories.UpdateAsync(modifiedProductCategory);
             await _unitOfWork.SaveChangesAsync();
 

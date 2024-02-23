@@ -36,7 +36,11 @@ namespace eShopping.Application.Features.Products.Commands
             var productCategory = await _unitOfWork.Categories.Find(p => p.Id == request.Id)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
             ThrowError.Against(productCategory == null, "Product category is not found");
-            await _unitOfWork.Categories.RemoveAsync(productCategory);
+            var accountId = loggedUser.AccountId.Value;
+            productCategory.IsDeleted = true;
+            productCategory.LastSavedUser = accountId;
+            productCategory.LastSavedTime = DateTime.UtcNow;
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
     }

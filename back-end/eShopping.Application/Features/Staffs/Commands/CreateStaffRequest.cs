@@ -78,7 +78,6 @@ namespace eShopping.Application.Features.Staffs.Commands
                     FullName = request.Staff.FullName,
                     Birthday = request.Staff.Birthday,
                     Gender = request.Staff.Gender,
-                    CreatedUser = accountId,
                     LastSavedUser = accountId,
                     LastSavedTime = DateTime.UtcNow
                 };
@@ -86,7 +85,6 @@ namespace eShopping.Application.Features.Staffs.Commands
                 var newStaff = new Staff()
                 {
                     Account = newStaffAccount,
-                    CreatedUser = accountId,
                     LastSavedUser = accountId,
                     LastSavedTime = DateTime.UtcNow
                 };

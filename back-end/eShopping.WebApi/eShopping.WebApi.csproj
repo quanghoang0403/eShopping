@@ -4,6 +4,12 @@
     <Configurations>Debug;Release;Development;Staging;DevRelease;Production</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\logos\**" />
+    <Content Remove="wwwroot\logos\**" />
+    <EmbeddedResource Remove="wwwroot\logos\**" />
+    <None Remove="wwwroot\logos\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.2.0" />
@@ -13,9 +19,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\logos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eShopping.Application\eShopping.Application.csproj" />
