@@ -2,6 +2,9 @@
 using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
+using GoFoodBeverage.Application.Features.Products.Commands;
+using GoFoodBeverage.Application.Features.Products.Queries;
+using GoFoodBeverage.POS.Application.Features.Products.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,15 +57,6 @@ namespace eShopping.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-products-by-category-id")]
-        [HasPermission(EnumPermission.VIEW_PRODUCT)]
-        public async Task<IActionResult> GetProductsByCategoryIds([FromQuery] GetProductsByCategoryIdRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
-        }
-
-        [HttpGet]
         [Route("get-products-by-filter")]
         [HasPermission(EnumPermission.VIEW_PRODUCT)]
         public async Task<IActionResult> GetProductsByFilterAsync([FromQuery] GetProductsByFilterRequest request)
@@ -74,9 +68,18 @@ namespace eShopping.WebApi.Controllers
         [HttpGet]
         [Route("get-product-detail-data-by-id")]
         [HasPermission(EnumPermission.VIEW_PRODUCT)]
-        public async Task<IActionResult> GetProductDetailById([FromQuery] GetProductDetailRequest request)
+        public async Task<IActionResult> GetProductDetailById([FromQuery] GetProductDetailByIdRequest request)
         {
             var response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
+
+        [HttpGet]
+        [Route("get-all-products")]
+        [HasPermission(EnumPermission.VIEW_PRODUCT)]
+        public async Task<IActionResult> GetAllProductsAsync()
+        {
+            var response = await _mediator.Send(new GetAllProductsRequest());
             return await SafeOkAsync(response);
         }
     }

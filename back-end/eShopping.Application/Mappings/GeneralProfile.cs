@@ -2,8 +2,10 @@ using AutoMapper;
 using eShopping.Application.Features.Products.Commands;
 using eShopping.Domain.Entities;
 using eShopping.Models.Addresses;
+using eShopping.Models.Commons;
 using eShopping.Models.Permissions;
 using eShopping.Models.Products;
+using GoFoodBeverage.Application.Features.Products.Commands;
 
 namespace eShopping.Application.Mappings
 {
@@ -20,11 +22,17 @@ namespace eShopping.Application.Mappings
             CreateMap<PermissionGroup, PermissionGroupModel>();
             CreateMap<Permission, PermissionModel>();
 
+            CreateMap<Image, ImageModel>();
+
+            CreateMap<Product, ProductDatatableModel>();
+
             #endregion
 
             #region DAL => DTO
             CreateMap<CreateProductCategoryRequest, Category>();
             CreateMap<CreateProductRequest, Product>();
+            CreateMap<UpdateProductCategoryRequest, Category>();
+            CreateMap<UpdateProductRequest, Product>();
             CreateMap<ProductOptionModel, ProductOption>();
             #endregion
         }

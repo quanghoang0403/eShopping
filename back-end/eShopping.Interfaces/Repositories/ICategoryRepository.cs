@@ -15,7 +15,5 @@ namespace eShopping.Interfaces.Repositories
 
         IQueryable<Category> GetCategoryListByProductId(Guid productId);
 
-        Task<Category> CheckExistProductCategoryNameInStoreAsync(Guid productCategoryId, string productCategoryName);
-
     }
 }

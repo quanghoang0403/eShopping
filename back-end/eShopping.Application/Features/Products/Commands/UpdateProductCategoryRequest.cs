@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using eShopping.Common.Exceptions;
+using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -68,15 +70,14 @@ namespace eShopping.Application.Features.Products.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var productCategory = await _unitOfWork.Categories.GetCategoryDetailByIdAsync(request.Id);
+            RequestValidation(request);
             ThrowError.Against(productCategory == null, "Cannot find product category information");
 
-            var productCategoryNameExisted = await _unitOfWork.Categories.CheckExistProductCategoryNameInStoreAsync(request.Id, request.Name);
+            var productCategoryNameExisted = await _unitOfWork.Categories.Where(p => p.Id != request.Id && p.Name.Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
             ThrowError.Against(productCategoryNameExisted != null, new JObject()
             {
                 { $"{nameof(request.Name)}", "Product category name has already existed" },
             });
-
-            RequestValidation(request);
 
             /// Delete product - product category from sub-table
             var productIds = request.Products.Select(p => p.Id);
@@ -106,6 +107,8 @@ namespace eShopping.Application.Features.Products.Commands
             var accountId = loggedUser.AccountId.Value;
             modifiedProductCategory.LastSavedUser = accountId;
             modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
+            modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
+
             await _unitOfWork.Categories.UpdateAsync(modifiedProductCategory);
             await _unitOfWork.SaveChangesAsync();
 

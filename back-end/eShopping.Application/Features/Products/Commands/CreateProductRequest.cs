@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Exceptions;
+using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -18,8 +19,6 @@ namespace eShopping.Application.Features.Products.Commands
         public string Name { get; set; }
 
         public string Content { get; set; }
-
-        public string UrlSEO { get; set; }
 
         public string TitleSEO { get; set; }
 
@@ -77,6 +76,7 @@ namespace eShopping.Application.Features.Products.Commands
             var accountId = loggedUser.AccountId.Value;
             product.CreatedUser = accountId;
             product.CreatedTime = DateTime.UtcNow;
+            product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
             await _unitOfWork.Products.AddAsync(product);
 

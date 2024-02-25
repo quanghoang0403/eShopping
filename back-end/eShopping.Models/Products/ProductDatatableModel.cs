@@ -8,6 +8,8 @@ namespace eShopping.Models.Products
     {
         public Guid Id { get; set; }
 
+        public int No { get; set; }
+
         public string Name { get; set; }
 
         public string Thumbnail { get; set; }

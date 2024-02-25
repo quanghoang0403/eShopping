@@ -1,7 +1,6 @@
 ﻿using eShopping.Infrastructure.Contexts;
 using eShopping.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,7 +117,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public void AddRange(IEnumerable<T> entities)
         {
-            if(entities.Any())
+            if (entities.Any())
             {
                 _dbContext.AddRange(entities);
             }
@@ -126,7 +125,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public void AddRange(bool conditionPassed, IEnumerable<T> entities)
         {
-            if(conditionPassed)
+            if (conditionPassed)
             {
                 _dbContext.AddRange(entities);
             }
@@ -170,6 +169,6 @@ namespace eShopping.Infrastructure.Repositories
             }
         }
 
-        
+
     }
 }

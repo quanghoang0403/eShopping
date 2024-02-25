@@ -9,11 +9,11 @@ namespace eShopping.Domain.Entities
     public class Category : SEOEntity
     {
         public int Priority { set; get; }
+
         public bool IsShowOnHome { set; get; }
+
         public Guid? ParentId { set; get; }
 
         public virtual ICollection<ProductInCategory> ProductInCategories { get; set; }
-
-
     }
 }

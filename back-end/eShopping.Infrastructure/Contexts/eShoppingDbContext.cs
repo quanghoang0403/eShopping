@@ -50,7 +50,7 @@ namespace eShopping.Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //OverrideQueryFilter(builder);
+            OverrideQueryFilter(builder);
             builder.Entity<Account>().HasKey(x => x.Id);
 
             builder.Entity<AppConfig>().HasKey(x => x.Key);
@@ -196,23 +196,24 @@ namespace eShopping.Infrastructure.Contexts
             return Database.ExecuteSqlRaw(sql);
         }
 
-        //private void OverrideQueryFilter(ModelBuilder builder)
-        //{
-        //    builder.Entity<Order>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Customer>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Cart>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Category>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Customer>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<OrderDetail>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Permission>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<PermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Product>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Image>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<ProductInCategory>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<ProductOption>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Promotion>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<Staff>().HasQueryFilter(m => !m.IsDeleted);
-        //    builder.Entity<StaffPermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
-        //}
+        private void OverrideQueryFilter(ModelBuilder builder)
+        {
+            builder.Entity<Order>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Customer>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Cart>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Category>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Customer>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Image>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Order>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<OrderDetail>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Permission>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<PermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Product>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<ProductInCategory>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<ProductOption>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Promotion>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Staff>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<StaffPermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
+        }
     }
 }

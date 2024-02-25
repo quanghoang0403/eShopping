@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Exceptions;
+using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
@@ -23,8 +24,6 @@ namespace eShopping.Application.Features.Products.Commands
         public string Content { get; set; }
 
         public string KeywordSEO { get; set; }
-
-        public string UrlSEO { get; set; }
 
         public string TitleSEO { get; set; }
 
@@ -79,6 +78,7 @@ namespace eShopping.Application.Features.Products.Commands
             var accountId = loggedUser.AccountId.Value;
             newProductCategory.CreatedUser = accountId;
             newProductCategory.CreatedTime = DateTime.UtcNow;
+            newProductCategory.UrlSEO = StringHelpers.UrlEncode(newProductCategory.Name);
             var productIds = request.Products.Select(p => p.Id);
             var productInCategories = _unitOfWork.ProductInCategories.Find(p => productIds.Any(pid => pid == p.ProductId));
             _unitOfWork.ProductInCategories.RemoveRange(productInCategories);

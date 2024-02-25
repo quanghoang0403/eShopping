@@ -5,13 +5,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="BackupDatabase\**" />
+    <Compile Remove="Migrations\StoredProcedures\**" />
     <EmbeddedResource Remove="BackupDatabase\**" />
+    <EmbeddedResource Remove="Migrations\StoredProcedures\**" />
     <None Remove="BackupDatabase\**" />
+    <None Remove="Migrations\StoredProcedures\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eShopping.Common\eShopping.Common.csproj" />
     <ProjectReference Include="..\eShopping.Domain\eShopping.Domain.csproj" />
     <ProjectReference Include="..\eShopping.Interfaces\eShopping.Interfaces.csproj" />
+    <ProjectReference Include="..\eShopping.Models\eShopping.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Migrations\Functions\UDF_StripHTML.sql">
@@ -89,7 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\Functions\" />
-    <Folder Include="Migrations\StoredProcedures\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Migrations\20230724023212_add-store-procedure-customer-order-segment.cs">

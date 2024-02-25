@@ -83,6 +83,11 @@ namespace eShopping.Application.Features.Products.Queries
                 pc.Products = _mapper.Map<IEnumerable<ProductDatatableModel>>(products);
             });
 
+            productCategoryListResponse.ForEach(p =>
+            {
+                p.No = productCategoryListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
+            });
+
             var response = new GetProductCategoriesResponse()
             {
                 PageNumber = request.PageNumber,

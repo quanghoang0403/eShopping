@@ -41,12 +41,5 @@ namespace eShopping.Infrastructure.Repositories
             var categories = dbSet.Where(c => c.ProductInCategories.Any(p => p.ProductId == productId));
             return categories;
         }
-
-        public Task<Category> CheckExistProductCategoryNameInStoreAsync(Guid productCategoryId, string productCategoryName)
-        {
-            var productCategory = dbSet.FirstOrDefaultAsync(p => p.Id != productCategoryId && p.Name.Trim().ToLower().Equals(productCategoryName.Trim().ToLower()));
-
-            return productCategory;
-        }
     }
 }
