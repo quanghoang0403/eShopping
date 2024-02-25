@@ -78,29 +78,50 @@ namespace eShopping.Infrastructure.Repositories
                 }
                 #endregion
 
-                #region Handle update product variants
-                // all product variants before update
-                var allProductVariants = await _dbContext.ProductOptions
+                #region Handle update product options
+                // all product options before update
+                var allProductOptions = await _dbContext.ProductOptions
                     .Where(x => x.ProductId == request.Id)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 
                 // enable modify mode for records
-                if (allProductVariants.Any())
+                if (allProductOptions.Any())
                 {
-                    _dbContext.AttachRange(allProductVariants);
+                    _dbContext.AttachRange(allProductOptions);
                 }
 
-                // update product variants
-                var latestProductOptions = new List<ProductOption>();
+                // update product options
                 if (request.ProductOptions.Any())
                 {
-                    // update product variant existed
+                    // remove unused product options
+                    var unusedProductOptions = allProductOptions.Where(x => !request.ProductOptions.Any(pn => pn.Id == x.Id));
+                    _dbContext.ProductOptions.RemoveRange(unusedProductOptions);
+
+                    // add product options not insert to DB
+                    var newProductOptions = request.ProductOptions.Where(p => p.Id == Guid.Empty);
+                    var newProductOptionsToDB = new List<ProductOption>();
+                    foreach (var option in unusedProductOptions)
+                    {
+                        var newProductOption = new ProductOption()
+                        {
+                            Priority = option.Priority,
+                            Name = option.Name,
+                            Price = option.Price,
+                            ProductId = productEdit.Id,
+                            QuantityLeft = option.QuantityLeft,
+                            QuantitySold = option.QuantitySold,
+                        };
+                        newProductOptionsToDB.Add(newProductOption);
+                        await _dbContext.ProductOptions.AddRangeAsync(newProductOptionsToDB, cancellationToken);
+                    }
+
+                    // update product options existed
                     var reuseProductVariants = new List<UpdateProductModel.PriceDto>();
                     foreach (var productVariant in allProductVariants)
                     {
                         var newProductVariant = request.ProductOptions.FirstOrDefault(p => p.Id == productVariant.Id);
-                        if (newProductVariant == null) // If request variant not exist in current variants of product => remove
+                        if (newProductVariant != null) // If request options not exist in current options of product => remove
                         {
                             productVariant.IsDeleted = true;
                             continue;
@@ -115,23 +136,6 @@ namespace eShopping.Infrastructure.Repositories
                             reuseProductVariants.Add(newProductVariant);
                             latestProductVariants.Add(productVariant);
                         }
-                    }
-
-                    // Remaining product variants not insert to DB
-                    var remainNewProductVariants = request.Prices.Where(p => !reuseProductVariants.Any(u => u.Name == p.Name && u.Price == u.Price));
-                    if (remainNewProductVariants.Any())
-                    {
-                        var newProductVariants = remainNewProductVariants.Select(newPrice => new ProductPrice
-                        {
-                            Position = newPrice.Position,
-                            PriceName = newPrice.Name,
-                            PriceValue = newPrice.Price,
-                            ProductId = productEdit.Id,
-                            StoreId = storeId,
-                            IsDeleted = false,
-                        }).ToList();
-                        latestProductVariants.AddRange(newProductVariants);
-                        await _dbContext.ProductPrices.AddRangeAsync(newProductVariants, cancellationToken);
                     }
                 }
                 // update single product variant
