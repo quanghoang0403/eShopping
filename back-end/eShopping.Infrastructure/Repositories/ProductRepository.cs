@@ -103,6 +103,7 @@ namespace eShopping.Infrastructure.Repositories
                     var newProductOptionsToDB = new List<ProductOption>();
                     foreach (var option in unusedProductOptions)
                     {
+                        allProductOptions.Remove(option);
                         var newProductOption = new ProductOption()
                         {
                             Priority = option.Priority,
@@ -117,49 +118,19 @@ namespace eShopping.Infrastructure.Repositories
                     }
 
                     // update product options existed
-                    var reuseProductVariants = new List<UpdateProductModel.PriceDto>();
-                    foreach (var productVariant in allProductVariants)
+                    foreach (var productOption in allProductOptions)
                     {
-                        var newProductVariant = request.ProductOptions.FirstOrDefault(p => p.Id == productVariant.Id);
-                        if (newProductVariant != null) // If request options not exist in current options of product => remove
-                        {
-                            productVariant.IsDeleted = true;
-                            continue;
-                        }
-                        else
-                        {
-                            // Re-use old record for new data
-                            productVariant.Position = newProductVariant.Position;
-                            productVariant.PriceName = newProductVariant.Name;
-                            productVariant.PriceValue = newProductVariant.Price;
-                            productVariant.IsDeleted = false;
-                            reuseProductVariants.Add(newProductVariant);
-                            latestProductVariants.Add(productVariant);
-                        }
+                        var newProductOption = request.ProductOptions.FirstOrDefault(p => p.Id == productOption.Id);
+                        productOption.Priority = newProductOption.Priority;
+                        productOption.Name = newProductOption.Name;
+                        productOption.Price = newProductOption.Price;
                     }
+                    _dbContext.ProductOptions.UpdateRange(allProductOptions);
                 }
-                // update single product variant
-                else
-                {
-                    bool updated = false; // flat to check the single variant updated
-                    foreach (var productVariant in allProductVariants)
-                    {
-                        if (updated == true)
-                        {
-                            productVariant.IsDeleted = true; // remove variant not use
-                        }
-                        else
-                        {
-                            productVariant.Position = productVariant.Position;
-                            productVariant.PriceName = string.Empty; // Not set price name for single price case
-                            productVariant.PriceValue = request.Price;
-                            productVariant.IsDeleted = false;
+                #endregion
 
-                            updated = true;
-                            latestProductVariants.Add(productVariant);
-                        }
-                    }
-                }
+                #region Handle update product image
+
                 #endregion
 
                 await _dbContext.SaveChangesAsync(cancellationToken);

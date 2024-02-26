@@ -15,7 +15,6 @@ namespace eShopping.Application.Features.Products.Commands
 {
     public class CreateProductCategoryRequest : IRequest<bool>
     {
-        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -36,13 +35,13 @@ namespace eShopping.Application.Features.Products.Commands
         public Guid? ParentId { set; get; }
 
         public List<ProductSelectedModel> Products { get; set; }
+    }
 
-        public class ProductSelectedModel
-        {
-            public Guid Id { get; set; }
+    public class ProductSelectedModel
+    {
+        public Guid Id { get; set; }
 
-            public int Position { get; set; }
-        }
+        public int Position { get; set; }
     }
 
     public class CreateProductCategoryRequestHandler : IRequestHandler<CreateProductCategoryRequest, bool>

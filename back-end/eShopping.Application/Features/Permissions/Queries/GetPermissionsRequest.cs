@@ -64,7 +64,6 @@ namespace eShopping.Application.Features.Settings.Queries
                 .AsNoTracking()
                 .Include(g => g.Permissions)
                 .SelectMany(g => g.Permissions)
-                //.ProjectTo<PermissionModel>(_mapperConfiguration)
                 .ToList();
 
             var permissionGroupsResponse = _mapper.Map<List<PermissionGroupModel>>(permisionGroup);

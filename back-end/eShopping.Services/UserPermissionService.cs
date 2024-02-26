@@ -38,14 +38,17 @@ namespace eShopping.Services.User
                     .Include(s => s.PermissionGroup)
                     .Select(g => g.PermissionGroupId)
                     .Distinct();
+
+                if (permisionGroupIds.ToList().Contains(EnumPermissionGroup.Admin.ToGuid())) return true;
+
                 var hasPerminssion = _unitOfWork
                     .PermissionGroups
                     .Find(g => permisionGroupIds.Any(gpid => gpid == g.Id))
                     .AsNoTracking()
                     .Include(g => g.Permissions)
-                    .SelectMany(g => g.Permissions)
-                    .Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id));
-
+                    .Select(g => g.Permissions)
+                    .AsEnumerable()
+                    .Any(listP => listP.Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id)));
                 return hasPerminssion;
             }
             catch
