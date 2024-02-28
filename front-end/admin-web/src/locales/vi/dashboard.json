@@ -1,0 +1,18 @@
+{
+  "home": "Trang chủ",
+  "order": "Đơn hàng",
+  "revenue": "Lợi nhuận",
+  "cost": "Chi phí",
+  "average": "Trung bình",
+  "millions": "Triệu",
+  "billions": "Tỷ",
+  "trillions": "Ngàn tỷ",
+  "allBranches": "Tất cả chi nhánh",
+  "today": "Hôm nay",
+  "yesterday": "Hôm qua",
+  "thisWeek": "Tuần này",
+  "lastWeek": "Tuần trước",
+  "thisMonth": "Tháng này",
+  "lastMonth": "Tháng trước",
+  "thisYear": "Năm nay"
+}

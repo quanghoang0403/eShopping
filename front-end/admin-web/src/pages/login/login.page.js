@@ -23,11 +23,13 @@ import loginDataService from "../../data-services/login/login-data.service";
 import permissionDataService from "data-services/permission/permission-data.service";
 import "../../stylesheets/authenticator.scss";
 import logo from "assets/images/logo.png";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [isLogin, setIsLogin] = useState(true);
+  const { t }  = useTranslation();
 
   useEffect(() => {
     const { search } = props.location;
@@ -134,7 +136,7 @@ const LoginPage = (props) => {
               </div>
             )}
 
-            <h1 className="label-login">Đăng nhập</h1>
+            <h1 className="label-login">{t('login:title')}</h1>
             <h4 className="label-input">Email</h4>
             <Form.Item
               name="email"
