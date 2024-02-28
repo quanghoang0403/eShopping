@@ -1,0 +1,4 @@
+{
+  "imageSizeTooBig": "Image file must be less than 1MB.",
+  "acceptFileImageTypes": "Only accept file with type: JPG, PNG, JPG2000, GIF..."
+}

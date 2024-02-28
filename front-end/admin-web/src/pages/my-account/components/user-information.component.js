@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { setFullNameUser, setThumbnailUser } from 'store/modules/session/session.actions'
 import { fileNameNormalize, jsonToFormData } from 'utils/helpers'
 import { UpdatePasswordComponent } from './update-password.component'
+import { useTranslation } from 'react-i18next'
 
 export default function UserInformationComponent (props) {
   const [form] = Form.useForm()
@@ -18,21 +19,23 @@ export default function UserInformationComponent (props) {
   const [isHiddenButtonUpdate, setIsHiddenButtonUpdate] = useState(true)
   const [fullNameCopy, setFullNameCopy] = useState(null)
   const [phoneNumberCopy, setPhoneNumberCopy] = useState(null)
+  const { t } = useTranslation()
   const pageData = {
-    btnUpdate: 'Cập nhật',
-    loginNameLabel: 'Tên đăng nhập',
-    fullNameLabel: 'Họ tên',
-    phoneNumberLabel: 'Điện thoại',
-    fullNamePlaceholder: 'Nhập họ tên',
-    phoneNumberPlaceholder: 'Nhập số điện thoại',
-    fullNameErrorText: 'Vui lòng nhập họ tên của bạn',
-    phoneNumberErrorText: 'Vui lòng nhập số điện thoại của bạn',
-    phoneNumberInvalidMessage: 'Số điện thoại không có giá trị',
+    btnUpdate: t('myAccount:btnUpdate'),
+    loginNameLabel: t('myAccount:btnUpdate'),
+    fullNameLabel: t('myAccount:btnUpdate'),
+    phoneNumberLabel: t('myAccount:btnUpdate'),
+    fullNamePlaceholder: t('myAccount:btnUpdate'),
+    phoneNumberPlaceholder: t('myAccount:btnUpdate'),
+    fullNameErrorText: t('myAccount:btnUpdate'),
+    phoneNumberErrorText: t('myAccount:btnUpdate'),
+    phoneNumberInvalidMessage: t('myAccount:btnUpdate'),
     maxLengthPhoneNumber: 15,
     formatPhoneNumber: '^[0-9]*$',
-    successMessage: 'Tài khoản đã được cập nhật thành công',
-    unSuccessMessage: 'Tài khoản cập nhật thất bại',
-    tabNameAccountTitle: 'Thông tin chung'
+    successMessage: t('myAccount:btnUpdate'),
+    unSuccessMessage: t('myAccount:btnUpdate'),
+    tabNameAccountTitle: t('myAccount:btnUpdate'),
+    imageSizeTooBig: t('notification:imageSizeTooBig')
   }
 
   useEffect(() => {
@@ -138,7 +141,7 @@ export default function UserInformationComponent (props) {
 
   const uploadImageError = (errors, files) => {
     if (errors.maxFileSize === true) {
-      message.error('Ảnh tải lên phải có dung lượng nhỏ hơn 1MB.')
+      message.error(pageData.imageSizeTooBig)
     }
   }
 

@@ -1,0 +1,14 @@
+{
+    "btnUpdate": "Cập nhật",
+    "loginNameLabel": "Tên đăng nhập",
+    "fullNameLabel": "Họ tên",
+    "phoneNumberLabel": "Điện thoại",
+    "fullNamePlaceholder": "Nhập họ tên",
+    "phoneNumberPlaceholder": "Nhập số điện thoại",
+    "fullNameErrorText": "Vui lòng nhập họ tên của bạn",
+    "phoneNumberErrorText": "Vui lòng nhập số điện thoại của bạn",
+    "phoneNumberInvalidMessage": "Số điện thoại không có giá trị",
+    "successMessage": "Tài khoản đã được cập nhật thành công",
+    "unSuccessMessage": "Tài khoản cập nhật thất bại",
+    "tabNameAccountTitle": "Thông tin chung"
+  }

@@ -5,7 +5,9 @@ import { env, ENVIRONMENT } from '../env'
 import { store } from '../store'
 import { tokenExpired } from './helpers'
 import { getStorage, localStorageKeys } from './localStorage.helpers'
+import i18n from 'utils/i18n'
 
+const { t } = i18n
 const date = new Date()
 const timezoneOffset = date.getTimezoneOffset()
 const http = axios.create({
@@ -98,7 +100,7 @@ http.interceptors.response.use(
 
     const errorMessage = error?.response?.data?.message
     if (errorMessage) {
-      message.error(errorMessage)
+      message.error(t(errorMessage))
     }
 
     return Promise.reject(error?.response)
