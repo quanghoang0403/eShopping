@@ -1,3 +1,15 @@
 {
-  "title": "Đăng nhập"
+  "text": "Đăng Nhập",
+  "username": "Nhập email của bạn",
+  "password": "Mật khẩu",
+  "pleaseInputYourUsername": "Vui lòng nhập email của bạn",
+  "pleaseInputYourPassword": "Vui lòng nhập mật khẩu của bạn",
+  "loginHere": "Đăng nhập",
+  "youHaveBeenLoggedInSuccessfully": "Bạn đã đăng nhập thành công.",
+  "loginFail": "Xin lỗi, Tên đăng nhập hoặc Mật khẩu không chính xác!",
+  "emailOrPhoneNumber": "Email",
+  "forgotPassword": "Quên mật khẩu",
+  "errorLogin": "Bạn đã nhập sai Username hoặc Password.",
+  "permissionDenied": "Xin lỗi! Nhưng bạn không có quyền truy cập vào trang này.",
+  "logout": "Đăng xuất"
 }

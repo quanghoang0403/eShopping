@@ -1,3 +1,15 @@
 {
-  "title": "Login"
+  "text": "Login",
+  "username": "Enter your email",
+  "password": "Password",
+  "loginHere": "Login",
+  "pleaseInputYourUsername": "Please enter your email",
+  "pleaseInputYourPassword": "Please enter your password",
+  "youHaveBeenLoggedInSuccessfully": "You have been logged in successfully.",
+  "loginFail": "Sorry, you entered wrong Username or Password",
+  "emailOrPhoneNumber": "Email",
+  "forgotPassword": "Forgot password",
+  "errorLogin": "Sorry, you entered wrong Username or Password.",
+  "permissionDenied": "Sorry! But you don't have permission on this site.",
+  "logout": "Logout"
 }

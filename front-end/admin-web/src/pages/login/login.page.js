@@ -1,116 +1,129 @@
-import { Button, Form, Image, Input, message, Row, Select } from "antd";
-import "antd/dist/antd.css";
-import jwt_decode from "jwt-decode";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Button, Form, Image, Input, message, Row, Select } from 'antd'
+import 'antd/dist/antd.css'
+import jwt_decode from 'jwt-decode'
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import {
   EyeIcon,
   EyeOpenIcon,
   LockIcon,
-  UserNameIcon,
-} from "constants/icons.constants";
+  UserNameIcon
+} from 'constants/icons.constants'
 import {
   resetSession,
   setAuth,
   setPermissionGroup,
   setPermissions,
-  setToken,
-} from "store/modules/session/session.actions";
-import { getParamsFromUrl, tokenExpired } from "utils/helpers";
-import { getStorage, localStorageKeys } from "utils/localStorage.helpers";
-import { claimTypesConstants } from "../../constants/claim-types.constants";
-import loginDataService from "../../data-services/login/login-data.service";
-import permissionDataService from "data-services/permission/permission-data.service";
-import "../../stylesheets/authenticator.scss";
-import logo from "assets/images/logo.png";
-import { useTranslation } from "react-i18next";
+  setToken
+} from 'store/modules/session/session.actions'
+import { getParamsFromUrl, tokenExpired } from 'utils/helpers'
+import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
+import { claimTypesConstants } from '../../constants/claim-types.constants'
+import loginDataService from '../../data-services/login/login-data.service'
+import permissionDataService from 'data-services/permission/permission-data.service'
+import '../../stylesheets/authenticator.scss'
+import logo from 'assets/images/logo.png'
+import { useTranslation } from 'react-i18next'
 
 const LoginPage = (props) => {
-  const dispatch = useDispatch();
-  const [form] = Form.useForm();
-  const [isLogin, setIsLogin] = useState(true);
-  const { t }  = useTranslation();
-
+  const dispatch = useDispatch()
+  const [form] = Form.useForm()
+  const [isLogin, setIsLogin] = useState(true)
+  const { t } = useTranslation()
+  const pageData = {
+    text: t('login:text'),
+    username: t('login:text'),
+    password: t('login:text'),
+    loginHere: t('login:text'),
+    pleaseInputYourUsername: t('login:text'),
+    pleaseInputYourPassword: t('login:text'),
+    youHaveBeenLoggedInSuccessfully: t('login:text'),
+    loginFail: t('login:text'),
+    emailOrPhoneNumber: t('login:text'),
+    forgotPassword: t('login:text'),
+    errorLogin: t('login:text'),
+    permissionDenied: t('login:text'),
+    logout: t('login:text')
+  }
   useEffect(() => {
-    const { search } = props.location;
-    const params = getParamsFromUrl(search);
-    const { username } = params;
+    const { search } = props.location
+    const params = getParamsFromUrl(search)
+    const { username } = params
     if (username) {
       form.setFieldsValue({
-        userName: username,
-      });
+        userName: username
+      })
     }
-    handleRedirectWithToken();
-  }, []);
+    handleRedirectWithToken()
+  }, [])
 
   const setUserAuth = (auth, token, permissions) => {
-    dispatch(setAuth(auth));
-    dispatch(setToken(token));
-    dispatch(setPermissions(permissions));
-  };
+    dispatch(setAuth(auth))
+    dispatch(setToken(token))
+    dispatch(setPermissions(permissions))
+  }
 
   const onFinish = (values) => {
     loginDataService
       .authenticate(values)
       .then((res) => {
-        const { token, thumbnail } = res;
-        var user = getUserInfo(token);
-        var auth = {
+        const { token, thumbnail } = res
+        const user = getUserInfo(token)
+        const auth = {
           ...user,
-          thumbnail: thumbnail,
-        };
-        setupWorkspace(token, auth);
+          thumbnail
+        }
+        setupWorkspace(token, auth)
       })
-      .catch(() => {});
-  };
+      .catch(() => {})
+  }
 
   const getUserInfo = (token) => {
-    let claims = jwt_decode(token);
-    let user = {
+    const claims = jwt_decode(token)
+    const user = {
       userId: claims[claimTypesConstants.id],
       accountId: claims[claimTypesConstants.accountId],
       fullName: claims[claimTypesConstants.fullName],
       email: claims[claimTypesConstants.email],
       accountType: claims[claimTypesConstants.accountType],
-      thumbnail: claims[claimTypesConstants.thumbnail],
-    };
-    return user;
-  };
-
+      thumbnail: claims[claimTypesConstants.thumbnail]
+    }
+    return user
+  }
 
   const setupWorkspace = (token, userInfo) => {
-    let auth = { token: token, user: userInfo };
+    const auth = { token, user: userInfo }
     /// get permissions
     permissionDataService.getPermissionsAsync(token).then((res) => {
-      const { permissions, permissionGroups } = res;
+      const { permissions, permissionGroups } = res
       if (permissions.length > 0 && permissionGroups.length > 0) {
-        message.success("Bạn đã đăng nhập thành công.");
-        dispatch(setPermissionGroup(permissionGroups));
-        setUserAuth(auth, token, permissions);
-        props.history.push("/home");
+        message.success('Bạn đã đăng nhập thành công.')
+        dispatch(setPermissionGroup(permissionGroups))
+        setUserAuth(auth, token, permissions)
+        props.history.push('/home')
       } else {
-        message.error("Xin lỗi! Nhưng bạn không có quyền truy cập vào trang này.");
+        message.error('Xin lỗi! Nhưng bạn không có quyền truy cập vào trang này.')
       }
-    });
-  };
+    })
+  }
 
   const checkTokenExpired = () => {
-    let isTokenExpired = true;
-    let token = getStorage(localStorageKeys.TOKEN);
+    let isTokenExpired = true
+    const token = getStorage(localStorageKeys.TOKEN)
     if (token || token !== null) {
-      isTokenExpired = tokenExpired(token);
+      isTokenExpired = tokenExpired(token)
     }
-    return isTokenExpired;
-  };
+    return isTokenExpired
+  }
 
   const handleRedirectWithToken = () => {
-    let isTokenExpired = checkTokenExpired();
+    const isTokenExpired = checkTokenExpired()
     if (isTokenExpired) {
-      dispatch(resetSession());
+      dispatch(resetSession())
     } else {
-      props.history.push("/home");
+      props.history.push('/home')
     }
-  };
+  }
 
   return (
     <div className="c-authenticator">
@@ -129,39 +142,38 @@ const LoginPage = (props) => {
         >
           <div className="frm-content">
 
-
             {!isLogin && (
               <div className="error-field">
                 <p>Bạn đã nhập sai Username hoặc Password.</p>
               </div>
             )}
 
-            <h1 className="label-login">{t('login:title')}</h1>
-            <h4 className="label-input">Email</h4>
+            <h1 className="label-login">{pageData.text}</h1>
+            <h4 className="label-input">{pageData.username}</h4>
             <Form.Item
               name="email"
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập email",
+                  message: 'Vui lòng nhập email'
                 },
                 {
-                  type: "email",
-                  message: "Vui lòng nhập mật khẩu",
-                },
+                  type: 'email',
+                  message: 'Vui lòng nhập mật khẩu'
+                }
               ]}
             >
               <Input prefix={<UserNameIcon />} placeholder="Nhập email của bạn" />
             </Form.Item>
 
-            <h4 className="label-input">Mật khẩu</h4>
+            <h4 className="label-input">{pageData.password}</h4>
             <Form.Item
               name="password"
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập password",
-                },
+                  message: 'Vui lòng nhập password'
+                }
               ]}
             >
               <Input.Password
@@ -179,7 +191,7 @@ const LoginPage = (props) => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
