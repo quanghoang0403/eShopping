@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { resetSession } from "store/modules/session/session.actions";
-import { tokenExpired } from "utils/helpers";
-import { getStorage, localStorageKeys } from "utils/localStorage.helpers";
-function HomePage(props) {
-
-  const dispatch = useDispatch();
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetSession } from 'store/modules/session/session.actions'
+import { tokenExpired } from 'utils/helpers'
+import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
+function HomePage (props) {
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    let isTokenExpired = checkTokenExpired();
+    const isTokenExpired = checkTokenExpired()
     if (isTokenExpired) {
-      dispatch(resetSession());
-      props.history.push("/login");
-    } else {
-
+      dispatch(resetSession())
+      props.history.push('/login')
     }
-  }, []);
+  }, [])
 
   const checkTokenExpired = () => {
-    let isTokenExpired = true;
-    let token = getStorage(localStorageKeys.TOKEN);
+    let isTokenExpired = true
+    const token = getStorage(localStorageKeys.TOKEN)
     if (token || token !== null) {
-      isTokenExpired = tokenExpired(token);
+      isTokenExpired = tokenExpired(token)
     }
-    return isTokenExpired;
-  };
+    return isTokenExpired
+  }
 
   return (
     <>Homepage</>
-  );
+  )
 }
 
-export default HomePage;
+export default HomePage

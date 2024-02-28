@@ -1,9 +1,9 @@
-import { Button } from "antd";
-import { PlusIcon } from "constants/icons.constants";
-import { capitalizeFirstLetterEachWord, hasPermission } from "utils/helpers";
-import "./shop-add-new-button.scss";
+import { Button } from 'antd'
+import { PlusIcon } from 'constants/icons.constants'
+import { capitalizeFirstLetterEachWord, hasPermission } from 'utils/helpers'
+import './shop-add-new-button.scss'
 
-export function ShopAddNewButton({
+export function ShopAddNewButton ({
   className,
   onClick,
   text,
@@ -11,15 +11,15 @@ export function ShopAddNewButton({
   permission,
   disabled,
   hideIcon,
-  idControl = "btn-add-new",
+  idControl = 'btn-add-new'
 }) {
   const renderButton = () => {
-    const titleFormatted = capitalizeFirstLetterEachWord(text);
+    const titleFormatted = capitalizeFirstLetterEachWord(text)
     if (hasPermission(permission)) {
       return (
         <Button
           icon={hideIcon ? <></> : <PlusIcon />}
-          className={`fnb-add-new-button ${className ?? ""}`}
+          className={`fnb-add-new-button ${className ?? ''}`}
           type="primary"
           onClick={onClick}
           htmlType={htmlType}
@@ -28,14 +28,14 @@ export function ShopAddNewButton({
         >
           <span>{titleFormatted}</span>
         </Button>
-      );
+      )
     }
 
     if (!permission) {
       return (
         <Button
           icon={hideIcon ? <></> : <PlusIcon />}
-          className={`fnb-add-new-button ${className ?? ""}`}
+          className={`fnb-add-new-button ${className ?? ''}`}
           type="primary"
           onClick={onClick}
           htmlType={htmlType}
@@ -44,8 +44,8 @@ export function ShopAddNewButton({
         >
           <span>{titleFormatted}</span>
         </Button>
-      );
+      )
     }
-  };
-  return <>{renderButton()}</>;
+  }
+  return <>{renderButton()}</>
 }

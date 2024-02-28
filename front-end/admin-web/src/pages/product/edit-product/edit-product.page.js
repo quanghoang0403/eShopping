@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from '@ant-design/icons'
 import {
   Button,
   Card,
@@ -9,142 +9,142 @@ import {
   message,
   Row,
   Tabs,
-  Typography,
-} from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import { FnbDeleteIcon } from "components/fnb-delete-icon/fnb-delete-icon";
-import { FnbImageSelectComponent } from "components/fnb-image-select/fnb-image-select.component";
-import { FnbSelectSingle } from "components/fnb-select-single/fnb-select-single";
-import { FnbTextArea } from "components/fnb-text-area/fnb-text-area.component";
-import PageTitle from "components/page-title";
-import { DELAYED_TIME, inputNumberRange1To999999999 } from "constants/default.constants";
-import { DragIcon, IconBtnAdd, TrashFill } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { ProductStatus } from "constants/product-status.constants";
-import { currency } from "constants/string.constants";
+  Typography
+} from 'antd'
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
+import { FnbDeleteIcon } from 'components/fnb-delete-icon/fnb-delete-icon'
+import { FnbImageSelectComponent } from 'components/fnb-image-select/fnb-image-select.component'
+import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
+import PageTitle from 'components/page-title'
+import { DELAYED_TIME, inputNumberRange1To999999999 } from 'constants/default.constants'
+import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
+import { PermissionKeys } from 'constants/permission-key.constants'
+import { ProductStatus } from 'constants/product-status.constants'
+import { currency } from 'constants/string.constants'
 // import productDataService from "data-services/product/product-data.service";
-import cloneDeep from "lodash/cloneDeep";
-import React, { useEffect, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import cloneDeep from 'lodash/cloneDeep'
+import React, { useEffect, useState } from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 import {
   getApiError,
   getValidationMessagesWithParentField,
-  randomGuid,
-} from "utils/helpers";
-import DeleteProductComponent from "../components/delete-product.component";
-import "./edit-product.scss";
+  randomGuid
+} from 'utils/helpers'
+import DeleteProductComponent from '../components/delete-product.component'
+import './edit-product.scss'
 
-export default function EditProductPage(props) {
-  const history = useHistory();
-  const match = useRouteMatch();
-  const fnbImageSelectRef = React.useRef();
+export default function EditProductPage (props) {
+  const history = useHistory()
+  const match = useRouteMatch()
+  const fnbImageSelectRef = React.useRef()
 
-  const [prices, setPrices] = useState([{}]);
-  const [listAllProductCategory, setListAllProductCategory] = useState([]);
-  const [titleName, setTitleName] = useState("");
-  const [form] = Form.useForm();
-  const [activate, setActivate] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disableCreateButton, setDisableCreateButton] = useState(false);
-  const [isChangeForm, setIsChangeForm] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [titleModal, setTitleModal] = useState("");
-  const [preventDeleteProduct, setPreventDeleteProduct] = useState({});
-  const [statusId, setStatusId] = useState(null);
-  const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
+  const [prices, setPrices] = useState([{}])
+  const [listAllProductCategory, setListAllProductCategory] = useState([])
+  const [titleName, setTitleName] = useState('')
+  const [form] = Form.useForm()
+  const [activate, setActivate] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [disableCreateButton, setDisableCreateButton] = useState(false)
+  const [isChangeForm, setIsChangeForm] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [titleModal, setTitleModal] = useState('')
+  const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
+  const [statusId, setStatusId] = useState(null)
+  const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500)
 
   useEffect(() => {
-    getInitData();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+    getInitData()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
 
   const pageData = {
-    notificationTitle: "Thông báo",
-    title: "Thêm Sản Phẩm",
-    btnCancel: "Hủy",
-    btnSave: "Lưu",
-    btnAddNew: "Thêm mới",
-    btnDelete: "Xóa",
-    action: "Thao tác",
-    cancelText: "Bỏ qua",
-    okText: "Xác nhận rời",
-    discardBtn: "Từ chối",
-    confirmLeaveBtn: "Xác nhận rời",
-    confirmDelete: "Xác nhận xóa",
-    productDeleteSuccess: "Xóa sản phẩm thành công",
-    productDeleteFail: "Xóa sản phẩm thất bại",
+    notificationTitle: 'Thông báo',
+    title: 'Thêm Sản Phẩm',
+    btnCancel: 'Hủy',
+    btnSave: 'Lưu',
+    btnAddNew: 'Thêm mới',
+    btnDelete: 'Xóa',
+    action: 'Thao tác',
+    cancelText: 'Bỏ qua',
+    okText: 'Xác nhận rời',
+    discardBtn: 'Từ chối',
+    confirmLeaveBtn: 'Xác nhận rời',
+    confirmDelete: 'Xác nhận xóa',
+    productDeleteSuccess: 'Xóa sản phẩm thành công',
+    productDeleteFail: 'Xóa sản phẩm thất bại',
     generalInformation: {
-      title: "Thông tin chung",
+      title: 'Thông tin chung',
       name: {
-        label: "Tên",
-        placeholder: "Nhập tên sản phẩm",
+        label: 'Tên',
+        placeholder: 'Nhập tên sản phẩm',
         required: true,
         maxLength: 100,
-        validateMessage: "Vui lòng nhập tên sản phẩm",
+        validateMessage: 'Vui lòng nhập tên sản phẩm'
       },
       description: {
-        label: "Mô tả",
-        placeholder: "Vui lòng nhập mô tả sản phẩm",
+        label: 'Mô tả',
+        placeholder: 'Vui lòng nhập mô tả sản phẩm',
         required: false,
-        maxLength: 255,
+        maxLength: 255
       },
-      uploadImage:"Thêm ảnh"
+      uploadImage: 'Thêm ảnh'
     },
     pricing: {
-      title: "Giá",
-      addPrice: "Thêm giá",
+      title: 'Giá',
+      addPrice: 'Thêm giá',
       price: {
-        label: "Giá",
-        placeholder: "Nhập giá",
+        label: 'Giá',
+        placeholder: 'Nhập giá',
         required: true,
         max: 999999999,
         min: 0,
-        format: "^[0-9]*$",
-        validateMessage: "Giá trị cho phép từ 0 đến 999.999.999",
+        format: '^[0-9]*$',
+        validateMessage: 'Giá trị cho phép từ 0 đến 999.999.999'
       },
       priceName: {
-        label: "Tên giá",
-        placeholder: "Nhập tên giá",
+        label: 'Tên giá',
+        placeholder: 'Nhập tên giá',
         required: true,
         maxLength: 100,
-        validateMessage: "Vui lòng nhập tên giá",
-      },
+        validateMessage: 'Vui lòng nhập tên giá'
+      }
     },
     productCategory: {
-      label: "Danh mục sản phẩm",
-      placeholder: "Chọn danh mục sản phẩm"
+      label: 'Danh mục sản phẩm',
+      placeholder: 'Chọn danh mục sản phẩm'
     },
-    productNameExisted: "Tên sản phẩm đã tồn tại",
-    fileSizeLimit: "Kích thước tệp tải lên phải nhỏ hơn 5MB",
-    productEditedSuccess: "Sản phẩm đã được sửa thành công",
-    leaveWarningMessage: "Bạn có muốn tiếp tục? Tất cả dữ liệu chưa được lưu sẽ bị mất.",
+    productNameExisted: 'Tên sản phẩm đã tồn tại',
+    fileSizeLimit: 'Kích thước tệp tải lên phải nhỏ hơn 5MB',
+    productEditedSuccess: 'Sản phẩm đã được sửa thành công',
+    leaveWarningMessage: 'Bạn có muốn tiếp tục? Tất cả dữ liệu chưa được lưu sẽ bị mất.',
     media: {
-      title: "Thư viện ảnh",
-      textNonImage: "Chấp nhận: JPG, PNG, JPG2000, GIF,... .",
+      title: 'Thư viện ảnh',
+      textNonImage: 'Chấp nhận: JPG, PNG, JPG2000, GIF,... .'
     },
     upload: {
-      adFromUrl: "Add from URL",
+      adFromUrl: 'Add from URL'
     },
     leaveDialog: {
-      confirmation: "Xác nhận",
-      content: "Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!",
+      confirmation: 'Xác nhận',
+      content: 'Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!'
     },
     table: {
-      name: "TÊN",
-      action: "THAO TÁC",
+      name: 'TÊN',
+      action: 'THAO TÁC'
     },
-    bestDisplayImage: "Hiển thị tốt nhất: 176px X 176px",
-    active: "Đang hoạt động",
-    inactive: "Không hoạt động",
-    productActivatedSuccess: "Sản phẩm đã được kích hoạt thành công",
-    productDeactivatedSuccess: "Sản phẩm đã được ngừng bán thành công",
-    activate: "Bán ngay",
-    deactivate: "Ngừng bán",
-  };
+    bestDisplayImage: 'Hiển thị tốt nhất: 176px X 176px',
+    active: 'Đang hoạt động',
+    inactive: 'Không hoạt động',
+    productActivatedSuccess: 'Sản phẩm đã được kích hoạt thành công',
+    productDeactivatedSuccess: 'Sản phẩm đã được ngừng bán thành công',
+    activate: 'Bán ngay',
+    deactivate: 'Ngừng bán'
+  }
 
   const getInitData = async () => {
     // productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
@@ -185,12 +185,11 @@ export default function EditProductPage(props) {
     //   }
     //   form.setFieldsValue(initData);
     // });
-  };
-
+  }
 
   const editProduct = () => {
     if (fnbImageSelectRef && fnbImageSelectRef.current) {
-      var imageUrl = fnbImageSelectRef.current.getImageUrl();
+      var imageUrl = fnbImageSelectRef.current.getImageUrl()
     }
     form
       .validateFields()
@@ -198,8 +197,8 @@ export default function EditProductPage(props) {
         const editProductRequestModel = {
           ...values.product,
           image: imageUrl,
-          productId: match?.params?.id,
-        };
+          productId: match?.params?.id
+        }
         if (editProductRequestModel.prices > 0) {
           // try {
           //   productDataService
@@ -228,16 +227,16 @@ export default function EditProductPage(props) {
       })
       .catch((errors) => {
         if (errors?.errorFields?.length > 0) {
-          let nameInputFirst = errors?.errorFields[0]?.name.join("-");
-          const input = document.getElementById(`${nameInputFirst}`);
+          const nameInputFirst = errors?.errorFields[0]?.name.join('-')
+          const input = document.getElementById(`${nameInputFirst}`)
           input.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "start",
-          });
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'start'
+          })
         }
-      });
-  };
+      })
+  }
 
   const onChangeStatus = async () => {
     // var res = await productDataService.changeStatusAsync(match?.params?.id);
@@ -249,76 +248,76 @@ export default function EditProductPage(props) {
     //   }
     //   getInitData();
     // }
-  };
+  }
 
   const onClickAddPrice = () => {
-    let formValue = form.getFieldsValue();
-    let { product } = formValue;
+    const formValue = form.getFieldsValue()
+    const { product } = formValue
 
     const newPrice = {
       position: prices.length || 0,
       id: randomGuid(),
-      name: "",
-      price: "",
-    };
-    if (prices.length === 1) {
-      prices[0].price = product.price || 0;
+      name: '',
+      price: ''
     }
-    const listPrice = [...(product.prices ?? prices), newPrice];
-    product.prices = listPrice;
-    setPrices(listPrice);
+    if (prices.length === 1) {
+      prices[0].price = product.price || 0
+    }
+    const listPrice = [...(product.prices ?? prices), newPrice]
+    product.prices = listPrice
+    setPrices(listPrice)
 
-    form.setFieldsValue(formValue);
+    form.setFieldsValue(formValue)
     setTimeout(() => {
-      const dragDropPrices = document.getElementById("dragDropPrices");
-      dragDropPrices.scrollTop = dragDropPrices.scrollHeight;
-    }, 100);
-  };
+      const dragDropPrices = document.getElementById('dragDropPrices')
+      dragDropPrices.scrollTop = dragDropPrices.scrollHeight
+    }, 100)
+  }
 
   const onDeletePrice = (index) => {
-    let formValue = form.getFieldsValue();
-    let { product } = formValue;
+    const formValue = form.getFieldsValue()
+    const { product } = formValue
     if (product.prices.length > 0) {
-      product.prices.splice(index, 1);
-      product.selectedMaterials?.priceName?.splice(index, 1);
-      product.prices.forEach((item, index) => (item.position = index));
+      product.prices.splice(index, 1)
+      product.selectedMaterials?.priceName?.splice(index, 1)
+      product.prices.forEach((item, index) => (item.position = index))
     }
-    setPrices(product.prices);
+    setPrices(product.prices)
     if (product.prices.length === 1) {
-      product.price = product.prices[0].price;
-      product.prices[0].position = 0;
+      product.price = product.prices[0].price
+      product.prices[0].position = 0
     }
-    form.setFieldsValue(formValue);
-  };
+    form.setFieldsValue(formValue)
+  }
 
   const onCompleted = () => {
-    setIsChangeForm(false);
+    setIsChangeForm(false)
     setTimeout(() => {
-      return history.push("/product");
-    }, DELAYED_TIME);
-  };
+      return history.push('/product')
+    }, DELAYED_TIME)
+  }
 
   const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    result.forEach((item, index) => (item.position = index));
-    return result;
-  };
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+    result.forEach((item, index) => (item.position = index))
+    return result
+  }
 
   const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
-      return;
+      return
     }
-    let formValue = form.getFieldsValue();
-    let { product } = formValue;
-    const listPrice = reorder(product.prices, result.source.index, result.destination.index);
+    const formValue = form.getFieldsValue()
+    const { product } = formValue
+    const listPrice = reorder(product.prices, result.source.index, result.destination.index)
 
-    setPrices(listPrice);
-    product.prices = listPrice;
-    form.setFieldsValue(formValue);
-  };
+    setPrices(listPrice)
+    product.prices = listPrice
+    form.setFieldsValue(formValue)
+  }
 
   const renderPrices = () => {
     const addPriceButton = (
@@ -331,7 +330,7 @@ export default function EditProductPage(props) {
       >
         {pageData.pricing.addPrice}
       </Button>
-    );
+    )
 
     const singlePrice = (
       <>
@@ -339,29 +338,29 @@ export default function EditProductPage(props) {
           <Col span={24}>
             <h4 className="fnb-form-label mt-24">{pageData.pricing.priceName.label}</h4>
             <Form.Item
-              name={["product", "price"]}
+              name={['product', 'price']}
               rules={[
                 {
                   required: true,
-                  message: pageData.pricing.price.validateMessage,
+                  message: pageData.pricing.price.validateMessage
                 },
                 {
                   pattern: new RegExp(inputNumberRange1To999999999.range),
-                  message: pageData.pricing.price.validateMessage,
-                },
+                  message: pageData.pricing.price.validateMessage
+                }
               ]}
             >
               <InputNumber
                 className="w-100 fnb-input-number"
                 placeholder={pageData.pricing.price.placeholder}
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                 addonAfter={currency.vnd}
                 precision={0}
                 id="product-price"
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
+                    event.preventDefault()
                   }
                 }}
               />
@@ -374,7 +373,7 @@ export default function EditProductPage(props) {
           </Col>
         </Row>
       </>
-    );
+    )
 
     const multiplePrices = (
       <>
@@ -386,51 +385,51 @@ export default function EditProductPage(props) {
                   id="dragDropPrices"
                   style={
                     prices.length >= 6
-                      ? { height: 640, overflowY: "scroll" }
+                      ? { height: 640, overflowY: 'scroll' }
                       : { minHeight: isMobileSize ? prices.length * 202 : prices.length * 127 }
                   }
                 >
                   <div style={{ minHeight: prices.length * 127 }}>
                     {prices.map((price, index) => {
-                      const position = (price.position || 0) + 1;
+                      const position = (price.position || 0) + 1
                       return (
                         <Draggable key={price.id} draggableId={price.id} index={index}>
                           {(provided) => (
                             <Row
-                              className={`mb-4 pointer price-item`}
+                              className={'mb-4 pointer price-item'}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
                               <Col span={24} className="col-title">
                                 <DragIcon className="title-center drag-icon" width={38} height={38} />
-                                <div className="m-4 title-center position-text">{position + "."}</div>
+                                <div className="m-4 title-center position-text">{position + '.'}</div>
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[16, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={12}>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "position"]}
+                                          name={['product', 'prices', price.position, 'position']}
                                           hidden={true}
                                         >
                                           <Input />
                                         </Form.Item>
-                                        <Form.Item name={["product", "prices", price.position, "id"]} hidden={true}>
+                                        <Form.Item name={['product', 'prices', price.position, 'id']} hidden={true}>
                                           <Input />
                                         </Form.Item>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "isPriceBelongsCombo"]}
+                                          name={['product', 'prices', price.position, 'isPriceBelongsCombo']}
                                           hidden={true}
                                         >
                                           <Input />
                                         </Form.Item>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "name"]}
+                                          name={['product', 'prices', price.position, 'name']}
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.priceName.validateMessage,
-                                            },
+                                              message: pageData.pricing.priceName.validateMessage
+                                            }
                                           ]}
                                         >
                                           <Input
@@ -443,28 +442,28 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={12}>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "price"]}
+                                          name={['product', 'prices', price.position, 'price']}
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.price.validateMessage,
+                                              message: pageData.pricing.price.validateMessage
                                             },
                                             {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
-                                              message: pageData.pricing.price.validateMessage,
-                                            },
+                                              message: pageData.pricing.price.validateMessage
+                                            }
                                           ]}
                                         >
                                           <InputNumber
                                             className="fnb-input-number w-100"
                                             placeholder={pageData.pricing.price.placeholder}
-                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                            parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                             addonAfter={currency.vnd}
                                             precision={0}
                                             onKeyPress={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
-                                                event.preventDefault();
+                                                event.preventDefault()
                                               }
                                             }}
                                             id={`product-prices-${price.position}-price`}
@@ -486,7 +485,7 @@ export default function EditProductPage(props) {
                             </Row>
                           )}
                         </Draggable>
-                      );
+                      )
                     })}
                   </div>
                 </div>
@@ -500,16 +499,15 @@ export default function EditProductPage(props) {
           </div>
         </Col>
       </>
-    );
+    )
 
     return (
       <>
         {prices.length === 1 && singlePrice}
         {prices.length > 1 && multiplePrices}
       </>
-    );
-  };
-
+    )
+  }
 
   const handleDeleteItem = async (productId, productName) => {
     // var res = await productDataService.deleteProductByIdAsync(productId);
@@ -519,34 +517,34 @@ export default function EditProductPage(props) {
     // } else {
     //   message.error(pageData.productDeleteFail);
     // }
-  };
+  }
 
   const changeForm = (e) => {
-    setIsChangeForm(true);
-    setDisableCreateButton(false);
-  };
+    setIsChangeForm(true)
+    setDisableCreateButton(false)
+  }
 
   const onCancel = () => {
     if (isChangeForm) {
-      setShowConfirm(true);
+      setShowConfirm(true)
     } else {
-      setShowConfirm(false);
-      onCompleted();
+      setShowConfirm(false)
+      onCompleted()
     }
-  };
+  }
 
   const onDiscard = () => {
-    setShowConfirm(false);
-  };
+    setShowConfirm(false)
+  }
 
   const handleOpenDeletePopup = () => {
-    setTitleModal(pageData.confirmDelete);
-    setIsModalVisible(true);
-  };
+    setTitleModal(pageData.confirmDelete)
+    setIsModalVisible(true)
+  }
 
   const updateDimensions = () => {
-    setIsMobileSize(window.innerWidth < 500);
-  };
+    setIsMobileSize(window.innerWidth < 500)
+  }
 
   return (
     <>
@@ -584,7 +582,7 @@ export default function EditProductPage(props) {
                     {pageData.btnSave}
                   </Button>
                 ),
-                permission: PermissionKeys.EDIT_PRODUCT,
+                permission: PermissionKeys.EDIT_PRODUCT
               },
               {
                 action: (
@@ -592,18 +590,18 @@ export default function EditProductPage(props) {
                     {pageData.btnCancel}
                   </a>
                 ),
-                permission: null,
+                permission: null
               },
               {
                 action: (
                   <a
-                    className={activate === pageData.deactivate ? "action-activate" : "action-deactivate"}
+                    className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
                     onClick={() => onChangeStatus()}
                   >
                     {activate}
                   </a>
                 ),
-                permission: PermissionKeys.ACTIVATE_PRODUCT,
+                permission: PermissionKeys.ACTIVATE_PRODUCT
               },
               {
                 action: (
@@ -611,8 +609,8 @@ export default function EditProductPage(props) {
                     {pageData.btnDelete}
                   </a>
                 ),
-                permission: PermissionKeys.DELETE_PRODUCT,
-              },
+                permission: PermissionKeys.DELETE_PRODUCT
+              }
             ]}
           />
         </Col>
@@ -637,12 +635,12 @@ export default function EditProductPage(props) {
                       <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={["product", "name"]}
+                      name={['product', 'name']}
                       rules={[
                         {
                           required: pageData.generalInformation.name.required,
-                          message: pageData.generalInformation.name.validateMessage,
-                        },
+                          message: pageData.generalInformation.name.validateMessage
+                        }
                       ]}
                     >
                       <Input
@@ -655,7 +653,7 @@ export default function EditProductPage(props) {
                     </Form.Item>
 
                     <h4 className="fnb-form-label mt-32">{pageData.generalInformation.description.label}</h4>
-                    <Form.Item name={["product", "description"]} rules={[]}>
+                    <Form.Item name={['product', 'description']} rules={[]}>
                       <FnbTextArea
                         showCount
                         maxLength={pageData.generalInformation.description.maxLength}
@@ -686,8 +684,8 @@ export default function EditProductPage(props) {
                     <h4 className="title-group">{pageData.media.title}</h4>
                     <FnbImageSelectComponent
                       ref={fnbImageSelectRef}
-                      customTextNonImageClass={"create-edit-product-text-non-image"}
-                      customNonImageClass={"create-edit-product-non-image"}
+                      customTextNonImageClass={'create-edit-product-text-non-image'}
+                      customNonImageClass={'create-edit-product-non-image'}
                     />
                   </Card>
                 </Col>
@@ -696,15 +694,15 @@ export default function EditProductPage(props) {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br/>
-                  <Card className={`w-100 mt-1 fnb-card h-auto`}>
+                  <Card className={'w-100 mt-1 fnb-card h-auto'}>
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item name={["product", "productCategoryId"]}>
+                    <Form.Item name={['product', 'productCategoryId']}>
                       <FnbSelectSingle
                         placeholder={pageData.productCategory.placeholder}
                         showSearch
                         option={listAllProductCategory?.map((b) => ({
                           id: b.id,
-                          name: b.name,
+                          name: b.name
                         }))}
                       />
                     </Form.Item>
@@ -735,5 +733,5 @@ export default function EditProductPage(props) {
         isChangeForm={isChangeForm}
       />
     </>
-  );
+  )
 }

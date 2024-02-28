@@ -1,8 +1,8 @@
-import dashboard from './dashboard.json';
-import login from './login.json';
+import dashboard from './dashboard.json'
+import login from './login.json'
 
 const lang = {
   login,
-  dashboard,
-};
-export default lang;
+  dashboard
+}
+export default lang

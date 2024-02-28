@@ -1,20 +1,20 @@
-import OrderPage from ".";
-import { Order } from "constants/icons.constants";
+import OrderPage from '.'
+import { Order } from 'constants/icons.constants'
 
 // Define the route
 const route = [
   {
-    key: "app.order",
+    key: 'app.order',
     position: 3,
-    path: "/order",
+    path: '/order',
     icon: <Order />,
-    name: "Đơn hàng",
+    name: 'Đơn hàng',
     isMenu: true,
     exact: true,
     auth: true,
-    permission: "public",
+    permission: 'public',
     component: OrderPage,
-    child: [],
-  },
-];
-export default route;
+    child: []
+  }
+]
+export default route

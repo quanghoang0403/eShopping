@@ -1,7 +1,7 @@
-import { Select } from "antd";
-import { ArrowDown, CheckedIcon } from "constants/icons.constants";
+import { Select } from 'antd'
+import { ArrowDown, CheckedIcon } from 'constants/icons.constants'
 
-import "./fnb-select-single.scss";
+import './fnb-select-single.scss'
 
 /**
  * SelectSingle component custom from antd select
@@ -11,7 +11,7 @@ import "./fnb-select-single.scss";
  * @returns
  */
 
-export function FnbSelectSingle({
+export function FnbSelectSingle ({
   value,
   onChange,
   className,
@@ -52,10 +52,10 @@ export function FnbSelectSingle({
         optionFilterProp="children"
         showArrow
         filterOption={(input, option) => {
-          const newOption = option?.name;
-          const inputStr = input.removeVietnamese();
-          const name = newOption?.removeVietnamese();
-          return name?.trim().toLowerCase().indexOf(inputStr.trim().toLowerCase()) >= 0;
+          const newOption = option?.name
+          const inputStr = input.removeVietnamese()
+          const name = newOption?.removeVietnamese()
+          return name?.trim().toLowerCase().indexOf(inputStr.trim().toLowerCase()) >= 0
         }}
         onPopupScroll={onPopupScroll}
         onFocus={onFocus}
@@ -70,5 +70,5 @@ export function FnbSelectSingle({
         ))}
       </Select>
     </>
-  );
+  )
 }

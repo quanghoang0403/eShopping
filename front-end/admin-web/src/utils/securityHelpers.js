@@ -1,6 +1,6 @@
-import { CRYPTOJS_AES_ENCRYPT_KEY } from "constants/application.constants";
+import { CRYPTOJS_AES_ENCRYPT_KEY } from 'constants/application.constants'
 
-const CryptoJS = require("crypto-js");
+const CryptoJS = require('crypto-js')
 
 // Using AES algorithm
 /**
@@ -9,10 +9,10 @@ const CryptoJS = require("crypto-js");
  * @returns data after encrypting
  */
 export const encryptWithAES = (originalData) => {
-  const encrypted = CryptoJS.AES.encrypt(originalData, CRYPTOJS_AES_ENCRYPT_KEY).toString();
+  const encrypted = CryptoJS.AES.encrypt(originalData, CRYPTOJS_AES_ENCRYPT_KEY).toString()
 
-  return encrypted;
-};
+  return encrypted
+}
 
 /**
  * Decrypt function
@@ -21,11 +21,11 @@ export const encryptWithAES = (originalData) => {
  */
 export const decryptWithAES = (decoded_data) => {
   if (decoded_data) {
-    const bytes = CryptoJS.AES.decrypt(decoded_data, CRYPTOJS_AES_ENCRYPT_KEY);
-    const originalText = bytes.toString(CryptoJS.enc.Utf8);
+    const bytes = CryptoJS.AES.decrypt(decoded_data, CRYPTOJS_AES_ENCRYPT_KEY)
+    const originalText = bytes.toString(CryptoJS.enc.Utf8)
 
-    return originalText;
+    return originalText
   }
 
-  return "";
-};
+  return ''
+}

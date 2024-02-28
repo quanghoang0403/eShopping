@@ -1,7 +1,7 @@
-import { Modal } from "antd";
-import "./fnb-notify-dialog.component.scss";
+import { Modal } from 'antd'
+import './fnb-notify-dialog.component.scss'
 
-export function FnbNotifyDialog({
+export function FnbNotifyDialog ({
   className,
   title,
   content: Content,
@@ -10,24 +10,23 @@ export function FnbNotifyDialog({
   okText,
   onCancel,
   onOk,
-  hideCancelButton,
+  hideCancelButton
 }) {
-
   return (
     <Modal
       className={`fnb-notify-dialog ${className}`}
       title={title}
       open={open}
-      okText={okText ?? "OK"}
+      okText={okText ?? 'OK'}
       closable={true}
-      cancelText={cancelText ?? "Cancel"}
+      cancelText={cancelText ?? 'Cancel'}
       onOk={onOk}
       onCancel={onCancel}
       centered={true}
       maskClosable={true}
-      cancelButtonProps={hideCancelButton ? { style: { display: "none" } } : ""}
+      cancelButtonProps={hideCancelButton ? { style: { display: 'none' } } : ''}
     >
       <Content />
     </Modal>
-  );
+  )
 }

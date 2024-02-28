@@ -31,6 +31,14 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'no-unused-vars': 'off',
+    'react/no-deprecated': 'off',
+    'no-void': 'off',
+    'no-undef': 'off',
+    'no-case-declarations': 'off',
+    'no-useless-constructor': 'off',
+    'no-prototype-builtins': 'off',
+    'react/display-name': 'off',
+    'array-callback-return': 'off',
     camelcase: 'off'
   }
 }

@@ -1,14 +1,15 @@
-import React from "react";
-import { Space, Tooltip } from "antd";
-import { EditFill } from "constants/icons.constants";
-import { hasPermission } from "utils/helpers";
+import React from 'react'
+import { Space, Tooltip } from 'antd'
+import { EditFill } from 'constants/icons.constants'
+import { hasPermission } from 'utils/helpers'
 
-export function EditButtonComponent(props) {
-  const { className, onClick, permission } = props;
+export function EditButtonComponent (props) {
+  const { className, onClick, permission } = props
 
   return (
     <>
-      {!permission || hasPermission(permission) ? (
+      {!permission || hasPermission(permission)
+        ? (
         <Space wrap className={className}>
           <a onClick={() => onClick()}>
             <div className="fnb-table-action-icon">
@@ -18,9 +19,10 @@ export function EditButtonComponent(props) {
             </div>
           </a>
         </Space>
-      ) : (
+          )
+        : (
         <></>
-      )}
+          )}
     </>
-  );
+  )
 }

@@ -31,19 +31,18 @@ const LoginPage = (props) => {
   const [isLogin, setIsLogin] = useState(true)
   const { t } = useTranslation()
   const pageData = {
-    text: t('login:text'),
-    username: t('login:text'),
-    password: t('login:text'),
-    loginHere: t('login:text'),
-    pleaseInputYourUsername: t('login:text'),
-    pleaseInputYourPassword: t('login:text'),
-    youHaveBeenLoggedInSuccessfully: t('login:text'),
-    loginFail: t('login:text'),
-    emailOrPhoneNumber: t('login:text'),
-    forgotPassword: t('login:text'),
-    errorLogin: t('login:text'),
-    permissionDenied: t('login:text'),
-    logout: t('login:text')
+    title: t('login:title'),
+    email: t('login:email'),
+    password: t('login:password'),
+    loginHere: t('login:loginHere'),
+    pleaseInputYourEmail: t('login:pleaseInputYourEmail'),
+    pleaseInputYourPassword: t('login:pleaseInputYourPassword'),
+    loginSuccess: t('login:loginSuccess'),
+    loginFail: t('login:loginFail'),
+    placeholderEmail: t('login:placeholderEmail'),
+    placeholderPassword: t('login:placeholderPassword'),
+    permissionDenied: t('login:permissionDenied'),
+    logout: t('login:logout')
   }
   useEffect(() => {
     const { search } = props.location
@@ -97,12 +96,12 @@ const LoginPage = (props) => {
     permissionDataService.getPermissionsAsync(token).then((res) => {
       const { permissions, permissionGroups } = res
       if (permissions.length > 0 && permissionGroups.length > 0) {
-        message.success('Bạn đã đăng nhập thành công.')
+        message.success(pageData.loginSuccess)
         dispatch(setPermissionGroup(permissionGroups))
         setUserAuth(auth, token, permissions)
         props.history.push('/home')
       } else {
-        message.error('Xin lỗi! Nhưng bạn không có quyền truy cập vào trang này.')
+        message.error(pageData.permissionDenied)
       }
     })
   }
@@ -144,26 +143,26 @@ const LoginPage = (props) => {
 
             {!isLogin && (
               <div className="error-field">
-                <p>Bạn đã nhập sai Username hoặc Password.</p>
+                <p>{pageData.loginFail}</p>
               </div>
             )}
 
-            <h1 className="label-login">{pageData.text}</h1>
-            <h4 className="label-input">{pageData.username}</h4>
+            <h1 className="label-login">{pageData.title}</h1>
+            <h4 className="label-input">{pageData.email}</h4>
             <Form.Item
               name="email"
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng nhập email'
+                  message: pageData.pleaseInputYourEmail
                 },
                 {
                   type: 'email',
-                  message: 'Vui lòng nhập mật khẩu'
+                  message: pageData.pleaseInputYourEmail
                 }
               ]}
             >
-              <Input prefix={<UserNameIcon />} placeholder="Nhập email của bạn" />
+              <Input prefix={<UserNameIcon />} placeholder={pageData.placeholderEmail} />
             </Form.Item>
 
             <h4 className="label-input">{pageData.password}</h4>
@@ -172,19 +171,19 @@ const LoginPage = (props) => {
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng nhập password'
+                  message: pageData.pleaseInputYourPassword
                 }
               ]}
             >
               <Input.Password
                 prefix={<LockIcon />}
                 iconRender={(visible) => (visible ? <EyeOpenIcon /> : <EyeIcon />)}
-                placeholder="Nhập mật khẩu"
+                placeholder={pageData.placeholderPassword}
               />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="login-form-button">
-                ĐĂNG NHẬP
+                {pageData.loginHere}
               </Button>
             </Form.Item>
           </div>

@@ -1,21 +1,21 @@
-import http from "../../utils/http-common";
+import http from '../../utils/http-common'
 
-const controller = "authenticate";
+const controller = 'authenticate'
 
 const authenticate = (data) => {
   const config = {
-    withCredentials: false,
-  };
+    withCredentials: false
+  }
 
-  return http.post(`/${controller}/authenticate`, data, config);
-};
+  return http.post(`/${controller}/authenticate`, data, config)
+}
 
 const refreshTokenAndPermissionsAsync = (data) => {
-  return http.post(`/${controller}/refresh-token-and-permissions`, data);
-};
+  return http.post(`/${controller}/refresh-token-and-permissions`, data)
+}
 
 const loginDataService = {
   authenticate,
-  refreshTokenAndPermissionsAsync,
-};
-export default loginDataService;
+  refreshTokenAndPermissionsAsync
+}
+export default loginDataService

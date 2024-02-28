@@ -1,3 +1,3 @@
-import TopbarContainer from "./top-bar.container";
+import TopbarContainer from './top-bar.container'
 
-export default TopbarContainer;
+export default TopbarContainer

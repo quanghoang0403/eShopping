@@ -1,43 +1,43 @@
-import { CameraFilled } from "@ant-design/icons";
-import { Button, Col, Form, Input, message, Row } from "antd";
+import { CameraFilled } from '@ant-design/icons'
+import { Button, Col, Form, Input, message, Row } from 'antd'
 // import staffDataService from "data-services/staff/staff-data.service";
 // import userDataService from "data-services/user/user-data.service";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import ImageUploading from "react-images-uploading";
-import { useDispatch } from "react-redux";
-import { setFullNameUser, setThumbnailUser } from "store/modules/session/session.actions";
-import { fileNameNormalize, jsonToFormData } from "utils/helpers";
-import { UpdatePasswordComponent } from "./update-password.component";
+import moment from 'moment'
+import React, { useEffect, useState } from 'react'
+import ImageUploading from 'react-images-uploading'
+import { useDispatch } from 'react-redux'
+import { setFullNameUser, setThumbnailUser } from 'store/modules/session/session.actions'
+import { fileNameNormalize, jsonToFormData } from 'utils/helpers'
+import { UpdatePasswordComponent } from './update-password.component'
 
-export default function UserInformationComponent(props) {
-  const [form] = Form.useForm();
-  const [images, setImages] = React.useState([]);
-  const dispatch = useDispatch();
-  const [avatarUrl, setAvatarUrl] = useState(null);
-  const [isHiddenButtonUpdate, setIsHiddenButtonUpdate] = useState(true);
-  const [fullNameCopy, setFullNameCopy] = useState(null);
-  const [phoneNumberCopy, setPhoneNumberCopy] = useState(null);
+export default function UserInformationComponent (props) {
+  const [form] = Form.useForm()
+  const [images, setImages] = React.useState([])
+  const dispatch = useDispatch()
+  const [avatarUrl, setAvatarUrl] = useState(null)
+  const [isHiddenButtonUpdate, setIsHiddenButtonUpdate] = useState(true)
+  const [fullNameCopy, setFullNameCopy] = useState(null)
+  const [phoneNumberCopy, setPhoneNumberCopy] = useState(null)
   const pageData = {
-    btnUpdate: "Cập nhật",
-    loginNameLabel: "Tên đăng nhập",
-    fullNameLabel: "Họ tên",
-    phoneNumberLabel: "Điện thoại",
-    fullNamePlaceholder:"Nhập họ tên",
-    phoneNumberPlaceholder: "Nhập số điện thoại",
-    fullNameErrorText: "Vui lòng nhập họ tên của bạn",
-    phoneNumberErrorText: "Vui lòng nhập số điện thoại của bạn",
-    phoneNumberInvalidMessage: "Số điện thoại không có giá trị",
+    btnUpdate: 'Cập nhật',
+    loginNameLabel: 'Tên đăng nhập',
+    fullNameLabel: 'Họ tên',
+    phoneNumberLabel: 'Điện thoại',
+    fullNamePlaceholder: 'Nhập họ tên',
+    phoneNumberPlaceholder: 'Nhập số điện thoại',
+    fullNameErrorText: 'Vui lòng nhập họ tên của bạn',
+    phoneNumberErrorText: 'Vui lòng nhập số điện thoại của bạn',
+    phoneNumberInvalidMessage: 'Số điện thoại không có giá trị',
     maxLengthPhoneNumber: 15,
-    formatPhoneNumber: "^[0-9]*$",
-    successMessage: "Tài khoản đã được cập nhật thành công",
-    unSuccessMessage: "Tài khoản cập nhật thất bại",
-    tabNameAccountTitle: "Thông tin chung",
-  };
+    formatPhoneNumber: '^[0-9]*$',
+    successMessage: 'Tài khoản đã được cập nhật thành công',
+    unSuccessMessage: 'Tài khoản cập nhật thất bại',
+    tabNameAccountTitle: 'Thông tin chung'
+  }
 
   useEffect(() => {
-    getUserInformation();
-  }, []);
+    getUserInformation()
+  }, [])
 
   const getUserInformation = () => {
     // staffDataService
@@ -58,7 +58,7 @@ export default function UserInformationComponent(props) {
     //   .catch((errors) => {
     //     message.error(errors?.message);
     //   });
-  };
+  }
 
   /**
    * Submit form value to server
@@ -82,7 +82,7 @@ export default function UserInformationComponent(props) {
     //       console.log("Update current user errors >>", errors);
     //     });
     // });
-  };
+  }
 
   /**
    *
@@ -92,13 +92,13 @@ export default function UserInformationComponent(props) {
    */
   const onUploadImage = (imageList) => {
     // data for submit
-    let buildFileName = moment(new Date()).format("DDMMYYYYHHmmss");
+    const buildFileName = moment(new Date()).format('DDMMYYYYHHmmss')
     if (imageList[0]) {
       const requestData = {
         file: imageList[0].file,
-        fileName: fileNameNormalize(buildFileName),
-      };
-      const requestFormData = jsonToFormData(requestData);
+        fileName: fileNameNormalize(buildFileName)
+      }
+      const requestFormData = jsonToFormData(requestData)
       // userDataService.uploadAccountAvatarAsync(requestFormData).then((res) => {
       //   if (res) {
       //     imageList[0].data_url = res;
@@ -112,45 +112,45 @@ export default function UserInformationComponent(props) {
       //   }
       // });
     }
-  };
+  }
 
   const onChangeFullName = (e) => {
-    let fullName = e?.target?.value;
-    let phoneNumber = form.getFieldValue("phoneNumber");
+    const fullName = e?.target?.value
+    const phoneNumber = form.getFieldValue('phoneNumber')
     if (fullName !== fullNameCopy || phoneNumber !== phoneNumberCopy) {
-      setIsHiddenButtonUpdate(false);
+      setIsHiddenButtonUpdate(false)
     }
     if (fullName === fullNameCopy && phoneNumber === phoneNumberCopy) {
-      setIsHiddenButtonUpdate(true);
+      setIsHiddenButtonUpdate(true)
     }
-  };
+  }
 
   const onChangePhoneNumber = (e) => {
-    let fullName = form.getFieldValue("fullName");
-    let phoneNumber = e?.target?.value;
+    const fullName = form.getFieldValue('fullName')
+    const phoneNumber = e?.target?.value
     if (fullName !== fullNameCopy || phoneNumber !== phoneNumberCopy) {
-      setIsHiddenButtonUpdate(false);
+      setIsHiddenButtonUpdate(false)
     }
     if (fullName === fullNameCopy && phoneNumber === phoneNumberCopy) {
-      setIsHiddenButtonUpdate(true);
+      setIsHiddenButtonUpdate(true)
     }
-  };
+  }
 
   const uploadImageError = (errors, files) => {
     if (errors.maxFileSize === true) {
-      message.error("Ảnh tải lên phải có dung lượng nhỏ hơn 1MB.");
+      message.error('Ảnh tải lên phải có dung lượng nhỏ hơn 1MB.')
     }
-  };
+  }
 
   return (
     <>
       <Row>
-        <Col span={12} style={{ display: "flex", alignItems: "center" }}>
+        <Col span={12} style={{ display: 'flex', alignItems: 'center' }}>
           <span className="title-account">{pageData.tabNameAccountTitle}</span>
         </Col>
         <Col span={12}>
           <Button
-            className={`btn-update-account`}
+            className={'btn-update-account'}
             onClick={() => onFinish()}
             htmlType="button"
             hidden={isHiddenButtonUpdate}
@@ -163,7 +163,7 @@ export default function UserInformationComponent(props) {
         <Row gutter={[16, 0]}>
           <Col span={12}>
             <div className="group-user-avatar">
-              <div className="user-avatar" hidden={images.length > 0 || avatarUrl !== null ? true : false}></div>
+              <div className="user-avatar" hidden={!!(images.length > 0 || avatarUrl !== null)}></div>
               <ImageUploading
                 value={images}
                 onChange={onUploadImage}
@@ -180,7 +180,7 @@ export default function UserInformationComponent(props) {
                       {imageList.length > 0 &&
                         imageList.map((image, index) => (
                           <div key={index} className="user-avatar user-avatar-no-border">
-                            <img src={image["data_url"] ?? avatarUrl} alt="" className="image-uploaded" />
+                            <img src={image.data_url ?? avatarUrl} alt="" className="image-uploaded" />
                           </div>
                         ))}
                       {avatarUrl !== null && imageList.length <= 0 && (
@@ -191,18 +191,18 @@ export default function UserInformationComponent(props) {
                         </>
                       )}
                     </div>
-                  );
+                  )
                 }}
               </ImageUploading>
             </div>
-            <Form.Item name={"thumbnail"} hidden={true}></Form.Item>
-            <Form.Item name={"accountId"} hidden={true}></Form.Item>
-            <Form.Item name={"userId"} hidden={true}></Form.Item>
+            <Form.Item name={'thumbnail'} hidden={true}></Form.Item>
+            <Form.Item name={'accountId'} hidden={true}></Form.Item>
+            <Form.Item name={'userId'} hidden={true}></Form.Item>
             <h4 className="fnb-form-label">
               {pageData.fullNameLabel}
               <span className="text-danger">*</span>
             </h4>
-            <Form.Item name={"fullName"} rules={[{ required: true, message: pageData.fullNameErrorText }]}>
+            <Form.Item name={'fullName'} rules={[{ required: true, message: pageData.fullNameErrorText }]}>
               <Input
                 className="fnb-input"
                 placeholder={pageData.fullNamePlaceholder}
@@ -221,7 +221,7 @@ export default function UserInformationComponent(props) {
               </Col> */}
               <Col span={24}>
                 <h4 className="fnb-form-label">{pageData.loginNameLabel}</h4>
-                <Form.Item name={"emailAddress"}>
+                <Form.Item name={'emailAddress'}>
                   <Input className="fnb-input" disabled={true} />
                 </Form.Item>
               </Col>
@@ -231,20 +231,20 @@ export default function UserInformationComponent(props) {
                   <span className="text-danger">*</span>
                 </h4>
                 <Form.Item
-                  name={"phoneNumber"}
+                  name={'phoneNumber'}
                   rules={[
                     {
                       required: true,
-                      message: pageData.phoneNumberErrorText,
+                      message: pageData.phoneNumberErrorText
                     },
                     {
                       pattern: new RegExp(pageData.formatPhoneNumber),
-                      message: pageData.phoneNumberInvalidMessage,
+                      message: pageData.phoneNumberInvalidMessage
                     },
                     {
-                      type: "string",
-                      max: pageData.maxLengthPhoneNumber,
-                    },
+                      type: 'string',
+                      max: pageData.maxLengthPhoneNumber
+                    }
                   ]}
                 >
                   <Input
@@ -261,5 +261,5 @@ export default function UserInformationComponent(props) {
       </Form>
       <UpdatePasswordComponent></UpdatePasswordComponent>
     </>
-  );
+  )
 }

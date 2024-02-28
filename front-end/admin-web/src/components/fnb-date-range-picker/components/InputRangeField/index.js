@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-const MIN = 0;
-const MAX = 99999;
+const MIN = 0
+const MAX = 99999
 
 class InputRangeField extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor (props, context) {
+    super(props, context)
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { value, label, placeholder } = this.props;
+  shouldComponentUpdate (nextProps) {
+    const { value, label, placeholder } = this.props
 
     return (
       value !== nextProps.value ||
       label !== nextProps.label ||
       placeholder !== nextProps.placeholder
-    );
+    )
   }
 
   onChange = e => {
-    const { onChange } = this.props;
+    const { onChange } = this.props
 
-    let value = parseInt(e.target.value, 10);
-    value = isNaN(value) ? 0 : Math.max(Math.min(MAX, value), MIN);
+    let value = parseInt(e.target.value, 10)
+    value = isNaN(value) ? 0 : Math.max(Math.min(MAX, value), MIN)
 
-    onChange(value);
-  };
+    onChange(value)
+  }
 
-  render() {
-    const { label, placeholder, value, styles, onBlur, onFocus } = this.props;
+  render () {
+    const { label, placeholder, value, styles, onBlur, onFocus } = this.props
 
     return (
       <div className={styles.inputRange}>
@@ -45,7 +45,7 @@ class InputRangeField extends Component {
         />
         <span className={styles.inputRangeLabel}>{label}</span>
       </div>
-    );
+    )
   }
 }
 
@@ -56,16 +56,16 @@ InputRangeField.propTypes = {
   styles: PropTypes.shape({
     inputRange: PropTypes.string,
     inputRangeInput: PropTypes.string,
-    inputRangeLabel: PropTypes.string,
+    inputRangeLabel: PropTypes.string
   }).isRequired,
   onBlur: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+  onChange: PropTypes.func.isRequired
+}
 
 InputRangeField.defaultProps = {
   value: '',
-  placeholder: '-',
-};
+  placeholder: '-'
+}
 
-export default InputRangeField;
+export default InputRangeField

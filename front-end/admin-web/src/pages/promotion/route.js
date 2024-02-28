@@ -1,20 +1,20 @@
-import PromotionPage from ".";
-import { Promotion } from "constants/icons.constants";
+import PromotionPage from '.'
+import { Promotion } from 'constants/icons.constants'
 
 // Define the route
 const route = [
   {
-    key: "app.prmotion",
+    key: 'app.prmotion',
     position: 4,
-    path: "/promotion",
+    path: '/promotion',
     icon: <Promotion />,
-    name: "Khuyến mãi",
+    name: 'Khuyến mãi',
     isMenu: true,
     exact: true,
     auth: true,
-    permission: "public",
+    permission: 'public',
     component: PromotionPage,
-    child: [],
-  },
-];
-export default route;
+    child: []
+  }
+]
+export default route

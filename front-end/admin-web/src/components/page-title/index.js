@@ -1,8 +1,8 @@
-import { capitalizeFirstLetterEachWord, capitalizeUpperCaseWord } from "utils/helpers";
-import "./index.scss";
+import { capitalizeFirstLetterEachWord, capitalizeUpperCaseWord } from 'utils/helpers'
+import './index.scss'
 
-export default function PageTitle(props) {
-  const { className, content, isNormal, style, icon } = props;
+export default function PageTitle (props) {
+  const { className, content, isNormal, style, icon } = props
 
   /**
    * return a string with option
@@ -13,13 +13,13 @@ export default function PageTitle(props) {
   const renderTitle = () => {
     switch (isNormal) {
       case true:
-        return content;
+        return content
       case false:
-        return capitalizeUpperCaseWord(content);
+        return capitalizeUpperCaseWord(content)
       default:
-        return capitalizeFirstLetterEachWord(content);
+        return capitalizeFirstLetterEachWord(content)
     }
-  };
+  }
   return (
     <>
       <h1 className={`fnb-title-header ${className}`} style={style}>
@@ -27,5 +27,5 @@ export default function PageTitle(props) {
         {icon && icon}
       </h1>
     </>
-  );
+  )
 }

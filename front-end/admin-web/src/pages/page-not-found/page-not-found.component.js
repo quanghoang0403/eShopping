@@ -1,10 +1,10 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 
-import "./style.scss";
+import './style.scss'
 
-export default function PageNotFound(props) {
-  const history = useHistory();
+export default function PageNotFound (props) {
+  const history = useHistory()
 
   return (
     <div className="page-not-found">
@@ -15,12 +15,12 @@ export default function PageNotFound(props) {
             <div className="exclamation-point">!</div>
             <div className="error-text">Không tìm thấy trang</div>
             <div className="message-text">Chúng tôi rất tiếc, nhưng chúng tôi không thể tìm thấy trang bạn yêu cầu</div>
-            <button className="button-bg" onClick={() => history.push("/")}>
+            <button className="button-bg" onClick={() => history.push('/')}>
               <span className="button-text">Quay về trang chủ</span>
             </button>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

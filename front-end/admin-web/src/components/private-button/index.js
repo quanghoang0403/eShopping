@@ -1,9 +1,9 @@
-import React from "react";
-import { Button } from "antd";
-import { hasPermission } from "utils/helpers";
+import React from 'react'
+import { Button } from 'antd'
+import { hasPermission } from 'utils/helpers'
 
-export default function PrivateButton(props) {
-  const { onClick, icon, type, className, text, permission } = props;
+export default function PrivateButton (props) {
+  const { onClick, icon, type, className, text, permission } = props
   return (
     <>
       {hasPermission(permission) && (
@@ -12,6 +12,5 @@ export default function PrivateButton(props) {
         </Button>
       )}
     </>
-  );
+  )
 }
-

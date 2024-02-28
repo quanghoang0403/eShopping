@@ -1,20 +1,19 @@
-import { Layout } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { Route } from "react-router-dom";
-import { store } from "store";
-import { resetSession } from "store/modules/session/session.actions";
-import { hasPermission, tokenExpired } from "utils/helpers";
-import { getStorage, localStorageKeys } from "utils/localStorage.helpers";
-import SideMenu from "../side-menu";
-import TopBar from "../top-bar/index";
+import { Layout } from 'antd'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
+import { Route } from 'react-router-dom'
+import { store } from 'store'
+import { resetSession } from 'store/modules/session/session.actions'
+import { hasPermission, tokenExpired } from 'utils/helpers'
+import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
+import SideMenu from '../side-menu'
+import TopBar from '../top-bar/index'
 
-const { Content } = Layout;
-export default function PrivateRoute(props) {
-
-  const history = useHistory();
-  const dispatch = useDispatch();
+const { Content } = Layout
+export default function PrivateRoute (props) {
+  const history = useHistory()
+  const dispatch = useDispatch()
   const {
     exact,
     route,
@@ -27,35 +26,35 @@ export default function PrivateRoute(props) {
     isChild,
     parentKey,
     ...rest
-  } = props;
-  const [menuItems, setMenuItems] = useState([]);
+  } = props
+  const [menuItems, setMenuItems] = useState([])
 
   useEffect(() => {
-    const { permission } = route;
-    let isTokenExpired = checkTokenExpired();
+    const { permission } = route
+    const isTokenExpired = checkTokenExpired()
     // Navigate to RESTRICTED Page whether user has not permission
     if (!isTokenExpired) {
       if (permission && !hasPermission(permission)) {
-        history.push("/page-not-permitted");
+        history.push('/page-not-permitted')
       }
     } else {
-      dispatch(resetSession());
-      history.push("/login");
+      dispatch(resetSession())
+      history.push('/login')
     }
 
     // filter menus from routes where isMenu === true
-    const menuItems = routes.filter((route) => route.isMenu === true);
-    setMenuItems(menuItems);
-  }, []);
+    const menuItems = routes.filter((route) => route.isMenu === true)
+    setMenuItems(menuItems)
+  }, [])
 
   const checkTokenExpired = () => {
-    let isTokenExpired = true;
-    let token = getStorage(localStorageKeys.TOKEN);
+    let isTokenExpired = true
+    const token = getStorage(localStorageKeys.TOKEN)
     if (token || token !== null) {
-      isTokenExpired = tokenExpired(token);
+      isTokenExpired = tokenExpired(token)
     }
-    return isTokenExpired;
-  };
+    return isTokenExpired
+  }
 
   return (
     <>
@@ -67,5 +66,5 @@ export default function PrivateRoute(props) {
         </Content>
       </Layout>
     </>
-  );
+  )
 }

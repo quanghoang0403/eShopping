@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Select, Row, Col } from "antd";
-import { ArrowDown, CheckedIcon } from "constants/icons.constants";
-import { PlusOrangeIcon } from "constants/icons.constants";
-import "./select-edit-new-item.scss";
+import React, { useEffect, useState } from 'react'
+import { Select, Row, Col } from 'antd'
+import { ArrowDown, CheckedIcon, PlusOrangeIcon } from 'constants/icons.constants'
 
-const { Option } = Select;
+import './select-edit-new-item.scss'
 
-export default function SelectEditComponent(props) {
+const { Option } = Select
+
+export default function SelectEditComponent (props) {
   const {
     placeholder,
     listOption,
@@ -21,27 +21,27 @@ export default function SelectEditComponent(props) {
     onSearch,
     onSelect,
     fixed
-  } = props;
+  } = props
 
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(null)
 
   const pageData = {
-    add: "Thêm mới",
+    add: 'Thêm mới'
   }
 
   useEffect(() => {
     if (isEditProduct) {
-      props.functions.current = setValue;
+      props.functions.current = setValue
     }
-  }, []);
+  }, [])
 
   const orderListByKey = (data, key, order) => {
-    const compareValues = (key, order = "asc") => (elemA, elemB) => {
-      if (!elemA.hasOwnProperty(key) || !elemB.hasOwnProperty(key)) return 0;
-      const comparison = elemA[key].localeCompare(elemB[key]);
-      return order === "desc" ? comparison * -1 : comparison;
-    };
-    return data.sort(compareValues(key, order));
+    const compareValues = (key, order = 'asc') => (elemA, elemB) => {
+      if (!elemA.hasOwnProperty(key) || !elemB.hasOwnProperty(key)) return 0
+      const comparison = elemA[key].localeCompare(elemB[key])
+      return order === 'desc' ? comparison * -1 : comparison
+    }
+    return data.sort(compareValues(key, order))
   }
 
   return (
@@ -75,7 +75,7 @@ export default function SelectEditComponent(props) {
                     <div className="keyword-add">
                       {`  ${pageData.add} "`}
                       <span style={{ fontWeight: 'bold' }}>{name}</span>
-                      {`"`}
+                      {'"'}
                     </div>
                   </div>
                 </Row>
@@ -88,11 +88,11 @@ export default function SelectEditComponent(props) {
         </>
       )}
     >
-      {orderListByKey(listOption, "name").map((item) => (
+      {orderListByKey(listOption, 'name').map((item) => (
         <Option key={item.id} value={item.id}>
           {item.name}
         </Option>
       ))}
     </Select>
-  );
+  )
 }

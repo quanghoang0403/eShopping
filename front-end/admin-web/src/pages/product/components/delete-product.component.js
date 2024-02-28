@@ -1,25 +1,25 @@
-import { Button, Col, Modal, Row } from "antd";
-import "./delete-product.component.scss";
+import { Button, Col, Modal, Row } from 'antd'
+import './delete-product.component.scss'
 
-export default function DeleteProductComponent(props) {
+export default function DeleteProductComponent (props) {
   const {
     preventDeleteProduct,
     isModalVisible,
     titleModal,
     handleCancel,
-    onDelete,
-  } = props;
+    onDelete
+  } = props
 
   const pageData = {
-    buttonIGotIt: "Tôi đã hiểu!",
-    ignore:  "Bỏ qua",
-    delete: "Xóa",
-    confirmDelete: "Xác nhận xóa",
-  };
+    buttonIGotIt: 'Tôi đã hiểu!',
+    ignore: 'Bỏ qua',
+    delete: 'Xóa',
+    confirmDelete: 'Xác nhận xóa'
+  }
 
   const formatDeleteMessage = (name) => {
-    return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`;
-  };
+    return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`
+  }
 
   return (
     <>
@@ -35,18 +35,20 @@ export default function DeleteProductComponent(props) {
           <Col span={24}>
             <p
               dangerouslySetInnerHTML={{
-                __html: formatDeleteMessage(preventDeleteProduct?.productName),
+                __html: formatDeleteMessage(preventDeleteProduct?.productName)
               }}
             ></p>
           </Col>
         </Row>
-        {preventDeleteProduct?.isPreventDelete === true ? (
+        {preventDeleteProduct?.isPreventDelete === true
+          ? (
           <Row className="btn-i-got-it">
             <Button type="primary" onClick={() => handleCancel()}>
               {pageData.buttonIGotIt}
             </Button>
           </Row>
-        ) : (
+            )
+          : (
           <Row className="modal-footer">
             <Button className="mr-2" onClick={() => handleCancel()}>
               {pageData.ignore}
@@ -55,8 +57,8 @@ export default function DeleteProductComponent(props) {
               {pageData.delete}
             </Button>
           </Row>
-        )}
+            )}
       </Modal>
     </>
-  );
+  )
 }

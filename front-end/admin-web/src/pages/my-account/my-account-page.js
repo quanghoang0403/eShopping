@@ -1,14 +1,14 @@
-import React from "react";
-import { Card, Col, Row } from "antd";
-import PageTitle from "components/page-title";
-import UserInformationComponent from "./components/user-information.component";
-import "./my-account.scss";
+import React from 'react'
+import { Card, Col, Row } from 'antd'
+import PageTitle from 'components/page-title'
+import UserInformationComponent from './components/user-information.component'
+import './my-account.scss'
 
-export default function MyAccountPage(props) {
+export default function MyAccountPage (props) {
   const pageData = {
-    titlePage: "Thông tin tài khoản",
-    tabNameAccount:  "Tài khoản",
-  };
+    titlePage: 'Thông tin tài khoản',
+    tabNameAccount: 'Tài khoản'
+  }
 
   return (
     <>
@@ -27,5 +27,5 @@ export default function MyAccountPage(props) {
         </Row>
       </div>
     </>
-  );
+  )
 }

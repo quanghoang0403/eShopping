@@ -1,62 +1,62 @@
-import { Button, Col, Form, Image, Row, Typography } from "antd";
+import { Button, Col, Form, Image, Row, Typography } from 'antd'
 // import productImageDefault from "assets/images/product-img-default.png";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import PageTitle from "components/page-title";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { ProductStatus } from "constants/product-status.constants";
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
+import PageTitle from 'components/page-title'
+import { PermissionKeys } from 'constants/permission-key.constants'
+import { ProductStatus } from 'constants/product-status.constants'
 // import productDataService from "data-services/product/product-data.service";
-import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { formatCurrency, formatNumber, getCurrency } from "utils/helpers";
-import DeleteProductComponent from "../components/delete-product.component";
-import "./index.scss";
-const { Text } = Typography;
+import { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { formatCurrency, formatNumber, getCurrency } from 'utils/helpers'
+import DeleteProductComponent from '../components/delete-product.component'
+import './index.scss'
+const { Text } = Typography
 
-export default function ProductDetailPage(props) {
-  const history = useHistory();
+export default function ProductDetailPage (props) {
+  const history = useHistory()
 
-  const [product, setProduct] = useState({});
-  const [activate, setActivate] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [titleModal, setTitleModal] = useState();
+  const [product, setProduct] = useState({})
+  const [activate, setActivate] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [titleModal, setTitleModal] = useState()
 
   const pageData = {
-    btnDelete: "Xóa",
-    btnEdit: "Chỉnh sửa",
-    btnLeave: "Quay lại",
-    action: "Tác vụ",
-    confirmDelete: "Xác nhận xóa",
-    productDeleteSuccess: "Xóa sản phẩm thành công",
-    productDeleteFail: "Xóa sản phẩm thất bại",
+    btnDelete: 'Xóa',
+    btnEdit: 'Chỉnh sửa',
+    btnLeave: 'Quay lại',
+    action: 'Tác vụ',
+    confirmDelete: 'Xác nhận xóa',
+    productDeleteSuccess: 'Xóa sản phẩm thành công',
+    productDeleteFail: 'Xóa sản phẩm thất bại',
     generalInformation: {
-      title: "Thông tin chung",
+      title: 'Thông tin chung',
       name: {
-        label: "Tên",
+        label: 'Tên'
       },
       description: {
-        label: "Mô tả",
-      },
+        label: 'Mô tả'
+      }
     },
     pricing: {
-      title: "Giá Tiền",
-      price: "Giá",
+      title: 'Giá Tiền',
+      price: 'Giá'
     },
     productCategory: {
-      label: "Danh mục sản phẩm",
+      label: 'Danh mục sản phẩm'
     },
-    media: "MEDIA",
-    notificationTitle: "Thông báo",
-    active: "Đang hoạt động",
-    inactive: "Không hoạt động",
-    productActivatedSuccess: "Sản phẩm đã được kích hoạt thành công",
-    productDeactivatedSuccess: "Sản phẩm đã được ngừng bán thành công",
-    activate: "Bán ngay",
-    deactivate: "Ngừng bán",
-  };
+    media: 'MEDIA',
+    notificationTitle: 'Thông báo',
+    active: 'Đang hoạt động',
+    inactive: 'Không hoạt động',
+    productActivatedSuccess: 'Sản phẩm đã được kích hoạt thành công',
+    productDeactivatedSuccess: 'Sản phẩm đã được ngừng bán thành công',
+    activate: 'Bán ngay',
+    deactivate: 'Ngừng bán'
+  }
 
   useEffect(async () => {
-    getInitData();
-  }, []);
+    getInitData()
+  }, [])
 
   const getInitData = async () => {
     // let response = await productDataService.getProductDetailByIdAsync(match?.params?.id);
@@ -67,7 +67,7 @@ export default function ProductDetailPage(props) {
     // } else {
     //   setActivate(pageData.deactivate);
     // }
-  };
+  }
 
   const onChangeStatus = async () => {
     // var res = await productDataService.changeStatusAsync(match?.params?.id);
@@ -79,18 +79,18 @@ export default function ProductDetailPage(props) {
     //   }
     //   getInitData();
     // }
-  };
+  }
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+    setIsModalVisible(false)
+  }
 
   const formatDeleteMessage = (name) => {
-    return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`;
-  };
+    return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`
+  }
 
   const onDeleteItem = () => {
-    const { id } = product;
+    const { id } = product
     // productDataService.getAllOrderNotCompletedByProductIdAsync(id).then((res) => {
     //   const { preventDeleteProduct } = res;
 
@@ -102,7 +102,7 @@ export default function ProductDetailPage(props) {
     //   }
     //   setIsModalVisible(true);
     // });
-  };
+  }
   const handleDeleteItem = async (productId) => {
     // var res = await productDataService.deleteProductByIdAsync(productId);
     // if (res) {
@@ -112,7 +112,7 @@ export default function ProductDetailPage(props) {
     // }
     // setIsModalVisible(false);
     // window.location.href = "/product";
-  };
+  }
 
   const onEditItem = () => {
     // productDataService.getAllOrderNotCompletedByProductIdAsync(product?.id).then((res) => {
@@ -126,37 +126,36 @@ export default function ProductDetailPage(props) {
     //   }
     //   setIsModalVisible(true);
     // });
-  };
-
+  }
 
   const items = [
     {
       label: (
         <a
-          className={activate === pageData.deactivate ? "action-activate" : "action-deactivate"}
+          className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
           onClick={() => onChangeStatus()}
         >
           {activate}
         </a>
       ),
       permission: PermissionKeys.EDIT_PRODUCT,
-      key: "0",
+      key: '0'
     },
     {
       label: (
         <a
           className="action-delete"
           onClick={() => {
-            onDeleteItem();
+            onDeleteItem()
           }}
         >
           {pageData.btnDelete}
         </a>
       ),
-      key: "1",
-      permission: PermissionKeys.EDIT_PRODUCT,
-    },
-  ];
+      key: '1',
+      permission: PermissionKeys.EDIT_PRODUCT
+    }
+  ]
 
   return (
     <>
@@ -168,12 +167,12 @@ export default function ProductDetailPage(props) {
                 <PageTitle content={product?.name} />
               </p>
               {product.statusId === ProductStatus.Activate && (
-                <span class="badge-status active ml-3">
+                <span className="badge-status active ml-3">
                   <span> {pageData.active}</span>
                 </span>
               )}
               {product.statusId === ProductStatus.Deactivate && (
-                <span class="badge-status default ml-3">
+                <span className="badge-status default ml-3">
                   <span> {pageData.inactive}</span>
                 </span>
               )}
@@ -188,40 +187,40 @@ export default function ProductDetailPage(props) {
                       {pageData.btnEdit}
                     </Button>
                   ),
-                  permission: PermissionKeys.EDIT_PRODUCT,
+                  permission: PermissionKeys.EDIT_PRODUCT
                 },
                 {
                   action: (
-                    <a onClick={() => history.push(`/product`)} className="action-cancel">
+                    <a onClick={() => history.push('/product')} className="action-cancel">
                       {pageData.btnLeave}
                     </a>
                   ),
-                  permission: null,
+                  permission: null
                 },
                 {
                   action: (
                     <a
-                      className={activate === pageData.deactivate ? "action-activate" : "action-deactivate"}
+                      className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
                       onClick={() => onChangeStatus()}
                     >
                       {activate}
                     </a>
                   ),
-                  permission: PermissionKeys.EDIT_PRODUCT,
+                  permission: PermissionKeys.EDIT_PRODUCT
                 },
                 {
                   action: (
                     <a
                       className="action-delete"
                       onClick={() => {
-                        onDeleteItem();
+                        onDeleteItem()
                       }}
                     >
                       {pageData.btnDelete}
                     </a>
                   ),
-                  permission: PermissionKeys.EDIT_PRODUCT,
-                },
+                  permission: PermissionKeys.EDIT_PRODUCT
+                }
               ]}
             />
           </Col>
@@ -254,30 +253,30 @@ export default function ProductDetailPage(props) {
               </div>
               <div className="product-detail-div">
                 {product?.productPrices?.length > 1 && (
-                  <div className="list-price" style={{ marginLeft: "18px" }}>
+                  <div className="list-price" style={{ marginLeft: '18px' }}>
                     {product?.productPrices?.map((item, index) => {
-                      const position = (item?.position || 0) + 1;
+                      const position = (item?.position || 0) + 1
                       return (
                         <Row key={index} className="price-item mb-4">
                           <Col span={24} className="col-title">
-                            <div className="m-4 title-center position-text position-mobile">{position + "."}</div>
+                            <div className="m-4 title-center position-text position-mobile">{position + '.'}</div>
                             <Row className="w-100">
                               <Col span={24}>
                                 <Row className="box-product-price">
                                   <Col xs={24} sm={24} md={24} lg={14}>
-                                    <Text className="text-name pr-4" style={{ marginLeft: "30px" }}>
+                                    <Text className="text-name pr-4" style={{ marginLeft: '30px' }}>
                                       <li className="pr-5">{item?.priceName} </li>
                                     </Text>
                                   </Col>
                                   <Col xs={24} sm={24} md={24} lg={10}>
                                     <Row>
                                       <Col xs={12} sm={24} md={24} lg={8}>
-                                        <Text className="text-name text-bold" style={{ marginLeft: "30px" }}>
+                                        <Text className="text-name text-bold" style={{ marginLeft: '30px' }}>
                                           <li className="text-bold">{formatNumber(item?.priceValue)} </li>
                                         </Text>
                                       </Col>
                                       <Col xs={12} sm={24} md={24} lg={6}>
-                                        <Text className="text-name" style={{ color: "#9F9F9F" }}>
+                                        <Text className="text-name" style={{ color: '#9F9F9F' }}>
                                           <li>{getCurrency()} </li>
                                         </Text>
                                       </Col>
@@ -288,7 +287,7 @@ export default function ProductDetailPage(props) {
                             </Row>
                           </Col>
                         </Row>
-                      );
+                      )
                     })}
                   </div>
                 )}
@@ -315,5 +314,5 @@ export default function ProductDetailPage(props) {
         onDelete={handleDeleteItem}
       />
     </>
-  );
+  )
 }

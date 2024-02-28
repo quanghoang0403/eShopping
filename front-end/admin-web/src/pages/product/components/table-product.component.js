@@ -1,112 +1,112 @@
-import { EllipsisOutlined } from "@ant-design/icons";
-import { Col, message, Popover, Row, Space, Tooltip } from "antd";
-import { BadgeStatus } from "components/badge-status";
-import { EditButtonComponent } from "components/edit-button/edit-button.component";
-import { FnbTable } from "components/fnb-table/fnb-table";
-import { Thumbnail } from "components/thumbnail/thumbnail";
-import { TrashFill } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
+import { EllipsisOutlined } from '@ant-design/icons'
+import { Col, message, Popover, Row, Space, Tooltip } from 'antd'
+import { BadgeStatus } from 'components/badge-status'
+import { EditButtonComponent } from 'components/edit-button/edit-button.component'
+import { FnbTable } from 'components/fnb-table/fnb-table'
+import { Thumbnail } from 'components/thumbnail/thumbnail'
+import { TrashFill } from 'constants/icons.constants'
+import { PermissionKeys } from 'constants/permission-key.constants'
 
 // import productCategoryDataService from "data-services/product-category/product-category-data.service";
 // import productDataService from "data-services/product/product-data.service";
 
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import {
   executeAfter,
   formatCurrencyWithoutSuffix,
   getCurrency,
   getThumbnailUrl,
   hasPermission,
-  isJsonString,
-} from "utils/helpers";
-import { getStorage, localStorageKeys, setStorage } from "utils/localStorage.helpers";
-import DeleteProductComponent from "./delete-product.component";
-import FilterProduct from "./filter-product.component";
+  isJsonString
+} from 'utils/helpers'
+import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'
+import DeleteProductComponent from './delete-product.component'
+import FilterProduct from './filter-product.component'
 
-export default function TableProduct(props) {
-  const history = useHistory();
-  const [dataSource, setDataSource] = useState([]);
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [productCategories, setProductCategories] = useState([]);
-  const [countFilter, setCountFilter] = useState(0);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [showPopover, setShowPopover] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [preventDeleteProduct, setPreventDeleteProduct] = useState({});
-  const [titleModal, setTitleModal] = useState();
-  const [dataFilter, setDataFilter] = useState(null);
-  const [keySearch, setKeySearch] = useState("");
-  const clearFilterFunc = React.useRef(null);
-  const maxNumberToShowPrice = 5;
+export default function TableProduct (props) {
+  const history = useHistory()
+  const [dataSource, setDataSource] = useState([])
+  const [currentPageNumber, setCurrentPageNumber] = useState(1)
+  const [totalRecords, setTotalRecords] = useState(0)
+  const [productCategories, setProductCategories] = useState([])
+  const [countFilter, setCountFilter] = useState(0)
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [showPopover, setShowPopover] = useState(true)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
+  const [titleModal, setTitleModal] = useState()
+  const [dataFilter, setDataFilter] = useState(null)
+  const [keySearch, setKeySearch] = useState('')
+  const clearFilterFunc = React.useRef(null)
+  const maxNumberToShowPrice = 5
 
   const pageData = {
-    btnFilter: "Lọc",
-    btnSort: "Sắp xếp",
-    btnDelete: "Xóa",
-    btnIgnore: "Bỏ qua",
-    confirmDelete: "Xác nhận xóa",
-    productDeleteSuccess: "Xóa sản phẩm thành công",
-    productDeleteFail: "Xóa sản phẩm thất bại",
+    btnFilter: 'Lọc',
+    btnSort: 'Sắp xếp',
+    btnDelete: 'Xóa',
+    btnIgnore: 'Bỏ qua',
+    confirmDelete: 'Xác nhận xóa',
+    productDeleteSuccess: 'Xóa sản phẩm thành công',
+    productDeleteFail: 'Xóa sản phẩm thất bại',
     table: {
-      searchPlaceholder: "Tìm kiếm theo tên sản phẩm",
-      no: "STT",
-      name: "TÊN",
-      price: "GIÁ",
-      status: "TRẠNG THÁI",
-      action: "THAO TÁC",
+      searchPlaceholder: 'Tìm kiếm theo tên sản phẩm',
+      no: 'STT',
+      name: 'TÊN',
+      price: 'GIÁ',
+      status: 'TRẠNG THÁI',
+      action: 'THAO TÁC'
     },
-    notificationTitle: "Thông báo",
-  };
+    notificationTitle: 'Thông báo'
+  }
   const tableSettings = {
     pageSize: 20,
     columns: [
       {
         title: pageData.table.name,
-        dataIndex: "name",
-        key: "name",
-        className: "grid-product-name-column",
-        align: "left",
-        width: "45%",
+        dataIndex: 'name',
+        key: 'name',
+        className: 'grid-product-name-column',
+        align: 'left',
+        width: '45%',
         render: (value, record) => {
           return (
             <Row className="table-img-box">
               <div>
-                <Thumbnail src={getThumbnailUrl(record?.thumbnail, "mobile")} />
+                <Thumbnail src={getThumbnailUrl(record?.thumbnail, 'mobile')} />
               </div>
               <div className="product-name">
                 <Link to={`/product/details/${record?.id}`}>{value}</Link>
               </div>
             </Row>
-          );
-        },
+          )
+        }
       },
       {
         title: `${pageData.table.price} (${getCurrency()})`,
-        dataIndex: "price",
-        key: "price",
-        align: "left",
-        className: "grid-price-column",
-        width: "20%",
-        render: (value) => <div className="grid-price-column-text">{value}</div>,
+        dataIndex: 'price',
+        key: 'price',
+        align: 'left',
+        className: 'grid-price-column',
+        width: '20%',
+        render: (value) => <div className="grid-price-column-text">{value}</div>
       },
       {
         title: pageData.table.status,
-        dataIndex: "status",
-        key: "status",
-        align: "left",
-        className: "grid-status-column",
-        width: "10%",
+        dataIndex: 'status',
+        key: 'status',
+        align: 'left',
+        className: 'grid-status-column',
+        width: '10%',
         render: (_, record) => {
-          const isActive = record?.status?.id === 1;
-          return <BadgeStatus isActive={isActive} />;
-        },
+          const isActive = record?.status?.id === 1
+          return <BadgeStatus isActive={isActive} />
+        }
       },
       {
         title: pageData.table.action,
-        key: "action",
-        align: "center",
+        key: 'action',
+        align: 'center',
         render: (_, record) => {
           return (
             <div className="action-column action-column-center">
@@ -125,20 +125,20 @@ export default function TableProduct(props) {
                 </Space>
               )}
             </div>
-          );
-        },
-      },
+          )
+        }
+      }
     ],
     onChangePage: async (page, pageSize) => {
-      await handleFilterProduct(dataFilter, page, pageSize, keySearch);
+      await handleFilterProduct(dataFilter, page, pageSize, keySearch)
     },
     onSearch: async (keySearch) => {
       executeAfter(500, async () => {
-        setKeySearch(keySearch);
-        await handleFilterProduct(dataFilter, 1, tableSettings.pageSize, keySearch);
-      });
-    },
-  };
+        setKeySearch(keySearch)
+        await handleFilterProduct(dataFilter, 1, tableSettings.pageSize, keySearch)
+      })
+    }
+  }
 
   const onDeleteItem = (productId, productName) => {
     // productDataService.getAllOrderNotCompletedByProductIdAsync(productId).then((res) => {
@@ -154,12 +154,12 @@ export default function TableProduct(props) {
     //   }
     //   setIsModalVisible(true);
     // });
-  };
+  }
 
   const onCloseModal = () => {
-    setIsModalVisible(false);
-    setPreventDeleteProduct({});
-  };
+    setIsModalVisible(false)
+    setPreventDeleteProduct({})
+  }
 
   const handleDeleteItem = async (productId) => {
     // var res = await productDataService.deleteProductByIdAsync(productId);
@@ -176,32 +176,32 @@ export default function TableProduct(props) {
     //   message.error(pageData.productDeleteFail);
     // }
     // setIsModalVisible(false);
-  };
+  }
 
   const onEditItem = (productId) => {
-    return history.push(`/product/edit/${productId}`);
-  };
+    return history.push(`/product/edit/${productId}`)
+  }
 
   useEffect(() => {
-    var sessionProductFilter = getStorage(localStorageKeys.PRODUCT_FILTER);
+    const sessionProductFilter = getStorage(localStorageKeys.PRODUCT_FILTER)
     if (isJsonString(sessionProductFilter)) {
-      var productFilter = JSON.parse(sessionProductFilter);
+      const productFilter = JSON.parse(sessionProductFilter)
       if (productFilter && productFilter.count > 0) {
-        var data = {
+        const data = {
           branchId: productFilter.branchId,
           productCategoryId: productFilter.productCategoryId,
           statusId: productFilter.statusId,
-          count: productFilter.count,
-        };
-        setDataFilter(data);
-        handleFilterProduct(data, currentPageNumber, tableSettings.pageSize, "");
+          count: productFilter.count
+        }
+        setDataFilter(data)
+        handleFilterProduct(data, currentPageNumber, tableSettings.pageSize, '')
       } else {
-        handleFilterProduct(null, currentPageNumber, tableSettings.pageSize, "");
+        handleFilterProduct(null, currentPageNumber, tableSettings.pageSize, '')
       }
     } else {
-      handleFilterProduct(null, currentPageNumber, tableSettings.pageSize, "");
+      handleFilterProduct(null, currentPageNumber, tableSettings.pageSize, '')
     }
-  }, []);
+  }, [])
 
   const PopoverContentComponent = (props) => {
     return (
@@ -212,17 +212,17 @@ export default function TableProduct(props) {
 
         <div className="popover-container-custom-body">{props?.children}</div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderPopoverItems = (productPrices, take, onPopover) => {
-    let priceList = [];
+    let priceList = []
     if (productPrices?.length > 0) {
-      priceList = [...productPrices];
+      priceList = [...productPrices]
     }
 
     if (take) {
-      priceList = priceList.splice(0, take);
+      priceList = priceList.splice(0, take)
     }
 
     return priceList?.map((p) => {
@@ -230,7 +230,8 @@ export default function TableProduct(props) {
         return (
           <>
             <Row className="product-price-box">
-              {onPopover ? (
+              {onPopover
+                ? (
                 <>
                   <Col offset={4} span={6} className="mt-1">
                     <span className="float-left">{p?.priceName}</span>
@@ -239,7 +240,8 @@ export default function TableProduct(props) {
                     <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
                   </Col>
                 </>
-              ) : (
+                  )
+                : (
                 <>
                   <Col span={12} className="price-box-inline">
                     <span className="float-left mt-1" title={p?.priceName}>
@@ -250,10 +252,10 @@ export default function TableProduct(props) {
                     <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
                   </Col>
                 </>
-              )}
+                  )}
             </Row>
           </>
-        );
+        )
       } else {
         return (
           <>
@@ -264,19 +266,19 @@ export default function TableProduct(props) {
               </Col>
             </Row>
           </>
-        );
+        )
       }
-    });
-  };
+    })
+  }
 
   const onVisibleChange = (isShow, item) => {
-    let button = document.getElementById(`btn-show-more-${item.id}`);
+    const button = document.getElementById(`btn-show-more-${item.id}`)
     if (isShow) {
-      button?.classList?.add("btn-show-more-hover");
+      button?.classList?.add('btn-show-more-hover')
     } else {
-      button?.classList?.remove("btn-show-more-hover");
+      button?.classList?.remove('btn-show-more-hover')
     }
-  };
+  }
 
   const mappingRecordToColumns = (item) => {
     return {
@@ -289,7 +291,8 @@ export default function TableProduct(props) {
       price: (
         <>
           {item?.productPrices &&
-            (item?.productPrices?.length > maxNumberToShowPrice ? (
+            (item?.productPrices?.length > maxNumberToShowPrice
+              ? (
               <div>
                 {renderPopoverItems(item?.productPrices, maxNumberToShowPrice)}
                 <Popover
@@ -308,18 +311,19 @@ export default function TableProduct(props) {
                   </div>
                 </Popover>
               </div>
-            ) : (
+                )
+              : (
               <>{renderPopoverItems(item?.productPrices)}</>
-            ))}
+                ))}
         </>
       ),
-      status: item?.status,
-    };
-  };
+      status: item?.status
+    }
+  }
 
   const onClickFilterButton = async (event) => {
     if (!event?.defaultPrevented) {
-      setShowPopover(true);
+      setShowPopover(true)
     }
     // var resCategory = await productCategoryDataService.getAllProductCategoriesAsync();
     // if (resCategory) {
@@ -330,7 +334,7 @@ export default function TableProduct(props) {
     //   const categoryOptions = [allCategoryOption, ...resCategory.allProductCategories];
     //   setProductCategories(categoryOptions);
     // }
-  };
+  }
 
   const handleFilterProduct = async (data, pageNumber, pageSize, keySearch) => {
     // const response = await productDataService.getProductsByFilterAsync(
@@ -346,24 +350,24 @@ export default function TableProduct(props) {
     // setTotalRecords(response.total);
     // setCurrentPageNumber(response.pageNumber);
     // setCountFilter(data?.count);
-  };
+  }
 
   const onSelectedRowKeysChange = (selectedRowKeys, selectedRows) => {
-    setSelectedRowKeys(selectedRowKeys);
-  };
+    setSelectedRowKeys(selectedRowKeys)
+  }
 
   const onClearFilter = (e) => {
     if (clearFilterFunc.current) {
-      clearFilterFunc.current();
-      setShowPopover(false);
+      clearFilterFunc.current()
+      setShowPopover(false)
     } else {
-      setStorage(localStorageKeys.PRODUCT_FILTER, null);
-      setCountFilter(0);
-      setShowPopover(false);
-      handleFilterProduct(null, 1, tableSettings.pageSize, keySearch);
-      setDataFilter(null);
+      setStorage(localStorageKeys.PRODUCT_FILTER, null)
+      setCountFilter(0)
+      setShowPopover(false)
+      handleFilterProduct(null, 1, tableSettings.pageSize, keySearch)
+      setDataFilter(null)
     }
-  };
+  }
 
   const filterComponent = () => {
     return (
@@ -377,8 +381,8 @@ export default function TableProduct(props) {
           setDataFilter={setDataFilter}
         />
       )
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -394,22 +398,22 @@ export default function TableProduct(props) {
           editPermission={PermissionKeys.EDIT_PRODUCT}
           deletePermission={PermissionKeys.DELETE_PRODUCT}
           rowSelection={{
-            type: "checkbox",
-            selectedRowKeys: selectedRowKeys,
+            type: 'checkbox',
+            selectedRowKeys,
             onChange: onSelectedRowKeysChange,
-            columnWidth: 40,
+            columnWidth: 40
           }}
           search={{
             maxLength: 100,
             placeholder: pageData.table.searchPlaceholder,
-            onChange: tableSettings.onSearch,
+            onChange: tableSettings.onSearch
           }}
           filter={{
-            onClickFilterButton: onClickFilterButton,
+            onClickFilterButton,
             totalFilterSelected: countFilter,
-            onClearFilter: onClearFilter,
+            onClearFilter,
             buttonTitle: pageData.btnFilter,
-            component: filterComponent(),
+            component: filterComponent()
           }}
         />
         <DeleteProductComponent
@@ -421,5 +425,5 @@ export default function TableProduct(props) {
         />
       </Row>
     </>
-  );
+  )
 }

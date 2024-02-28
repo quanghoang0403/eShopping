@@ -1,21 +1,21 @@
-import CustomerPage from ".";
-import { GroupFill } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
+import CustomerPage from '.'
+import { GroupFill } from 'constants/icons.constants'
+import { PermissionKeys } from 'constants/permission-key.constants'
 
 // Define the route
 const route = [
   {
-    key: "app.customer",
+    key: 'app.customer',
     position: 6,
-    path: "/customer",
+    path: '/customer',
     icon: <GroupFill />,
-    name: "Khách hàng",
+    name: 'Khách hàng',
     isMenu: true,
     exact: true,
     auth: true,
-    permission: "public",
+    permission: 'public',
     component: CustomerPage,
-    child: [],
-  },
-];
-export default route;
+    child: []
+  }
+]
+export default route

@@ -1,37 +1,37 @@
-import { Layout } from "antd";
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import LoadingBar from "react-top-loading-bar";
-import { compose } from "redux";
-import { store } from "store";
-import PrivateRoute from "./components/private-route";
-import routes from "./pages/routes";
+import { Layout } from 'antd'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import LoadingBar from 'react-top-loading-bar'
+import { compose } from 'redux'
+import { store } from 'store'
+import PrivateRoute from './components/private-route'
+import routes from './pages/routes'
 
-import "./stylesheets/styles.scss";
-import "./stylesheets/main.scss";
+import './stylesheets/styles.scss'
+import './stylesheets/main.scss'
 
-function App(props) {
-  const ref = React.useRef(null);
+function App (props) {
+  const ref = React.useRef(null)
   useEffect(() => {
     if (props.loading) {
-      ref.current.continuousStart();
+      ref.current.continuousStart()
     } else {
-      ref.current.complete();
+      ref.current.complete()
     }
-  }, [props.loading]);
+  }, [props.loading])
 
   return (
     <Router>
       <LoadingBar color="#ff8c21" ref={ref} />
-      <Layout className="ant-layout ant-layout-has-sider" style={{ minHeight: "100vh" }}>
+      <Layout className="ant-layout ant-layout-has-sider" style={{ minHeight: '100vh' }}>
         <Switch>
           {routes.map((route) => {
-            const { component: Component, key, path, auth, ...rest } = route;
+            const { component: Component, key, path, auth, ...rest } = route
             if (auth === true) {
               if (route.child.length > 0) {
                 return route.child.map((child) => {
-                  const { component: Component, ...rest } = child;
+                  const { component: Component, ...rest } = child
                   return (
                     <PrivateRoute
                       key={child.key}
@@ -43,8 +43,8 @@ function App(props) {
                       isChild={true}
                       {...rest}
                     />
-                  );
-                });
+                  )
+                })
               }
 
               return (
@@ -56,21 +56,21 @@ function App(props) {
                   component={Component}
                   {...rest}
                 />
-              );
+              )
             } else {
-              return <Route key={key} path={path} component={Component} {...rest} />;
+              return <Route key={key} path={path} component={Component} {...rest} />
             }
           })}
         </Switch>
       </Layout>
     </Router>
-  );
+  )
 }
 
 const mapStateToProps = (state) => {
   return {
-    loading: state?.processing?.isDataServiceProcessing || false,
-  };
-};
+    loading: state?.processing?.isDataServiceProcessing || false
+  }
+}
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(App)

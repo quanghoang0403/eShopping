@@ -56,8 +56,8 @@
 // export { ReactComponent as SortColumnIcon } from "assets/icons/arrow-sort.svg";
 // export { ReactComponent as ArrowUpActionIcon } from "assets/icons/arrow-up-action.svg";
 // export { ReactComponent as ArrowUpIcon } from "assets/icons/arrow-up.svg";
-export { ReactComponent as ArrowDown } from "assets/icons/arrow_down.svg";
-export { ReactComponent as ArrowDropDownIcon } from "assets/icons/arrow_drop_down.svg";
+export { ReactComponent as ArrowDown } from 'assets/icons/arrow_down.svg'
+export { ReactComponent as ArrowDropDownIcon } from 'assets/icons/arrow_drop_down.svg'
 // export { ReactComponent as ArrowMenuCustomizeIcon } from "assets/icons/arrow_menu_customize.svg";
 // export { ReactComponent as AtmCardIcon } from "assets/icons/atm-card.svg";
 // export { ReactComponent as BackStoreWebIcon } from "assets/icons/back-store-web.svg";
@@ -80,8 +80,8 @@ export { ReactComponent as ArrowDropDownIcon } from "assets/icons/arrow_drop_dow
 // export { ReactComponent as BucketGeneralCustomizeIcon } from "assets/icons/bucket-general-customize.svg";
 // export { ReactComponent as ButtonPlusIcon } from "assets/icons/button-plus.svg";
 // export { ReactComponent as CalendarNewIconBold } from "assets/icons/calendar-new-icon-bold.svg";
-export { ReactComponent as CalendarNewIcon } from "assets/icons/calendar-new.svg";
-export { ReactComponent as CalendarIcon } from "assets/icons/calendar.svg";
+export { ReactComponent as CalendarNewIcon } from 'assets/icons/calendar-new.svg'
+export { ReactComponent as CalendarIcon } from 'assets/icons/calendar.svg'
 // export { ReactComponent as PhoneNumberIcon } from "assets/icons/call-icon.svg";
 // export { ReactComponent as CancelIcon } from "assets/icons/cancel.svg";
 // export { ReactComponent as CardTickIcon } from "assets/icons/card-tick.svg";
@@ -90,7 +90,7 @@ export { ReactComponent as CalendarIcon } from "assets/icons/calendar.svg";
 // export { ReactComponent as CheckOutlined } from "assets/icons/check-outlined.svg";
 // export { ReactComponent as CheckBoxDisableIcon } from "assets/icons/checkbox-disable.svg";
 // export { ReactComponent as CheckboxCheckedIcon } from "assets/icons/checkbox_checked.svg";
-export { ReactComponent as CheckedIcon } from "assets/icons/checked.svg";
+export { ReactComponent as CheckedIcon } from 'assets/icons/checked.svg'
 // export { ReactComponent as CheckoutCustomizeIcon } from "assets/icons/checkout-customize.icon.svg";
 // export { ReactComponent as CheckoutPageStoreWebIcon } from "assets/icons/checkout-page-store-web.svg";
 // export { ReactComponent as ChoosePackageStepIcon } from "assets/icons/choose-package-step-icon.svg";
@@ -99,12 +99,12 @@ export { ReactComponent as CheckedIcon } from "assets/icons/checked.svg";
 // export { ReactComponent as CloseModalPurpleIcon } from "assets/icons/close-modal-purple.svg";
 // export { ReactComponent as CloseModalIcon } from "assets/icons/close-modal.svg";
 // export { ReactComponent as CloseOutlined } from "assets/icons/close-outlined.svg";
-export { ReactComponent as CloseFill } from "assets/icons/close_fill.svg";
+export { ReactComponent as CloseFill } from 'assets/icons/close_fill.svg'
 // export { ReactComponent as CloseOutline } from "assets/icons/close_line.svg";
 // export { ReactComponent as CouldUploadIcon } from "assets/icons/cloud-upload-file.svg";
 // export { ReactComponent as CocaColaIcon } from "assets/icons/coca-cola.svg";
 // export { ReactComponent as CoffeeIcon } from "assets/icons/coffee.svg";
-export { ReactComponent as CollapseIcon } from "assets/icons/collapse_icon.svg";
+export { ReactComponent as CollapseIcon } from 'assets/icons/collapse_icon.svg'
 // export { ReactComponent as ComboDetailStoreWebIcon } from "assets/icons/combo-detail-store-web.svg";
 // export { ReactComponent as CompletedStepIcon } from "assets/icons/completed-step-icon.svg";
 // export { ReactComponent as CompletedIcon } from "assets/icons/completed.svg";
@@ -127,43 +127,43 @@ export { ReactComponent as CollapseIcon } from "assets/icons/collapse_icon.svg";
 // export { ReactComponent as DiscountShapeIcon } from "assets/icons/discount-shape.svg";
 // export { ReactComponent as DollarIcon } from "assets/icons/dollar.svg";
 // export { ReactComponent as DownCircleOutlinedIcon } from "assets/icons/down-circle-outlined.svg";
-export { ReactComponent as DownIcon } from "assets/icons/down.svg";
+export { ReactComponent as DownIcon } from 'assets/icons/down.svg'
 // export { ReactComponent as DownloadQR } from "assets/icons/download-qr.svg";
 // export { ReactComponent as DownloadToStorageDriveIcon } from "assets/icons/download-to-storage-drive.svg";
 // export { ReactComponent as Download } from "assets/icons/download.svg";
-export { ReactComponent as DragIcon } from "assets/icons/drag.svg";
+export { ReactComponent as DragIcon } from 'assets/icons/drag.svg'
 // export { ReactComponent as DragDropIcon } from "assets/icons/dragdrop-icon.svg";
 // export { ReactComponent as DrinkIcon } from "assets/icons/drink.svg";
 // export { ReactComponent as DrinkBeerIcon } from "assets/icons/drink_beer.svg";
 // export { ReactComponent as EarthIcon } from "assets/icons/earth.svg";
 // export { ReactComponent as EditIcon } from "assets/icons/edit.svg";
-export { ReactComponent as EditFill } from "assets/icons/edit_fill.svg";
-export { ReactComponent as EditFillImage } from "assets/icons/edit_fill_img.svg";
+export { ReactComponent as EditFill } from 'assets/icons/edit_fill.svg'
+export { ReactComponent as EditFillImage } from 'assets/icons/edit_fill_img.svg'
 // export { ReactComponent as EditOutline } from "assets/icons/edit_line.svg";
 // export { ReactComponent as EllipsisOutlined } from "assets/icons/ellipsis-outlined.svg";
 // export { ReactComponent as EnterprisePaymentMethodIcon } from "assets/icons/enterprise-payment-method.svg";
 // export { ReactComponent as ExclamationIcon } from "assets/icons/exclamation.svg";
-export { ReactComponent as ExpandIcon } from "assets/icons/expand_icon.svg";
+export { ReactComponent as ExpandIcon } from 'assets/icons/expand_icon.svg'
 // export { ReactComponent as ExportFileOutlinedIcon } from "assets/icons/export-file-outlined.svg";
 // export { ReactComponent as ExportOutlinedIcon } from "assets/icons/export-outlined.svg";
 // export { ReactComponent as ExportShiftIcon } from "assets/icons/export-shift.svg";
 // export { ReactComponent as ExportIcon } from "assets/icons/export.svg";
 // export { ReactComponent as EyeCloseIcon } from "assets/icons/eye-close-icon.svg";
 // export { ReactComponent as EyeFilledIcon } from "assets/icons/eye-filled-icon.svg";
-export { ReactComponent as EyeIcon } from "assets/icons/eye.svg";
-export { ReactComponent as EyeOpenIcon } from "assets/icons/eye_open.svg";
-export { ReactComponent as EyeOpenImageIcon } from "assets/icons/eye_open_img.svg";
+export { ReactComponent as EyeIcon } from 'assets/icons/eye.svg'
+export { ReactComponent as EyeOpenIcon } from 'assets/icons/eye_open.svg'
+export { ReactComponent as EyeOpenImageIcon } from 'assets/icons/eye_open_img.svg'
 // export { ReactComponent as FacebookIcon } from "assets/icons/facebook.svg";
 // export { ReactComponent as FailedSentWidgetIcon } from "assets/icons/failed-sent-widget-icon.svg";
 // export { ReactComponent as FaviconStoreWebIcon } from "assets/icons/favicon-store-web.svg";
 // export { ReactComponent as FilterIconHover } from "assets/icons/filter-hover.svg";
-export { ReactComponent as FilterOutlined } from "assets/icons/filter-outlined.svg";
+export { ReactComponent as FilterOutlined } from 'assets/icons/filter-outlined.svg'
 // export { ReactComponent as FilterIcon } from "assets/icons/filter.svg";
 // export { ReactComponent as FilterAltFillIcon } from "assets/icons/filter_alt_fill.svg";
 // export { ReactComponent as FirebaseCredentialIcon } from "assets/icons/firebase-credential.svg";
 // export { ReactComponent as FlashSaleCalendarIcon } from "assets/icons/flash-sale-calendar.svg";
 // export { ReactComponent as FlashSalePercentIcon } from "assets/icons/flash-sale-percent.svg";
-export { ReactComponent as FolderIcon } from "assets/icons/folder.svg";
+export { ReactComponent as FolderIcon } from 'assets/icons/folder.svg'
 // export { ReactComponent as FoodTrayCustomizeIcon } from "assets/icons/food-tray-customize.svg";
 // export { ReactComponent as FooterIcon } from "assets/icons/footer-icon.svg";
 // export { ReactComponent as ForgotPasswordPageStoreWebIcon } from "assets/icons/forgot-password-page-store-web.svg";
@@ -175,13 +175,13 @@ export { ReactComponent as FolderIcon } from "assets/icons/folder.svg";
 // export { ReactComponent as FnbLogo } from "assets/icons/gofnb.svg";
 // export { ReactComponent as GoodsIcon } from "assets/icons/goods.svg";
 // export { ReactComponent as GoogleConfigIcon } from "assets/icons/google-config.svg";
-export { ReactComponent as GroupFill } from "assets/icons/group_fill.svg";
+export { ReactComponent as GroupFill } from 'assets/icons/group_fill.svg'
 // export { ReactComponent as GroupOutline } from "assets/icons/group_line.svg";
 // export { ReactComponent as HeadphoneIcon } from "assets/icons/headphone.svg";
 // export { ReactComponent as HideCustomizeIcon } from "assets/icons/hide_customize.svg";
 // export { ReactComponent as HomePageStoreWebIcon } from "assets/icons/home-page-store-web.svg";
-export { ReactComponent as HomeFill } from "assets/icons/home_fill.svg";
-export { ReactComponent as Order } from "assets/icons/order.svg";
+export { ReactComponent as HomeFill } from 'assets/icons/home_fill.svg'
+export { ReactComponent as Order } from 'assets/icons/order.svg'
 // export { ReactComponent as HomeOutline } from "assets/icons/home_line.svg";
 // export { ReactComponent as HotdogIcon } from "assets/icons/hotdog.svg";
 // export { ReactComponent as HyperlinkAboutUsIcon } from "assets/icons/hyperlink-about-us.svg";
@@ -196,24 +196,24 @@ export { ReactComponent as Order } from "assets/icons/order.svg";
 // export { ReactComponent as HyperlinkProductIcon } from "assets/icons/hyperlink-product.svg";
 // export { ReactComponent as HyperlinkSubMenuIcon } from "assets/icons/hyperlink-sub-menu.svg";
 // export { ReactComponent as HyperlinkUrlIcon } from "assets/icons/hyperlink-url.svg";
-export { ReactComponent as IconBtnAdd } from "assets/icons/icon-btn-add.svg";
+export { ReactComponent as IconBtnAdd } from 'assets/icons/icon-btn-add.svg'
 // export { ReactComponent as ImageMaterialDefault } from "assets/icons/image-material-default.svg";
 // export { ReactComponent as InfoCircleFlashSaleIcon } from "assets/icons/info-circle-flash-sale.svg";
 // export { ReactComponent as InfoOutLineIcon } from "assets/icons/info-outline.svg";
 // export { ReactComponent as InstagramIcon } from "assets/icons/instagram.svg";
 // export { ReactComponent as IntroductionCustomizationIcon } from "assets/icons/introduction-customization.svg";
-export { ReactComponent as Category } from "assets/icons/category.svg";
+export { ReactComponent as Category } from 'assets/icons/category.svg'
 // export { ReactComponent as InventoryFill } from "assets/icons/inventory_fill.svg";
 // export { ReactComponent as InventoryOutline } from "assets/icons/inventory_line.svg";
 // export { ReactComponent as JuiceIcon } from "assets/icons/juice.svg";
 // export { ReactComponent as LeaveStoreWebIcon } from "assets/icons/leave-store-web.svg";
 // export { ReactComponent as ArrowLeftReservationDetail } from "assets/icons/left-arrow-reservation-detail.svg";
 // export { ReactComponent as LocationIcon } from "assets/icons/location.svg";
-export { ReactComponent as LockIcon } from "assets/icons/lock.svg";
-export { ReactComponent as LogoutIcon } from "assets/icons/log-out.svg";
+export { ReactComponent as LockIcon } from 'assets/icons/lock.svg'
+export { ReactComponent as LogoutIcon } from 'assets/icons/log-out.svg'
 // export { ReactComponent as LoginPageStoreWebIcon } from "assets/icons/login-page-store-web.svg";
 // export { ReactComponent as MarketingMenuIcon } from "assets/icons/marketing-menu.svg";
-export { ReactComponent as MenuIcon } from "assets/icons/menu_icon.svg";
+export { ReactComponent as MenuIcon } from 'assets/icons/menu_icon.svg'
 // export { ReactComponent as MessageIcon } from "assets/icons/message.svg";
 // export { ReactComponent as MilkIcon } from "assets/icons/milk.svg";
 // export { ReactComponent as MobileStoreWebIcon } from "assets/icons/mobile-store-web.svg";
@@ -235,9 +235,9 @@ export { ReactComponent as MenuIcon } from "assets/icons/menu_icon.svg";
 // export { ReactComponent as PhoneIcon } from "assets/icons/phone.svg";
 // export { ReactComponent as PinIcon } from "assets/icons/pin.svg";
 // export { ReactComponent as PizzaIcon } from "assets/icons/pizza.svg";
-export { ReactComponent as PlusOrangeIcon } from "assets/icons/plus-orange.svg";
+export { ReactComponent as PlusOrangeIcon } from 'assets/icons/plus-orange.svg'
 // export { ReactComponent as PlusSquareFilledIcon } from "assets/icons/plus-square-filled.svg";
-export { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
+export { ReactComponent as PlusIcon } from 'assets/icons/plus.svg'
 // export { ReactComponent as PolygonIcon } from "assets/icons/polygon.svg";
 // export { ReactComponent as POSAppIcon } from "assets/icons/pos-app.svg";
 // export { ReactComponent as POSWebIcon } from "assets/icons/pos-web.svg";
@@ -247,10 +247,10 @@ export { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
 // export { ReactComponent as Product } from "assets/icons/product.svg";
 // export { ReactComponent as Profile2UserIcon } from "assets/icons/profile-2user.svg";
 // export { ReactComponent as PromoIcon } from "assets/icons/promo.svg";
-export { ReactComponent as PromotionCustomizeIcon } from "assets/icons/promotion-customize.svg";
-export { ReactComponent as Promotion } from "assets/icons/promotion.svg";
-export { ReactComponent as Clothing } from "assets/icons/clothing.svg";
-export { ReactComponent as Blog } from "assets/icons/blog.svg";
+export { ReactComponent as PromotionCustomizeIcon } from 'assets/icons/promotion-customize.svg'
+export { ReactComponent as Promotion } from 'assets/icons/promotion.svg'
+export { ReactComponent as Clothing } from 'assets/icons/clothing.svg'
+export { ReactComponent as Blog } from 'assets/icons/blog.svg'
 // export { ReactComponent as PromotionGuidelineIcon } from "assets/icons/promotion-guideline.svg";
 // export { ReactComponent as PuddingIcon } from "assets/icons/pudding.svg";
 // export { ReactComponent as StoreQRCodeIcon } from "assets/icons/qr-code.svg";
@@ -269,25 +269,25 @@ export { ReactComponent as Blog } from "assets/icons/blog.svg";
 // export { ReactComponent as RocketNotifyIcon } from "assets/icons/rocket-notify.svg";
 // export { ReactComponent as SearchIcon } from "assets/icons/search.svg";
 // export { ReactComponent as SearchFill } from "assets/icons/search_fill.svg";
-export { ReactComponent as SearchLightIcon } from "assets/icons/search_light.svg";
+export { ReactComponent as SearchLightIcon } from 'assets/icons/search_light.svg'
 // export { ReactComponent as SearchOutline } from "assets/icons/search_line.svg";
 // export { ReactComponent as SectionCollapseArrowDownIcon } from "assets/icons/section-collapse-arrow-down.svg";
 // export { ReactComponent as SectionCollapseArrowRightIcon } from "assets/icons/section-collapse-arrow-right.svg";
 // export { ReactComponent as SelectCheckedIcon } from "assets/icons/select-checked.svg";
-export { ReactComponent as SettingFill } from "assets/icons/setting_fill.svg";
+export { ReactComponent as SettingFill } from 'assets/icons/setting_fill.svg'
 // export { ReactComponent as SettingOutline } from "assets/icons/setting_line.svg";
 // export { ReactComponent as ShopDelivery } from "assets/icons/shop-delivery.svg";
-export { ReactComponent as ShopIcon } from "assets/icons/shop.svg";
+export { ReactComponent as ShopIcon } from 'assets/icons/shop.svg'
 // export { ReactComponent as ShopBranchStoreFill } from "assets/icons/shop_branch_store_fill.svg";
 // export { ReactComponent as ShopBranchStoreLine } from "assets/icons/shop_branch_store_line.svg";
 // export { ReactComponent as EmailIcon } from "assets/icons/sms-icon.svg";
-export { ReactComponent as SortUpIcon } from "assets/icons/sort_up.svg";
+export { ReactComponent as SortUpIcon } from 'assets/icons/sort_up.svg'
 // export { ReactComponent as StaffRevenueLeftHandleIcon } from "assets/icons/staff-revenue-chart-left-handle.svg";
 // export { ReactComponent as StaffRevenueRightHandleIcon } from "assets/icons/staff-revenue-chart-right-handle.svg";
 // export { ReactComponent as StaffRevenueClearIcon } from "assets/icons/staff-revenue-clear.svg";
 // export { ReactComponent as StaffRevenueHideIcon } from "assets/icons/staff-revenue-hide.svg";
 // export { ReactComponent as StaffRevenueShowIcon } from "assets/icons/staff-revenue-show.svg";
-export { ReactComponent as StaffUserFill } from "assets/icons/staff_user_fill.svg";
+export { ReactComponent as StaffUserFill } from 'assets/icons/staff_user_fill.svg'
 // export { ReactComponent as StaffUserOutline } from "assets/icons/staff_user_line.svg";
 // export { ReactComponent as StepStatusCancelIcon } from "assets/icons/step-status-cancel.svg";
 // export { ReactComponent as StepStatusFinishIcon } from "assets/icons/step-status-finish.svg";
@@ -323,16 +323,16 @@ export { ReactComponent as StaffUserFill } from "assets/icons/staff_user_fill.sv
 // export { ReactComponent as TotalSentWidgetIcon } from "assets/icons/total-sent-widget-icon.svg";
 // export { ReactComponent as TotalSoldItemsIcon } from "assets/icons/total-sold-items.svg";
 // export { ReactComponent as TrashBinStoreWebIcon } from "assets/icons/trash-bin.svg";
-export { ReactComponent as TrashIcon } from "assets/icons/trash.svg";
-export { ReactComponent as TrashFill } from "assets/icons/trash_fill.svg";
-export { ReactComponent as TrashFillImage } from "assets/icons/trash_fill_img.svg";
+export { ReactComponent as TrashIcon } from 'assets/icons/trash.svg'
+export { ReactComponent as TrashFill } from 'assets/icons/trash_fill.svg'
+export { ReactComponent as TrashFillImage } from 'assets/icons/trash_fill_img.svg'
 // export { ReactComponent as TrashOutline } from "assets/icons/trash_line.svg";
 // export { ReactComponent as TriangleIncreaseIcon } from "assets/icons/triangle-increase.svg";
 // export { ReactComponent as TriangleReduceIcon } from "assets/icons/triangle-reduce.svg";
 // export { ReactComponent as TwitterIcon } from "assets/icons/twitter.svg";
 // export { ReactComponent as UKFlagIcon } from "assets/icons/uk_flag.svg";
 // export { ReactComponent as UserIcon } from "assets/icons/user.svg";
-export { ReactComponent as UserNameIcon } from "assets/icons/username.svg";
+export { ReactComponent as UserNameIcon } from 'assets/icons/username.svg'
 // export { ReactComponent as VectorDownBlackIcon } from "assets/icons/vector-down-black.svg";
 // export { ReactComponent as VectorRightBlackIcon } from "assets/icons/vector-right-black.svg";
 // export { ReactComponent as VectorSortDownIcon } from "assets/icons/vector-sort-down.svg";

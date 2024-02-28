@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export const ariaLabelsShape = PropTypes.shape({
   dateInput: PropTypes.objectOf(
@@ -7,5 +7,5 @@ export const ariaLabelsShape = PropTypes.shape({
   monthPicker: PropTypes.string,
   yearPicker: PropTypes.string,
   prevButton: PropTypes.string,
-  nextButton: PropTypes.string,
-});
+  nextButton: PropTypes.string
+})

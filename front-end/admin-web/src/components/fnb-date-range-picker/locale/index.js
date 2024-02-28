@@ -1,1 +1,1 @@
-export { default as vi } from 'date-fns/locale/vi';
+export { default as vi } from 'date-fns/locale/vi'

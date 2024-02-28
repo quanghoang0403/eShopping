@@ -5,12 +5,12 @@ const theme = {
       main: '#D52D3E',
       backgound: '#FBEAEC',
       border: '#EC9FA6',
-      bland: '#FBEAEC',
+      bland: '#FBEAEC'
     },
     warning: {
       main: '#ffc107',
       toast: '#EC9FA6',
-      toastText: '#D52D2D',
+      toastText: '#D52D2D'
     },
     text: {
       main: '#282828',
@@ -58,7 +58,7 @@ const theme = {
     secondary: { main: '#A5ABDE' },
     confirm: {
       main: '#FF8C21',
-      white: '#FFFFFF',
+      white: '#FFFFFF'
     },
     border: {
       main: '#817CBA',
@@ -66,16 +66,16 @@ const theme = {
       error: '#EC9FA6',
       success: '#299C44',
       pinkRose: '#EC9FA6',
-      shamrockGreen: '#05A83B',
+      shamrockGreen: '#05A83B'
     },
     table: {
       border: '#817CBA',
       headerBackground: 'rgba(222, 216, 249, 0.8)',
-      borderRow: '#FFF',
+      borderRow: '#FFF'
     },
     info: {
       main: '#0692E1',
-      veryLightGrey: '#CDCDCD',
+      veryLightGrey: '#CDCDCD'
     },
     common: {
       white: '#FFFFFF',
@@ -84,7 +84,7 @@ const theme = {
       transparent: 'transparent',
       lavender: '#EBE8FE',
       harleyDavidsonOrange: '#DB1B1B',
-      harleyDavidsonOrangeRGBA: 'rgba(219, 27, 27, 0.10)',
+      harleyDavidsonOrangeRGBA: 'rgba(219, 27, 27, 0.10)'
     },
     background: {
       white: '#FFF',
@@ -99,7 +99,7 @@ const theme = {
       overlayColor: '#00000099',
       productList: '#F5F2FF',
       productListPaging: '#E7E1FF',
-      linkWater: "#E6E0FC",
+      linkWater: '#E6E0FC',
       mercury: '#E6E6E6',
       blueMagenta: '#F1EEFF',
       slateBlue: '#50429B',
@@ -136,13 +136,13 @@ const theme = {
       richBlue: '#5645AC',
       aliceBlue: '#F0EEFF',
       popoverBackgroundBlue: '#31285F',
-      blueChalk: '#F0EDFF',
+      blueChalk: '#F0EDFF'
     },
     button: {
       main: '#FF8C21',
       disable: '#FFD1A6',
       mainRadian: 'rgba(255, 255, 255, 0.78)',
-      oldLace: '#FFF3E8',
+      oldLace: '#FFF3E8'
     },
     shadowColor: '#000',
     scrollView: '#CDC6FF',
@@ -152,37 +152,37 @@ const theme = {
       disabled: '#F9FAFB',
       background: '#FFF',
       shadowColor: '#D6BBFB',
-      shadowColorError: '#FDA29B',
+      shadowColorError: '#FDA29B'
     },
     drawer: {
       first: 'rgba(0,0,0,.5)',
       mid: 'rgba(0,0,0,.2)',
-      last: 'rgba(0,0,0,0)',
+      last: 'rgba(0,0,0,0)'
     },
     mainMenu: {
-      background: '#FFF',
+      background: '#FFF'
     },
     price: {
       main: '#282828',
       salePrice: '#FF8C21',
-      listedPrice: '#9F9F9F',
+      listedPrice: '#9F9F9F'
     },
     dropdown: {
       borderColor: '#D0D5DD',
-      outlineColor: '#D6BBFB',
+      outlineColor: '#D6BBFB'
     },
     barCode: {
       inactiveColor: '#5645AC',
       activeColor: '#FF8C21',
       raysColor: '#FF7900',
-      backgroundColor: '#FFFFFF',
-    },
+      backgroundColor: '#FFFFFF'
+    }
   },
-  fonts: ["Plus Jakarta Sans"],
+  fonts: ['Plus Jakarta Sans'],
   fontSizes: {
-    small: "16px",
-    medium: "24px",
-    large: "32px"
+    small: '16px',
+    medium: '24px',
+    large: '32px'
   }
 }
 

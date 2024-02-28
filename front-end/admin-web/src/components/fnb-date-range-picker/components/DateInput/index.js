@@ -1,71 +1,71 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { format, parse, isValid, isEqual } from 'date-fns';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { format, parse, isValid, isEqual } from 'date-fns'
 
 class DateInput extends PureComponent {
-  constructor(props, context) {
-    super(props, context);
+  constructor (props, context) {
+    super(props, context)
 
     this.state = {
       invalid: false,
       changed: false,
-      value: this.formatDate(props),
-    };
+      value: this.formatDate(props)
+    }
   }
 
-  componentDidUpdate(prevProps) {
-    const { value } = prevProps;
+  componentDidUpdate (prevProps) {
+    const { value } = prevProps
 
     if (!isEqual(value, this.props.value)) {
-      this.setState({ value: this.formatDate(this.props) });
+      this.setState({ value: this.formatDate(this.props) })
     }
   }
 
-  formatDate({ value, dateDisplayFormat, dateOptions }) {
+  formatDate ({ value, dateDisplayFormat, dateOptions }) {
     if (value && isValid(value)) {
-      return format(value, dateDisplayFormat, dateOptions);
+      return format(value, dateDisplayFormat, dateOptions)
     }
-    return '';
+    return ''
   }
 
-  update(value) {
-    const { invalid, changed } = this.state;
+  update (value) {
+    const { invalid, changed } = this.state
 
     if (invalid || !changed || !value) {
-      return;
+      return
     }
 
-    const { onChange, dateDisplayFormat, dateOptions } = this.props;
-    const parsed = parse(value, dateDisplayFormat, new Date(), dateOptions);
+    const { onChange, dateDisplayFormat, dateOptions } = this.props
+    const parsed = parse(value, dateDisplayFormat, new Date(), dateOptions)
 
     if (isValid(parsed)) {
-      this.setState({ changed: false }, () => onChange(parsed));
+      this.setState({ changed: false }, () => onChange(parsed))
     } else {
-      this.setState({ invalid: true });
+      this.setState({ invalid: true })
     }
   }
 
   onKeyDown = e => {
-    const { value } = this.state;
+    const { value } = this.state
 
     if (e.key === 'Enter') {
-      this.update(value);
+      this.update(value)
     }
-  };
+  }
 
   onChange = e => {
-    this.setState({ value: e.target.value, changed: true, invalid: false });
-  };
+    this.setState({ value: e.target.value, changed: true, invalid: false })
+  }
 
   onBlur = () => {
-    const { value } = this.state;
-    this.update(value);
-  };
+    const { value } = this.state
+    this.update(value)
+  }
 
-  render() {
-    const { className, readOnly, placeholder, ariaLabel, disabled, onFocus } = this.props;
-    const { value, invalid } = this.state;
+  render () {
+    const { className, readOnly, placeholder, ariaLabel, disabled, onFocus } = this.props
+    const { value, invalid } = this.state
 
     return (
       <span className={classnames('rdrDateInput', className)}>
@@ -82,7 +82,7 @@ class DateInput extends PureComponent {
         />
         {invalid && <span className="rdrWarning">&#9888;</span>}
       </span>
-    );
+    )
   }
 }
 
@@ -96,13 +96,13 @@ DateInput.propTypes = {
   ariaLabel: PropTypes.string,
   className: PropTypes.string,
   onFocus: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+  onChange: PropTypes.func.isRequired
+}
 
 DateInput.defaultProps = {
   readOnly: true,
   disabled: false,
-  dateDisplayFormat: 'MMM D, YYYY',
-};
+  dateDisplayFormat: 'MMM D, YYYY'
+}
 
-export default DateInput;
+export default DateInput

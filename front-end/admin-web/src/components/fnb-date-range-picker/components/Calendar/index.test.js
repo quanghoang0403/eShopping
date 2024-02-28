@@ -1,7 +1,7 @@
-import Calendar from '.';
+import Calendar from '.'
 
 describe('Calendar', () => {
   test('Should resolve', () => {
-    expect(Calendar).toEqual(expect.anything());
-  });
-});
+    expect(Calendar).toEqual(expect.anything())
+  })
+})

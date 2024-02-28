@@ -1,18 +1,18 @@
-import MyAccountPage from "./my-account-page";
+import MyAccountPage from './my-account-page'
 
 // Define the route
 const route = [
   {
-    key: "app.myAccount",
+    key: 'app.myAccount',
     position: 0,
-    path: "/my-account",
-    name: "MyAccount",
+    path: '/my-account',
+    name: 'MyAccount',
     isMenu: false,
     exact: false,
     auth: true,
-    permission: "public",
+    permission: 'public',
     component: MyAccountPage,
-    child: [],
+    child: []
   }
-];
-export default route;
+]
+export default route

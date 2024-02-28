@@ -1,54 +1,53 @@
+import { LogoutIcon, MenuIcon, SettingFill, ShopIcon, StaffUserFill } from 'constants/icons.constants'
+import { Avatar, Drawer, Image, Layout, Menu, Popover } from 'antd'
+import { DefaultConstants } from 'constants/string.constants'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink } from 'react-router-dom'
+import { store } from 'store'
+import { hasPermission } from 'utils/helpers'
+import logo from 'assets/images/logo.png'
+import './index.scss'
 
-import { LogoutIcon, MenuIcon, SettingFill, ShopIcon, StaffUserFill } from "constants/icons.constants";
-import { Avatar, Drawer, Image, Layout, Menu, Popover } from "antd";
-import { DefaultConstants } from "constants/string.constants";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
-import { store } from "store";
-import { hasPermission } from "utils/helpers";
-import logo from "assets/images/logo.png";
-import "./index.scss";
+const { Header } = Layout
+const { SubMenu } = Menu
 
-const { Header } = Layout;
-const { SubMenu } = Menu;
-
-function TopBar(props) {
-  const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props;
-  const [visible, setVisible] = useState(false);
-  const [visiblePopoverUser, setVisiblePopoverUser] = useState(false);
-  const [selectedKey, setSelectedKey] = useState("");
-  const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([]);
+function TopBar (props) {
+  const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props
+  const [visible, setVisible] = useState(false)
+  const [visiblePopoverUser, setVisiblePopoverUser] = useState(false)
+  const [selectedKey, setSelectedKey] = useState('')
+  const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
 
   useEffect(() => {
     if (route.focus) {
-      setSelectedKey(route.focus);
+      setSelectedKey(route.focus)
     } else {
-      setSelectedKey(route.key);
+      setSelectedKey(route.key)
     }
 
     if (isChild) {
-      setCurrentSubMenuKeys([parentKey]);
+      setCurrentSubMenuKeys([parentKey])
     }
-  }, [route]);
+  }, [route])
 
   const logOut = () => {
-    var request = { UserId: signedInUser?.userId };
+    const request = { UserId: signedInUser?.userId }
     signOut(request).then(() => {
-      window.location.replace("/login");
-    });
-  };
+      window.location.replace('/login')
+    })
+  }
 
   const getShortName = (name) => {
-    const names = name?.split(" ") ?? "";
+    const names = name?.split(' ') ?? ''
     if (names.length > 1) {
-      return names[0][0] + names[names.length - 1][0];
+      return names[0][0] + names[names.length - 1][0]
     }
     if (names.length === 1) {
-      return names[0][0];
+      return names[0][0]
     }
-    return names;
-  };
+    return names
+  }
 
   const renderAvatarPopover = (
     <>
@@ -77,68 +76,69 @@ function TopBar(props) {
         </div>
       </div>
     </>
-  );
+  )
 
   const showDrawer = () => {
-    setVisible(true);
-  };
+    setVisible(true)
+  }
 
   const onClose = () => {
-    setVisible(false);
-  };
+    setVisible(false)
+  }
 
   const renderMenuMobile = () => {
-    showDrawer(true);
-  };
+    showDrawer(true)
+  }
 
   const onOpenMyAccount = () => {
-    history.push("/my-account");
-  };
+    history.push('/my-account')
+  }
 
   const onClickAvatar = () => {
     if (!visiblePopoverUser) {
-     
+      // TO DO
     }
-    setVisiblePopoverUser(!visiblePopoverUser);
-  };
+    setVisiblePopoverUser(!visiblePopoverUser)
+  }
 
   /* Side Menu */
   const onOpenChange = (items) => {
-    const latestOpenKey = items.find((key) => currentSubMenuKeys.indexOf(key) === -1);
-    setCurrentSubMenuKeys(latestOpenKey ? [latestOpenKey] : []);
-  };
+    const latestOpenKey = items.find((key) => currentSubMenuKeys.indexOf(key) === -1)
+    setCurrentSubMenuKeys(latestOpenKey ? [latestOpenKey] : [])
+  }
 
   const renderMenusItems = () => {
-    const { session } = store.getState();
-    const { user } = session?.auth;
+    const { session } = store.getState()
+    const { user } = session?.auth
 
     const html = menuItems.map((item) => {
       if (item.child && item.child.length > 0) {
-        const childs = item.child;
-        let isAccess = false;
+        const childs = item.child
+        let isAccess = false
         childs.forEach((child) => {
           if (hasPermission(child.permission) === true) {
-            isAccess = true;
+            isAccess = true
           }
-        });
+        })
         if (isAccess === true) {
           return (
             <SubMenu key={item.key} icon={item.icon} title={item.name}>
               {childs.map((child) => {
-                let isShow = child?.permission && hasPermission(child.permission);
-                if (child.isMenu === true && isShow === true)
+                const isShow = child?.permission && hasPermission(child.permission)
+                if (child.isMenu === true && isShow === true) {
                   return (
-                    <Menu.Item style={{ paddingLeft: "0px !important" }} key={child.key}>
+                    <Menu.Item style={{ paddingLeft: '0px !important' }} key={child.key}>
                       <Link to={child.path} />
                       {child.name}
                     </Menu.Item>
-                  );
+                  )
+                }
               })}
             </SubMenu>
-          );
+          )
         }
       } else {
-        let isShow = item?.permission && hasPermission(item.permission);
+        const isShow = item?.permission && hasPermission(item.permission)
         /// If item is menu, then check if it has permission
         if (item.isMenu === true && isShow === true) {
           return (
@@ -146,7 +146,7 @@ function TopBar(props) {
               <Link to={item.path} />
               {item.name}
             </Menu.Item>
-          );
+          )
         } else if (!item?.permission && user?.accountType === DefaultConstants.ADMIN_ACCOUNT) {
           /// If item is menu, then check if it has not permission
           return (
@@ -154,12 +154,12 @@ function TopBar(props) {
               <Link to={item.path} />
               {item.name}
             </Menu.Item>
-          );
+          )
         }
       }
-    });
-    return html;
-  };
+    })
+    return html
+  }
 
   return (
     <>
@@ -170,7 +170,7 @@ function TopBar(props) {
               <MenuIcon />
             </div>
             <div className="logo">
-              <Image preview={false} src={""} width={55} />
+              <Image preview={false} src={''} width={55} />
             </div>
           </div>
           <div className="header-web">
@@ -187,7 +187,7 @@ function TopBar(props) {
                 <span className="store-label" title="">
                   Rose Clothing
                 </span>
-                <a href="https://roseclothing.vn/" className="store-name" target={"_blank"} rel="noreferrer">
+                <a href="https://roseclothing.vn/" className="store-name" target={'_blank'} rel="noreferrer">
                   https://roseclothing.vn/
                 </a>
               </div>
@@ -208,7 +208,7 @@ function TopBar(props) {
           </Popover>
         </div>
       </Header>
-      <Drawer width={"70%"} placement={"left"} closable={false} onClose={onClose} visible={visible}>
+      <Drawer width={'70%'} placement={'left'} closable={false} onClose={onClose} visible={visible}>
         <div className="menu menu-mobile">
           <Menu
             selectedKeys={[selectedKey]}
@@ -229,7 +229,7 @@ function TopBar(props) {
         </div>
       </Drawer>
     </>
-  );
+  )
 }
 
-export default TopBar;
+export default TopBar

@@ -1,39 +1,39 @@
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Button, Input, message, Space } from "antd";
-import { useState } from "react";
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
+import { Button, Input, message, Space } from 'antd'
+import { useState } from 'react'
 // import userDataService from "../../../data-services/user/user-data.service";
 
-import "./update-password.scss";
+import './update-password.scss'
 
-export function UpdatePasswordComponent(props) {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [currentPasswordError, setCurrentPasswordError] = useState("");
-  const [passwordFocus, setPasswordFocus] = useState(false);
+export function UpdatePasswordComponent (props) {
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [currentPasswordError, setCurrentPasswordError] = useState('')
+  const [passwordFocus, setPasswordFocus] = useState(false)
 
-  const [newPassword, setNewPassword] = useState("");
-  const [newPasswordError, setNewPasswordError] = useState("");
+  const [newPassword, setNewPassword] = useState('')
+  const [newPasswordError, setNewPasswordError] = useState('')
 
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
   const pageData = {
-    title: "Cập nhật mật khẩu",
-    currentPassword: "Mật khẩu hiện tại",
-    placeholderCurrentPassword: "Nhập mật khẩu hiện tại",
-    showEmptyCurrentPassword: "Vui lòng nhập mật khẩu hiện tại",
-    showWrongCurrentPassword: "Mật khẩu không đúng",
-    newPassword: "Mật khẩu mới",
-    placeholderNewPassword: "Nhập mật khẩu mới",
-    showEmptyNewPassword: "Vui lòng nhập mật khẩu mới",
-    confirmPassword: "Nhập lại mật khẩu mới",
-    placeholderConfirmPassword: "Nhập lại mật khẩu mới",
-    showConfirmNewPassword: "Vui lòng nhập lại mật khẩu mới",
-    showNotMatchPassword: "Nhập lại mật khẩu và mật khẩu mới phải giống nhau",
-    showThanksMessage: "Mật khẩu đã cập nhật thành công",
-    showUpdateFailedMessage: "Mật khẩu cập nhật thất bại"
-  };
+    title: 'Cập nhật mật khẩu',
+    currentPassword: 'Mật khẩu hiện tại',
+    placeholderCurrentPassword: 'Nhập mật khẩu hiện tại',
+    showEmptyCurrentPassword: 'Vui lòng nhập mật khẩu hiện tại',
+    showWrongCurrentPassword: 'Mật khẩu không đúng',
+    newPassword: 'Mật khẩu mới',
+    placeholderNewPassword: 'Nhập mật khẩu mới',
+    showEmptyNewPassword: 'Vui lòng nhập mật khẩu mới',
+    confirmPassword: 'Nhập lại mật khẩu mới',
+    placeholderConfirmPassword: 'Nhập lại mật khẩu mới',
+    showConfirmNewPassword: 'Vui lòng nhập lại mật khẩu mới',
+    showNotMatchPassword: 'Nhập lại mật khẩu và mật khẩu mới phải giống nhau',
+    showThanksMessage: 'Mật khẩu đã cập nhật thành công',
+    showUpdateFailedMessage: 'Mật khẩu cập nhật thất bại'
+  }
 
-  async function handleUpdate(e) {
+  async function handleUpdate (e) {
     try {
       // var initData = await userDataService.updatePasswordAsync({
       //   currentPassword,
@@ -50,14 +50,14 @@ export function UpdatePasswordComponent(props) {
       //   setConfirmPassword("");
       // }
     } catch (error) {
-      message.warning(pageData.showUpdateFailedMessage);
+      message.warning(pageData.showUpdateFailedMessage)
     }
   }
 
-  async function handleValidataionPassword(password) {
+  async function handleValidataionPassword (password) {
     try {
       if (password.length === 0) {
-        return false;
+        return false
       }
       // var initData = await userDataService.validationPasswordAsync({
       //   currentPassword: password,
@@ -69,46 +69,46 @@ export function UpdatePasswordComponent(props) {
       //   setCurrentPasswordError("");
       // }
     } finally {
-      setPasswordFocus(false);
+      setPasswordFocus(false)
     }
   }
 
-  function validataionPassword(value) {
-    setCurrentPassword(value);
-    if (value === "" || value.length < 1) {
-      setCurrentPasswordError(pageData.showEmptyCurrentPassword);
-      return;
+  function validataionPassword (value) {
+    setCurrentPassword(value)
+    if (value === '' || value.length < 1) {
+      setCurrentPasswordError(pageData.showEmptyCurrentPassword)
+      return
     }
-    setCurrentPasswordError("");
+    setCurrentPasswordError('')
   }
 
-  function validataionNewPassword(value) {
-    setNewPassword(value);
-    setConfirmPassword("");
-    if (value.length === "" || value.length < 1) {
-      setNewPasswordError(pageData.showEmptyNewPassword);
-      return;
+  function validataionNewPassword (value) {
+    setNewPassword(value)
+    setConfirmPassword('')
+    if (value.length === '' || value.length < 1) {
+      setNewPasswordError(pageData.showEmptyNewPassword)
+      return
     }
-    setNewPasswordError("");
+    setNewPasswordError('')
   }
 
-  function validataionConfirmPassword(value) {
-    setConfirmPassword(value);
-    if (value.length === "" || value.length < 1) {
-      setConfirmPasswordError(pageData.showConfirmNewPassword);
-      return;
+  function validataionConfirmPassword (value) {
+    setConfirmPassword(value)
+    if (value.length === '' || value.length < 1) {
+      setConfirmPasswordError(pageData.showConfirmNewPassword)
+      return
     } else if (value.length > 0 && value !== newPassword) {
-      setConfirmPasswordError(pageData.showNotMatchPassword);
-      return;
+      setConfirmPasswordError(pageData.showNotMatchPassword)
+      return
     }
-    setConfirmPasswordError("");
+    setConfirmPasswordError('')
   }
 
   const renderError = (message) => {
     return (
       <div className="ant-form-item-explain-error up-error">{message}</div>
-    );
-  };
+    )
+  }
 
   const renderButton = () => {
     const condition = [
@@ -117,8 +117,8 @@ export function UpdatePasswordComponent(props) {
       confirmPasswordError?.length === 0,
       currentPassword?.length > 0,
       newPassword?.length > 0,
-      confirmPassword?.length > 0,
-    ];
+      confirmPassword?.length > 0
+    ]
     if (condition.every((v) => v === true) && passwordFocus === false) {
       return (
         <div className="btn-wraper">
@@ -133,17 +133,17 @@ export function UpdatePasswordComponent(props) {
             update
           </Button>
         </div>
-      );
+      )
     }
-    return <div className="btn-wraper"></div>;
-  };
+    return <div className="btn-wraper"></div>
+  }
 
   return (
     <div className="c-update-password c-update-password--border c-update-password--spacing">
       <div
         className="up-header up-header--spacing"
-        size={"large"}
-        align="baseline"
+        size={'large'}
+        // align="baseline"
       >
         <h4 className="title-group title">{pageData.title}</h4>
         {renderButton()}
@@ -219,5 +219,5 @@ export function UpdatePasswordComponent(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

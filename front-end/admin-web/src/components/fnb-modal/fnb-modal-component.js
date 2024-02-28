@@ -1,8 +1,8 @@
-import React from "react";
-import { Modal } from "antd";
-import "./fnb-modal-component.scss";
+import React from 'react'
+import { Modal } from 'antd'
+import './fnb-modal-component.scss'
 
-export function FnbModal({
+export function FnbModal ({
   width,
   visible,
   title,
@@ -17,7 +17,7 @@ export function FnbModal({
   okButtonProps,
   cancelButtonProps,
   centered,
-  closable = true,
+  closable = true
 }) {
   return (
     <>
@@ -40,5 +40,5 @@ export function FnbModal({
         {content}
       </Modal>
     </>
-  );
+  )
 }

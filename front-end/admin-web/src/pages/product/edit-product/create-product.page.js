@@ -7,115 +7,115 @@ import {
   InputNumber,
   message,
   Row,
-  Typography,
-} from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import { FnbDeleteIcon } from "components/fnb-delete-icon/fnb-delete-icon";
-import { FnbSelectSingle } from "components/fnb-select-single/fnb-select-single";
-import { FnbTextArea } from "components/fnb-text-area/fnb-text-area.component";
-import { FnbUploadImageComponent } from "components/fnb-upload-image/fnb-upload-image.component";
-import PageTitle from "components/page-title";
-import { DELAYED_TIME, inputNumberRange1To999999999, tableSettings } from "constants/default.constants";
-import { DragIcon, IconBtnAdd, TrashFill } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { currency } from "constants/string.constants";
+  Typography
+} from 'antd'
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
+import { FnbDeleteIcon } from 'components/fnb-delete-icon/fnb-delete-icon'
+import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
+import { FnbUploadImageComponent } from 'components/fnb-upload-image/fnb-upload-image.component'
+import PageTitle from 'components/page-title'
+import { DELAYED_TIME, inputNumberRange1To999999999, tableSettings } from 'constants/default.constants'
+import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
+import { PermissionKeys } from 'constants/permission-key.constants'
+import { currency } from 'constants/string.constants'
 // import productDataService from "data-services/product/product-data.service";
-import React, { useEffect, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useHistory } from "react-router";
-import { getValidationMessagesWithParentField, randomGuid } from "utils/helpers";
-import "../edit-product/edit-product.scss";
+import React, { useEffect, useState } from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useHistory } from 'react-router'
+import { getValidationMessagesWithParentField, randomGuid } from 'utils/helpers'
+import '../edit-product/edit-product.scss'
 
-const { Text } = Typography;
+const { Text } = Typography
 
-export default function CreateProductPage() {
-  const history = useHistory();
+export default function CreateProductPage () {
+  const history = useHistory()
 
-  const [blockNavigation, setBlockNavigation] = useState(false);
-  const [image, setImage] = useState(null);
-  const [prices, setPrices] = useState([{}]);
-  const [listAllProductCategory, setListAllProductCategory] = useState([]);
-  const [disableCreateButton, setDisableCreateButton] = useState(false);
-  const [isChangeForm, setIsChangeForm] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
+  const [blockNavigation, setBlockNavigation] = useState(false)
+  const [image, setImage] = useState(null)
+  const [prices, setPrices] = useState([{}])
+  const [listAllProductCategory, setListAllProductCategory] = useState([])
+  const [disableCreateButton, setDisableCreateButton] = useState(false)
+  const [isChangeForm, setIsChangeForm] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500)
 
   useEffect(() => {
-    getInitData();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+    getInitData()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
 
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
   const pageData = {
-    title: "Thêm Sản Phẩm",
-    btnCancel: "Hủy",
-    btnSave: "Lưu",
-    btnAddNew: "Thêm mới",
-    discardBtn: "Từ chối",
-    confirmLeaveBtn: "Xác nhận rời",
+    title: 'Thêm Sản Phẩm',
+    btnCancel: 'Hủy',
+    btnSave: 'Lưu',
+    btnAddNew: 'Thêm mới',
+    discardBtn: 'Từ chối',
+    confirmLeaveBtn: 'Xác nhận rời',
     generalInformation: {
-      title: "Thông tin chung",
+      title: 'Thông tin chung',
       name: {
-        label: "Tên",
-        placeholder: "Nhập tên sản phẩm",
+        label: 'Tên',
+        placeholder: 'Nhập tên sản phẩm',
         required: true,
         maxLength: 100,
-        validateMessage: "Vui lòng nhập tên sản phẩm",
+        validateMessage: 'Vui lòng nhập tên sản phẩm'
       },
       description: {
-        label: "Mô tả",
-        placeholder: "Vui lòng nhập mô tả sản phẩm",
+        label: 'Mô tả',
+        placeholder: 'Vui lòng nhập mô tả sản phẩm',
         required: false,
-        maxLength: 255,
+        maxLength: 255
       },
-      uploadImage:"Thêm ảnh"
+      uploadImage: 'Thêm ảnh'
     },
     pricing: {
-      title: "Giá",
-      addPrice: "Thêm giá",
+      title: 'Giá',
+      addPrice: 'Thêm giá',
       price: {
-        label: "Giá",
-        placeholder: "Nhập giá",
+        label: 'Giá',
+        placeholder: 'Nhập giá',
         required: true,
         max: 999999999,
         min: 0,
-        format: "^[0-9]*$",
-        validateMessage: "Giá trị cho phép từ 0 đến 999.999.999",
+        format: '^[0-9]*$',
+        validateMessage: 'Giá trị cho phép từ 0 đến 999.999.999'
       },
       priceName: {
-        label: "Tên giá",
-        placeholder: "Nhập tên giá",
+        label: 'Tên giá',
+        placeholder: 'Nhập tên giá',
         required: true,
         maxLength: 100,
-        validateMessage: "Vui lòng nhập tên giá",
-      },
+        validateMessage: 'Vui lòng nhập tên giá'
+      }
     },
     productCategory: {
-      label: "Danh mục sản phẩm",
-      placeholder: "Chọn danh mục sản phẩm"
+      label: 'Danh mục sản phẩm',
+      placeholder: 'Chọn danh mục sản phẩm'
     },
-    productNameExisted: "Tên sản phẩm đã tồn tại",
-    fileSizeLimit: "Kích thước tệp tải lên phải nhỏ hơn 5MB",
-    productAddedSuccess: "Sản phẩm đã được thêm thành công",
+    productNameExisted: 'Tên sản phẩm đã tồn tại',
+    fileSizeLimit: 'Kích thước tệp tải lên phải nhỏ hơn 5MB',
+    productAddedSuccess: 'Sản phẩm đã được thêm thành công',
     media: {
-      title: "Thư viện ảnh",
-      textNonImage: "Chấp nhận: JPG, PNG, JPG2000, GIF,... .",
+      title: 'Thư viện ảnh',
+      textNonImage: 'Chấp nhận: JPG, PNG, JPG2000, GIF,... .'
     },
     upload: {
-      adFromUrl: "Add from URL",
+      adFromUrl: 'Add from URL'
     },
     leaveDialog: {
-      confirmation: "Xác nhận",
-      content: "Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!",
+      confirmation: 'Xác nhận',
+      content: 'Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!'
     },
     table: {
-      name: "TÊN",
-      action: "THAO TÁC",
+      name: 'TÊN',
+      action: 'THAO TÁC'
     },
-    bestDisplayImage: "Hiển thị tốt nhất: 176px X 176px",
-  };
+    bestDisplayImage: 'Hiển thị tốt nhất: 176px X 176px'
+  }
 
   const getInitData = async () => {
     // const resDataInitialCreateProduct = await productDataService.getInitialDataCreateProduct();
@@ -125,19 +125,18 @@ export default function CreateProductPage() {
     //     setListAllProductCategory(allProductCategories);
     //   }
     // }
-  };
-
+  }
 
   const scrollToElement = (id) => {
-    const element = document.getElementById(id);
+    const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "start",
-      });
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'start'
+      })
     }
-  };
+  }
 
   const onSubmitForm = () => {
     form
@@ -145,8 +144,8 @@ export default function CreateProductPage() {
       .then(async (values) => {
         const createProductRequestModel = {
           ...values.product,
-          image: image?.url,
-        };
+          image: image?.url
+        }
 
         if (createProductRequestModel.prices > 0) {
           // productDataService
@@ -165,81 +164,81 @@ export default function CreateProductPage() {
       })
       .catch((errors) => {
         if (errors?.errorFields?.length > 0) {
-          const elementId = `basic_${errors?.errorFields[0]?.name.join("_")}_help`;
-          scrollToElement(elementId);
+          const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
+          scrollToElement(elementId)
         }
-      });
-  };
+      })
+  }
 
   const onChangeImage = (file) => {
-    setImage(file);
-  };
+    setImage(file)
+  }
 
   const onClickAddPrice = () => {
-    let formValue = form.getFieldsValue();
-    let { product } = formValue;
+    const formValue = form.getFieldsValue()
+    const { product } = formValue
 
     const newPrice = {
       position: prices.length || 0,
       id: randomGuid(),
-      name: "",
-      price: "",
-    };
+      name: '',
+      price: ''
+    }
     if (prices.length === 1) {
       const price = {
         position: 0,
         id: randomGuid(),
-        name: "",
-        price: product.price || "",
-      };
-      prices[0] = price;
+        name: '',
+        price: product.price || ''
+      }
+      prices[0] = price
     }
-    const listPrice = [...(product.prices ?? prices), newPrice];
-    product.prices = listPrice;
-    setPrices(listPrice);
-    form.setFieldsValue(formValue);
+    const listPrice = [...(product.prices ?? prices), newPrice]
+    product.prices = listPrice
+    setPrices(listPrice)
+    form.setFieldsValue(formValue)
     setTimeout(() => {
-      const dragDropPrices = document.getElementById("dragDropPrices");
-      dragDropPrices.scrollTop = dragDropPrices.scrollHeight;
-    }, 100);
-  };
+      const dragDropPrices = document.getElementById('dragDropPrices')
+      dragDropPrices.scrollTop = dragDropPrices.scrollHeight
+    }, 100)
+  }
 
   const onDeletePrice = (index) => {
-    let formValue = form.getFieldsValue();
-    let { product } = formValue;
+    const formValue = form.getFieldsValue()
+    const { product } = formValue
     if (product.prices.length > 0) {
-      product.prices.splice(index, 1);
-      product.prices.forEach((item, index) => (item.position = index));
+      product.prices.splice(index, 1)
+      product.prices.forEach((item, index) => (item.position = index))
     }
-    setPrices(product.prices);
+    setPrices(product.prices)
     if (product.prices.length === 1) {
-      product.price = product.prices[0].price;
-      product.prices[0].position = 0;
+      product.price = product.prices[0].price
+      product.prices[0].position = 0
     }
-    form.setFieldsValue(formValue);
-  };
+    form.setFieldsValue(formValue)
+  }
 
   const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    result.forEach((item, index) => (item.position = index));
-    return result;
-  };
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+    result.forEach((item, index) => (item.position = index))
+    return result
+  }
 
   const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
-      return;
+      return
     }
-    let formValue = form.getFieldsValue();
-    let { product } = formValue;
-    const listPrice = reorder(product.prices, result.source.index, result.destination.index);
+    const formValue = form.getFieldsValue()
+    const { product } = formValue
+    const listPrice = reorder(product.prices, result.source.index, result.destination.index)
 
-    setPrices(listPrice);
-    product.prices = listPrice;
-    form.setFieldsValue(formValue);
-  };
+    setPrices(listPrice)
+    product.prices = listPrice
+    form.setFieldsValue(formValue)
+  }
 
   const renderPrices = () => {
     const addPriceButton = (
@@ -251,7 +250,7 @@ export default function CreateProductPage() {
       >
         {pageData.pricing.addPrice}
       </Button>
-    );
+    )
 
     const singlePrice = (
       <>
@@ -259,29 +258,29 @@ export default function CreateProductPage() {
           <Col span={24}>
             <h4 className="fnb-form-label">{pageData.pricing.price.label}</h4>
             <Form.Item
-              name={["product", "price"]}
+              name={['product', 'price']}
               rules={[
                 {
                   required: true,
-                  message: pageData.pricing.price.validateMessage,
+                  message: pageData.pricing.price.validateMessage
                 },
                 {
                   pattern: new RegExp(inputNumberRange1To999999999.range),
-                  message: pageData.pricing.price.validateMessage,
-                },
+                  message: pageData.pricing.price.validateMessage
+                }
               ]}
             >
               <InputNumber
                 className="w-100 fnb-input-number"
                 placeholder={pageData.pricing.price.placeholder}
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                 addonAfter={currency.vnd}
                 precision={0}
                 id="product-price"
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
+                    event.preventDefault()
                   }
                 }}
               />
@@ -294,7 +293,7 @@ export default function CreateProductPage() {
           </Col>
         </Row>
       </>
-    );
+    )
 
     const multiplePrices = (
       <>
@@ -304,43 +303,43 @@ export default function CreateProductPage() {
               <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
                 <div
                   id="dragDropPrices"
-                  style={prices.length >= 6 ? { height: 640, overflowY: "scroll" } : { minHeight: prices.length * 127 }}
+                  style={prices.length >= 6 ? { height: 640, overflowY: 'scroll' } : { minHeight: prices.length * 127 }}
                 >
                   <div style={{ minHeight: prices.length * 127 }}>
                     {prices.map((price, index) => {
-                      const position = (price.position || 0) + 1;
+                      const position = (price.position || 0) + 1
                       return (
                         <Draggable key={price.id} draggableId={price.id} index={index}>
                           {(provided) => (
                             <Row
-                              className={`mb-4 pointer price-item`}
+                              className={'mb-4 pointer price-item'}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
                               <Col span={24} className="col-title">
                                 <DragIcon className="title-center drag-icon" width={38} height={38} />
-                                <div className="m-4 title-center position-text">{position + "."}</div>
+                                <div className="m-4 title-center position-text">{position + '.'}</div>
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[16, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={12}>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "position"]}
+                                          name={['product', 'prices', price.position, 'position']}
                                           hidden={true}
                                         >
                                           <Input />
                                         </Form.Item>
-                                        <Form.Item name={["product", "prices", price.position, "id"]} hidden={true}>
+                                        <Form.Item name={['product', 'prices', price.position, 'id']} hidden={true}>
                                           <Input />
                                         </Form.Item>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "name"]}
+                                          name={['product', 'prices', price.position, 'name']}
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.priceName.validateMessage,
-                                            },
+                                              message: pageData.pricing.priceName.validateMessage
+                                            }
                                           ]}
                                         >
                                           <Input
@@ -353,28 +352,28 @@ export default function CreateProductPage() {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={12}>
                                         <Form.Item
-                                          name={["product", "prices", price.position, "price"]}
+                                          name={['product', 'prices', price.position, 'price']}
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.price.validateMessage,
+                                              message: pageData.pricing.price.validateMessage
                                             },
                                             {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
-                                              message: pageData.pricing.price.validateMessage,
-                                            },
+                                              message: pageData.pricing.price.validateMessage
+                                            }
                                           ]}
                                         >
                                           <InputNumber
                                             className="fnb-input-number w-100"
                                             placeholder={pageData.pricing.price.placeholder}
-                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                            parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                             addonAfter={currency.vnd}
                                             precision={0}
                                             onKeyPress={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
-                                                event.preventDefault();
+                                                event.preventDefault()
                                               }
                                             }}
                                             id={`product-prices-${price.position}-price`}
@@ -396,7 +395,7 @@ export default function CreateProductPage() {
                             </Row>
                           )}
                         </Draggable>
-                      );
+                      )
                     })}
                   </div>
                 </div>
@@ -410,45 +409,45 @@ export default function CreateProductPage() {
           </div>
         </Col>
       </>
-    );
+    )
 
     return (
       <>
         {prices.length === 1 && singlePrice}
         {prices.length > 1 && multiplePrices}
       </>
-    );
-  };
+    )
+  }
 
   const changeForm = (e) => {
-    setIsChangeForm(true);
-    setDisableCreateButton(false);
-  };
+    setIsChangeForm(true)
+    setDisableCreateButton(false)
+  }
 
   const onCancel = () => {
     if (isChangeForm) {
-      setShowConfirm(true);
+      setShowConfirm(true)
     } else {
-      setShowConfirm(false);
-      onCompleted();
-      return history.push("/product");
+      setShowConfirm(false)
+      onCompleted()
+      return history.push('/product')
     }
-  };
+  }
 
   const onDiscard = () => {
-    setShowConfirm(false);
-  };
+    setShowConfirm(false)
+  }
 
   const onCompleted = () => {
-    setIsChangeForm(false);
+    setIsChangeForm(false)
     setTimeout(() => {
-      return history.push("/product");
-    }, DELAYED_TIME);
-  };
+      return history.push('/product')
+    }, DELAYED_TIME)
+  }
 
   const updateDimensions = () => {
-    setIsMobileSize(window.innerWidth < 500);
-  };
+    setIsMobileSize(window.innerWidth < 500)
+  }
 
   return (
     <>
@@ -474,7 +473,7 @@ export default function CreateProductPage() {
                     {pageData.btnSave}
                   </Button>
                 ),
-                permission: PermissionKeys.CREATE_PRODUCT,
+                permission: PermissionKeys.CREATE_PRODUCT
               },
               {
                 action: (
@@ -482,8 +481,8 @@ export default function CreateProductPage() {
                     {pageData.btnCancel}
                   </a>
                 ),
-                permission: null,
-              },
+                permission: null
+              }
             ]}
           />
         </Col>
@@ -494,7 +493,7 @@ export default function CreateProductPage() {
         onFieldsChange={(e) => changeForm(e)}
         autoComplete="off"
         onChange={() => {
-          if (!blockNavigation) setBlockNavigation(true);
+          if (!blockNavigation) setBlockNavigation(true)
         }}
       >
         <div className="col-input-full-width create-product-page">
@@ -510,12 +509,12 @@ export default function CreateProductPage() {
                       <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={["product", "name"]}
+                      name={['product', 'name']}
                       rules={[
                         {
                           required: pageData.generalInformation.name.required,
-                          message: pageData.generalInformation.name.validateMessage,
-                        },
+                          message: pageData.generalInformation.name.validateMessage
+                        }
                       ]}
                       validateFirst={true}
                     >
@@ -529,7 +528,7 @@ export default function CreateProductPage() {
                     </Form.Item>
 
                     <h4 className="fnb-form-label">{pageData.generalInformation.description.label}</h4>
-                    <Form.Item name={["product", "description"]} rules={[]}>
+                    <Form.Item name={['product', 'description']} rules={[]}>
                       <FnbTextArea
                         showCount
                         maxLength={pageData.generalInformation.description.maxLength}
@@ -557,16 +556,16 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 fnb-card h-auto">
                     <h4 className="title-group">{pageData.media.title}</h4>
-                    <Row className={`non-image ${image !== null ? "have-image" : ""}`}>
-                      <Col span={24} className={`image-product ${image !== null ? "justify-left" : ""}`}>
-                        <div style={{ display: "flex" }}>
-                          <Form.Item name={["product", "media"]}>
+                    <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
+                      <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
+                        <div style={{ display: 'flex' }}>
+                          <Form.Item name={['product', 'media']}>
                             <FnbUploadImageComponent
                               buttonText={pageData.generalInformation.uploadImage}
                               onChange={onChangeImage}
                             />
                           </Form.Item>
-                          <a className="upload-image-url" hidden={image !== null ? true : false}>
+                          <a className="upload-image-url" hidden={image !== null}>
                             {pageData.upload.addFromUrl}
                           </a>
                         </div>
@@ -574,7 +573,7 @@ export default function CreateProductPage() {
                       <Col
                         span={24}
                         className="create-edit-product-text-non-image"
-                        hidden={image !== null ? true : false}
+                        hidden={image !== null}
                       >
                         <Text disabled>
                           {pageData.media.textNonImage}
@@ -592,13 +591,13 @@ export default function CreateProductPage() {
                   <br/>
                   <Card className="w-100 mt-1 fnb-card h-auto">
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item name={["product", "productCategoryId"]}>
+                    <Form.Item name={['product', 'productCategoryId']}>
                       <FnbSelectSingle
                         placeholder={pageData.productCategory.placeholder}
                         showSearch
                         option={listAllProductCategory?.map((b) => ({
                           id: b.id,
-                          name: b.name,
+                          name: b.name
                         }))}
                       />
                     </Form.Item>
@@ -621,5 +620,5 @@ export default function CreateProductPage() {
         isChangeForm={isChangeForm}
       />
     </>
-  );
+  )
 }

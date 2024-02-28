@@ -1,73 +1,73 @@
-import { Image, Layout, Menu } from "antd";
-import { CollapseIcon, ExpandIcon, SettingFill } from "constants/icons.constants";
-import { DefaultConstants } from "constants/string.constants";
-import { useEffect, useState } from "react";
-import { Link, NavLink, withRouter } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { compose } from "redux";
-import { store } from "store";
-import { hasPermission, sortChildRoute } from "utils/helpers";
-import "./index.scss";
-const { Sider } = Layout;
-const { SubMenu } = Menu;
+import { Image, Layout, Menu } from 'antd'
+import { CollapseIcon, ExpandIcon, SettingFill } from 'constants/icons.constants'
+import { DefaultConstants } from 'constants/string.constants'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { compose } from 'redux'
+import { store } from 'store'
+import { hasPermission, sortChildRoute } from 'utils/helpers'
+import './index.scss'
+const { Sider } = Layout
+const { SubMenu } = Menu
 
-function SideMenu(props) {
-  const { menuItems, route, isChild, parentKey } = props;
-  const [collapsed, setCollapsed] = useState(false);
-  const [selectedKey, setSelectedKey] = useState("");
-  const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([]);
-  const history = useHistory();
+function SideMenu (props) {
+  const { menuItems, route, isChild, parentKey } = props
+  const [collapsed, setCollapsed] = useState(false)
+  const [selectedKey, setSelectedKey] = useState('')
+  const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     if (route.focus) {
-      setSelectedKey(route.focus);
+      setSelectedKey(route.focus)
     } else {
-      setSelectedKey(route.key);
+      setSelectedKey(route.key)
     }
 
     if (isChild) {
-      setCurrentSubMenuKeys([parentKey]);
+      setCurrentSubMenuKeys([parentKey])
     }
-  }, []);
+  }, [])
 
   const onCollapse = (collapsed) => {
-    setCollapsed(collapsed);
-  };
+    setCollapsed(collapsed)
+  }
 
   const onOpenChange = (items) => {
-    const latestOpenKey = items.find((key) => currentSubMenuKeys.indexOf(key) === -1);
-    setCurrentSubMenuKeys(latestOpenKey ? [latestOpenKey] : []);
-  };
+    const latestOpenKey = items.find((key) => currentSubMenuKeys.indexOf(key) === -1)
+    setCurrentSubMenuKeys(latestOpenKey ? [latestOpenKey] : [])
+  }
 
   const onFocusFirstItem = (childs) => {
     if (childs?.length > 0) {
       childs = sortChildRoute(childs).sort((a, b) => {
-        return a.position - b.position;
-      });
-      for (let child of childs) {
+        return a.position - b.position
+      })
+      for (const child of childs) {
         if (hasPermission(child.permission) === true) {
-          history.push(child.path);
-          break;
+          history.push(child.path)
+          break
         }
       }
     }
-  };
+  }
 
   const renderMenusItems = () => {
-    const { session } = store.getState();
-    const { user } = session?.auth;
+    const { session } = store.getState()
+    const { user } = session?.auth
 
-    let currentMenuItems = menuItems;
+    const currentMenuItems = menuItems
 
     const html = currentMenuItems?.map((item) => {
       if (item.child && item.child.length > 0) {
-        const childs = item.child;
-        let isAccess = false;
+        const childs = item.child
+        let isAccess = false
         childs.forEach((child) => {
           if (hasPermission(child.permission) === true) {
-            isAccess = true;
+            isAccess = true
           }
-        });
+        })
         if (isAccess === true) {
           return (
             <>
@@ -78,21 +78,22 @@ function SideMenu(props) {
                 title={item.name}
               >
                 {childs.map((child) => {
-                  var isShow = child?.permission && hasPermission(child.permission);
-                  if (child.isMenu === true && isShow === true)
+                  const isShow = child?.permission && hasPermission(child.permission)
+                  if (child.isMenu === true && isShow === true) {
                     return (
-                      <Menu.Item style={{ paddingLeft: "0px !important" }} key={child.key}>
+                      <Menu.Item style={{ paddingLeft: '0px !important' }} key={child.key}>
                         <Link to={child.path} />
                         {child.name}
                       </Menu.Item>
-                    );
+                    )
+                  }
                 })}
               </SubMenu>
             </>
-          );
+          )
         }
       } else {
-        var isShow = item?.permission && hasPermission(item.permission);
+        const isShow = item?.permission && hasPermission(item.permission)
         /// If item is menu, then check if it has permission
         if (item.isMenu === true && isShow === true) {
           return (
@@ -100,7 +101,7 @@ function SideMenu(props) {
               <Link to={item.path} />
               {item.name}
             </Menu.Item>
-          );
+          )
         } else if (!item?.permission && user?.accountType === DefaultConstants.ADMIN_ACCOUNT) {
           /// If item is menu, then check if it has not permission
           return (
@@ -108,23 +109,23 @@ function SideMenu(props) {
               <Link to={item.path} />
               {item.name}
             </Menu.Item>
-          );
+          )
         }
       }
-    });
-    return html;
-  };
+    })
+    return html
+  }
 
   const handleClickSettingNavigate = () => {
-    let header = document.getElementById("header");
-    if (header.classList.contains("expand-header")) {
-      header.classList.remove("expand-header");
-      header.classList.add("collapse-header");
+    const header = document.getElementById('header')
+    if (header.classList.contains('expand-header')) {
+      header.classList.remove('expand-header')
+      header.classList.add('collapse-header')
     } else {
-      header.classList.add("expand-header");
-      header.classList.remove("collapse-header");
+      header.classList.add('expand-header')
+      header.classList.remove('collapse-header')
     }
-  };
+  }
 
   const CustomTrigger = () => (
     <div className="trigger-footer">
@@ -143,7 +144,7 @@ function SideMenu(props) {
         </span>
       </div>
     </div>
-  );
+  )
 
   return (
     <Sider
@@ -155,7 +156,7 @@ function SideMenu(props) {
     >
       <div className="bg-logo">
         <div className="logo">
-          <Image id="logo-img" preview={false} src={collapsed ? "" : ""} />
+          <Image id="logo-img" preview={false} src={collapsed ? '' : ''} />
         </div>
       </div>
       <div className="menu">
@@ -169,7 +170,7 @@ function SideMenu(props) {
         </Menu>
       </div>
     </Sider>
-  );
+  )
 }
 
-export default compose(withRouter)(SideMenu);
+export default compose(withRouter)(SideMenu)

@@ -7,7 +7,7 @@ export const OptionDateTime = {
   lastMonth: 5,
   thisYear: 6,
   customize: 7,
-  allTime: 8,
-};
+  allTime: 8
+}
 
-export const weekDays = {};
+export const weekDays = {}
