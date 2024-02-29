@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Select, Row, Col } from 'antd'
 import { ArrowDown, CheckedIcon, PlusOrangeIcon } from 'constants/icons.constants'
-
+import { useTranslation } from 'react-i18next'
 import './select-edit-new-item.scss'
 
 const { Option } = Select
@@ -22,11 +22,11 @@ export default function SelectEditComponent (props) {
     onSelect,
     fixed
   } = props
-
+  const { t } = useTranslation()
   const [value, setValue] = useState(null)
 
   const pageData = {
-    add: 'Thêm mới'
+    add: t('button:add')
   }
 
   useEffect(() => {

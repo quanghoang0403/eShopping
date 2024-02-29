@@ -1,18 +1,19 @@
 import { Col, Row } from 'antd'
 import { FnbUploadImageComponent } from 'components/fnb-upload-image/fnb-upload-image.component'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import './fnb-image-select.component.scss'
 
 const { forwardRef, useImperativeHandle } = React
 export const FnbImageSelectComponent = forwardRef((props, ref) => {
+  const { t } = useTranslation()
   const {
     className,
     onChange,
     value,
     maxFileSize = 5242880,
     isShowBestDisplay = true,
-    messageTooBigSize = 'Ảnh tải lên phải có dung lượng nhỏ hơn 1MB.',
-    messageErrorFormat = 'Chỉ chấp nhận loại tệp: JPG, PNG, JPG2000, GIF...',
+
     acceptType,
     bestDisplayImage,
     customTextNonImageClass,
@@ -34,10 +35,12 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }))
 
   const pageData = {
-    addFromUrl: 'Thêm từ URL',
-    uploadImage: 'Thêm tập tin',
-    textNonImage: 'Chấp nhận: .JPG, .PNG, .JPG2000, .GIF...',
-    bestDisplayImage: 'Hiển thị tốt nhất: 176px X 176px'
+    addFromUrl: t('upload:addFromUrl'),
+    uploadImage: t('upload:uploadImage'),
+    textNonImage: t('upload:textNonImage'),
+    bestDisplayImage: t('upload:bestDisplayImage'),
+    imageSizeTooBig: t('upload:imageSizeTooBig'),
+    acceptFileImageTypes: t('upload:acceptFileImageTypes')
   }
 
   useEffect(() => {
@@ -61,9 +64,9 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
 
   const onShowErrorMessage = (errors, files) => {
     if (errors.maxFileSize === true) {
-      setErrorMessage(messageTooBigSize)
+      setErrorMessage(pageData.imageSizeTooBig)
     } else if (errors.acceptType === true) {
-      setErrorMessage(messageErrorFormat)
+      setErrorMessage(pageData.acceptFileImageTypes)
     }
   }
 

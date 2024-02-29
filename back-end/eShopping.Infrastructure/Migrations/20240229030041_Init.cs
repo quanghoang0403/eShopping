@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eShopping.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,11 +18,13 @@ namespace eShopping.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Password = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ValidateCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     IsActivated = table.Column<bool>(type: "bit", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     FullName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: false, comment: "1.Male 2.Female 3.Other"),
                     AccountType = table.Column<int>(type: "int", nullable: false),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -60,8 +62,9 @@ namespace eShopping.Infrastructure.Migrations
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KeywordSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Keyword"),
                     UrlSEO = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true, comment: "SEO Configuration: URL Link"),
                     TitleSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Title"),
                     DescriptionSEO = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true, comment: "SEO Configuration: SEO on Description"),
@@ -131,13 +134,16 @@ namespace eShopping.Infrastructure.Migrations
                     ViewCount = table.Column<int>(type: "int", nullable: false),
                     IsFeatured = table.Column<bool>(type: "bit", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KeywordSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Keyword"),
                     UrlSEO = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true, comment: "SEO Configuration: URL Link"),
                     TitleSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Title"),
                     DescriptionSEO = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true, comment: "SEO Configuration: SEO on Description"),
@@ -222,10 +228,6 @@ namespace eShopping.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: false, comment: "1.Male 2.Female 3.Other"),
                     PermissionGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -339,11 +341,6 @@ namespace eShopping.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: false, comment: "1.Male 2.Female 3.Other"),
-                    IsOTPVerified = table.Column<bool>(type: "bit", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: true),
                     DistrictId = table.Column<int>(type: "int", nullable: true),
                     WardId = table.Column<int>(type: "int", nullable: true),

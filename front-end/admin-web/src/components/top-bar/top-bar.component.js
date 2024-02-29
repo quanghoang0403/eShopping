@@ -8,6 +8,7 @@ import { store } from 'store'
 import { hasPermission } from 'utils/helpers'
 import logo from 'assets/images/logo.png'
 import './index.scss'
+import { useTranslation } from 'react-i18next'
 
 const { Header } = Layout
 const { SubMenu } = Menu
@@ -18,6 +19,7 @@ function TopBar (props) {
   const [visiblePopoverUser, setVisiblePopoverUser] = useState(false)
   const [selectedKey, setSelectedKey] = useState('')
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (route.focus) {
@@ -64,14 +66,14 @@ function TopBar (props) {
             <span className="avt-staff-icon">
               <StaffUserFill width={28} height={28} />
             </span>
-            <a>Thông tin tài khoản</a>
+            <a>{t('home:userInfo')},</a>
           </div>
           <hr />
           <div onClick={() => logOut()} className="pointer log-out-border">
             <span className="avt-menu-icon">
               <LogoutIcon width={28} height={28} />
             </span>
-            <a>Đăng xuất</a>
+            <a>{t('home:logout')}</a>
           </div>
         </div>
       </div>

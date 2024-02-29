@@ -5,8 +5,10 @@ import PageTitle from 'components/page-title'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import TableProduct from './components/table-product.component'
 import './index.scss'
+import { useTranslation } from 'react-i18next'
 
 export default function ProductPage (props) {
+  const { t } = useTranslation()
   return (
     <div>
       <Row className="fnb-row-page-header">

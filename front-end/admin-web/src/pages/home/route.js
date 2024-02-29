@@ -1,5 +1,8 @@
 import HomePage from '.'
 import { HomeFill } from 'constants/icons.constants'
+import i18n from 'utils/i18n'
+
+const { t } = i18n
 // Define the route
 const route = [
   {
@@ -7,10 +10,10 @@ const route = [
     position: 0,
     path: '/',
     icon: <HomeFill />,
-    name: 'Trang chủ',
+    name: t('home:menuHome'),
     isMenu: true,
     exact: true,
-    auth: true,
+    // auth: true,
     permission: 'public',
     component: HomePage,
     child: []

@@ -35,12 +35,12 @@ import {
 } from 'utils/helpers'
 import DeleteProductComponent from '../components/delete-product.component'
 import './edit-product.scss'
-
+import { useTranslation } from 'react-i18next'
 export default function EditProductPage (props) {
   const history = useHistory()
   const match = useRouteMatch()
   const fnbImageSelectRef = React.useRef()
-
+  const { t } = useTranslation()
   const [prices, setPrices] = useState([{}])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [titleName, setTitleName] = useState('')

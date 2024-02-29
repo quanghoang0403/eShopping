@@ -1,5 +1,7 @@
 import MyAccountPage from './my-account-page'
+import i18n from 'utils/i18n'
 
+const { t } = i18n
 // Define the route
 const route = [
   {

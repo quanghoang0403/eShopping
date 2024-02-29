@@ -35,7 +35,7 @@ export default function UserInformationComponent (props) {
     successMessage: t('myAccount:btnUpdate'),
     unSuccessMessage: t('myAccount:btnUpdate'),
     tabNameAccountTitle: t('myAccount:btnUpdate'),
-    imageSizeTooBig: t('notification:imageSizeTooBig')
+    imageSizeTooBig: t('upload:imageSizeTooBig')
   }
 
   useEffect(() => {

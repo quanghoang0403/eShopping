@@ -298,7 +298,19 @@ export const getValidationMessages = (errors) => {
   return errors?.map((err) => {
     return {
       name: lowercaseFirst(err.type),
-      errors: '[t(err.message)]'
+      errors: [t(err.message)]
+    }
+  })
+}
+
+/*
+  MAPPING VALIDATE ERROR WITH PARENT FIELD
+*/
+export const getValidationMessagesWithParentField = (errors, field) => {
+  return errors?.map((err) => {
+    return {
+      name: [field, lowercaseFirst(err.type)],
+      errors: [t(err.message)]
     }
   })
 }

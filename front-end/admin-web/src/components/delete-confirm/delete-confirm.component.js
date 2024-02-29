@@ -147,7 +147,7 @@ export default function DeleteConfirmComponent ({
                 <div className="fnb-table-action-icon">
                   <Tooltip
                     placement="top"
-                    title="Xoá"
+                    title={t('button:delete')}
                     color="#50429B"
                     zIndex={10}
                   >

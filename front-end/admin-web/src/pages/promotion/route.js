@@ -1,6 +1,8 @@
 import PromotionPage from '.'
 import { Promotion } from 'constants/icons.constants'
+import i18n from 'utils/i18n'
 
+const { t } = i18n
 // Define the route
 const route = [
   {
@@ -8,7 +10,7 @@ const route = [
     position: 4,
     path: '/promotion',
     icon: <Promotion />,
-    name: 'Khuyến mãi',
+    name: t('home:menuPromotion'),
     isMenu: true,
     exact: true,
     auth: true,

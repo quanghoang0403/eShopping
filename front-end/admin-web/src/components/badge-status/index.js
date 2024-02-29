@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.scss'
-
+import { useTranslation } from 'react-i18next'
 /**
  * Badge Status
  * @param {bool} status - Status of the badge
@@ -8,10 +8,10 @@ import './index.scss'
  */
 export function BadgeStatus (props) {
   const { isActive } = props
-
+  const { t } = useTranslation()
   const pageData = {
-    active: 'Đang hoạt động',
-    inactive: 'Không hoạt động'
+    active: t('common:active'),
+    inactive: t('common:inactive')
   }
 
   const renderStatus = () => {

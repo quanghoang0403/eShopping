@@ -1,6 +1,8 @@
 import BlogPage from '.'
 import { Blog } from 'constants/icons.constants'
+import i18n from 'utils/i18n'
 
+const { t } = i18n
 // Define the route
 const route = [
   {
@@ -8,7 +10,7 @@ const route = [
     position: 5,
     path: '/blog',
     icon: <Blog />,
-    name: 'Bài viết',
+    name: t('home:menuBlog'),
     isMenu: true,
     exact: true,
     auth: true,

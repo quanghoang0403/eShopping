@@ -1,0 +1,8 @@
+{
+    "imageSizeTooBig": "Ảnh tải lên phải có dung lượng nhỏ hơn 1MB.",
+    "acceptFileImageTypes": "Chỉ chấp nhận loại tệp: JPG, PNG, JPG2000, GIF...",
+    "addFromUrl": "Thêm từ URL",
+    "uploadImage": "Thêm tập tin",
+    "textNonImage": "Chấp nhận: .JPG, .PNG, .JPG2000, .GIF...",
+    "bestDisplayImage": "Hiển thị tốt nhất: 176px X 176px"
+}

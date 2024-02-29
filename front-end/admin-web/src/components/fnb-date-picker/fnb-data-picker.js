@@ -7,25 +7,27 @@ import { useEffect, useState } from 'react'
 import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
 import { DateRange } from '../fnb-date-range-picker'
+import { useTranslation } from 'react-i18next'
 import './fnb-data-picker.scss'
 
 export function FnbDatePicker (props) {
+  const { t } = useTranslation()
   const pageData = {
-    optionDatetime: {
-      yesterday: 'Hôm qua',
-      thisWeek: 'Tuần này',
-      lastWeek: 'Tuần trước',
-      today: 'Hôm nay',
-      thisMonth: 'Tháng này',
-      lastMonth: 'Tháng trước',
-      thisYear: 'Năm nay',
-      lastYear: 'Năm trước',
-      customize: 'Tùy chỉnh',
-      allTime: 'Mọi lúc',
-      to: 'Đến'
+    optionDateTime: {
+      today: t('report:today'),
+      yesterday: t('report:yesterday'),
+      thisWeek: t('report:thisWeek'),
+      lastWeek: t('report:lastWeek'),
+      thisMonth: t('report:thisMonth'),
+      lastMonth: t('report:lastMonth'),
+      thisYear: t('report:thisYear'),
+      lastYear: t('report:lastYear'),
+      customize: t('report:customize'),
+      allTime: t('report:allTime'),
+      to: t('report:to')
     },
-    cancel: 'Hủy',
-    apply: 'Áp dụng'
+    cancel: t('button:cancel'),
+    apply: t('button:apply')
   }
   const {
     selectedDate,
@@ -105,56 +107,56 @@ export function FnbDatePicker (props) {
     const listOptionDateTime = [
       {
         key: 0,
-        name: pageData.optionDatetime.today,
+        name: pageData.optionDateTime.today,
         disabled: false,
         startDate: startToday,
         endDate: endToday
       },
       {
         key: 1,
-        name: pageData.optionDatetime.yesterday,
+        name: pageData.optionDateTime.yesterday,
         disabled: false,
         startDate: startYesterday,
         endDate: endYesterday
       },
       {
         key: 2,
-        name: pageData.optionDatetime.thisWeek,
+        name: pageData.optionDateTime.thisWeek,
         disabled: false,
         startDate: startThisWeek,
         endDate: endThisWeek
       },
       {
         key: 3,
-        name: pageData.optionDatetime.lastWeek,
+        name: pageData.optionDateTime.lastWeek,
         disabled: false,
         startDate: startLastWeek,
         endDate: endLastWeek
       },
       {
         key: 4,
-        name: pageData.optionDatetime.thisMonth,
+        name: pageData.optionDateTime.thisMonth,
         disabled: false,
         startDate: startThisMonth,
         endDate: endThisMonth
       },
       {
         key: 5,
-        name: pageData.optionDatetime.lastMonth,
+        name: pageData.optionDateTime.lastMonth,
         disabled: false,
         startDate: startLastMonth,
         endDate: endLastMonth
       },
       {
         key: 6,
-        name: pageData.optionDatetime.thisYear,
+        name: pageData.optionDateTime.thisYear,
         disabled: false,
         startDate: startThisYear,
         endDate: endThisYear
       },
       {
         key: 7,
-        name: pageData.optionDatetime.customize,
+        name: pageData.optionDateTime.customize,
         disabled: true,
         startDate: startToday,
         endDate: endToday
@@ -163,7 +165,7 @@ export function FnbDatePicker (props) {
 
     const allTime = {
       key: 8,
-      name: pageData.optionDatetime.allTime,
+      name: pageData.optionDateTime.allTime,
       startDate: '',
       endDate: ''
     }
@@ -267,21 +269,21 @@ export function FnbDatePicker (props) {
   const getDatetime = () => {
     switch (activeOptionDate) {
       case OptionDateTime.today:
-        return pageData.optionDatetime.today
+        return pageData.optionDateTime.today
       case OptionDateTime.yesterday:
-        return pageData.optionDatetime.yesterday
+        return pageData.optionDateTime.yesterday
       case OptionDateTime.thisWeek:
-        return pageData.optionDatetime.thisWeek
+        return pageData.optionDateTime.thisWeek
       case OptionDateTime.lastWeek:
-        return pageData.optionDatetime.lastWeek
+        return pageData.optionDateTime.lastWeek
       case OptionDateTime.thisMonth:
-        return pageData.optionDatetime.thisMonth
+        return pageData.optionDateTime.thisMonth
       case OptionDateTime.lastMonth:
-        return pageData.optionDatetime.lastMonth
+        return pageData.optionDateTime.lastMonth
       case OptionDateTime.thisYear:
-        return pageData.optionDatetime.thisYear
+        return pageData.optionDateTime.thisYear
       case OptionDateTime.allTime:
-        return pageData.optionDatetime.allTime
+        return pageData.optionDateTime.allTime
       default:
         var formatDate = isShowTime ? DateFormat.DD_MM_YYYY_HH_MM_SS_ : DateFormat.DD_MM_YYYY
         var startDateFormat = moment(selectedDateText?.startDate)?.format(formatDate)
@@ -351,7 +353,7 @@ export function FnbDatePicker (props) {
                     <span className="fnb-text-start-date">
                       {moment(selectionRange[0]?.startDate)?.format(DateFormat.DD_MM_YYYY)}
                     </span>
-                    <span className="fnb-text-to-date">{pageData.optionDatetime.to}</span>
+                    <span className="fnb-text-to-date">{pageData.optionDateTime.to}</span>
                     <span className="fnb-text-end-date">
                       {moment(selectionRange[0]?.endDate)?.format(DateFormat.DD_MM_YYYY)}
                     </span>
@@ -398,7 +400,7 @@ export function FnbDatePicker (props) {
   }
 
   const onMouseEnter = () => {
-    if (getDatetime() === pageData.optionDatetime.allTime) {
+    if (getDatetime() === pageData.optionDateTime.allTime) {
       setIsOpenTooltip(false)
     } else {
       setIsOpenTooltip(true)

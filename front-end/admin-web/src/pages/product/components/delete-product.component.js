@@ -1,5 +1,6 @@
 import { Button, Col, Modal, Row } from 'antd'
 import './delete-product.component.scss'
+import { useTranslation } from 'react-i18next'
 
 export default function DeleteProductComponent (props) {
   const {
@@ -16,7 +17,7 @@ export default function DeleteProductComponent (props) {
     delete: 'Xóa',
     confirmDelete: 'Xác nhận xóa'
   }
-
+  const { t } = useTranslation()
   const formatDeleteMessage = (name) => {
     return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`
   }

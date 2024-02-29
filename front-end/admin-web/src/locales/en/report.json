@@ -1,18 +1,16 @@
 {
-  "home": "Home",
   "order": "Order",
   "revenue": "Revenue",
   "cost": "Cost",
   "average": "Avg",
-  "millions": "Millions",
-  "billions": "Billions",
-  "trillions": "Trillions",
-  "allBranches": "All branches",
   "today": "Today",
   "yesterday": "Yesterday",
   "thisWeek": "This week",
   "lastWeek": "Last week",
   "thisMonth": "This month",
   "lastMonth": "Last month",
-  "thisYear": "This year"
+  "thisYear": "This year",
+  "lastYear": "Last year",
+  "customize": "Customize",
+  "to": "To"
 }

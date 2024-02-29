@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { compose } from 'redux'
 import { store } from 'store'
 import { hasPermission, sortChildRoute } from 'utils/helpers'
+import { useTranslation } from 'react-i18next'
 import './index.scss'
 const { Sider } = Layout
 const { SubMenu } = Menu
@@ -17,6 +18,7 @@ function SideMenu (props) {
   const [selectedKey, setSelectedKey] = useState('')
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
   const history = useHistory()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (route.focus) {
@@ -133,7 +135,7 @@ function SideMenu (props) {
         <span className="icon-setting">
           <SettingFill />
         </span>
-        <span className="title-setting">Cài đặt</span>
+        <span className="title-setting">{t('home:menuSetting')}</span>
       </NavLink>
       <div onClick={handleClickSettingNavigate} className="icon-navigate">
         <span className="icon-expand">

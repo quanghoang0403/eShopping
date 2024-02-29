@@ -12,8 +12,8 @@ using eShopping.Infrastructure.Contexts;
 namespace eShopping.Infrastructure.Migrations
 {
     [DbContext(typeof(eShoppingDbContext))]
-    [Migration("20240206040550_Initial")]
-    partial class Initial
+    [Migration("20240229030041_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<int>("AccountType")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
 
@@ -50,6 +53,10 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<string>("FullName")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int")
+                        .HasComment("1.Male 2.Female 3.Other");
 
                     b.Property<bool>("IsActivated")
                         .HasColumnType("bit");
@@ -71,9 +78,8 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ValidateCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -178,21 +184,26 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<bool>("IsShowOnHome")
                         .HasColumnType("bit");
 
+                    b.Property<string>("KeywordSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Keyword");
+
                     b.Property<DateTime?>("LastSavedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("TitleSEO")
                         .HasMaxLength(100)
@@ -251,9 +262,6 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
@@ -266,18 +274,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<int?>("DistrictId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FullName")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int")
-                        .HasComment("1.Male 2.Female 3.Other");
-
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOTPVerified")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastSavedTime")
@@ -289,9 +286,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<string>("PostalCode")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Thumbnail")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("WardId")
                         .HasColumnType("int");
@@ -371,11 +365,11 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid>("ObjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -598,18 +592,29 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<bool?>("IsFeatured")
                         .HasColumnType("bit");
 
+                    b.Property<string>("KeywordSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Keyword");
+
                     b.Property<DateTime?>("LastSavedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TitleSEO")
                         .HasMaxLength(100)
@@ -698,6 +703,9 @@ namespace eShopping.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
@@ -705,9 +713,6 @@ namespace eShopping.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("QuantitySold")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Priority")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -785,22 +790,11 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatedUser")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FullName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int")
-                        .HasComment("1.Male 2.Female 3.Other");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -813,9 +807,6 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.Property<Guid?>("PermissionGroupId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Thumbnail")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

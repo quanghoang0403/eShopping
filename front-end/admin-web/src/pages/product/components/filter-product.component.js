@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { isJsonString } from 'utils/helpers'
 import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'
 import '../index.scss'
+import { useTranslation } from 'react-i18next'
 export default function FilterProduct (props) {
   const [form] = Form.useForm()
   const { categories, onShowFilter, pageSize, keySearch, setDataFilter } = props
@@ -28,7 +29,7 @@ export default function FilterProduct (props) {
       resetallfilters: 'Đặt lại tất cả các bộ lọc'
     }
   }
-
+  const { t } = useTranslation()
   useEffect(() => {
     props.tableFuncs.current = onResetForm
     const sessionProductFilter = getStorage(localStorageKeys.PRODUCT_FILTER)

@@ -26,7 +26,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useHistory } from 'react-router'
 import { getValidationMessagesWithParentField, randomGuid } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
-
+import { useTranslation } from 'react-i18next'
 const { Text } = Typography
 
 export default function CreateProductPage () {
@@ -46,7 +46,7 @@ export default function CreateProductPage () {
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
-
+  const { t } = useTranslation()
   const [form] = Form.useForm()
   const pageData = {
     title: 'Thêm Sản Phẩm',

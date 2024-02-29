@@ -4,6 +4,9 @@ import { PermissionKeys } from 'constants/permission-key.constants'
 import CreateProductPage from './edit-product/create-product.page'
 import EditProductPage from './edit-product/edit-product.page'
 import ProductDetailPage from './details/details-product.page'
+import i18n from 'utils/i18n'
+
+const { t } = i18n
 // Define the route
 const route = [
   {
@@ -11,7 +14,7 @@ const route = [
     position: 1,
     path: '/product',
     icon: <Clothing />,
-    name: 'Sản phẩm',
+    name: t('home:menuProduct'),
     isMenu: true,
     exact: true,
     auth: true,

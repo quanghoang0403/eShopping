@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { hasPermission } from 'utils/helpers'
 import './fnb-table.scss'
+import { useTranslation } from 'react-i18next'
 
 export function FnbTable (props) {
   const {
@@ -37,6 +38,7 @@ export function FnbTable (props) {
     scrollX,
     scrollY,
     summary,
+    footerMessage,
     calendarFilter,
     loading,
     calendarComponent,
@@ -48,10 +50,16 @@ export function FnbTable (props) {
     cursorGrabbing,
     onRow
   } = props
-
+  const { t } = useTranslation()
   const defaultScrollX = 900
   const [visible, setVisible] = useState(false)
   const isMobile = useMediaQuery({ maxWidth: 576 })
+
+  const pageData = {
+    noDataFound: t('table:noDataFound'),
+    selectedItems: t('table:selectedItems'),
+    filterButton: t('button:filter')
+  }
 
   // register grabbing scroll table
   useEffect(() => {
@@ -141,7 +149,16 @@ export function FnbTable (props) {
     const currentView = dataSource?.length
 
     if (hasPagination) {
-      const showingMessage = `Hiển thị <p class='record'>${currentView}</p> trên tổng <p class='record'>${total}</p> mục`
+      let showingMessage = t('table.showingRecordMessage', {
+        showingRecords: currentView,
+        totalRecords: total
+      })
+      if (footerMessage) {
+        showingMessage = t(footerMessage, {
+          showingRecords: currentView,
+          totalRecords: total
+        })
+      }
       return (
         <div className="fnb-tbl-pagination">
           <div className="info-pagination">
@@ -155,13 +172,18 @@ export function FnbTable (props) {
     }
   }
 
+  const formatMessage = (selectedRowKeys) => {
+    const mess = t(pageData.selectedItems, { selectedRowKeys })
+    return mess
+  }
+
   const renderSelectRows = () => {
     if (rowSelection && !hideTableRowSelection) {
       const { selectedRowKeys } = rowSelection
       return (
         <FnbSelectSingle
           className="selected-row-control"
-          placeholder={ `Đã chọn ${selectedRowKeys?.length ?? 0} mục` }
+          placeholder={formatMessage(`${selectedRowKeys?.length ?? 0}`)}
           disabled
         />
       )
@@ -254,7 +276,7 @@ export function FnbTable (props) {
         showPopover
       } = filter
       const numberTotalFilterSelected = parseInt(totalFilterSelected) || 0
-      const btnTitle = buttonTitle || 'Lọc'
+      const btnTitle = buttonTitle || pageData.filterButton
       return (
         <>
           {isMobile && isShowModelOnMoblie
@@ -392,7 +414,7 @@ export function FnbTable (props) {
                       <FolderIcon />
                     </p>
                     <p className="text-center body-2" style={{ marginBottom: '181px', color: '#858585' }}>
-                      {emptyText ?? 'Không tìm thấy dữ liệu'}
+                      {emptyText ?? pageData.noDataFound}
                     </p>
                   </>
                 )

@@ -4,7 +4,7 @@
   "MultiProjectConfigurations": {
     "1.Admin": {
       "Projects": {
-        "eShopping.WebApi.Admin": {}
+        "eShopping.WebApi": {}
       }
     }
     //"2.Store": {

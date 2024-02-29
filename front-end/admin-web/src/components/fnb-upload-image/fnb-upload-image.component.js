@@ -7,9 +7,10 @@ import ImageUploading from 'react-images-uploading'
 import Viewer from 'react-viewer'
 import { fileNameNormalize, jsonToFormData } from 'utils/helpers'
 import './fnb-upload-image.component.scss'
-
+import { useTranslation } from 'react-i18next'
 const { forwardRef, useImperativeHandle } = React
 export const FnbUploadImageComponent = forwardRef((props, ref) => {
+  const { t } = useTranslation()
   const {
     onChange,
     maxNumber = 1,
@@ -18,8 +19,8 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
     maxFileSize = 5242880,
     onError,
     acceptType,
-    messageTooBigSize = 'Ảnh tải lên phải có dung lượng nhỏ hơn 1MB.',
-    messageErrorFormat = 'Chỉ chấp nhận loại tệp: JPG, PNG, JPG2000, GIF...',
+    imageSizeTooBig = t('upload:imageSizeTooBig'),
+    acceptFileImageTypes = t('upload:acceptFileImageTypes'),
     isDisabled = false
   } = props
   const [images, setImages] = React.useState([])
@@ -108,9 +109,9 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
 
   const uploadImageError = (errors, files) => {
     if (errors.maxFileSize === true) {
-      message.error(messageTooBigSize)
+      message.error(imageSizeTooBig)
     } else if (errors.acceptType === true) {
-      message.error(messageErrorFormat)
+      message.error(acceptFileImageTypes)
     }
   }
 

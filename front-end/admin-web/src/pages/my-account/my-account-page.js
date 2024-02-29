@@ -3,18 +3,20 @@ import { Card, Col, Row } from 'antd'
 import PageTitle from 'components/page-title'
 import UserInformationComponent from './components/user-information.component'
 import './my-account.scss'
+import { useTranslation } from 'react-i18next'
 
 export default function MyAccountPage (props) {
+  const { t } = useTranslation()
   const pageData = {
-    titlePage: 'Thông tin tài khoản',
-    tabNameAccount: 'Tài khoản'
+    userInfo: t('home:userInfo'),
+    tabNameAccount: t('myAccount:tabNameAccount')
   }
 
   return (
     <>
       <Row className="mt-4" align="middle" gutter={[0, 0]}>
         <Col span={12} xs={24} sm={24} md={24} lg={12} className="link">
-          <PageTitle className="title-page-my-account" content={pageData.titlePage} />
+          <PageTitle className="title-page-my-account" content={pageData.userInfo} />
         </Col>
       </Row>
       <div className="col-input-full-width">

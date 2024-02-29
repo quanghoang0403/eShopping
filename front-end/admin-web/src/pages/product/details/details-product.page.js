@@ -10,6 +10,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { formatCurrency, formatNumber, getCurrency } from 'utils/helpers'
 import DeleteProductComponent from '../components/delete-product.component'
 import './index.scss'
+import { useTranslation } from 'react-i18next'
 const { Text } = Typography
 
 export default function ProductDetailPage (props) {
@@ -19,7 +20,7 @@ export default function ProductDetailPage (props) {
   const [activate, setActivate] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [titleModal, setTitleModal] = useState()
-
+  const { t } = useTranslation()
   const pageData = {
     btnDelete: 'Xóa',
     btnEdit: 'Chỉnh sửa',

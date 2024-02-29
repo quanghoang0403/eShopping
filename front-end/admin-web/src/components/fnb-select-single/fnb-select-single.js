@@ -1,6 +1,6 @@
 import { Select } from 'antd'
 import { ArrowDown, CheckedIcon } from 'constants/icons.constants'
-
+import { useTranslation } from 'react-i18next'
 import './fnb-select-single.scss'
 
 /**
@@ -25,12 +25,14 @@ export function FnbSelectSingle ({
   defaultValue,
   onSelect,
   fixed,
+  noTranslateOptionName,
   onPopupScroll,
   onFocus,
   onBlur,
   onSearch,
   onClear
 }) {
+  const { t } = useTranslation()
   return (
     <>
       <Select
@@ -65,7 +67,7 @@ export function FnbSelectSingle ({
       >
         {option?.map((item) => (
           <Select.Option key={item.id} value={item.id} name={item?.name}>
-            {item?.name}
+          {noTranslateOptionName ? item?.name : t(item?.name)}
           </Select.Option>
         ))}
       </Select>

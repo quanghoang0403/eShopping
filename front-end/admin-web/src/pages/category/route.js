@@ -1,7 +1,9 @@
 import CategoryPage from '.'
 import { Category } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
+import i18n from 'utils/i18n'
 
+const { t } = i18n
 // Define the route
 const route = [
   {
@@ -9,7 +11,7 @@ const route = [
     position: 2,
     path: '/category',
     icon: <Category />,
-    name: 'Danh mục',
+    name: t('home:menuCategory'),
     isMenu: true,
     exact: true,
     auth: true,

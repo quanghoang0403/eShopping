@@ -2,7 +2,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import { Button, Input, message, Space } from 'antd'
 import { useState } from 'react'
 // import userDataService from "../../../data-services/user/user-data.service";
-
+import { useTranslation } from 'react-i18next'
 import './update-password.scss'
 
 export function UpdatePasswordComponent (props) {
@@ -15,6 +15,7 @@ export function UpdatePasswordComponent (props) {
 
   const [confirmPassword, setConfirmPassword] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
+  const { t } = useTranslation()
 
   const pageData = {
     title: 'Cập nhật mật khẩu',

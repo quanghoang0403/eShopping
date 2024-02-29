@@ -6,7 +6,7 @@ import { FnbTable } from 'components/fnb-table/fnb-table'
 import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-
+import { useTranslation } from 'react-i18next'
 // import productCategoryDataService from "data-services/product-category/product-category-data.service";
 // import productDataService from "data-services/product/product-data.service";
 
@@ -26,6 +26,7 @@ import FilterProduct from './filter-product.component'
 
 export default function TableProduct (props) {
   const history = useHistory()
+  const { t } = useTranslation()
   const [dataSource, setDataSource] = useState([])
   const [currentPageNumber, setCurrentPageNumber] = useState(1)
   const [totalRecords, setTotalRecords] = useState(0)

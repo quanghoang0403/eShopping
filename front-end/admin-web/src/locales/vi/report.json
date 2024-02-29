@@ -4,9 +4,6 @@
   "revenue": "Lợi nhuận",
   "cost": "Chi phí",
   "average": "Trung bình",
-  "millions": "Triệu",
-  "billions": "Tỷ",
-  "trillions": "Ngàn tỷ",
   "allBranches": "Tất cả chi nhánh",
   "today": "Hôm nay",
   "yesterday": "Hôm qua",
@@ -14,5 +11,8 @@
   "lastWeek": "Tuần trước",
   "thisMonth": "Tháng này",
   "lastMonth": "Tháng trước",
-  "thisYear": "Năm nay"
+  "thisYear": "Năm nay",
+  "lastYear": "Năm trước",
+  "customize": "Tùy chỉnh",
+  "to": "Đến"
 }
