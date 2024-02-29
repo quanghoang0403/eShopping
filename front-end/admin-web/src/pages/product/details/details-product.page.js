@@ -22,37 +22,36 @@ export default function ProductDetailPage (props) {
   const [titleModal, setTitleModal] = useState()
   const { t } = useTranslation()
   const pageData = {
-    btnDelete: 'Xóa',
-    btnEdit: 'Chỉnh sửa',
-    btnLeave: 'Quay lại',
-    action: 'Tác vụ',
-    confirmDelete: 'Xác nhận xóa',
-    productDeleteSuccess: 'Xóa sản phẩm thành công',
-    productDeleteFail: 'Xóa sản phẩm thất bại',
+    btnDelete: t('button:delete'),
+    btnEdit: t('button:edit'),
+    btnLeave: t('button:leave'),
     generalInformation: {
-      title: 'Thông tin chung',
+      title: t('product:titleInfo'),
       name: {
-        label: 'Tên'
+        label: t('product:labelName')
       },
       description: {
-        label: 'Mô tả'
+        label: t('product:labelDescription')
       }
     },
     pricing: {
-      title: 'Giá Tiền',
-      price: 'Giá'
+      title: t('product:priceInfo'),
+      price: t('product:labelPrice')
     },
     productCategory: {
-      label: 'Danh mục sản phẩm'
+      label: t('product:labelCategory')
     },
-    media: 'MEDIA',
-    notificationTitle: 'Thông báo',
-    active: 'Đang hoạt động',
-    inactive: 'Không hoạt động',
-    productActivatedSuccess: 'Sản phẩm đã được kích hoạt thành công',
-    productDeactivatedSuccess: 'Sản phẩm đã được ngừng bán thành công',
-    activate: 'Bán ngay',
-    deactivate: 'Ngừng bán'
+    media: t('file:Media'),
+    confirmDeleteBtn: t('dialog:confirmDeleteBtn'),
+    notificationTitle: t('dialog:notificationTitle'),
+    productDeleteSuccess: t('product:productDeleteSuccess'),
+    productDeleteFail: t('product:productDeleteFail'),
+    productActivatedSuccess: t('product:productActivatedSuccess'),
+    productDeactivatedSuccess: t('product:productDeactivatedSuccess'),
+    active: t('common:active'),
+    inactive: t('common:inactive'),
+    activate: t('product:activate'),
+    deactivate: t('product:deactivate')
   }
 
   useEffect(async () => {
@@ -86,10 +85,6 @@ export default function ProductDetailPage (props) {
     setIsModalVisible(false)
   }
 
-  const formatDeleteMessage = (name) => {
-    return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`
-  }
-
   const onDeleteItem = () => {
     const { id } = product
     // productDataService.getAllOrderNotCompletedByProductIdAsync(id).then((res) => {
@@ -97,7 +92,7 @@ export default function ProductDetailPage (props) {
 
     //   setPreventDeleteProduct(preventDeleteProduct);
     //   if (!preventDeleteProduct?.isPreventDelete) {
-    //     setTitleModal(pageData.confirmDelete);
+    //     setTitleModal(pageData.confirmDeleteBtn);
     //   } else {
     //     setTitleModal(pageData.notificationTitle);
     //   }

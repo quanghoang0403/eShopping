@@ -9,7 +9,7 @@ export default function MyAccountPage (props) {
   const { t } = useTranslation()
   const pageData = {
     userInfo: t('home:userInfo'),
-    tabNameAccount: t('myAccount:tabNameAccount')
+    tabNameAccount: t('account:tabNameAccount')
   }
 
   return (

@@ -1,0 +1,8 @@
+{
+    "notificationTitle": "Thông báo",
+    "confirmLeaveTitle": "Xác nhận",
+    "confirmLeaveContent": "Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!",
+    "confirmLeaveBtn": "Xác nhận rời",
+    "confirmDeleteBtn": "Xác nhận xóa",
+    "iGotItBtn": "Tôi đã hiểu!"
+}

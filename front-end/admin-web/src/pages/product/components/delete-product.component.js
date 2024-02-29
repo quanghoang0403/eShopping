@@ -10,16 +10,17 @@ export default function DeleteProductComponent (props) {
     handleCancel,
     onDelete
   } = props
-
-  const pageData = {
-    buttonIGotIt: 'Tôi đã hiểu!',
-    ignore: 'Bỏ qua',
-    delete: 'Xóa',
-    confirmDelete: 'Xác nhận xóa'
-  }
   const { t } = useTranslation()
+  const pageData = {
+    iGotItBtn: t('dialog:iGotItBtn'),
+    ignore: t('button:ignore'),
+    delete: t('button:delete'),
+    deleteProductMessage: t('product.deleteProductMessage')
+  }
+
   const formatDeleteMessage = (name) => {
-    return `Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>${name}</span>.<br/>Thao tác này không thể khôi phục!`
+    const mess = t(pageData.deleteProductMessage, { name })
+    return mess
   }
 
   return (
@@ -45,7 +46,7 @@ export default function DeleteProductComponent (props) {
           ? (
           <Row className="btn-i-got-it">
             <Button type="primary" onClick={() => handleCancel()}>
-              {pageData.buttonIGotIt}
+              {pageData.iGotItBtn}
             </Button>
           </Row>
             )

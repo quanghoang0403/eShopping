@@ -29,6 +29,14 @@ namespace eShopping.Services.User
                 var accountId = Guid.Parse(claimAccountId.Value);
                 var staffId = Guid.Parse(claimStaffId.Value);
 
+                //If user has ADMIN role. No need to check anymore
+                //if (requirementPermission.Any(permission => permission == EnumPermission.ADMIN)) return true;
+                //var requirementGuids = requirementPermission.Select(requirePermission => requirePermission.ToGuid()).ToList();
+                //hasPermission = _unitOfWork.Permissions
+                //    .Where(permission => requirementGuids.Contains(permission.Id))
+                //    .Any();
+                //return hasPermission;
+
                 // Get all permission assigned to user and check
                 var permisionGroupIds = _unitOfWork
                     .StaffPermissionGroup
@@ -39,7 +47,10 @@ namespace eShopping.Services.User
                     .Select(g => g.PermissionGroupId)
                     .Distinct();
 
-                if (permisionGroupIds.ToList().Contains(EnumPermissionGroup.Admin.ToGuid())) return true;
+                if (permisionGroupIds.ToList().Contains(EnumPermissionGroup.Admin.ToGuid()))
+                {
+                    return true;
+                }
 
                 var hasPerminssion = _unitOfWork
                     .PermissionGroups

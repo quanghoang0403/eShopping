@@ -21,21 +21,21 @@ export default function UserInformationComponent (props) {
   const [phoneNumberCopy, setPhoneNumberCopy] = useState(null)
   const { t } = useTranslation()
   const pageData = {
-    btnUpdate: t('myAccount:btnUpdate'),
-    loginNameLabel: t('myAccount:btnUpdate'),
-    fullNameLabel: t('myAccount:btnUpdate'),
-    phoneNumberLabel: t('myAccount:btnUpdate'),
-    fullNamePlaceholder: t('myAccount:btnUpdate'),
-    phoneNumberPlaceholder: t('myAccount:btnUpdate'),
-    fullNameErrorText: t('myAccount:btnUpdate'),
-    phoneNumberErrorText: t('myAccount:btnUpdate'),
-    phoneNumberInvalidMessage: t('myAccount:btnUpdate'),
+    btnUpdate: t('account:btnUpdate'),
+    loginNameLabel: t('account:btnUpdate'),
+    fullNameLabel: t('account:btnUpdate'),
+    phoneNumberLabel: t('account:btnUpdate'),
+    fullNamePlaceholder: t('account:btnUpdate'),
+    phoneNumberPlaceholder: t('account:btnUpdate'),
+    fullNameErrorText: t('account:btnUpdate'),
+    phoneNumberErrorText: t('account:btnUpdate'),
+    phoneNumberInvalidMessage: t('account:btnUpdate'),
     maxLengthPhoneNumber: 15,
     formatPhoneNumber: '^[0-9]*$',
-    successMessage: t('myAccount:btnUpdate'),
-    unSuccessMessage: t('myAccount:btnUpdate'),
-    tabNameAccountTitle: t('myAccount:btnUpdate'),
-    imageSizeTooBig: t('upload:imageSizeTooBig')
+    successMessage: t('account:btnUpdate'),
+    unSuccessMessage: t('account:btnUpdate'),
+    tabNameAccountTitle: t('account:btnUpdate'),
+    imageSizeTooBig: t('file:imageSizeTooBig')
   }
 
   useEffect(() => {

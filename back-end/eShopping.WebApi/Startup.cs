@@ -1,6 +1,5 @@
 using Amazon.S3;
 using eShopping.Application;
-using eShopping.Application.iddlewares;
 using eShopping.Application.Mappings;
 using eShopping.Application.Middlewares;
 using eShopping.Application.Providers;

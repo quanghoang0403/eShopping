@@ -1,4 +1,6 @@
 {
     "active": "Đang hoạt động",
-    "inactive": "Không hoạt động"
+    "inactive": "Không hoạt động",
+    "cancelText": "Bỏ qua",
+    "okText": "Xác nhận rời"
 }

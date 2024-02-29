@@ -4,5 +4,11 @@
     "delete": "Xóa",
     "filter": "Lọc",
     "cancel": "Hủy",
-    "apply": "Áp dụng"
+    "apply": "Áp dụng",
+    "save": "Lưu",
+    "discard": "Từ chối",
+    "action": "Thao tác",
+    "leave": "Quay lại",
+    "sort": "Sắp xếp",
+    "ignore": "Bỏ qua"
 }

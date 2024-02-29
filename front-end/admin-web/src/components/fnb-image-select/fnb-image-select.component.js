@@ -35,12 +35,12 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }))
 
   const pageData = {
-    addFromUrl: t('upload:addFromUrl'),
-    uploadImage: t('upload:uploadImage'),
-    textNonImage: t('upload:textNonImage'),
-    bestDisplayImage: t('upload:bestDisplayImage'),
-    imageSizeTooBig: t('upload:imageSizeTooBig'),
-    acceptFileImageTypes: t('upload:acceptFileImageTypes')
+    addFromUrl: t('file:addFromUrl'),
+    uploadImage: t('file:uploadImage'),
+    textNonImage: t('file:textNonImage'),
+    bestDisplayImage: t('file:bestDisplayImage'),
+    imageSizeTooBig: t('file:imageSizeTooBig'),
+    acceptFileImageTypes: t('file:acceptFileImageTypes')
   }
 
   useEffect(() => {

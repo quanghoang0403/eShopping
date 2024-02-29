@@ -1,5 +1,19 @@
 {
+    "no": "STT",
+    "name": "TÊN",
+    "price": "GIÁ",
+    "action": "THAO TÁC",
+    "status": "TRẠNG THÁI",
+    "searchPlaceholder": "Tìm kiếm theo tên sản phẩm",
     "noDataFound": "Không tìm thấy dữ liệu",
     "selectedItems": "Đã chọn {{selectedRowKeys}} mục",
-    "showingRecordMessage": "Hiển thị <p class='record'>{{showingRecords}}</p> trên tổng <p class='record'>{{totalRecords}}</p> mục"
+    "showingRecordMessage": "Hiển thị <p class='record'>{{showingRecords}}</p> trên tổng <p class='record'>{{totalRecords}}</p> mục",
+    "categoryFilterTitle": "Danh mục",
+    "categoryFilterAll": "Tất cả danh mục",
+    "categoryFilterPlaceholder": "Chọn danh mục",
+    "statusFilterTitle": "Trạng thái",
+    "statusFilterAll": "Tất cả",
+    "statusFilterActive": "Đang hoạt động",
+    "statusFilterInactive": "Không hoạt động",
+    "resetAllFilters": "Đặt lại tất cả các bộ lọc"
 }

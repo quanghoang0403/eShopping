@@ -49,72 +49,69 @@ export default function CreateProductPage () {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const pageData = {
-    title: 'Thêm Sản Phẩm',
-    btnCancel: 'Hủy',
-    btnSave: 'Lưu',
-    btnAddNew: 'Thêm mới',
-    discardBtn: 'Từ chối',
-    confirmLeaveBtn: 'Xác nhận rời',
+    title: t('product:addProduct'),
+    btnCancel: t('button:cancel'),
+    btnSave: t('button:save'),
+    btnAddNew: t('button:add'),
+    btnDiscard: t('button:discard'),
     generalInformation: {
-      title: 'Thông tin chung',
+      title: t('product:titleInfo'),
       name: {
-        label: 'Tên',
-        placeholder: 'Nhập tên sản phẩm',
+        label: t('product:labelName'),
+        placeholder: t('product:placeholderName'),
         required: true,
         maxLength: 100,
-        validateMessage: 'Vui lòng nhập tên sản phẩm'
+        validateMessage: t('product:validateName')
       },
       description: {
-        label: 'Mô tả',
-        placeholder: 'Vui lòng nhập mô tả sản phẩm',
+        label: t('product:labelDescription'),
+        placeholder: t('product:placeholderDescription'),
         required: false,
         maxLength: 255
-      },
-      uploadImage: 'Thêm ảnh'
+      }
     },
     pricing: {
-      title: 'Giá',
-      addPrice: 'Thêm giá',
+      title: t('product:priceInfo'),
+      addPrice: t('product:addPrice'),
       price: {
-        label: 'Giá',
-        placeholder: 'Nhập giá',
+        label: t('product:labelPrice'),
+        placeholder: t('product:placeholderPrice'),
         required: true,
         max: 999999999,
         min: 0,
         format: '^[0-9]*$',
-        validateMessage: 'Giá trị cho phép từ 0 đến 999.999.999'
+        validateMessage: t('product:validatePrice')
       },
       priceName: {
-        label: 'Tên giá',
-        placeholder: 'Nhập tên giá',
+        label: t('product:labelPriceName'),
+        placeholder: t('product:placeholderPriceName'),
         required: true,
         maxLength: 100,
-        validateMessage: 'Vui lòng nhập tên giá'
+        validateMessage: t('product:validatePriceName')
       }
     },
     productCategory: {
-      label: 'Danh mục sản phẩm',
-      placeholder: 'Chọn danh mục sản phẩm'
+      label: t('product:labelCategory'),
+      placeholder: t('product:placeholderCategory')
     },
-    productNameExisted: 'Tên sản phẩm đã tồn tại',
-    fileSizeLimit: 'Kích thước tệp tải lên phải nhỏ hơn 5MB',
-    productAddedSuccess: 'Sản phẩm đã được thêm thành công',
-    media: {
-      title: 'Thư viện ảnh',
-      textNonImage: 'Chấp nhận: JPG, PNG, JPG2000, GIF,... .'
-    },
-    upload: {
-      adFromUrl: 'Add from URL'
+    productNameExisted: t('product:productNameExisted'),
+    productAddedSuccess: t('product:productAddedSuccess'),
+    file: {
+      uploadImage: t('file:uploadImage'),
+      title: t('file:title'),
+      textNonImage: t('file:textNonImage'),
+      addFromUrl: t('file:addFromUrl'),
+      bestDisplayImage: t('file:bestDisplayImage')
     },
     leaveDialog: {
-      confirmation: 'Xác nhận',
-      content: 'Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!'
+      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog:confirmLeaveContent'),
+      confirmLeaveBtn: t('dialog:confirmLeaveBtn')
     },
     table: {
-      name: 'TÊN',
-      action: 'THAO TÁC'
-    },
-    bestDisplayImage: 'Hiển thị tốt nhất: 176px X 176px'
+      name: t('table:name'),
+      action: t('table:action')
+    }
   }
 
   const getInitData = async () => {
@@ -555,13 +552,13 @@ export default function CreateProductPage () {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 fnb-card h-auto">
-                    <h4 className="title-group">{pageData.media.title}</h4>
+                    <h4 className="title-group">{pageData.upload.title}</h4>
                     <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
                           <Form.Item name={['product', 'media']}>
                             <FnbUploadImageComponent
-                              buttonText={pageData.generalInformation.uploadImage}
+                              buttonText={pageData.upload.uploadImage}
                               onChange={onChangeImage}
                             />
                           </Form.Item>
@@ -576,9 +573,9 @@ export default function CreateProductPage () {
                         hidden={image !== null}
                       >
                         <Text disabled>
-                          {pageData.media.textNonImage}
+                          {pageData.upload.textNonImage}
                           <br />
-                          {pageData.bestDisplayImage}
+                          {pageData.upload.bestDisplayImage}
                         </Text>
                       </Col>
                     </Row>
@@ -609,11 +606,11 @@ export default function CreateProductPage () {
         </div>
       </Form>
       <DeleteConfirmComponent
-        title={pageData.leaveDialog.confirmation}
-        content={pageData.leaveDialog.content}
+        title={pageData.leaveDialog.confirmLeaveTitle}
+        content={pageData.leaveDialog.confirmLeaveContent}
         visible={showConfirm}
         skipPermission={true}
-        cancelText={pageData.discardBtn}
+        cancelText={pageData.btnDiscard}
         okText={pageData.confirmLeaveBtn}
         onCancel={onDiscard}
         onOk={onCompleted}

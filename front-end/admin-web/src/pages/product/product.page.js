@@ -14,7 +14,7 @@ export default function ProductPage (props) {
       <Row className="fnb-row-page-header">
         <Col xs={24} sm={24} xl={12}>
           <Space className="page-title">
-            <PageTitle content="Quản lý sản phẩm" />
+            <PageTitle content={t('product:manageProduct')} />
           </Space>
         </Col>
         <Col xs={24} sm={24} xl={12} className="button-box product-filter-box page-action-group">
@@ -25,7 +25,7 @@ export default function ProductPage (props) {
                   <ShopAddNewButton
                     permission={PermissionKeys.CREATE_PRODUCT}
                     onClick={() => props.history.push('/product/create-new')}
-                    text="Thêm mới"
+                    text={t('button:add')}
                   />
                 ),
                 permission: PermissionKeys.CREATE_PRODUCT

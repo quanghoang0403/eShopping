@@ -51,13 +51,13 @@ namespace eShopping.Application.Features.Users.Commands
                 .Find(a => a.Email == request.Email.ToLower() && a.AccountType == EnumAccountType.Staff && !a.IsDeleted)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
-            ThrowError.Against(!accounts.Any() || accounts.Count > 1, "Error login");
+            ThrowError.Against(!accounts.Any() || accounts.Count > 1, "login:errorLogin");
 
             var account = accounts.First();
             PasswordVerificationResult verified = hasher.VerifyHashedPassword(null, account.Password, request.Password);
             if (verified == PasswordVerificationResult.Failed)
             {
-                ThrowError.Against(true, "Error login");
+                ThrowError.Against(true, "login:errorLogin");
             }
 
             LoggedUserModel user = new();
@@ -66,7 +66,7 @@ namespace eShopping.Application.Features.Users.Commands
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            ThrowError.Against(staff == null, "Error login");
+            ThrowError.Against(staff == null, "login:errorLogin");
 
             if (staff == null)
             {

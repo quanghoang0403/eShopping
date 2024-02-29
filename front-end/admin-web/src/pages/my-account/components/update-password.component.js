@@ -18,20 +18,20 @@ export function UpdatePasswordComponent (props) {
   const { t } = useTranslation()
 
   const pageData = {
-    title: 'Cập nhật mật khẩu',
-    currentPassword: 'Mật khẩu hiện tại',
-    placeholderCurrentPassword: 'Nhập mật khẩu hiện tại',
-    showEmptyCurrentPassword: 'Vui lòng nhập mật khẩu hiện tại',
-    showWrongCurrentPassword: 'Mật khẩu không đúng',
-    newPassword: 'Mật khẩu mới',
-    placeholderNewPassword: 'Nhập mật khẩu mới',
-    showEmptyNewPassword: 'Vui lòng nhập mật khẩu mới',
-    confirmPassword: 'Nhập lại mật khẩu mới',
-    placeholderConfirmPassword: 'Nhập lại mật khẩu mới',
-    showConfirmNewPassword: 'Vui lòng nhập lại mật khẩu mới',
-    showNotMatchPassword: 'Nhập lại mật khẩu và mật khẩu mới phải giống nhau',
-    showThanksMessage: 'Mật khẩu đã cập nhật thành công',
-    showUpdateFailedMessage: 'Mật khẩu cập nhật thất bại'
+    title: t('account:title'),
+    currentPassword: t('account:currentPassword'),
+    placeholderCurrentPassword: t('account:placeholderCurrentPassword'),
+    showEmptyCurrentPassword: t('account:showEmptyCurrentPassword'),
+    showWrongCurrentPassword: t('account:showWrongCurrentPassword'),
+    newPassword: t('account:newPassword'),
+    placeholderNewPassword: t('account:placeholderNewPassword'),
+    showEmptyNewPassword: t('account:showEmptyNewPassword'),
+    confirmPassword: t('account:confirmPassword'),
+    placeholderConfirmPassword: t('account:placeholderConfirmPassword'),
+    showConfirmNewPassword: t('account:showConfirmNewPassword'),
+    showNotMatchPassword: t('account:showNotMatchPassword'),
+    showThanksMessage: t('account:showThanksMessage'),
+    showUpdateFailedMessage: t('account:showUpdateFailedMessage')
   }
 
   async function handleUpdate (e) {

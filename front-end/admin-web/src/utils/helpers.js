@@ -10,12 +10,12 @@ import { decryptWithAES } from './securityHelpers'
 export const browserHistory = createBrowserHistory()
 
 export const getCurrency = () => {
-  const { session } = store.getState()
-  const { auth } = session
-  if (auth?.user) {
-    return auth?.user?.currencyCode ?? ''
-  }
-  return ''
+  // const { session } = store.getState()
+  // const { auth } = session
+  // if (auth?.user) {
+  //   return auth?.user?.currencyCode ?? ''
+  // }
+  return 'đ'
 }
 
 export const getSuffixShortValue = (number) => {

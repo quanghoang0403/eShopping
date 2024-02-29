@@ -11,25 +11,24 @@ export default function FilterProduct (props) {
   const { categories, onShowFilter, pageSize, keySearch, setDataFilter } = props
   const defaultValue = ''
   const [resetFilter, setResetFilter] = useState(false)
-
+  const { t } = useTranslation()
   const pageData = {
     filter: {
-      button: 'Xóa bộ lọc',
       category: {
-        title: 'Danh mục',
-        all: 'Tất cả danh mục',
-        placeholder: 'Chọn danh mục'
+        title: t('table:categoryFilterTitle'),
+        all: t('table:categoryFilterAll'),
+        placeholder: t('table:categoryFilterPlaceholder')
       },
       status: {
-        title: 'Trạng thái',
-        all: 'Tất cả',
-        active: 'Đang hoạt động',
-        inactive: 'Không hoạt động'
+        title: t('table:statusFilterTitle'),
+        all: t('table:statusFilterAll'),
+        active: t('table:statusFilterActive'),
+        inactive: t('table:statusFilterInactive')
       },
-      resetallfilters: 'Đặt lại tất cả các bộ lọc'
+      resetAllFilters: t('table:resetAllFilters')
     }
   }
-  const { t } = useTranslation()
+
   useEffect(() => {
     props.tableFuncs.current = onResetForm
     const sessionProductFilter = getStorage(localStorageKeys.PRODUCT_FILTER)
@@ -113,7 +112,7 @@ export default function FilterProduct (props) {
             className="reset-filter"
             aria-current={!resetFilter && 'inventory-history-filter'}
           >
-            {pageData.filter.resetallfilters}
+            {pageData.filter.resetAllFilters}
           </a>
         </Row>
       </Card>

@@ -63,87 +63,78 @@ export default function EditProductPage (props) {
   }, [])
 
   const pageData = {
-    notificationTitle: 'Thông báo',
-    title: 'Thêm Sản Phẩm',
-    btnCancel: 'Hủy',
-    btnSave: 'Lưu',
-    btnAddNew: 'Thêm mới',
-    btnDelete: 'Xóa',
-    action: 'Thao tác',
-    cancelText: 'Bỏ qua',
-    okText: 'Xác nhận rời',
-    discardBtn: 'Từ chối',
-    confirmLeaveBtn: 'Xác nhận rời',
-    confirmDelete: 'Xác nhận xóa',
-    productDeleteSuccess: 'Xóa sản phẩm thành công',
-    productDeleteFail: 'Xóa sản phẩm thất bại',
+    title: t('product:addProduct'),
+    btnCancel: t('button:cancel'),
+    btnSave: t('button:save'),
+    btnAddNew: t('button:add'),
+    btnDiscard: t('button:discard'),
     generalInformation: {
-      title: 'Thông tin chung',
+      title: t('product:titleInfo'),
       name: {
-        label: 'Tên',
-        placeholder: 'Nhập tên sản phẩm',
+        label: t('product:labelName'),
+        placeholder: t('product:placeholderName'),
         required: true,
         maxLength: 100,
-        validateMessage: 'Vui lòng nhập tên sản phẩm'
+        validateMessage: t('product:validateName')
       },
       description: {
-        label: 'Mô tả',
-        placeholder: 'Vui lòng nhập mô tả sản phẩm',
+        label: t('product:labelDescription'),
+        placeholder: t('product:placeholderDescription'),
         required: false,
         maxLength: 255
-      },
-      uploadImage: 'Thêm ảnh'
+      }
     },
     pricing: {
-      title: 'Giá',
-      addPrice: 'Thêm giá',
+      title: t('product:priceInfo'),
+      addPrice: t('product:addPrice'),
       price: {
-        label: 'Giá',
-        placeholder: 'Nhập giá',
+        label: t('product:labelPrice'),
+        placeholder: t('product:placeholderPrice'),
         required: true,
         max: 999999999,
         min: 0,
         format: '^[0-9]*$',
-        validateMessage: 'Giá trị cho phép từ 0 đến 999.999.999'
+        validateMessage: t('product:validatePrice')
       },
       priceName: {
-        label: 'Tên giá',
-        placeholder: 'Nhập tên giá',
+        label: t('product:labelPriceName'),
+        placeholder: t('product:placeholderPriceName'),
         required: true,
         maxLength: 100,
-        validateMessage: 'Vui lòng nhập tên giá'
+        validateMessage: t('product:validatePriceName')
       }
     },
     productCategory: {
-      label: 'Danh mục sản phẩm',
-      placeholder: 'Chọn danh mục sản phẩm'
+      label: t('product:labelCategory'),
+      placeholder: t('product:placeholderCategory')
     },
-    productNameExisted: 'Tên sản phẩm đã tồn tại',
-    fileSizeLimit: 'Kích thước tệp tải lên phải nhỏ hơn 5MB',
-    productEditedSuccess: 'Sản phẩm đã được sửa thành công',
-    leaveWarningMessage: 'Bạn có muốn tiếp tục? Tất cả dữ liệu chưa được lưu sẽ bị mất.',
-    media: {
-      title: 'Thư viện ảnh',
-      textNonImage: 'Chấp nhận: JPG, PNG, JPG2000, GIF,... .'
-    },
-    upload: {
-      adFromUrl: 'Add from URL'
+    productNameExisted: t('product:productNameExisted'),
+    productEditedSuccess: t('product:productEditedSuccess'),
+    productDeleteSuccess: t('product:productDeleteSuccess'),
+    productDeleteFail: t('product:productDeleteFail'),
+    productActivatedSuccess: t('product:productActivatedSuccess'),
+    productDeactivatedSuccess: t('product:productDeactivatedSuccess'),
+    file: {
+      uploadImage: t('file:uploadImage'),
+      title: t('file:title'),
+      textNonImage: t('file:textNonImage'),
+      addFromUrl: t('file:addFromUrl'),
+      bestDisplayImage: t('file:bestDisplayImage')
     },
     leaveDialog: {
-      confirmation: 'Xác nhận',
-      content: 'Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!'
+      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog:confirmLeaveContent'),
+      confirmLeaveBtn: t('dialog:confirmLeaveBtn'),
+      confirmDeleteBtn: t('dialog:confirmDeleteBtn')
     },
     table: {
-      name: 'TÊN',
-      action: 'THAO TÁC'
+      name: t('table:name'),
+      action: t('table:action')
     },
-    bestDisplayImage: 'Hiển thị tốt nhất: 176px X 176px',
-    active: 'Đang hoạt động',
-    inactive: 'Không hoạt động',
-    productActivatedSuccess: 'Sản phẩm đã được kích hoạt thành công',
-    productDeactivatedSuccess: 'Sản phẩm đã được ngừng bán thành công',
-    activate: 'Bán ngay',
-    deactivate: 'Ngừng bán'
+    active: t('common:active'),
+    inactive: t('common:inactive'),
+    activate: t('product:activate'),
+    deactivate: t('product:deactivate')
   }
 
   const getInitData = async () => {
@@ -538,7 +529,7 @@ export default function EditProductPage (props) {
   }
 
   const handleOpenDeletePopup = () => {
-    setTitleModal(pageData.confirmDelete)
+    setTitleModal(pageData.leaveDialog.confirmDeleteBtn)
     setIsModalVisible(true)
   }
 
@@ -681,7 +672,7 @@ export default function EditProductPage (props) {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 fnb-card h-auto">
-                    <h4 className="title-group">{pageData.media.title}</h4>
+                    <h4 className="title-group">{pageData.upload.title}</h4>
                     <FnbImageSelectComponent
                       ref={fnbImageSelectRef}
                       customTextNonImageClass={'create-edit-product-text-non-image'}
@@ -722,12 +713,12 @@ export default function EditProductPage (props) {
         onDelete={handleDeleteItem}
       />
       <DeleteConfirmComponent
-        title={pageData.leaveDialog.confirmation}
-        content={pageData.leaveDialog.content}
+        title={pageData.leaveDialog.confirmLeaveTitle}
+        content={pageData.leaveDialog.confirmLeaveContent}
         visible={showConfirm}
         skipPermission={true}
-        cancelText={pageData.discardBtn}
-        okText={pageData.confirmLeaveBtn}
+        cancelText={pageData.btnDiscard}
+        okText={pageData.leaveDialog.confirmLeaveBtn}
         onCancel={onDiscard}
         onOk={onCompleted}
         isChangeForm={isChangeForm}

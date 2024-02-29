@@ -12,7 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace eShopping.Application.iddlewares
+namespace eShopping.Application.Middlewares
 {
     public class ErrorHandlingMiddleware
     {

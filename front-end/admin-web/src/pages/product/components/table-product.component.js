@@ -43,22 +43,22 @@ export default function TableProduct (props) {
   const maxNumberToShowPrice = 5
 
   const pageData = {
-    btnFilter: 'Lọc',
-    btnSort: 'Sắp xếp',
-    btnDelete: 'Xóa',
-    btnIgnore: 'Bỏ qua',
-    confirmDelete: 'Xác nhận xóa',
-    productDeleteSuccess: 'Xóa sản phẩm thành công',
-    productDeleteFail: 'Xóa sản phẩm thất bại',
+    btnFilter: t('button:filter'),
+    btnSort: t('button:sort'),
+    btnIgnore: t('button:ignore'),
+    btnDelete: t('button:delete'),
+    confirmDeleteBtn: t('dialog:confirmDeleteBtn'),
+    productDeleteSuccess: t('product:productDeleteSuccess'),
+    productDeleteFail: t('product:productDeleteFail'),
     table: {
-      searchPlaceholder: 'Tìm kiếm theo tên sản phẩm',
-      no: 'STT',
-      name: 'TÊN',
-      price: 'GIÁ',
-      status: 'TRẠNG THÁI',
-      action: 'THAO TÁC'
+      searchPlaceholder: t('table:searchPlaceholder'),
+      no: t('table:no'),
+      name: t('table:name'),
+      price: t('table:price'),
+      status: t('table:status'),
+      action: t('table:action')
     },
-    notificationTitle: 'Thông báo'
+    notificationTitle: t('dialog:notificationTitle')
   }
   const tableSettings = {
     pageSize: 20,
@@ -149,7 +149,7 @@ export default function TableProduct (props) {
 
     //   setPreventDeleteProduct(preventDeleteProduct);
     //   if (!preventDeleteProduct?.isPreventDelete) {
-    //     setTitleModal(pageData.confirmDelete);
+    //     setTitleModal(pageData.confirmDeleteBtn);
     //   } else {
     //     setTitleModal(pageData.notificationTitle);
     //   }

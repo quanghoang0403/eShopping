@@ -2,21 +2,23 @@ import report from './report.json'
 import login from './login.json'
 import common from './common.json'
 import home from './home.json'
-import myAccount from './myAccount.json'
-import notification from './notification.json'
+import account from './account.json'
+import dialog from './dialog.json'
 import button from './button.json'
 import table from './table.json'
-import upload from './upload.json'
+import file from './file.json'
+import product from './product.json'
 
 const lang = {
-  login,
   report,
+  login,
   common,
   home,
-  myAccount,
-  notification,
+  account,
+  dialog,
   button,
   table,
-  upload
+  file,
+  product
 }
 export default lang
