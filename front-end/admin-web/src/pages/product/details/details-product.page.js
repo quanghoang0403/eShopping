@@ -42,7 +42,7 @@ export default function ProductDetailPage (props) {
       label: t('product:labelCategory')
     },
     media: t('file:Media'),
-    confirmDeleteBtn: t('dialog:confirmDeleteBtn'),
+    confirmDelete: t('dialog:confirmDelete'),
     notificationTitle: t('dialog:notificationTitle'),
     productDeleteSuccess: t('product:productDeleteSuccess'),
     productDeleteFail: t('product:productDeleteFail'),
@@ -92,7 +92,7 @@ export default function ProductDetailPage (props) {
 
     //   setPreventDeleteProduct(preventDeleteProduct);
     //   if (!preventDeleteProduct?.isPreventDelete) {
-    //     setTitleModal(pageData.confirmDeleteBtn);
+    //     setTitleModal(pageData.confirmDelete);
     //   } else {
     //     setTitleModal(pageData.notificationTitle);
     //   }

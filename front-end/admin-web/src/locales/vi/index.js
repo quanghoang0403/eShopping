@@ -8,6 +8,8 @@ import button from './button.json'
 import table from './table.json'
 import file from './file.json'
 import product from './product.json'
+import category from './category.json'
+import staff from './staff.json'
 
 const lang = {
   report,
@@ -19,6 +21,8 @@ const lang = {
   button,
   table,
   file,
-  product
+  product,
+  category,
+  staff
 }
 export default lang

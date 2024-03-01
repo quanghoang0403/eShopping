@@ -106,7 +106,7 @@ export default function CreateProductPage () {
     leaveDialog: {
       confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
       confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeaveBtn: t('dialog:confirmLeaveBtn')
+      confirmLeave: t('dialog:confirmLeave')
     },
     table: {
       name: t('table:name'),
@@ -611,7 +611,7 @@ export default function CreateProductPage () {
         visible={showConfirm}
         skipPermission={true}
         cancelText={pageData.btnDiscard}
-        okText={pageData.confirmLeaveBtn}
+        okText={pageData.confirmLeave}
         onCancel={onDiscard}
         onOk={onCompleted}
         isChangeForm={isChangeForm}

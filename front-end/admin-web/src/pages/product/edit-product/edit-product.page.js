@@ -124,8 +124,8 @@ export default function EditProductPage (props) {
     leaveDialog: {
       confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
       confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeaveBtn: t('dialog:confirmLeaveBtn'),
-      confirmDeleteBtn: t('dialog:confirmDeleteBtn')
+      confirmLeave: t('dialog:confirmLeave'),
+      confirmDelete: t('dialog:confirmDelete')
     },
     table: {
       name: t('table:name'),
@@ -529,7 +529,7 @@ export default function EditProductPage (props) {
   }
 
   const handleOpenDeletePopup = () => {
-    setTitleModal(pageData.leaveDialog.confirmDeleteBtn)
+    setTitleModal(pageData.leaveDialog.confirmDelete)
     setIsModalVisible(true)
   }
 
@@ -718,7 +718,7 @@ export default function EditProductPage (props) {
         visible={showConfirm}
         skipPermission={true}
         cancelText={pageData.btnDiscard}
-        okText={pageData.leaveDialog.confirmLeaveBtn}
+        okText={pageData.leaveDialog.confirmLeave}
         onCancel={onDiscard}
         onOk={onCompleted}
         isChangeForm={isChangeForm}

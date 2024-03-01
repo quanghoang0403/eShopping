@@ -47,7 +47,7 @@ export default function TableProduct (props) {
     btnSort: t('button:sort'),
     btnIgnore: t('button:ignore'),
     btnDelete: t('button:delete'),
-    confirmDeleteBtn: t('dialog:confirmDeleteBtn'),
+    confirmDelete: t('dialog:confirmDelete'),
     productDeleteSuccess: t('product:productDeleteSuccess'),
     productDeleteFail: t('product:productDeleteFail'),
     table: {
@@ -149,7 +149,7 @@ export default function TableProduct (props) {
 
     //   setPreventDeleteProduct(preventDeleteProduct);
     //   if (!preventDeleteProduct?.isPreventDelete) {
-    //     setTitleModal(pageData.confirmDeleteBtn);
+    //     setTitleModal(pageData.confirmDelete);
     //   } else {
     //     setTitleModal(pageData.notificationTitle);
     //   }

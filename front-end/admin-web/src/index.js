@@ -7,8 +7,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { store } from './store'
 import theme from './theme'
-import { useEffect } from 'react'
-import { getLanguage } from 'services/system.service'
+// import { useEffect } from 'react'
+// import { getLanguage } from 'services/system.service'
 
 ReactDOM.render(
   <HelmetProvider>
@@ -22,12 +22,12 @@ ReactDOM.render(
   </HelmetProvider>,
   document.getElementById('root')
 )
-const handleInitData = async () => {
-  await Promise.all([getLanguage()]).then(([authState]) => {})
-}
-useEffect(() => {
-  void handleInitData()
-}, [])
+// const handleInitData = async () => {
+//   await Promise.all([getLanguage()]).then(([authState]) => {})
+// }
+// useEffect(() => {
+//   void handleInitData()
+// }, [])
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

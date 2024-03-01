@@ -1,8 +1,11 @@
 {
+    "iGotItBtn": "Tôi đã hiểu!",
     "notificationTitle": "Thông báo",
     "confirmLeaveTitle": "Xác nhận",
     "confirmLeaveContent": "Bạn có muốn tiếp tục?<br/>Tất cả dữ liệu chưa được lưu sẽ bị mất!",
-    "confirmLeaveBtn": "Xác nhận rời",
-    "confirmDeleteBtn": "Xác nhận xóa",
-    "iGotItBtn": "Tôi đã hiểu!"
+    "confirmLeave": "Xác nhận rời",
+    "confirmDelete": "Xác nhận xóa",
+    "confirmCancel": "Xác nhận hủy",
+    "confirmStop": "Xác nhận dừng",
+    "confirmDeleteMessage": "Bạn có thực sự muốn xóa <span class='style-text-confirm-delete'>{{name}}</span> không?<br/>Thao tác này không thể khôi phục!"
 }

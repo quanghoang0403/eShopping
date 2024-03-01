@@ -15,7 +15,7 @@ export default function DeleteProductComponent (props) {
     iGotItBtn: t('dialog:iGotItBtn'),
     ignore: t('button:ignore'),
     delete: t('button:delete'),
-    deleteProductMessage: t('product.deleteProductMessage')
+    deleteProductMessage: t('product:deleteProductMessage')
   }
 
   const formatDeleteMessage = (name) => {
