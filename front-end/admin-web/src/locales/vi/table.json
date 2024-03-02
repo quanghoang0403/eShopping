@@ -8,7 +8,7 @@
     "status": "TRẠNG THÁI",
     "phone": "SĐT",
     "group": "NHÓM",
-    "searchPlaceholder": "Tìm kiếm theo tên",
+    "searchPlaceholder": "Tìm kiếm",
     "noDataFound": "Không tìm thấy dữ liệu",
     "selectedItems": "Đã chọn {{selectedRowKeys}} mục",
     "showingRecordMessage": "Hiển thị <p class='record'>{{showingRecords}}</p> trên tổng <p class='record'>{{totalRecords}}</p> mục",

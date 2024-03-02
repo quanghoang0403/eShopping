@@ -1,0 +1,6 @@
+{
+  "title": "Báo cáo khách hàng",
+  "confirmDeleteCustomerMessage": "Bạn có thực sự muốn xóa khách hàng <span class='style-text-confirm-delete'>{{name}}</span> không?<br/>Thao tác này không thể khôi phục!",
+  "customerDeleteSuccess": "Khách hàng đã được xóa thành công",
+  "customerDeleteFail": " Khách hàng đã được xóa không thành công"
+}

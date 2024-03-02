@@ -10,6 +10,8 @@ import file from './file.json'
 import product from './product.json'
 import category from './category.json'
 import staff from './staff.json'
+import dashboard from './dashboard.json'
+import customer from './customer.json'
 
 const lang = {
   report,
@@ -23,6 +25,8 @@ const lang = {
   file,
   product,
   category,
-  staff
+  staff,
+  dashboard,
+  customer
 }
 export default lang

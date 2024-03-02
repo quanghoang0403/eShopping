@@ -256,7 +256,7 @@ export { ReactComponent as Blog } from 'assets/icons/blog.svg'
 // export { ReactComponent as StoreQRCodeIcon } from "assets/icons/qr-code.svg";
 // export { ReactComponent as QRWarning } from "assets/icons/qr-warning.svg";
 // export { ReactComponent as ReceiptItemIcon } from "assets/icons/receipt-item.svg";
-// export { ReactComponent as ReceiptShiftIcon } from "assets/icons/receipt-report-shift.svg";
+export { ReactComponent as ReceiptShiftIcon } from 'assets/icons/receipt-report-shift.svg'
 // export { ReactComponent as ReceiptIcon } from "assets/icons/receipt.svg";
 // export { ReactComponent as RegisterPageStoreWebIcon } from "assets/icons/register-page-store-web.svg";
 // export { ReactComponent as ReportFill } from "assets/icons/report_fill.svg";
@@ -327,8 +327,8 @@ export { ReactComponent as TrashIcon } from 'assets/icons/trash.svg'
 export { ReactComponent as TrashFill } from 'assets/icons/trash_fill.svg'
 export { ReactComponent as TrashFillImage } from 'assets/icons/trash_fill_img.svg'
 // export { ReactComponent as TrashOutline } from "assets/icons/trash_line.svg";
-// export { ReactComponent as TriangleIncreaseIcon } from "assets/icons/triangle-increase.svg";
-// export { ReactComponent as TriangleReduceIcon } from "assets/icons/triangle-reduce.svg";
+export { ReactComponent as TriangleIncreaseIcon } from 'assets/icons/triangle-increase.svg'
+export { ReactComponent as TriangleReduceIcon } from 'assets/icons/triangle-reduce.svg'
 // export { ReactComponent as TwitterIcon } from "assets/icons/twitter.svg";
 // export { ReactComponent as UKFlagIcon } from "assets/icons/uk_flag.svg";
 // export { ReactComponent as UserIcon } from "assets/icons/user.svg";
@@ -346,7 +346,7 @@ export { ReactComponent as ViewMoreIcon } from 'assets/icons/view_more.svg'
 // export { ReactComponent as YoutubeIcon } from "assets/icons/youtube.svg";
 // export { ReactComponent as ZipCodeIcon } from "assets/icons/zip_code.svg";
 // export { ReactComponent as FilterSelected } from "assets/icons/filter-selected.svg";
-// export { ReactComponent as WalletIcon } from "assets/icons/wallet.svg";
+export { ReactComponent as WalletIcon } from 'assets/icons/wallet.svg'
 
 // export const icons = {
 //   paymentDefaultIcon: paymentDefaultIcon,
