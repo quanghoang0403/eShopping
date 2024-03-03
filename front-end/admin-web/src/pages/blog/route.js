@@ -1,4 +1,4 @@
-import BlogPage from '.'
+import BlogPage from './blog.page'
 import { Blog } from 'constants/icons.constants'
 import i18n from 'utils/i18n'
 

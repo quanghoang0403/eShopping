@@ -3,16 +3,25 @@
     "name": "TÊN",
     "priority": "ƯU TIÊN",
     "product": "SẢN PHẨM",
+    "time": "THỜI GIAN",
     "price": "GIÁ",
     "action": "THAO TÁC",
     "status": "TRẠNG THÁI",
     "phone": "SĐT",
     "group": "NHÓM",
+    "discount": "KHUYẾN MÃI",
+    "thumbnail": "THUMBNAIL",
+    "title": "Tiêu đề",
+    "category": "DANH MỤC",
+    "creator": "TÁC GIẢ",
+    "lastUpdated": "CẬP NHẬT",
     "searchPlaceholder": "Tìm kiếm",
     "noDataFound": "Không tìm thấy dữ liệu",
     "selectedItems": "Đã chọn {{selectedRowKeys}} mục",
     "showingRecordMessage": "Hiển thị <p class='record'>{{showingRecords}}</p> trên tổng <p class='record'>{{totalRecords}}</p> mục",
-    
+
+    "allFilterTitle": "Tất cả",
+
     "categoryFilterTitle": "Danh mục",
     "categoryFilterAll": "Tất cả danh mục",
     "categoryFilterPlaceholder": "Chọn danh mục",
@@ -25,6 +34,10 @@
     "permissionFilterTitle": "Nhóm quyền",
     "permissionFilterAll": "Tất cả nhóm quyền",
     "permissionFilterPlaceholder": "Chọn nhóm quyền",
+
+    "creatorFilterTitle": "Danh mục",
+    "creatorFilterAll": "Tất cả danh mục",
+    "creatorFilterPlaceholder": "Chọn danh mục",
 
     "resetAllFilters": "Đặt lại tất cả các bộ lọc"
 }

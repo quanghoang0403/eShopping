@@ -1,6 +1,6 @@
 import { Card, Col, Row, message } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
-import { FnbAddNewButton } from 'components/fnb-add-new-button/fnb-add-new-button'
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import PageTitle from 'components/page-title'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useTranslation } from 'react-i18next'
@@ -37,7 +37,7 @@ export default function CustomerPage (props) {
             arrayButton={[
               {
                 action: (
-                  <FnbAddNewButton
+                  <ShopAddNewButton
                     permission={PermissionKeys.CREATE_CUSTOMER}
                     onClick={() => gotoAddNewCustomerPage(true)}
                     text={pageData.btnAddNew}

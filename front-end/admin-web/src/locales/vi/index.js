@@ -12,6 +12,10 @@ import category from './category.json'
 import staff from './staff.json'
 import dashboard from './dashboard.json'
 import customer from './customer.json'
+import form from './form.json'
+import blog from './blog.json'
+import order from './order.json'
+import promotion from './promotion.json'
 
 const lang = {
   report,
@@ -27,6 +31,8 @@ const lang = {
   category,
   staff,
   dashboard,
-  customer
+  customer,
+  form,
+  blog
 }
 export default lang

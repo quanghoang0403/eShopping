@@ -14,5 +14,7 @@
   "thisYear": "Năm nay",
   "lastYear": "Năm trước",
   "customize": "Tùy chỉnh",
-  "to": "Đến"
+  "to": "Đến",
+  "startDate": "Ngày bắt đầu",
+  "endDate": "Ngày kết thúc"
 }

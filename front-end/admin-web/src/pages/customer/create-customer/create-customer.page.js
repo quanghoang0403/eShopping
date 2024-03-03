@@ -2,22 +2,18 @@ import { Card, Col, DatePicker, Form, Input, message, Radio, Row, Space } from '
 import { Content } from 'antd/lib/layout/layout'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbAddNewButton } from 'components/fnb-add-new-button/fnb-add-new-button'
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
-import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
 import PageTitle from 'components/page-title'
-import SelectCustomerTagComponent from 'components/select-tag-customer/select-tag-customer.components'
 import { CustomerGenderConstant } from 'constants/customer.constant'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { AdminWebIcon, CalendarNewIcon } from 'constants/icons.constants'
+import { CalendarNewIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import { platformList } from 'constants/platform.constants'
 import { DateFormat } from 'constants/string.constants'
-import customerDataService from 'data-services/customer/customer-data.service'
+// import customerDataService from 'data-services/customer/customer-data.service'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { getValidationMessages } from 'utils/helpers'
 import './create-customer.page.scss'
@@ -26,82 +22,50 @@ export default function CreateCustomerPage (props) {
   const [t] = useTranslation()
   const history = useHistory()
   const pageData = {
-    title: t('customer.addNewForm.titleAddNew'),
-    generalInformation: t('customer.generalInformation'),
-    btnCancel: t('button.cancel'),
-    btnSave: t('button.add'),
-    allowedLetterAndNumber: t('form.allowedLetterAndNumber'),
-    mustBeBetweenThreeAndFifteenCharacters: t('form.mustBeBetweenThreeAndFifteenCharacters'),
-    customerAddSuccess: t('customer.addNewForm.customerAddSuccess'),
-    leaveForm: t('messages.leaveForm'),
-    confirmation: t('leaveDialog.confirmation'),
-    confirmLeave: t('button.confirmLeave'),
-    discard: t('button.discard'),
-    fullName: t('customer.addNewForm.fullName'),
-    firstName: t('customer.addNewForm.firstName'),
-    lastName: t('customer.addNewForm.lastName'),
-    name: t('customer.addNewForm.name'),
-    phone: t('customer.addNewForm.phone'),
-    email: t('customer.addNewForm.email'),
-    birthday: t('customer.addNewForm.birthday'),
-    gender: t('customer.addNewForm.gender'),
-    male: t('customer.addNewForm.male'),
-    female: t('customer.addNewForm.female'),
-    note: t('customer.addNewForm.note'),
-    fullNamePlaceholder: t('customer.addNewForm.fullNamePlaceholder'),
-    firstNamePlaceholder: t('customer.addNewForm.firstNamePlaceholder'),
-    lastNamePlaceholder: t('customer.addNewForm.lastNamePlaceholder'),
-    namePlaceholder: t('customer.addNewForm.namePlaceholder'),
-    emailPlaceholder: t('customer.addNewForm.emailPlaceholder'),
-    phonePlaceholder: t('customer.addNewForm.phonePlaceholder'),
-    addressPlaceholder: t('customer.addNewForm.addressPlaceholder'),
-    fullNameValidation: t('customer.addNewForm.fullNameValidation'),
-    firstNameValidation: t('customer.addNewForm.firstNameValidation'),
-    lastNameValidation: t('customer.addNewForm.lastNameValidation'),
-    nameValidation: t('customer.addNewForm.nameValidation'),
-    phoneValidation: t('customer.addNewForm.phoneValidation'),
-    emailValidation: t('customer.addNewForm.emailValidation'),
-    address: t('customer.addNewForm.address'),
-    mustBeBetweenOneAndHundredCharacters: t('customer.addNewForm.mustBeBetweenOneAndHundredCharacters'),
-    emailInvalidEmail: t('customer.addNewForm.emailInvalidEmail'),
-    birthdayPlaceholder: t('customer.addNewForm.birthdayPlaceholder'),
-    allowNumberOnly: t('form.allowNumberOnly'),
-    validPhonePattern: t('form.validPhonePattern'),
-    countryValidation: t('customer.addNewForm.countryValidation'),
-    country: t('form.country'),
-    province: t('form.province'),
-    district: t('form.district'),
-    ward: t('form.ward'),
-    stateProvinceRegion: t('form.stateProvinceRegion'),
-    selectCountry: t('form.selectCountry'),
-    selectProvince: t('form.selectProvince'),
-    selectProvinceStateRegion: t('form.selectProvinceStateRegion'),
-    selectDistrict: t('form.selectDistrict'),
-    validDistrict: t('form.validDistrict'),
-    selectWard: t('form.selectWard'),
-    labelAddress: t('form.address'),
-    inputAddress: t('form.inputAddress'),
-    validAddress: t('form.validAddress'),
-    inputAddressOne: t('form.inputAddressOne'),
-    inputAddressTwo: t('form.inputAddressTwo'),
-    labelAddressTwo: t('form.addressTwo'),
-    labelState: t('form.state'),
-    labelZip: t('form.zip'),
-    inputZip: t('form.inputZip'),
-    validZip: t('form.validZip'),
-    labelCity: t('form.city'),
-    inputCity: t('form.inputCity'),
-    validCity: t('form.validCity'),
-    discardBtn: t('button.discard'),
-    confirmLeaveBtn: t('button.confirmLeave'),
-    platform: t('platform.title'),
+    btnCancel: t('button:cancel'),
+    btnSave: t('button:add'),
+    btnDiscard: t('button:discard'),
+    title: t('customer:titleAddNew'),
+    generalInformation: t('customer:titleInfo'),
+    customerAddSuccess: t('customer:customerAddSuccess'),
+    name: t('customer:name'),
+    phone: t('customer:phone'),
+    address: t('customer:address'),
+    email: t('customer:email'),
+    birthday: t('customer:birthday'),
+    gender: t('customer:gender'),
+    male: t('customer:male'),
+    female: t('customer:female'),
+    other: t('customer:other'),
+
+    namePlaceholder: t('customer:namePlaceholder'),
+    emailPlaceholder: t('customer:emailPlaceholder'),
+    phonePlaceholder: t('customer:phonePlaceholder'),
+    addressPlaceholder: t('customer:addressPlaceholder'),
+    birthdayPlaceholder: t('customer:birthdayPlaceholder'),
+
+    nameValidation: t('customer:nameValidation'),
+    phoneValidation: t('customer:phoneValidation'),
+    emailValidation: t('customer:emailValidation'),
+    emailInvalidEmail: t('customer:emailInvalidEmail'),
+
+    allowNumberOnly: t('form:allowNumberOnly'),
+    validPhonePattern: t('form:validPhonePattern'),
+    city: t('form:city'),
+    district: t('form:district'),
+    ward: t('form:ward'),
+    selectCity: t('form:selectCity'),
+    selectDistrict: t('form:selectDistrict'),
+    validDistrict: t('form:validDistrict'),
+    selectWard: t('form:selectWard'),
+    labelAddress: t('form:address'),
+    inputAddress: t('form:inputAddress'),
+    validAddress: t('form:validAddress'),
     leaveDialog: {
-      confirmation: t('leaveDialog.confirmation'),
-      content: t('messages.leaveForm')
+      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog:confirmLeaveContent'),
+      confirmLeave: t('dialog:confirmLeave')
     },
-    other: t('customer.addNewForm.other'),
-    tag: t('customer.tag'),
-    limitTagMessage: t('customer.limitTagMessage')
   }
 
   const [form] = Form.useForm()
@@ -113,27 +77,15 @@ export default function CreateCustomerPage (props) {
   const [wards, setWards] = useState([])
   const [wardsByDistrictId, setWardsByDistrictId] = useState([])
   const [districtsByCityId, setDistrictsByCityId] = useState([])
-  const [isDefaultCountry, setIsDefaultCountry] = useState(true)
   const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
-    getInitDataAsync()
-  }, [])
-
-  const getInitDataAsync = () => {
-    const { defaultCountry, cities, districts, wards } =
-        prepareAddressData
+    // Call API
     setCities(cities)
     setDistricts(districts)
     setWards(wards)
-    if (form) {
-      form.setFieldsValue({
-        address: {
-          countryId: defaultCountry?.id
-        }
-      })
-    }
-  }
+  }, [])
+
 
   const clickCancel = () => {
     if (isChangeForm) {
@@ -144,26 +96,25 @@ export default function CreateCustomerPage (props) {
   }
 
   const onFinish = async () => {
-    form.validateFields().then(async (values) => {
-      const dataSave = {
-        ...values,
-        birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null,
-        tags
-      }
-      customerDataService
-        .createCustomerAsync(dataSave)
-        .then((res) => {
-          if (res) {
-            setIsChangeForm(false)
-            // navigate to management list
-            navigateToManagementPage()
-            message.success(pageData.customerAddSuccess)
-          }
-        })
-        .catch((errs) => {
-          form.setFields(getValidationMessages(errs))
-        })
-    })
+    // form.validateFields().then(async (values) => {
+    //   const dataSave = {
+    //     ...values,
+    //     birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null,
+    //   }
+    //   customerDataService
+    //     .createCustomerAsync(dataSave)
+    //     .then((res) => {
+    //       if (res) {
+    //         setIsChangeForm(false)
+    //         // navigate to management list
+    //         navigateToManagementPage()
+    //         message.success(pageData.customerAddSuccess)
+    //       }
+    //     })
+    //     .catch((errs) => {
+    //       form.setFields(getValidationMessages(errs))
+    //     })
+    // })
   }
 
   const onGenderChange = (e) => {
@@ -204,7 +155,6 @@ export default function CreateCustomerPage (props) {
   }
 
   const renderAddress = () => {
-    if (isDefaultCountry) {
       return (
         <>
           <Row gutter={[25, 25]} className="form-row">
@@ -217,11 +167,11 @@ export default function CreateCustomerPage (props) {
           </Row>
           <Row gutter={[25, 25]} className="form-row">
             <Col sm={24} md={8} className="w-100">
-              <h4 className="fnb-form-label">{pageData.province}</h4>
+              <h4 className="fnb-form-label">{pageData.city}</h4>
               <Form.Item name={['address', 'cityId']} className="last-item">
                 <FnbSelectSingle
                   size="large"
-                  placeholder={pageData.selectProvince}
+                  placeholder={pageData.selectCity}
                   onChange={onChangeCity}
                   showSearch
                   autoComplete="none"
@@ -265,59 +215,17 @@ export default function CreateCustomerPage (props) {
           </Row>
         </>
       )
-    }
-
-    return (
-      <>
-        <Row gutter={[25, 25]} className="form-row">
-          <Col sm={24} md={12} className="w-100">
-            <h4 className="fnb-form-label">{pageData.labelAddress}</h4>
-            <Form.Item className="form-create-customer" name={['address', 'address1']}>
-              <Input className="fnb-input" size="large" placeholder={pageData.inputAddressTwo} />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={[25, 25]} className="form-row">
-          <Col sm={24} md={8} className="w-100">
-            <h4 className="fnb-form-label">{pageData.labelAddressTwo}</h4>
-            <Form.Item name={['address', 'address2']} className="last-item">
-              <Input className="fnb-input" size="large" placeholder={pageData.inputAddressTwo} />
-            </Form.Item>
-          </Col>
-          <Col sm={24} md={8} className="w-100">
-            <h4 className="fnb-form-label">{pageData.labelCity}</h4>
-            <Form.Item name={['address', 'cityTown']} className="last-item">
-              <Input className="fnb-input" placeholder={pageData.inputCity} />
-            </Form.Item>
-          </Col>
-
-          <Col sm={24} md={8} className="w-100">
-            <h4 className="fnb-form-label">{pageData.labelState}</h4>
-            <Form.Item name={['address', 'stateId']} className="last-item">
-              <FnbSelectSingle
-                placeholder={pageData.selectProvinceStateRegion}
-                option={states?.map((item) => ({
-                  id: item.id,
-                  name: item.name
-                }))}
-                showSearch
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </>
-    )
   }
 
   return (
     <>
       <DeleteConfirmComponent
-        title={pageData.leaveDialog.confirmation}
-        content={pageData.leaveDialog.content}
+        title={pageData.leaveDialog.confirmLeaveTitle}
+        content={pageData.leaveDialog.confirmLeaveContent}
         visible={showConfirm}
         skipPermission={true}
-        cancelText={pageData.discardBtn}
-        okText={pageData.confirmLeaveBtn}
+        cancelText={pageData.btnDiscard}
+        okText={pageData.leaveDialog.confirmLeave}
         onCancel={onDiscard}
         onOk={navigateToManagementPage}
         isChangeForm={isChangeForm}
@@ -329,7 +237,7 @@ export default function CreateCustomerPage (props) {
         <ActionButtonGroup
           arrayButton={[
             {
-              action: <FnbAddNewButton onClick={onFinish} className="btn-add" text={pageData.btnSave} />,
+              action: <ShopAddNewButton onClick={onFinish} className="btn-add" text={pageData.btnSave} />,
               permission: PermissionKeys.CREATE_CUSTOMER
             },
             {
@@ -368,15 +276,6 @@ export default function CreateCustomerPage (props) {
             </Row>
             <Row style={{ display: 'grid' }}>
               <Row gutter={[25, 25]} className="form-row">
-                <Col sm={24} md={12} className="w-100">
-                  <h4 className="fnb-form-label">{pageData.platform}</h4>
-                  <Form.Item className="form-create-customer platform-detail">
-                    <AdminWebIcon />
-                    <span className="text-detail">{platformList.AdminWeb}</span>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[25, 25]} className="form-row">
                 <Col sm={24} md={8} className="w-100">
                   <h4 className="fnb-form-label">
                     {pageData.name} <span className="text-danger">*</span>
@@ -404,59 +303,6 @@ export default function CreateCustomerPage (props) {
                       maxLength={100}
                       size="large"
                       placeholder={pageData.namePlaceholder}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col sm={24} md={8} className="w-100">
-                  <h4 className="fnb-form-label">{pageData.lastName}</h4>
-                  <Form.Item
-                    className="last-item"
-                    name={'lastName'}
-                    rules={[
-                      { type: 'string', warningOnly: true },
-                      {
-                        type: 'string',
-                        max: 100,
-                        min: 1
-                      }
-                    ]}
-                  >
-                    <Input
-                      className="fnb-input-with-count"
-                      showCount
-                      maxLength={100}
-                      size="large"
-                      placeholder={pageData.lastNamePlaceholder}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col sm={24} md={8} className="w-100">
-                  <h4 className="fnb-form-label">{pageData.country}</h4>
-                  <Form.Item
-                    className="form-create-customer"
-                    initialValue={defaultCountryId}
-                    name={['address', 'countryId']}
-                    rules={[{ required: true, message: pageData.countryValidation }]}
-                  >
-                    <FnbSelectSingle
-                      defaultValue={defaultCountryId}
-                      size="large"
-                      placeholder={pageData.selectCountry}
-                      onChange={(value) => {
-                        if (value && value !== defaultCountryId) {
-                          setIsDefaultCountry(false)
-                        } else {
-                          setIsDefaultCountry(true)
-                        }
-                        const country = countries?.find((item) => item.id === value)
-                        setPhoneCode(country.phoneCode)
-                      }}
-                      showSearch
-                      autoComplete="none"
-                      option={countries?.map((item, index) => ({
-                        id: item.id,
-                        name: item.nicename
-                      }))}
                     />
                   </Form.Item>
                 </Col>
@@ -542,39 +388,7 @@ export default function CreateCustomerPage (props) {
                   </Form.Item>
                 </Col>
               </Row>
-
               {renderAddress()}
-              <Row gutter={[25, 25]} className="form-row">
-                <Col span={24} className="form-row">
-                  <h4 className="fnb-form-label">{pageData.tag}</h4>
-                  <SelectCustomerTagComponent
-                    tagDataTemp={tagDataTemp}
-                    tags={tags}
-                    setTags={setTags}
-                    setTagError={setTagError}
-                    setIsChangeForm={setIsChangeForm}
-                  />
-                  <span hidden={!tagError} className="customer-tag-error-message">
-                    {pageData.limitTagMessage}
-                  </span>
-                </Col>
-              </Row>
-              <Row gutter={[25, 25]} className="last-row">
-                <Col span={24} className="form-row">
-                  <h4 className="fnb-form-label">{pageData.note}</h4>
-                  <Form.Item
-                    name={'note'}
-                    rules={[
-                      {
-                        max: 1000,
-                        message: pageData.descriptionMaximum
-                      }
-                    ]}
-                  >
-                    <FnbTextArea showCount maxLength={1000} rows={4}></FnbTextArea>
-                  </Form.Item>
-                </Col>
-              </Row>
             </Row>
           </Card>
         </Content>

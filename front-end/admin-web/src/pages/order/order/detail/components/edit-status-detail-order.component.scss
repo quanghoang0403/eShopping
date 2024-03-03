@@ -1,0 +1,79 @@
+.row-order-status {
+  margin-bottom: 24px;
+
+  .label-left {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: center;
+    letter-spacing: 0.3px;
+  }
+
+  .label-right {
+    font-family: "Plus Jakarta Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: right;
+    text-align: right;
+    letter-spacing: 0.3px;
+  }
+}
+
+.label-status {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 21px;
+  letter-spacing: 0.3px;
+}
+
+.confirm-edit-action-btn {
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.btn-confirm-edit {
+  justify-self: start;
+  min-width: 125px;
+  margin-left: 16px;
+}
+
+.modal-edit-status-order {
+  .ant-modal-header {
+    text-align: center;
+
+    .ant-modal-title {
+      .fnb-dialog-title {
+        color: #50429B;
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40.32px;
+        text-align: center;
+      }
+    }
+
+    height: 88px;
+    border-radius: 32px 32px 0px 0px;
+    padding: 24px 12px 24px 12px;
+  }
+
+  .ant-modal-footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ant-modal-content {
+    border-radius: 40px 40px 40px 40px;
+  }
+
+  .ant-card-head {
+    border: none;
+  }
+}

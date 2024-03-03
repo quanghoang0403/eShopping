@@ -1,4 +1,4 @@
-import OrderPage from '.'
+import OrderPage from './report-transaction.page'
 import { Order } from 'constants/icons.constants'
 import i18n from 'utils/i18n'
 

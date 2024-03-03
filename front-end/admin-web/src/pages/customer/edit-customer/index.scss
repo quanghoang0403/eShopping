@@ -62,63 +62,7 @@
         color: #000000;
       }
 
-      .rank-box {
-        height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .rank-badge {
-          margin-left: auto;
-          min-width: 0;
-          height: 40px;
-          border-radius: 16px;
-          font-weight: 700;
-          font-size: 18px;
-          line-height: 32px;
-          display: flex;
-          align-items: center;
-          padding: 22px;
-          color: #ffffff;
-        }
-      }
-
-      .platform-detail {
-        margin-bottom: 23px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .text-right {
-          margin-left: auto;
-          display: flex;
-          align-items: center;
-          font-weight: 400;
-          font-size: 20px;
-          line-height: 25px;
-          color: #000000;
-          gap: 12px;
-        }
-      }
-
       .other-info-box {
-        .reward {
-          padding-top: 23px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-
-          .reward-point {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            font-weight: 400;
-            font-size: 20px;
-            line-height: 25px;
-            color: #000000;
-          }
-        }
-
         .total {
           padding-top: 23px;
           display: flex;
@@ -224,15 +168,6 @@
       .info-container {
         height: 232px !important;
         margin: 32px 16px 0px 16px;
-
-        .rank-box {
-          .rank-badge {
-            font-size: 16px;
-            border-radius: 16px;
-            font-weight: 600;
-            padding: 12px;
-          }
-        }
       }
     }
 

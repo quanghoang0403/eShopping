@@ -2,7 +2,7 @@
 // import paymentDefaultIcon from "assets/images/payment-default-logo.png";
 
 // export { ReactComponent as CartLogoIcon } from "assets/icons/CartLogo.svg";
-// export { ReactComponent as InfoCircleIcon } from "assets/icons/InfoCircle.svg";
+export { ReactComponent as InfoCircleIcon } from "assets/icons/InfoCircle.svg";
 // export { ReactComponent as AboutUsPageStoreWebIcon } from "assets/icons/about-us-page-store-web.svg";
 // export { ReactComponent as ActivityApprovePurchaseOrderIcon } from "assets/icons/activity-approve-purchase-order.svg";
 // export { ReactComponent as ActivityCompleteOrderIcon } from "assets/icons/activity-complete-order.svg";
@@ -79,7 +79,7 @@ export { ReactComponent as ArrowDropDownIcon } from 'assets/icons/arrow_drop_dow
 // export { ReactComponent as BranchIcon } from "assets/icons/branch.svg";
 // export { ReactComponent as BucketGeneralCustomizeIcon } from "assets/icons/bucket-general-customize.svg";
 // export { ReactComponent as ButtonPlusIcon } from "assets/icons/button-plus.svg";
-// export { ReactComponent as CalendarNewIconBold } from "assets/icons/calendar-new-icon-bold.svg";
+export { ReactComponent as CalendarNewIconBold } from "assets/icons/calendar-new-icon-bold.svg";
 export { ReactComponent as CalendarNewIcon } from 'assets/icons/calendar-new.svg'
 export { ReactComponent as CalendarIcon } from 'assets/icons/calendar.svg'
 // export { ReactComponent as PhoneNumberIcon } from "assets/icons/call-icon.svg";
@@ -293,7 +293,7 @@ export { ReactComponent as StaffUserFill } from 'assets/icons/staff_user_fill.sv
 // export { ReactComponent as StepStatusFinishIcon } from "assets/icons/step-status-finish.svg";
 // export { ReactComponent as StepStatusProcessIcon } from "assets/icons/step-status-process.svg";
 // export { ReactComponent as StepStatusWaitIcon } from "assets/icons/step-status-wait.svg";
-// export { ReactComponent as StopFill } from "assets/icons/stop_fill.svg";
+export { ReactComponent as StopFill } from "assets/icons/stop_fill.svg";
 // export { ReactComponent as StopOutline } from "assets/icons/stop_line.svg";
 // export { ReactComponent as StoreAppIcon } from "assets/icons/store-app.svg";
 // export { ReactComponent as StoreBannerTrashIcon } from "assets/icons/store-banner-trash.svg";
@@ -341,7 +341,7 @@ export { ReactComponent as UserNameIcon } from 'assets/icons/username.svg'
 // export { ReactComponent as ViewIcon } from "assets/icons/view.svg";
 export { ReactComponent as ViewMoreIcon } from 'assets/icons/view_more.svg'
 // export { ReactComponent as VNFlagIcon } from "assets/icons/vn_flag.svg";
-// export { ReactComponent as WarningIcon } from "assets/icons/warning.svg";
+export { ReactComponent as WarningIcon } from "assets/icons/warning.svg";
 // export { ReactComponent as WorldIcon } from "assets/icons/world.svg";
 // export { ReactComponent as YoutubeIcon } from "assets/icons/youtube.svg";
 // export { ReactComponent as ZipCodeIcon } from "assets/icons/zip_code.svg";
