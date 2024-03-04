@@ -16,6 +16,9 @@ namespace eShopping.Domain.Entities
         public string Name { get; set; }
 
         [Precision(18, 2)]
+        public decimal OriginalPrice { set; get; }
+
+        [Precision(18, 2)]
         public decimal Price { set; get; }
 
         public int QuantityLeft { get; set; }

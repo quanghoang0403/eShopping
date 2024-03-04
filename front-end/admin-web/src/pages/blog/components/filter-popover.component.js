@@ -1,40 +1,40 @@
-import { Card, Col, Row } from "antd";
-import { FnbSelectSingle } from "components/fnb-select-single/fnb-select-single";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import "./filter-popover.scss";
+import { Card, Col, Row } from 'antd'
+import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import './filter-popover.scss'
 
-export const FilterBlogPopover =(props) => {
-  const [t] = useTranslation();
-  const { dataFilter, onChangeFilter } = props;
-  const { blogCatetories, blogAuthors } = dataFilter;
+export const FilterBlogPopover = (props) => {
+  const [t] = useTranslation()
+  const { dataFilter, onChangeFilter } = props
+  const { blogCatetories, blogAuthors } = dataFilter
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
-  const [selectedAuthorId, setSelectedAuthorId] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState('')
+  const [selectedAuthorId, setSelectedAuthorId] = useState('')
   const [filterData, setFilterData] = useState({})
-  const defaultValue = "";
+  const defaultValue = ''
 
-  //#region PageData
+  // #region PageData
   const pageData = {
     filter: {
-      buttonResetFilter: t("table:resetAllFilters"),
-      all: t("table:allFilterTitle"),
-      category: t("table:categoryFilterTitle"),
-      creator: t("table:creatorFilterTitle"),
-    },
-  };
-  //#endregion
+      buttonResetFilter: t('table:resetAllFilters'),
+      all: t('table:allFilterTitle'),
+      category: t('table:categoryFilterTitle'),
+      creator: t('table:creatorFilterTitle')
+    }
+  }
+  // #endregion
 
   const clearFilter = () => {
-    setSelectedCategoryId(defaultValue);
+    setSelectedCategoryId(defaultValue)
     handleChangeFilterData({})
-    setSelectedCategoryId('');
-    setSelectedAuthorId('');
-  };
+    setSelectedCategoryId('')
+    setSelectedAuthorId('')
+  }
 
   const handleChangeFilterData = (data) => {
     setFilterData(data)
-    onChangeFilter && onChangeFilter(data);
+    onChangeFilter && onChangeFilter(data)
   }
 
   return (
@@ -46,12 +46,12 @@ export const FilterBlogPopover =(props) => {
           <FnbSelectSingle className="form-select "
             showSearch
             onChange={(value) => {
-              setSelectedCategoryId(value);
-              handleChangeFilterData({...filterData, categoryId : value})
+              setSelectedCategoryId(value)
+              handleChangeFilterData({ ...filterData, categoryId: value })
             }}
             value={selectedCategoryId}
             defaultValue={defaultValue}
-            option={[{ id: '', name: pageData.filter.all }, ...blogCatetories ]}
+            option={[{ id: '', name: pageData.filter.all }, ...blogCatetories]}
           />
         </Col>
       </Row>
@@ -63,23 +63,23 @@ export const FilterBlogPopover =(props) => {
           <FnbSelectSingle className="form-select "
             showSearch
             onChange={(value) => {
-              setSelectedAuthorId(value);
-              handleChangeFilterData({...filterData, creatorId : value})
+              setSelectedAuthorId(value)
+              handleChangeFilterData({ ...filterData, creatorId: value })
             }}
             value={selectedAuthorId}
             defaultValue={defaultValue}
-            option={[{ id: '', name: pageData.filter.all }, ...blogAuthors ]}
+            option={[{ id: '', name: pageData.filter.all }, ...blogAuthors]}
           />
         </Col>
       </Row>
 
       {/* RESET BUTTON */}
       <Row className="row-reset-filter">
-          <a onClick={() => clearFilter()} className="reset-filter" aria-current={Object.values(filterData).filter((e) => e !== "").length == 0 && "inventory-history-filter"}>
+          <a onClick={() => clearFilter()} className="reset-filter" aria-current={Object.values(filterData).filter((e) => e !== '').length === 0 && 'inventory-history-filter'}>
             {pageData.filter.buttonResetFilter}
           </a>
       </Row>
-      
+
     </Card>
-  );
-};
+  )
+}

@@ -65,7 +65,7 @@ export default function CreateCustomerPage (props) {
       confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
       confirmLeaveContent: t('dialog:confirmLeaveContent'),
       confirmLeave: t('dialog:confirmLeave')
-    },
+    }
   }
 
   const [form] = Form.useForm()
@@ -85,7 +85,6 @@ export default function CreateCustomerPage (props) {
     setDistricts(districts)
     setWards(wards)
   }, [])
-
 
   const clickCancel = () => {
     if (isChangeForm) {
@@ -155,7 +154,7 @@ export default function CreateCustomerPage (props) {
   }
 
   const renderAddress = () => {
-      return (
+    return (
         <>
           <Row gutter={[25, 25]} className="form-row">
             <Col sm={24} md={24} className="w-100">
@@ -214,7 +213,7 @@ export default function CreateCustomerPage (props) {
             </Col>
           </Row>
         </>
-      )
+    )
   }
 
   return (

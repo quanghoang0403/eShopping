@@ -1,299 +1,295 @@
-import { Button, Card, Col, Form, Input, Row, Tooltip, message } from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import { FnbAddNewButton } from "components/fnb-add-new-button/fnb-add-new-button";
-import FnbCard from "components/fnb-card/fnb-card.component";
-import FnbFroalaEditor from "components/fnb-froala-editor";
-import { FnbImageSelectComponent } from "components/fnb-image-select/fnb-image-select.component";
-import { FnbSelectSingle } from "components/fnb-select-single/fnb-select-single";
-import PageTitle from "components/page-title";
-import SelectBlogTagComponent from "pages/blog/components/select-tag-blog.components";
-import TextDanger from "components/text-danger";
-import { DELAYED_TIME } from "constants/default.constants";
-import { ExclamationIcon, WarningIcon } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { DateFormat } from "constants/string.constants";
-import blogDataService from "data-services/blog/blog-data.service";
-import { error } from "jquery";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { Button, Card, Col, Form, Input, Row, Tooltip, message } from 'antd'
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
+import FnbCard from 'components/fnb-card/fnb-card.component'
+import FnbFroalaEditor from 'components/fnb-froala-editor'
+import { FnbImageSelectComponent } from 'components/fnb-image-select/fnb-image-select.component'
+import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import PageTitle from 'components/page-title'
+import SelectBlogTagComponent from 'pages/blog/components/select-tag-blog.components'
+import TextDanger from 'components/text-danger'
+import { DELAYED_TIME } from 'constants/default.constants'
+import { ExclamationIcon, WarningIcon } from 'constants/icons.constants'
+import { PermissionKeys } from 'constants/permission-key.constants'
+import { DateFormat } from 'constants/string.constants'
+// import blogDataService from 'data-services/blog/blog-data.service'
+import { error } from 'jquery'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import {
   convertSeoUrl,
-  convertUtcToLocalTime,
-  formatNumber,
-} from "utils/helpers";
-import "./edit-blog.page.scss";
-import { enumBlogResponse } from "constants/blog.constants";
+  formatNumber
+} from 'utils/helpers'
+import './edit-blog.page.scss'
 
-export default function EditBlogPage(props) {
-  const [t] = useTranslation();
-  const history = useHistory();
-  const [blockNavigation, setBlockNavigation] = useState(false);
-  const fnbImageSelectRef = useRef();
+export default function EditBlogPage (props) {
+  const [t] = useTranslation()
+  const history = useHistory()
+  const [blockNavigation, setBlockNavigation] = useState(false)
+  const fnbImageSelectRef = useRef()
 
-  const [categories, setCategories] = useState([]);
-  const [disableCreateButton, setDisableCreateButton] = useState(false);
-  const [isChangeForm, setIsChangeForm] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [tagDataTemp, setTagDataTemp] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [tagError, setTagError] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState(null);
+  const [categories, setCategories] = useState([])
+  const [disableCreateButton, setDisableCreateButton] = useState(false)
+  const [isChangeForm, setIsChangeForm] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [tagDataTemp, setTagDataTemp] = useState([])
+  const [tags, setTags] = useState([])
+  const [tagError, setTagError] = useState(false)
+  const [newCategoryName, setNewCategoryName] = useState(null)
   const [showCategoryNameValidateMessage, setShowCategoryNameValidateMessage] =
-    useState(false);
-  const [isCategoryNameExisted, setIsCategoryNameExisted] = useState(false);
-  const [urlLink, setUrlSEO] = useState("");
-  const [titleSEO, setTitleSEO] = useState("");
-  const [descriptionSEO, setDescriptionSEO] = useState("");
-  const [blogContent, setBlogContent] = useState("");
+    useState(false)
+  const [isCategoryNameExisted, setIsCategoryNameExisted] = useState(false)
+  const [urlLink, setUrlSEO] = useState('')
+  const [titleSEO, setTitleSEO] = useState('')
+  const [descriptionSEO, setDescriptionSEO] = useState('')
+  const [blogContent, setBlogContent] = useState('')
   const [showBlogContentValidateMessage, setShowBlogContentValidateMessage] =
-    useState(false);
-  const [blogName, setBlogName] = useState("");
-  const reduxState = useSelector((state) => state);
-  const [blog, setBlog] = useState({});
-  const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false);
+    useState(false)
+  const [blogName, setBlogName] = useState('')
+  const reduxState = useSelector((state) => state)
+  const [blog, setBlog] = useState({})
+  const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false)
   const [isShowWarningSEODescription, setIsShowWarningSEODescription] =
-    useState(false);
-  const [checkBlogContentLoaded, setCheckBlogContentLoaded] = useState(false);
+    useState(false)
+  const [checkBlogContentLoaded, setCheckBlogContentLoaded] = useState(false)
 
   useEffect(() => {
-    getInitData();
-  }, []);
+    getInitData()
+  }, [])
 
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
   const pageData = {
-    btnCancel: t("button:cancel"),
-    btnUpdate: t("button:update"),
-    btnAddNew: t("button:addNew"),
-    btnDiscard: t("button:discard"),
+    btnCancel: t('button:cancel'),
+    btnUpdate: t('button:update'),
+    btnAddNew: t('button:addNew'),
+    btnDiscard: t('button:discard'),
     generalInformation: {
-      title: t("common:generalInformation"),
+      title: t('common:generalInformation'),
       name: {
-        label: t("blog:blogTitle"),
-        placeholder: t("blog:blogTitlePlaceholder"),
+        label: t('blog:blogTitle'),
+        placeholder: t('blog:blogTitlePlaceholder'),
         required: true,
         maxLength: 255,
-        validateMessage: t("blog:blogTitleValidateMessage"),
+        validateMessage: t('blog:blogTitleValidateMessage')
       },
       category: {
-        label: t("blog:blogCategory"),
-        placeholder: t("blog:blogCategoryPlaceholder"),
+        label: t('blog:blogCategory'),
+        placeholder: t('blog:blogCategoryPlaceholder'),
         required: true,
-        blogCategoryValidateMessage: t("blog:blogCategoryValidateMessage"),
-        blogCategoryNameValidateMessage: t("blog:blogCategoryNameValidateMessage"),
-        blogCategoryExisted: t("blog:blogCategoryExisted"),
+        blogCategoryValidateMessage: t('blog:blogCategoryValidateMessage'),
+        blogCategoryNameValidateMessage: t('blog:blogCategoryNameValidateMessage'),
+        blogCategoryExisted: t('blog:blogCategoryExisted')
       },
       blogContent: {
-        label: t("blog:blogContent"),
+        label: t('blog:blogContent'),
         required: true,
-        validateMessage: t("blog:blogContentValidateMessage"),
-        blogContentPlaceholder: t("blog:blogContentPlaceholder"),
-      },
+        validateMessage: t('blog:blogContentValidateMessage'),
+        blogContentPlaceholder: t('blog:blogContentPlaceholder')
+      }
     },
     SEO: {
-      title: t("form:SEOConfiguration"),
-      SEOTitle: t("form:SEOTitle"),
-      SEODescription: t("form:SEODescription"),
-      SEOKeywords: t("form:SEOKeywords"),
-      SEOTitlePlaceholder: t("form:SEOTitlePlaceholder"),
-      SEODescriptionPlaceholder: t("form:SEODescriptionPlaceholder"),
-      SEOKeywordsPlaceholder: t("form:SEOKeywordsPlaceholder"),
-      SEOPreview: t("form:SEOPreview"),
-      SEOOverviewTooltip: t("form:SEOOverviewTooltip"),
-      SEOTitleTooltip: t("form:SEOTitleTooltip"),
-      SEODescriptionTooltip: t("form:SEODescriptionTooltip"),
-      SEOKeywordsTooltip: t("form:SEOKeywordsTooltip"),
+      title: t('form:SEOConfiguration'),
+      SEOTitle: t('form:SEOTitle'),
+      SEODescription: t('form:SEODescription'),
+      SEOKeywords: t('form:SEOKeywords'),
+      SEOTitlePlaceholder: t('form:SEOTitlePlaceholder'),
+      SEODescriptionPlaceholder: t('form:SEODescriptionPlaceholder'),
+      SEOKeywordsPlaceholder: t('form:SEOKeywordsPlaceholder'),
+      SEOPreview: t('form:SEOPreview'),
+      SEOOverviewTooltip: t('form:SEOOverviewTooltip'),
+      SEOTitleTooltip: t('form:SEOTitleTooltip'),
+      SEODescriptionTooltip: t('form:SEODescriptionTooltip'),
+      SEOKeywordsTooltip: t('form:SEOKeywordsTooltip')
     },
     media: {
-      title: t("blog:media"),
-      bannerTitle: t("blog:bannerTitle"),
-      textNonImage: t("file:textNonImage"),
-      bestDisplayImage: t("blog:bestDisplayImage"),
-      imageSizeTooBig: t("file:imageSizeTooBig"),
+      title: t('blog:media'),
+      bannerTitle: t('blog:bannerTitle'),
+      textNonImage: t('file:textNonImage'),
+      bestDisplayImage: t('blog:bestDisplayImage'),
+      imageSizeTooBig: t('file:imageSizeTooBig')
     },
     leaveDialog: {
       confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
       confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave'),
+      confirmLeave: t('dialog:confirmLeave')
     },
-    createdBy: t("blog:createdBy"),
-    createdTime: t("blog:createdTime"),
-    updatedTime: t("blog:updatedTime"),
-    limitTagMessage: t("blog:limitTagMessage"),
-    updateBlogSuccess: t("blog:updateBlogSuccess"),
-    updateBlogFailed: t("blog:updateBlogFailed"),
-    view: t("blog:view"),
-    messageMatchSuggestSEOTitle: t("form:messageMatchSuggestSEOTitle"),
-    messageMatchSuggestSEODescription: t("form:messageMatchSuggestSEODescription"),
-  };
+    createdBy: t('blog:createdBy'),
+    createdTime: t('blog:createdTime'),
+    updatedTime: t('blog:updatedTime'),
+    limitTagMessage: t('blog:limitTagMessage'),
+    updateBlogSuccess: t('blog:updateBlogSuccess'),
+    updateBlogFailed: t('blog:updateBlogFailed'),
+    view: t('blog:view'),
+    messageMatchSuggestSEOTitle: t('form:messageMatchSuggestSEOTitle'),
+    messageMatchSuggestSEODescription: t('form:messageMatchSuggestSEODescription')
+  }
 
   useEffect(() => {
-    getInitData();
-    getBlogTags();
-  }, []);
+    getInitData()
+    getBlogTags()
+  }, [])
 
   // validate form again if clicked submit form and change language
 
   const getInitData = async () => {
-    const { id } = props?.match?.params;
-    await getCategories();
-    await blogDataService
-      .getBlogByIdAsync(id)
-      .then((res) => {
-        setBlog(res?.blogDetail);
-        mappingData(res?.blogDetail);
-      })
-      .catch(error);
-  };
+    const { id } = props?.match?.params
+    await getCategories()
+    // await blogDataService
+    //   .getBlogByIdAsync(id)
+    //   .then((res) => {
+    //     setBlog(res?.blogDetail)
+    //     mappingData(res?.blogDetail)
+    //   })
+    //   .catch(error)
+  }
 
   const mappingData = (data) => {
-    //mapping banner
+    // mapping banner
     if (fnbImageSelectRef && fnbImageSelectRef.current) {
-      fnbImageSelectRef.current.setImageUrl(data?.bannerImageUrl);
+      fnbImageSelectRef.current.setImageUrl(data?.bannerImageUrl)
     }
 
-    setTags(data?.blogTags);
-    setBlogName(data?.title);
-    setBlogContent(data?.content);
-    setUrlSEO(data?.urlSEO);
-    setTitleSEO(data?.titleSEO);
-    setDescriptionSEO(data?.descriptionSEO);
-    setCheckBlogContentLoaded(true);
-    //mapping general
+    setTags(data?.blogTags)
+    setBlogName(data?.title)
+    setBlogContent(data?.content)
+    setUrlSEO(data?.urlSEO)
+    setTitleSEO(data?.titleSEO)
+    setDescriptionSEO(data?.descriptionSEO)
+    setCheckBlogContentLoaded(true)
+    // mapping general
     form.setFieldsValue({
       title: data?.title,
       content: data?.content,
       blogCategoryId: data?.blogCategoryId,
       UrlSEO: data?.urlSEO,
       TitleSEO: data?.titleSEO,
-      DescriptionSEO: data?.descriptionSEO,
-    });
-  };
+      DescriptionSEO: data?.descriptionSEO
+    })
+  }
 
   const getCategories = async () => {
-    var resCategory = await blogDataService.getBlogCategoryAsync();
-    if (resCategory) {
-      setCategories(resCategory.blogCategories);
-    }
-  };
+    // const resCategory = await blogDataService.getBlogCategoryAsync()
+    // if (resCategory) {
+    //   setCategories(resCategory.blogCategories)
+    // }
+  }
 
   const getBlogTags = async () => {
-    var resBlogTag = await blogDataService.getBlogTagAsync();
-    if (resBlogTag) {
-      setTagDataTemp(resBlogTag.blogTags);
-    }
-  };
+    // const resBlogTag = await blogDataService.getBlogTagAsync()
+    // if (resBlogTag) {
+    //   setTagDataTemp(resBlogTag.blogTags)
+    // }
+  }
 
   const onSubmitForm = () => {
     if (blogContent.length === 0) {
-      setShowBlogContentValidateMessage(true);
-      return;
+      setShowBlogContentValidateMessage(true)
+      return
     }
-    var imageUrl = "";
+    let imageUrl = ''
     if (fnbImageSelectRef && fnbImageSelectRef.current) {
-      imageUrl = fnbImageSelectRef.current.getImageUrl();
+      imageUrl = fnbImageSelectRef.current.getImageUrl()
     }
     form
       .validateFields()
       .then(async (values) => {
-        let request = {
+        const request = {
           blogDetailModel: {
             ...values,
             id: props?.match?.params?.id,
             content: blogContent,
             bannerImageUrl: imageUrl,
             blogTags: tags,
-            titleSEO: titleSEO,
-            descriptionSEO: descriptionSEO,
-            description: blogContent.replace(/<.*?>/gm, "").slice(0, 200),
-          },
-        };
-
-        const res = await blogDataService.editBlogAsync(request);
-        if (res?.isSuccess) {
-          message.success(pageData.updateBlogSuccess);
-          onCompleted();
-        } else {
-          message.error(res.message);
+            titleSEO,
+            descriptionSEO,
+            description: blogContent.replace(/<.*?>/gm, '').slice(0, 200)
+          }
         }
+
+        // const res = await blogDataService.editBlogAsync(request)
+        // if (res?.isSuccess) {
+        //   message.success(pageData.updateBlogSuccess)
+        //   onCompleted()
+        // } else {
+        //   message.error(res.message)
+        // }
       })
-      .catch((errors) => { });
-  };
+      .catch((errors) => { })
+  }
 
   const onCancel = () => {
     if (isChangeForm) {
-      setShowConfirm(true);
+      setShowConfirm(true)
+    } else {
+      setShowConfirm(false)
+      onCompleted()
+      return history.push('/online-store/blog-management')
     }
-    else {
-      setShowConfirm(false);
-      onCompleted();
-      return history.push("/online-store/blog-management");
-    }
-  };
+  }
 
   const onDiscard = () => {
-    setShowConfirm(false);
-  };
+    setShowConfirm(false)
+  }
 
   const onCompleted = () => {
-    setIsChangeForm(false);
+    setIsChangeForm(false)
     setTimeout(() => {
-      return history.push("/online-store/blog-management");
-    }, DELAYED_TIME);
-  };
+      return history.push('/online-store/blog-management')
+    }, DELAYED_TIME)
+  }
 
   const changeForm = (e) => {
-    setIsChangeForm(true);
-    setDisableCreateButton(false);
-  };
+    setIsChangeForm(true)
+    setDisableCreateButton(false)
+  }
 
   const onAddNewCategory = async () => {
     if (!newCategoryName) {
-      setShowCategoryNameValidateMessage(true);
-      return;
+      setShowCategoryNameValidateMessage(true)
     }
 
-    let res = await blogDataService.createBlogCategoryAsync({
-      name: newCategoryName,
-    });
-    if (res.isSuccess) {
-      /// Handle add new unit
-      let newItem = {
-        id: res.id,
-        name: res.name,
-      };
-      setCategories([newItem, ...categories]);
-      form.setFieldsValue({
-        blogCategoryId: res.id,
-      });
-      setNewCategoryName(null);
-    } else {
-      setIsCategoryNameExisted(true);
-    }
-  };
+    // const res = await blogDataService.createBlogCategoryAsync({
+    //   name: newCategoryName
+    // })
+    // if (res.isSuccess) {
+    //   /// Handle add new unit
+    //   const newItem = {
+    //     id: res.id,
+    //     name: res.name
+    //   }
+    //   setCategories([newItem, ...categories])
+    //   form.setFieldsValue({
+    //     blogCategoryId: res.id
+    //   })
+    //   setNewCategoryName(null)
+    // } else {
+    //   setIsCategoryNameExisted(true)
+    // }
+  }
 
-  //Enter Category name and check existed
+  // Enter Category name and check existed
   const onNameChange = (event) => {
     if (
       categories.filter((u) => u.name.trim() === event.target.value.trim())
         .length > 0
     ) {
-      setShowCategoryNameValidateMessage(true);
+      setShowCategoryNameValidateMessage(true)
     } else {
-      setShowCategoryNameValidateMessage(false);
+      setShowCategoryNameValidateMessage(false)
     }
-    setShowCategoryNameValidateMessage(false);
-    setNewCategoryName(event.target.value);
-  };
+    setShowCategoryNameValidateMessage(false)
+    setNewCategoryName(event.target.value)
+  }
 
   const onChangeOption = (id) => {
-    let formValue = form.getFieldsValue();
+    const formValue = form.getFieldsValue()
 
-    formValue.blogCategoryId = id;
-    form.setFieldsValue(formValue);
-  };
+    formValue.blogCategoryId = id
+    form.setFieldsValue(formValue)
+  }
 
   return (
     <>
@@ -318,7 +314,7 @@ export default function EditBlogPage(props) {
                     {pageData.btnUpdate}
                   </Button>
                 ),
-                permission: PermissionKeys.CREATE_BLOG,
+                permission: PermissionKeys.CREATE_BLOG
               },
               {
                 action: (
@@ -326,8 +322,8 @@ export default function EditBlogPage(props) {
                     {pageData.btnCancel}
                   </a>
                 ),
-                permission: null,
-              },
+                permission: null
+              }
             ]}
           />
         </Col>
@@ -339,7 +335,7 @@ export default function EditBlogPage(props) {
         onFieldsChange={(e) => changeForm(e)}
         autoComplete="off"
         onChange={() => {
-          if (!blockNavigation) setBlockNavigation(true);
+          if (!blockNavigation) setBlockNavigation(true)
         }}
       >
         <div className="col-input-full-width">
@@ -358,13 +354,13 @@ export default function EditBlogPage(props) {
                         <span className="text-danger">*</span>
                       </h4>
                       <Form.Item
-                        name={"title"}
+                        name={'title'}
                         rules={[
                           {
                             required: pageData.generalInformation.name.required,
                             message:
-                              pageData.generalInformation.name.validateMessage,
-                          },
+                              pageData.generalInformation.name.validateMessage
+                          }
                         ]}
                         validateFirst={true}
                       >
@@ -377,7 +373,7 @@ export default function EditBlogPage(props) {
                           id="product-name"
                           onChange={(e) => {
                             if (e.target.value.length <= 255) {
-                              setBlogName(e.target.value);
+                              setBlogName(e.target.value)
                             }
                           }}
                           allowClear
@@ -387,19 +383,19 @@ export default function EditBlogPage(props) {
                       </Form.Item>
 
                       <h4 className="fnb-form-label">
-                        {pageData.generalInformation.category.label}{" "}
+                        {pageData.generalInformation.category.label}{' '}
                         <span className="text-danger">*</span>
                       </h4>
                       <Form.Item
-                        name={"blogCategoryId"}
+                        name={'blogCategoryId'}
                         rules={[
                           {
                             required:
                               pageData.generalInformation.category.required,
                             message:
                               pageData.generalInformation.category
-                                .blogCategoryValidateMessage,
-                          },
+                                .blogCategoryValidateMessage
+                          }
                         ]}
                       >
                         <FnbSelectSingle
@@ -419,7 +415,7 @@ export default function EditBlogPage(props) {
                                     allowClear="true"
                                     maxLength={100}
                                     onChange={(e) => {
-                                      onNameChange(e);
+                                      onNameChange(e)
                                     }}
                                   />
                                   <TextDanger
@@ -439,12 +435,12 @@ export default function EditBlogPage(props) {
                                   />
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={10}>
-                                  <FnbAddNewButton
+                                  <ShopAddNewButton
                                     onClick={() => onAddNewCategory()}
                                     className="mt-16 ml-24 mw-0"
                                     type="primary"
                                     text={pageData.btnAddNew}
-                                  ></FnbAddNewButton>
+                                  ></ShopAddNewButton>
                                 </Col>
                               </Row>
                               <Row>
@@ -452,8 +448,8 @@ export default function EditBlogPage(props) {
                                   <div
                                     className={
                                       showCategoryNameValidateMessage
-                                        ? "mt-10"
-                                        : "mt-32"
+                                        ? 'mt-10'
+                                        : 'mt-32'
                                     }
                                   >
                                     {menu}
@@ -464,25 +460,24 @@ export default function EditBlogPage(props) {
                           )}
                           option={categories?.map((item) => ({
                             id: item.id,
-                            name: item.name,
+                            name: item.name
                           }))}
                         ></FnbSelectSingle>
                       </Form.Item>
 
                       <h4 className="fnb-form-label">
-                        {pageData.generalInformation.blogContent.label}{" "}
+                        {pageData.generalInformation.blogContent.label}{' '}
                         <span className="text-danger">*</span>
                       </h4>
                       <FnbFroalaEditor
                         value={blogContent}
                         onChange={(value) => {
-                          if(checkBlogContentLoaded)
-                            setIsChangeForm(true);
-                          setBlogContent(value);
+                          if (checkBlogContentLoaded) { setIsChangeForm(true) }
+                          setBlogContent(value)
                           if (value.length > 0) {
-                            setShowBlogContentValidateMessage(false);
+                            setShowBlogContentValidateMessage(false)
                           } else {
-                            setShowBlogContentValidateMessage(true);
+                            setShowBlogContentValidateMessage(true)
                           }
                         }}
                         charCounterMax={-1}
@@ -513,10 +508,10 @@ export default function EditBlogPage(props) {
                             return (
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: pageData.SEO.SEOOverviewTooltip,
+                                  __html: pageData.SEO.SEOOverviewTooltip
                                 }}
                               ></span>
-                            );
+                            )
                           }}
                           className=" material-edit-cost-per-unit-tool-tip"
                         >
@@ -527,21 +522,21 @@ export default function EditBlogPage(props) {
                       </h4>
                       <div className="edit-blog-overview">
                         <span
-                          style={{ fontSize: "18px" }}
-                        >{`<meta name="title" property="title" content="${!titleSEO ? "SEO on Title" : titleSEO
+                          style={{ fontSize: '18px' }}
+                        >{`<meta name="title" property="title" content="${!titleSEO ? 'SEO on Title' : titleSEO
                           }">`}</span>
                         <br />
-                        <span style={{ fontSize: "18px" }}>
+                        <span style={{ fontSize: '18px' }}>
                           {`<meta name="description" property="description" content="${!descriptionSEO
-                            ? "SEO on Description"
+                            ? 'SEO on Description'
                             : descriptionSEO
                             }">`}
                         </span>
                         <br />
-                        <span style={{ fontSize: "18px" }}>
+                        <span style={{ fontSize: '18px' }}>
                           {`<meta name="keywords" property="keywords" content="${tags.length > 0
-                            ? tags.map((x) => x.name).join(",")
-                            : "SEO on Keywords"
+                            ? tags.map((x) => x.name).join(',')
+                            : 'SEO on Keywords'
                             }">`}
                         </span>
                       </div>
@@ -553,10 +548,10 @@ export default function EditBlogPage(props) {
                             return (
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: pageData.SEO.SEOTitleTooltip,
+                                  __html: pageData.SEO.SEOTitleTooltip
                                 }}
                               ></span>
-                            );
+                            )
                           }}
                           className="material-edit-cost-per-unit-tool-tip"
                         >
@@ -565,18 +560,18 @@ export default function EditBlogPage(props) {
                           </span>
                         </Tooltip>
                       </h4>
-                      <Form.Item name={"TitleSEO"}>
+                      <Form.Item name={'TitleSEO'}>
                         <Input
                           className="fnb-input-with-count"
                           placeholder={pageData.SEO.SEOTitlePlaceholder}
                           maxLength={100}
                           onChange={(e) => {
-                            setIsChangeForm(true);
+                            setIsChangeForm(true)
                             e.target.value.length < 50 ||
                               e.target.value.length > 60
                               ? setIsShowWarningSEOTitle(true)
-                              : setIsShowWarningSEOTitle(false);
-                            setTitleSEO(e.target.value);
+                              : setIsShowWarningSEOTitle(false)
+                            setTitleSEO(e.target.value)
                           }}
                           value={titleSEO}
                           showCount
@@ -602,10 +597,10 @@ export default function EditBlogPage(props) {
                             return (
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: pageData.SEO.SEODescriptionTooltip,
+                                  __html: pageData.SEO.SEODescriptionTooltip
                                 }}
                               ></span>
-                            );
+                            )
                           }}
                           className=" material-edit-cost-per-unit-tool-tip"
                         >
@@ -614,18 +609,18 @@ export default function EditBlogPage(props) {
                           </span>
                         </Tooltip>
                       </h4>
-                      <Form.Item name={"DescriptionSEO"}>
+                      <Form.Item name={'DescriptionSEO'}>
                         <Input
                           className="fnb-input-with-count"
                           placeholder={pageData.SEO.SEODescriptionPlaceholder}
                           maxLength={255}
                           onChange={(e) => {
-                            setIsChangeForm(true);
+                            setIsChangeForm(true)
                             e.target.value.length < 155 ||
                               e.target.value.length > 160
                               ? setIsShowWarningSEODescription(true)
-                              : setIsShowWarningSEODescription(false);
-                            setDescriptionSEO(e.target.value);
+                              : setIsShowWarningSEODescription(false)
+                            setDescriptionSEO(e.target.value)
                           }}
                           value={descriptionSEO}
                           showCount
@@ -653,10 +648,10 @@ export default function EditBlogPage(props) {
                             return (
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: pageData.SEO.SEOKeywordsTooltip,
+                                  __html: pageData.SEO.SEOKeywordsTooltip
                                 }}
                               ></span>
-                            );
+                            )
                           }}
                           className=" material-edit-cost-per-unit-tool-tip"
                         >
@@ -717,7 +712,7 @@ export default function EditBlogPage(props) {
                             <div className="fnb-form-label-right">
                               {blog?.createdUserName
                                 ? blog?.createdUserName
-                                : "-"}
+                                : '-'}
                             </div>
                           </div>
                         </Col>
@@ -730,10 +725,10 @@ export default function EditBlogPage(props) {
                           <div className="right-column">
                             <div className="fnb-form-label-right">
                               {blog?.createdTime
-                                ? convertUtcToLocalTime(blog?.createdTime).format(
+                                ? blog?.createdTime.format(
                                   DateFormat.DD_MM_YYYY
                                 )
-                                : "-"}
+                                : '-'}
                             </div>
                           </div>
                         </Col>
@@ -744,10 +739,8 @@ export default function EditBlogPage(props) {
                           <div className="right-column">
                             <div className="fnb-form-label-right">
                               {blog?.lastSavedTime
-                                ? convertUtcToLocalTime(
-                                  blog?.lastSavedTime
-                                ).format(DateFormat.DD_MM_YYYY)
-                                : "-"}
+                                ? blog?.lastSavedTime.format(DateFormat.DD_MM_YYYY)
+                                : '-'}
                             </div>
                           </div>
                         </Col>
@@ -782,5 +775,5 @@ export default function EditBlogPage(props) {
         isChangeForm={isChangeForm}
       />
     </>
-  );
+  )
 }

@@ -1,4 +1,5 @@
 {
+    "title": "Quản Lý chiến dịch giảm giá",
     "titleStatus": "Trạng thái",
     "allStatus": "Tất cả",
     "active": "Đang hoạt động",
@@ -50,6 +51,11 @@
     "titleCondition": "Điều kiện giảm giá",
     "checkboxPurchaseAmount": "Số tiền mua tối thiểu trên hóa đơn",
     "pleaseEnterMinimum": "Vui lòng nhập số tiền tối thiểu trong hóa đơn",
+
+    "titleSummary": "Tóm tắt",
+    "viewDetail": "Xem chi tiết",
+    "totalDiscountOrder": "Tổng đơn hàng giảm giá",
+    "totalDiscountAmount": "Tổng số tiền giảm giá",
 
     "applicableType": "Loại khuyến mại",
     "valueType": "Loại giá trị giảm",

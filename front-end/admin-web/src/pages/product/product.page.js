@@ -24,7 +24,7 @@ export default function ProductPage (props) {
                 action: (
                   <ShopAddNewButton
                     permission={PermissionKeys.CREATE_PRODUCT}
-                    onClick={() => props.history.push('/product/create-new')}
+                    onClick={() => props.history.push('/product/create')}
                     text={t('button:add')}
                   />
                 ),

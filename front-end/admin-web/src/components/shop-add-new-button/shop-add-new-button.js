@@ -19,7 +19,7 @@ export function ShopAddNewButton ({
       return (
         <Button
           icon={hideIcon ? <></> : <PlusIcon />}
-          className={`fnb-add-new-button ${className ?? ''}`}
+          className={`shop-add-new-button ${className ?? ''}`}
           type="primary"
           onClick={onClick}
           htmlType={htmlType}
@@ -35,7 +35,7 @@ export function ShopAddNewButton ({
       return (
         <Button
           icon={hideIcon ? <></> : <PlusIcon />}
-          className={`fnb-add-new-button ${className ?? ''}`}
+          className={`shop-add-new-button ${className ?? ''}`}
           type="primary"
           onClick={onClick}
           htmlType={htmlType}

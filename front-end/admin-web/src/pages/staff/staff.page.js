@@ -34,7 +34,7 @@ export default function StaffPage (props) {
       <ShopAddNewButton
         className="float-right add-new-staff-button"
         text={pageData.btnAddNew}
-        onClick={() => history.push('/staff/create-new')}
+        onClick={() => history.push('/staff/create')}
       />
       <div className="clearfix"></div>
       <Card className="fnb-card">

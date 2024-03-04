@@ -1,8 +1,8 @@
-import React from "react";
-import { Typography } from "antd";
-const { Text } = Typography;
+import React from 'react'
+import { Typography } from 'antd'
+const { Text } = Typography
 
-export default function TextDanger(props) {
+export default function TextDanger (props) {
   return (
     <>
       {props.visible && (
@@ -11,5 +11,5 @@ export default function TextDanger(props) {
         </Text>
       )}
     </>
-  );
+  )
 }

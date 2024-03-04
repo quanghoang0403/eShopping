@@ -4,12 +4,12 @@ import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.com
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
 import { FnbTable } from 'components/fnb-table/fnb-table'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import customerDataService from 'data-services/customer/customer-data.service'
+// import customerDataService from 'data-services/customer/customer-data.service'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 import { executeAfter } from 'utils/helpers'
-import './index.scss'
+import '../index.scss'
 
 export default function TableCustomer (props) {
   const [t] = useTranslation()
@@ -123,13 +123,13 @@ export default function TableCustomer (props) {
   }
 
   const handleDeleteItem = async (id) => {
-    await customerDataService.deleteCustomerByIdAsync(id).then((res) => {
-      if (res) {
-        message.success(pageData.customerDeleteSuccess)
-      } else {
-        message.error(pageData.customerDeleteFail)
-      }
-    })
+    // await customerDataService.deleteCustomerByIdAsync(id).then((res) => {
+    //   if (res) {
+    //     message.success(pageData.customerDeleteSuccess)
+    //   } else {
+    //     message.error(pageData.customerDeleteFail)
+    //   }
+    // })
     await fetchDatableAsync(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, keySearch, dataFilter)
   }
 
@@ -138,15 +138,15 @@ export default function TableCustomer (props) {
   }, [])
 
   const fetchDatableAsync = async (pageNumber, pageSize, keySearch) => {
-    const response = await customerDataService.getCustomersAsync(
-      keySearch,
-      pageNumber,
-      pageSize
-    )
-    const data = response?.customers?.map((s) => mappingRecordToColumns(s))
-    setDataSource(data)
-    setTotalRecords(response.total)
-    setCurrentPageNumber(pageNumber)
+    // const response = await customerDataService.getCustomersAsync(
+    //   keySearch,
+    //   pageNumber,
+    //   pageSize
+    // )
+    // const data = response?.customers?.map((s) => mappingRecordToColumns(s))
+    // setDataSource(data)
+    // setTotalRecords(response.total)
+    // setCurrentPageNumber(pageNumber)
   }
 
   const mappingRecordToColumns = (item) => {

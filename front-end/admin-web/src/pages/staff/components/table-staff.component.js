@@ -9,8 +9,8 @@ import TooltipParagraph from 'components/fnb-tooltip-paragraph/fnb-tooltip-parag
 import { FnbViewMoreComponent } from 'components/fnb-view-more/fnb-view-more'
 import FilterStaff from './filter-staff.component'
 import { useTranslation } from 'react-i18next'
-import staffDataService from 'data-services/staff/staff-data.service'
-import permissionDataService from 'data-services/permission/permission-data.service'
+// import staffDataService from 'data-services/staff/staff-data.service'
+// import permissionDataService from 'data-services/permission/permission-data.service'
 
 export default function TableStaff (props) {
   const { onEditStaff, screenKey } = props

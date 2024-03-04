@@ -1,10 +1,10 @@
-import { Button, Tooltip } from "antd";
-import { BookGuidelineIcon, PromotionGuidelineIcon } from "constants/icons.constants";
-import { useMediaQuery } from "react-responsive";
-import "./fnb-guideline.component.scss";
+import { Button, Tooltip } from 'antd'
+import { BookGuidelineIcon, PromotionGuidelineIcon } from 'constants/icons.constants'
+import { useMediaQuery } from 'react-responsive'
+import './fnb-guideline.component.scss'
 
-export function FnbGuideline({ placement, title, content, nameTooltip, styles, largeButton }) {
-  const isMobile = useMediaQuery({ maxWidth: 576 });
+export function FnbGuideline ({ placement, title, content, nameTooltip, styles, largeButton }) {
+  const isMobile = useMediaQuery({ maxWidth: 576 })
   const titleTooltip = (title, content) => {
     return (
       <div className="guideline-wrapper">
@@ -16,24 +16,26 @@ export function FnbGuideline({ placement, title, content, nameTooltip, styles, l
         </div>
         <p className="guideline-content" dangerouslySetInnerHTML={{ __html: content }}></p>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <Tooltip
-      overlayClassName={`${nameTooltip !== undefined ? `fnb-guideline-${nameTooltip}` : "fnb-guideline"}`}
+      overlayClassName={`${nameTooltip !== undefined ? `fnb-guideline-${nameTooltip}` : 'fnb-guideline'}`}
       overlayStyle={styles}
       placement={placement}
       title={titleTooltip(title, content)}
-      trigger={isMobile ? "click" : "hover"}
+      trigger={isMobile ? 'click' : 'hover'}
     >
-      {largeButton ? (
+      {largeButton
+        ? (
         <Button className="custom-tooltip-button">
           <PromotionGuidelineIcon />
         </Button>
-      ) : (
+          )
+        : (
         <PromotionGuidelineIcon />
-      )}
+          )}
     </Tooltip>
-  );
+  )
 }

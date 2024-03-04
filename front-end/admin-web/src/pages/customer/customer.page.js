@@ -20,7 +20,7 @@ export default function CustomerPage (props) {
     btnSave: t('button:save'),
     btnAddNew: t('button:addNew')
   }
-  const createCustomerPage = '/customer/create-new'
+  const createCustomerPage = '/customer/create'
 
   const gotoAddNewCustomerPage = () => {
     history.push(createCustomerPage)

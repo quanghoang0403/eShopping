@@ -2,7 +2,6 @@ import { Card, Col, Row, Table } from 'antd'
 import { FnbDatePicker } from 'components/fnb-date-picker/fnb-data-picker'
 import FnbParagraph from 'components/fnb-paragraph/fnb-paragraph'
 import FnbWidget from 'components/fnb-widget/fnb-widget.component'
-import { RevenueLineChartComponent } from 'components/line-chart/line-chart.component'
 import PageTitle from 'components/page-title'
 import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { FolderIcon, ReceiptShiftIcon, WalletIcon } from 'constants/icons.constants'
@@ -240,7 +239,7 @@ export default function HomePage (props) {
                 <div className="table-selling-product-name">
                   <Row>
                     <Col span={24} className="table-selling-product-text-product-name">
-                      <Link to={`/product/details/${record?.productId}`} target="_blank">
+                      <Link to={`/product/detail/${record?.productId}`} target="_blank">
                         <FnbParagraph>{value}</FnbParagraph>
                       </Link>
                     </Col>
@@ -280,7 +279,7 @@ export default function HomePage (props) {
                       span={24}
                       className="table-selling-product-text-product-name table-selling-product-name-overflow"
                     >
-                      <Link to={`/product/details/${record?.productId}`} target="_blank">
+                      <Link to={`/product/detail/${record?.productId}`} target="_blank">
                         <FnbParagraph>{value}</FnbParagraph>
                       </Link>
                     </Col>
@@ -511,9 +510,6 @@ export default function HomePage (props) {
         </Row>
         <Row gutter={[40, 0]}>
           <Col xs={24} sm={24} lg={16} className="mt-4">
-            <Row>
-              <RevenueLineChartComponent ref={tableLineChartRef} />
-            </Row>
             {renderTopProductsAndCustomer()}
           </Col>
           <Col xs={24} sm={24} lg={8} className="mt-4">

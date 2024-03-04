@@ -12,38 +12,38 @@ export const PromotionType = {
   /// <summary>
   /// In DiscountProductCategory
   /// </summary>
-  DiscountProductCategory: 2,
-};
+  DiscountProductCategory: 2
+}
 
 export const ListPromotionType = [
   {
     key: 0,
-    name: "promotion.discount.total",
+    name: 'promotion.discount.total'
   },
   {
     key: 1,
-    name: "promotion.discount.product",
+    name: 'promotion.discount.product'
   },
   {
     key: 2,
-    name: "promotion.discount.productCategory",
-  },
-];
+    name: 'promotion.discount.productCategory'
+  }
+]
 
 export const PromotionStatus = {
   Schedule: 1,
   Active: 2,
-  Finish: 3,
-};
+  Finish: 3
+}
 
 export const PromotionTabLabel = {
-  Discount: "discount",
-  FlashSale: "flashsale",
-  DiscountCode: "discountcode",
-};
+  Discount: 'discount',
+  FlashSale: 'flashsale',
+  DiscountCode: 'discountcode'
+}
 
 export const PromotionTabKey = {
-  Discount: "1",
-  FlashSale: "2",
-  DiscountCode: "3",
-};
+  Discount: '1',
+  FlashSale: '2',
+  DiscountCode: '3'
+}

@@ -1,6 +1,6 @@
-import { Select } from "antd";
-import { ArrowDown, SelectCheckedIcon } from "constants/icons.constants";
-import "./fnb-select-multiple-product-render-option.scss";
+import { Select } from 'antd'
+import { ArrowDown, SelectCheckedIcon } from 'constants/icons.constants'
+import './fnb-select-multiple-product-render-option.scss'
 /**
  * SelectMultiple component custom from antd select
  * @param {selectOption, onChange, className, value, disabled, allowClear, showSearch, placeholder, dropdownRender, style, defaultValue } props
@@ -8,7 +8,7 @@ import "./fnb-select-multiple-product-render-option.scss";
  * other param are used as same as antd select, visit link https://ant.design/components/select/
  * @returns
  */
-export function FnbSelectMultipleProductRenderOption(props) {
+export function FnbSelectMultipleProductRenderOption (props) {
   const {
     value,
     onChange,
@@ -23,7 +23,7 @@ export function FnbSelectMultipleProductRenderOption(props) {
     onDeselect,
     onClear,
     filterOption
-  } = props;
+  } = props
 
   return (
     <Select
@@ -51,5 +51,5 @@ export function FnbSelectMultipleProductRenderOption(props) {
     >
       {selectOption}
     </Select>
-  );
+  )
 }

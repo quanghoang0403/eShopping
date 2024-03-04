@@ -6,8 +6,15 @@ import CurrencyFormat from 'react-currency-format'
 import { store } from 'store'
 import { getStorage, localStorageKeys } from './localStorage.helpers'
 import { decryptWithAES } from './securityHelpers'
-
 export const browserHistory = createBrowserHistory()
+
+/// Format date
+export const formatDate = (date, format) => {
+  if (format) {
+    return moment.utc(date).local().locale('vi').format(format)
+  }
+  return moment.utc(date).local().locale('vi').format(DateFormat.DD_MM_YYYY)
+}
 
 export const getCurrency = () => {
   // const { session } = store.getState()

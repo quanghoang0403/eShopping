@@ -12,7 +12,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { getValidationMessagesWithParentField } from 'utils/helpers'
-import '../staff/staff.page.scss'
+import '../staff.page.scss'
 
 const { Content } = Layout
 

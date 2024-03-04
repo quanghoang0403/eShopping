@@ -1,54 +1,54 @@
-import { Button, Col, Image, Row, message } from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import PageTitle from "components/page-title";
-import { CustomerGenderConstant } from "constants/customer.constant";
-import { images } from "constants/images.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { DateFormat } from "constants/string.constants";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
-import { formatCurrency, formatNumber } from "utils/helpers";
-import "./detail-customer.scss";
+import { Button, Col, Image, Row, message } from 'antd'
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
+import PageTitle from 'components/page-title'
+import { CustomerGenderConstant } from 'constants/customer.constant'
+import { images } from 'constants/images.constants'
+import { PermissionKeys } from 'constants/permission-key.constants'
+import { DateFormat } from 'constants/string.constants'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { formatCurrency, formatNumber } from 'utils/helpers'
+import './detail-customer.scss'
 
-export default function DetailCustomerPage(props) {
-  const { t, customerDataService, match, history } = props;
+export default function DetailCustomerPage (props) {
+  const { t, customerDataService, match, history } = props
 
   const pageData = {
-    btnEdit: t("button:edit"),
-    btnDelete: t("button:delete"),
-    btnIgnore: t("button:ignore"),
-    btnLeave: t("button:leave"),
-    name: t("customer:name"),
-    phone: t("customer:phone"),
-    address: t("customer:address"),
-    email: t("customer:email"),
-    birthday: t("customer:birthday"),
-    gender: t("customer.gender"),
-    female: t("customer.female"),
-    male: t("customer:male"),
-    other: t("customer:other"),
-    city: t("form:city"),
-    district: t("form:district"),
-    ward: t("form:ward"),
-    customerManagement: t("customer:title"),
-    totalOrder: t("dashboard:totalOrder"),
-    totalMoney: t("dashboard:totalMoney"),
-    generalInformation: t("customer:titleInfo"),
-    confirmDelete: t("dialog:confirmDelete"),
-    confirmDeleteMessage: t("dialog:confirmDeleteMessage"),
-    customerDeleteSuccess: t("customer:customerDeleteSuccess"),
-    customerDeleteFail: t("customer:customerDeleteFail"),
-  };
+    btnEdit: t('button:edit'),
+    btnDelete: t('button:delete'),
+    btnIgnore: t('button:ignore'),
+    btnLeave: t('button:leave'),
+    name: t('customer:name'),
+    phone: t('customer:phone'),
+    address: t('customer:address'),
+    email: t('customer:email'),
+    birthday: t('customer:birthday'),
+    gender: t('customer.gender'),
+    female: t('customer.female'),
+    male: t('customer:male'),
+    other: t('customer:other'),
+    city: t('form:city'),
+    district: t('form:district'),
+    ward: t('form:ward'),
+    customerManagement: t('customer:title'),
+    totalOrder: t('dashboard:totalOrder'),
+    totalMoney: t('dashboard:totalMoney'),
+    generalInformation: t('customer:titleInfo'),
+    confirmDelete: t('dialog:confirmDelete'),
+    confirmDeleteMessage: t('dialog:confirmDeleteMessage'),
+    customerDeleteSuccess: t('customer:customerDeleteSuccess'),
+    customerDeleteFail: t('customer:customerDeleteFail')
+  }
 
-  const [gender, setGender] = useState(CustomerGenderConstant.Female);
-  const [cityName, setCityName] = useState(null);
-  const [wardName, setWardName] = useState(null);
-  const [districtName, setDistrictName] = useState(null);
-  const [customer, setCustomer] = useState({});
-  const [showConfirm, setShowConfirm] = useState(false);
-  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
+  const [gender, setGender] = useState(CustomerGenderConstant.Female)
+  const [cityName, setCityName] = useState(null)
+  const [wardName, setWardName] = useState(null)
+  const [districtName, setDistrictName] = useState(null)
+  const [customer, setCustomer] = useState({})
+  const [showConfirm, setShowConfirm] = useState(false)
+  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
 
   useEffect(async () => {
     // let promises = [];
@@ -81,55 +81,55 @@ export default function DetailCustomerPage(props) {
     //     setWardName(ward[0]?.name);
     //   }
     // }
-  }, []);
+  }, [])
 
   const gotoEditCustomerPage = () => {
-    history.push(`/customer/edit/${match?.params?.customerId}`);
-  };
+    history.push(`/customer/edit/${match?.params?.customerId}`)
+  }
 
   const onDeleteCustomer = () => {
-    setShowConfirm(true);
-  };
+    setShowConfirm(true)
+  }
 
   const handleDeleteItem = async (id) => {
     await customerDataService.deleteCustomerByIdAsync(id).then((res) => {
       if (res) {
-        message.success(pageData.customerDeleteSuccess);
-        goBack();
+        message.success(pageData.customerDeleteSuccess)
+        goBack()
       } else {
-        message.error(pageData.customerDeleteFail);
+        message.error(pageData.customerDeleteFail)
       }
-    });
-  };
+    })
+  }
 
   // Insert the name into the message
   const formatDeleteMessage = (name) => {
-    let mess = t(pageData.confirmDeleteMessage, { name: name });
-    return mess;
-  };
+    const mess = t(pageData.confirmDeleteMessage, { name })
+    return mess
+  }
 
   const onDiscard = () => {
-    setShowConfirm(false);
-  };
+    setShowConfirm(false)
+  }
 
   const goBack = () => {
-    history.push(`/customer`);
-  };
+    history.push('/customer')
+  }
 
   const getNameGender = (valueGender) => {
-    let nameGender = "";
+    let nameGender = ''
     if (valueGender === parseInt(CustomerGenderConstant.Male)) {
-      nameGender = pageData.male;
+      nameGender = pageData.male
     } else if (valueGender === parseInt(CustomerGenderConstant.Female)) {
-      nameGender = pageData.female;
+      nameGender = pageData.female
     } else {
-      nameGender = pageData.other;
+      nameGender = pageData.other
     }
-    return nameGender;
-  };
+    return nameGender
+  }
 
   return (
-    <div className={isTabletOrMobile ? "responsive" : ""}>
+    <div className={isTabletOrMobile ? 'responsive' : ''}>
       <Row className="fnb-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <PageTitle content={customer?.fullName} />
@@ -143,7 +143,7 @@ export default function DetailCustomerPage(props) {
                     {pageData.btnEdit}
                   </Button>
                 ),
-                permission: PermissionKeys.EDIT_CUSTOMER,
+                permission: PermissionKeys.EDIT_CUSTOMER
               },
               {
                 action: (
@@ -151,7 +151,7 @@ export default function DetailCustomerPage(props) {
                     {pageData.btnLeave}
                   </a>
                 ),
-                permission: null,
+                permission: null
               },
               {
                 action: (
@@ -159,15 +159,16 @@ export default function DetailCustomerPage(props) {
                     {pageData.btnDelete}
                   </a>
                 ),
-                permission: PermissionKeys.EDIT_CUSTOMER,
-              },
+                permission: PermissionKeys.EDIT_CUSTOMER
+              }
             ]}
           />
         </Col>
       </Row>
       <div className="clearfix"></div>
 
-      {isTabletOrMobile ? (
+      {isTabletOrMobile
+        ? (
         <>
           <div className="customer-detail-card-responsive">
             <div className="customer-detail-box">
@@ -175,7 +176,7 @@ export default function DetailCustomerPage(props) {
                 <Image
                   className="thumbnail"
                   width={176}
-                  src={customer?.thumbnail ?? "error"}
+                  src={customer?.thumbnail ?? 'error'}
                   fallback={images.imgDefault}
                 />
               </div>
@@ -204,7 +205,7 @@ export default function DetailCustomerPage(props) {
             <div className="detail-container">
               <div>
                 <p className="text-label">{pageData.name}</p>
-                <p className="text-detail">{customer?.fullName ?? "-"}</p>
+                <p className="text-detail">{customer?.fullName ?? '-'}</p>
               </div>
               <div>
                 <p className="text-label">{pageData.phone}</p>
@@ -214,12 +215,12 @@ export default function DetailCustomerPage(props) {
               </div>
               <div>
                 <p className="text-label">{pageData.email}</p>
-                <p className="text-detail">{customer?.email ?? "-"}</p>
+                <p className="text-detail">{customer?.email ?? '-'}</p>
               </div>
               <div>
                 <p className="text-label">{pageData.birthday}</p>
                 <p className="text-detail">
-                  {customer?.birthday ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY) : "-"}
+                  {customer?.birthday ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY) : '-'}
                 </p>
               </div>
               <div>
@@ -232,20 +233,21 @@ export default function DetailCustomerPage(props) {
               </div>
                 <div>
                   <p className="text-label">{pageData.city}</p>
-                  <p className="text-detail">{cityName ?? "-"}</p>
+                  <p className="text-detail">{cityName ?? '-'}</p>
                 </div>
                 <div>
                   <p className="text-label">{pageData.district}</p>
-                  <p className="text-detail">{districtName ?? "-"}</p>
+                  <p className="text-detail">{districtName ?? '-'}</p>
                 </div>
                 <div>
                   <p className="text-label">{pageData.ward}</p>
-                  <p className="text-detail">{wardName ?? "-"}</p>
+                  <p className="text-detail">{wardName ?? '-'}</p>
                 </div>
               </div>
           </div>
         </>
-      ) : (
+          )
+        : (
         <>
           <div className="customer-detail-card">
             <div className="title-session">
@@ -258,7 +260,7 @@ export default function DetailCustomerPage(props) {
                     <Image
                       className="thumbnail"
                       width={176}
-                      src={customer?.thumbnail ?? "error"}
+                      src={customer?.thumbnail ?? 'error'}
                       fallback={images.imgDefault}
                     />
                   </div>
@@ -296,14 +298,14 @@ export default function DetailCustomerPage(props) {
                       </div>
                       <div>
                         <p className="text-label">{pageData.email}</p>
-                        <p className="text-detail">{customer?.email ?? "-"}</p>
+                        <p className="text-detail">{customer?.email ?? '-'}</p>
                       </div>
                       <div>
                         <p className="text-label">{pageData.birthday}</p>
                         <p className="text-detail">
                           {customer?.birthday
                             ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY)
-                            : "-"}
+                            : '-'}
                         </p>
                       </div>
                       <div>
@@ -320,15 +322,15 @@ export default function DetailCustomerPage(props) {
                       </div>
                       <div>
                         <p className="text-label">{pageData.city}</p>
-                        <p className="text-detail">{cityName ?? "-"}</p>
+                        <p className="text-detail">{cityName ?? '-'}</p>
                       </div>
                       <div>
                         <p className="text-label">{pageData.district}</p>
-                        <p className="text-detail">{districtName ?? "-"}</p>
+                        <p className="text-detail">{districtName ?? '-'}</p>
                       </div>
                       <div>
                         <p className="text-label">{pageData.ward}</p>
-                        <p className="text-detail">{wardName ?? "-"}</p>
+                        <p className="text-detail">{wardName ?? '-'}</p>
                       </div>
                     </div>
                   </Col>
@@ -337,7 +339,7 @@ export default function DetailCustomerPage(props) {
             </Row>
           </div>
         </>
-      )}
+          )}
       <DeleteConfirmComponent
         title={pageData.confirmDelete}
         content={formatDeleteMessage(customer?.fullName)}
@@ -350,5 +352,5 @@ export default function DetailCustomerPage(props) {
         visible={showConfirm}
       />
     </div>
-  );
+  )
 }

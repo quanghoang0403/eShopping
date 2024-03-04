@@ -30,8 +30,8 @@ const route = [
         auth: true,
         permission: PermissionKeys.EDIT_PRODUCT_CATEGORY,
         component: EditProductCategoryPage,
-        child: [],
-      },
+        child: []
+      }
     ]
   }
 ]

@@ -1,4 +1,4 @@
-import StaffPage from '.'
+import StaffPage from './staff.page'
 import { GroupFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import i18n from 'utils/i18n'
@@ -23,7 +23,7 @@ const route = [
         key: 'app.staff.create-new',
         focus: 'app.staff',
         position: 4,
-        path: '/staff/create-new',
+        path: '/staff/create',
         isMenu: false,
         exact: true,
         auth: true,

@@ -77,7 +77,7 @@ export default function TableProduct (props) {
                 <Thumbnail src={getThumbnailUrl(record?.thumbnail, 'mobile')} />
               </div>
               <div className="product-name">
-                <Link to={`/product/details/${record?.id}`}>{value}</Link>
+                <Link to={`/product/detail/${record?.id}`}>{value}</Link>
               </div>
             </Row>
           )

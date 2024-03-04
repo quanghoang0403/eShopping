@@ -2,6 +2,9 @@ import CustomerPage from '.'
 import { GroupFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import i18n from 'utils/i18n'
+import CreateCustomerPage from './create-customer/create-customer.page'
+import EditCustomerPage from './edit-customer/edit-customer.page'
+import DetailCustomerPage from './detail-customer/detail-customer.page'
 
 const { t } = i18n
 // Define the route
@@ -22,7 +25,7 @@ const route = [
         key: 'app.customer.create-customer',
         focus: 'app.customer',
         position: 3,
-        path: '/customer/create-new',
+        path: '/customer/create',
         name: 'CustomerCreate',
         isMenu: false,
         exact: true,
@@ -41,7 +44,7 @@ const route = [
         exact: true,
         auth: true,
         permission: PermissionKeys.EDIT_CUSTOMER,
-        component: UpdateCustomerPage,
+        component: EditCustomerPage,
         child: []
       },
       {

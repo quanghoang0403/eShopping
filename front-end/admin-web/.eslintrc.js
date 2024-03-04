@@ -39,6 +39,9 @@ module.exports = {
     'no-prototype-builtins': 'off',
     'react/display-name': 'off',
     'array-callback-return': 'off',
+    'prefer-promise-reject-errors': 'off',
+    'no-useless-escape': 'off',
+    'brace-style': 'off',
     camelcase: 'off'
   }
 }

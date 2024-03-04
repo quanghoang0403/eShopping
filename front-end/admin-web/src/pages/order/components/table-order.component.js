@@ -1,25 +1,25 @@
-import { Button, Card, Col, Popover, Radio, Row, Typography } from "antd";
-import { FnbDatePicker } from "components/fnb-date-picker/fnb-data-picker";
-import { FnbTable } from "components/fnb-table/fnb-table";
-import PageTitle from "components/page-title";
-import { BranchIcon, DownIcon } from "constants/icons.constants";
-import { OptionDateTime } from "constants/option-date.constants";
-import { OrderTypeConstants } from "constants/order-type-status.constants";
-import { TYPE } from "constants/report.constants";
-import { DateFormat } from "constants/string.constants";
-import orderDataService from "data-services/order/order-data.service";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { capitalize, executeAfter, formatCurrencyWithoutSuffix, isJsonString } from "utils/helpers";
-import { getStorage, localStorageKeys, setStorage } from "utils/localStorage.helpers";
-import FilterOrderReport from "./filter-order-report.component";
+import { Button, Card, Col, Popover, Radio, Row, Typography } from 'antd'
+import { FnbDatePicker } from 'components/fnb-date-picker/fnb-data-picker'
+import { FnbTable } from 'components/fnb-table/fnb-table'
+import PageTitle from 'components/page-title'
+import { DownIcon } from 'constants/icons.constants'
+import { OptionDateTime } from 'constants/option-date.constants'
+import { TYPE } from 'constants/report.constants'
+import { DateFormat } from 'constants/string.constants'
+// import orderDataService from 'data-services/order/order-data.service'
+import moment from 'moment'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { capitalize, executeAfter, formatCurrencyWithoutSuffix, getColorForChart, isJsonString } from 'utils/helpers'
+import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'
+import FilterOrderReport from './filter-order-report.component'
+import { useMediaQuery } from 'react-responsive'
+import './index.scss'
+const { Text } = Typography
 
-import "./index.scss";
-
-export default function TableOrder(props) {
-  const [t] = useTranslation();
+export default function TableOrder (props) {
+  const [t] = useTranslation()
   const {
     currentPageNumber,
     dataSource,
@@ -34,154 +34,169 @@ export default function TableOrder(props) {
     setKeySearch,
     setCurrentPageNumber,
     setPageSize,
-    orderManagementReportFilters,
-  } = props;
-  const customerDetailLink = "/customer/detail/";
+    orderManagementReportFilters
+  } = props
+  const customerDetailLink = '/customer/detail/'
 
-  const [showPopover, setShowPopover] = useState(true);
-  const [countFilter, setCountFilter] = useState(0);
-  const clearFilterFunc = React.useRef(null);
+  const [showPopover, setShowPopover] = useState(false)
+  const [countFilter, setCountFilter] = useState(0)
+  const clearFilterFunc = React.useRef(null)
 
   const pageData = {
-    id: t("table.id"),
-    status: t("table.status"),
-    type: t("table.type"),
-    detail: t("table.detail"),
-    customer: t("table.customer"),
-    point: t("customer.point"),
-    total: t("table.total"),
-    paymentMethod: t("payment.paymentMethod"),
-    discount: t("table:discount"),
-    grossTotal: t("table.grossTotal"),
-    subtotal: t("table.subtotal"),
-    feeAndTax: t("order.feeAndTax"),
-    shippingFee: t("order.shippingFee"),
-    txt_reduce: t("dashboard.txt_reduce"),
-    txt_increase: t("dashboard.txt_increase"),
-    allBranch: t("dashboard.allBranch"),
+    id: t('table.id'),
+    status: t('table.status'),
+    type: t('table.type'),
+    detail: t('table.detail'),
+    customer: t('table.customer'),
+    point: t('customer.point'),
+    total: t('table.total'),
+    paymentMethod: t('payment.paymentMethod'),
+    discount: t('promotion.table.discount'),
+    grossTotal: t('table.grossTotal'),
+    subtotal: t('table.subtotal'),
+    feeAndTax: t('order.feeAndTax'),
+    shippingFee: t('order.shippingFee'),
+    txt_reduce: t('dashboard.txt_reduce'),
+    txt_increase: t('dashboard.txt_increase'),
+    allBranch: t('dashboard.allBranch'),
     date: {
-      yesterday: t("dashboard.compareDate.yesterday"),
-      previousDay: t("dashboard.compareDate.previousDay"),
-      lastWeek: t("dashboard.compareDate.lastWeek"),
-      previousWeek: t("dashboard.compareDate.previousWeek"),
-      lastMonth: t("dashboard.compareDate.lastMonth"),
-      previousMonth: t("dashboard.compareDate.previousMonth"),
-      lastYear: t("dashboard.compareDate.lastYear"),
-      previousSession: t("dashboard.compareDate.previousSession"),
+      yesterday: t('dashboard.compareDate.yesterday'),
+      previousDay: t('dashboard.compareDate.previousDay'),
+      lastWeek: t('dashboard.compareDate.lastWeek'),
+      previousWeek: t('dashboard.compareDate.previousWeek'),
+      lastMonth: t('dashboard.compareDate.lastMonth'),
+      previousMonth: t('dashboard.compareDate.previousMonth'),
+      lastYear: t('dashboard.compareDate.lastYear'),
+      previousSession: t('dashboard.compareDate.previousSession')
     },
-    noDataFound: t("table.noDataFound"),
-    topSellingProductTitle: t("dashboard.topSellingProduct.title"),
-    topSellingProductSeemore: t("dashboard.topSellingProduct.seemore"),
-    topSellingProductItems: t("dashboard.topSellingProduct.items"),
-    topCustomerTitle: t("dashboard.topCustomer.title"),
-    btnExport: t("button:export"),
-    totalOrder: t("order.totalOrder"),
-    canceled: t("order.canceled"),
-    inStore: t("order.inStore"),
-    takeAway: t("order.takeAway"),
-    goFnBApp: t("order.goFnBApp"),
-    storeWeb: t("order.storeWeb"),
-    storeApp: t("order.storeApp"),
-    summary: t("report.summary"),
-    orderManagement: t("order.orderManagement"),
-    search: t("order.search"),
-    allTypes: t("order.allTypes"),
-    allMethods: t("order.allMethods"),
-    allCustomer: t("order.allCustomer"),
-    all: t("order.all"),
-    platform: t("platform.title"),
-    orderByPlatform: t("platform.orderByPlatform"),
-    serviceType: t("reportRevenue.serviceType"),
-    orderByServiceType: t("reportRevenue.orderByServiceType"),
-    orderByStatus: t("reportRevenue.orderByStatus"),
-  };
+    noDataFound: t('table.noDataFound'),
+    topSellingProductTitle: t('dashboard.topSellingProduct.title'),
+    topSellingProductSeemore: t('dashboard.topSellingProduct.seemore'),
+    topSellingProductItems: t('dashboard.topSellingProduct.items'),
+    topCustomerTitle: t('dashboard.topCustomer.title'),
+    btnExport: t('button.export'),
+    totalOrder: t('order.totalOrder'),
+    canceled: t('order.canceled'),
+    inStore: t('order.inStore'),
+    takeAway: t('order.takeAway'),
+    goFnBApp: t('order.goFnBApp'),
+    storeWeb: t('order.storeWeb'),
+    storeApp: t('order.storeApp'),
+    summary: t('report.summary'),
+    orderManagement: t('order.orderManagement'),
+    search: t('order.searchPlaceholderTransaction'),
+    allTypes: t('order.allTypes'),
+    allMethods: t('order.allMethods'),
+    allCustomer: t('order.allCustomer'),
+    all: t('order.all'),
+    platform: t('platform.title'),
+    orderByPlatform: t('platform.orderByPlatform'),
+    serviceType: t('reportRevenue.serviceType'),
+    orderByServiceType: t('reportRevenue.orderByServiceType'),
+    orderByStatus: t('reportRevenue.orderByStatus')
+  }
 
-  const [titleConditionCompare, setTitleConditionCompare] = useState(pageData.date.yesterday);
-  const [visible, setVisible] = useState(false);
-  const [typeOptionDate, setTypeOptionDate] = useState(OptionDateTime.today);
+  const [titleConditionCompare, setTitleConditionCompare] = useState(pageData.date.yesterday)
+  const [visible, setVisible] = useState(false)
+  const [branches, setBranches] = useState([])
+  const [typeOptionDate, setTypeOptionDate] = useState(OptionDateTime.today)
   const [selectedDate, setSelectedDate] = useState({
-    startDate: moment().toDate().toLocaleDateString("en-US"),
-    endDate: moment().toDate().toLocaleDateString("en-US"),
-  });
-  const [orderReportFilters, setOrderReportFilters] = useState({});
-  const [customers, setCustomers] = useState([]);
-  const [orderStatus, setOrderStatus] = useState([]);
-  const [pageNumberFilter, setPageNumberFilter] = useState(null);
+    startDate: moment().toDate().toLocaleDateString('en-US'),
+    endDate: moment().toDate().toLocaleDateString('en-US')
+  })
+  const [branchName, setBranchName] = useState('')
+  const [branchId, setBranchId] = useState('')
+  const [orderReportFilters, setOrderReportFilters] = useState({})
+  const [serviceTypes, setServiceTypes] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([])
+  const [customers, setCustomers] = useState([])
+  const [orderStatus, setOrderStatus] = useState([])
+  const [revenueByPlatform, setRevenueByPlatform] = useState([])
+  const [revenueByServiceType, setRevenueByServiceType] = useState([])
+  const [revenueByOrderStatus, setRevenueByOrderStatus] = useState([])
+  const [pageNumberFilter, setPageNumberFilter] = useState(null)
+  const isMobile = useMediaQuery({ maxWidth: 576 })
 
   useEffect(() => {
-    setPageNumberFilter(currentPageNumber);
-    onConditionCompare(OptionDateTime.today);
-  }, []);
+    setPageNumberFilter(currentPageNumber)
+    getInfoData()
+    getOrderTransactionPieChartByFilter(branchId, selectedDate, typeOptionDate)
+  }, [])
+
+  const getInfoData = () => {
+    onConditionCompare(OptionDateTime.today)
+  }
+
+  const orderStatusLocal = {
+    0: t('orderStatus.new'),
+    1: t('orderStatus.returned'),
+    2: t('orderStatus.canceled'),
+    3: t('orderStatus.toConfirm'),
+    4: t('orderStatus.processing'),
+    5: t('orderStatus.delivering'),
+    6: t('orderStatus.completed'),
+    7: t('orderStatus.draft')
+  }
+
+  const orderType = {
+    0: t('serviceType.inStore'),
+    1: t('serviceType.delivery'),
+    2: t('serviceType.takeAway'),
+    3: t('serviceType.online'),
+    4: t('serviceType.pickup')
+  }
 
   const getColumnOrder = [
     {
       title: pageData.id,
-      dataIndex: "code",
-      key: "code",
-      width: "10%",
+      dataIndex: 'code',
+      key: 'code',
+      width: '10%',
       render: (_, record) => {
-        let href = `/report/order/detail/${record.id}`;
+        const href = `/report/order/detail/${record.id}`
         return (
           <Link to={href} target="_blank">
             {record.code}
           </Link>
-        );
-      },
+        )
+      }
     },
     {
       title: pageData.status,
-      dataIndex: "statusName",
-      key: "statusName",
-      width: "15%",
+      dataIndex: 'statusName',
+      key: 'statusName',
+      width: '15%',
       render: (_, record) => {
         const orderStatusColor = {
-          0: "new-order-color",
-          1: "returned-order-color",
-          2: "canceled-order-color",
-          3: "to-confirm-order-color",
-          4: "processing-order-color",
-          5: "delivering-order-color",
-          6: "completed-order-color",
-          7: "draft-order-color",
-        };
-        const orderStatusLocal = {
-          0: t("orderStatus.new"),
-          1: t("orderStatus.returned"),
-          2: t("orderStatus.canceled"),
-          3: t("orderStatus.toConfirm"),
-          4: t("orderStatus.processing"),
-          5: t("orderStatus.delivering"),
-          6: t("orderStatus.completed"),
-          7: t("orderStatus.draft"),
-        };
+          0: 'new-order-color',
+          1: 'returned-order-color',
+          2: 'canceled-order-color',
+          3: 'to-confirm-order-color',
+          4: 'processing-order-color',
+          5: 'delivering-order-color',
+          6: 'completed-order-color',
+          7: 'draft-order-color'
+        }
         return (
-          <span className={`order-status ${orderStatusColor[record?.statusId]}`}>{`${
-            orderStatusLocal[record?.statusId]
-          }`}</span>
-        );
-      },
+          <span className={`order-status ${orderStatusColor[record?.statusId]}`}>{`${orderStatusLocal[record?.statusId]
+            }`}</span>
+        )
+      }
     },
     {
       title: pageData.type,
-      dataIndex: "orderTypeName",
-      key: "orderTypeName",
-      width: "15%",
+      dataIndex: 'orderTypeName',
+      key: 'orderTypeName',
+      width: '15%',
       render: (_, record) => {
-        const orderType = {
-          0: t("serviceType.inStore"),
-          1: t("serviceType.delivery"),
-          2: t("serviceType.takeAway"),
-          3: t("serviceType.online"),
-          4: t("serviceType.pickup"),
-        };
-        return orderType[record?.orderTypeId];
-      },
+        return orderType[record?.orderTypeId]
+      }
     },
     {
       title: pageData.detail,
-      dataIndex: "detail",
-      key: "detail",
-      width: "28%",
+      dataIndex: 'detail',
+      key: 'detail',
+      width: '28%',
       render: (_, record) => {
         return (
           <>
@@ -200,17 +215,9 @@ export default function TableOrder(props) {
             <Row className="order-report-detail">
               <Col span={12}>{pageData.feeAndTax}</Col>
               <Col span={12} className="text-right">
-                {formatCurrencyWithoutSuffix(record?.totalFeeTax)}
+                {formatCurrencyWithoutSuffix(record?.totalFeeTax + record?.deliveryFee)}
               </Col>
             </Row>
-            {record?.orderTypeId === OrderTypeConstants.Delivery && (
-              <Row className="order-report-detail">
-                <Col span={12}>{pageData.shippingFee}</Col>
-                <Col span={12} className="text-right">
-                  {formatCurrencyWithoutSuffix(record?.deliveryFee)}
-                </Col>
-              </Row>
-            )}
             <Row className="order-report-detail">
               <Col span={12}>{capitalize(pageData.paymentMethod)}</Col>
               <Col span={12} className="text-right text-long">
@@ -226,21 +233,21 @@ export default function TableOrder(props) {
               </Col>
             </Row>
           </>
-        );
-      },
+        )
+      }
     },
     {
-      title: "",
-      dataIndex: "",
-      key: "",
-      width: "2%",
+      title: '',
+      dataIndex: '',
+      key: '',
+      width: '2%'
     },
     {
       title: pageData.customer,
-      dataIndex: "customer",
-      key: "customer",
-      width: "30%",
-      align: "left",
+      dataIndex: 'customer',
+      key: 'customer',
+      width: '30%',
+      align: 'left',
       render: (_, record) => {
         return (
           record?.customerId === undefined || (
@@ -257,15 +264,17 @@ export default function TableOrder(props) {
               </Row>
               <Row className="order-report-customer-row">
                 <Col span={12}>Rank</Col>
-                {record?.rank ? (
+                {record?.rank
+                  ? (
                   <Col span={12} className="order-report-customer-rank text-right">
                     {record?.rank}
                   </Col>
-                ) : (
+                    )
+                  : (
                   <Col span={12} className="text-right">
                     _
                   </Col>
-                )}
+                    )}
               </Row>
               <Row className="order-report-customer-row">
                 <Col span={12}>{pageData.point}</Col>
@@ -275,10 +284,10 @@ export default function TableOrder(props) {
               </Row>
             </div>
           )
-        );
-      },
-    },
-  ];
+        )
+      }
+    }
+  ]
 
   const listBranch = (
     <>
@@ -301,217 +310,316 @@ export default function TableOrder(props) {
                     </Radio.Button>
                   </Col>
                 </Row>
-              );
+              )
             })}
           </Radio.Group>
         </Col>
       </Row>
     </>
-  );
+  )
 
   const handleClearFilterAndSearch = () => {
-    onClearFilter();
-    setKeySearch("");
-  };
+    onClearFilter()
+    setKeySearch('')
+  }
 
   const handleChangeBranch = (e) => {
-    let branchIdSelected = e?.target?.value;
+    let branchIdSelected = e?.target?.value
     if (branchIdSelected !== null) {
-      setBranchId(branchIdSelected);
-      let branchInfo = branches.find((b) => b.id === branchIdSelected);
-      setBranchName(branchInfo?.name);
+      setBranchId(branchIdSelected)
+      const branchInfo = branches.find((b) => b.id === branchIdSelected)
+      setBranchName(branchInfo?.name)
     } else {
-      branchIdSelected = "";
-      setBranchId(null);
-      setBranchName(pageData.allBranch);
+      branchIdSelected = ''
+      setBranchId(null)
+      setBranchName(pageData.allBranch)
     }
-    getOrderInfoByFilter(branchIdSelected, selectedDate, typeOptionDate, pageNumberFilter, pageSize, keySearch);
-    setVisible(false);
-    getOrderTransactionPieChartByFilter(branchIdSelected, selectedDate, typeOptionDate);
-    handleClearFilterAndSearch();
-  };
+    getOrderInfoByFilter(branchIdSelected, selectedDate, typeOptionDate, pageNumberFilter, pageSize, keySearch)
+    setVisible(false)
+    getOrderTransactionPieChartByFilter(branchIdSelected, selectedDate, typeOptionDate)
+    handleClearFilterAndSearch()
+  }
 
   const getOrderInfoByFilter = (branchId, date, typeOptionDate, currentPageNumber, pageSize, keySearch) => {
-    let startDate = moment(date?.startDate).format(DateFormat.MM_DD_YYYY);
-    let endDate = moment(date?.endDate).format(DateFormat.MM_DD_YYYY);
-    let req = {
-      branchId: branchId ?? "",
-      startDate: startDate,
-      endDate: endDate,
-      typeOptionDate: typeOptionDate,
+    const startDate = moment(date?.startDate).format(DateFormat.MM_DD_YYYY)
+    const endDate = moment(date?.endDate).format(DateFormat.MM_DD_YYYY)
+    const req = {
+      branchId: branchId ?? '',
+      startDate,
+      endDate,
+      typeOptionDate,
       pageNumber: currentPageNumber,
-      pageSize: pageSize,
-      keySearch: keySearch,
-    };
-    orderDataService.getOrderManagementAsync(req).then((res) => {
-      let orders = mappingToDataTable(res.orders);
-      setListOrder(orders);
-      setOrderTransactionReport(res.orderTransactionReport);
-      setTotalOrder(res.total);
-      setOrderReportFilters(res.orderReportFilters);
-    });
-  };
+      pageSize,
+      keySearch
+    }
+    // orderDataService.getOrderManagementAsync(req).then((res) => {
+    //   const orders = mappingToDataTable(res.orders)
+    //   setListOrder(orders)
+    //   setOrderTransactionReport(res.orderTransactionReport)
+    //   setTotalOrder(res.total)
+    //   setOrderReportFilters(res.orderReportFilters)
+    // })
+  }
 
   const onSelectedDatePicker = (date, typeOptionDate) => {
-    setSelectedDate(date);
-    setTypeOptionDate(typeOptionDate);
-    getOrderInfoByFilter(branchId, date, typeOptionDate, pageNumberFilter, pageSize, keySearch);
-    getOrderTransactionPieChartByFilter(branchId, date, typeOptionDate);
-    handleClearFilterAndSearch();
-  };
+    setSelectedDate(date)
+    setTypeOptionDate(typeOptionDate)
+    getOrderInfoByFilter(branchId, date, typeOptionDate, pageNumberFilter, pageSize, keySearch)
+    getOrderTransactionPieChartByFilter(branchId, date, typeOptionDate)
+    handleClearFilterAndSearch()
+  }
 
   const onConditionCompare = (key) => {
     switch (key) {
       case OptionDateTime.today:
-        setTitleConditionCompare(pageData.date.yesterday);
-        break;
+        setTitleConditionCompare(pageData.date.yesterday)
+        break
       case OptionDateTime.yesterday:
-        setTitleConditionCompare(pageData.date.previousDay);
-        break;
+        setTitleConditionCompare(pageData.date.previousDay)
+        break
       case OptionDateTime.thisWeek:
-        setTitleConditionCompare(pageData.date.lastWeek);
-        break;
+        setTitleConditionCompare(pageData.date.lastWeek)
+        break
       case OptionDateTime.lastWeek:
-        setTitleConditionCompare(pageData.date.previousWeek);
-        break;
+        setTitleConditionCompare(pageData.date.previousWeek)
+        break
       case OptionDateTime.thisMonth:
-        setTitleConditionCompare(pageData.date.lastMonth);
-        break;
+        setTitleConditionCompare(pageData.date.lastMonth)
+        break
       case OptionDateTime.lastMonth:
-        setTitleConditionCompare(pageData.date.previousMonth);
-        break;
+        setTitleConditionCompare(pageData.date.previousMonth)
+        break
       case OptionDateTime.thisYear:
-        setTitleConditionCompare(pageData.date.lastYear);
-        break;
+        setTitleConditionCompare(pageData.date.lastYear)
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   const onSearchOrder = (keySearch) => {
-    let data = {};
-    let sessionOrderReportFilter = getStorage(localStorageKeys.ORDER_REPORT_FILTER);
+    let data = {}
+    const sessionOrderReportFilter = getStorage(localStorageKeys.ORDER_REPORT_FILTER)
     if (isJsonString(sessionOrderReportFilter)) {
-      let orderReportFilter = JSON.parse(sessionOrderReportFilter);
+      const orderReportFilter = JSON.parse(sessionOrderReportFilter)
       if (orderReportFilter && orderReportFilter.count > 0) {
         data = {
           serviceTypeId: orderReportFilter.serviceTypeId,
           paymentMethodId: orderReportFilter.paymentMethodId,
           customerId: orderReportFilter.customerId,
           orderStatusId: orderReportFilter.orderStatusId,
-        };
+          paymentMethodTypeId: orderReportFilter.paymentMethodTypeId
+        }
       } else {
         data = {
-          serviceTypeId: "",
-          paymentMethodId: "",
-          customerId: "",
-          orderStatusId: "",
-        };
+          serviceTypeId: '',
+          paymentMethodId: '',
+          customerId: '',
+          orderStatusId: '',
+          paymentMethodTypeId: ''
+        }
       }
     }
     executeAfter(500, async () => {
-      setKeySearch(keySearch);
-      let startDate = moment(selectedDate?.startDate).format(DateFormat.MM_DD_YYYY);
-      let endDate = moment(selectedDate?.endDate).format(DateFormat.MM_DD_YYYY);
-      let req = {
-        branchId: branchId,
-        startDate: startDate,
-        endDate: endDate,
-        typeOptionDate: typeOptionDate,
+      setKeySearch(keySearch)
+      const startDate = moment(selectedDate?.startDate).format(DateFormat.MM_DD_YYYY)
+      const endDate = moment(selectedDate?.endDate).format(DateFormat.MM_DD_YYYY)
+      const req = {
+        branchId,
+        startDate,
+        endDate,
+        typeOptionDate,
         pageNumber: pageNumberFilter,
-        pageSize: pageSize,
-        keySearch: keySearch,
-        serviceTypeId: data?.serviceTypeId ?? "",
-        paymentMethodId: data?.paymentMethodId ?? "",
-        customerId: data?.customerId ?? "",
-        orderStatusId: data?.orderStatusId ?? "",
-      };
-      const response = await orderDataService.getOrderReportByFilterAsync(req);
-      let orders = mappingToDataTable(response.orders);
-      setListOrder(orders);
-      setTotalOrder(response.total);
-      setCurrentPageNumber(response.pageNumber);
-    });
-  };
+        pageSize,
+        keySearch,
+        serviceTypeId: data?.serviceTypeId ?? '',
+        paymentMethodId: data?.paymentMethodId ?? '',
+        customerId: data?.customerId ?? '',
+        orderStatusId: data?.orderStatusId ?? '',
+        paymentMethodTypeId: data?.paymentMethodTypeId ?? ''
+      }
+      // const response = await orderDataService.getOrderReportByFilterAsync(req)
+      // const orders = mappingToDataTable(response.orders)
+      // setListOrder(orders)
+      // setTotalOrder(response.total)
+      // setCurrentPageNumber(response.pageNumber)
+    })
+  }
 
   const onChangePage = async (pageNumber, pageSize) => {
-    setCurrentPageNumber(pageNumber);
-    setPageSize(pageSize);
-    getOrderInfoByFilter(branchId, selectedDate, typeOptionDate, pageNumber, pageSize, keySearch);
-  };
+    setCurrentPageNumber(pageNumber)
+    setPageSize(pageSize)
+    getOrderInfoByFilter(branchId, selectedDate, typeOptionDate, pageNumber, pageSize, keySearch)
+  }
 
   const handleFilterOrderReport = async (data) => {
-    let startDate = moment(selectedDate?.startDate).format(DateFormat.MM_DD_YYYY);
-    let endDate = moment(selectedDate?.endDate).format(DateFormat.MM_DD_YYYY);
-    let req = {
-      branchId: branchId,
-      startDate: startDate,
-      endDate: endDate,
-      typeOptionDate: typeOptionDate,
+    const startDate = moment(selectedDate?.startDate).format(DateFormat.MM_DD_YYYY)
+    const endDate = moment(selectedDate?.endDate).format(DateFormat.MM_DD_YYYY)
+    const req = {
+      branchId,
+      startDate,
+      endDate,
+      typeOptionDate,
       pageNumber: pageNumberFilter,
-      pageSize: pageSize,
-      keySearch: keySearch,
-      serviceTypeId: data?.serviceTypeId ?? "",
-      paymentMethodId: data?.paymentMethodId ?? "",
-      customerId: data?.customerId ?? "",
-      orderStatusId: data?.orderStatusId ?? "",
-    };
-    const response = await orderDataService.getOrderReportByFilterAsync(req);
-    let orders = mappingToDataTable(response.orders);
-    setListOrder(orders);
-    setTotalOrder(response.total);
-    setCurrentPageNumber(response.pageNumber);
-    setCountFilter(data?.count);
-  };
+      pageSize,
+      keySearch,
+      serviceTypeId: data?.serviceTypeId ?? '',
+      paymentMethodId: data?.paymentMethodId ?? '',
+      customerId: data?.customerId ?? '',
+      orderStatusId: data?.orderStatusId ?? '',
+      paymentMethodTypeId: data?.paymentMethodTypeId ?? ''
+    }
+    // const response = await orderDataService.getOrderReportByFilterAsync(req)
+    // const orders = mappingToDataTable(response.orders)
+    // setListOrder(orders)
+    // setTotalOrder(response.total)
+    // setCurrentPageNumber(response.pageNumber)
+    // setCountFilter(data?.count)
+  }
 
   const filterComponent = () => {
     return (
       showPopover && (
         <FilterOrderReport
+          className={'filter-order'}
           fetchDataOrderReport={handleFilterOrderReport}
+          serviceTypes={serviceTypes}
+          paymentMethods={paymentMethods}
           customers={customers}
           orderStatus={orderStatus}
           tableFuncs={clearFilterFunc}
         />
       )
-    );
-  };
+    )
+  }
 
   const onClickFilterButton = async (event) => {
-    if (!event?.defaultPrevented) {
-      setShowPopover(true);
+    if (isMobile) {
+      if (showPopover) { setShowPopover(false) } else { setShowPopover(true) }
+    } else {
+      if (!event?.defaultPrevented) {
+        setShowPopover(true)
+      }
+    }
+
+    if (orderManagementReportFilters.serviceTypes) {
+      const allServiceType = {
+        id: '',
+        name: pageData.allTypes
+      }
+      const serviceTypes = [allServiceType, ...orderManagementReportFilters.serviceTypes]
+      setServiceTypes(serviceTypes)
+    }
+
+    if (orderManagementReportFilters.paymentMethods) {
+      const allPaymentMethod = {
+        id: '',
+        name: pageData.allMethods,
+        group: '',
+        type: -1
+      }
+      const paymentMethods = [allPaymentMethod, ...orderManagementReportFilters.paymentMethods]
+      setPaymentMethods(paymentMethods)
     }
 
     if (orderManagementReportFilters.customers) {
       const allCustomer = {
-        id: "",
-        name: pageData.allCustomer,
-      };
-      const customers = [allCustomer, ...orderManagementReportFilters.customers];
-      setCustomers(customers);
+        id: '',
+        name: pageData.allCustomer
+      }
+      const customers = [allCustomer, ...orderManagementReportFilters.customers]
+      setCustomers(customers)
     }
 
     if (orderManagementReportFilters.orderStatus) {
       const allOrderStatus = {
-        id: "",
-        name: pageData.all,
-      };
-      const orderStatus = [allOrderStatus, ...orderManagementReportFilters.orderStatus];
-      setOrderStatus(orderStatus);
+        id: '',
+        name: pageData.all
+      }
+      const orderStatus = [allOrderStatus, ...orderManagementReportFilters.orderStatus]
+      setOrderStatus(orderStatus)
     }
-  };
+  }
 
   const onClearFilter = () => {
     if (clearFilterFunc.current) {
-      clearFilterFunc.current();
-      setShowPopover(false);
+      clearFilterFunc.current()
+      setShowPopover(false)
     } else {
-      setStorage(localStorageKeys.ORDER_REPORT_FILTER, null);
-      setCountFilter(0);
-      setShowPopover(false);
-      handleFilterOrderReport(null);
+      setStorage(localStorageKeys.ORDER_REPORT_FILTER, null)
+      setCountFilter(0)
+      setShowPopover(false)
+      handleFilterOrderReport(null)
     }
-  };
+  }
+
+  /* Transaction Order by Pie Chart */
+  const getOrderTransactionPieChartByFilter = (branchId, date, typeOptionDate) => {
+    const startDate = moment(date?.startDate).format(DateFormat.MM_DD_YYYY)
+    const endDate = moment(date?.endDate).format(DateFormat.MM_DD_YYYY)
+    const req = {
+      branchId,
+      startDate,
+      endDate,
+      typeOptionDate,
+      type: TYPE.TRANSACTION
+    }
+    // orderDataService.getRevenueByTypeAsync(req).then((res) => {
+    //   if (res) {
+    //     // sort by descending by totalOrder
+    //     res.revenueByPlatforms?.sort(function (a, b) {
+    //       return b.totalOrder - a.totalOrder
+    //     })
+    //     res.revenueByServiceTypes?.sort(function (a, b) {
+    //       return b.totalOrder - a.totalOrder
+    //     })
+    //     res.revenueByOrderStatus?.sort(function (a, b) {
+    //       return b.totalOrder - a.totalOrder
+    //     })
+    //     setRevenueByPlatform(res.revenueByPlatforms)
+    //     setRevenueByServiceType(res.revenueByServiceTypes)
+    //     setRevenueByOrderStatus(res.revenueByOrderStatus)
+    //   }
+    // })
+  }
+
+  const getDataPlatformForPieChart = () => {
+    const platformColor = getColorForChart(249, 100, 24, revenueByPlatform?.length)
+    return revenueByPlatform?.map((item, index) => {
+      return {
+        label: item?.name,
+        value: item?.totalOrder,
+        color: platformColor[index],
+        totalAmount: item?.totalAmount,
+        totalOrder: item?.totalOrder
+      }
+    })
+  }
+  const getDataServiceTypeForPieChart = () => {
+    const serviceTypeColor = getColorForChart(29, 100, 50, revenueByServiceType?.length)
+    return revenueByServiceType?.map((item, index) => {
+      return {
+        label: orderType[item?.id] || item?.name,
+        value: item?.totalOrder,
+        color: serviceTypeColor[index],
+        totalAmount: item?.totalAmount,
+        totalOrder: item?.totalOrder
+      }
+    })
+  }
+
+  const getDataOrderStatusColorForPieChart = () => {
+    const statusColor = getColorForChart(249, 100, 24, revenueByOrderStatus?.length)
+    return revenueByOrderStatus?.map((item, index) => {
+      return {
+        label: orderStatusLocal[item?.id] || item?.name,
+        value: item?.totalOrder,
+        color: statusColor[index],
+        totalAmount: item?.totalAmount,
+        totalOrder: item?.totalOrder
+      }
+    })
+  }
 
   return (
     <>
@@ -520,6 +628,15 @@ export default function TableOrder(props) {
           <Col xs={24} sm={24} md={24} lg={6}>
             <PageTitle className="mb-0 title-dashboard" content={pageData.summary} />
           </Col>
+          <Col xs={24} sm={24} md={24} lg={18} className="fnb-form-btn-popover">
+            <Row className="fnb-row-top" gutter={[24, 24]} justify="end">
+              <FnbDatePicker
+                selectedDate={selectedDate}
+                setSelectedDate={(date, typeOptionDate) => onSelectedDatePicker(date, typeOptionDate)}
+                setConditionCompare={onConditionCompare}
+              />
+            </Row>
+          </Col>
         </Row>
       </Col>
       <Row className="fnb-row-page-header">
@@ -527,7 +644,7 @@ export default function TableOrder(props) {
           <PageTitle content={pageData.orderManagement} />
         </Col>
       </Row>
-      <Card className="fnb-card">
+      <Card className="fnb-card order-management-table">
         <FnbTable
           className="report-transaction-order-table mt-4"
           columns={getColumnOrder}
@@ -538,17 +655,19 @@ export default function TableOrder(props) {
           onChangePage={onChangePage}
           search={{
             placeholder: pageData.search,
-            onChange: onSearchOrder,
+            onChange: onSearchOrder
           }}
           filter={{
-            onClickFilterButton: onClickFilterButton,
+            onClickFilterButton,
             totalFilterSelected: countFilter,
-            onClearFilter: onClearFilter,
+            onClearFilter,
             buttonTitle: pageData.btnFilter,
             component: filterComponent(),
+            isShowModelOnMoblie: true,
+            showPopover
           }}
         />
       </Card>
     </>
-  );
+  )
 }
