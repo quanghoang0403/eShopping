@@ -1,7 +1,7 @@
 import { Button, Tooltip } from 'antd'
 import { BookGuidelineIcon, PromotionGuidelineIcon } from 'constants/icons.constants'
 import { useMediaQuery } from 'react-responsive'
-import './fnb-guideline.component.scss'
+import './shop-guideline.component.scss'
 
 export function FnbGuideline ({ placement, title, content, nameTooltip, styles, largeButton }) {
   const isMobile = useMediaQuery({ maxWidth: 576 })
@@ -21,7 +21,7 @@ export function FnbGuideline ({ placement, title, content, nameTooltip, styles, 
 
   return (
     <Tooltip
-      overlayClassName={`${nameTooltip !== undefined ? `fnb-guideline-${nameTooltip}` : 'fnb-guideline'}`}
+      overlayClassName={`${nameTooltip !== undefined ? `shop-guideline-${nameTooltip}` : 'shop-guideline'}`}
       overlayStyle={styles}
       placement={placement}
       title={titleTooltip(title, content)}

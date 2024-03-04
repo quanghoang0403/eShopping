@@ -156,7 +156,7 @@ export function UpdatePasswordComponent (props) {
             direction="vertical"
             className="up-content-wrap-textbox up-content-wrap-textbox--spacing"
           >
-            <label className="fnb-form-label up-content-wrap-textbox-label">
+            <label className="shop-form-label up-content-wrap-textbox-label">
               {pageData.currentPassword}
               <span className="text-danger">*</span>
             </label>
@@ -181,7 +181,7 @@ export function UpdatePasswordComponent (props) {
             direction="vertical"
             className="up-content-wrap-textbox up-content-wrap-textbox--spacing"
           >
-            <label className="fnb-form-label up-content-wrap-textbox-label">
+            <label className="shop-form-label up-content-wrap-textbox-label">
               {pageData.newPassword}
               <span className="text-danger">*</span>
             </label>
@@ -201,7 +201,7 @@ export function UpdatePasswordComponent (props) {
             direction="vertical"
             className="up-content-wrap-textbox up-content-wrap-textbox--spacing"
           >
-            <label className="fnb-form-label up-content-wrap-textbox-label">
+            <label className="shop-form-label up-content-wrap-textbox-label">
               {pageData.confirmPassword}
               <span className="text-danger">*</span>
             </label>

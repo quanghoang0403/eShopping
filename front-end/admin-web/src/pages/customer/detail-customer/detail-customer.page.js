@@ -130,7 +130,7 @@ export default function DetailCustomerPage (props) {
 
   return (
     <div className={isTabletOrMobile ? 'responsive' : ''}>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <PageTitle content={customer?.fullName} />
         </Col>

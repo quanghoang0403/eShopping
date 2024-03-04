@@ -1,5 +1,5 @@
 
-.fnb-title-header {
+.shop-title-header {
     font-style: normal;
     font-weight: 700;
     font-size: 32px;
@@ -9,7 +9,7 @@
     margin: auto;
 }
 
-.fnb-row-page-header {
+.shop-row-page-header {
     margin-bottom: 30px;
     margin-top: 5px;
 
@@ -24,7 +24,7 @@
 }
 
 @media (max-width: 500px) {
-    .fnb-title-header {
+    .shop-title-header {
         font-size: 24px !important;
     }
 }

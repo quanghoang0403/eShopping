@@ -749,7 +749,7 @@
           content: "";
           display: block;
           background-repeat: no-repeat;
-          // background-image: url(../assets/images/go-fnb-login-banner.png);
+          // background-image: url(../assets/images/go-shop-login-banner.png);
           width: 100vw !important;
           height: $_height;
           background-size: cover;
@@ -763,7 +763,7 @@
           position: absolute;
           background-repeat: no-repeat;
           background-size: contain;
-          // background-image: url(../assets/images/go-fnb-login-logo_2.png);
+          // background-image: url(../assets/images/go-shop-login-logo_2.png);
           top: calc($_height / 2 - ($_logo_height / 2));
           left: 50%;
           transform: translateX(-50%);

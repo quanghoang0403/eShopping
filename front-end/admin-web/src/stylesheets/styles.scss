@@ -66,7 +66,7 @@ h3 {
   position: relative;
 }
 
-.fnb-site-layout {
+.shop-site-layout {
   background: #ffffff;
   padding-right: 20px;
 
@@ -99,12 +99,12 @@ h3 {
   background: #817cba !important;
 }
 
-.fnb-card {
+.shop-card {
   background: #ffffff;
   border-radius: 16px 16px 16px 16px;
 }
 
-.fnb-card-full {
+.shop-card-full {
   background: #ffffff;
   border-radius: 16px 16px 16px 16px;
   min-height: 73.5vh;
@@ -183,7 +183,7 @@ h3 {
   color: rgba(255, 123, 0, 0.5);
 }
 
-.fnb-cancel-button {
+.shop-cancel-button {
   letter-spacing: 0.3px;
   font-size: 18px;
   line-height: 23px;
@@ -198,29 +198,29 @@ h3 {
   background: #ffffff;
 }
 
-.fnb-cancel-button.ant-btn-default {
+.shop-cancel-button.ant-btn-default {
   background: #ffffff;
   border: 1px solid#a5abde;
   color: #a5abde;
 }
 
-.fnb-cancel-button.ant-btn-default:hover {
+.shop-cancel-button.ant-btn-default:hover {
   background: #ffffff;
   border: 1px solid#a5abde;
   color: #a5abde;
 }
 
-.fnb-cancel-button.ant-btn-default:active,
-.fnb-cancel-button.ant-btn-default:focus {
+.shop-cancel-button.ant-btn-default:active,
+.shop-cancel-button.ant-btn-default:focus {
   background: #ffffff;
   border: 1px solid#a5abde;
   color: #a5abde;
 }
 
-.fnb-cancel-button.ant-btn-default[disabled],
-.fnb-cancel-button.ant-btn-default[disabled]:hover,
-.fnb-cancel-button.ant-btn-default[disabled]:focus,
-.fnb-cancel-button.ant-btn-default[disabled]:active {
+.shop-cancel-button.ant-btn-default[disabled],
+.shop-cancel-button.ant-btn-default[disabled]:hover,
+.shop-cancel-button.ant-btn-default[disabled]:focus,
+.shop-cancel-button.ant-btn-default[disabled]:active {
   background: #ffffff;
   border: 1px solid#a5abde;
   color: #a5abde;
@@ -372,7 +372,7 @@ h3 {
 }
 
 /// Input
-.fnb-input {
+.shop-input {
   height: 60px;
   font-size: 18px;
   background: #ffffff;
@@ -410,28 +410,28 @@ h3 {
   }
 }
 
-.fnb-input:hover {
+.shop-input:hover {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border: none;
 }
 
-.fnb-input:focus {
+.shop-input:focus {
   box-shadow: 0px 1px 4px #50429b;
   border: none;
 }
 
-.fnb-input-addon-before:hover {
+.shop-input-addon-before:hover {
   transition: border 0.3s, box-shadow 0.3s;
   box-shadow: 0px 1px 4px #50429b;
   border-radius: 12px;
   border: none;
 }
 
-.fnb-input-addon-before.ant-input-group-wrapper-status-error {
+.shop-input-addon-before.ant-input-group-wrapper-status-error {
   border: 1px solid #ff0000 !important;
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%) !important;
 }
-.fnb-input-addon-before {
+.shop-input-addon-before {
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%);
   border: none;
   border-radius: 12px;
@@ -513,7 +513,7 @@ h3 {
   border: 1px solid #ff0000 !important;
 }
 
-.fnb-input:placeholder-shown {
+.shop-input:placeholder-shown {
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -523,7 +523,7 @@ h3 {
   padding-left: 16px;
 }
 
-.fnb-input[disabled] {
+.shop-input[disabled] {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   background: #f7f7f7;
   border: none;
@@ -543,7 +543,7 @@ h3 {
   background: transparent;
 }
 
-.fnb-input-with-count {
+.shop-input-with-count {
   height: 60px;
   font-size: 18px;
   background: #ffffff;
@@ -590,7 +590,7 @@ h3 {
   }
 }
 
-.fnb-form-label {
+.shop-form-label {
   font-style: normal;
   letter-spacing: 0.3px;
   margin-bottom: 10px;
@@ -612,7 +612,7 @@ h3 {
   position: absolute;
 }
 
-textarea.fnb-text-area {
+textarea.shop-text-area {
   background: #ffffff;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
@@ -631,7 +631,7 @@ textarea.no-resize {
   resize: none;
 }
 
-.fnb-text-area:placeholder-shown {
+.shop-text-area:placeholder-shown {
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -641,16 +641,16 @@ textarea.no-resize {
   padding-left: 16px;
 }
 
-.fnb-text-area:hover {
+.shop-text-area:hover {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border: none;
 }
-.fnb-text-area:focus {
+.shop-text-area:focus {
   box-shadow: 0px 1px 4px #50429b;
   border: none;
 }
 
-.fnb-text-area-with-count {
+.shop-text-area-with-count {
   -webkit-transition: none !important;
   -moz-transition: none !important;
   -o-transition: none !important;
@@ -714,7 +714,7 @@ textarea.no-resize {
   }
 }
 
-.fnb-text-area-with-count.ant-input-textarea-show-count::after {
+.shop-text-area-with-count.ant-input-textarea-show-count::after {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -739,8 +739,8 @@ textarea.no-resize {
   gap: 10px;
 }
 
-.fnb-table-tooltip {
-  .fnb-table-tooltip-content {
+.shop-table-tooltip {
+  .shop-table-tooltip-content {
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -748,11 +748,11 @@ textarea.no-resize {
   }
 }
 
-.fnb-table-tooltip .ant-tooltip-arrow .ant-tooltip-arrow-content {
+.shop-table-tooltip .ant-tooltip-arrow .ant-tooltip-arrow-content {
   --antd-arrow-background-color: #50429b !important;
 }
 
-.fnb-text-nowrap {
+.shop-text-nowrap {
   float: left;
   width: 90%;
   overflow: hidden;
@@ -760,7 +760,7 @@ textarea.no-resize {
   white-space: nowrap;
 }
 
-.fnb-table {
+.shop-table {
   .action-column {
     width: 100px;
   }
@@ -944,21 +944,21 @@ textarea.no-resize {
     }
   }
 }
-.fnb-table-action-button {
+.shop-table-action-button {
   display: flex;
   svg,
   span {
     margin: auto;
   }
 }
-.fnb-table-action-button:hover,
-.fnb-table-action-button:focus {
+.shop-table-action-button:hover,
+.shop-table-action-button:focus {
   color: #50429b;
   border: #ffffff;
   background: #ffffff;
 }
 
-.fnb-search-input {
+.shop-search-input {
   border: none !important;
   height: 60px;
   background: #ffffff;
@@ -982,7 +982,7 @@ textarea.no-resize {
   }
 }
 
-.fnb-search-input:not(.ant-input-affix-wrapper-disabled):hover {
+.shop-search-input:not(.ant-input-affix-wrapper-disabled):hover {
   border: none;
   box-shadow: 0px 1px 4px #50429b;
 }
@@ -991,13 +991,13 @@ textarea.no-resize {
   color: #db1b1b;
 }
 
-.fnb-input-with-prefix {
+.shop-input-with-prefix {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.fnb-input-with-prefix input {
+.shop-input-with-prefix input {
   outline: none !important;
   border-color: #ffffff;
   font-style: normal;
@@ -1008,14 +1008,14 @@ textarea.no-resize {
   color: #9f9f9f;
 }
 
-.fnb-input-with-prefix input:hover,
-.fnb-input-with-prefix input:focus {
+.shop-input-with-prefix input:hover,
+.shop-input-with-prefix input:focus {
   border: 0px #ffffff !important;
   outline: none !important;
   box-shadow: none;
 }
 
-.fnb-input-with-prefix .ant-input-group-addon {
+.shop-input-with-prefix .ant-input-group-addon {
   background: #ffffff;
   border: 0px;
   font-family: "Plus Jakarta Sans";
@@ -1027,15 +1027,15 @@ textarea.no-resize {
   color: #000000;
 }
 
-.fnb-input-with-prefix .ant-input-status-error,
-.fnb-input-with-prefix .ant-input-status-error:focus {
+.shop-input-with-prefix .ant-input-status-error,
+.shop-input-with-prefix .ant-input-status-error:focus {
   border: 0px !important;
   box-shadow: none !important;
   outline: none !important;
 }
 
-.fnb-input-with-prefix .ant-input:focus,
-.fnb-input-with-prefix .ant-input-focused {
+.shop-input-with-prefix .ant-input:focus,
+.shop-input-with-prefix .ant-input-focused {
   box-shadow: none !important;
 }
 
@@ -1082,7 +1082,7 @@ textarea.no-resize {
   color: #ffffff !important;
 }
 
-.fnb-table-action-icon:hover > svg > path {
+.shop-table-action-icon:hover > svg > path {
   fill: #50429b;
   stroke: #50429b;
 }
@@ -1130,7 +1130,7 @@ textarea.no-resize {
   text-shadow: none;
 }
 
-div.fnb-box.custom-box {
+div.shop-box.custom-box {
   border-radius: 12px;
 }
 
@@ -1182,7 +1182,7 @@ div.fnb-box.custom-box {
   height: 60px;
 }
 
-.fnb-input-number {
+.shop-input-number {
   height: 60px;
   font-size: 18px;
   background: #ffffff;
@@ -1206,19 +1206,19 @@ div.fnb-box.custom-box {
   }
 }
 
-.fnb-input-number:hover {
+.shop-input-number:hover {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border: none;
 }
 
-.fnb-input-number:focus,
-.fnb-input-number:visited,
-.fnb-input-number:focus-within {
+.shop-input-number:focus,
+.shop-input-number:visited,
+.shop-input-number:focus-within {
   box-shadow: 0px 1px 4px #50429b;
   border: none;
 }
 
-.fnb-input-number:placeholder-shown {
+.shop-input-number:placeholder-shown {
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -1228,7 +1228,7 @@ div.fnb-box.custom-box {
   padding-left: 16px;
 }
 
-.fnb-input-number[disabled] {
+.shop-input-number[disabled] {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   background: #f7f7f7;
   border-color: #ffffff;
@@ -1245,7 +1245,7 @@ div.fnb-box.custom-box {
 }
 
 .ant-input-number-wrapper.ant-input-number-group {
-  .fnb-input-number {
+  .shop-input-number {
     box-shadow: none;
   }
 }
@@ -1258,15 +1258,11 @@ div.fnb-box.custom-box {
   color: #000000;
 }
 
-.label-branch {
-  line-height: 50px;
-}
-
 .justify-content-center {
   justify-content: center !important;
 }
 
-.fnb-date-picker {
+.shop-date-picker {
   height: 60px;
   font-size: 18px;
   border: none;
@@ -1298,13 +1294,13 @@ div.fnb-box.custom-box {
     width: 20px;
   }
 }
-.fnb-date-picker:hover {
+.shop-date-picker:hover {
   box-shadow: 0px 1px 4px #50429b;
   border-radius: 12px;
   border: none;
 }
 
-.fnb-text-action-group {
+.shop-text-action-group {
   cursor: pointer;
   font-style: normal;
   font-weight: 700;
@@ -1323,11 +1319,11 @@ div.fnb-box.custom-box {
   cursor: pointer !important;
 }
 
-.fnb-card-store-logo {
+.shop-card-store-logo {
   background: #ffffff;
   border-radius: 30px;
   .ant-card-body {
-    .fnb-card-store-logo-body {
+    .shop-card-store-logo-body {
       .store-logo-suggest-content {
         min-height: 450px;
         display: flex;
@@ -1472,7 +1468,7 @@ div.ant-message-notice-content {
   }
 }
 
-.fnb-tabs {
+.shop-tabs {
   .ant-tabs-nav {
     height: 108px;
     background: #ffffff;
@@ -1520,7 +1516,7 @@ div.ant-message-notice-content {
   }
 }
 
-.fnb-collapse {
+.shop-collapse {
   border: none;
   border-radius: 24px;
   .ant-collapse-item {
@@ -1601,11 +1597,11 @@ div.ant-message-notice-content {
 
 //Tablet
 @media (min-width: 992px) and (max-width: 1080px) {
-  .fnb-date-picker {
+  .shop-date-picker {
     padding-left: 8px;
   }
 
-  .fnb-time-picker {
+  .shop-time-picker {
     .ant-picker-input {
       input {
         padding-left: 28px;
@@ -1619,7 +1615,7 @@ div.ant-message-notice-content {
   .main-content-bg {
     margin-top: 90px;
   }
-  .fnb-text-action-group {
+  .shop-text-action-group {
     height: 100%;
   }
 }

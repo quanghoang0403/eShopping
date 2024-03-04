@@ -11,10 +11,10 @@ import {
 } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbDeleteIcon } from 'components/fnb-delete-icon/fnb-delete-icon'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
-import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
-import { FnbUploadImageComponent } from 'components/fnb-upload-image/fnb-upload-image.component'
+import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
+import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME, inputNumberRange1To999999999, tableSettings } from 'constants/default.constants'
 import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
@@ -253,7 +253,7 @@ export default function CreateProductPage () {
       <>
         <Row>
           <Col span={24}>
-            <h4 className="fnb-form-label">{pageData.pricing.price.label}</h4>
+            <h4 className="shop-form-label">{pageData.pricing.price.label}</h4>
             <Form.Item
               name={['product', 'price']}
               rules={[
@@ -268,7 +268,7 @@ export default function CreateProductPage () {
               ]}
             >
               <InputNumber
-                className="w-100 fnb-input-number"
+                className="w-100 shop-input-number"
                 placeholder={pageData.pricing.price.placeholder}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -340,7 +340,7 @@ export default function CreateProductPage () {
                                           ]}
                                         >
                                           <Input
-                                            className="fnb-input"
+                                            className="shop-input"
                                             placeholder={pageData.pricing.priceName.placeholder}
                                             maxLength={pageData.pricing.priceName.maxLength}
                                             id={`product-prices-${price.position}-name`}
@@ -362,7 +362,7 @@ export default function CreateProductPage () {
                                           ]}
                                         >
                                           <InputNumber
-                                            className="fnb-input-number w-100"
+                                            className="shop-input-number w-100"
                                             placeholder={pageData.pricing.price.placeholder}
                                             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -448,13 +448,13 @@ export default function CreateProductPage () {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <p className="card-header">
             <PageTitle content={pageData.title} />
           </p>
         </Col>
-        <Col span={12} xs={24} sm={24} md={24} lg={12} className="fnb-form-item-btn">
+        <Col span={12} xs={24} sm={24} md={24} lg={12} className="shop-form-item-btn">
           <ActionButtonGroup
             arrayButton={[
               {
@@ -496,12 +496,12 @@ export default function CreateProductPage () {
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
             <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
-              <Card className="w-100 fnb-card h-auto">
+              <Card className="w-100 shop-card h-auto">
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.generalInformation.title}</h4>
 
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.generalInformation.name.label}
                       <span className="text-danger">*</span>
                     </h4>
@@ -517,14 +517,14 @@ export default function CreateProductPage () {
                     >
                       <Input
                         showCount
-                        className="fnb-input-with-count"
+                        className="shop-input-with-count"
                         placeholder={pageData.generalInformation.name.placeholder}
                         maxLength={pageData.generalInformation.name.maxLength}
                         id="product-name"
                       />
                     </Form.Item>
 
-                    <h4 className="fnb-form-label">{pageData.generalInformation.description.label}</h4>
+                    <h4 className="shop-form-label">{pageData.generalInformation.description.label}</h4>
                     <Form.Item name={['product', 'description']} rules={[]}>
                       <FnbTextArea
                         showCount
@@ -538,7 +538,7 @@ export default function CreateProductPage () {
               </Card>
               <br />
 
-              <Card className="w-100 mt-1 fnb-card h-auto">
+              <Card className="w-100 mt-1 shop-card h-auto">
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.pricing.title}</h4>
@@ -551,7 +551,7 @@ export default function CreateProductPage () {
             <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
-                  <Card className="w-100 fnb-card h-auto">
+                  <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.upload.title}</h4>
                     <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
@@ -586,7 +586,7 @@ export default function CreateProductPage () {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br/>
-                  <Card className="w-100 mt-1 fnb-card h-auto">
+                  <Card className="w-100 mt-1 shop-card h-auto">
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
                     <Form.Item name={['product', 'productCategoryId']}>
                       <FnbSelectSingle

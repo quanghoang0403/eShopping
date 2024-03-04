@@ -1,7 +1,7 @@
 import { Card, Col, Row, Table } from 'antd'
-import { FnbDatePicker } from 'components/fnb-date-picker/fnb-data-picker'
-import FnbParagraph from 'components/fnb-paragraph/fnb-paragraph'
-import FnbWidget from 'components/fnb-widget/fnb-widget.component'
+import { FnbDatePicker } from 'components/shop-date-picker/shop-data-picker'
+import FnbParagraph from 'components/shop-paragraph/shop-paragraph'
+import FnbWidget from 'components/shop-widget/shop-widget.component'
 import PageTitle from 'components/page-title'
 import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { FolderIcon, ReceiptShiftIcon, WalletIcon } from 'constants/icons.constants'
@@ -396,8 +396,8 @@ export default function HomePage (props) {
             <Card
               className={
                 isTabletOrMobile
-                  ? 'fnb-box custom-box card-selling-product-thumbnail'
-                  : 'fnb-box custom-box card-selling-product-thumbnail top-selling-product-card-width'
+                  ? 'shop-box custom-box card-selling-product-thumbnail'
+                  : 'shop-box custom-box card-selling-product-thumbnail top-selling-product-card-width'
               }
             >
               <Row className="group-header-top-selling-product-box">
@@ -426,7 +426,7 @@ export default function HomePage (props) {
                     </>
                   )
                 }}
-                className="fnb-table form-table table-selling-product"
+                className="shop-table form-table table-selling-product"
                 columns={tableTopProductsSettings.columns}
                 dataSource={topProducts}
                 pagination={false}
@@ -444,8 +444,8 @@ export default function HomePage (props) {
             <Card
               className={
                 isTabletOrMobile
-                  ? 'fnb-box custom-box card-selling-product-thumbnail'
-                  : 'fnb-box custom-box card-selling-product-thumbnail top-selling-product-card-width'
+                  ? 'shop-box custom-box card-selling-product-thumbnail'
+                  : 'shop-box custom-box card-selling-product-thumbnail top-selling-product-card-width'
               }
             >
               <Row className="group-header-top-selling-product-box">
@@ -474,7 +474,7 @@ export default function HomePage (props) {
                     </>
                   )
                 }}
-                className="fnb-table form-table table-selling-product"
+                className="shop-table form-table table-selling-product"
                 columns={tableTopCustomerSettings.columns}
                 dataSource={topCustomers}
                 pagination={false}
@@ -487,14 +487,14 @@ export default function HomePage (props) {
   }
 
   return (
-    <Row className="fnb-form-title" gutter={[0, 29]}>
+    <Row className="shop-form-title" gutter={[0, 29]}>
       <Col span={24}>
         <Row gutter={[24, 24]} align="middle" justify="center" className="top-dashboard">
           <Col xs={24} sm={24} md={24} lg={8}>
             <PageTitle className="mb-0 title-dashboard" content={pageData.title} />
           </Col>
-          <Col xs={24} sm={24} md={24} lg={16} className="fnb-form-btn-popover">
-            <Row className="fnb-row-top" gutter={[24, 24]} justify="end">
+          <Col xs={24} sm={24} md={24} lg={16} className="shop-form-btn-popover">
+            <Row className="shop-row-top" gutter={[24, 24]} justify="end">
               <FnbDatePicker
                 selectedDate={selectedDate}
                 setSelectedDate={(date, typeOptionDate) => onSelectedDatePicker(date, typeOptionDate)}

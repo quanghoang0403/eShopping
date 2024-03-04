@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from 'antd'
-import './fnb-modal-component.scss'
+import './shop-modal-component.scss'
 
 export function FnbModal ({
   width,

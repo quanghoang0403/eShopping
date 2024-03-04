@@ -12,19 +12,19 @@
     margin-bottom: 34.15px !important;
   }
 
-  .fnb-row-page-header {
+  .shop-row-page-header {
     flex-direction: row;
     justify-content: flex-end;
   }
 
-  .fnb-row-page-header {
+  .shop-row-page-header {
     display: inline-block !important;
     flex-direction: row;
     justify-content: flex-end;    
     .ant-col-12:first-child {
       max-width: 100%;
       display: inline-block;
-      .fnb-title-header {
+      .shop-title-header {
         text-transform: capitalize !important;
         font-size: 21px !important;
         position: relative;
@@ -104,7 +104,7 @@
   margin-bottom: 30px;
 }
 
-.fnb-input-with-count .ant-input-suffix {
+.shop-input-with-count .ant-input-suffix {
   line-height: 21px !important;
 }
 
@@ -112,7 +112,7 @@
   margin-bottom: 10px;
 }
 
-.fnb-card {
+.shop-card {
   .ant-card-body {
     padding-bottom: 10px;
   }

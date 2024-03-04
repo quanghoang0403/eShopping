@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Card, Row, Form } from 'antd'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { useTranslation } from 'react-i18next'
 import '../staff.page.scss'
 

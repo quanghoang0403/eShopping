@@ -2,10 +2,10 @@ import { Button, Card, Col, Form, Input, Row, Tooltip, Typography, message } fro
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import FnbCard from 'components/fnb-card/fnb-card.component'
-import FnbFroalaEditor from 'components/fnb-froala-editor'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
-import { FnbUploadImageComponent } from 'components/fnb-upload-image/fnb-upload-image.component'
+import FnbCard from 'components/shop-card/shop-card.component'
+import FnbFroalaEditor from 'components/shop-froala-editor'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
+import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
 import SelectBlogTagComponent from '../components/select-tag-blog.components'
 import TextDanger from 'components/text-danger'
@@ -252,7 +252,7 @@ export default function CreateBlogPage () {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12} md={12}>
           <p className="card-header">
             <PageTitle content={pageData.title} />
@@ -301,12 +301,12 @@ export default function CreateBlogPage () {
         <div className="col-input-full-width">
           <Row className="grid-container">
             <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
-              <Card className="w-100 fnb-card h-auto blog-form">
+              <Card className="w-100 shop-card h-auto blog-form">
                 <Row className="mb-4">
                   <Col span={24}>
                     <h4 className="title-group">{pageData.generalInformation.title}</h4>
 
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.generalInformation.name.label}
                       <span className="text-danger">*</span>
                     </h4>
@@ -321,7 +321,7 @@ export default function CreateBlogPage () {
                       validateFirst={true}
                     >
                       <Input
-                        className="fnb-input"
+                        className="shop-input"
                         placeholder={pageData.generalInformation.name.placeholder}
                         maxLength={pageData.generalInformation.name.maxLength}
                         id="product-name"
@@ -331,7 +331,7 @@ export default function CreateBlogPage () {
                       />
                     </Form.Item>
 
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.generalInformation.category.label} <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
@@ -354,7 +354,7 @@ export default function CreateBlogPage () {
                             <Row gutter={[16, 16]}>
                               <Col xs={24} sm={24} md={24} lg={14}>
                                 <Input
-                                  className="fnb-input unit-dropdown-input"
+                                  className="shop-input unit-dropdown-input"
                                   allowClear="true"
                                   maxLength={100}
                                   onChange={(e) => {
@@ -397,7 +397,7 @@ export default function CreateBlogPage () {
                       ></FnbSelectSingle>
                     </Form.Item>
 
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.generalInformation.blogContent.label} <span className="text-danger">*</span>
                     </h4>
                     <FnbFroalaEditor
@@ -421,11 +421,11 @@ export default function CreateBlogPage () {
             </Col>
 
             <Col className="price-product" style={{ marginTop: '-16px' }} xs={24} sm={24} md={24} lg={24}>
-              <Card className="w-100 mt-1 fnb-card h-auto">
+              <Card className="w-100 mt-1 shop-card h-auto">
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.SEO.title}</h4>
-                    <h4 className="fnb-form-label mt-3">
+                    <h4 className="shop-form-label mt-3">
                       {pageData.SEO.SEOPreview}
                       <Tooltip
                         placement="topLeft"
@@ -462,7 +462,7 @@ export default function CreateBlogPage () {
                         }">`}
                       </span>
                     </div>
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.SEO.SEOTitle}
                       <Tooltip
                         placement="topLeft"
@@ -484,7 +484,7 @@ export default function CreateBlogPage () {
                     </h4>
                     <Form.Item name={'SEOTitle'}>
                       <Input
-                        className="fnb-input-with-count"
+                        className="shop-input-with-count"
                         placeholder={pageData.SEO.SEOTitlePlaceholder}
                         maxLength={100}
                         onChange={(e) => {
@@ -506,7 +506,7 @@ export default function CreateBlogPage () {
                       </div>
                     </Form.Item>
 
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.SEO.SEODescription}
                       <Tooltip
                         placement="topLeft"
@@ -528,7 +528,7 @@ export default function CreateBlogPage () {
                     </h4>
                     <Form.Item name={'SEODescription'}>
                       <Input
-                        className="fnb-input-with-count"
+                        className="shop-input-with-count"
                         placeholder={pageData.SEO.SEODescriptionPlaceholder}
                         maxLength={255}
                         onChange={(e) => {
@@ -550,7 +550,7 @@ export default function CreateBlogPage () {
                       </div>
                     </Form.Item>
 
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.SEO.SEOKeywords}
                       <Tooltip
                         placement="topLeft"
@@ -591,9 +591,9 @@ export default function CreateBlogPage () {
             <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
-                  <Card className="w-100 fnb-card h-auto">
+                  <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.media.title}</h4>
-                    <h4 className="fnb-form-label">{pageData.media.bannerTitle}</h4>
+                    <h4 className="shop-form-label">{pageData.media.bannerTitle}</h4>
                     <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
@@ -626,7 +626,7 @@ export default function CreateBlogPage () {
                       <Col span={24}>
                         <div className="left-column">{pageData.createdBy}</div>
                         <div className="right-column">
-                          <div className="fnb-form-label-right">{userFullName || '-'}</div>
+                          <div className="shop-form-label-right">{userFullName || '-'}</div>
                         </div>
                       </Col>
                     </Row>
@@ -634,7 +634,7 @@ export default function CreateBlogPage () {
                       <Col span={24}>
                         <div className="left-column">{pageData.createdTime}</div>
                         <div className="right-column">
-                          <div className="fnb-form-label-right">{createdTimeDefault || '-'}</div>
+                          <div className="shop-form-label-right">{createdTimeDefault || '-'}</div>
                         </div>
                       </Col>
                     </Row>

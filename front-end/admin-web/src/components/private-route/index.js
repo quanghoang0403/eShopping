@@ -59,7 +59,7 @@ export default function PrivateRoute (props) {
   return (
     <>
       <SideMenu menuItems={menuItems} route={route} routes={routes} isChild={isChild} parentKey={parentKey} />
-      <Layout className="fnb-site-layout">
+      <Layout className="shop-site-layout">
         <TopBar menuItems={menuItems} route={route} routes={routes} isChild={isChild} parentKey={parentKey} />
         <Content className="main-content-bg main-body">
           <Route key={key} path={path} component={Component} {...rest} />

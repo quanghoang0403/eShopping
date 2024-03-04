@@ -2,10 +2,10 @@ import { Button, Card, Col, Form, Input, Row, Tooltip, message } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import FnbCard from 'components/fnb-card/fnb-card.component'
-import FnbFroalaEditor from 'components/fnb-froala-editor'
-import { FnbImageSelectComponent } from 'components/fnb-image-select/fnb-image-select.component'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import FnbCard from 'components/shop-card/shop-card.component'
+import FnbFroalaEditor from 'components/shop-froala-editor'
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import PageTitle from 'components/page-title'
 import SelectBlogTagComponent from 'pages/blog/components/select-tag-blog.components'
 import TextDanger from 'components/text-danger'
@@ -29,7 +29,7 @@ export default function EditBlogPage (props) {
   const [t] = useTranslation()
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
-  const fnbImageSelectRef = useRef()
+  const shopImageSelectRef = useRef()
 
   const [categories, setCategories] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
@@ -148,8 +148,8 @@ export default function EditBlogPage (props) {
 
   const mappingData = (data) => {
     // mapping banner
-    if (fnbImageSelectRef && fnbImageSelectRef.current) {
-      fnbImageSelectRef.current.setImageUrl(data?.bannerImageUrl)
+    if (shopImageSelectRef && shoppImageSelectRef.current) {
+      shopImageSelectRef.current.setImageUrl(data?.bannerImageUrl)
     }
 
     setTags(data?.blogTags)
@@ -190,8 +190,8 @@ export default function EditBlogPage (props) {
       return
     }
     let imageUrl = ''
-    if (fnbImageSelectRef && fnbImageSelectRef.current) {
-      imageUrl = fnbImageSelectRef.current.getImageUrl()
+    if (shopImageSelectRef && shopImageSelectRef.current) {
+      imageUrl = shopImageSelectRef.current.getImageUrl()
     }
     form
       .validateFields()
@@ -293,7 +293,7 @@ export default function EditBlogPage (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <p className="card-header">
             <PageTitle content={blogName} />
@@ -342,14 +342,14 @@ export default function EditBlogPage (props) {
           <Row gutter={[12, 0]}>
             <Col xs={24} sm={24} md={16} lg={16} xl={15} xxl={16}>
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <Card className="w-100 fnb-card h-auto">
+                <Card className="w-100 shop-card h-auto">
                   <Row className="mb-4">
                     <Col span={24}>
                       <h4 className="title-group">
                         {pageData.generalInformation.title}
                       </h4>
 
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.generalInformation.name.label}
                         <span className="text-danger">*</span>
                       </h4>
@@ -365,7 +365,7 @@ export default function EditBlogPage (props) {
                         validateFirst={true}
                       >
                         <Input
-                          className="fnb-input"
+                          className="shop-input"
                           placeholder={
                             pageData.generalInformation.name.placeholder
                           }
@@ -382,7 +382,7 @@ export default function EditBlogPage (props) {
                         />
                       </Form.Item>
 
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.generalInformation.category.label}{' '}
                         <span className="text-danger">*</span>
                       </h4>
@@ -411,7 +411,7 @@ export default function EditBlogPage (props) {
                               <Row gutter={[16, 16]}>
                                 <Col xs={24} sm={24} md={24} lg={14}>
                                   <Input
-                                    className="fnb-input unit-dropdown-input"
+                                    className="shop-input unit-dropdown-input"
                                     allowClear="true"
                                     maxLength={100}
                                     onChange={(e) => {
@@ -465,7 +465,7 @@ export default function EditBlogPage (props) {
                         ></FnbSelectSingle>
                       </Form.Item>
 
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.generalInformation.blogContent.label}{' '}
                         <span className="text-danger">*</span>
                       </h4>
@@ -496,11 +496,11 @@ export default function EditBlogPage (props) {
               </Col>
 
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <Card className="w-100 mt-1 fnb-card h-auto">
+                <Card className="w-100 mt-1 shop-card h-auto">
                   <Row>
                     <Col span={24}>
                       <h4 className="title-group">{pageData.SEO.title}</h4>
-                      <h4 className="fnb-form-label mt-3">
+                      <h4 className="shop-form-label mt-3">
                         {pageData.SEO.SEOPreview}
                         <Tooltip
                           placement="topLeft"
@@ -540,7 +540,7 @@ export default function EditBlogPage (props) {
                             }">`}
                         </span>
                       </div>
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.SEO.SEOTitle}
                         <Tooltip
                           placement="topLeft"
@@ -562,7 +562,7 @@ export default function EditBlogPage (props) {
                       </h4>
                       <Form.Item name={'TitleSEO'}>
                         <Input
-                          className="fnb-input-with-count"
+                          className="shop-input-with-count"
                           placeholder={pageData.SEO.SEOTitlePlaceholder}
                           maxLength={100}
                           onChange={(e) => {
@@ -589,7 +589,7 @@ export default function EditBlogPage (props) {
                         </div>
                       </Form.Item>
 
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.SEO.SEODescription}
                         <Tooltip
                           placement="topLeft"
@@ -611,7 +611,7 @@ export default function EditBlogPage (props) {
                       </h4>
                       <Form.Item name={'DescriptionSEO'}>
                         <Input
-                          className="fnb-input-with-count"
+                          className="shop-input-with-count"
                           placeholder={pageData.SEO.SEODescriptionPlaceholder}
                           maxLength={255}
                           onChange={(e) => {
@@ -640,7 +640,7 @@ export default function EditBlogPage (props) {
                         </div>
                       </Form.Item>
 
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.SEO.SEOKeywords}
                         <Tooltip
                           placement="topLeft"
@@ -688,13 +688,13 @@ export default function EditBlogPage (props) {
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                 <Row>
                   <Col xs={24} sm={24} md={24} lg={24}>
-                    <Card className="w-100 fnb-card h-auto">
+                    <Card className="w-100 shop-card h-auto">
                       <h4 className="title-group">{pageData.media.title}</h4>
-                      <h4 className="fnb-form-label">
+                      <h4 className="shop-form-label">
                         {pageData.media.bannerTitle}
                       </h4>
                       <FnbImageSelectComponent
-                        ref={fnbImageSelectRef}
+                        ref={shopImageSelectRef}
                         messageTooBigSize={pageData.media.imageSizeTooBig}
                         isShowBestDisplay={true}
                         bestDisplayImage={pageData.media.bestDisplayImage}
@@ -709,7 +709,7 @@ export default function EditBlogPage (props) {
                         <Col span={24}>
                           <div className="left-column">{pageData.createdBy}</div>
                           <div className="right-column">
-                            <div className="fnb-form-label-right">
+                            <div className="shop-form-label-right">
                               {blog?.createdUserName
                                 ? blog?.createdUserName
                                 : '-'}
@@ -723,7 +723,7 @@ export default function EditBlogPage (props) {
                             {pageData.createdTime}
                           </div>
                           <div className="right-column">
-                            <div className="fnb-form-label-right">
+                            <div className="shop-form-label-right">
                               {blog?.createdTime
                                 ? blog?.createdTime.format(
                                   DateFormat.DD_MM_YYYY
@@ -737,7 +737,7 @@ export default function EditBlogPage (props) {
                         <Col span={24}>
                           <div className="left-column">{pageData.updatedTime}</div>
                           <div className="right-column">
-                            <div className="fnb-form-label-right">
+                            <div className="shop-form-label-right">
                               {blog?.lastSavedTime
                                 ? blog?.lastSavedTime.format(DateFormat.DD_MM_YYYY)
                                 : '-'}
@@ -749,7 +749,7 @@ export default function EditBlogPage (props) {
                         <Col span={24}>
                           <div className="left-column">{pageData.view}</div>
                           <div className="right-column">
-                            <div className="fnb-form-label-right">
+                            <div className="shop-form-label-right">
                               {formatNumber(blog?.totalView)}
                             </div>
                           </div>

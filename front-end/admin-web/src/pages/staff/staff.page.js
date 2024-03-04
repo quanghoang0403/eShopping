@@ -37,7 +37,7 @@ export default function StaffPage (props) {
         onClick={() => history.push('/staff/create')}
       />
       <div className="clearfix"></div>
-      <Card className="fnb-card">
+      <Card className="shop-card">
         <TableStaff screenKey={screenKey} onEditStaff={openEditStaffPage} />
       </Card>
     </div>

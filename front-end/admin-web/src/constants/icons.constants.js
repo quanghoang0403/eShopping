@@ -1,4 +1,4 @@
-// import fnbIcon from "assets/images/food-beverage.png";
+// import shopIcon from "assets/images/food-beverage.png";
 // import paymentDefaultIcon from "assets/images/payment-default-logo.png";
 
 // export { ReactComponent as CartLogoIcon } from "assets/icons/CartLogo.svg";
@@ -171,8 +171,8 @@ export { ReactComponent as FolderIcon } from 'assets/icons/folder.svg'
 // export { ReactComponent as GeneralCustomizationStoreWebIcon } from "assets/icons/general-customization-store-web.svg";
 // export { ReactComponent as GeneralStoreWebIcon } from "assets/icons/general-store-web.svg";
 // export { ReactComponent as GlobalIcon } from "assets/icons/global-icon.svg";
-// export { ReactComponent as GoFnBAppIcon } from "assets/icons/go-fnb-app.svg";
-// export { ReactComponent as FnbLogo } from "assets/icons/gofnb.svg";
+// export { ReactComponent as GoFnBAppIcon } from "assets/icons/go-shop-app.svg";
+// export { ReactComponent as FnbLogo } from "assets/icons/goshop.svg";
 // export { ReactComponent as GoodsIcon } from "assets/icons/goods.svg";
 // export { ReactComponent as GoogleConfigIcon } from "assets/icons/google-config.svg";
 export { ReactComponent as GroupFill } from 'assets/icons/group_fill.svg'
@@ -350,7 +350,7 @@ export { ReactComponent as WalletIcon } from 'assets/icons/wallet.svg'
 
 // export const icons = {
 //   paymentDefaultIcon: paymentDefaultIcon,
-//   fnbIcon: fnbIcon,
+//   shopIcon: shopIcon,
 // };
 
 // export const VisaCardIcon = (props) => {

@@ -18,7 +18,7 @@ export default function BlogPage (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col className="pageTitle" span={12} xs={24}>
           <PageTitle content={pageData.blogManagement} />
         </Col>

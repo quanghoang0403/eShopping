@@ -22,7 +22,7 @@ export default function PageTitle (props) {
   }
   return (
     <>
-      <h1 className={`fnb-title-header ${className}`} style={style}>
+      <h1 className={`shop-title-header ${className}`} style={style}>
         {renderTitle()}
         {icon && icon}
       </h1>

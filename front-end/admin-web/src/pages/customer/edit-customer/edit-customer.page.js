@@ -1,9 +1,9 @@
 import { Button, Col, DatePicker, Form, Image, Input, message, Modal, Radio, Row } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbImageSelectComponent } from 'components/fnb-image-select/fnb-image-select.component'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
-import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import PageTitle from 'components/page-title'
 import { CustomerGenderConstant } from 'constants/customer.constant'
 import { DELAYED_TIME } from 'constants/default.constants'
@@ -19,7 +19,7 @@ import './index.scss'
 
 export default function EditCustomerPage (props) {
   const { t, customerDataService, history, match } = props
-  const fnbImageSelectRef = React.useRef()
+  const shopImageSelectRef = React.useRef()
 
   const pageData = {
     title: t('customer:titleEdit'),
@@ -137,8 +137,8 @@ export default function EditCustomerPage (props) {
       const wardsFilteredByCity = wards?.filter((item) => item.districtId === districtId) ?? []
       setWardsByDistrictId(wardsFilteredByCity)
 
-      if (fnbImageSelectRef && fnbImageSelectRef.current) {
-        fnbImageSelectRef.current.setImageUrl(customer?.thumbnail ?? images.imgDefault)
+      if (shopImageSelectRef && shopImageSelectRef.current) {
+        shopImageSelectRef.current.setImageUrl(customer?.thumbnail ?? images.imgDefault)
         setSelectedImage(customer?.thumbnail ?? images.imgDefault)
       }
     }
@@ -151,7 +151,7 @@ export default function EditCustomerPage (props) {
       addressId: customer?.addressId,
       id: match?.params?.customerId,
       thumbnail:
-        fnbImageSelectRef.current.getImageUrl() === images.imgDefault ? null : fnbImageSelectRef.current.getImageUrl(),
+        shopImageSelectRef.current.getImageUrl() === images.imgDefault ? null : shopImageSelectRef.current.getImageUrl(),
       birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null,
       tags
     }
@@ -267,7 +267,7 @@ export default function EditCustomerPage (props) {
               />
             </p>
           </Col>
-          <Col xs={24} sm={24} lg={12} className="fnb-form-item-btn">
+          <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
             <ActionButtonGroup
               arrayButton={[
                 {
@@ -307,7 +307,7 @@ export default function EditCustomerPage (props) {
             <Col sm={24} xs={24} lg={8}>
               <div className="left-card">
                 <div className="left-card-image">
-                  <FnbImageSelectComponent ref={fnbImageSelectRef} messageTooBigSize={pageData.fileSizeLimit} />
+                  <FnbImageSelectComponent ref={shopImageSelectRef} messageTooBigSize={pageData.fileSizeLimit} />
                 </div>
                 <div className="info-container">
                   <div className="other-info-box">
@@ -331,7 +331,7 @@ export default function EditCustomerPage (props) {
               <Row style={{ display: 'grid' }}>
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.name} <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
@@ -356,7 +356,7 @@ export default function EditCustomerPage (props) {
                       ]}
                     >
                       <Input
-                        className="fnb-input-with-count"
+                        className="shop-input-with-count"
                         showCount
                         maxLength={100}
                         size="large"
@@ -370,7 +370,7 @@ export default function EditCustomerPage (props) {
                 </Row>
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">
+                    <h4 className="shop-form-label">
                       {pageData.phone}
                       <span className="text-danger"> *</span>
                     </h4>
@@ -389,17 +389,17 @@ export default function EditCustomerPage (props) {
                     >
                       <Input
                         maxLength={15}
-                        className="fnb-input-addon-before"
+                        className="shop-input-addon-before"
                         size="large"
                         placeholder={pageData.phonePlaceholder}
                       />
                     </Form.Item>
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">{pageData.address}</h4>
+                    <h4 className="shop-form-label">{pageData.address}</h4>
                     <Form.Item name={['address', 'address1']}>
                       <Input
-                        className="fnb-input"
+                        className="shop-input"
                         size="large"
                         placeholder={pageData.addressPlaceholder}
                         maxLength={255}
@@ -409,7 +409,7 @@ export default function EditCustomerPage (props) {
                 </Row>
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">{pageData.email}</h4>
+                    <h4 className="shop-form-label">{pageData.email}</h4>
                     <Form.Item
                       name={'email'}
                       rules={[
@@ -419,11 +419,11 @@ export default function EditCustomerPage (props) {
                         }
                       ]}
                     >
-                      <Input className="fnb-input" size="large" placeholder={pageData.emailPlaceholder} />
+                      <Input className="shop-input" size="large" placeholder={pageData.emailPlaceholder} />
                     </Form.Item>
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">{pageData.city}</h4>
+                    <h4 className="shop-form-label">{pageData.city}</h4>
                     <Form.Item name={['address', 'cityId']}>
                       <FnbSelectSingle
                         size="large"
@@ -441,11 +441,11 @@ export default function EditCustomerPage (props) {
                 </Row>
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">{pageData.birthday}</h4>
+                    <h4 className="shop-form-label">{pageData.birthday}</h4>
                     <Form.Item name={'birthDay'}>
                       <DatePicker
                         suffixIcon={<CalendarNewIcon />}
-                        className="fnb-date-picker w-100"
+                        className="shop-date-picker w-100"
                         format={DateFormat.DD_MM_YYYY}
                         onChange={(date) => setStartDate(date)}
                         placeholder={pageData.birthdayPlaceholder}
@@ -453,7 +453,7 @@ export default function EditCustomerPage (props) {
                     </Form.Item>
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">{pageData.district}</h4>
+                    <h4 className="shop-form-label">{pageData.district}</h4>
                     <Form.Item name={['address', 'districtId']}>
                       <FnbSelectSingle
                         size="large"
@@ -471,7 +471,7 @@ export default function EditCustomerPage (props) {
                 </Row>
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
-                    <h4 className="fnb-form-label">{pageData.gender}</h4>
+                    <h4 className="shop-form-label">{pageData.gender}</h4>
                     <Form.Item className="form-gender-customer-edit">
                       <Radio.Group onChange={onGenderChange} value={`${genderSelected}`}>
                         <Row gutter={[16, 8]}>
@@ -492,7 +492,7 @@ export default function EditCustomerPage (props) {
                     {isDefaultCountry
                       ? (
                       <>
-                        <h4 className="fnb-form-label">{pageData.ward}</h4>
+                        <h4 className="shop-form-label">{pageData.ward}</h4>
                         <Form.Item name={['address', 'wardId']}>
                           <FnbSelectSingle
                             size="large"
@@ -508,7 +508,7 @@ export default function EditCustomerPage (props) {
                         )
                       : (
                       <>
-                        <h4 className="fnb-form-label">{pageData.labelState}</h4>
+                        <h4 className="shop-form-label">{pageData.labelState}</h4>
                         <Form.Item name={['address', 'stateId']}>
                           <FnbSelectSingle
                             placeholder={pageData.selectCityStateRegion}
@@ -525,7 +525,7 @@ export default function EditCustomerPage (props) {
                 </Row>
                 <Row gutter={[25, 25]}>
                   <Col sm={24} xs={24} lg={24} className="form-row">
-                    <h4 className="fnb-form-label">{pageData.note}</h4>
+                    <h4 className="shop-form-label">{pageData.note}</h4>
                     <Form.Item
                       name={'note'}
                       rules={[

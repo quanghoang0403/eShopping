@@ -1,7 +1,7 @@
 import { Card, Col, Form, Image, Row, Tooltip, message } from 'antd'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/fnb-table/fnb-table'
+import { FnbTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
@@ -290,7 +290,7 @@ export const TableBlog = () => {
   return (
     <>
       <Form className="blog-management-list">
-        <Card className="w-100 fnb-card-full">
+        <Card className="w-100 shop-card-full">
           <Row className="total-cost-amount-row">
             <Col span={24}>
               <FnbTable

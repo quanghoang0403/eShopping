@@ -9,48 +9,10 @@
     }
   }
 
-  .fnb-form-btn-popover {
-    .fnb-row-top {
+  .shop-form-btn-popover {
+    .shop-row-top {
       margin-left: unset !important;
       margin-right: unset !important;
-
-      .btn-branch {
-        width: 332px;
-        height: 60px;
-        background: #fff;
-        border-radius: 12px;
-        border: unset !important;
-        margin-right: 24px;
-
-        .ant-row {
-          .icon-branch {
-            text-align: left;
-            width: 42px;
-            display: flex;
-            height: 42px;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8f8;
-            border-radius: 12px;
-          }
-
-          .div-branch-name {
-            display: flex;
-            align-items: center;
-
-            .branch-name {
-              margin-left: 15px;
-            }
-          }
-
-          .div-icon-down {
-            text-align: right;
-            display: flex;
-            align-items: center;
-            justify-content: end;
-          }
-        }
-      }
     }
   }
 }
@@ -107,59 +69,6 @@
   }
 }
 
-.dashboard-branch {
-  .ant-popover-content {
-    .ant-popover-inner {
-      .ant-popover-inner-content::-webkit-scrollbar {
-        width: 4px;
-        height: 49px !important;
-        scroll-behavior: smooth !important;
-      }
-
-      .ant-popover-inner-content::-webkit-scrollbar-thumb {
-        background-color: #50429b;
-      }
-
-      .ant-popover-inner-content {
-        max-height: 444px;
-        overflow: auto;
-
-        .branch-content {
-          width: 332px;
-
-          .ant-col {
-            .group-branch {
-              width: 100%;
-              padding: 12px 12px;
-
-              .ant-row {
-                .ant-col {
-                  .branch-option {
-                    width: 304px;
-                    height: 68px;
-                    display: flex;
-                    align-items: center;
-                    border: unset;
-                    font-size: 18px;
-                    font-weight: 500;
-                    color: #000000;
-                  }
-
-                  .branch-option:hover {
-                    cursor: pointer;
-                    border-radius: 8px;
-                    background: #eae7ff;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 @media only screen and (max-width: 768px) {
   .icon-cube {
     width: 56px !important;
@@ -203,40 +112,20 @@
     .ant-col-xs-24 {
       flex: auto;
     }
-    .fnb-form-btn-popover {
-      .fnb-row-top {
+    .shop-form-btn-popover {
+      .shop-row-top {
         grid-gap: 0 12px;
         flex-flow: nowrap;
-        .btn-branch {
-          width: unset;
-          .ant-row {
-            .icon-branch {
-              width: 38px;
-              height: 38px;
-              background-color: #FFFFFF;
-            }
-            .div-branch-name {
-              .branch-name {
-                display: none !important;
-              }
-            }
-          }
-          .ant-row {
-            .div-icon-down {
-              display: none !important;
-            }
-          }
-        }
         .btn-date-picker {
           display: block !important;
           width: 74px !important;
-          .fnb-btn-div-icon-calendar {
+          .shop-btn-div-icon-calendar {
             background-color: #FFFFFF;
           }
-          .fnb-text-date-time {
+          .shop-text-date-time {
             display: none !important;
           }
-          .fnb-div-down {
+          .shop-div-down {
             display: none !important;
           }
         }
@@ -337,9 +226,9 @@
 @media (min-width: 1024px) {
   .top-dashboard {
     display: block !important;
-    .fnb-form-btn-popover {
+    .shop-form-btn-popover {
       max-width: 100%;
-      .fnb-row-top {
+      .shop-row-top {
         flex-flow: row;
         grid-gap: 0 20px
       }

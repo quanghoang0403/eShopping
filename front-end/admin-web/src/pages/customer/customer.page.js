@@ -28,7 +28,7 @@ export default function CustomerPage (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} md={12} lg={12}>
           <PageTitle content={pageData.customerManagement} />
         </Col>
@@ -50,7 +50,7 @@ export default function CustomerPage (props) {
         </Col>
       </Row>
       <div className="clearfix"></div>
-      <Card className="fnb-card-full">
+      <Card className="shop-card-full">
         <TableCustomer />
       </Card>
     </>

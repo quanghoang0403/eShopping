@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import { FnbTable } from 'components/fnb-table/fnb-table'
+import { FnbTable } from 'components/shop-table/shop-table'
 import { CloseModalPurpleIcon } from 'constants/icons.constants'
 import { DateFormat } from 'constants/string.constants'
 import { useState, forwardRef, useEffect, useImperativeHandle } from 'react'
@@ -50,7 +50,7 @@ export const PromotionCampaignUsageDetailComponent = forwardRef((props, ref) => 
   }
 
   const pageData = {
-    no: t('table.no'),
+    no: t('table:no'),
     title: t('promotion.usageDetail.title'),
     orderId: t('promotion.usageDetail.orderId'),
     discountAmount: t('promotion.usageDetail.discountAmount'),

@@ -184,9 +184,9 @@
 }
 
 @media (max-width: 576px) {
-  .fnb-row-page-header-flash-sale {
+  .shop-row-page-header-flash-sale {
     .ant-col {
-      .fnb-title-header {
+      .shop-title-header {
         font-size: 20px !important;
       }
       .shop-add-new-button {
@@ -197,12 +197,12 @@
         }
       }
     }
-    .fnb-col {
+    .shop-col {
       width: 100%;
       flex: unset !important;
       max-width: unset !important;
     }
-    .fnb-text-flash-sale {
+    .shop-text-flash-sale {
       display: flex;
       align-items: flex-end;
       svg {
@@ -212,7 +212,7 @@
   }
 }
 @media (max-width: 992px) {
-  .fnb-flash-sale-filter {
+  .shop-flash-sale-filter {
     .default-mode {
       display: block !important;
       .select-bar-action-group {
@@ -229,16 +229,16 @@
           width: 100%;
           .ant-btn-default {
             height: 44px;
-            .fnb-btn-div-icon-calendar {
+            .shop-btn-div-icon-calendar {
               margin-top: unset !important;
               margin-left: unset !important;
             }
-            .fnb-div-text-date-time .fnb-text-date-time {
+            .shop-div-text-date-time .shop-text-date-time {
               line-height: 44px;
               margin-bottom: 0px !important;
               height: 44px;
             }
-            .fnb-div-down {
+            .shop-div-down {
               svg > path {
                 stroke: #ccc;
               }

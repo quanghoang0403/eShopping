@@ -4,8 +4,8 @@ import Paragraph from 'antd/lib/typography/Paragraph'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { FnbGuideline } from 'components/fnb-guideline/fnb-guideline.component'
-import { FnbTable } from 'components/fnb-table/fnb-table'
+import { FnbGuideline } from 'components/shop-guideline/shop-guideline.component'
+import { FnbTable } from 'components/shop-table/shop-table'
 import PageTitle from 'components/page-title'
 import { tableSettings } from 'constants/default.constants'
 import { StopFill } from 'constants/icons.constants'
@@ -88,7 +88,6 @@ export default function PromotionPage (props) {
     //     pageNumber,
     //     pageSize,
     //     keySearch,
-    //     dataFilter?.branchId ?? '',
     //     dataFilter?.statusId ?? '',
     //     dataFilter?.valueType ?? '',
     //     checkStartDate ? moment.utc(dataFilter?.startDate).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : '',
@@ -416,7 +415,7 @@ export default function PromotionPage (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col span={12}>
           <PageTitle className="promotion-guideline-page-title" content={pageData.title} />
           <FnbGuideline placement="rightTop" title={pageData.guideline.title} content={pageData.guideline.content} />
@@ -431,7 +430,7 @@ export default function PromotionPage (props) {
         </Col>
       </Row>
       <Row>
-        <Card className="w-100 fnb-card-full">
+        <Card className="w-100 shop-card-full">
           <Row>
             <Col span={24}>
               <FnbTable

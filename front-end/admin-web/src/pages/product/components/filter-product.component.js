@@ -1,6 +1,6 @@
 import { CheckOutlined } from '@ant-design/icons'
 import { Card, Form, Radio, Row } from 'antd'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { useEffect, useState } from 'react'
 import { isJsonString } from 'utils/helpers'
 import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'

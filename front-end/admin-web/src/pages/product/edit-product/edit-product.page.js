@@ -13,10 +13,10 @@ import {
 } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbDeleteIcon } from 'components/fnb-delete-icon/fnb-delete-icon'
-import { FnbImageSelectComponent } from 'components/fnb-image-select/fnb-image-select.component'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
-import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
+import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME, inputNumberRange1To999999999 } from 'constants/default.constants'
 import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
@@ -39,7 +39,7 @@ import { useTranslation } from 'react-i18next'
 export default function EditProductPage (props) {
   const history = useHistory()
   const match = useRouteMatch()
-  const fnbImageSelectRef = React.useRef()
+  const shopImageSelectRef = React.useRef()
   const { t } = useTranslation()
   const [prices, setPrices] = useState([{}])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
@@ -170,8 +170,8 @@ export default function EditProductPage (props) {
     //   };
 
     //   /// Update image
-    //   if (fnbImageSelectRef && fnbImageSelectRef.current) {
-    //     fnbImageSelectRef.current.setImageUrl(data?.product?.thumbnail);
+    //   if (shopImageSelectRef && shopImageSelectRef.current) {
+    //     shopImageSelectRef.current.setImageUrl(data?.product?.thumbnail);
     //     setSelectedImage(data?.product?.thumbnail);
     //   }
     //   form.setFieldsValue(initData);
@@ -179,8 +179,8 @@ export default function EditProductPage (props) {
   }
 
   const editProduct = () => {
-    if (fnbImageSelectRef && fnbImageSelectRef.current) {
-      var imageUrl = fnbImageSelectRef.current.getImageUrl()
+    if (shopImageSelectRef && shopImageSelectRef.current) {
+      var imageUrl = shopImageSelectRef.current.getImageUrl()
     }
     form
       .validateFields()
@@ -327,7 +327,7 @@ export default function EditProductPage (props) {
       <>
         <Row>
           <Col span={24}>
-            <h4 className="fnb-form-label mt-24">{pageData.pricing.priceName.label}</h4>
+            <h4 className="shop-form-label mt-24">{pageData.pricing.priceName.label}</h4>
             <Form.Item
               name={['product', 'price']}
               rules={[
@@ -342,7 +342,7 @@ export default function EditProductPage (props) {
               ]}
             >
               <InputNumber
-                className="w-100 fnb-input-number"
+                className="w-100 shop-input-number"
                 placeholder={pageData.pricing.price.placeholder}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -424,7 +424,7 @@ export default function EditProductPage (props) {
                                           ]}
                                         >
                                           <Input
-                                            className="fnb-input"
+                                            className="shop-input"
                                             placeholder={pageData.pricing.priceName.placeholder}
                                             maxLength={pageData.pricing.priceName.maxLength}
                                             id={`product-prices-${price.position}-name`}
@@ -446,7 +446,7 @@ export default function EditProductPage (props) {
                                           ]}
                                         >
                                           <InputNumber
-                                            className="fnb-input-number w-100"
+                                            className="shop-input-number w-100"
                                             placeholder={pageData.pricing.price.placeholder}
                                             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -539,7 +539,7 @@ export default function EditProductPage (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <Row>
             <p className="card-header">
@@ -557,7 +557,7 @@ export default function EditProductPage (props) {
             )}
           </Row>
         </Col>
-        <Col span={12} xs={24} sm={24} md={24} lg={12} className="fnb-form-item-btn">
+        <Col span={12} xs={24} sm={24} md={24} lg={12} className="shop-form-item-btn">
           <ActionButtonGroup
             arrayButton={[
               {
@@ -616,12 +616,12 @@ export default function EditProductPage (props) {
         <div className="col-input-full-width">
           <Row className="grid-container-edit-product">
             <Col span={24} className="left-create-product">
-              <Card className="w-100 fnb-card h-auto">
+              <Card className="w-100 shop-card h-auto">
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.generalInformation.title}</h4>
 
-                    <h4 className="fnb-form-label mt-20">
+                    <h4 className="shop-form-label mt-20">
                       {pageData.generalInformation.name.label}
                       <span className="text-danger">*</span>
                     </h4>
@@ -636,14 +636,14 @@ export default function EditProductPage (props) {
                     >
                       <Input
                         showCount
-                        className="fnb-input-with-count"
+                        className="shop-input-with-count"
                         placeholder={pageData.generalInformation.name.placeholder}
                         maxLength={pageData.generalInformation.name.maxLength}
                         id="product-name"
                       />
                     </Form.Item>
 
-                    <h4 className="fnb-form-label mt-32">{pageData.generalInformation.description.label}</h4>
+                    <h4 className="shop-form-label mt-32">{pageData.generalInformation.description.label}</h4>
                     <Form.Item name={['product', 'description']} rules={[]}>
                       <FnbTextArea
                         showCount
@@ -658,7 +658,7 @@ export default function EditProductPage (props) {
             </Col>
 
             <Col span={24} className="price-product">
-              <Card className="w-100 mt-1 fnb-card h-auto">
+              <Card className="w-100 mt-1 shop-card h-auto">
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.pricing.title}</h4>
@@ -671,10 +671,10 @@ export default function EditProductPage (props) {
             <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
-                  <Card className="w-100 fnb-card h-auto">
+                  <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.upload.title}</h4>
                     <FnbImageSelectComponent
-                      ref={fnbImageSelectRef}
+                      ref={shopImageSelectRef}
                       customTextNonImageClass={'create-edit-product-text-non-image'}
                       customNonImageClass={'create-edit-product-non-image'}
                     />
@@ -685,7 +685,7 @@ export default function EditProductPage (props) {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br/>
-                  <Card className={'w-100 mt-1 fnb-card h-auto'}>
+                  <Card className={'w-100 mt-1 shop-card h-auto'}>
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
                     <Form.Item name={['product', 'productCategoryId']}>
                       <FnbSelectSingle

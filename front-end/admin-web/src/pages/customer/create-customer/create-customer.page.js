@@ -3,7 +3,7 @@ import { Content } from 'antd/lib/layout/layout'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import PageTitle from 'components/page-title'
 import { CustomerGenderConstant } from 'constants/customer.constant'
 import { DELAYED_TIME } from 'constants/default.constants'
@@ -158,15 +158,15 @@ export default function CreateCustomerPage (props) {
         <>
           <Row gutter={[25, 25]} className="form-row">
             <Col sm={24} md={24} className="w-100">
-              <h4 className="fnb-form-label">{pageData.address}</h4>
+              <h4 className="shop-form-label">{pageData.address}</h4>
               <Form.Item className="form-create-customer" name={['address', 'address1']}>
-                <Input className="fnb-input" size="large" placeholder={pageData.addressPlaceholder} maxLength={255} />
+                <Input className="shop-input" size="large" placeholder={pageData.addressPlaceholder} maxLength={255} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={[25, 25]} className="form-row">
             <Col sm={24} md={8} className="w-100">
-              <h4 className="fnb-form-label">{pageData.city}</h4>
+              <h4 className="shop-form-label">{pageData.city}</h4>
               <Form.Item name={['address', 'cityId']} className="last-item">
                 <FnbSelectSingle
                   size="large"
@@ -182,7 +182,7 @@ export default function CreateCustomerPage (props) {
               </Form.Item>
             </Col>
             <Col sm={24} md={8} className="w-100">
-              <h4 className="fnb-form-label">{pageData.district}</h4>
+              <h4 className="shop-form-label">{pageData.district}</h4>
               <Form.Item name={['address', 'districtId']} className="last-item">
                 <FnbSelectSingle
                   size="large"
@@ -198,7 +198,7 @@ export default function CreateCustomerPage (props) {
               </Form.Item>
             </Col>
             <Col sm={24} md={8} className="w-100">
-              <h4 className="fnb-form-label">{pageData.ward}</h4>
+              <h4 className="shop-form-label">{pageData.ward}</h4>
               <Form.Item name={['address', 'wardId']} className="last-item">
                 <FnbSelectSingle
                   size="large"
@@ -229,7 +229,7 @@ export default function CreateCustomerPage (props) {
         onOk={navigateToManagementPage}
         isChangeForm={isChangeForm}
       />
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Space className="page-title">
           <PageTitle content={pageData.title} />
         </Space>
@@ -241,7 +241,7 @@ export default function CreateCustomerPage (props) {
             },
             {
               action: (
-                <p className="fnb-text-action-group mr-3 action-cancel" onClick={clickCancel}>
+                <p className="shop-text-action-group mr-3 action-cancel" onClick={clickCancel}>
                   {pageData.btnCancel}
                 </p>
               ),
@@ -267,7 +267,7 @@ export default function CreateCustomerPage (props) {
         form={form}
       >
         <Content>
-          <Card className="fnb-card">
+          <Card className="shop-card">
             <Row>
               <Col span={24}>
                 <h5 className="title-group">{pageData.generalInformation}</h5>
@@ -276,7 +276,7 @@ export default function CreateCustomerPage (props) {
             <Row style={{ display: 'grid' }}>
               <Row gutter={[25, 25]} className="form-row">
                 <Col sm={24} md={8} className="w-100">
-                  <h4 className="fnb-form-label">
+                  <h4 className="shop-form-label">
                     {pageData.name} <span className="text-danger">*</span>
                   </h4>
                   <Form.Item
@@ -297,7 +297,7 @@ export default function CreateCustomerPage (props) {
                     ]}
                   >
                     <Input
-                      className="fnb-input-with-count"
+                      className="shop-input-with-count"
                       showCount
                       maxLength={100}
                       size="large"
@@ -308,7 +308,7 @@ export default function CreateCustomerPage (props) {
               </Row>
               <Row gutter={[25, 25]} className="form-row">
                 <Col sm={24} md={12} className="w-100">
-                  <h4 className="fnb-form-label">
+                  <h4 className="shop-form-label">
                     {pageData.phone}
                     <span className="text-danger">*</span>
                   </h4>
@@ -327,7 +327,7 @@ export default function CreateCustomerPage (props) {
                     ]}
                   >
                     <Input
-                      className="fnb-input-addon-before"
+                      className="shop-input-addon-before"
                       size="large"
                       placeholder={pageData.phonePlaceholder}
                       addonBefore={prefixSelector}
@@ -336,7 +336,7 @@ export default function CreateCustomerPage (props) {
                   </Form.Item>
                 </Col>
                 <Col sm={24} md={12} className="w-100">
-                  <h4 className="fnb-form-label">{pageData.email}</h4>
+                  <h4 className="shop-form-label">{pageData.email}</h4>
                   <Form.Item
                     className="form-create-customer"
                     name={'email'}
@@ -351,17 +351,17 @@ export default function CreateCustomerPage (props) {
                       }
                     ]}
                   >
-                    <Input className="fnb-input" size="large" placeholder={pageData.emailPlaceholder} />
+                    <Input className="shop-input" size="large" placeholder={pageData.emailPlaceholder} />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[25, 25]} className="form-row">
                 <Col sm={24} md={12} className="w-100">
-                  <h4 className="fnb-form-label">{pageData.birthday}</h4>
+                  <h4 className="shop-form-label">{pageData.birthday}</h4>
                   <Form.Item name={'birthDay'} className="last-item">
                     <DatePicker
                       suffixIcon={<CalendarNewIcon />}
-                      className="fnb-date-picker w-100"
+                      className="shop-date-picker w-100"
                       format={DateFormat.DD_MM_YYYY}
                       onChange={(date) => setStartDate(date)}
                       placeholder={pageData.birthdayPlaceholder}
@@ -369,7 +369,7 @@ export default function CreateCustomerPage (props) {
                   </Form.Item>
                 </Col>
                 <Col sm={24} md={12} className="w-100">
-                  <h4 className="fnb-form-label">{pageData.gender}</h4>
+                  <h4 className="shop-form-label">{pageData.gender}</h4>
                   <Form.Item
                     name={'gender'}
                     className="form-create-customer form-gender"

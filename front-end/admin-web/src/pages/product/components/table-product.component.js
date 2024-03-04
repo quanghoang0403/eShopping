@@ -2,7 +2,7 @@ import { EllipsisOutlined } from '@ant-design/icons'
 import { Col, message, Popover, Row, Space, Tooltip } from 'antd'
 import { BadgeStatus } from 'components/badge-status'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/fnb-table/fnb-table'
+import { FnbTable } from 'components/shop-table/shop-table'
 import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
@@ -118,7 +118,7 @@ export default function TableProduct (props) {
               />
               {hasPermission(PermissionKeys.DELETE_PRODUCT) && (
                 <Space wrap>
-                  <div className="fnb-table-action-icon">
+                  <div className="shop-table-action-icon">
                     <Tooltip placement="top" title={pageData.btnDelete} color="#50429B">
                       <TrashFill className="icon-svg-hover" onClick={() => onDeleteItem(record?.id, record?.name)} />
                     </Tooltip>
@@ -189,7 +189,6 @@ export default function TableProduct (props) {
       const productFilter = JSON.parse(sessionProductFilter)
       if (productFilter && productFilter.count > 0) {
         const data = {
-          branchId: productFilter.branchId,
           productCategoryId: productFilter.productCategoryId,
           statusId: productFilter.statusId,
           count: productFilter.count

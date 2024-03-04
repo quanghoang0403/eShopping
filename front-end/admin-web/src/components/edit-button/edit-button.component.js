@@ -12,7 +12,7 @@ export function EditButtonComponent (props) {
         ? (
         <Space wrap className={className}>
           <a onClick={() => onClick()}>
-            <div className="fnb-table-action-icon">
+            <div className="shop-table-action-icon">
               <Tooltip placement="top" title={t('button:edit')} color="#50429B">
                 <EditFill className="icon-svg-hover" />
               </Tooltip>

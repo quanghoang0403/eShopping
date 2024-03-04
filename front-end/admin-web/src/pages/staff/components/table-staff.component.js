@@ -4,9 +4,9 @@ import { executeAfter } from 'utils/helpers'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/fnb-table/fnb-table'
-import TooltipParagraph from 'components/fnb-tooltip-paragraph/fnb-tooltip-paragraph'
-import { FnbViewMoreComponent } from 'components/fnb-view-more/fnb-view-more'
+import { FnbTable } from 'components/shop-table/shop-table'
+import TooltipParagraph from 'components/shop-tooltip-paragraph/shop-tooltip-paragraph'
+import { FnbViewMoreComponent } from 'components/shop-view-more/shop-view-more'
 import FilterStaff from './filter-staff.component'
 import { useTranslation } from 'react-i18next'
 // import staffDataService from 'data-services/staff/staff-data.service'
@@ -260,7 +260,6 @@ export default function TableStaff (props) {
 
   const onResetFilter = async () => {
     setCountFilter(0)
-    setSelectedBranchId('')
     setSelectedPermissionId('')
     await fetchDatableAsync(1, tableSettings.pageSize, keySearch)
   }

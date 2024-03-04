@@ -89,7 +89,7 @@ const TableProduct = ({
           return (
             <>
               <a onClick={() => onHandleRemoveItem(record?.productId)}>
-                <div className="fnb-table-action-icon">
+                <div className="shop-table-action-icon">
                   <Tooltip placement="top" title={t('button:delete')} color="#50429B">
                     <TrashFill className="icon-svg-hover" />
                   </Tooltip>
@@ -240,7 +240,7 @@ const TableProduct = ({
                 <Form.Item className="form-wrapper">{renderHeaderModal()}</Form.Item>
               </Col>
             </Row>
-            <div className="fnb-table-wrapper product-modal-table">
+            <div className="shop-table-wrapper product-modal-table">
               <Row>
                 <Col span={24}>
                   <Table

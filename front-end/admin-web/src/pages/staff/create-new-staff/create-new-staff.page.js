@@ -2,7 +2,7 @@ import { PlusSquareOutlined } from '@ant-design/icons'
 import { Button, Card, Checkbox, Col, DatePicker, Form, Input, Layout, message, Radio, Row, Tooltip } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbSelectMultiple } from 'components/fnb-select-multiple/fnb-select-multiple'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME, EmptyId } from 'constants/default.constants'
 import { TrashFill } from 'constants/icons.constants'
@@ -368,7 +368,7 @@ export function CreateNewStaff (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <p className="card-header">
             <PageTitle content={pageData.createStaff} />
@@ -415,7 +415,7 @@ export function CreateNewStaff (props) {
         onFieldsChange={(e) => changeForm(e)}
       >
         <Content>
-          <Card className="fnb-box custom-box">
+          <Card className="shop-box custom-box">
             <Row className="group-header-box">
               <Col xs={24} sm={24} lg={24}>
                 {pageData.generalInformation.title}
@@ -444,7 +444,7 @@ export function CreateNewStaff (props) {
                   ]}
                 >
                   <Input
-                    className="fnb-input"
+                    className="shop-input"
                     placeholder={pageData.generalInformation.code.placeholder}
                     maxLength={pageData.generalInformation.code.maxLength}
                   />
@@ -470,7 +470,7 @@ export function CreateNewStaff (props) {
                   ]}
                 >
                   <Input
-                    className="fnb-input"
+                    className="shop-input"
                     placeholder={pageData.generalInformation.phoneNumber.placeholder}
                     maxLength={pageData.generalInformation.phoneNumber.maxLength}
                   />
@@ -482,7 +482,7 @@ export function CreateNewStaff (props) {
                   onChange={(event) => updateDateFields(event)}
                 >
                   <DatePicker
-                    className="w-100 fnb-input"
+                    className="w-100 shop-input"
                     format={DateFormat.DD_MM_YYYY}
                     placeholder={pageData.generalInformation.birthDay.placeholder}
                     disabledDate={disabledDate}
@@ -507,7 +507,7 @@ export function CreateNewStaff (props) {
                   ]}
                 >
                   <Input
-                    className="fnb-input"
+                    className="shop-input"
                     placeholder={pageData.generalInformation.fullName.placeholder}
                     maxLength={pageData.generalInformation.fullName.maxLength}
                   />
@@ -527,7 +527,7 @@ export function CreateNewStaff (props) {
                     }
                   ]}
                 >
-                  <Input className="fnb-input" placeholder={pageData.generalInformation.email.placeholder} />
+                  <Input className="shop-input" placeholder={pageData.generalInformation.email.placeholder} />
                 </Form.Item>
 
                 <Form.Item
@@ -547,7 +547,7 @@ export function CreateNewStaff (props) {
         </Content>
 
         <Content className="mt-3">
-          <Card className="fnb-box group-permission custom-box">
+          <Card className="shop-box group-permission custom-box">
             <Row className="group-header-box">
               <Col className="items-in-group-header-box" xs={24} sm={24} lg={24}>
                 <span>{pageData.permission.title}</span>

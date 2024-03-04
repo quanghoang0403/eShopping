@@ -17,10 +17,10 @@ import {
 } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbGuideline } from 'components/fnb-guideline/fnb-guideline.component'
-import { FnbSelectMultiple } from 'components/fnb-select-multiple/fnb-select-multiple'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
-import { FnbTextArea } from 'components/fnb-text-area/fnb-text-area.component'
+import { FnbGuideline } from 'components/shop-guideline/shop-guideline.component'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
 import { CalendarNewIconBold, InfoCircleIcon } from 'constants/icons.constants'
@@ -32,7 +32,7 @@ import { useEffect, useState } from 'react'
 import { checkOnKeyPressValidation, formatCurrencyWithSymbol, getEndDate, getStartDate } from 'utils/helpers'
 import '../promotion.scss'
 import { images } from 'constants/images.constants'
-import { FnbSelectMultipleProductRenderOption } from 'components/fnb-select-multiple-product-render-option/fnb-select-multiple-product-render-option'
+import { FnbSelectMultipleProductRenderOption } from 'components/shop-select-multiple-product-render-option/shop-select-multiple-product-render-option'
 const { Text } = Typography
 const { Option, OptGroup } = Select
 
@@ -56,10 +56,8 @@ export default function CreateNewPromotionManagement (props) {
   const [isPercentDiscount, setIsPercentDiscount] = useState(true)
   const [currencyCode, setCurrencyCode] = useState(null)
   const [isMinimumPurchaseAmount, setIsMinimumPurchaseAmount] = useState(false)
-  const [isSpecificBranch, setIsSpecificBranche] = useState(false)
   const [isIncludedTopping, setIsIncludedTopping] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [disableAllBranches, setDisableAllBranches] = useState(false)
   const [isApplyAllProducts, setIsApplyAllProducts] = useState(false)
   const [isApplyAllCategories, setIsApplyAllCategories] = useState(false)
   const [restProductPriceOptions, setRestAllProductPriceOptions] = useState([])
@@ -152,7 +150,6 @@ export default function CreateNewPromotionManagement (props) {
 
   const onCreateNewPromotion = async (values) => {
     const { promotion } = values
-    promotion.isSpecificBranch = isSpecificBranch
     promotion.isMinimumPurchaseAmount = isMinimumPurchaseAmount
     promotion.isIncludedTopping = isIncludedTopping
     promotion.isApplyAllCategories = isApplyAllCategories
@@ -262,7 +259,7 @@ export default function CreateNewPromotionManagement (props) {
   const renderSelectProducts = () => {
     return (
       <>
-        <h4 className="fnb-form-label">
+        <h4 className="shop-form-label">
           {pageData.form.product}
           <span className="text-danger">*</span>
         </h4>
@@ -548,7 +545,7 @@ export default function CreateNewPromotionManagement (props) {
   const renderSelectCategorys = () => {
     return (
       <>
-        <h4 className="fnb-form-label">
+        <h4 className="shop-form-label">
           {pageData.form.productCategory}
           <span className="text-danger">*</span>
         </h4>
@@ -594,7 +591,7 @@ export default function CreateNewPromotionManagement (props) {
         layout="vertical"
         autoComplete="off"
       >
-        <Row className="fnb-row-page-header">
+        <Row className="shop-row-page-header">
           <Col xs={24} sm={24} lg={12}>
             <PageTitle className="promotion-guideline-page-title" content={pageData.create} />
             <FnbGuideline placement="leftTop" title={pageData.guideline.title} content={pageData.guideline.content} />
@@ -612,7 +609,7 @@ export default function CreateNewPromotionManagement (props) {
                 },
                 {
                   action: (
-                    <p className="fnb-text-action-group mr-3 action-cancel" onClick={clickCancel}>
+                    <p className="shop-text-action-group mr-3 action-cancel" onClick={clickCancel}>
                       {pageData.btnCancel}
                     </p>
                   ),
@@ -623,12 +620,12 @@ export default function CreateNewPromotionManagement (props) {
           </Col>
         </Row>
         <Row>
-          <Card className="fnb-card w-100">
+          <Card className="shop-card w-100">
             <Row>
               <h3 className="label-information">{pageData.form.general}</h3>
             </Row>
             <Row>
-              <h4 className="fnb-form-label mt-32">
+              <h4 className="shop-form-label mt-32">
                 {pageData.form.name}
                 <span className="text-danger">*</span>
               </h4>
@@ -647,7 +644,7 @@ export default function CreateNewPromotionManagement (props) {
                 className="w-100"
               >
                 <Input
-                  className="fnb-input-with-count"
+                  className="shop-input-with-count"
                   showCount
                   maxLength={pageData.form.maxLengthName}
                   placeholder={pageData.form.placeholderName}
@@ -655,7 +652,7 @@ export default function CreateNewPromotionManagement (props) {
               </Form.Item>
             </Row>
             <Row>
-              <h4 className="fnb-form-label">
+              <h4 className="shop-form-label">
                 {pageData.form.promotionType}
                 <span className="text-danger">*</span>
               </h4>
@@ -688,7 +685,7 @@ export default function CreateNewPromotionManagement (props) {
             <Row gutter={[32, 16]}>
               <Col xs={24} lg={12}>
                 <Input.Group size="large">
-                  <h4 className="fnb-form-label">{pageData.form.discountValue}</h4>
+                  <h4 className="shop-form-label">{pageData.form.discountValue}</h4>
                   {isPercentDiscount
                     ? (
                     <Form.Item
@@ -705,7 +702,7 @@ export default function CreateNewPromotionManagement (props) {
                     >
                       <InputNumber
                         id="discountPercent"
-                        className="fnb-input-number w-100 discount-amount"
+                        className="shop-input-number w-100 discount-amount"
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                         min={1}
@@ -751,7 +748,7 @@ export default function CreateNewPromotionManagement (props) {
                     >
                       <InputNumber
                         id="discountAmount"
-                        className="w-100 fnb-input-number discount-amount"
+                        className="w-100 shop-input-number discount-amount"
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                         precision={currencyCode === currency.vnd ? 0 : 2}
@@ -789,7 +786,7 @@ export default function CreateNewPromotionManagement (props) {
               </Col>
               {isPercentDiscount && (
                 <Col xs={24} lg={12}>
-                  <h4 className="fnb-form-label">{pageData.form.maxDiscount}</h4>
+                  <h4 className="shop-form-label">{pageData.form.maxDiscount}</h4>
                   <Form.Item
                     name={['promotion', 'maximumDiscountAmount']}
                     rules={[
@@ -805,7 +802,7 @@ export default function CreateNewPromotionManagement (props) {
                     <InputNumber
                       id="maximumDiscountAmount"
                       addonAfter={currencyCode}
-                      className="fnb-input-number w-100"
+                      className="shop-input-number w-100"
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                       precision={currencyCode === currency.vnd ? 0 : 2}
@@ -827,7 +824,7 @@ export default function CreateNewPromotionManagement (props) {
 
             <Row gutter={[32, 16]}>
               <Col xs={24} lg={12}>
-                <h4 className="fnb-form-label">{pageData.form.startDate}</h4>
+                <h4 className="shop-form-label">{pageData.form.startDate}</h4>
                 <Form.Item
                   name={['promotion', 'startDate']}
                   rules={[
@@ -840,7 +837,7 @@ export default function CreateNewPromotionManagement (props) {
                   <DatePicker
                     suffixIcon={<CalendarNewIconBold />}
                     placeholder={pageData.selectDate}
-                    className="fnb-date-picker w-100"
+                    className="shop-date-picker w-100"
                     disabledDate={disabledDate}
                     format={DateFormat.DD_MM_YYYY}
                     onChange={(date) => {
@@ -861,12 +858,12 @@ export default function CreateNewPromotionManagement (props) {
                 </Form.Item>
               </Col>
               <Col xs={24} lg={12}>
-                <h4 className="fnb-form-label">{pageData.form.endDate}</h4>
+                <h4 className="shop-form-label">{pageData.form.endDate}</h4>
                 <Form.Item name={['promotion', 'endDate']}>
                   <DatePicker
                     suffixIcon={<CalendarNewIconBold />}
                     placeholder={pageData.selectDate}
-                    className="fnb-date-picker w-100"
+                    className="shop-date-picker w-100"
                     disabledDate={disabledDateByStartDate}
                     format={DateFormat.DD_MM_YYYY}
                     disabled={!startDate}
@@ -875,7 +872,7 @@ export default function CreateNewPromotionManagement (props) {
               </Col>
             </Row>
             <Row>
-              <h4 className="fnb-form-label">{pageData.form.termsAndConditions}</h4>
+              <h4 className="shop-form-label">{pageData.form.termsAndConditions}</h4>
               <Form.Item name={['promotion', 'termsAndCondition']} className="w-100">
                 <FnbTextArea showCount maxLength={pageData.form.maxLengthTermsAndConditions} rows={4}></FnbTextArea>
               </Form.Item>
@@ -883,7 +880,7 @@ export default function CreateNewPromotionManagement (props) {
           </Card>
         </Row>
         <Row className="mt-3">
-          <Card className="fnb-card w-100">
+          <Card className="shop-card w-100">
             <Row>
               <h5 className="title-group">{pageData.form.condition.title}</h5>
             </Row>
@@ -911,7 +908,7 @@ export default function CreateNewPromotionManagement (props) {
                       className="w-100"
                     >
                       <InputNumber
-                        className="w-100 fnb-input-number"
+                        className="w-100 shop-input-number"
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                         precision={currencyCode === currency.vnd ? 0 : 2}

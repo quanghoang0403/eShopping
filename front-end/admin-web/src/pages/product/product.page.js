@@ -11,7 +11,7 @@ export default function ProductPage (props) {
   const { t } = useTranslation()
   return (
     <div>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} xl={12}>
           <Space className="page-title">
             <PageTitle content={t('product:manageProduct')} />
@@ -35,7 +35,7 @@ export default function ProductPage (props) {
         </Col>
       </Row>
       <div className="clearfix"></div>
-      <Card className="fnb-card cart-with-no-border">
+      <Card className="shop-card cart-with-no-border">
         <TableProduct />
       </Card>
     </div>

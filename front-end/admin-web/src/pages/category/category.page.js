@@ -25,7 +25,7 @@ export default function CategoryPage (props) {
     <>
       {!showAddNewProductCategoryForm && (
         <>
-          <Row className="fnb-row-page-header">
+          <Row className="shop-row-page-header">
             <Col className="category-title-box" xs={24} sm={12}>
               <PageTitle content={pageData.title} />
             </Col>
@@ -54,7 +54,7 @@ export default function CategoryPage (props) {
         </>
           )
         : (
-        <Card className="fnb-card-full">
+        <Card className="shop-card-full">
           <TableProductCategory />
         </Card>
           )}

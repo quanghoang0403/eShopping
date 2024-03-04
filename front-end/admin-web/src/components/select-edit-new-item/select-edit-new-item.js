@@ -53,12 +53,12 @@ export default function SelectEditComponent (props) {
       allowClear={allowClear}
       suffixIcon={<ArrowDown />}
       menuItemSelectedIcon={<CheckedIcon />}
-      className={`w-100 fnb-select-single ${className}`}
+      className={`w-100 shop-select-single ${className}`}
       onChange={onChangeOption}
       onSearch={onSearch}
       onSelect={onSelect}
       placeholder={placeholder}
-      dropdownClassName="fnb-select-single-dropdown"
+      dropdownClassName="shop-select-single-dropdown"
       optionFilterProp="children"
       filterOption={(input, option) =>
         option.children.toLowerCase().removeVietnamese().indexOf(input.toLowerCase().removeVietnamese()) >= 0

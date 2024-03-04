@@ -201,13 +201,13 @@ export default function UserInformationComponent (props) {
             <Form.Item name={'thumbnail'} hidden={true}></Form.Item>
             <Form.Item name={'accountId'} hidden={true}></Form.Item>
             <Form.Item name={'userId'} hidden={true}></Form.Item>
-            <h4 className="fnb-form-label">
+            <h4 className="shop-form-label">
               {pageData.fullNameLabel}
               <span className="text-danger">*</span>
             </h4>
             <Form.Item name={'fullName'} rules={[{ required: true, message: pageData.fullNameErrorText }]}>
               <Input
-                className="fnb-input"
+                className="shop-input"
                 placeholder={pageData.fullNamePlaceholder}
                 onChange={onChangeFullName}
                 maxLength={100}
@@ -217,19 +217,19 @@ export default function UserInformationComponent (props) {
           <Col span={12}>
             <Row>
               {/* <Col span={24}>
-                <h4 className="fnb-form-label">{pageData.storeNameLabel}</h4>
+                <h4 className="shop-form-label">{pageData.storeNameLabel}</h4>
                 <Form.Item name={"storeName"}>
-                  <Input className="fnb-input" disabled={true} />
+                  <Input className="shop-input" disabled={true} />
                 </Form.Item>
               </Col> */}
               <Col span={24}>
-                <h4 className="fnb-form-label">{pageData.loginNameLabel}</h4>
+                <h4 className="shop-form-label">{pageData.loginNameLabel}</h4>
                 <Form.Item name={'emailAddress'}>
-                  <Input className="fnb-input" disabled={true} />
+                  <Input className="shop-input" disabled={true} />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <h4 className="fnb-form-label">
+                <h4 className="shop-form-label">
                   {pageData.phoneNumberLabel}
                   <span className="text-danger">*</span>
                 </h4>
@@ -251,7 +251,7 @@ export default function UserInformationComponent (props) {
                   ]}
                 >
                   <Input
-                    className="w-100 fnb-input-number"
+                    className="w-100 shop-input-number"
                     placeholder={pageData.phoneNumberPlaceholder}
                     maxLength={pageData.maxLengthPhoneNumber}
                     onChange={onChangePhoneNumber}

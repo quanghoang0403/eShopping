@@ -156,7 +156,7 @@ export default function ProductDetailPage (props) {
   return (
     <>
       <Form layout="vertical" autoComplete="off" className="product-detail-form">
-        <Row className="fnb-row-page-header">
+        <Row className="shop-row-page-header">
           <Col xs={24} sm={24} lg={12}>
             <Row>
               <p className="card-header">
@@ -174,7 +174,7 @@ export default function ProductDetailPage (props) {
               )}
             </Row>
           </Col>
-          <Col xs={24} sm={24} lg={12} className="fnb-form-item-btn">
+          <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
             <ActionButtonGroup
               arrayButton={[
                 {

@@ -1,7 +1,7 @@
 import { Form, message, Row, Tooltip } from 'antd'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/fnb-table/fnb-table'
+import { FnbTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 // import productCategoryDataService from "data-services/product-category/product-category-data.service";

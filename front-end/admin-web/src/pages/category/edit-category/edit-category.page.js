@@ -3,7 +3,7 @@ import { arrayMoveImmutable } from 'array-move'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { FnbSelectMultipleProduct } from 'components/fnb-select-multiple-product/fnb-select-multiple-product'
+import { FnbSelectMultipleProduct } from 'components/shop-select-multiple-product/shop-select-multiple-product'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon, PolygonIcon, TrashFill } from 'constants/icons.constants'
@@ -149,7 +149,7 @@ export default function EditProductCategoryPage (props) {
     return (
       <>
         <Col span={24}>
-          <h3 className="fnb-form-label mt-16">{pageData.product.title}</h3>
+          <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
           <Form.Item name="productIds">
             <FnbSelectMultipleProduct
               showSearch
@@ -297,7 +297,7 @@ export default function EditProductCategoryPage (props) {
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
-        <Row className="fnb-row-page-header">
+        <Row className="shop-row-page-header">
           <Col xs={24} sm={24} lg={12}>
             <p className="card-header">
               <PageTitle content={title !== '' ? title : currentName} />
@@ -345,11 +345,11 @@ export default function EditProductCategoryPage (props) {
         </Row>
         <Row>
           <div className="w-100">
-            <Card className="fnb-card">
+            <Card className="shop-card">
               <h2 className="label-information mt-16">{pageData.generalInformation.title}</h2>
               <Row gutter={[24, 24]}>
                 <Col span={24}>
-                  <h3 className="fnb-form-label mt-16">
+                  <h3 className="shop-form-label mt-16">
                     {pageData.generalInformation.name.label}
                     <span className="text-danger">*</span>
                   </h3>
@@ -364,7 +364,7 @@ export default function EditProductCategoryPage (props) {
                     ]}
                   >
                     <Input
-                      className="fnb-input-with-count"
+                      className="shop-input-with-count"
                       showCount
                       placeholder={pageData.generalInformation.name.placeholder}
                       maxLength={pageData.generalInformation.name.maxLength}
@@ -375,7 +375,7 @@ export default function EditProductCategoryPage (props) {
               <Row gutter={[24, 24]}>
                 <Col xs={24} sm={24} md={24} lg={12} span={12}>
                   <div className="d-flex">
-                    <h3 className="fnb-form-label mt-16">
+                    <h3 className="shop-form-label mt-16">
                       {pageData.priority.title}
                       <span className="text-danger">*</span>
                     </h3>
@@ -396,7 +396,7 @@ export default function EditProductCategoryPage (props) {
                   >
                     <InputNumber
                       placeholder={pageData.priority.placeholder}
-                      className="fnb-input-number w-100"
+                      className="shop-input-number w-100"
                       min={1}
                       max={1000000}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

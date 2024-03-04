@@ -123,14 +123,14 @@
 //#region sm: '(min-width: 576px)',
 @media (max-width: 576px) {
     $inputHeightMobileMode: 48px;
-    .fnb-input-with-count{
+    .shop-input-with-count{
         height: $inputHeightMobileMode !important;
         background: #FFFFFF;
         box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
         border-radius: 12px;
     }
 
-    .fnb-input-addon-before {
+    .shop-input-addon-before {
         height: $inputHeightMobileMode;
         .ant-input-wrapper{
             height: 100%;
@@ -140,7 +140,7 @@
         }
     }
 
-    .fnb-input {
+    .shop-input {
         height: $inputHeightMobileMode !important;
 
         .ant-input:placeholder-shown {
@@ -166,7 +166,7 @@
 
     }
 
-    .fnb-date-picker {
+    .shop-date-picker {
         height: $inputHeightMobileMode !important;
     }
 }

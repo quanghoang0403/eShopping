@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import './fnb-notify-dialog.component.scss'
+import './shop-notify-dialog.component.scss'
 
 export function FnbNotifyDialog ({
   className,
@@ -14,7 +14,7 @@ export function FnbNotifyDialog ({
 }) {
   return (
     <Modal
-      className={`fnb-notify-dialog ${className}`}
+      className={`shop-notify-dialog ${className}`}
       title={title}
       open={open}
       okText={okText ?? 'OK'}

@@ -1,6 +1,6 @@
 import { CheckOutlined } from '@ant-design/icons'
 import { Card, Col, DatePicker, Form, InputNumber, Radio, Row } from 'antd'
-import { FnbSelectSingle } from 'components/fnb-select-single/fnb-select-single'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { inputNumberRange1To999999999 } from 'constants/default.constants'
 import { CalendarNewIconBold } from 'constants/icons.constants'
 import { DateFormat } from 'constants/string.constants'
@@ -208,7 +208,7 @@ export default function FilterDiscount (props) {
                   <DatePicker
                     suffixIcon={<CalendarNewIconBold />}
                     placeholder={DateFormat.DD_MM_YYYY_DASH.toLowerCase()}
-                    className="fnb-date-picker w-100"
+                    className="shop-date-picker w-100"
                     disabledDate={false}
                     format={DateFormat.DD_MM_YYYY_DASH}
                     onChange={(date) => {
@@ -238,7 +238,7 @@ export default function FilterDiscount (props) {
                   <DatePicker
                     suffixIcon={<CalendarNewIconBold />}
                     placeholder={DateFormat.DD_MM_YYYY_DASH.toLowerCase()}
-                    className="fnb-date-picker w-100"
+                    className="shop-date-picker w-100"
                     format={DateFormat.DD_MM_YYYY_DASH}
                     disabledDate={disabledDateByStartDate}
                   />
@@ -263,7 +263,7 @@ export default function FilterDiscount (props) {
                       ]}
                     >
                       <InputNumber
-                        className="w-100 fnb-input-number"
+                        className="w-100 shop-input-number"
                         placeholder={pageData.filter.fromAmount}
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -305,7 +305,7 @@ export default function FilterDiscount (props) {
                       ]}
                     >
                       <InputNumber
-                        className="w-100 fnb-input-number"
+                        className="w-100 shop-input-number"
                         placeholder={pageData.filter.toAmount}
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={(value) => value.replace(/\$\s?|(,*)/g, '')}

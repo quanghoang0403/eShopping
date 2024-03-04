@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Checkbox, Col, DatePicker, Form, Input, Layout, message, Radio, Row, Tooltip } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbSelectMultiple } from 'components/fnb-select-multiple/fnb-select-multiple'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
 import { TrashFill } from 'constants/icons.constants'
@@ -390,7 +390,7 @@ export function EditStaff (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <p className="card-header">
             <PageTitle content={pageData.editingStaff} />
@@ -434,7 +434,7 @@ export function EditStaff (props) {
         onFieldsChange={(e) => changeForm(e)}
       >
         <Content>
-          <Card className="fnb-box custom-box">
+          <Card className="shop-box custom-box">
             <Row className="group-header-box">
               <Col xs={24} sm={24} lg={24}>
                 {pageData.generalInformation.title}
@@ -445,7 +445,7 @@ export function EditStaff (props) {
         </Content>
 
         <Content className="mt-3">
-          <Card className="fnb-box custom-box">
+          <Card className="shop-box custom-box">
             <Row className="group-header-box">
               <Col xs={24} sm={24} lg={24}>
                 {pageData.permission.title}

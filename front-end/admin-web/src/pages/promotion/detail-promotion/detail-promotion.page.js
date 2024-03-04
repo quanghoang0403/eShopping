@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, Col, message, Row, Tooltip, Typography } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbGuideline } from 'components/fnb-guideline/fnb-guideline.component'
+import { FnbGuideline } from 'components/shop-guideline/shop-guideline.component'
 import PageTitle from 'components/page-title'
 import { InfoCircleIcon, SummaryWidgetOrangeIcon, SummaryWidgetPurpleIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
@@ -96,8 +96,6 @@ export default function DetailPromotionManagement (props) {
       setInitData(res?.promotion)
       setIsPercentDiscount(res?.promotion?.isPercentDiscount)
       setIsMinimumPurchaseAmount(res?.promotion?.isMinimumPurchaseAmount)
-      setIsSpecificBranch(res?.promotion?.isSpecificBranch)
-      setIsIncludedTopping(res?.promotion?.isIncludedTopping)
       setTotalDiscountAmount(res?.totalDiscountAmount)
       setTotalDiscountOrder(res?.totalDiscountOrder)
     } else {
@@ -137,7 +135,7 @@ export default function DetailPromotionManagement (props) {
 
   return (
     <>
-      <Row className="fnb-row-page-header">
+      <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12}>
           <PageTitle className="promotion-guideline-page-title" content={initData?.name} />
           <FnbGuideline placement="leftTop" title={pageData.guideline.title} content={pageData.guideline.content} />
@@ -252,7 +250,7 @@ export default function DetailPromotionManagement (props) {
             )}
       </div>
 
-      <Card className={`fnb-card card-promotion-detail ${isMaxWidth500 ? 'mt-36' : 'mt-48'}`}>
+      <Card className={`shop-card card-promotion-detail ${isMaxWidth500 ? 'mt-36' : 'mt-48'}`}>
         <div className="title-session">
           <span>{pageData.general}</span>
         </div>

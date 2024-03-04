@@ -1,8 +1,8 @@
 import { Col, Row } from 'antd'
-import { FnbUploadImageComponent } from 'components/fnb-upload-image/fnb-upload-image.component'
+import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import './fnb-image-select.component.scss'
+import './shop-image-select.component.scss'
 
 const { forwardRef, useImperativeHandle } = React
 export const FnbImageSelectComponent = forwardRef((props, ref) => {
@@ -21,7 +21,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     isDisabled,
     isShowMessageError = false
   } = props
-  const fnbUploadRef = React.useRef()
+  const shopUploadRef = React.useRef()
   const [selectedImage, setSelectedImage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -48,8 +48,8 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }, [])
 
   const setImageUrl = (url) => {
-    if (fnbUploadRef && fnbUploadRef.current && url) {
-      fnbUploadRef.current.setImage(url)
+    if (shopUploadRef && shopbUploadRef.current && url) {
+      shopUploadRef.current.setImage(url)
       setSelectedImage(url)
     }
   }
@@ -71,7 +71,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }
 
   return (
-    <div className="fnb-image-select ">
+    <div className="shop-image-select ">
       <Row className={`non-image ${(isShowMessageError && errorMessage) && 'border-error'} ${selectedImage !== null ? 'have-image' : ''}`}>
         <Col
           span={24}
@@ -80,7 +80,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
           <div style={{ display: 'flex' }}>
             <FnbUploadImageComponent
               className={className}
-              ref={fnbUploadRef}
+              ref={shopUploadRef}
               buttonText={pageData.uploadImage}
               onChange={onClickUploadImage}
               maxFileSize={maxFileSize}
