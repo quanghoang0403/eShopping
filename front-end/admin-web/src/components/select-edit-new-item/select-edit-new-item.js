@@ -26,7 +26,7 @@ export default function SelectEditComponent (props) {
   const [value, setValue] = useState(null)
 
   const pageData = {
-    add: t('button:add')
+    add: t('button.add')
   }
 
   useEffect(() => {

@@ -33,42 +33,42 @@ export default function EditProductCategoryPage (props) {
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
 
   const pageData = {
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnUpdate: t('button:update'),
-    btnDelete: t('button:delete'),
-    btnDiscard: t('button:discard'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnUpdate: t('button.update'),
+    btnDelete: t('button.delete'),
+    btnDiscard: t('button.discard'),
     generalInformation: {
-      title: t('category:titleInfo'),
+      title: t('category.titleInfo'),
       name: {
-        label: t('category:labelName'),
-        placeholder: t('category:placeholderName'),
+        label: t('category.labelName'),
+        placeholder: t('category.placeholderName'),
         required: true,
         maxLength: 100,
-        validateMessage: t('category:validateName')
+        validateMessage: t('category.validateName')
       }
     },
     product: {
-      title: t('category:titleProduct'),
-      placeholder: t('category:placeholderProduct')
+      title: t('category.titleProduct'),
+      placeholder: t('category.placeholderProduct')
     },
     priority: {
-      title: t('category:titlePriority'),
-      placeholder: t('category:placeholderPriority'),
-      validateMessage: t('category:validatePriority'),
-      tooltip: t('category:tooltipPriority')
+      title: t('category.titlePriority'),
+      placeholder: t('category.placeholderPriority'),
+      validateMessage: t('category.validatePriority'),
+      tooltip: t('category.tooltipPriority')
     },
-    productCategoryNameExisted: t('category:productNameExisted'),
-    productCategoryAddedSuccess: t('category:productCategoryAddedSuccess'),
-    productCategoryUpdateSuccess: t('category:productCategoryUpdateSuccess'),
-    productCategoryDeleteSuccess: t('category:productCategoryDeleteSuccess'),
-    productCategoryDeleteFail: t('category:productCategoryDeleteFail'),
+    productCategoryNameExisted: t('category.productNameExisted'),
+    productCategoryAddedSuccess: t('category.productCategoryAddedSuccess'),
+    productCategoryUpdateSuccess: t('category.productCategoryUpdateSuccess'),
+    productCategoryDeleteSuccess: t('category.productCategoryDeleteSuccess'),
+    productCategoryDeleteFail: t('category.productCategoryDeleteFail'),
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave'),
-      confirmDeleteMessage: t('dialog:confirmDeleteMessage'),
-      confirmDelete: t('dialog:confirmDelete')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave'),
+      confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
+      confirmDelete: t('dialog.confirmDelete')
     }
   }
 

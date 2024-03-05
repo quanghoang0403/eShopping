@@ -30,9 +30,9 @@ export default function TableStaff (props) {
 
   const pageData = {
     searchPlaceholder: t('table:searchPlaceholder'),
-    btnFilter: t('button:filter'),
-    btnDelete: t('button:delete'),
-    btnIgnore: t('button:ignore'),
+    btnFilter: t('button.filter'),
+    btnDelete: t('button.delete'),
+    btnIgnore: t('button.ignore'),
     table: {
       no: t('table:no'),
       name: t('table:name'),
@@ -40,8 +40,8 @@ export default function TableStaff (props) {
       group: t('table:group'),
       action: t('table:action')
     },
-    confirmDelete: t('dialog:confirmDelete'),
-    confirmDeleteMessage: t('dialog:confirmDeleteMessage'),
+    confirmDelete: t('dialog.confirmDelete'),
+    confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
     staffDeleteSuccess: t('staff:staffDeleteSuccess'),
     staffDeleteFail: t('staff:staffDeleteFail')
   }

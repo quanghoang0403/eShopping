@@ -10,7 +10,7 @@ const route = [
     position: 0,
     path: '/',
     icon: <HomeFill />,
-    name: t('home:menuHome'),
+    name: t('home.menuHome'),
     isMenu: true,
     exact: true,
     auth: true,

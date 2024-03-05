@@ -64,10 +64,10 @@ export default function EditProductPage (props) {
 
   const pageData = {
     title: t('product:addProduct'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnAddNew: t('button:add'),
-    btnDiscard: t('button:discard'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnAddNew: t('button.add'),
+    btnDiscard: t('button.discard'),
     generalInformation: {
       title: t('product:titleInfo'),
       name: {
@@ -115,24 +115,24 @@ export default function EditProductPage (props) {
     productActivatedSuccess: t('product:productActivatedSuccess'),
     productDeactivatedSuccess: t('product:productDeactivatedSuccess'),
     file: {
-      uploadImage: t('file:uploadImage'),
-      title: t('file:title'),
-      textNonImage: t('file:textNonImage'),
-      addFromUrl: t('file:addFromUrl'),
-      bestDisplayImage: t('file:bestDisplayImage')
+      uploadImage: t('file.uploadImage'),
+      title: t('file.title'),
+      textNonImage: t('file.textNonImage'),
+      addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('file.bestDisplayImage')
     },
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave'),
-      confirmDelete: t('dialog:confirmDelete')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave'),
+      confirmDelete: t('dialog.confirmDelete')
     },
     table: {
       name: t('table:name'),
       action: t('table:action')
     },
-    active: t('common:active'),
-    inactive: t('common:inactive'),
+    active: t('common.active'),
+    inactive: t('common.inactive'),
     activate: t('product:activate'),
     deactivate: t('product:deactivate')
   }

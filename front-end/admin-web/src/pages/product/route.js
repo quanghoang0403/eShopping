@@ -14,7 +14,7 @@ const route = [
     position: 1,
     path: '/product',
     icon: <Clothing />,
-    name: t('home:menuProduct'),
+    name: t('home.menuProduct'),
     isMenu: true,
     exact: true,
     auth: true,

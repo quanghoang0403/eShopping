@@ -12,7 +12,7 @@
   -moz-transition: 0.5s all;
   -o-transition: 0.5s all;
 }
-.settings {
+.logout {
     background-color: $color-F7F5FF;
     width: 166px;
     height: 57px!important;
@@ -23,10 +23,10 @@
     color: $color-light-purple-1;
     font-size: 20px;
 }
-.settings > span.icon-setting {
+.logout > span.icon-logout {
     display: flex;
 }
-.settings > span.title-setting {
+.logout > span.title-logout {
     margin-left: 5px;
 }
 
@@ -47,11 +47,11 @@
     display: block;
 }
 
-.trigger-footer > .settings.active {
+.trigger-footer > .logout.active {
     background-color: $color-light-purple-1;
     color: $color-white;
 }
-.trigger-footer > .settings:hover {
+.trigger-footer > .logout:hover {
     background-color: $color-light-purple-2;
     color: $color-white;
 }
@@ -60,13 +60,13 @@
     color: $color-white;
 }
 //Icon color
-.ant-layout-sider-trigger > .trigger-footer > .settings > .icon-setting > svg > path,
-.ant-layout-sider-trigger > .trigger-footer > .settings.active > .icon-setting > svg > path {
+.ant-layout-sider-trigger > .trigger-footer > .logout > .icon-logout > svg > path,
+.ant-layout-sider-trigger > .trigger-footer > .logout.active > .icon-logout > svg > path {
     fill: $color-light-purple-1;
 }
 .ant-layout-sider-trigger > .trigger-footer > .icon-navigate:hover > span,
-.ant-layout-sider-trigger > .trigger-footer > .settings.active > .icon-setting,
-.trigger-footer > a.settings:hover > .icon-setting {
+.ant-layout-sider-trigger > .trigger-footer > .logout.active > .icon-logout,
+.trigger-footer > a.logout:hover > .icon-logout {
     svg > path {
         fill: $color-white;
     }
@@ -84,12 +84,12 @@ aside.ant-layout-sider-collapsed {
     .ant-layout-sider-trigger {
         height: 186px!important;
     }
-    .settings {
+    .logout {
         background-color: $color-F7F5FF;
         width: 121px;
         margin-bottom: 24px;
     }
-    .settings > span.title-setting {
+    .logout > span.title-logout {
         display: none;
     }
 

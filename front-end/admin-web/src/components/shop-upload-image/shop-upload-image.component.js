@@ -19,8 +19,8 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
     maxFileSize = 5242880,
     onError,
     acceptType,
-    imageSizeTooBig = t('file:imageSizeTooBig'),
-    acceptFileImageTypes = t('file:acceptFileImageTypes'),
+    imageSizeTooBig = t('file.imageSizeTooBig'),
+    acceptFileImageTypes = t('file.acceptFileImageTypes'),
     isDisabled = false
   } = props
   const [images, setImages] = React.useState([])

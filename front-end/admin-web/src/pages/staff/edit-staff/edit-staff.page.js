@@ -25,15 +25,15 @@ export function EditStaff (props) {
   const [isChangeForm, setIsChangeForm] = useState(false)
   // #region Page data
   const pageData = {
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnUpdate: t('button:update'),
-    btnDiscard: t('button:discard'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnUpdate: t('button.update'),
+    btnDiscard: t('button.discard'),
     editingStaff: t('staff:editingStaff'),
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave')
     },
     generalInformation: {
       title: t('staff:titleInfo'),
@@ -263,7 +263,7 @@ export function EditStaff (props) {
 
           {groupPermissionStaff?.length > 1 && (
             <Col className="btn-remove-icon" xs={2} sm={2} lg={1}>
-              <Tooltip placement="top" title={t('button:delete')} color="#50429B">
+              <Tooltip placement="top" title={t('button.delete')} color="#50429B">
                 <TrashFill
                   onClick={() => onRemoveGroupPermission(index)}
                   className="icon-del mt-4 pt-2 float-right"

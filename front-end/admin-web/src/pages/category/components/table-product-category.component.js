@@ -30,14 +30,14 @@ export default function TableProductCategory () {
   const [allProducts, setAllProducts] = useState([])
 
   const pageData = {
-    btnFilter: t('button:filter'),
-    btnDelete: t('button:delete'),
-    btnIgnore: t('button:ignore'),
-    confirmDelete: t('dialog:confirmDelete'),
-    confirmDeleteMessage: t('dialog:confirmDeleteMessage'),
-    productCategoryDeleteSuccess: t('category:productCategoryDeleteSuccess'),
-    productCategoryUpdateSuccess: t('category:productCategoryUpdateSuccess'),
-    productCategoryDeleteFail: t('category:productCategoryDeleteFail'),
+    btnFilter: t('button.filter'),
+    btnDelete: t('button.delete'),
+    btnIgnore: t('button.ignore'),
+    confirmDelete: t('dialog.confirmDelete'),
+    confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
+    productCategoryDeleteSuccess: t('category.productCategoryDeleteSuccess'),
+    productCategoryUpdateSuccess: t('category.productCategoryUpdateSuccess'),
+    productCategoryDeleteFail: t('category.productCategoryDeleteFail'),
     table: {
       searchPlaceholder: t('table:searchPlaceholder'),
       no: t('table:no'),
@@ -47,8 +47,8 @@ export default function TableProductCategory () {
       action: t('table:action')
     },
     product: {
-      title: t('category:titleProduct'),
-      placeholder: t('category:placeholderProduct')
+      title: t('category.titleProduct'),
+      placeholder: t('category.placeholderProduct')
     }
   }
 

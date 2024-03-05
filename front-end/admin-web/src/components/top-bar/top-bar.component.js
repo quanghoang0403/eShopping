@@ -16,7 +16,6 @@ const { SubMenu } = Menu
 function TopBar (props) {
   const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props
   const [visible, setVisible] = useState(false)
-  const [visiblePopoverUser, setVisiblePopoverUser] = useState(false)
   const [selectedKey, setSelectedKey] = useState('')
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
   const { t } = useTranslation()
@@ -33,11 +32,16 @@ function TopBar (props) {
     }
   }, [route])
 
-  const logOut = () => {
-    const request = { UserId: signedInUser?.userId }
-    signOut(request).then(() => {
-      window.location.replace('/login')
-    })
+  const showDrawer = () => {
+    setVisible(true)
+  }
+
+  const onClose = () => {
+    setVisible(false)
+  }
+
+  const renderMenuMobile = () => {
+    showDrawer(true)
   }
 
   const getShortName = (name) => {
@@ -51,56 +55,11 @@ function TopBar (props) {
     return names
   }
 
-  const renderAvatarPopover = (
-    <>
-      <div className="avatar-account-popover">
-        <div className="header-avatar">
-          <Avatar src={signedInUser?.thumbnail ?? null} className="avatar-popover">
-            {getShortName(signedInUser?.fullName)}
-          </Avatar>
-        </div>
-        <div className="avatar-infor account-name">{signedInUser?.fullName}</div>
-        <div className="avatar-infor account-email">{signedInUser?.email}</div>
-        <div className="account-popover-content">
-          <div onClick={() => onOpenMyAccount()} className="pointer manage-account">
-            <span className="avt-staff-icon">
-              <StaffUserFill width={28} height={28} />
-            </span>
-            <a>{t('home:userInfo')}</a>
-          </div>
-          <hr />
-          <div onClick={() => logOut()} className="pointer log-out-border">
-            <span className="avt-menu-icon">
-              <LogoutIcon width={28} height={28} />
-            </span>
-            <a>{t('home:logout')}</a>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-
-  const showDrawer = () => {
-    setVisible(true)
-  }
-
-  const onClose = () => {
-    setVisible(false)
-  }
-
-  const renderMenuMobile = () => {
-    showDrawer(true)
-  }
-
-  const onOpenMyAccount = () => {
-    history.push('/my-account')
-  }
-
-  const onClickAvatar = () => {
-    if (!visiblePopoverUser) {
-      // TO DO
-    }
-    setVisiblePopoverUser(!visiblePopoverUser)
+  const logOut = () => {
+    const request = { UserId: signedInUser?.userId }
+    signOut(request).then(() => {
+      window.location.replace('/login')
+    })
   }
 
   /* Side Menu */
@@ -171,59 +130,18 @@ function TopBar (props) {
             <div className="menu-icon" onClick={renderMenuMobile}>
               <MenuIcon />
             </div>
-            <div className="logo">
-              <div className="store-info-box">
-                <div className="store-logo">
-                  <img
-                    src={logo}
-                    alt="Rose clothing"
-                    title="Rose clothing"
-                  />
-                </div>
-                <div className="store-information">
-                  <span className="store-label" title="">
-                    Rose Clothing
-                  </span>
-                  <a href="https://roseclothing.vn/" className="store-name" target={'_blank'} rel="noreferrer">
-                    https://roseclothing.vn/
-                  </a>
-                </div>
+            <div className="logo-box">
+              <div className="header-information">
+                  <div className="header-name">{signedInUser?.fullName}</div>
+                  <div className="header-email">{signedInUser?.email}</div>
               </div>
-                {/* <Image preview={false} src={''} width={55} /> */}
-            </div>
-          </div>
-          <div className="header-web">
-            <div className="store-info-box">
-              <div className="store-logo">
-                <img
-                  src={logo}
-                  alt="Rose clothing"
-                  title="Rose clothing"
-                />
-              </div>
-              <div className="store-information">
-                <span className="store-label" title="">
-                  Rose Clothing
-                </span>
-                <a href="https://roseclothing.vn/" className="store-name" target={'_blank'} rel="noreferrer">
-                  https://roseclothing.vn/
-                </a>
+              <div className="header-avatar">
+                <Avatar src={signedInUser?.thumbnail ?? null} className="avatar-popover">
+                  {getShortName(signedInUser?.fullName)}
+                </Avatar>
               </div>
             </div>
           </div>
-        </div>
-        <div className="header-avatar">
-          <Popover
-            visible={visiblePopoverUser}
-            content={renderAvatarPopover}
-            trigger="click"
-            placement="bottomRight"
-            overlayClassName="avatar-top-bar"
-          >
-            <Avatar onClick={onClickAvatar} src={signedInUser?.thumbnail ?? null}>
-              {getShortName(signedInUser?.fullName)}
-            </Avatar>
-          </Popover>
         </div>
       </Header>
       <Drawer width={'70%'} placement={'left'} closable={false} onClose={onClose} visible={visible}>
@@ -238,12 +156,12 @@ function TopBar (props) {
           </Menu>
         </div>
         <div className="trigger-footer-mobile">
-          <NavLink to="/my-account" className="settings-mobile">
-            <span className="icon-setting">
-              <SettingFill />
+          <div onClick={() => logOut()} className="logout-mobile">
+            <span className="icon-logout">
+              <LogoutIcon width={28} height={28} />
             </span>
-            <span className="title-setting">Settings</span>
-          </NavLink>
+            <span className="title-logout">{t('login.logout')}</span>
+          </div>
         </div>
       </Drawer>
     </>

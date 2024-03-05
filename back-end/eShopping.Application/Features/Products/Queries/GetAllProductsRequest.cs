@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.Application.Features.Products.Queries
+namespace eShopping.Application.Features.Products.Queries
 {
     public class GetAllProductsRequest : IRequest<GetAllProductsResponse>
     {

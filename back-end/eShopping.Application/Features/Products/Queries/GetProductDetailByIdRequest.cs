@@ -4,8 +4,8 @@ using eShopping.Common.Exceptions;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Commons;
+using eShopping.Models.Product;
 using eShopping.Models.Products;
-using GoFoodBeverage.POS.Models.Product;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.POS.Application.Features.Products.Queries
+namespace eShopping.Application.Features.Products.Queries
 {
     public class GetProductDetailByIdRequest : IRequest<GetProductDetailByIdResponse>
     {

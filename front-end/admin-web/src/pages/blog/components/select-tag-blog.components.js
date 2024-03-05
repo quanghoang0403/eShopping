@@ -8,8 +8,8 @@ const SelectBlogTagComponent = (props) => {
   const { tagDataTemp, tags, setTags, setTagError, setIsChangeForm } = props
   const [t] = useTranslation()
   const pageData = {
-    enterTag: t('form:SEOKeywordsPlaceholder'),
-    maximumText: t('form:maximum255Characters')
+    enterTag: t('form.SEOKeywordsPlaceholder'),
+    maximumText: t('form.maximum255Characters')
   }
   const [inputVisible, setInputVisible] = useState(false)
   const [inputValue, setInputValue] = useState({
@@ -280,7 +280,7 @@ const SelectBlogTagComponent = (props) => {
           ? (
           <Tag onClick={showInput} className="site-tag-plus-text blog-tag-plus-text">
             <PlusOrangeIcon className="icon-add-new-import-unit" />
-            <span>{t('blog:AddSEOKeywords')}</span>
+            <span>{t('blog.AddSEOKeywords')}</span>
           </Tag>
             )
           : (

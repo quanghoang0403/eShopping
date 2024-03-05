@@ -14,7 +14,7 @@ const route = [
     position: 6,
     path: '/customer',
     icon: <GroupFill />,
-    name: t('home:menuCustomer'),
+    name: t('home.menuCustomer'),
     isMenu: true,
     exact: true,
     auth: true,

@@ -15,10 +15,10 @@ export default function CustomerPage (props) {
   const [t] = useTranslation()
   const history = useHistory()
   const pageData = {
-    customerManagement: t('customer:title'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnAddNew: t('button:addNew')
+    customerManagement: t('customer.title'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnAddNew: t('button.addNew')
   }
   const createCustomerPage = '/customer/create'
 

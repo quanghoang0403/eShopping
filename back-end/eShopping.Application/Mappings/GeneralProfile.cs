@@ -5,7 +5,6 @@ using eShopping.Models.Addresses;
 using eShopping.Models.Commons;
 using eShopping.Models.Permissions;
 using eShopping.Models.Products;
-using GoFoodBeverage.Application.Features.Products.Commands;
 
 namespace eShopping.Application.Mappings
 {

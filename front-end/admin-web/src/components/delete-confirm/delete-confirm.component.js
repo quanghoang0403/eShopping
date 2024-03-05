@@ -147,7 +147,7 @@ export default function DeleteConfirmComponent ({
                 <div className="shop-table-action-icon">
                   <Tooltip
                     placement="top"
-                    title={t('button:delete')}
+                    title={t('button.delete')}
                     color="#50429B"
                     zIndex={10}
                   >

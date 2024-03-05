@@ -54,7 +54,7 @@ namespace eShopping.Application.Features.Authenticate.Commands
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            ThrowError.Against(staff == null, "login:errorLogin");
+            ThrowError.Against(staff == null, "login.errorLogin");
 
             if (staff == null)
             {

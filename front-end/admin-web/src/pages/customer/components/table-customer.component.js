@@ -23,17 +23,17 @@ export default function TableCustomer (props) {
   const DEFAULT_KEY_SEARCH = ''
 
   const pageData = {
-    btnDelete: t('button:delete'),
-    btnIgnore: t('button:ignore'),
+    btnDelete: t('button.delete'),
+    btnIgnore: t('button.ignore'),
     searchPlaceholder: t('table:searchPlaceholder'),
     no: t('table:no'),
     name: t('table:name'),
     phone: t('table:phone'),
     action: t('table:action'),
-    confirmDelete: t('dialog:ConfirmDelete'),
-    confirmDeleteCustomerMessage: t('customer:confirmDeleteCustomerMessage'),
-    customerDeleteSuccess: t('customer:customerDeleteSuccess'),
-    customerDeleteFail: t('customer:customerDeleteFail')
+    confirmDelete: t('dialog.ConfirmDelete'),
+    confirmDeleteCustomerMessage: t('customer.confirmDeleteCustomerMessage'),
+    customerDeleteSuccess: t('customer.customerDeleteSuccess'),
+    customerDeleteFail: t('customer.customerDeleteFail')
   }
 
   const tableSettings = {

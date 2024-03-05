@@ -25,8 +25,8 @@ export default function FilterStaff (props) {
   // #region PageData
   const pageData = {
     filter: {
-      button: t('button:filter'),
-      resetData: t('button:resetData'),
+      button: t('button.filter'),
+      resetData: t('button.resetData'),
       permission: {
         title: t('table:permissionFilterTitle'),
         all: t('table:permissionFilterAll'),

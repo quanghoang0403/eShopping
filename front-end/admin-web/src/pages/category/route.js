@@ -12,7 +12,7 @@ const route = [
     position: 2,
     path: '/category',
     icon: <Category />,
-    name: t('home:menuCategory'),
+    name: t('home.menuCategory'),
     isMenu: true,
     exact: true,
     auth: true,

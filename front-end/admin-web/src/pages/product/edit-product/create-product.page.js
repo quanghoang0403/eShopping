@@ -50,10 +50,10 @@ export default function CreateProductPage () {
   const [form] = Form.useForm()
   const pageData = {
     title: t('product:addProduct'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnAddNew: t('button:add'),
-    btnDiscard: t('button:discard'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnAddNew: t('button.add'),
+    btnDiscard: t('button.discard'),
     generalInformation: {
       title: t('product:titleInfo'),
       name: {
@@ -97,16 +97,16 @@ export default function CreateProductPage () {
     productNameExisted: t('product:productNameExisted'),
     productAddedSuccess: t('product:productAddedSuccess'),
     file: {
-      uploadImage: t('file:uploadImage'),
-      title: t('file:title'),
-      textNonImage: t('file:textNonImage'),
-      addFromUrl: t('file:addFromUrl'),
-      bestDisplayImage: t('file:bestDisplayImage')
+      uploadImage: t('file.uploadImage'),
+      title: t('file.title'),
+      textNonImage: t('file.textNonImage'),
+      addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('file.bestDisplayImage')
     },
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave')
     },
     table: {
       name: t('table:name'),

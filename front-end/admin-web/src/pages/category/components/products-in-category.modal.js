@@ -27,13 +27,13 @@ const TableProduct = ({
 }) => {
   const [t] = useTranslation()
   const pageData = {
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    addNew: t('button:addNew'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    addNew: t('button.addNew'),
     title: t('category.manageCategory'),
-    confirmDelete: t('dialog:confirmDelete'),
-    confirmDeleteMessage: t('dialog:confirmDeleteMessage'),
-    productCategoryDeleteSuccess: t('category:productCategoryDeleteSuccess'),
+    confirmDelete: t('dialog.confirmDelete'),
+    confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
+    productCategoryDeleteSuccess: t('category.productCategoryDeleteSuccess'),
     table: {
       searchPlaceholder: t('table:searchPlaceholder'),
       no: t('table:.no'),
@@ -90,7 +90,7 @@ const TableProduct = ({
             <>
               <a onClick={() => onHandleRemoveItem(record?.productId)}>
                 <div className="shop-table-action-icon">
-                  <Tooltip placement="top" title={t('button:delete')} color="#50429B">
+                  <Tooltip placement="top" title={t('button.delete')} color="#50429B">
                     <TrashFill className="icon-svg-hover" />
                   </Tooltip>
                 </div>

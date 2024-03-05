@@ -4,7 +4,7 @@ using eShopping.Models.Products;
 using System;
 using System.Collections.Generic;
 
-namespace GoFoodBeverage.POS.Models.Product
+namespace eShopping.Models.Product
 {
     public class ProductDetailModel
     {

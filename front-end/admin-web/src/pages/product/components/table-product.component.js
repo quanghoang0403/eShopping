@@ -43,11 +43,11 @@ export default function TableProduct (props) {
   const maxNumberToShowPrice = 5
 
   const pageData = {
-    btnFilter: t('button:filter'),
-    btnSort: t('button:sort'),
-    btnIgnore: t('button:ignore'),
-    btnDelete: t('button:delete'),
-    confirmDelete: t('dialog:confirmDelete'),
+    btnFilter: t('button.filter'),
+    btnSort: t('button.sort'),
+    btnIgnore: t('button.ignore'),
+    btnDelete: t('button.delete'),
+    confirmDelete: t('dialog.confirmDelete'),
     productDeleteSuccess: t('product:productDeleteSuccess'),
     productDeleteFail: t('product:productDeleteFail'),
     table: {
@@ -58,7 +58,7 @@ export default function TableProduct (props) {
       status: t('table:status'),
       action: t('table:action')
     },
-    notificationTitle: t('dialog:notificationTitle')
+    notificationTitle: t('dialog.notificationTitle')
   }
   const tableSettings = {
     pageSize: 20,

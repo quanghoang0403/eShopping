@@ -13,7 +13,7 @@ const route = [
     position: 4,
     path: '/promotion',
     icon: <Promotion />,
-    name: t('home:menuPromotion'),
+    name: t('home.menuPromotion'),
     isMenu: true,
     exact: true,
     auth: true,

@@ -40,9 +40,9 @@ export default function PromotionPage (props) {
     title: t('promotion:title'),
     allType: t('promotion:allType'),
     search: t('table:searchPlaceholder'),
-    notificationTitle: t('dialog:notificationTitle'),
-    confirmDelete: t('dialog:confirmDelete'),
-    confirmStop: t('dialog:confirmStop'),
+    notificationTitle: t('dialog.notificationTitle'),
+    confirmDelete: t('dialog.confirmDelete'),
+    confirmStop: t('dialog.confirmStop'),
     confirmDeleteMessage: t('promotion:confirmDeletePromotionMessage'),
     confirmStopPromotion: t('promotion:confirmStopPromotion'),
     deletePromotionSuccess: t('promotion:deletePromotionSuccess'),
@@ -51,11 +51,11 @@ export default function PromotionPage (props) {
     promotionStopFail: t('promotion:promotionStopFail'),
 
     button: {
-      addNew: t('button:addNew'),
-      filter: t('button:filter'),
-      btnDelete: t('button:delete'),
-      btnIgnore: t('button:ignore'),
-      btnStop: t('button:stop')
+      addNew: t('button.addNew'),
+      filter: t('button.filter'),
+      btnDelete: t('button.delete'),
+      btnIgnore: t('button.ignore'),
+      btnStop: t('button.stop')
     },
     amount: t('promotion:amountValue'),
     maximum: t('promotion:maximum'),

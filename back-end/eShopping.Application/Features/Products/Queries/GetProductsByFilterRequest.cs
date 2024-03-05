@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.Application.Features.Products.Queries
+namespace eShopping.Application.Features.Products.Queries
 {
     public class GetProductsByFilterRequest : IRequest<GetProductsByFilterResponse>
     {

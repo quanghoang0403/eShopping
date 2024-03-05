@@ -8,21 +8,37 @@ export const resources = {
   en,
   vi
 }
-// const lng = getLocales()[0].languageCode;
+
+const languageCode = {
+  en: 'en',
+  vi: 'vi'
+}
 
 void i18n.use(initReactI18next).init(
   {
-    compatibilityJSON: 'v3',
-    fallbackLng: 'en',
-    supportedLngs: ['en', 'vi'],
+    lng: localStorage.getItem('i18nextLng') ?? languageCode.vi,
     debug: false,
-    ns: ['demo'],
-    defaultNS: 'demo',
-    lng: 'vi',
-    resources,
-    returnNull: false,
-    interpolation: {
-      escapeValue: false
+    fallbackLng: languageCode.vi,
+    ns: ['translations'],
+    defaultNS: 'translations',
+    preload: [languageCode.en, languageCode.vi],
+    keySeparator: '.',
+    detection: {
+      order: ['localStorage', 'cookie'],
+      lookupCookie: 'i18nextLng',
+      lookupLocalStorage: 'i18nextLng',
+      caches: ['localStorage']
+    },
+    resources: {
+      en: {
+        translations: require('locales/en.json')
+      },
+      vi: {
+        translations: require('locales/vi.json')
+      }
+    },
+    react: {
+      useSuspense: false
     }
   },
   (_error, t) => {

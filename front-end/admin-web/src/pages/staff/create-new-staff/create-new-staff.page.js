@@ -28,14 +28,14 @@ export function CreateNewStaff (props) {
   const [isChangeForm, setIsChangeForm] = useState(false)
   // #region Page data
   const pageData = {
-    btnCancel: t('button:cancel'),
-    btnCreate: t('button:createNewStaff'),
+    btnCancel: t('button.cancel'),
+    btnCreate: t('button.createNewStaff'),
     createStaff: t('staff:createStaff'),
-    btnDiscard: t('button:discard'),
+    btnDiscard: t('button.discard'),
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave')
     },
     generalInformation: {
       title: t('staff:titleInfo'),
@@ -253,7 +253,7 @@ export function CreateNewStaff (props) {
           </Col>
 
           <Col className="btn-remove-icon" xs={2} sm={2} lg={1}>
-            <Tooltip placement="top" title={t('button:delete')} color="#50429B">
+            <Tooltip placement="top" title={t('button.delete')} color="#50429B">
               <TrashFill
                 onClick={() => onRemoveGroupPermissionAndBranch(index)}
                 className="icon-del mt-4 pt-2 float-right"

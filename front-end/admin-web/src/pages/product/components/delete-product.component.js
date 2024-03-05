@@ -12,9 +12,9 @@ export default function DeleteProductComponent (props) {
   } = props
   const { t } = useTranslation()
   const pageData = {
-    iGotItBtn: t('dialog:iGotItBtn'),
-    ignore: t('button:ignore'),
-    delete: t('button:delete'),
+    iGotItBtn: t('dialog.iGotItBtn'),
+    ignore: t('button.ignore'),
+    delete: t('button.delete'),
     deleteProductMessage: t('product:deleteProductMessage')
   }
 

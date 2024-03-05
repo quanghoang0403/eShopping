@@ -26,31 +26,31 @@ export default function HomePage (props) {
   const dispatch = useDispatch()
   const currency = getCurrency()
   const pageData = {
-    title: t('dashboard:title'),
-    order: t('dashboard:order', 'Order'),
-    revenue: t('dashboard:revenue'),
-    cost: t('dashboard:cost'),
-    txt_reduce: t('dashboard:txt_reduce'),
-    txt_increase: t('dashboard:txt_increase'),
+    title: t('dashboard.title'),
+    order: t('dashboard.order', 'Order'),
+    revenue: t('dashboard.revenue'),
+    cost: t('dashboard.cost'),
+    txt_reduce: t('dashboard.txt_reduce'),
+    txt_increase: t('dashboard.txt_increase'),
     date: {
-      yesterday: 'dashboard:yesterday',
-      previousDay: 'dashboard:previousDay',
-      lastWeek: 'dashboard:lastWeek',
-      previousWeek: 'dashboard:previousWeek',
-      lastMonth: 'dashboard:lastMonth',
-      previousMonth: 'dashboard:previousMonth',
-      lastYear: 'dashboard:lastYear',
-      previousSession: t('dashboard:previousSession')
+      yesterday: t('dashboard.yesterday'),
+      previousDay: t('dashboard.previousDay'),
+      lastWeek: t('dashboard.lastWeek'),
+      previousWeek: t('dashboard.previousWeek'),
+      lastMonth: t('dashboard.lastMonth'),
+      previousMonth: t('dashboard.previousMonth'),
+      lastYear: t('dashboard.lastYear'),
+      previousSession: t('dashboard.previousSession')
     },
     noDataFound: t('table:noDataFound'),
-    topProductTitle: t('dashboard:titleProduct'),
-    topCustomerTitle: t('dashboard:titleCustomer'),
-    viewMore: t('dashboard:viewMore'),
-    parts: t('dashboard:parts'),
-    orders: t('dashboard:orders'),
-    totalOrder: t('dashboard:totalOrder'),
-    totalRevenue: t('dashboard:totalRevenue'),
-    totalCost: t('dashboard:totalCost')
+    topProductTitle: t('dashboard.titleProduct'),
+    topCustomerTitle: t('dashboard.titleCustomer'),
+    viewMore: t('dashboard.viewMore'),
+    parts: t('dashboard.parts'),
+    orders: t('dashboard.orders'),
+    totalOrder: t('dashboard.totalOrder'),
+    totalRevenue: t('dashboard.totalRevenue'),
+    totalCost: t('dashboard.totalCost')
   }
 
   const [initData, setInitData] = useState({})

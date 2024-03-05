@@ -64,9 +64,9 @@ export default function CreateNewPromotionManagement (props) {
   const [productIds, setProductIds] = useState([])
   const pageData = {
     create: t('promotion:create'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnDiscard: t('button:discard'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnDiscard: t('button.discard'),
     createPromotionSuccess: t('promotion:createPromotionSuccess'),
     selectDate: t('promotion:selectDate'),
     discount: {
@@ -106,13 +106,13 @@ export default function CreateNewPromotionManagement (props) {
         checkboxPurchaseAmount: t('promotion:checkboxPurchaseAmount'),
         pleaseEnterMinimum: t('promotion:pleaseEnterMinimum')
       },
-      allProduct: t('common:allProducts'),
-      allCategories: t('common:allCategories')
+      allProduct: t('common.allProducts'),
+      allCategories: t('common.allCategories')
     },
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave')
     },
     guideline: {
       title: t('promotion:titleGuideline'),

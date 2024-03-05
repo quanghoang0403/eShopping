@@ -10,8 +10,8 @@ export function BadgeStatus (props) {
   const { isActive } = props
   const { t } = useTranslation()
   const pageData = {
-    active: t('common:active'),
-    inactive: t('common:inactive')
+    active: t('common.active'),
+    inactive: t('common.inactive')
   }
 
   const renderStatus = () => {

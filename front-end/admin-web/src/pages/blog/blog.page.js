@@ -12,8 +12,8 @@ export default function BlogPage (props) {
   const [t] = useTranslation()
   const history = useHistory()
   const pageData = {
-    addNew: t('button:addNew'),
-    blogManagement: t('blog:title')
+    addNew: t('button.addNew'),
+    blogManagement: t('blog.title')
   }
 
   return (

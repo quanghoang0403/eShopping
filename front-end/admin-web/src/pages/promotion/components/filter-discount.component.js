@@ -23,10 +23,10 @@ export default function FilterDiscount (props) {
 
   const pageData = {
     filter: {
-      startDate: t('report:startDate'),
-      endDate: t('report:endDate'),
+      startDate: t('report.startDate'),
+      endDate: t('report.endDate'),
       resetAllFilters: t('table:resetAllFilters'),
-      button: t('button:clear'),
+      button: t('button.clear'),
       status: {
         all: t('promotion:allStatus'),
         title: t('promotion:titleStatus'),

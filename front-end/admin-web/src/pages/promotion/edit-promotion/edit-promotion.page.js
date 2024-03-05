@@ -59,9 +59,9 @@ export default function EditPromotionManagement (props) {
 
   const pageData = {
     edit: t('promotion:edit'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnDiscard: t('button:discard'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnDiscard: t('button.discard'),
     editPromotionSuccess: t('promotion:editPromotionSuccess'),
     discount: {
       total: t('promotion:discountTotal'),
@@ -99,13 +99,13 @@ export default function EditPromotionManagement (props) {
         checkboxPurchaseAmount: t('promotion:checkboxPurchaseAmount'),
         pleaseEnterMinimum: t('promotion:pleaseEnterMinimum')
       },
-      allProduct: t('common:allProducts'),
-      allCategories: t('common:allCategories')
+      allProduct: t('common.allProducts'),
+      allCategories: t('common.allCategories')
     },
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave')
     },
     guideline: {
       title: t('promotion:titleGuideline'),

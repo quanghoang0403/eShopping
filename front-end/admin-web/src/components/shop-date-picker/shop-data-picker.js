@@ -14,20 +14,20 @@ export function FnbDatePicker (props) {
   const { t } = useTranslation()
   const pageData = {
     optionDateTime: {
-      today: t('report:today'),
-      yesterday: t('report:yesterday'),
-      thisWeek: t('report:thisWeek'),
-      lastWeek: t('report:lastWeek'),
-      thisMonth: t('report:thisMonth'),
-      lastMonth: t('report:lastMonth'),
-      thisYear: t('report:thisYear'),
-      lastYear: t('report:lastYear'),
-      customize: t('report:customize'),
-      allTime: t('report:allTime'),
-      to: t('report:to')
+      today: t('report.today'),
+      yesterday: t('report.yesterday'),
+      thisWeek: t('report.thisWeek'),
+      lastWeek: t('report.lastWeek'),
+      thisMonth: t('report.thisMonth'),
+      lastMonth: t('report.lastMonth'),
+      thisYear: t('report.thisYear'),
+      lastYear: t('report.lastYear'),
+      customize: t('report.customize'),
+      allTime: t('report.allTime'),
+      to: t('report.to')
     },
-    cancel: t('button:cancel'),
-    apply: t('button:apply')
+    cancel: t('button.cancel'),
+    apply: t('button.apply')
   }
   const {
     selectedDate,

@@ -17,11 +17,11 @@ export const TableBlog = () => {
   const [t] = useTranslation()
   const history = useHistory()
   const pageData = {
-    btnDelete: t('button:delete'),
-    btnIgnore: t('button:ignore'),
-    btnFilter: t('button:filter'),
+    btnDelete: t('button.delete'),
+    btnIgnore: t('button.ignore'),
+    btnFilter: t('button.filter'),
 
-    blogs: t('blog:blogs'),
+    blogs: t('blog.blogs'),
     category: t('table:category'),
     creator: t('table:creator'),
     action: t('table:action'),
@@ -32,10 +32,10 @@ export const TableBlog = () => {
     thumbnail: t('table:thumbnail'),
     searchPlaceholder: t('table:searchPlaceholder'),
 
-    confirmDelete: t('dialog:confirmDelete'),
-    blogConfirmDeleteMessage: t('blog:blogConfirmDeleteMessage'),
-    blogDeletedSuccess: t('blog:blogDeletedSuccess'),
-    blogDeletedFailed: t('blog:blogDeletedFailed')
+    confirmDelete: t('dialog.confirmDelete'),
+    blogConfirmDeleteMessage: t('blog.blogConfirmDeleteMessage'),
+    blogDeletedSuccess: t('blog.blogDeletedSuccess'),
+    blogDeletedFailed: t('blog.blogDeletedFailed')
   }
 
   const [totalBlog, setTotalBlog] = useState(0)

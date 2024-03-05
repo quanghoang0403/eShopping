@@ -359,9 +359,7 @@
       float: left !important;
       margin-top: 20px;
     }
-    section.ant-layout.shop-site-layout {
-      padding-right: 0px;
-    }
+
     main.ant-layout-content.main-content-bg {
       padding: 16px;
     }
@@ -450,6 +448,9 @@
   //#endregion
   
   @media (max-width: 992px) {
+    section.ant-layout.shop-site-layout {
+      padding-right: 0px;
+    }
     .shop-staff-tabs {
       .shop-tabs {
         nav ul li {

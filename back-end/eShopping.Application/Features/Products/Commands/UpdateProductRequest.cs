@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.Application.Features.Products.Commands
+namespace eShopping.Application.Features.Products.Commands
 {
     public class UpdateProductRequest : IRequest<bool>
     {

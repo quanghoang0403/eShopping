@@ -12,7 +12,7 @@ const route = [
     position: 7,
     path: '/staff',
     icon: <GroupFill />,
-    name: t('home:menuStaff'),
+    name: t('home.menuStaff'),
     isMenu: true,
     exact: true,
     auth: true,

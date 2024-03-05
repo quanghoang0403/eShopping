@@ -25,16 +25,16 @@ export default function DetailPromotionManagement (props) {
   const promotionCampaignUsageDetailRef = useRef()
 
   const pageData = {
-    btnIgnore: t('button:ignore'),
-    btnLeave: t('button:leave'),
-    btnStop: t('button:stop'),
-    btnDelete: t('button:delete'),
-    btnCancel: t('button:cancel'),
-    edit: t('button:edit'),
+    btnIgnore: t('button.ignore'),
+    btnLeave: t('button.leave'),
+    btnStop: t('button.stop'),
+    btnDelete: t('button.delete'),
+    btnCancel: t('button.cancel'),
+    edit: t('button.edit'),
     title: t('promotion:title'),
     percent: Percent,
-    confirmDelete: t('dialog:confirmDelete'),
-    confirmStop: t('dialog:confirmStop'),
+    confirmDelete: t('dialog.confirmDelete'),
+    confirmStop: t('dialog.confirmStop'),
     confirmDeleteMessage: t('promotion:confirmDeletePromotionMessage'),
     confirmStopPromotion: t('promotion:confirmStopPromotion'),
     deletePromotionSuccess: t('promotion:deletePromotionSuccess'),
@@ -62,8 +62,8 @@ export default function DetailPromotionManagement (props) {
     termsAndConditions: t('promotion:termsAndConditions'),
     couponConditions: t('promotion:titleCondition'),
     checkboxPurchaseAmount: t('promotion:checkboxPurchaseAmount'),
-    allProduct: t('common:allProducts'),
-    allCategories: t('common:allCategories')
+    allProduct: t('common.allProducts'),
+    allCategories: t('common.allCategories')
   }
 
   const [initData, setInitData] = useState([])

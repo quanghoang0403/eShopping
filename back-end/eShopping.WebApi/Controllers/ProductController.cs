@@ -1,10 +1,8 @@
 ﻿using eShopping.Application.Features.Products.Commands;
+using eShopping.Application.Features.Products.Queries;
 using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
-using GoFoodBeverage.Application.Features.Products.Commands;
-using GoFoodBeverage.Application.Features.Products.Queries;
-using GoFoodBeverage.POS.Application.Features.Products.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -12,7 +12,7 @@ const route = [
     position: 5,
     path: '/blog',
     icon: <Blog />,
-    name: t('home:menuBlog'),
+    name: t('home.menuBlog'),
     isMenu: true,
     exact: true,
     auth: true,

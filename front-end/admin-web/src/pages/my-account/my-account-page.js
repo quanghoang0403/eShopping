@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next'
 export default function MyAccountPage (props) {
   const { t } = useTranslation()
   const pageData = {
-    userInfo: t('home:userInfo'),
-    tabNameAccount: t('account:tabNameAccount')
+    userInfo: t('home.userInfo'),
+    tabNameAccount: t('account.tabNameAccount')
   }
 
   return (

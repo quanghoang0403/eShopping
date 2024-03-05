@@ -18,20 +18,20 @@ export function UpdatePasswordComponent (props) {
   const { t } = useTranslation()
 
   const pageData = {
-    title: t('account:title'),
-    currentPassword: t('account:currentPassword'),
-    placeholderCurrentPassword: t('account:placeholderCurrentPassword'),
-    showEmptyCurrentPassword: t('account:showEmptyCurrentPassword'),
-    showWrongCurrentPassword: t('account:showWrongCurrentPassword'),
-    newPassword: t('account:newPassword'),
-    placeholderNewPassword: t('account:placeholderNewPassword'),
-    showEmptyNewPassword: t('account:showEmptyNewPassword'),
-    confirmPassword: t('account:confirmPassword'),
-    placeholderConfirmPassword: t('account:placeholderConfirmPassword'),
-    showConfirmNewPassword: t('account:showConfirmNewPassword'),
-    showNotMatchPassword: t('account:showNotMatchPassword'),
-    showThanksMessage: t('account:showThanksMessage'),
-    showUpdateFailedMessage: t('account:showUpdateFailedMessage')
+    title: t('account.title'),
+    currentPassword: t('account.currentPassword'),
+    placeholderCurrentPassword: t('account.placeholderCurrentPassword'),
+    showEmptyCurrentPassword: t('account.showEmptyCurrentPassword'),
+    showWrongCurrentPassword: t('account.showWrongCurrentPassword'),
+    newPassword: t('account.newPassword'),
+    placeholderNewPassword: t('account.placeholderNewPassword'),
+    showEmptyNewPassword: t('account.showEmptyNewPassword'),
+    confirmPassword: t('account.confirmPassword'),
+    placeholderConfirmPassword: t('account.placeholderConfirmPassword'),
+    showConfirmNewPassword: t('account.showConfirmNewPassword'),
+    showNotMatchPassword: t('account.showNotMatchPassword'),
+    showThanksMessage: t('account.showThanksMessage'),
+    showUpdateFailedMessage: t('account.showUpdateFailedMessage')
   }
 
   async function handleUpdate (e) {

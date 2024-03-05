@@ -12,7 +12,7 @@ const route = [
     position: 3,
     path: '/order',
     icon: <Order />,
-    name: t('home:menuOrder'),
+    name: t('home.menuOrder'),
     isMenu: true,
     exact: true,
     auth: true,

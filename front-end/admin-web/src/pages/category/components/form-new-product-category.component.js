@@ -23,37 +23,37 @@ export default function FormNewProductCategory (props) {
   const [form] = Form.useForm()
 
   const pageData = {
-    title: t('category:addProductCategory'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:save'),
-    btnAddNew: t('button:addNew'),
-    btnDiscard: t('button:discard'),
+    title: t('category.addProductCategory'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.save'),
+    btnAddNew: t('button.addNew'),
+    btnDiscard: t('button.discard'),
     generalInformation: {
-      title: t('category:titleInfo'),
+      title: t('category.titleInfo'),
       name: {
-        label: t('category:labelName'),
-        placeholder: t('category:placeholderName'),
+        label: t('category.labelName'),
+        placeholder: t('category.placeholderName'),
         required: true,
         maxLength: 100,
-        validateMessage: t('category:validateName')
+        validateMessage: t('category.validateName')
       }
     },
     product: {
-      title: t('category:titleProduct'),
-      placeholder: t('category:placeholderProduct')
+      title: t('category.titleProduct'),
+      placeholder: t('category.placeholderProduct')
     },
     priority: {
-      title: t('category:titlePriority'),
-      placeholder: t('category:placeholderPriority'),
-      validateMessage: t('category:validatePriority'),
-      tooltip: t('category:tooltipPriority')
+      title: t('category.titlePriority'),
+      placeholder: t('category.placeholderPriority'),
+      validateMessage: t('category.validatePriority'),
+      tooltip: t('category.tooltipPriority')
     },
-    productCategoryNameExisted: t('category:productNameExisted'),
-    productCategoryAddedSuccess: t('category:productCategoryAddedSuccess'),
+    productCategoryNameExisted: t('category.productNameExisted'),
+    productCategoryAddedSuccess: t('category.productCategoryAddedSuccess'),
     leaveDialog: {
-      confirmLeave: t('dialog:confirmLeave'),
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent')
+      confirmLeave: t('dialog.confirmLeave'),
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent')
     }
   }
 

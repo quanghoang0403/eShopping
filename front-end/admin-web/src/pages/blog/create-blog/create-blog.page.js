@@ -58,69 +58,69 @@ export default function CreateBlogPage () {
 
   const [form] = Form.useForm()
   const pageData = {
-    title: t('blog:pageTitle'),
-    btnCancel: t('button:cancel'),
-    btnSave: t('button:create'),
-    btnAddNew: t('button:addNew'),
-    btnDiscard: t('button:discard'),
+    title: t('blog.pageTitle'),
+    btnCancel: t('button.cancel'),
+    btnSave: t('button.create'),
+    btnAddNew: t('button.addNew'),
+    btnDiscard: t('button.discard'),
     generalInformation: {
-      title: t('common:generalInformation'),
+      title: t('common.generalInformation'),
       name: {
-        label: t('blog:blogTitle'),
-        placeholder: t('blog:blogTitlePlaceholder'),
+        label: t('blog.blogTitle'),
+        placeholder: t('blog.blogTitlePlaceholder'),
         required: true,
         maxLength: 255,
-        validateMessage: t('blog:blogTitleValidateMessage')
+        validateMessage: t('blog.blogTitleValidateMessage')
       },
       category: {
-        label: t('blog:blogCategory'),
-        placeholder: t('blog:blogCategoryPlaceholder'),
+        label: t('blog.blogCategory'),
+        placeholder: t('blog.blogCategoryPlaceholder'),
         required: true,
-        blogCategoryValidateMessage: t('blog:blogCategoryValidateMessage'),
-        blogCategoryNameValidateMessage: t('blog:blogCategoryNameValidateMessage'),
-        blogCategoryExisted: t('blog:blogCategoryExisted')
+        blogCategoryValidateMessage: t('blog.blogCategoryValidateMessage'),
+        blogCategoryNameValidateMessage: t('blog.blogCategoryNameValidateMessage'),
+        blogCategoryExisted: t('blog.blogCategoryExisted')
       },
       blogContent: {
-        label: t('blog:blogContent'),
+        label: t('blog.blogContent'),
         required: true,
-        validateMessage: t('blog:blogContentValidateMessage'),
-        blogContentPlaceholder: t('blog:blogContentPlaceholder')
+        validateMessage: t('blog.blogContentValidateMessage'),
+        blogContentPlaceholder: t('blog.blogContentPlaceholder')
       }
     },
     SEO: {
-      title: t('form:SEOConfiguration'),
-      SEOTitle: t('form:SEOTitle'),
-      SEODescription: t('form:SEODescription'),
-      SEOKeywords: t('form:SEOKeywords'),
-      SEOTitlePlaceholder: t('form:SEOTitlePlaceholder'),
-      SEODescriptionPlaceholder: t('form:SEODescriptionPlaceholder'),
-      SEOKeywordsPlaceholder: t('form:SEOKeywordsPlaceholder'),
-      SEOPreview: t('form:SEOPreview'),
-      SEOOverviewTooltip: t('form:SEOOverviewTooltip'),
-      SEOTitleTooltip: t('form:SEOTitleTooltip'),
-      SEODescriptionTooltip: t('form:SEODescriptionTooltip'),
-      SEOKeywordsTooltip: t('form:SEOKeywordsTooltip')
+      title: t('form.SEOConfiguration'),
+      SEOTitle: t('form.SEOTitle'),
+      SEODescription: t('form.SEODescription'),
+      SEOKeywords: t('form.SEOKeywords'),
+      SEOTitlePlaceholder: t('form.SEOTitlePlaceholder'),
+      SEODescriptionPlaceholder: t('form.SEODescriptionPlaceholder'),
+      SEOKeywordsPlaceholder: t('form.SEOKeywordsPlaceholder'),
+      SEOPreview: t('form.SEOPreview'),
+      SEOOverviewTooltip: t('form.SEOOverviewTooltip'),
+      SEOTitleTooltip: t('form.SEOTitleTooltip'),
+      SEODescriptionTooltip: t('form.SEODescriptionTooltip'),
+      SEOKeywordsTooltip: t('form.SEOKeywordsTooltip')
     },
     media: {
-      title: t('blog:media'),
-      bannerTitle: t('blog:bannerTitle'),
-      textNonImage: t('file:textNonImage'),
-      uploadImage: t('file:uploadImage'),
-      addFromUrl: t('file:addFromUrl'),
-      bestDisplayImage: t('blog:bestDisplayImage')
+      title: t('blog.media'),
+      bannerTitle: t('blog.bannerTitle'),
+      textNonImage: t('file.textNonImage'),
+      uploadImage: t('file.uploadImage'),
+      addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('blog.bestDisplayImage')
     },
     leaveDialog: {
-      confirmLeaveTitle: t('dialog:confirmLeaveTitle'),
-      confirmLeaveContent: t('dialog:confirmLeaveContent'),
-      confirmLeave: t('dialog:confirmLeave')
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave')
     },
-    createdBy: t('blog:createdBy'),
-    createdTime: t('blog:createdTime'),
-    limitTagMessage: t('blog:limitTagMessage'),
-    createBlogSuccess: t('blog:createBlogSuccess'),
-    createBlogFailed: t('blog:createBlogFailed'),
-    messageMatchSuggestSEOTitle: t('form:messageMatchSuggestSEOTitle'),
-    messageMatchSuggestSEODescription: t('form:messageMatchSuggestSEODescription')
+    createdBy: t('blog.createdBy'),
+    createdTime: t('blog.createdTime'),
+    limitTagMessage: t('blog.limitTagMessage'),
+    createBlogSuccess: t('blog.createBlogSuccess'),
+    createBlogFailed: t('blog.createBlogFailed'),
+    messageMatchSuggestSEOTitle: t('form.messageMatchSuggestSEOTitle'),
+    messageMatchSuggestSEODescription: t('form.messageMatchSuggestSEODescription')
   }
 
   useEffect(() => {

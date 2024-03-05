@@ -58,7 +58,7 @@ export function FnbTable (props) {
   const pageData = {
     noDataFound: t('table:noDataFound'),
     selectedItems: t('table:selectedItems'),
-    filterButton: t('button:filter')
+    filterButton: t('button.filter')
   }
 
   // register grabbing scroll table

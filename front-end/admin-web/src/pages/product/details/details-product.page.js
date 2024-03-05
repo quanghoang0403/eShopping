@@ -22,9 +22,9 @@ export default function ProductDetailPage (props) {
   const [titleModal, setTitleModal] = useState()
   const { t } = useTranslation()
   const pageData = {
-    btnDelete: t('button:delete'),
-    btnEdit: t('button:edit'),
-    btnLeave: t('button:leave'),
+    btnDelete: t('button.delete'),
+    btnEdit: t('button.edit'),
+    btnLeave: t('button.leave'),
     generalInformation: {
       title: t('product:titleInfo'),
       name: {
@@ -41,15 +41,15 @@ export default function ProductDetailPage (props) {
     productCategory: {
       label: t('product:labelCategory')
     },
-    media: t('file:Media'),
-    confirmDelete: t('dialog:confirmDelete'),
-    notificationTitle: t('dialog:notificationTitle'),
+    media: t('file.Media'),
+    confirmDelete: t('dialog.confirmDelete'),
+    notificationTitle: t('dialog.notificationTitle'),
     productDeleteSuccess: t('product:productDeleteSuccess'),
     productDeleteFail: t('product:productDeleteFail'),
     productActivatedSuccess: t('product:productActivatedSuccess'),
     productDeactivatedSuccess: t('product:productDeactivatedSuccess'),
-    active: t('common:active'),
-    inactive: t('common:inactive'),
+    active: t('common.active'),
+    inactive: t('common.inactive'),
     activate: t('product:activate'),
     deactivate: t('product:deactivate')
   }

@@ -31,18 +31,18 @@ const LoginPage = (props) => {
   const [isLogin, setIsLogin] = useState(true)
   const { t } = useTranslation()
   const pageData = {
-    title: t('login:title'),
-    email: t('login:email'),
-    password: t('login:password'),
-    loginHere: t('login:loginHere'),
-    pleaseInputYourEmail: t('login:pleaseInputYourEmail'),
-    pleaseInputYourPassword: t('login:pleaseInputYourPassword'),
-    loginSuccess: t('login:loginSuccess'),
-    loginFail: t('login:loginFail'),
-    placeholderEmail: t('login:placeholderEmail'),
-    placeholderPassword: t('login:placeholderPassword'),
-    permissionDenied: t('login:permissionDenied'),
-    logout: t('login:logout')
+    title: t('login.title'),
+    email: t('login.email'),
+    password: t('login.password'),
+    loginHere: t('login.loginHere'),
+    pleaseInputYourEmail: t('login.pleaseInputYourEmail'),
+    pleaseInputYourPassword: t('login.pleaseInputYourPassword'),
+    loginSuccess: t('login.loginSuccess'),
+    loginFail: t('login.loginFail'),
+    placeholderEmail: t('login.placeholderEmail'),
+    placeholderPassword: t('login.placeholderPassword'),
+    permissionDenied: t('login.permissionDenied'),
+    logout: t('login.logout')
   }
   useEffect(() => {
     const { search } = props.location
