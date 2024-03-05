@@ -552,18 +552,18 @@ export default function CreateProductPage () {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
-                    <h4 className="title-group">{pageData.upload.title}</h4>
+                    <h4 className="title-group">{pageData.file.title}</h4>
                     <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
                           <Form.Item name={['product', 'media']}>
                             <FnbUploadImageComponent
-                              buttonText={pageData.upload.uploadImage}
+                              buttonText={pageData.file.uploadImage}
                               onChange={onChangeImage}
                             />
                           </Form.Item>
                           <a className="upload-image-url" hidden={image !== null}>
-                            {pageData.upload.addFromUrl}
+                            {pageData.file.addFromUrl}
                           </a>
                         </div>
                       </Col>
@@ -573,9 +573,9 @@ export default function CreateProductPage () {
                         hidden={image !== null}
                       >
                         <Text disabled>
-                          {pageData.upload.textNonImage}
+                          {pageData.file.textNonImage}
                           <br />
-                          {pageData.upload.bestDisplayImage}
+                          {pageData.file.bestDisplayImage}
                         </Text>
                       </Col>
                     </Row>

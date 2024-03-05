@@ -66,7 +66,7 @@ function TopBar (props) {
             <span className="avt-staff-icon">
               <StaffUserFill width={28} height={28} />
             </span>
-            <a>{t('home:userInfo')},</a>
+            <a>{t('home:userInfo')}</a>
           </div>
           <hr />
           <div onClick={() => logOut()} className="pointer log-out-border">
@@ -172,7 +172,24 @@ function TopBar (props) {
               <MenuIcon />
             </div>
             <div className="logo">
-              <Image preview={false} src={''} width={55} />
+              <div className="store-info-box">
+                <div className="store-logo">
+                  <img
+                    src={logo}
+                    alt="Rose clothing"
+                    title="Rose clothing"
+                  />
+                </div>
+                <div className="store-information">
+                  <span className="store-label" title="">
+                    Rose Clothing
+                  </span>
+                  <a href="https://roseclothing.vn/" className="store-name" target={'_blank'} rel="noreferrer">
+                    https://roseclothing.vn/
+                  </a>
+                </div>
+              </div>
+                {/* <Image preview={false} src={''} width={55} /> */}
             </div>
           </div>
           <div className="header-web">
@@ -184,7 +201,6 @@ function TopBar (props) {
                   title="Rose clothing"
                 />
               </div>
-
               <div className="store-information">
                 <span className="store-label" title="">
                   Rose Clothing
@@ -222,7 +238,7 @@ function TopBar (props) {
           </Menu>
         </div>
         <div className="trigger-footer-mobile">
-          <NavLink to="/settings" className="settings-mobile">
+          <NavLink to="/my-account" className="settings-mobile">
             <span className="icon-setting">
               <SettingFill />
             </span>

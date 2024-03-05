@@ -99,7 +99,7 @@ const LoginPage = (props) => {
         message.success(pageData.loginSuccess)
         dispatch(setPermissionGroup(permissionGroups))
         setUserAuth(auth, token, permissions)
-        props.history.push('/home')
+        props.history.push('/')
       } else {
         message.error(pageData.permissionDenied)
       }
@@ -120,7 +120,7 @@ const LoginPage = (props) => {
     if (isTokenExpired) {
       dispatch(resetSession())
     } else {
-      props.history.push('/home')
+      props.history.push('/')
     }
   }
 

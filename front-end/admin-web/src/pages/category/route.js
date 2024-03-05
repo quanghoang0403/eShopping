@@ -18,21 +18,20 @@ const route = [
     auth: true,
     permission: 'public',
     component: CategoryPage,
-    child: [
-      {
-        key: 'app.category.edit',
-        focus: 'app.category',
-        position: 1,
-        path: '/category/edit/:productCategoryId',
-        name: 'Category',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.EDIT_PRODUCT_CATEGORY,
-        component: EditProductCategoryPage,
-        child: []
-      }
-    ]
+    child: []
+  },
+  {
+    key: 'app.category.edit',
+    focus: 'app.category',
+    position: 1,
+    path: '/category/edit/:productCategoryId',
+    name: 'Category',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.EDIT_PRODUCT_CATEGORY,
+    component: EditProductCategoryPage,
+    child: []
   }
 ]
 export default route

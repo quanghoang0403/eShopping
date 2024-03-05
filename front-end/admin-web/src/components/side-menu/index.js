@@ -131,7 +131,7 @@ function SideMenu (props) {
 
   const CustomTrigger = () => (
     <div className="trigger-footer">
-      <NavLink to="/settings" className="settings">
+      <NavLink to="/my-account" className="settings">
         <span className="icon-setting">
           <SettingFill />
         </span>

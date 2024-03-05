@@ -18,15 +18,15 @@ export const PromotionType = {
 export const ListPromotionType = [
   {
     key: 0,
-    name: 'promotion.discount.total'
+    name: 'promotion:discountTotal'
   },
   {
     key: 1,
-    name: 'promotion.discount.product'
+    name: 'promotion:discountProduct'
   },
   {
     key: 2,
-    name: 'promotion.discount.productCategory'
+    name: 'promotion:discountProductCategory'
   }
 ]
 

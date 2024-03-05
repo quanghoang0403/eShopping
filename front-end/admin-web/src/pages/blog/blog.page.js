@@ -29,7 +29,7 @@ export default function BlogPage (props) {
                 action: (
                   <ShopAddNewButton
                     permission={PermissionKeys.CREATE_BLOG}
-                    onClick={() => history.push('/online-store/blog-management/create-blog')}
+                    onClick={() => history.push('/blog/create')}
                     text={pageData.addNew}
                   />
                 ),

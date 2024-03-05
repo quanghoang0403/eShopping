@@ -20,47 +20,47 @@ const route = [
     auth: true,
     permission: 'public',
     component: CustomerPage,
-    child: [
-      {
-        key: 'app.customer.create-customer',
-        focus: 'app.customer',
-        position: 3,
-        path: '/customer/create',
-        name: 'CustomerCreate',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.CREATE_CUSTOMER,
-        component: CreateCustomerPage,
-        child: []
-      },
-      {
-        key: 'app.customer.edit-customer',
-        focus: 'app.customer',
-        position: 3,
-        path: '/customer/edit/:customerId',
-        name: 'CustomerEdit',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.EDIT_CUSTOMER,
-        component: EditCustomerPage,
-        child: []
-      },
-      {
-        key: 'app.customer.detail-customer',
-        focus: 'app.customer',
-        position: 3,
-        path: '/customer/detail/:customerId',
-        name: 'CustomerDetail',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.VIEW_CUSTOMER,
-        component: DetailCustomerPage,
-        child: []
-      }
-    ]
+    child: []
+  },
+
+  {
+    key: 'app.customer.create-customer',
+    focus: 'app.customer',
+    position: 3,
+    path: '/customer/create',
+    name: 'CustomerCreate',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.CREATE_CUSTOMER,
+    component: CreateCustomerPage,
+    child: []
+  },
+  {
+    key: 'app.customer.edit-customer',
+    focus: 'app.customer',
+    position: 3,
+    path: '/customer/edit/:customerId',
+    name: 'CustomerEdit',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.EDIT_CUSTOMER,
+    component: EditCustomerPage,
+    child: []
+  },
+  {
+    key: 'app.customer.detail-customer',
+    focus: 'app.customer',
+    position: 3,
+    path: '/customer/detail/:customerId',
+    name: 'CustomerDetail',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.VIEW_CUSTOMER,
+    component: DetailCustomerPage,
+    child: []
   }
 ]
 export default route

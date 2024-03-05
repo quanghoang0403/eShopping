@@ -6,6 +6,7 @@ import CurrencyFormat from 'react-currency-format'
 import { store } from 'store'
 import { getStorage, localStorageKeys } from './localStorage.helpers'
 import { decryptWithAES } from './securityHelpers'
+import { PermissionKeys } from 'constants/permission-key.constants'
 export const browserHistory = createBrowserHistory()
 
 /// Format date
@@ -179,6 +180,8 @@ export const hasPermission = (permissionId) => {
       allPermissions = permissions
     }
   }
+
+  if (allPermissions.find(x => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN).toString().toUpperCase()) return true
 
   const isArrayPermissions = Array.isArray(permissionId)
   if (isArrayPermissions === true) {

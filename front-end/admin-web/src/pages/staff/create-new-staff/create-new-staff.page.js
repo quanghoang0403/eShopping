@@ -12,13 +12,15 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { getValidationMessagesWithParentField } from 'utils/helpers'
+import { useTranslation } from 'react-i18next'
 import '../staff.page.scss'
 
 const { Content } = Layout
 
 export function CreateNewStaff (props) {
   const history = useHistory()
-  const { t, staffDataService } = props
+  const { t } = useTranslation()
+  const { staffDataService } = props
   // eslint-disable-next-line no-unused-vars
   const [formHasValue, setFormHasValue] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -424,32 +426,6 @@ export function CreateNewStaff (props) {
 
             <Row gutter={[24, 24]}>
               <Col xs={24} sm={24} lg={12}>
-                <Form.Item
-                  name={['staff', 'code']}
-                  label={pageData.generalInformation.code.label}
-                  rules={[
-                    {
-                      required: pageData.generalInformation.code.required,
-                      message: pageData.generalInformation.code.validateMessage
-                    },
-                    { type: 'string', warningOnly: true },
-                    {
-                      pattern: new RegExp(pageData.generalInformation.code.format),
-                      message: pageData.generalInformation.code.invalidMessage
-                    },
-                    {
-                      type: 'string',
-                      max: pageData.generalInformation.code.maxLength
-                    }
-                  ]}
-                >
-                  <Input
-                    className="shop-input"
-                    placeholder={pageData.generalInformation.code.placeholder}
-                    maxLength={pageData.generalInformation.code.maxLength}
-                  />
-                </Form.Item>
-
                 <Form.Item
                   name={['staff', 'phone']}
                   label={pageData.generalInformation.phoneNumber.label}

@@ -33,6 +33,8 @@ const lang = {
   dashboard,
   customer,
   form,
-  blog
+  blog,
+  order,
+  promotion
 }
 export default lang

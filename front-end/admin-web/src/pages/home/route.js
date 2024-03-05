@@ -13,24 +13,24 @@ const route = [
     name: t('home:menuHome'),
     isMenu: true,
     exact: true,
-    // auth: true,
-    permission: 'public',
-    component: HomePage,
-    child: []
-  },
-  {
-    key: 'app.home.hide',
-    focus: 'app.home',
-    position: 0,
-    path: '/home',
-    icon: <HomeFill />,
-    name: 'Home',
-    isMenu: false,
-    exact: true,
     auth: true,
     permission: 'public',
     component: HomePage,
     child: []
   }
+  // {
+  //   key: 'app.home.hide',
+  //   focus: 'app.home',
+  //   position: 0,
+  //   path: '/home',
+  //   icon: <HomeFill />,
+  //   name: 'Home',
+  //   isMenu: false,
+  //   exact: true,
+  //   auth: true,
+  //   permission: 'public',
+  //   component: HomePage,
+  //   child: []
+  // }
 ]
 export default route

@@ -19,31 +19,32 @@ const route = [
     permission: 'public',
     component: StaffPage,
     child: [
-      {
-        key: 'app.staff.create-new',
-        focus: 'app.staff',
-        position: 4,
-        path: '/staff/create',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.ADMIN,
-        component: CreateNewStaff,
-        child: []
-      },
-      {
-        key: 'app.staff.edit-staff',
-        focus: 'app.staff',
-        position: 4,
-        path: '/staff/edit/:id',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.ADMIN,
-        component: EditStaff,
-        child: []
-      }
     ]
+  },
+
+  {
+    key: 'app.staff.create-new',
+    focus: 'app.staff',
+    position: 4,
+    path: '/staff/create',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.ADMIN,
+    component: CreateNewStaff,
+    child: []
+  },
+  {
+    key: 'app.staff.edit-staff',
+    focus: 'app.staff',
+    position: 4,
+    path: '/staff/edit/:id',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.ADMIN,
+    component: EditStaff,
+    child: []
   }
 ]
 export default route

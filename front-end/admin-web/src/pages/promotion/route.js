@@ -19,42 +19,46 @@ const route = [
     auth: true,
     permission: 'public',
     component: PromotionPage,
-    child: [{
-      key: 'app.promotion-create',
-      position: 4,
-      path: '/promotion/create',
-      name: 'Create New Promotion',
-      isMenu: false,
-      exact: true,
-      auth: true,
-      permission: PermissionKeys.CREATE_PROMOTION,
-      component: CreateNewPromotionManagement,
-      child: []
-    },
-    {
-      key: 'app.promotion-edit',
-      position: 4,
-      path: '/promotion/edit/:id',
-      name: 'Edit Promotion',
-      isMenu: false,
-      exact: true,
-      auth: true,
-      permission: PermissionKeys.EDIT_PROMOTION,
-      component: EditPromotionManagement,
-      child: []
-    },
-    {
-      key: 'app.promotion-detail',
-      position: 4,
-      path: '/promotion/detail/:id',
-      name: 'Detail Promotion',
-      isMenu: false,
-      exact: true,
-      auth: true,
-      permission: PermissionKeys.VIEW_PROMOTION,
-      component: DetailPromotionManagement,
-      child: []
-    }]
+    child: []
+  },
+  {
+    key: 'app.promotion-create',
+    focus: 'app.promotion',
+    position: 4,
+    path: '/promotion/create',
+    name: 'Create New Promotion',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.CREATE_PROMOTION,
+    component: CreateNewPromotionManagement,
+    child: []
+  },
+  {
+    key: 'app.promotion-edit',
+    focus: 'app.promotion',
+    position: 4,
+    path: '/promotion/edit/:id',
+    name: 'Edit Promotion',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.EDIT_PROMOTION,
+    component: EditPromotionManagement,
+    child: []
+  },
+  {
+    key: 'app.promotion-detail',
+    focus: 'app.promotion',
+    position: 4,
+    path: '/promotion/detail/:id',
+    name: 'Detail Promotion',
+    isMenu: false,
+    exact: true,
+    auth: true,
+    permission: PermissionKeys.VIEW_PROMOTION,
+    component: DetailPromotionManagement,
+    child: []
   }
 ]
 export default route

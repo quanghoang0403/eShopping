@@ -72,7 +72,7 @@ export default function HomePage (props) {
       dispatch(resetSession())
       props.history.push('/login')
     } else {
-      getOrderInfoByFilter(date, typeOptionDate)
+      getOrderInfoByFilter(selectedDate, typeOptionDate)
       getStatisticalData(selectedDate, typeOptionDate)
       onConditionCompare(OptionDateTime.today)
     }

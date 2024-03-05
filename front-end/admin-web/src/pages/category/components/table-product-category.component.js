@@ -40,7 +40,7 @@ export default function TableProductCategory () {
     productCategoryDeleteFail: t('category:productCategoryDeleteFail'),
     table: {
       searchPlaceholder: t('table:searchPlaceholder'),
-      no: t('table:.no'),
+      no: t('table:no'),
       name: t('table:name'),
       priority: t('table:priority'),
       product: t('table:product'),

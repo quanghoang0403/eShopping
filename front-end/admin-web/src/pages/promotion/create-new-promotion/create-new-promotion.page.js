@@ -31,6 +31,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { checkOnKeyPressValidation, formatCurrencyWithSymbol, getEndDate, getStartDate } from 'utils/helpers'
 import '../promotion.scss'
+import { useTranslation } from 'react-i18next'
 import { images } from 'constants/images.constants'
 import { FnbSelectMultipleProductRenderOption } from 'components/shop-select-multiple-product-render-option/shop-select-multiple-product-render-option'
 const { Text } = Typography
@@ -39,9 +40,8 @@ const { Option, OptGroup } = Select
 export default function CreateNewPromotionManagement (props) {
   const [form] = Form.useForm()
   const [isChangeForm, setIsChangeForm] = useState(false)
-
+  const { t } = useTranslation()
   const {
-    t,
     productDataService,
     productCategoryDataService,
     storeDataService,

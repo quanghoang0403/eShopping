@@ -1,8 +1,8 @@
 import './staff.page.scss'
-import { Card, message } from 'antd'
+import { Row, Col, Card, message } from 'antd'
 import React, { useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-
+import PageTitle from 'components/page-title'
 import TableStaff from './components/table-staff.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { useTranslation } from 'react-i18next'
@@ -18,6 +18,7 @@ export default function StaffPage (props) {
   }
 
   const pageData = {
+    title: t('staff:title'),
     btnAddNew: t('button:addNew')
   }
 
@@ -31,11 +32,18 @@ export default function StaffPage (props) {
 
   return (
     <div>
-      <ShopAddNewButton
-        className="float-right add-new-staff-button"
-        text={pageData.btnAddNew}
-        onClick={() => history.push('/staff/create')}
-      />
+      <Row className="shop-row-page-header">
+        <Col xs={24} sm={12}>
+          <PageTitle content={pageData.title} />
+        </Col>
+        <Col xs={24} sm={12}>
+          <ShopAddNewButton
+            className="float-right add-new-staff-button"
+            text={pageData.btnAddNew}
+            onClick={() => history.push('/staff/create')}
+          />
+        </Col>
+      </Row>
       <div className="clearfix"></div>
       <Card className="shop-card">
         <TableStaff screenKey={screenKey} onEditStaff={openEditStaffPage} />
