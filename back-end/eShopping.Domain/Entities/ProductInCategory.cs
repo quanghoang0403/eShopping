@@ -11,8 +11,8 @@ namespace eShopping.Domain.Entities
 
         public virtual Product Product { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid ProductCategoryId { get; set; }
 
-        public virtual Category Category { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

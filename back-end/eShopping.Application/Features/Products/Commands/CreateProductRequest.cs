@@ -34,13 +34,13 @@ namespace eShopping.Application.Features.Products.Commands
 
         public EnumStatus Status { get; set; }
 
-        public List<Guid> CategoryIds { get; set; }
+        public List<Guid> ProductCategoryIds { get; set; }
 
         public List<string> ImagePaths { get; set; }
 
         public string Thumbnail { get; set; }
 
-        public List<ProductOptionModel> ProductOptions { get; set; }
+        public List<ProductPriceModel> ProductPrices { get; set; }
     }
 
     public class CreateMaterialRequestHandler : IRequestHandler<CreateProductRequest, bool>
@@ -82,11 +82,11 @@ namespace eShopping.Application.Features.Products.Commands
 
             // Add map category
             List<ProductInCategory> productInCategories = new();
-            foreach (var id in request.CategoryIds)
+            foreach (var id in request.ProductCategoryIds)
             {
                 ProductInCategory map = new()
                 {
-                    CategoryId = id,
+                    ProductCategoryId = id,
                     ProductId = product.Id
                 };
                 productInCategories.Add(map);
@@ -109,16 +109,16 @@ namespace eShopping.Application.Features.Products.Commands
             await _unitOfWork.Images.AddRangeAsync(productImages);
 
             // Add option
-            List<ProductOption> productOptions = new();
-            foreach (var option in request.ProductOptions)
+            List<ProductPrice> productPrices = new();
+            foreach (var option in request.ProductPrices)
             {
-                var optionToAdd = _mapper.Map<ProductOption>(option);
+                var optionToAdd = _mapper.Map<ProductPrice>(option);
                 optionToAdd.ProductId = product.Id;
                 optionToAdd.CreatedUser = accountId;
                 optionToAdd.CreatedTime = DateTime.UtcNow;
-                productOptions.Add(optionToAdd);
+                productPrices.Add(optionToAdd);
             }
-            await _unitOfWork.ProductOptions.AddRangeAsync(productOptions);
+            await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
 
             return true;
         }
@@ -126,9 +126,9 @@ namespace eShopping.Application.Features.Products.Commands
         private static void RequestValidation(CreateProductRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
-            ThrowError.Against(request.ProductOptions != null && !request.ProductOptions.Any(), "Please enter product option");
-            ThrowError.Against(string.IsNullOrEmpty((request.ProductOptions.FirstOrDefault().Name)), "Please enter product option name");
-            ThrowError.Against(request.ProductOptions.FirstOrDefault().Price <= 0, "Please enter product option price");
+            ThrowError.Against(request.ProductPrices != null && !request.ProductPrices.Any(), "Please enter product option");
+            ThrowError.Against(string.IsNullOrEmpty((request.ProductPrices.FirstOrDefault().Name)), "Please enter product option name");
+            ThrowError.Against(request.ProductPrices.FirstOrDefault().Price <= 0, "Please enter product option price");
         }
     }
 }

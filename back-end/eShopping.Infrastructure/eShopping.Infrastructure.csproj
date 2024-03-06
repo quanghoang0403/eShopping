@@ -54,7 +54,7 @@
     <None Update="Migrations\StaticData\S7.calculate-customers-by-segment.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\cities-vn.sql">
+    <None Update="Migrations\StaticData\cities.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\account-transfer.sql">
@@ -72,7 +72,7 @@
     <None Update="Migrations\StaticData\S1.permission-groups.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\districts-vn.sql">
+    <None Update="Migrations\StaticData\districts.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\S1.states.sql">
@@ -81,7 +81,10 @@
     <None Update="Migrations\StaticData\S1wards-vn.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\wards-vn.sql">
+    <None Update="Migrations\StaticData\account.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Migrations\StaticData\wards.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\TableType\TVP_Order.sql">

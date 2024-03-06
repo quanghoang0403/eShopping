@@ -67,13 +67,13 @@ namespace eShopping.Application.Features.Products.Commands
 
             RequestValidation(request);
 
-            var productCategoryNameExisted = await _unitOfWork.Categories.GetCategoryDetailByNameAsync(request.Name);
+            var productCategoryNameExisted = await _unitOfWork.ProductCategories.GetProductCategoryDetailByNameAsync(request.Name);
             ThrowError.Against(productCategoryNameExisted != null, new JObject()
             {
                 { $"{nameof(request.Name)}", "Product category name has already existed" },
             });
 
-            var newProductCategory = _mapper.Map<Category>(request);
+            var newProductCategory = _mapper.Map<ProductCategory>(request);
             var accountId = loggedUser.AccountId.Value;
             newProductCategory.CreatedUser = accountId;
             newProductCategory.CreatedTime = DateTime.UtcNow;
@@ -91,13 +91,13 @@ namespace eShopping.Application.Features.Products.Commands
                     var productProductCategory = new ProductInCategory()
                     {
                         ProductId = product.Id,
-                        CategoryId = newProductCategory.Id,
+                        ProductCategoryId = newProductCategory.Id,
                     };
                     newProductCategory.ProductInCategories.Add(productProductCategory);
                 });
             }
 
-            _unitOfWork.Categories.Add(newProductCategory);
+            _unitOfWork.ProductCategories.Add(newProductCategory);
             await _unitOfWork.SaveChangesAsync();
 
             return true;

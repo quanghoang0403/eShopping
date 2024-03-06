@@ -24,8 +24,8 @@ namespace eShopping.Infrastructure.Repositories
         public Task<Product> GetProductDetailByIdAsync(Guid id)
         {
             var product = _dbContext.Products.Where(p => p.Id == id)
-                .Include(x => x.ProductOptions)
-                .Include(x => x.ProductInCategories).ThenInclude(x => x.Category)
+                .Include(x => x.ProductPrices)
+                .Include(x => x.ProductInCategories).ThenInclude(x => x.ProductCategory)
                 .FirstOrDefaultAsync();
             return product;
         }
@@ -71,7 +71,7 @@ namespace eShopping.Infrastructure.Repositories
                         productInCategories.Add(new ProductInCategory()
                         {
                             ProductId = request.Id,
-                            CategoryId = categoryId,
+                            ProductCategoryId = categoryId,
                         });
                     }
                     await _dbContext.ProductInCategories.AddRangeAsync(productInCategories, cancellationToken);
@@ -80,31 +80,31 @@ namespace eShopping.Infrastructure.Repositories
 
                 #region Handle update product options
                 // all product options before update
-                var allProductOptions = await _dbContext.ProductOptions
+                var allProductPrices = await _dbContext.ProductPrices
                     .Where(x => x.ProductId == request.Id)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 
                 // enable modify mode for records
-                if (allProductOptions.Any())
+                if (allProductPrices.Any())
                 {
-                    _dbContext.AttachRange(allProductOptions);
+                    _dbContext.AttachRange(allProductPrices);
                 }
 
                 // update product options
-                if (request.ProductOptions.Any())
+                if (request.ProductPrices.Any())
                 {
                     // remove unused product options
-                    var unusedProductOptions = allProductOptions.Where(x => !request.ProductOptions.Any(pn => pn.Id == x.Id));
-                    _dbContext.ProductOptions.RemoveRange(unusedProductOptions);
+                    var unusedProductPrices = allProductPrices.Where(x => !request.ProductPrices.Any(pn => pn.Id == x.Id));
+                    _dbContext.ProductPrices.RemoveRange(unusedProductPrices);
 
                     // add product options not insert to DB
-                    var newProductOptions = request.ProductOptions.Where(p => p.Id == Guid.Empty);
-                    var newProductOptionsToDB = new List<ProductOption>();
-                    foreach (var option in unusedProductOptions)
+                    var newProductPrices = request.ProductPrices.Where(p => p.Id == Guid.Empty);
+                    var newProductPricesToDB = new List<ProductPrice>();
+                    foreach (var option in unusedProductPrices)
                     {
-                        allProductOptions.Remove(option);
-                        var newProductOption = new ProductOption()
+                        allProductPrices.Remove(option);
+                        var newProductPrice = new ProductPrice()
                         {
                             Priority = option.Priority,
                             Name = option.Name,
@@ -113,19 +113,19 @@ namespace eShopping.Infrastructure.Repositories
                             QuantityLeft = option.QuantityLeft,
                             QuantitySold = option.QuantitySold,
                         };
-                        newProductOptionsToDB.Add(newProductOption);
-                        await _dbContext.ProductOptions.AddRangeAsync(newProductOptionsToDB, cancellationToken);
+                        newProductPricesToDB.Add(newProductPrice);
+                        await _dbContext.ProductPrices.AddRangeAsync(newProductPricesToDB, cancellationToken);
                     }
 
                     // update product options existed
-                    foreach (var productOption in allProductOptions)
+                    foreach (var productPrice in allProductPrices)
                     {
-                        var newProductOption = request.ProductOptions.FirstOrDefault(p => p.Id == productOption.Id);
-                        productOption.Priority = newProductOption.Priority;
-                        productOption.Name = newProductOption.Name;
-                        productOption.Price = newProductOption.Price;
+                        var newProductPrice = request.ProductPrices.FirstOrDefault(p => p.Id == productPrice.Id);
+                        productPrice.Priority = newProductPrice.Priority;
+                        productPrice.Name = newProductPrice.Name;
+                        productPrice.Price = newProductPrice.Price;
                     }
-                    _dbContext.ProductOptions.UpdateRange(allProductOptions);
+                    _dbContext.ProductPrices.UpdateRange(allProductPrices);
                 }
                 #endregion
 

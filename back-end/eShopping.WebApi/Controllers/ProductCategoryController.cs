@@ -1,8 +1,8 @@
-﻿using eShopping.Common.Attributes.Permission;
+﻿using eShopping.Application.Features.Products.Commands;
+using eShopping.Application.Features.Products.Queries;
+using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
-using eShopping.Application.Features.Products.Commands;
-using eShopping.Application.Features.Products.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +57,7 @@ namespace eShopping.WebApi.Controllers
         [HttpGet]
         [Route("get-all-product-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetAllCategory([FromBody] GetAllProductCategoriesRequest request)
+        public async Task<IActionResult> GetAllProductCategory([FromBody] GetAllProductCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return SafeOk(response);

@@ -18,14 +18,14 @@ namespace eShopping.Infrastructure.Repositories
         {
         }
 
-        public Task<Order> GetOrderDetailByOrderIdAsync(Guid? id)
+        public Task<Order> GetOrderItemByOrderIdAsync(Guid? id)
         {
             var order = dbSet.Where(o => o.Id == id)
                 .Include(o => o.Customer).ThenInclude(a => a.City)
                 .Include(o => o.Customer).ThenInclude(a => a.District)
                 .Include(o => o.Customer).ThenInclude(a => a.Ward)
 
-                .Include(o => o.OrderDetails).ThenInclude(oi => oi.ProductOption).ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice).ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync();
 
             return order;

@@ -37,7 +37,7 @@ namespace eShopping.Application.Features.Products.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategoryData = await _unitOfWork.Categories.GetCategoryDetailByIdAsync(request.Id.Value);
+            var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id.Value);
             ThrowError.Against(productCategoryData == null, "Cannot find product category information");
 
             var productCategory = _mapper.Map<ProductCategoryDetailModel>(productCategoryData);

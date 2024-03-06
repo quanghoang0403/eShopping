@@ -8,7 +8,7 @@ namespace eShopping.Interfaces.Repositories
 {
     public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<Order> GetOrderDetailByOrderIdAsync(Guid? id);
+        Task<Order> GetOrderItemByOrderIdAsync(Guid? id);
 
         Task<List<Order>> GetOrderListByStatus(List<EnumOrderStatus> statuses);
 

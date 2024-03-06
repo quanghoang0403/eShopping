@@ -29,7 +29,9 @@ namespace eShopping.Domain.Entities
         [MaxLength(10)]
         public string ShipPhoneNumber { set; get; }
 
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
+
+        public virtual ICollection<OrderHistory> OrderHistories { get; set; }
 
         public virtual Customer Customer { get; set; }
 

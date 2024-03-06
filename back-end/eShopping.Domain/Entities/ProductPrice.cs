@@ -7,8 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eShopping.Domain.Entities
 {
-    [Table(nameof(ProductOption))]
-    public class ProductOption : BaseEntity
+    [Table(nameof(ProductPrice))]
+    public class ProductPrice : BaseEntity
     {
         public Guid ProductId { get; set; }
 
@@ -29,7 +29,9 @@ namespace eShopping.Domain.Entities
 
         public virtual Product Product { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<PromotionProduct> DiscountProduct { get; set; }
+
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
 
         public virtual ICollection<Cart> Carts { get; set; }
 

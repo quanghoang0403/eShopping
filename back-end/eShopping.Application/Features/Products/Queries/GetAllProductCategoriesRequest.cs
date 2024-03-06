@@ -42,11 +42,11 @@ namespace eShopping.Application.Features.Products.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var allProductCategoriesInStore = await _unitOfWork.Categories
+            var allProductCategoriesInStore = await _unitOfWork.ProductCategories
                     .GetAll()
                     .AsNoTracking()
                     .Include(pc => pc.ProductInCategories)
-                    .ThenInclude(ppc => ppc.Product).ThenInclude(p => p.ProductOptions)
+                    .ThenInclude(ppc => ppc.Product).ThenInclude(p => p.ProductPrices)
                     .Select(p => new ProductCategoryModel
                     {
                         Id = p.Id,

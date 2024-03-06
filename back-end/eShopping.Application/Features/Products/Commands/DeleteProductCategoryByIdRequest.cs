@@ -33,7 +33,7 @@ namespace eShopping.Application.Features.Products.Commands
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategory = await _unitOfWork.Categories.Find(p => p.Id == request.Id)
+            var productCategory = await _unitOfWork.ProductCategories.Find(p => p.Id == request.Id)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
             ThrowError.Against(productCategory == null, "Product category is not found");
             var accountId = loggedUser.AccountId.Value;

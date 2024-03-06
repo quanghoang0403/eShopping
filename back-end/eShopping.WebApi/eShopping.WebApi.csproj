@@ -68,8 +68,6 @@
     </Otherwise>
   </Choose>
   <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties appsettings_1development_1json__JsonSchema="https://beaujs.com/schema.json" wwwroot_4language_4web_4en_1json__JsonSchema="enterName" />
-    </VisualStudio>
+    <VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio>
   </ProjectExtensions>
 </Project>

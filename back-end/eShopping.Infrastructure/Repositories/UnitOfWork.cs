@@ -33,8 +33,8 @@ namespace eShopping.Infrastructure.Repositories
         private ICartRepository _cartRepository;
         public ICartRepository Carts { get { return _cartRepository ??= new CartRepository(_dbContext); } }
 
-        private ICategoryRepository _categoryRepository;
-        public ICategoryRepository Categories { get { return _categoryRepository ??= new CategoryRepository(_dbContext); } }
+        private IProductCategoryRepository _productCategoryRepository;
+        public IProductCategoryRepository ProductCategories { get { return _productCategoryRepository ??= new ProductCategoryRepository(_dbContext); } }
 
         private ICustomerRepository _customerRepository;
         public ICustomerRepository Customers { get { return _customerRepository ??= new CustomerRepository(_dbContext); } }
@@ -45,8 +45,8 @@ namespace eShopping.Infrastructure.Repositories
         private IOrderRepository _orderRepository;
         public IOrderRepository Orders { get { return _orderRepository ??= new OrderRepository(_dbContext); } }
 
-        private IOrderDetailRepository _orderDetailRepository;
-        public IOrderDetailRepository OrderDetails { get { return _orderDetailRepository ??= new OrderDetailRepository(_dbContext); } }
+        private IOrderItemRepository _orderDetailRepository;
+        public IOrderItemRepository OrderItems { get { return _orderDetailRepository ??= new OrderItemRepository(_dbContext); } }
 
         private IPermissionRepository _permissionRepository;
         public IPermissionRepository Permissions { get { return _permissionRepository ??= new PermissionRepository(_dbContext); } }
@@ -63,8 +63,8 @@ namespace eShopping.Infrastructure.Repositories
         private IImageRepository _productImageRepository;
         public IImageRepository Images { get { return _productImageRepository ??= new ImageRepository(_dbContext); } }
 
-        private IProductOptionRepository _productOptionRepository;
-        public IProductOptionRepository ProductOptions { get { return _productOptionRepository ??= new ProductOptionRepository(_dbContext); } }
+        private IProductPriceRepository _productPriceRepository;
+        public IProductPriceRepository ProductPrices { get { return _productPriceRepository ??= new ProductPriceRepository(_dbContext); } }
 
         private IPromotionRepository _promotionRepository;
         public IPromotionRepository Promotions { get { return _promotionRepository ??= new PromotionRepository(_dbContext); } }

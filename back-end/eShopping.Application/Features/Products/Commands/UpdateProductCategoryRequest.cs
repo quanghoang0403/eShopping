@@ -69,11 +69,11 @@ namespace eShopping.Application.Features.Products.Commands
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategory = await _unitOfWork.Categories.GetCategoryDetailByIdAsync(request.Id);
+            var productCategory = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id);
             RequestValidation(request);
             ThrowError.Against(productCategory == null, "Cannot find product category information");
 
-            var productCategoryNameExisted = await _unitOfWork.Categories.Where(p => p.Id != request.Id && p.Name.Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
+            var productCategoryNameExisted = await _unitOfWork.ProductCategories.Where(p => p.Id != request.Id && p.Name.Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
             ThrowError.Against(productCategoryNameExisted != null, new JObject()
             {
                 { $"{nameof(request.Name)}", "Product category name has already existed" },
@@ -82,7 +82,7 @@ namespace eShopping.Application.Features.Products.Commands
             /// Delete product - product category from sub-table
             var productIds = request.Products.Select(p => p.Id);
             var currentProductInCategories = _unitOfWork.ProductInCategories
-                .Find(p => p.CategoryId == productCategory.Id || productIds.Any(pid => pid == p.ProductId));
+                .Find(p => p.ProductCategoryId == productCategory.Id || productIds.Any(pid => pid == p.ProductId));
             _unitOfWork.ProductInCategories.RemoveRange(currentProductInCategories);
 
             var newProductInCategories = new List<ProductInCategory>();
@@ -94,7 +94,7 @@ namespace eShopping.Application.Features.Products.Commands
                 {
                     var newProduct = new ProductInCategory()
                     {
-                        CategoryId = productCategory.Id,
+                        ProductCategoryId = productCategory.Id,
                         ProductId = product.Id,
                     };
                     newProductInCategories.Add(newProduct);
@@ -103,13 +103,13 @@ namespace eShopping.Application.Features.Products.Commands
                 _unitOfWork.ProductInCategories.AddRange(newProductInCategories);
             }
 
-            var modifiedProductCategory = _mapper.Map<Category>(request);
+            var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
             var accountId = loggedUser.AccountId.Value;
             modifiedProductCategory.LastSavedUser = accountId;
             modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
             modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
 
-            await _unitOfWork.Categories.UpdateAsync(modifiedProductCategory);
+            await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
             await _unitOfWork.SaveChangesAsync();
 
             return true;

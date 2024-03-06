@@ -9,7 +9,7 @@ namespace eShopping.Domain.Enums
 
         Product,
 
-        Category,
+        ProductCategory,
 
         Customer,
 
@@ -29,7 +29,7 @@ namespace eShopping.Domain.Enums
         {
             EnumPermissionGroup.Admin => new Guid("6C626154-5065-7265-6D69-937300000001"),
             EnumPermissionGroup.Product => new Guid("6C626154-5065-7265-6D69-937300000002"),
-            EnumPermissionGroup.Category => new Guid("6C626154-5065-7265-6D69-937300000003"),
+            EnumPermissionGroup.ProductCategory => new Guid("6C626154-5065-7265-6D69-937300000003"),
             EnumPermissionGroup.Customer => new Guid("6C626154-5065-7265-6D69-937300000004"),
             EnumPermissionGroup.Staff => new Guid("6C626154-5065-7265-6D69-937300000005"),
             EnumPermissionGroup.Promotion => new Guid("6C626154-5065-7265-6D69-937300000006"),

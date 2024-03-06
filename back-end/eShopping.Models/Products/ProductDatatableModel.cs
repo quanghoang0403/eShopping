@@ -18,7 +18,7 @@ namespace eShopping.Models.Products
 
         public bool IsActive { get; set; }
 
-        public IEnumerable<ProductOptionModel> ProductOptions { get; set; }
+        public IEnumerable<ProductPriceModel> ProductPrices { get; set; }
 
     }
 }

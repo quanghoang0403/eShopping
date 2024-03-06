@@ -93,15 +93,15 @@ namespace eShopping.WebApi
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAppConfigRepository, AppConfigRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductOptionRepository, ProductOptionRepository>();
+            services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
             services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IStaffPermissionGroupRepository, StaffPermissionGroupRepository>();

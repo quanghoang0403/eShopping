@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace eShopping.Interfaces.Repositories
 {
-    public interface IOrderDetailRepository : IGenericRepository<OrderDetail>
+    public interface IOrderItemRepository : IGenericRepository<OrderItem>
     {
-        Task<List<OrderDetail>> GetOrderDetailByOrderIdAsync(Guid? orderId);
+        Task<List<OrderItem>> GetOrderItemByOrderIdAsync(Guid? orderId);
     }
 }

@@ -50,32 +50,6 @@ namespace eShopping.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Priority = table.Column<int>(type: "int", nullable: false),
-                    IsShowOnHome = table.Column<bool>(type: "bit", nullable: false),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KeywordSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Keyword"),
-                    UrlSEO = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true, comment: "SEO Configuration: URL Link"),
-                    TitleSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Title"),
-                    DescriptionSEO = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true, comment: "SEO Configuration: SEO on Description"),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "City",
                 columns: table => new
                 {
@@ -155,19 +129,52 @@ namespace eShopping.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductCategory",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    IsShowOnHome = table.Column<bool>(type: "bit", nullable: false),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KeywordSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Keyword"),
+                    UrlSEO = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true, comment: "SEO Configuration: URL Link"),
+                    TitleSEO = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "SEO Configuration: SEO on Title"),
+                    DescriptionSEO = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true, comment: "SEO Configuration: SEO on Description"),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Promotion",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ApplyForAll = table.Column<bool>(type: "bit", nullable: false),
-                    DiscountPercent = table.Column<int>(type: "int", precision: 18, scale: 2, nullable: true),
-                    DiscountAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
-                    ProductIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductCategoryIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PromotionTypeId = table.Column<int>(type: "int", nullable: false),
+                    IsPercentDiscount = table.Column<bool>(type: "bit", nullable: false),
+                    PercentNumber = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    MaximumDiscountAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TermsAndCondition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsMinimumPurchaseAmount = table.Column<bool>(type: "bit", nullable: true),
+                    MinimumPurchaseAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
+                    IsSpecificBranch = table.Column<bool>(type: "bit", nullable: false),
+                    IsIncludedTopping = table.Column<bool>(type: "bit", nullable: false),
+                    IsStopped = table.Column<bool>(type: "bit", nullable: true),
+                    IsApplyAllProducts = table.Column<bool>(type: "bit", nullable: false),
+                    IsApplyAllCategories = table.Column<bool>(type: "bit", nullable: false),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -278,42 +285,13 @@ namespace eShopping.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductInCategory",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductInCategory", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductInCategory_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductInCategory_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductOption",
+                name: "ProductPrice",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     QuantityLeft = table.Column<int>(type: "int", nullable: false),
                     QuantitySold = table.Column<int>(type: "int", nullable: false),
@@ -326,11 +304,71 @@ namespace eShopping.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductOption", x => x.Id);
+                    table.PrimaryKey("PK_ProductPrice", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductOption_Product_ProductId",
+                        name: "FK_ProductPrice_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductInCategory",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductInCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductInCategory_ProductCategory_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
+                        principalTable: "ProductCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductInCategory_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PromotionProductCategory",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PromotionProductCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PromotionProductCategory_ProductCategory_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
+                        principalTable: "ProductCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PromotionProductCategory_Promotion_PromotionId",
+                        column: x => x.PromotionId,
+                        principalTable: "Promotion",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -408,11 +446,47 @@ namespace eShopping.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PromotionProduct",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductPriceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SellingPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PromotionProduct", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PromotionProduct_ProductPrice_ProductPriceId",
+                        column: x => x.ProductPriceId,
+                        principalTable: "ProductPrice",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PromotionProduct_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PromotionProduct_Promotion_PromotionId",
+                        column: x => x.PromotionId,
+                        principalTable: "Promotion",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cart",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductPriceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", precision: 18, scale: 2, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
@@ -434,9 +508,9 @@ namespace eShopping.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cart_ProductOption_ProductOptionId",
-                        column: x => x.ProductOptionId,
-                        principalTable: "ProductOption",
+                        name: "FK_Cart_ProductPrice_ProductPriceId",
+                        column: x => x.ProductPriceId,
+                        principalTable: "ProductPrice",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -471,15 +545,15 @@ namespace eShopping.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetail",
+                name: "OrderHistory",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quantity = table.Column<int>(type: "int", precision: 18, scale: 2, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CancelReason = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ActionType = table.Column<int>(type: "int", nullable: false, comment: "This column will separate log's action of an order"),
                     LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -488,17 +562,91 @@ namespace eShopping.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetail", x => x.Id);
+                    table.PrimaryKey("PK_OrderHistory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDetail_Order_OrderId",
+                        name: "FK_OrderHistory_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OrderSessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductPriceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductPriceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    PriceAfterDiscount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPromotionDiscountPercentage = table.Column<bool>(type: "bit", nullable: false),
+                    PromotionDiscountValue = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PromotionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDetail_ProductOption_ProductOptionId",
-                        column: x => x.ProductOptionId,
-                        principalTable: "ProductOption",
+                        name: "FK_OrderItem_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrderItem_ProductPrice_ProductPriceId",
+                        column: x => x.ProductPriceId,
+                        principalTable: "ProductPrice",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrderItem_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrderItem_Promotion_PromotionId",
+                        column: x => x.PromotionId,
+                        principalTable: "Promotion",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderPromotionDetail",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PromotionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PromotionType = table.Column<int>(type: "int", nullable: false, comment: "Discount total, discount product, discount product category"),
+                    PercentNumber = table.Column<int>(type: "int", nullable: false, comment: "PercentNumber > 0 is promotion by percent"),
+                    MaximumDiscountAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    PromotionValue = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    LastSavedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastSavedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderPromotionDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderPromotionDetail_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -519,14 +667,9 @@ namespace eShopping.Infrastructure.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_ProductOptionId",
+                name: "IX_Cart_ProductPriceId",
                 table: "Cart",
-                column: "ProductOptionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_IsDeleted",
-                table: "Category",
-                column: "IsDeleted");
+                column: "ProductPriceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_AccountId",
@@ -574,19 +717,49 @@ namespace eShopping.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_IsDeleted",
-                table: "OrderDetail",
+                name: "IX_OrderHistory_IsDeleted",
+                table: "OrderHistory",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_OrderId",
-                table: "OrderDetail",
+                name: "IX_OrderHistory_OrderId",
+                table: "OrderHistory",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_ProductOptionId",
-                table: "OrderDetail",
-                column: "ProductOptionId");
+                name: "IX_OrderItem_IsDeleted",
+                table: "OrderItem",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_OrderId",
+                table: "OrderItem",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_ProductId",
+                table: "OrderItem",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_ProductPriceId",
+                table: "OrderItem",
+                column: "ProductPriceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_PromotionId",
+                table: "OrderItem",
+                column: "PromotionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderPromotionDetail_IsDeleted",
+                table: "OrderPromotionDetail",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderPromotionDetail_OrderId",
+                table: "OrderPromotionDetail",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_IsDeleted",
@@ -609,9 +782,9 @@ namespace eShopping.Infrastructure.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductInCategory_CategoryId",
-                table: "ProductInCategory",
-                column: "CategoryId");
+                name: "IX_ProductCategory_IsDeleted",
+                table: "ProductCategory",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductInCategory_IsDeleted",
@@ -619,24 +792,64 @@ namespace eShopping.Infrastructure.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductInCategory_ProductCategoryId",
+                table: "ProductInCategory",
+                column: "ProductCategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductInCategory_ProductId",
                 table: "ProductInCategory",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductOption_IsDeleted",
-                table: "ProductOption",
+                name: "IX_ProductPrice_IsDeleted",
+                table: "ProductPrice",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductOption_ProductId",
-                table: "ProductOption",
+                name: "IX_ProductPrice_ProductId",
+                table: "ProductPrice",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Promotion_IsDeleted",
                 table: "Promotion",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProduct_IsDeleted",
+                table: "PromotionProduct",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProduct_ProductId",
+                table: "PromotionProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProduct_ProductPriceId",
+                table: "PromotionProduct",
+                column: "ProductPriceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProduct_PromotionId",
+                table: "PromotionProduct",
+                column: "PromotionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProductCategory_IsDeleted",
+                table: "PromotionProductCategory",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProductCategory_ProductCategoryId",
+                table: "PromotionProductCategory",
+                column: "ProductCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PromotionProductCategory_PromotionId",
+                table: "PromotionProductCategory",
+                column: "PromotionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Staff_AccountId",
@@ -682,7 +895,13 @@ namespace eShopping.Infrastructure.Migrations
                 name: "Image");
 
             migrationBuilder.DropTable(
-                name: "OrderDetail");
+                name: "OrderHistory");
+
+            migrationBuilder.DropTable(
+                name: "OrderItem");
+
+            migrationBuilder.DropTable(
+                name: "OrderPromotionDetail");
 
             migrationBuilder.DropTable(
                 name: "Permission");
@@ -691,7 +910,10 @@ namespace eShopping.Infrastructure.Migrations
                 name: "ProductInCategory");
 
             migrationBuilder.DropTable(
-                name: "Promotion");
+                name: "PromotionProduct");
+
+            migrationBuilder.DropTable(
+                name: "PromotionProductCategory");
 
             migrationBuilder.DropTable(
                 name: "StaffPermissionGroup");
@@ -700,10 +922,13 @@ namespace eShopping.Infrastructure.Migrations
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "ProductOption");
+                name: "ProductPrice");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "ProductCategory");
+
+            migrationBuilder.DropTable(
+                name: "Promotion");
 
             migrationBuilder.DropTable(
                 name: "Staff");

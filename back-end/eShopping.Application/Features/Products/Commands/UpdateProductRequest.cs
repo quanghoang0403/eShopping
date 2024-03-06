@@ -39,11 +39,11 @@ namespace eShopping.Application.Features.Products.Commands
 
         public string Thumbnail { get; set; }
 
-        public List<Guid> CategoryIds { get; set; }
+        public List<Guid> ProductCategoryIds { get; set; }
 
         public List<ImageModel> Images { get; set; }
 
-        public List<ProductOptionModel> ProductOptions { get; set; }
+        public List<ProductPriceModel> ProductPrices { get; set; }
 
     }
 
@@ -85,7 +85,7 @@ namespace eShopping.Application.Features.Products.Commands
             updateProductModel.LastSavedTime = DateTime.UtcNow;
             updateProductModel.UrlSEO = StringHelpers.UrlEncode(updateProductModel.Name);
 
-            var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel, request.CategoryIds);
+            var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel, request.ProductCategoryIds);
             ThrowError.Against(updateProductResult == null, "Cannot update this product.");
 
             return true;
@@ -94,7 +94,7 @@ namespace eShopping.Application.Features.Products.Commands
         private static void RequestValidation(UpdateProductRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
-            ThrowError.Against(!request.ProductOptions.Any(), "Please enter product price");
+            ThrowError.Against(!request.ProductPrices.Any(), "Please enter product price");
         }
     }
 }

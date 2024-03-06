@@ -8,7 +8,7 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Cart))]
     public class Cart : BaseEntity
     {
-        public Guid ProductOptionId { set; get; }
+        public Guid ProductPriceId { set; get; }
 
         [Precision(18, 2)]
         public int Quantity { set; get; }
@@ -21,7 +21,7 @@ namespace eShopping.Domain.Entities
 
         public Guid CustomerId { get; set; }
 
-        public virtual ProductOption ProductOption { get; set; }
+        public virtual ProductPrice ProductPrice { get; set; }
 
         public DateTime DateCreated { get; set; }
 

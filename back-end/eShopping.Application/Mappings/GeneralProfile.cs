@@ -28,11 +28,11 @@ namespace eShopping.Application.Mappings
             #endregion
 
             #region DAL => DTO
-            CreateMap<CreateProductCategoryRequest, Category>();
+            CreateMap<CreateProductCategoryRequest, ProductCategory>();
             CreateMap<CreateProductRequest, Product>();
-            CreateMap<UpdateProductCategoryRequest, Category>();
+            CreateMap<UpdateProductCategoryRequest, ProductCategory>();
             CreateMap<UpdateProductRequest, Product>();
-            CreateMap<ProductOptionModel, ProductOption>();
+            CreateMap<ProductPriceModel, ProductPrice>();
             #endregion
         }
     }

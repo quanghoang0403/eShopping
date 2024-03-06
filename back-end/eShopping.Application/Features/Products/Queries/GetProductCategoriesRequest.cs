@@ -50,10 +50,10 @@ namespace eShopping.Application.Features.Products.Queries
         public async Task<GetProductCategoriesResponse> Handle(GetProductCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var allProductCategoriesInStore = new PagingExtensions.Pager<Category>(new List<Category>(), 0);
+            var allProductCategoriesInStore = new PagingExtensions.Pager<ProductCategory>(new List<ProductCategory>(), 0);
             if (string.IsNullOrEmpty(request.KeySearch))
             {
-                allProductCategoriesInStore = await _unitOfWork.Categories
+                allProductCategoriesInStore = await _unitOfWork.ProductCategories
                     .GetAll()
                     .Include(pc => pc.ProductInCategories.Where(pc => pc.Product.Status == EnumStatus.Active))
                     .ThenInclude(ppc => ppc.Product)
@@ -64,7 +64,7 @@ namespace eShopping.Application.Features.Products.Queries
             else
             {
                 string keySearch = request.KeySearch.Trim().ToLower();
-                allProductCategoriesInStore = await _unitOfWork.Categories
+                allProductCategoriesInStore = await _unitOfWork.ProductCategories
                    .GetAll()
                    .Where(pc => pc.Name.ToLower().Contains(keySearch))
                    .Include(pc => pc.ProductInCategories.Where(pc => pc.Product.Status == EnumStatus.Active))

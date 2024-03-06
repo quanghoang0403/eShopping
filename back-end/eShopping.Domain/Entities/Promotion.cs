@@ -2,6 +2,7 @@
 using eShopping.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eShopping.Domain.Entities
@@ -9,24 +10,44 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Promotion))]
     public class Promotion : BaseEntity
     {
-        public DateTime FromDate { set; get; }
+        public Guid StoreId { get; set; }
 
-        public DateTime ToDate { set; get; }
+        public string Name { get; set; }
 
-        public bool ApplyForAll { set; get; }
+        public EnumPromotion PromotionTypeId { get; set; }
+
+        public bool IsPercentDiscount { get; set; }
 
         [Precision(18, 2)]
-        public int? DiscountPercent { set; get; }
+        public decimal PercentNumber { get; set; }
 
         [Precision(18, 2)]
-        public decimal? DiscountAmount { set; get; }
+        public decimal MaximumDiscountAmount { get; set; }
 
-        public string ProductIds { set; get; }
+        public DateTime StartDate { get; set; }
 
-        public string ProductCategoryIds { set; get; }
+        public DateTime? EndDate { get; set; }
 
-        public EnumStatus Status { get; set; }
+        public string TermsAndCondition { get; set; }
 
-        public string Name { set; get; }
+        public bool? IsMinimumPurchaseAmount { get; set; }
+
+        [Precision(18, 2)]
+        public decimal? MinimumPurchaseAmount { get; set; }
+
+        public bool IsSpecificBranch { get; set; }
+
+        public bool IsIncludedTopping { get; set; }
+
+        public bool? IsStopped { get; set; }
+
+        public bool IsApplyAllProducts { get; set; }
+
+        public bool IsApplyAllCategories { get; set; }
+
+        public virtual ICollection<PromotionProduct> PromotionProducts { get; set; }
+
+        public virtual ICollection<PromotionProductCategory> PromotionProductCategories { get; set; }
+
     }
 }

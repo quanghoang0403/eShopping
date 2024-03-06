@@ -20,7 +20,9 @@ namespace eShopping.Domain.Entities
 
         public virtual ICollection<ProductInCategory> ProductInCategories { get; set; }
 
-        public virtual ICollection<ProductOption> ProductOptions { get; set; }
+        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+
+        public virtual ICollection<PromotionProduct> PromotionProducts { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
     }

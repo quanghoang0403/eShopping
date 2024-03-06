@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Products.Queries
             var productDetailData = await _unitOfWork.Products
                 .Find(p => p.Id == request.Id)
                 .AsNoTracking()
-                .Include(x => x.ProductOptions)
+                .Include(x => x.ProductPrices)
                 .Include(x => x.Images)
                 .Include(p => p.ProductInCategories)
                 .ProjectTo<ProductDetailModel>(_mapperConfiguration)
@@ -63,7 +63,7 @@ namespace eShopping.Application.Features.Products.Queries
 
             ThrowError.Against(productDetailData == null, "Cannot find product detail information");
             var images = _unitOfWork.Images.GetAllImagesByObjectId(productDetailData.Id, EnumImageTypeObject.Product);
-            var category = await _unitOfWork.Categories.GetCategoryListByProductId(productDetailData.Id).ProjectTo<ProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
+            var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(productDetailData.Id).ProjectTo<ProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
             productDetailData.Images = _mapper.Map<List<ImageModel>>(images);
             productDetailData.ProductCategories = category;
             // TO DO: Apply promotion

@@ -7,7 +7,7 @@ namespace eShopping.Models.Products
     {
         public Guid Id { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid ProductCategoryId { get; set; }
 
         public string Name { get; set; }
 
@@ -15,6 +15,6 @@ namespace eShopping.Models.Products
 
         public string Thumbnail { get; set; }
 
-        public IEnumerable<ProductOptionModel> ProductOptionModels { get; set; }
+        public IEnumerable<ProductPriceModel> ProductPriceModels { get; set; }
     }
 }

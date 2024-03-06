@@ -36,7 +36,7 @@ namespace eShopping.Models.Product
 
         public IEnumerable<ProductCategoryModel> ProductCategories { get; set; }
 
-        public IEnumerable<ProductOptionModel> ProductOptions { get; set; }
+        public IEnumerable<ProductPriceModel> ProductPrices { get; set; }
 
         public IEnumerable<ImageModel> Images { get; set; }
     }

@@ -21,7 +21,7 @@ namespace eShopping.Application.Features.Products.Queries
 
         public string KeySearch { get; set; }
 
-        public Guid? CategoryId { get; set; }
+        public Guid? ProductCategoryId { get; set; }
 
         public EnumStatus Status { get; set; }
 
@@ -59,11 +59,11 @@ namespace eShopping.Application.Features.Products.Queries
 
             if (products != null)
             {
-                if (request.CategoryId != null)
+                if (request.ProductCategoryId != null)
                 {
                     /// Find Products by Product categoryId
                     var productIdsInProductCategory = _unitOfWork.ProductInCategories
-                        .Find(m => m.CategoryId == request.CategoryId)
+                        .Find(m => m.ProductCategoryId == request.ProductCategoryId)
                         .Select(m => m.ProductId);
 
                     products = products.Where(x => productIdsInProductCategory.Contains(x.Id));
@@ -78,7 +78,7 @@ namespace eShopping.Application.Features.Products.Queries
 
             var allProductsInStore = await products
                                     .AsNoTracking()
-                                    .Include(p => p.ProductOptions.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime))
+                                    .Include(p => p.ProductPrices.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime))
                                     .OrderByDescending(p => p.CreatedTime)
                                     .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProductsInStore.Result;

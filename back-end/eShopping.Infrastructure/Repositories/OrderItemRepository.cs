@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace eShopping.Infrastructure.Repositories
 {
-    public class OrderDetailRepository : GenericRepository<OrderDetail>, IOrderDetailRepository
+    public class OrderItemRepository : GenericRepository<OrderItem>, IOrderItemRepository
     {
-        public OrderDetailRepository(eShoppingDbContext dbContext) : base(dbContext) { }
+        public OrderItemRepository(eShoppingDbContext dbContext) : base(dbContext) { }
 
-        public async Task<List<OrderDetail>> GetOrderDetailByOrderIdAsync(Guid? orderId)
+        public async Task<List<OrderItem>> GetOrderItemByOrderIdAsync(Guid? orderId)
         {
-            var OrderDetails = await dbSet
+            var OrderItems = await dbSet
                 .Where(o => (o.OrderId == orderId))
-                //.Include(o => o.ProductOption)
+                //.Include(o => o.ProductPrice)
                 .ToListAsync();
 
-            return OrderDetails;
+            return OrderItems;
         }
     }
 }

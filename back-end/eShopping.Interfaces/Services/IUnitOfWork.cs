@@ -17,7 +17,7 @@ namespace eShopping.Interfaces
 
         ICartRepository Carts { get; }
 
-        ICategoryRepository Categories { get; }
+        IProductCategoryRepository ProductCategories { get; }
 
         ICityRepository Cities { get; }
 
@@ -27,7 +27,7 @@ namespace eShopping.Interfaces
 
         IOrderRepository Orders { get; }
 
-        IOrderDetailRepository OrderDetails { get; }
+        IOrderItemRepository OrderItems { get; }
 
         IPermissionRepository Permissions { get; }
 
@@ -37,7 +37,7 @@ namespace eShopping.Interfaces
 
         IImageRepository Images { get; }
 
-        IProductOptionRepository ProductOptions { get; }
+        IProductPriceRepository ProductPrices { get; }
 
         IProductInCategoryRepository ProductInCategories { get; }
 

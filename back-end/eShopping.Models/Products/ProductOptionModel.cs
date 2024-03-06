@@ -3,7 +3,7 @@ using System;
 
 namespace eShopping.Models.Products
 {
-    public class ProductOptionModel
+    public class ProductPriceModel
     {
         public Guid? Id { get; set; }
 
