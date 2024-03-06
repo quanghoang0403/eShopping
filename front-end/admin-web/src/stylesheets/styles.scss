@@ -1595,6 +1595,17 @@ div.ant-message-notice-content {
   opacity: 0.5;
 }
 
+// Tablet & mobile
+@media (max-width: 1024px) {
+  .shop-site-layout {
+    padding-right: 0px;
+  }
+
+  .main-content-bg {
+    margin-top: 100px;
+  }
+}
+
 //Tablet
 @media (min-width: 992px) and (max-width: 1080px) {
   .shop-date-picker {

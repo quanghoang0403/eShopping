@@ -41,50 +41,53 @@ aside::-webkit-scrollbar {
   -webkit-transition: 0.5s all;
   -moz-transition: 0.5s all;
   -o-transition: 0.5s all;
-}
 
-.sider-wrapper .bg-logo .logo-box {
-  width: 264px;
-  height: 80px;
-  background-color: $color-F7F5FF;
-  border-radius: 16px;
-  margin: 24px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s all;
-  -webkit-transition: 0.5s all;
-  -moz-transition: 0.5s all;
-  -o-transition: 0.5s all;
-
-  .header-information {
-    text-align: left;
-    width: calc(100% - 110px);
-    .header-name {
-      font-family: "Plus Jakarta Sans";
-      font-style: normal;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 25px;
-      align-items: center;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      color: #50429b;
+  .logo-box {
+    height: 80px;
+    background-color: $color-F7F5FF;
+    border-radius: 16px;
+    margin: 24px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
+  
+    .ant-avatar {
+      background-color: #50429b;
+      width: 36px;
+      height: 34px;
     }
-
-    .header-email {
-      font-family: "Plus Jakarta Sans";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 20px;
-      align-items: center;
-      color: #428bc1;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+  
+    .header-information {
+      margin-left: 10px;
+      text-align: left;
+      width: calc(100% - 110px);
+      .header-name {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 25px;
+        align-items: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color: #50429b;
+      }
+  
+      .header-email {
+        font-family: "Plus Jakarta Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        align-items: center;
+        color: #428bc1;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
   }
 }
@@ -431,8 +434,8 @@ ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.ant-menu-inline-colla
   width: 169px !important;
 }
 
-.ant-layout-sider-collapsed .bg-logo .logo {
-  width: 121px !important;
+.ant-layout-sider-collapsed .bg-logo .logo-box {
+  width: unset !important;
 }
 
 .ant-layout-sider-collapsed .ant-layout-sider-trigger {
@@ -573,8 +576,10 @@ div.ant-menu-submenu.ant-menu-submenu-popup.ant-menu.ant-menu-light.ant-menu-sub
 }
 
 .ant-layout-header.expand-header {
-  width: calc(100% - 312px);
+  width: 100%;
   transition: 0.5 all;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25) !important;
+  height: 90px;
 }
 
 .ant-layout-header.collapse-header {
@@ -588,10 +593,6 @@ div.ant-menu-submenu.ant-menu-submenu-popup.ant-menu.ant-menu-light.ant-menu-sub
   border-radius: 16px;
   height: 80px;
   width: calc(100%);
-}
-
-.header-content .header-mobile {
-  display: none;
 }
 
 .header-language {
@@ -692,9 +693,6 @@ div.ant-menu-submenu.ant-menu-submenu-popup.ant-menu.ant-menu-light.ant-menu-sub
   .ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger.sider-wrapper {
     display: none;
   }
-  .ant-layout-header.expand-header {
-    height: 90px;
-  }
 
   //Header
   .header-content {
@@ -755,9 +753,6 @@ div.ant-menu-submenu.ant-menu-submenu-popup.ant-menu.ant-menu-light.ant-menu-sub
   
   }
 
-  .header-content .header-mobile {
-    display: none;
-  }
   //Language
   .header-language {
     display: none;

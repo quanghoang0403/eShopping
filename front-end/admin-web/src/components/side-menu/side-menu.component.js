@@ -56,10 +56,10 @@ function SideMenu (props) {
   }
 
   const logOut = () => {
-    const request = { UserId: signedInUser?.userId }
-    signOut(request).then(() => {
-      window.location.replace('/login')
-    })
+    // const request = { UserId: signedInUser?.userId }
+    // signOut(request).then(() => {
+    //   window.location.replace('/login')
+    // })
   }
 
   const renderMenusItems = () => {
