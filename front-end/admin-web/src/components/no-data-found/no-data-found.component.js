@@ -8,7 +8,7 @@ export function NoDataFoundComponent (props) {
     <>
       <div className="no-data-found-wrapper">
         <FolderIcon />
-        <div>{t('table:noDataFound')}</div>
+        <div>{t('table.noDataFound')}</div>
       </div>
     </>
   )

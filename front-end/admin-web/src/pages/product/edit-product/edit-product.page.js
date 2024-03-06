@@ -128,8 +128,8 @@ export default function EditProductPage (props) {
       confirmDelete: t('dialog.confirmDelete')
     },
     table: {
-      name: t('table:name'),
-      action: t('table:action')
+      name: t('table.name'),
+      action: t('table.action')
     },
     active: t('common.active'),
     inactive: t('common.inactive'),

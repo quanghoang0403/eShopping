@@ -17,10 +17,10 @@ export const FilterBlogPopover = (props) => {
   // #region PageData
   const pageData = {
     filter: {
-      buttonResetFilter: t('table:resetAllFilters'),
-      all: t('table:allFilterTitle'),
-      category: t('table:categoryFilterTitle'),
-      creator: t('table:creatorFilterTitle')
+      buttonResetFilter: t('table.resetAllFilters'),
+      all: t('table.allFilterTitle'),
+      category: t('table.categoryFilterTitle'),
+      creator: t('table.creatorFilterTitle')
     }
   }
   // #endregion

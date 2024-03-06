@@ -39,12 +39,12 @@ export default function TableProductCategory () {
     productCategoryUpdateSuccess: t('category.productCategoryUpdateSuccess'),
     productCategoryDeleteFail: t('category.productCategoryDeleteFail'),
     table: {
-      searchPlaceholder: t('table:searchPlaceholder'),
-      no: t('table:no'),
-      name: t('table:name'),
-      priority: t('table:priority'),
-      product: t('table:product'),
-      action: t('table:action')
+      searchPlaceholder: t('table.searchPlaceholder'),
+      no: t('table.no'),
+      name: t('table.name'),
+      priority: t('table.priority'),
+      product: t('table.product'),
+      action: t('table.action')
     },
     product: {
       title: t('category.titleProduct'),

@@ -42,7 +42,7 @@ export default function HomePage (props) {
       lastYear: t('dashboard.lastYear'),
       previousSession: t('dashboard.previousSession')
     },
-    noDataFound: t('table:noDataFound'),
+    noDataFound: t('table.noDataFound'),
     topProductTitle: t('dashboard.titleProduct'),
     topCustomerTitle: t('dashboard.titleCustomer'),
     viewMore: t('dashboard.viewMore'),

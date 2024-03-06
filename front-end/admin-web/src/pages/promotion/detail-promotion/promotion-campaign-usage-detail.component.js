@@ -50,7 +50,7 @@ export const PromotionCampaignUsageDetailComponent = forwardRef((props, ref) => 
   }
 
   const pageData = {
-    no: t('table:no'),
+    no: t('table.no'),
     title: t('promotion.usageDetail.title'),
     orderId: t('promotion.usageDetail.orderId'),
     discountAmount: t('promotion.usageDetail.discountAmount'),

@@ -58,46 +58,46 @@ export default function EditPromotionManagement (props) {
   const [productIds, setProductIds] = useState([])
 
   const pageData = {
-    edit: t('promotion:edit'),
+    edit: t('promotion.edit'),
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
     btnDiscard: t('button.discard'),
-    editPromotionSuccess: t('promotion:editPromotionSuccess'),
+    editPromotionSuccess: t('promotion.editPromotionSuccess'),
     discount: {
-      total: t('promotion:discountTotal'),
-      product: t('promotion:discountProduct'),
-      productCategory: t('promotion:discountProductCategory')
+      total: t('promotion.discountTotal'),
+      product: t('promotion.discountProduct'),
+      productCategory: t('promotion.discountProductCategory')
     },
     form: {
-      general: t('promotion:general'),
-      name: t('promotion:name'),
-      placeholderName: t('promotion:placeholderName'),
+      general: t('promotion.general'),
+      name: t('promotion.name'),
+      placeholderName: t('promotion.placeholderName'),
       maxLengthName: 100,
-      pleaseEnterPromotionName: t('promotion:pleaseEnterPromotionName'),
-      promotionType: t('promotion:promotionType'),
-      selectPromotionType: t('promotion:selectPromotionType'),
-      pleaseSelectPromotionType: t('promotion:pleaseSelectPromotionType'),
-      product: t('promotion:product'),
-      selectProduct: t('promotion:selectProduct'),
-      pleaseSelectProduct: t('promotion:pleaseSelectProduct'),
-      productCategory: t('promotion:productCategory'),
-      selectProductCategory: t('promotion:selectProductCategory'),
-      pleaseSelectProductCategory: t('promotion:pleaseSelectProductCategory'),
+      pleaseEnterPromotionName: t('promotion.pleaseEnterPromotionName'),
+      promotionType: t('promotion.promotionType'),
+      selectPromotionType: t('promotion.selectPromotionType'),
+      pleaseSelectPromotionType: t('promotion.pleaseSelectPromotionType'),
+      product: t('promotion.product'),
+      selectProduct: t('promotion.selectProduct'),
+      pleaseSelectProduct: t('promotion.pleaseSelectProduct'),
+      productCategory: t('promotion.productCategory'),
+      selectProductCategory: t('promotion.selectProductCategory'),
+      pleaseSelectProductCategory: t('promotion.pleaseSelectProductCategory'),
       percent: '%',
-      discountValue: t('promotion:discountValue'),
-      pleaseEnterPrecent: t('promotion:pleaseEnterPrecent'),
-      maxDiscount: t('promotion:maxDiscount'),
-      pleaseEnterMaxDiscount: t('promotion:pleaseEnterMaxDiscount'),
-      startDate: t('promotion:startDate'),
-      pleaseStartDate: t('promotion:pleaseStartDate'),
-      endDate: t('promotion:endDate'),
-      PlaceholderDateTime: t('promotion:placeholderDateTime'),
-      termsAndConditions: t('promotion:termsAndConditions'),
+      discountValue: t('promotion.discountValue'),
+      pleaseEnterPrecent: t('promotion.pleaseEnterPrecent'),
+      maxDiscount: t('promotion.maxDiscount'),
+      pleaseEnterMaxDiscount: t('promotion.pleaseEnterMaxDiscount'),
+      startDate: t('promotion.startDate'),
+      pleaseStartDate: t('promotion.pleaseStartDate'),
+      endDate: t('promotion.endDate'),
+      PlaceholderDateTime: t('promotion.placeholderDateTime'),
+      termsAndConditions: t('promotion.termsAndConditions'),
       maxLengthTermsAndConditions: 2000,
       condition: {
-        title: t('promotion:titleCondition'),
-        checkboxPurchaseAmount: t('promotion:checkboxPurchaseAmount'),
-        pleaseEnterMinimum: t('promotion:pleaseEnterMinimum')
+        title: t('promotion.titleCondition'),
+        checkboxPurchaseAmount: t('promotion.checkboxPurchaseAmount'),
+        pleaseEnterMinimum: t('promotion.pleaseEnterMinimum')
       },
       allProduct: t('common.allProducts'),
       allCategories: t('common.allCategories')
@@ -108,8 +108,8 @@ export default function EditPromotionManagement (props) {
       confirmLeave: t('dialog.confirmLeave')
     },
     guideline: {
-      title: t('promotion:titleGuideline'),
-      content: t('promotion:contentGuideline')
+      title: t('promotion.titleGuideline'),
+      content: t('promotion.contentGuideline')
     }
   }
 

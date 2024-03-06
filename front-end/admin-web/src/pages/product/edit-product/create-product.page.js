@@ -109,8 +109,8 @@ export default function CreateProductPage () {
       confirmLeave: t('dialog.confirmLeave')
     },
     table: {
-      name: t('table:name'),
-      action: t('table:action')
+      name: t('table.name'),
+      action: t('table.action')
     }
   }
 

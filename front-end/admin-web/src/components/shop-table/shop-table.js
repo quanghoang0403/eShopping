@@ -56,8 +56,8 @@ export function FnbTable (props) {
   const isMobile = useMediaQuery({ maxWidth: 576 })
 
   const pageData = {
-    noDataFound: t('table:noDataFound'),
-    selectedItems: t('table:selectedItems'),
+    noDataFound: t('table.noDataFound'),
+    selectedItems: t('table.selectedItems'),
     filterButton: t('button.filter')
   }
 
@@ -149,7 +149,7 @@ export function FnbTable (props) {
     const currentView = dataSource?.length
 
     if (hasPagination) {
-      let showingMessage = t('table:showingRecordMessage', {
+      let showingMessage = t('table.showingRecordMessage', {
         showingRecords: currentView,
         totalRecords: total
       })

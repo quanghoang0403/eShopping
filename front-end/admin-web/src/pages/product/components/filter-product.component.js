@@ -15,17 +15,17 @@ export default function FilterProduct (props) {
   const pageData = {
     filter: {
       category: {
-        title: t('table:categoryFilterTitle'),
-        all: t('table:categoryFilterAll'),
-        placeholder: t('table:categoryFilterPlaceholder')
+        title: t('table.categoryFilterTitle'),
+        all: t('table.categoryFilterAll'),
+        placeholder: t('table.categoryFilterPlaceholder')
       },
       status: {
-        title: t('table:statusFilterTitle'),
-        all: t('table:statusFilterAll'),
-        active: t('table:statusFilterActive'),
-        inactive: t('table:statusFilterInactive')
+        title: t('table.statusFilterTitle'),
+        all: t('table.statusFilterAll'),
+        active: t('table.statusFilterActive'),
+        inactive: t('table.statusFilterInactive')
       },
-      resetAllFilters: t('table:resetAllFilters')
+      resetAllFilters: t('table.resetAllFilters')
     }
   }
 

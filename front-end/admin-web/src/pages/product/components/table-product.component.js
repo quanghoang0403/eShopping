@@ -51,12 +51,12 @@ export default function TableProduct (props) {
     productDeleteSuccess: t('product:productDeleteSuccess'),
     productDeleteFail: t('product:productDeleteFail'),
     table: {
-      searchPlaceholder: t('table:searchPlaceholder'),
-      no: t('table:no'),
-      name: t('table:name'),
-      price: t('table:price'),
-      status: t('table:status'),
-      action: t('table:action')
+      searchPlaceholder: t('table.searchPlaceholder'),
+      no: t('table.no'),
+      name: t('table.name'),
+      price: t('table.price'),
+      status: t('table.status'),
+      action: t('table.action')
     },
     notificationTitle: t('dialog.notificationTitle')
   }

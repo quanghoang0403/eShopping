@@ -37,18 +37,18 @@ export default function PromotionPage (props) {
 
   const pageData = {
     linkAddNew: '/promotion/create',
-    title: t('promotion:title'),
-    allType: t('promotion:allType'),
-    search: t('table:searchPlaceholder'),
+    title: t('promotion.title'),
+    allType: t('promotion.allType'),
+    search: t('table.searchPlaceholder'),
     notificationTitle: t('dialog.notificationTitle'),
     confirmDelete: t('dialog.confirmDelete'),
     confirmStop: t('dialog.confirmStop'),
-    confirmDeleteMessage: t('promotion:confirmDeletePromotionMessage'),
-    confirmStopPromotion: t('promotion:confirmStopPromotion'),
-    deletePromotionSuccess: t('promotion:deletePromotionSuccess'),
-    stopPromotionSuccess: t('promotion:stopPromotionSuccess'),
-    promotionDeleteFail: t('promotion:promotionDeleteFail'),
-    promotionStopFail: t('promotion:promotionStopFail'),
+    confirmDeleteMessage: t('promotion.confirmDeletePromotionMessage'),
+    confirmStopPromotion: t('promotion.confirmStopPromotion'),
+    deletePromotionSuccess: t('promotion.deletePromotionSuccess'),
+    stopPromotionSuccess: t('promotion.stopPromotionSuccess'),
+    promotionDeleteFail: t('promotion.promotionDeleteFail'),
+    promotionStopFail: t('promotion.promotionStopFail'),
 
     button: {
       addNew: t('button.addNew'),
@@ -57,21 +57,21 @@ export default function PromotionPage (props) {
       btnIgnore: t('button.ignore'),
       btnStop: t('button.stop')
     },
-    amount: t('promotion:amountValue'),
-    maximum: t('promotion:maximum'),
-    start: t('promotion:start'),
-    end: t('promotion:end'),
+    amount: t('promotion.amountValue'),
+    maximum: t('promotion.maximum'),
+    start: t('promotion.start'),
+    end: t('promotion.end'),
     table: {
-      no: t('table:no'),
-      name: t('table:name'),
-      time: t('table:time'),
-      discount: t('table:discount'),
-      status: t('table:status'),
-      action: t('table:action')
+      no: t('table.no'),
+      name: t('table.name'),
+      time: t('table.time'),
+      discount: t('table.discount'),
+      status: t('table.status'),
+      action: t('table.action')
     },
     guideline: {
-      title: t('promotion:titleGuideline'),
-      content: t('promotion:contentGuideline')
+      title: t('promotion.titleGuideline'),
+      content: t('promotion.contentGuideline')
     }
   }
 
@@ -247,11 +247,11 @@ export default function PromotionPage (props) {
         render: (_, record) => {
           switch (record?.statusId) {
             case PromotionStatus.Schedule:
-              return <div className="status-scheduled">{t('promotion:status.scheduled')}</div>
+              return <div className="status-scheduled">{t('promotion.status.scheduled')}</div>
             case PromotionStatus.Active:
-              return <div className="status-active">{t('promotion:status.active')}</div>
+              return <div className="status-active">{t('promotion.status.active')}</div>
             default:
-              return <div className="status-finished">{t('promotion:status.finished')}</div>
+              return <div className="status-finished">{t('promotion.status.finished')}</div>
           }
         }
       }

@@ -35,10 +35,10 @@ const TableProduct = ({
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
     productCategoryDeleteSuccess: t('category.productCategoryDeleteSuccess'),
     table: {
-      searchPlaceholder: t('table:searchPlaceholder'),
-      no: t('table:.no'),
-      name: t('table:name'),
-      action: t('table:action')
+      searchPlaceholder: t('table.searchPlaceholder'),
+      no: t('table..no'),
+      name: t('table.name'),
+      action: t('table.action')
     }
   }
 

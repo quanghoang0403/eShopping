@@ -28,9 +28,9 @@ export default function FilterStaff (props) {
       button: t('button.filter'),
       resetData: t('button.resetData'),
       permission: {
-        title: t('table:permissionFilterTitle'),
-        all: t('table:permissionFilterAll'),
-        placeholder: t('table:permissionFilterPlaceholder')
+        title: t('table.permissionFilterTitle'),
+        all: t('table.permissionFilterAll'),
+        placeholder: t('table.permissionFilterPlaceholder')
       }
     }
   }

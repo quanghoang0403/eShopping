@@ -29,16 +29,16 @@ export default function TableStaff (props) {
   const clearFilterFunc = React.useRef(null)
 
   const pageData = {
-    searchPlaceholder: t('table:searchPlaceholder'),
+    searchPlaceholder: t('table.searchPlaceholder'),
     btnFilter: t('button.filter'),
     btnDelete: t('button.delete'),
     btnIgnore: t('button.ignore'),
     table: {
-      no: t('table:no'),
-      name: t('table:name'),
-      phone: t('table:phone'),
-      group: t('table:group'),
-      action: t('table:action')
+      no: t('table.no'),
+      name: t('table.name'),
+      phone: t('table.phone'),
+      group: t('table.group'),
+      action: t('table.action')
     },
     confirmDelete: t('dialog.confirmDelete'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),

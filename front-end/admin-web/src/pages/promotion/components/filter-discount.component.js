@@ -25,22 +25,22 @@ export default function FilterDiscount (props) {
     filter: {
       startDate: t('report.startDate'),
       endDate: t('report.endDate'),
-      resetAllFilters: t('table:resetAllFilters'),
+      resetAllFilters: t('table.resetAllFilters'),
       button: t('button.clear'),
       status: {
-        all: t('promotion:allStatus'),
-        title: t('promotion:titleStatus'),
-        active: t('promotion:active'),
-        scheduled: t('promotion:scheduled'),
-        finished: t('promotion:finished')
+        all: t('promotion.allStatus'),
+        title: t('promotion.titleStatus'),
+        active: t('promotion.active'),
+        scheduled: t('promotion.scheduled'),
+        finished: t('promotion.finished')
       },
-      applicableType: t('promotion:applicableType'),
-      valueType: t('promotion:valueType'),
-      amount: t('promotion:amount'),
-      minimumPurchaseOnBill: t('promotion:minimumPurchaseOnBill'),
-      fromAmount: t('promotion:fromAmount'),
-      toAmount: t('promotion:toAmount'),
-      toAmountValidate: t('promotion:toAmountValidate'),
+      applicableType: t('promotion.applicableType'),
+      valueType: t('promotion.valueType'),
+      amount: t('promotion.amount'),
+      minimumPurchaseOnBill: t('promotion.minimumPurchaseOnBill'),
+      fromAmount: t('promotion.fromAmount'),
+      toAmount: t('promotion.toAmount'),
+      toAmountValidate: t('promotion.toAmountValidate'),
       amountValidateMessage: t('product:validatePrice')
     }
   }
