@@ -48,12 +48,12 @@ class CLIPHandler:
         embedding = response["embeddings"]
         return embedding
     
-    def search_items_by_image(self, query_image, results_num=7):
+    def search_items_by_image(self, query_image, results_num=100):
         query_embedding = self.get_image_embedding(query_image)
         D, I = self.index.search(np.array(query_embedding).astype(np.float32), results_num)
         return I[0]
     
-    def search_items_by_text(self, query_text, results_num=7):
+    def search_items_by_text(self, query_text, results_num=100):
         query_embedding = self.get_text_embedding(query_text)
         D, I = self.index.search(np.array(query_embedding).astype(np.float32), results_num)
         return I[0]

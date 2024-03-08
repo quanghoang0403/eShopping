@@ -63,19 +63,17 @@ def search_by_image():
     image_file = request.files['image']
     try:
         query_image = Image.open(BytesIO(image_file.read()))
-        total_items = request.args.get('total', type=int)
-        ids = clip_handler.search_items_by_image(query_image, total_items)
+        ids = clip_handler.search_items_by_image(query_image)
         response = mongo_handler.search_items_by_index(ids)
         return jsonify({response}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/search_by_text', methods=['GET'])
+@app.route('/search_by_text', methods=['POST'])
 def search_by_text():
     try:
         query_text = request.args.get('text', type=int)
-        total_items = request.args.get('total', type=int)
-        ids = clip_handler.search_items_by_text(query_text, total_items)
+        ids = clip_handler.search_items_by_text(query_text)
         response = mongo_handler.search_items_by_index(ids)
         return jsonify({response}), 200
     except Exception as e:
