@@ -1,4 +1,7 @@
 Flask
 pyodbc
 python-dotenv
+faiss-gpu
+numpy
+supervision
 # pip install -r requirements.txt
