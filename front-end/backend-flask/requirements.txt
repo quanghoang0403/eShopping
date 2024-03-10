@@ -1,7 +1,8 @@
 Flask
+flask_cors
 pyodbc
 python-dotenv
-faiss-gpu
 numpy
 supervision
+pymongo
 # pip install -r requirements.txt

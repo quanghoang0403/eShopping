@@ -1,35 +1,26 @@
 import { AxiosResponse } from 'axios'
 import APIService, { APIServiceUpload } from './base'
 
-// Define interfaces for request and response bodies
-export interface IUploadImagesResponse {
-  message: string
-  filenames: string[]
-}
 
 export interface IDeleteImageResponse {
   message: string
   url: string
 }
 
-export default class ImageService {
-  static async uploadImages(
-    files: File[]
-  ): Promise<AxiosResponse<IUploadImagesResponse>> {
-    const formData = new FormData()
-    files.forEach((file) => {
-      formData.append('files[]', file)
-    })
-    return await APIServiceUpload.post('/upload_images', formData)
-  }
+export interface ISearchImageResponse {
+  id: number
+  url: string
+}
 
+export default class ImageService {
   static async deleteImage(body: {
+    id: number,
     url: string
   }): Promise<AxiosResponse<IDeleteImageResponse>> {
-    return APIService.delete('/delete_image', body)
+    return APIService.post('/delete_image', body)
   }
 
-  static async searchByImage(file: File): Promise<AxiosResponse<string[]>> {
+  static async searchByImage(file: File): Promise<AxiosResponse<ISearchImageResponse[]>> {
     const formData = new FormData()
     formData.append('image', file)
     return APIServiceUpload.post('/search_by_image', formData)
@@ -37,7 +28,14 @@ export default class ImageService {
 
   static async searchByText(body: {
     text: string
-  }): Promise<AxiosResponse<string[]>> {
+  }): Promise<AxiosResponse<ISearchImageResponse[]>> {
     return APIService.post('/search_by_text', body)
+  }
+
+  static async uploadImage(file: File): Promise<AxiosResponse<any>> {
+    const formData = new FormData()
+    formData.append('image', file)
+    console.log(formData);
+    return await APIServiceUpload.post('/upload_image', formData)
   }
 }

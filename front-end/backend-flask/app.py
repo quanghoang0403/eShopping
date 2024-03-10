@@ -1,58 +1,48 @@
 from flask import Flask, request, jsonify
 import os
-import pyodbc
 from dotenv import load_dotenv
 from clip_handler.clip_handler import CLIPHandler
-from mongo_handler.mongo_handler import MongoDBHandler
 from PIL import Image
 from io import BytesIO
+from flask_cors import CORS
+import uuid
+import copy
 
 load_dotenv()
 
 app = Flask(__name__)
-mongo_handler = MongoDBHandler()
+CORS(app) 
 clip_handler = CLIPHandler()
 
-@app.route('/upload_images', methods=['POST'])
-def upload_images():
-    # Check if the POST request contains any files
-    if 'files[]' not in request.files:
-        return jsonify({'error': 'No files part'}), 400
-
-    files = request.files.getlist('files[]')
-
-    # Check if any files are selected
-    if len(files) == 0:
-        return jsonify({'error': 'No selected files'}), 400
-
-    # Iterate through each uploaded file
-    filenames = []
-    for file in files:
-        # Check if the file name is empty
-        if file.filename == '':
-            return jsonify({'error': 'No selected file'}), 400
-        filenames.append(file.filename)
-
-        # Save to file
-        file.save(os.path.join(os.getenv("DATASET_PATH"), file.filename))
-        
-        # Add record to query CLIP
-        clip_handler.insert_item(file.filename)
-
-        # Add record to mongoDB
-        mongo_handler.insert_item(file.filename)
-
-    # Handle calculate and save to DB
-    return jsonify({'message': 'Files uploaded successfully', 'filenames': filenames}), 200
-
-@app.route('/delete_image', methods=['DELETE'])
-def delete_image():
-    url = request.args.get('url')
+@app.route('/upload_image', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return jsonify({"error": "No image provided"}), 400
+    image_file = request.files['image']
     try:
-        id = mongo_handler.get_index_by_url(url)
-        mongo_handler.remove_item(id)
-        clip_handler.remove_item(id)
-        return jsonify({{'message': 'Files uploaded successfully', 'filenames': url}}), 200
+        unique_id = uuid.uuid4()
+        filename, extension = os.path.splitext(image_file.filename)
+        unique_filename = f"{filename}_{unique_id}{extension}"
+        static_file = os.path.join(os.getenv("DATASET_PATH"), unique_filename) 
+        image_file.save(static_file)
+        image = Image.open(static_file)
+        clip_handler.insert_item(image, unique_filename)
+        return jsonify(static_file), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/delete_image', methods=['POST'])
+def delete_image():
+    request_data = request.get_json()
+    id = request_data['id']
+    url = request_data['url']
+    try:
+        clip_handler.remove_item(id, url)
+        file_path = os.path.join(os.getenv("DATASET_PATH"), url)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -63,19 +53,35 @@ def search_by_image():
     image_file = request.files['image']
     try:
         query_image = Image.open(BytesIO(image_file.read()))
-        ids = clip_handler.search_items_by_image(query_image)
-        response = mongo_handler.search_items_by_index(ids)
-        return jsonify({response}), 200
+        response = clip_handler.search_items_by_image(query_image)
+        return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 @app.route('/search_by_text', methods=['POST'])
 def search_by_text():
     try:
-        query_text = request.args.get('text', type=int)
-        ids = clip_handler.search_items_by_text(query_text)
-        response = mongo_handler.search_items_by_index(ids)
-        return jsonify({response}), 200
+        request_data = request.get_json()
+        query_text = request_data['text']
+        response = clip_handler.search_items_by_text(query_text)
+        print("API response", response)
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/save', methods=['GET'])
+def save():
+    try:
+        clip_handler.save()
+        return jsonify(), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/recalculate', methods=['GET'])
+def recalculate():
+    try:
+        clip_handler.recalculate()
+        return jsonify(), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

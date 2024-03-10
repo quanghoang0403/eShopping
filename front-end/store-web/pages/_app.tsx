@@ -3,7 +3,7 @@ import SEO from '@/components/Layout/SEO'
 import MainLayout from '@/components/Layout'
 import { Provider } from 'react-redux'
 import { makeStore } from '@/redux/store'
-import '../src/styles/_global.scss'
+import '../src/styles/global.css'
 
 const store = makeStore()
 export default function App({ Component, pageProps }: AppProps) {
