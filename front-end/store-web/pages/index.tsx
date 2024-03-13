@@ -5,6 +5,7 @@ import { ISearchImageResponse } from '@/services/image.service'
 export default function HomePage() {
   const [text, setText] = useState<string>('')
   const [listImg, setListImg] = useState<ISearchImageResponse[]>()
+  const [imageURL, setImageURL] = useState<any>('')
   const [loading, setLoading] = useState<boolean>(false)
   const onChange = ({ target }: any) => setText(target.value)
   const onSearchText = async () => {
@@ -23,6 +24,8 @@ export default function HomePage() {
 
     if (files && files[0]) {
       try {
+        const reader = new FileReader()
+        setImageURL(URL.createObjectURL(event.target.files[0]))
         setLoading(true)
         const res = await ImageService.searchByImage(files[0])
         setListImg(res.data)
@@ -170,6 +173,12 @@ export default function HomePage() {
           </label>
         </div>
       </div>
+      {/* Display uploaded image */}
+      {imageURL && (
+        <div className="mt-8 flex justify-center">
+          <img src={imageURL} alt="Uploaded" className="max-w-full h-auto" />
+        </div>
+      )}
       <div className="container mx-auto px-4 mt-20">
         <div className="grid grid-cols-6 gap-6">
           {listImg &&

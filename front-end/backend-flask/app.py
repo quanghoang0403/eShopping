@@ -6,7 +6,6 @@ from PIL import Image
 from io import BytesIO
 from flask_cors import CORS
 import uuid
-import copy
 
 load_dotenv()
 
@@ -30,7 +29,6 @@ def upload_image():
         return jsonify(static_file), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/delete_image', methods=['POST'])
 def delete_image():
