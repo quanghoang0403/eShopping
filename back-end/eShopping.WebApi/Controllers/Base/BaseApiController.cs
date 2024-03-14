@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace eShopping.WebApi.Controllers.Base
 {
     [ApiController]
-    [Route("api/[controller]")]
     [Produces("application/json")]
     public class BaseApiController : ControllerBase
     {

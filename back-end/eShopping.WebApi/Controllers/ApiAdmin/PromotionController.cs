@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiAdmin
 {
     [Authorize]
-    public class PromotionController : BaseApiController
+    public class PromotionController : BaseApiAdminController
     {
         public PromotionController(IMediator mediator) : base(mediator)
         {

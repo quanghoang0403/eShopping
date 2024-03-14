@@ -2,9 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiAdmin
 {
-    public class TestController : BaseApiController
+    public class TestController : BaseApiAdminController
     {
         public TestController(IMediator mediator) : base(mediator)
         {

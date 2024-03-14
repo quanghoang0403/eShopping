@@ -1,11 +1,10 @@
-﻿
-using eShopping.Application.Features.Addresses.Queries;
+﻿using eShopping.Application.Features.Addresses.Queries;
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiStore
 {
     public class AddressController : BaseApiController
     {

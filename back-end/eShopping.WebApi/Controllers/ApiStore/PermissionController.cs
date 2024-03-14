@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiStore
 {
     [Authorize]
     public class PermissionController : BaseApiController

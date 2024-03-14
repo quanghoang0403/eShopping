@@ -4,9 +4,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiAdmin
 {
-    public class AuthenticateController : BaseApiController
+    public class AuthenticateController : BaseApiAdminController
     {
         public AuthenticateController(IMediator mediator) : base(mediator)
         {

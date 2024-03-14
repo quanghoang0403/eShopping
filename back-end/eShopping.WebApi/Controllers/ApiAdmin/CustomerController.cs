@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiAdmin
 {
     [Authorize]
-    public class CustomerController : BaseApiController
+    public class CustomerController : BaseApiAdminController
     {
         public CustomerController(IMediator mediator) : base(mediator)
         {

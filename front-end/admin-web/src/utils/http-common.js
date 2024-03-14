@@ -11,7 +11,7 @@ const { t } = i18n
 const date = new Date()
 const timezoneOffset = date.getTimezoneOffset()
 const http = axios.create({
-  baseURL: `${env.REACT_APP_ROOT_DOMAIN}/api`,
+  baseURL: `${env.REACT_APP_ROOT_DOMAIN}`,
   withCredentials: true,
   headers: {
     Accept: 'application/json',
@@ -93,7 +93,12 @@ http.interceptors.response.use(
       _redirectToNotFoundPage()
     }
 
-    if (error && error.response && error.response.data.errors && error.response.data.errors.length > 0) {
+    if (
+      error &&
+      error.response &&
+      error.response.data.errors &&
+      error.response.data.errors.length > 0
+    ) {
       const { errors } = error.response.data
       return Promise.reject(errors)
     }

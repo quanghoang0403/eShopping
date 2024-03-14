@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace eShopping.WebApi.Controllers
+namespace eShopping.WebApi.Controllers.ApiAdmin
 {
     [Authorize]
-    [Route("/api/Account")]
-    public class AccountController : BaseApiController
+    public class AccountController : BaseApiAdminController
     {
         public AccountController(IMediator mediator) : base(mediator)
         {
