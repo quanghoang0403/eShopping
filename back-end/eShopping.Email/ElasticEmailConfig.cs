@@ -1018,7 +1018,7 @@ namespace eShopping.Email
             }
 
             /// <summary>
-            /// Load advanced options of your account
+            /// Load advanced prices of your account
             /// </summary>
             /// <param name="apikey">ApiKey that gives you access to our SMTP and HTTP API's.</param>
             /// <returns>ApiTypes.AdvancedOptions</returns>
@@ -1026,7 +1026,7 @@ namespace eShopping.Email
             {
                 Dictionary<string, string> values = new Dictionary<string, string>();
                 values.Add("apikey", Api.ApiKey);
-                ApiResponse<ApiTypes.AdvancedOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.AdvancedOptions>("/account/loadadvancedoptions", values);
+                ApiResponse<ApiTypes.AdvancedOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.AdvancedOptions>("/account/loadadvancedprices", values);
                 return apiResponse.Data;
             }
 
@@ -1044,7 +1044,7 @@ namespace eShopping.Email
             }
 
             /// <summary>
-            /// Load inbound options of your account
+            /// Load inbound prices of your account
             /// </summary>
             /// <param name="apikey">ApiKey that gives you access to our SMTP and HTTP API's.</param>
             /// <returns>ApiTypes.InboundOptions</returns>
@@ -1052,7 +1052,7 @@ namespace eShopping.Email
             {
                 Dictionary<string, string> values = new Dictionary<string, string>();
                 values.Add("apikey", Api.ApiKey);
-                ApiResponse<ApiTypes.InboundOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.InboundOptions>("/account/loadinboundoptions", values);
+                ApiResponse<ApiTypes.InboundOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.InboundOptions>("/account/loadinboundprices", values);
                 return apiResponse.Data;
             }
 
@@ -1217,7 +1217,7 @@ namespace eShopping.Email
             }
 
             /// <summary>
-            /// Load web notification options of your account
+            /// Load web notification prices of your account
             /// </summary>
             /// <param name="apikey">ApiKey that gives you access to our SMTP and HTTP API's.</param>
             /// <returns>ApiTypes.WebNotificationOptions</returns>
@@ -1225,7 +1225,7 @@ namespace eShopping.Email
             {
                 Dictionary<string, string> values = new Dictionary<string, string>();
                 values.Add("apikey", Api.ApiKey);
-                ApiResponse<ApiTypes.WebNotificationOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.WebNotificationOptions>("/account/loadwebnotificationoptions", values);
+                ApiResponse<ApiTypes.WebNotificationOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.WebNotificationOptions>("/account/loadwebnotificationprices", values);
                 return apiResponse.Data;
             }
 
@@ -1292,7 +1292,7 @@ namespace eShopping.Email
             }
 
             /// <summary>
-            /// Update sending and tracking options of your account.
+            /// Update sending and tracking prices of your account.
             /// </summary>
             /// <param name="apikey">ApiKey that gives you access to our SMTP and HTTP API's.</param>
             /// <param name="enableClickTracking">True, if you want to track clicks. Otherwise, false</param>
@@ -1350,7 +1350,7 @@ namespace eShopping.Email
                 if (enableOpenTracking != null) values.Add("enableOpenTracking", enableOpenTracking.ToString());
                 if (consentTrackingOnUnsubscribe != null) values.Add("consentTrackingOnUnsubscribe", consentTrackingOnUnsubscribe.ToString());
                 if (disableStoreContact != null) values.Add("disableStoreContact", disableStoreContact.ToString());
-                ApiResponse<ApiTypes.AdvancedOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.AdvancedOptions>("/account/updateadvancedoptions", values);
+                ApiResponse<ApiTypes.AdvancedOptions> apiResponse = await ApiUtilities.PostAsync<ApiTypes.AdvancedOptions>("/account/updateadvancedprices", values);
                 return apiResponse.Data;
             }
 
@@ -1396,7 +1396,7 @@ namespace eShopping.Email
             }
 
             /// <summary>
-            /// Update inbound notifications options of your account.
+            /// Update inbound notifications prices of your account.
             /// </summary>
             /// <param name="apikey">ApiKey that gives you access to our SMTP and HTTP API's.</param>
             /// <param name="inboundContactsOnly">True, if you want inbound email to only process contacts from your Account. Otherwise, false</param>
@@ -3824,7 +3824,7 @@ namespace eShopping.Email
             }
 
             /// <summary>
-            /// Bulk change default options and the scope of your templates
+            /// Bulk change default prices and the scope of your templates
             /// </summary>
             /// <param name="apikey">ApiKey that gives you access to our SMTP and HTTP API's.</param>
             /// <param name="templateIDs"></param>
@@ -3841,7 +3841,7 @@ namespace eShopping.Email
                 if (fromEmail != null) values.Add("fromEmail", fromEmail);
                 if (fromName != null) values.Add("fromName", fromName);
                 if (templateScope != ApiTypes.TemplateScope.Private) values.Add("templateScope", templateScope.ToString());
-                ApiResponse<VoidApiResponse> apiResponse = await ApiUtilities.PostAsync<VoidApiResponse>("/template/updatedefaultoptions", values);
+                ApiResponse<VoidApiResponse> apiResponse = await ApiUtilities.PostAsync<VoidApiResponse>("/template/updatedefaultprices", values);
             }
 
         }
@@ -4585,7 +4585,7 @@ namespace eShopping.Email
     }
 
     /// <summary>
-    /// Lists advanced sending options of your account.
+    /// Lists advanced sending prices of your account.
     /// </summary>
     public class AdvancedOptions
     {
@@ -6852,7 +6852,7 @@ namespace eShopping.Email
     }
 
     /// <summary>
-    /// Lists inbound options of your account.
+    /// Lists inbound prices of your account.
     /// </summary>
     public class InboundOptions
     {
@@ -8274,7 +8274,7 @@ namespace eShopping.Email
     }
 
     /// <summary>
-    /// Add-on support options for your Account.
+    /// Add-on support prices for your Account.
     /// </summary>
     public enum SupportPlan: int
     {
@@ -8859,7 +8859,7 @@ namespace eShopping.Email
     }
 
     /// <summary>
-    /// Lists web notification options of your account.
+    /// Lists web notification prices of your account.
     /// </summary>
     public class WebNotificationOptions
     {

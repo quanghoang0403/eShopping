@@ -55,18 +55,18 @@ namespace eShopping.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-products-by-filter")]
+        [Route("get-products")]
         [HasPermission(EnumPermission.VIEW_PRODUCT)]
-        public async Task<IActionResult> GetProductsByFilterAsync([FromQuery] GetProductsByFilterRequest request)
+        public async Task<IActionResult> GetProductsAsync([FromQuery] GetProductsRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
         }
 
         [HttpGet]
-        [Route("get-product-detail-data-by-id")]
+        [Route("get-product-by-id")]
         [HasPermission(EnumPermission.VIEW_PRODUCT)]
-        public async Task<IActionResult> GetProductDetailById([FromQuery] GetProductDetailByIdRequest request)
+        public async Task<IActionResult> GetProductById([FromQuery] GetProductByIdRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

@@ -1,4 +1,5 @@
 using eShopping.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace eShopping.Interfaces.Repositories
         /// </summary>
         /// <returns></returns>
         Task<List<Customer>> GetAllCustomersAsync();
+
+        Task<Customer> GetCustomerById(Guid id);
 
     }
 }

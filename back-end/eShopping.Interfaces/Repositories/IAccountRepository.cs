@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using eShopping.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace eShopping.Interfaces.Repositories
 {
@@ -51,6 +51,10 @@ namespace eShopping.Interfaces.Repositories
         Task<bool> GetAccountStatusByIdAsync(Guid id);
 
         Task<Account> GetAccountActivatedByIdAsync(Guid id);
+
+        bool CheckAccountByPhone(string phone);
+
+        bool CheckAccountByEmail(string email);
 
     }
 }

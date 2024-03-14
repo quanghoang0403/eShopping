@@ -11,7 +11,6 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Account))]
     public class Account : BaseEntity
     {
-
         [MaxLength(50)]
         public string Email { get; set; }
 
@@ -36,6 +35,12 @@ namespace eShopping.Domain.Entities
         public EnumGender Gender { get; set; }
 
         public EnumAccountType AccountType { get; set; }
+
+        /// <summary>
+        /// The database generates a value when a row is inserted.
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Code { get; set; }
 
         public virtual ICollection<Customer> Customer { get; set; }
 

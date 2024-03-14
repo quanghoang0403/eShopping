@@ -14,15 +14,15 @@ namespace eShopping.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-cities-by-countryid")]
-        public async Task<IActionResult> GetCitiesByCountryIdAsync([FromQuery] GetCitiesByCountryIdRequest request)
+        [Route("get-all-cities")]
+        public async Task<IActionResult> GetAllCitiesAsync([FromQuery] GetAllCitiesRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
         }
 
         [HttpGet]
-        [Route("get-districts-by-cityid")]
+        [Route("get-districts-by-city-id")]
         public async Task<IActionResult> GetDistrictsByCityIdAsync([FromQuery] GetDistrictsByCityIdRequest request)
         {
             var response = await _mediator.Send(request);
@@ -30,7 +30,7 @@ namespace eShopping.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-wards-by-districtid")]
+        [Route("get-wards-by-district-id")]
         public async Task<IActionResult> GetWardsByDistrictIdAsync([FromQuery] GetWardsByDistrictIdRequest request)
         {
             var response = await _mediator.Send(request);

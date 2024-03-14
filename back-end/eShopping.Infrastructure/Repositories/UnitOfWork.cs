@@ -48,6 +48,9 @@ namespace eShopping.Infrastructure.Repositories
         private IOrderItemRepository _orderDetailRepository;
         public IOrderItemRepository OrderItems { get { return _orderDetailRepository ??= new OrderItemRepository(_dbContext); } }
 
+        private IOrderPromotionDetailRepository _orderPromotionDetailRepository;
+        public IOrderPromotionDetailRepository OrderPromotionDetails { get { return _orderPromotionDetailRepository ??= new OrderPromotionDetailRepository(_dbContext); } }
+
         private IPermissionRepository _permissionRepository;
         public IPermissionRepository Permissions { get { return _permissionRepository ??= new PermissionRepository(_dbContext); } }
 
@@ -68,6 +71,12 @@ namespace eShopping.Infrastructure.Repositories
 
         private IPromotionRepository _promotionRepository;
         public IPromotionRepository Promotions { get { return _promotionRepository ??= new PromotionRepository(_dbContext); } }
+
+        private IPromotionProductRepository _promotionProductRepository;
+        public IPromotionProductRepository PromotionProducts { get { return _promotionProductRepository ??= new PromotionProductRepository(_dbContext); } }
+
+        private IPromotionProductCategoryRepository _promotionProductCategoryRepository;
+        public IPromotionProductCategoryRepository PromotionProductCategories { get { return _promotionProductCategoryRepository ??= new PromotionProductCategoryRepository(_dbContext); } }
 
         private IStaffRepository _staffRepository;
         public IStaffRepository Staffs { get { return _staffRepository ??= new StaffRepository(_dbContext); } }

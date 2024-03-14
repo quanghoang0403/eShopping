@@ -1,7 +1,5 @@
-﻿using eShopping.Application.Features.Authenticate.Commands;
-using eShopping.Application.Features.Users.Commands;
+﻿using eShopping.Application.Features.Users.Commands;
 using eShopping.WebApi.Controllers.Base;
-
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

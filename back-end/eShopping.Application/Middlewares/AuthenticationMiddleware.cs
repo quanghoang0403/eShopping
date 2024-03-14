@@ -93,7 +93,7 @@ namespace eShopping.Application.Middlewares
                 var claimAccountTypeId = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.ACCOUNT_TYPE);
                 if (claimAccountId != null)
                 {
-                    if (claimAccountTypeId != null && claimAccountTypeId.Value == $"{(int)EnumAccountType.User}")
+                    if (claimAccountTypeId != null && claimAccountTypeId.Value == $"{(int)EnumAccountType.Customer}")
                     {
                         var accountInCaching = memoryCachingService.GetCache<Account>(token);
                         if (accountInCaching != null)

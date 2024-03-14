@@ -8,6 +8,12 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Product))]
     public class Product : SEOEntity
     {
+        /// <summary>
+        /// The database generates a value when a row is inserted.
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Code { get; set; }
+
         public int ViewCount { set; get; }
 
         public bool? IsFeatured { get; set; }

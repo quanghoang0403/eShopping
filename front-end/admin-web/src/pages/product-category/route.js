@@ -8,9 +8,9 @@ const { t } = i18n
 // Define the route
 const route = [
   {
-    key: 'app.category',
+    key: 'app.product-category',
     position: 2,
-    path: '/category',
+    path: '/product-category',
     icon: <Category />,
     name: t('home.menuCategory'),
     isMenu: true,
@@ -21,10 +21,10 @@ const route = [
     child: []
   },
   {
-    key: 'app.category.edit',
+    key: 'app.product-category.edit',
     focus: 'app.category',
     position: 1,
-    path: '/category/edit/:productCategoryId',
+    path: '/product-category/edit/:productCategoryId',
     name: 'Category',
     isMenu: false,
     exact: true,

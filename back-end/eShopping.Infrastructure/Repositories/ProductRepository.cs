@@ -78,8 +78,8 @@ namespace eShopping.Infrastructure.Repositories
                 }
                 #endregion
 
-                #region Handle update product options
-                // all product options before update
+                #region Handle update product prices
+                // all product prices before update
                 var allProductPrices = await _dbContext.ProductPrices
                     .Where(x => x.ProductId == request.Id)
                     .AsNoTracking()
@@ -91,14 +91,14 @@ namespace eShopping.Infrastructure.Repositories
                     _dbContext.AttachRange(allProductPrices);
                 }
 
-                // update product options
+                // update product prices
                 if (request.ProductPrices.Any())
                 {
-                    // remove unused product options
+                    // remove unused product prices
                     var unusedProductPrices = allProductPrices.Where(x => !request.ProductPrices.Any(pn => pn.Id == x.Id));
                     _dbContext.ProductPrices.RemoveRange(unusedProductPrices);
 
-                    // add product options not insert to DB
+                    // add product prices not insert to DB
                     var newProductPrices = request.ProductPrices.Where(p => p.Id == Guid.Empty);
                     var newProductPricesToDB = new List<ProductPrice>();
                     foreach (var option in unusedProductPrices)
@@ -107,8 +107,8 @@ namespace eShopping.Infrastructure.Repositories
                         var newProductPrice = new ProductPrice()
                         {
                             Priority = option.Priority,
-                            Name = option.Name,
-                            Price = option.Price,
+                            PriceName = option.PriceName,
+                            PriceValue = option.PriceValue,
                             ProductId = productEdit.Id,
                             QuantityLeft = option.QuantityLeft,
                             QuantitySold = option.QuantitySold,
@@ -117,13 +117,13 @@ namespace eShopping.Infrastructure.Repositories
                         await _dbContext.ProductPrices.AddRangeAsync(newProductPricesToDB, cancellationToken);
                     }
 
-                    // update product options existed
+                    // update product prices existed
                     foreach (var productPrice in allProductPrices)
                     {
                         var newProductPrice = request.ProductPrices.FirstOrDefault(p => p.Id == productPrice.Id);
                         productPrice.Priority = newProductPrice.Priority;
-                        productPrice.Name = newProductPrice.Name;
-                        productPrice.Price = newProductPrice.Price;
+                        productPrice.PriceName = newProductPrice.PriceName;
+                        productPrice.PriceValue = newProductPrice.PriceValue;
                     }
                     _dbContext.ProductPrices.UpdateRange(allProductPrices);
                 }

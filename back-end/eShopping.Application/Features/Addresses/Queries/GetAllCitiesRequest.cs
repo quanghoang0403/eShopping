@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Addresses.Queries
 {
-    public class GetCitiesByCountryIdRequest : IRequest<GetCitiesByCountryIdResponse>
+    public class GetAllCitiesRequest : IRequest<GetAllCitiesResponse>
     {
     }
 
-    public class GetCitiesByCountryIdResponse
+    public class GetAllCitiesResponse
     {
         public IList<CityModel> Cities { get; set; }
     }
 
-    public class GetCitiesByCountryIdRequestHandler : IRequestHandler<GetCitiesByCountryIdRequest, GetCitiesByCountryIdResponse>
+    public class GetAllCitiesRequestHandler : IRequestHandler<GetAllCitiesRequest, GetAllCitiesResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly MapperConfiguration _mapperConfiguration;
 
-        public GetCitiesByCountryIdRequestHandler(
+        public GetAllCitiesRequestHandler(
             IUnitOfWork unitOfWork,
             MapperConfiguration mapperConfiguration)
         {
@@ -32,14 +32,14 @@ namespace eShopping.Application.Features.Addresses.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<GetCitiesByCountryIdResponse> Handle(GetCitiesByCountryIdRequest request, CancellationToken cancellationToken)
+        public async Task<GetAllCitiesResponse> Handle(GetAllCitiesRequest request, CancellationToken cancellationToken)
         {
             var cities = await _unitOfWork.Cities
                 .GetCities()
                 .ProjectTo<CityModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken: cancellationToken);
 
-            var response = new GetCitiesByCountryIdResponse()
+            var response = new GetAllCitiesResponse()
             {
                 Cities = cities
             };

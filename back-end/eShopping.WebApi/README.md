@@ -46,3 +46,27 @@ GUIDELINE
 	3. Create Queries folder: include the handle request to query data
 	4. Call handle request in the API controller with the mediator
 		
+DumpData
+var sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Migrations/StaticData/cities.sql");
+var script = File.ReadAllText(sqlFile);
+migrationBuilder.Sql(script);
+
+sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Migrations/StaticData/districts.sql");
+script = File.ReadAllText(sqlFile);
+migrationBuilder.Sql(script);
+
+sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Migrations/StaticData/wards.sql");
+script = File.ReadAllText(sqlFile);
+migrationBuilder.Sql(script);
+
+sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Migrations/StaticData/permission-groups.sql");
+script = File.ReadAllText(sqlFile);
+migrationBuilder.Sql(script);
+
+sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Migrations/StaticData/permissions.sql");
+script = File.ReadAllText(sqlFile);
+migrationBuilder.Sql(script);
+
+sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Migrations/StaticData/account.sql");
+script = File.ReadAllText(sqlFile);
+migrationBuilder.Sql(script);

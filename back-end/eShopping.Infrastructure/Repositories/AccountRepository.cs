@@ -21,21 +21,21 @@ namespace eShopping.Infrastructure.Repositories
 
         public async Task<Account> GetIdentifierAsync(Guid accountId)
         {
-            var account = await dbSet.FirstOrDefaultAsync(u => u.Id == accountId && !u.IsDeleted);
+            var account = await dbSet.FirstOrDefaultAsync(u => u.Id == accountId);
 
             return account;
         }
 
         public async Task<Account> GetAccountByEmailAsync(string email)
         {
-            var account = await dbSet.FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted);
+            var account = await dbSet.FirstOrDefaultAsync(u => u.Email == email);
 
             return account;
         }
 
         public Account GetIdentifier(Guid accountId)
         {
-            var account = dbSet.AsNoTracking().FirstOrDefault(u => u.Id == accountId && !u.IsDeleted);
+            var account = dbSet.AsNoTracking().FirstOrDefault(u => u.Id == accountId);
 
             return account;
         }
@@ -76,9 +76,22 @@ namespace eShopping.Infrastructure.Repositories
 
         public async Task<Account> GetAccountActivatedByIdAsync(Guid id)
         {
-            var account = await dbSet.FirstOrDefaultAsync(a => a.Id == id && a.IsActivated && !a.IsDeleted);
-
+            var account = await dbSet.FirstOrDefaultAsync(a => a.Id == id && a.IsActivated);
             return account;
+        }
+
+        public bool CheckAccountByPhone(string phone)
+        {
+            var account = dbSet.FirstOrDefault(c => c.PhoneNumber == phone);
+
+            return account != null;
+        }
+
+        public bool CheckAccountByEmail(string email)
+        {
+            var account = dbSet.FirstOrDefault(c => c.Email == email);
+
+            return account != null;
         }
     }
 }

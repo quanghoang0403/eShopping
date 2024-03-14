@@ -7,10 +7,10 @@ namespace eShopping.Models.Products
     {
         public Guid? Id { get; set; }
 
-        public string Name { get; set; }
+        public string PriceName { get; set; }
 
         [Precision(18, 2)]
-        public decimal Price { set; get; }
+        public decimal PriceValue { set; get; }
 
         public int QuantityLeft { get; set; }
 

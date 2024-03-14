@@ -104,8 +104,7 @@ namespace eShopping.Application.Features.Products.Commands
             }
 
             var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
-            var accountId = loggedUser.AccountId.Value;
-            modifiedProductCategory.LastSavedUser = accountId;
+            modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
             modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
             modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
 

@@ -1,8 +1,6 @@
-﻿using eShopping.Application.Features.Staffs.Commands;
-using eShopping.WebApi.Controllers.Base;
+﻿using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers
 {
@@ -23,14 +21,6 @@ namespace eShopping.WebApi.Controllers
         public IActionResult Ping([FromBody] string payload)
         {
             return Ok("Pong");
-        }
-
-        [HttpPost]
-        [Route("create-admin")]
-        public async Task<IActionResult> CreateStaffAsync([FromBody] CreateAdminStaffRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Authenticate.Commands
+namespace eShopping.Application.Features.Users.Commands
 {
     public class RefreshTokenAndPermissionsRequest : IRequest<RefreshTokenAndPermissionsResponse>
     {

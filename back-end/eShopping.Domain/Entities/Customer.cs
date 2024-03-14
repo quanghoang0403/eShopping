@@ -9,7 +9,7 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Customer))]
     public class Customer : BaseEntity
     {
-        public Guid? AccountId { get; set; }
+        public Guid AccountId { get; set; }
 
         public int? CityId { get; set; } // Province / city / town
 
@@ -20,8 +20,7 @@ namespace eShopping.Domain.Entities
         [MaxLength(255)]
         public string Address { get; set; }
 
-        [MaxLength(255)]
-        public string PostalCode { get; set; } // zip / postal code
+        public string Note { get; set; }
 
         public virtual City City { get; set; }
 

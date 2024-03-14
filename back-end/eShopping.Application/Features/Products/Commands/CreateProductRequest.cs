@@ -127,8 +127,8 @@ namespace eShopping.Application.Features.Products.Commands
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
             ThrowError.Against(request.ProductPrices != null && !request.ProductPrices.Any(), "Please enter product option");
-            ThrowError.Against(string.IsNullOrEmpty((request.ProductPrices.FirstOrDefault().Name)), "Please enter product option name");
-            ThrowError.Against(request.ProductPrices.FirstOrDefault().Price <= 0, "Please enter product option price");
+            ThrowError.Against(string.IsNullOrEmpty((request.ProductPrices.FirstOrDefault().PriceName)), "Please enter product option name");
+            ThrowError.Against(request.ProductPrices.FirstOrDefault().PriceValue <= 0, "Please enter product option price");
         }
     }
 }

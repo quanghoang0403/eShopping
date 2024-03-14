@@ -35,9 +35,9 @@ namespace eShopping.Application.Features.Products.Commands
 
             var product = await _unitOfWork.Products.GetProductByIdAsync(request.Id);
             ThrowError.Against(product == null, "Product is not found");
-            var accountId = loggedUser.AccountId.Value;
+
             product.IsDeleted = true;
-            product.LastSavedUser = accountId;
+            product.LastSavedUser = loggedUser.AccountId.Value;
             product.LastSavedTime = DateTime.UtcNow;
             await _unitOfWork.SaveChangesAsync();
             return true;

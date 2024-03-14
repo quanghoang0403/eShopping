@@ -17,9 +17,21 @@ namespace eShopping.Infrastructure.Repositories
         {
             var staffGroupPermission = dbSet
                 .Where(s => s.StaffId == staffId)
-                .Include(s => s.PermissionGroup).ThenInclude(g => g.Permissions)
+                .Include(s => s.PermissionGroup)
+                .ThenInclude(g => g.Permissions)
+                .AsNoTracking()
                 .ToListAsync();
+            return staffGroupPermission;
+        }
 
+        public Task<List<StaffPermissionGroup>> GetStaffGroupPermissionByStaffIds(IEnumerable<Guid> staffIds)
+        {
+            var staffGroupPermission = dbSet
+                .Where(s => staffIds.Any(sid => sid == s.StaffId))
+                .Include(s => s.PermissionGroup)
+                .ThenInclude(g => g.Permissions)
+                .AsNoTracking()
+                .ToListAsync();
             return staffGroupPermission;
         }
     }

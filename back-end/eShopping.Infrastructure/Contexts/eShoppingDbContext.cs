@@ -4,6 +4,7 @@ using eShopping.Domain.Base;
 using eShopping.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -20,8 +21,8 @@ namespace eShopping.Infrastructure.Contexts
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public eShoppingDbContext(
-            DbContextOptions<eShoppingDbContext> options,
-            IHttpContextAccessor httpContextAccessor) : base(options)
+            DbContextOptions<eShoppingDbContext> prices,
+            IHttpContextAccessor httpContextAccessor) : base(prices)
         {
             _httpContextAccessor = httpContextAccessor;
             Database.SetCommandTimeout(120);
@@ -131,6 +132,10 @@ namespace eShopping.Infrastructure.Contexts
 
             builder.Entity<Ward>().HasKey(x => x.Id);
             //builder.Entity<Ward>().HasMany(x => x.Customers).WithOne(x => x.Ward).HasForeignKey(x => x.Ward);
+
+            builder.Entity<Account>().Property(u => u.Code).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            builder.Entity<Product>().Property(u => u.Code).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            builder.Entity<Order>().Property(u => u.Code).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
             /// Add comment to column from description attribute
             foreach (var property in builder.Model.GetEntityTypes()

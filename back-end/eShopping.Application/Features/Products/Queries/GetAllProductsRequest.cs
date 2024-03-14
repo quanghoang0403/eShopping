@@ -47,6 +47,7 @@ namespace eShopping.Application.Features.Products.Queries
 
             var products = await _unitOfWork.Products
                 .GetAll()
+                .AsNoTracking()
                 .ProjectTo<ProductModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken: cancellationToken);
 

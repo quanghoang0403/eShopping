@@ -5,6 +5,7 @@ using eShopping.Models.Addresses;
 using eShopping.Models.Commons;
 using eShopping.Models.Permissions;
 using eShopping.Models.Products;
+using eShopping.Models.Promotions;
 
 namespace eShopping.Application.Mappings
 {
@@ -13,17 +14,22 @@ namespace eShopping.Application.Mappings
         public GeneralProfile()
         {
             #region DTO => DAL 
-
             CreateMap<City, CityModel>();
             CreateMap<District, DistrictModel>();
             CreateMap<Ward, WardModel>();
 
+            CreateMap<PermissionGroup, PermissionGroupDetailModel>();
             CreateMap<PermissionGroup, PermissionGroupModel>();
             CreateMap<Permission, PermissionModel>();
 
             CreateMap<Image, ImageModel>();
 
             CreateMap<Product, ProductDatatableModel>();
+            CreateMap<Product, ProductDetailModel>();
+            CreateMap<Product, ProductModel>();
+
+            CreateMap<Promotion, PromotionModel>();
+            CreateMap<Promotion, PromotionDetailModel>();
 
             #endregion
 

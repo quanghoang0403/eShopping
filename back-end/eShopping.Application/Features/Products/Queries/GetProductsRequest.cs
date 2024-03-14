@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class GetProductsByFilterRequest : IRequest<GetProductsByFilterResponse>
+    public class GetProductsRequest : IRequest<GetProductsResponse>
     {
         public int PageNumber { get; set; }
 
@@ -27,7 +27,7 @@ namespace eShopping.Application.Features.Products.Queries
 
     }
 
-    public class GetProductsByFilterResponse
+    public class GetProductsResponse
     {
         public IEnumerable<ProductDatatableModel> Products { get; set; }
 
@@ -36,13 +36,13 @@ namespace eShopping.Application.Features.Products.Queries
         public int Total { get; set; }
     }
 
-    public class GetProductsByFilterRequestHandler : IRequestHandler<GetProductsByFilterRequest, GetProductsByFilterResponse>
+    public class GetProductsRequestHandler : IRequestHandler<GetProductsRequest, GetProductsResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetProductsByFilterRequestHandler(
+        public GetProductsRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -52,7 +52,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<GetProductsByFilterResponse> Handle(GetProductsByFilterRequest request, CancellationToken cancellationToken)
+        public async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var products = _unitOfWork.Products.GetAll();
@@ -88,7 +88,7 @@ namespace eShopping.Application.Features.Products.Queries
                 p.No = productListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
             });
 
-            var response = new GetProductsByFilterResponse()
+            var response = new GetProductsResponse()
             {
                 PageNumber = request.PageNumber,
                 Total = allProductsInStore.Total,

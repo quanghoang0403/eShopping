@@ -77,7 +77,7 @@
         "sort": "Sắp xếp",
         "ignore": "Bỏ qua"
     },
-    "category": {
+    "productCategory": {
         "addProductCategory": "Thêm danh mục",
         "manageCategory": "Quản lý danh mục sản phẩm",
         "titleInfo": "Thông tin chung" ,
@@ -207,7 +207,7 @@
         "address": "Địa chỉ",
         "inputAddress": "Nhập địa chỉ",
         "validAddress": "Vui lòng nhập địa chỉ",
-        "category": "Danh mục",
+        "productCategory": "Danh mục",
         "maximum255Characters": "Tối đa là 255 ký tự",
         "allowedLetterAndNumber": "Chỉ cho phép chữ và số",
         "mustBeBetweenThreeAndFifteenCharacters": "phải từ 3 đến 15 ký tự",
@@ -435,7 +435,7 @@
         "type": "LOẠI",
         "detail": "CHI TIẾT",
         "title": "TIÊU ĐỀ",
-        "category": "DANH MỤC",
+        "productCategory": "DANH MỤC",
         "creator": "TÁC GIẢ",
         "customer": "KHÁCH HÀNG",
         "lastUpdated": "CẬP NHẬT",
@@ -447,9 +447,9 @@
     
         "allFilterTitle": "Tất cả",
     
-        "categoryFilterTitle": "Danh mục",
-        "categoryFilterAll": "Tất cả danh mục",
-        "categoryFilterPlaceholder": "Chọn danh mục",
+        "productCategoryFilterTitle": "Danh mục",
+        "productCategoryFilterAll": "Tất cả danh mục",
+        "productCategoryFilterPlaceholder": "Chọn danh mục",
     
         "statusFilterTitle": "Trạng thái",
         "statusFilterAll": "Tất cả",

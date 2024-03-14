@@ -10,8 +10,6 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Promotion))]
     public class Promotion : BaseEntity
     {
-        public Guid StoreId { get; set; }
-
         public string Name { get; set; }
 
         public EnumPromotion PromotionTypeId { get; set; }
@@ -34,10 +32,6 @@ namespace eShopping.Domain.Entities
 
         [Precision(18, 2)]
         public decimal? MinimumPurchaseAmount { get; set; }
-
-        public bool IsSpecificBranch { get; set; }
-
-        public bool IsIncludedTopping { get; set; }
 
         public bool? IsStopped { get; set; }
 

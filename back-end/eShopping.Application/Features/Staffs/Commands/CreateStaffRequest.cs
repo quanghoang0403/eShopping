@@ -1,11 +1,9 @@
 ﻿using eShopping.Common.Exceptions;
-using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,25 +14,21 @@ namespace eShopping.Application.Features.Staffs.Commands
 {
     public class CreateStaffRequest : IRequest<bool>
     {
-        public CreateStaffRequestModel Staff { get; set; }
-
-        public List<Guid> PermissionGroupIds { get; set; }
-    }
-
-    public class CreateStaffRequestModel
-    {
-        public string FullName { get; set; }
-
-        public DateTime? Birthday { get; set; }
-
-        public EnumGender Gender { get; set; }
-
-        public string Email { get; set; }
-
         public string Password { get; set; }
+
+        public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }
 
+        public string Thumbnail { get; set; }
+
+        public string Email { get; set; }
+
+        public EnumGender Gender { get; set; }
+
+        public DateTime? Birthday { get; set; }
+
+        public List<Guid> PermissionGroupIds { get; set; }
     }
 
     public class CreateStaffRequestHandler : IRequestHandler<CreateStaffRequest, bool>
@@ -63,7 +57,7 @@ namespace eShopping.Application.Features.Staffs.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId;
 
-            await RequestValidation(request);
+            CheckUniqueAndValidation(request);
 
             // Create a new transaction to save data more securely, data will be restored if an error occurs.
             using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
@@ -71,25 +65,26 @@ namespace eShopping.Application.Features.Staffs.Commands
             {
                 var newStaffAccount = new Account()
                 {
-                    Email = request.Staff.Email,
-                    Password = (new PasswordHasher<Account>()).HashPassword(null, request.Staff.Password),
+                    Email = request.Email,
+                    Password = (new PasswordHasher<Account>()).HashPassword(null, request.Password),
                     EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
                     AccountType = EnumAccountType.Staff,
-                    FullName = request.Staff.FullName,
-                    Birthday = request.Staff.Birthday,
-                    Gender = request.Staff.Gender,
+                    FullName = request.FullName,
+                    Birthday = request.Birthday,
+                    Gender = request.Gender,
                     LastSavedUser = accountId,
                     LastSavedTime = DateTime.UtcNow
                 };
+                // await _unitOfWork.Accounts.AddAsync(newStaffAccount);
+
 
                 var newStaff = new Staff()
                 {
+                    // AccountId = newStaffAccount.Id,
                     Account = newStaffAccount,
                     LastSavedUser = accountId,
                     LastSavedTime = DateTime.UtcNow
                 };
-
-                // Add a new staff to the database.
                 await _unitOfWork.Staffs.AddAsync(newStaff);
 
                 // Create permission for the current staff.
@@ -131,33 +126,32 @@ namespace eShopping.Application.Features.Staffs.Commands
         /// </summary>
         /// <param name="request">The request data.</param>
         /// <returns></returns>
-        private async Task RequestValidation(CreateStaffRequest request)
+        private void CheckUniqueAndValidation(CreateStaffRequest request)
         {
-            // Password valid
-            ThrowError.Against(string.IsNullOrEmpty(request.Staff.Password), "Password is not valid");
-
-            // Staff phone unique inside tenant
-            var staffPhoneExisted = await _unitOfWork.Accounts.
-                Where(s => s.PhoneNumber == request.Staff.PhoneNumber)
-                .AsNoTracking().FirstOrDefaultAsync();
-
-            ThrowError.Against(staffPhoneExisted != null, new JObject()
+            ThrowError.Against(string.IsNullOrEmpty(request.FullName), new JObject()
             {
-                { $"{nameof(request.Staff.PhoneNumber)}", "Phone is existed" },
+                { $"{nameof(request.FullName)}",   "Please enter fullName"},
             });
 
-            // Staff email valid
-            ThrowError.Against(!request.Staff.Email.IsValidEmail(), "Email is not valid");
-
-            // Staff email unique inside tenant
-            var staffEmailExisted = await _unitOfWork.Accounts.
-                Where(s => s.Email == request.Staff.Email)
-                .AsNoTracking().FirstOrDefaultAsync();
-
-            ThrowError.Against(staffPhoneExisted != null, new JObject()
+            ThrowError.Against(string.IsNullOrEmpty(request.PhoneNumber), new JObject()
             {
-                { $"{nameof(request.Staff.Email)}", "Email is existed" },
+                { $"{nameof(request.PhoneNumber)}",  "Please enter phone"},
             });
+
+            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim());
+            ThrowError.Against(phoneExisted == true, new JObject()
+            {
+                { $"{nameof(request.PhoneNumber)}",  "Phone number is existed"},
+            });
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+            {
+                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim());
+                ThrowError.Against(emailExisted == true, new JObject()
+                {
+                    { $"{nameof(request.Email)}",  "Email is existed"},
+                });
+            }
         }
     }
 }

@@ -42,9 +42,9 @@ namespace eShopping.WebApi
         {
             //services.AddSignalR();
             services.AddCors();
-            services.AddCors(options =>
+            services.AddCors(prices =>
             {
-                options.AddPolicy("CorsPolicy",
+                prices.AddPolicy("CorsPolicy",
                     builder => builder
                     .WithExposedHeaders("Token-Expired", "Content-Disposition")
                 );
@@ -57,7 +57,7 @@ namespace eShopping.WebApi
             services.AddHealthChecks();
             services.AddHttpContextAccessor();
 
-            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            services.AddControllersWithViews().AddNewtonsoftJson(prices => prices.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerDocumentation(Configuration);
 
@@ -111,7 +111,7 @@ namespace eShopping.WebApi
             #region Register permission handler and add permission policies
             services.AddScoped<IUserPermissionService, UserPermissionService>();
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
-            services.AddAuthorization(options =>
+            services.AddAuthorization(prices =>
             {
 
                 var permissions = Enum.GetValues(typeof(EnumPermission))
@@ -121,7 +121,7 @@ namespace eShopping.WebApi
 
                 foreach (var permission in permissions)
                 {
-                    options.AddPolicy(permission.ToString(),
+                    prices.AddPolicy(permission.ToString(),
                         policy => policy.Requirements.Add(new PermissionRequirement(new List<EnumPermission> {
                              permission
                         })));

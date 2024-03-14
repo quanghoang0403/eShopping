@@ -1,14 +1,15 @@
 ﻿using eShopping.Domain.Enums;
 using eShopping.Models.Commons;
-using eShopping.Models.Products;
 using System;
 using System.Collections.Generic;
 
-namespace eShopping.Models.Product
+namespace eShopping.Models.Products
 {
     public class ProductDetailModel
     {
         public Guid Id { get; set; }
+
+        public int Code { get; set; }
 
         public string Name { get; set; }
 

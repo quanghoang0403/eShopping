@@ -1,19 +1,23 @@
-﻿using System;
+﻿using eShopping.Models.Permissions;
+using System;
+using System.Collections.Generic;
 
-namespace eShopping.Models.Staff
+namespace eShopping.Models.Staffs
 {
     public class StaffModel
     {
-        public string Code { get; set; }
+        public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public int No { get; set; }
 
-        public string Phone { get; set; }
+        public IEnumerable<PermissionGroupModel> PermissionGroups { get; set; }
 
         public string Email { get; set; }
 
-        public bool Gender { get; set; }
+        public string Thumbnail { get; set; }
 
-        public DateTime? Birthday { get; set; }
+        public string FullName { get; set; }
+
+        public string PhoneNumber { get; set; }
     }
 }
