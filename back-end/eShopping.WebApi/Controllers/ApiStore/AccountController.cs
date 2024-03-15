@@ -21,13 +21,5 @@ namespace eShopping.WebApi.Controllers.ApiStore
             bool response = await _mediator.Send(request);
             return await SafeOkAsync(response);
         }
-
-        [HttpPut]
-        [Route("disable-account")]
-        public async Task<IActionResult> DisableAccount([FromRoute] DisableAccountRequest request)
-        {
-            bool response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
-        }
     }
 }

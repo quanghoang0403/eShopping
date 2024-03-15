@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eShopping.WebApi.Controllers.ApiStore
 {
-    public class TestController : BaseApiController
+    public class TestController : BaseApiStoreController
     {
         public TestController(IMediator mediator) : base(mediator)
         {

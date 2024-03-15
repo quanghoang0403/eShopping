@@ -20,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [Route("get-permissions")]
         public async Task<IActionResult> GetPermissionsAsync([FromQuery] string token)
         {
-            var response = await _mediator.Send(new GetPermissionsRequest() { Token = token });
+            var response = await _mediator.Send(new AdminGetPermissionsRequest() { Token = token });
             return await SafeOkAsync(response);
         }
 
@@ -28,7 +28,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [Route("get-all-permission-groups")]
         public async Task<IActionResult> GetAllPermissionGroupsAsync()
         {
-            var response = await _mediator.Send(new GetAllPermissionGroupsRequest());
+            var response = await _mediator.Send(new AdminGetAllPermissionGroupsRequest());
             return await SafeOkAsync(response);
         }
 
@@ -37,7 +37,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [Route("get-permission-group-by-id/{id}")]
         public async Task<IActionResult> GetPermissionGroupByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(new GetPermissionGroupByIdRequest() { Id = id });
+            var response = await _mediator.Send(new AdminGetPermissionGroupByIdRequest() { Id = id });
             return await SafeOkAsync(response);
         }
 

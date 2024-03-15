@@ -21,7 +21,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-promotions")]
         [HasPermission(EnumPermission.VIEW_PROMOTION)]
-        public async Task<IActionResult> GetPromotionsAsync([FromQuery] GetPromotionsRequest request)
+        public async Task<IActionResult> GetPromotionsAsync([FromQuery] AdminGetPromotionsRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -32,14 +32,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HasPermission(EnumPermission.VIEW_PROMOTION)]
         public async Task<IActionResult> GetPromotionByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(new GetPromotionByIdRequest() { Id = id });
+            var response = await _mediator.Send(new AdminGetPromotionByIdRequest() { Id = id });
             return await SafeOkAsync(response);
         }
 
         [HttpGet]
         [Route("get-promotion-campaign-usage-detail")]
         [HasPermission(EnumPermission.VIEW_PROMOTION)]
-        public async Task<IActionResult> GetPromotionCampaignUsageDetailAsync([FromQuery] GetPromotionCampaignUsageDetailRequest request)
+        public async Task<IActionResult> GetPromotionCampaignUsageDetailAsync([FromQuery] AdminGetPromotionCampaignUsageDetailRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -48,7 +48,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPost]
         [Route("create-promotion")]
         [HasPermission(EnumPermission.CREATE_PROMOTION)]
-        public async Task<IActionResult> CreatePromotionAsync([FromBody] CreatePromotionRequest request)
+        public async Task<IActionResult> CreatePromotionAsync([FromBody] AdminCreatePromotionRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -57,7 +57,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPost]
         [Route("stop-promotion-by-id/{id}")]
         [HasPermission(EnumPermission.EDIT_PROMOTION)]
-        public async Task<IActionResult> StopPromotionByIdAsync([FromRoute] StopPromotionByIdRequest request)
+        public async Task<IActionResult> StopPromotionByIdAsync([FromRoute] AdminStopPromotionByIdRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -66,7 +66,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPut]
         [Route("update-promotion")]
         [HasPermission(EnumPermission.EDIT_PROMOTION)]
-        public async Task<IActionResult> UpdatePromotionAsync([FromBody] UpdatePromotionRequest request)
+        public async Task<IActionResult> UpdatePromotionAsync([FromBody] AdminUpdatePromotionRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -75,7 +75,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpDelete]
         [Route("delete-promotion-by-id/{id}")]
         [HasPermission(EnumPermission.EDIT_PROMOTION)]
-        public async Task<IActionResult> DeletePromotionByIdAsync([FromRoute] DeletePromotionByIdRequest request)
+        public async Task<IActionResult> DeletePromotionByIdAsync([FromRoute] AdminDeletePromotionByIdRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

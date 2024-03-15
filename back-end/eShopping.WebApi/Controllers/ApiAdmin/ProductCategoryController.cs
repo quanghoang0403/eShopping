@@ -21,7 +21,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPost]
         [Route("create-product-category")]
         [HasPermission(EnumPermission.CREATE_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> CreateProductCategoryAsync([FromBody] CreateProductCategoryRequest request)
+        public async Task<IActionResult> CreateProductCategoryAsync([FromBody] AdminCreateProductCategoryRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -30,7 +30,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPut]
         [Route("update-product-category")]
         [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> UpdateProductCategoryAsync([FromBody] UpdateProductCategoryRequest request)
+        public async Task<IActionResult> UpdateProductCategoryAsync([FromBody] AdminUpdateProductCategoryRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -41,14 +41,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
         public async Task<IActionResult> DeleteProductCategoryByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(new DeleteProductCategoryByIdRequest() { Id = id });
+            var response = await _mediator.Send(new AdminDeleteProductCategoryByIdRequest() { Id = id });
             return await SafeOkAsync(response);
         }
 
         [HttpGet]
         [Route("get-product-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetProductCategoriesAsync([FromQuery] GetProductCategoriesRequest request)
+        public async Task<IActionResult> GetProductCategoriesAsync([FromQuery] AdminGetProductCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -57,7 +57,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-all-product-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetAllProductCategory([FromBody] GetAllProductCategoriesRequest request)
+        public async Task<IActionResult> GetAllProductCategory([FromBody] AdminGetAllProductCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return SafeOk(response);
@@ -68,7 +68,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
         public async Task<IActionResult> GetProductCategoryByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(new GetProductCategoryByIdRequest() { Id = id });
+            var response = await _mediator.Send(new AdminGetProductCategoryByIdRequest() { Id = id });
             return await SafeOkAsync(response);
         }
     }

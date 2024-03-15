@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiStore
 {
-    public class AddressController : BaseApiController
+    public class AddressController : BaseApiStoreController
     {
         public AddressController(IMediator mediator) : base(mediator)
         {

@@ -20,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         [HttpGet]
         [Route("get-current-staff")]
-        public async Task<IActionResult> GetCurrentStaffAsync([FromRoute] GetCurrentStaffRequest request)
+        public async Task<IActionResult> GetCurrentStaffAsync([FromRoute] AdminGetCurrentStaffRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -29,7 +29,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-staffs")]
         [HasPermission(EnumPermission.VIEW_STAFF)]
-        public async Task<IActionResult> GetStaffs([FromQuery] GetStaffsRequest request)
+        public async Task<IActionResult> GetStaffs([FromQuery] AdminGetStaffsRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -38,7 +38,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-staff-by-id/{id}")]
         [HasPermission(EnumPermission.VIEW_STAFF)]
-        public async Task<IActionResult> GetStaffByIdAsync([FromRoute] GetStaffByIdRequest request)
+        public async Task<IActionResult> GetStaffByIdAsync([FromRoute] AdminGetStaffByIdRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -47,7 +47,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPost]
         [Route("create-staff")]
         [HasPermission(EnumPermission.CREATE_STAFF)]
-        public async Task<IActionResult> CreateStaffAsync([FromBody] CreateStaffRequest request)
+        public async Task<IActionResult> CreateStaffAsync([FromBody] AdminCreateStaffRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -57,7 +57,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPut]
         [Route("update-staff")]
         [HasPermission(EnumPermission.EDIT_STAFF)]
-        public async Task<IActionResult> UpdateStaffAsync([FromBody] UpdateStaffRequest request)
+        public async Task<IActionResult> UpdateStaffAsync([FromBody] AdminUpdateStaffRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -66,7 +66,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpDelete]
         [Route("delete-staff-by-id/{id}")]
         [HasPermission(EnumPermission.EDIT_STAFF)]
-        public async Task<IActionResult> DeleteStaffByIdAsync([FromRoute] DeleteStaffByIdRequest request)
+        public async Task<IActionResult> DeleteStaffByIdAsync([FromRoute] AdminDeleteStaffByIdRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

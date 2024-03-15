@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace eShopping.WebApi.Controllers.ApiStore
 {
     [Authorize]
-    public class OrderController : BaseApiController
+    public class OrderController : BaseApiStoreController
     {
         public OrderController(IMediator mediator) : base(mediator)
         {

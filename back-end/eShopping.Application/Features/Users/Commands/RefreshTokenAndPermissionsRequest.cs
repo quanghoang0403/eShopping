@@ -20,7 +20,7 @@ namespace eShopping.Application.Features.Users.Commands
     {
         public string Token { get; set; }
 
-        public IEnumerable<PermissionModel> Permissions { get; set; }
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
     }
 
     public class RefreshTokenAndPermissionsRequestHandler : IRequestHandler<RefreshTokenAndPermissionsRequest, RefreshTokenAndPermissionsResponse>

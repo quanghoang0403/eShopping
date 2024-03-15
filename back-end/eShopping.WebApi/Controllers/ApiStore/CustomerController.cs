@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace eShopping.WebApi.Controllers.ApiStore
 {
     [Authorize]
-    public class CustomerController : BaseApiController
+    public class CustomerController : BaseApiStoreController
     {
         public CustomerController(IMediator mediator) : base(mediator)
         {
