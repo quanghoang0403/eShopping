@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class CreateProductRequest : IRequest<bool>
+    public class AdminCreateProductRequest : IRequest<bool>
     {
         public string Name { get; set; }
 
@@ -40,17 +40,17 @@ namespace eShopping.Application.Features.Products.Commands
 
         public string Thumbnail { get; set; }
 
-        public List<ProductPriceModel> ProductPrices { get; set; }
+        public List<AdminProductPriceModel> ProductPrices { get; set; }
     }
 
-    public class CreateMaterialRequestHandler : IRequestHandler<CreateProductRequest, bool>
+    public class AdminCreateMaterialRequestHandler : IRequestHandler<AdminCreateProductRequest, bool>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
         private readonly IMapper _mapper;
 
-        public CreateMaterialRequestHandler(
+        public AdminCreateMaterialRequestHandler(
             IMediator mediator,
             IUnitOfWork unitOfWork,
             IUserProvider userProvider,
@@ -62,7 +62,7 @@ namespace eShopping.Application.Features.Products.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(CreateProductRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminCreateProductRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -123,7 +123,7 @@ namespace eShopping.Application.Features.Products.Commands
             return true;
         }
 
-        private static void RequestValidation(CreateProductRequest request)
+        private static void RequestValidation(AdminCreateProductRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
             ThrowError.Against(request.ProductPrices != null && !request.ProductPrices.Any(), "Please enter product option");

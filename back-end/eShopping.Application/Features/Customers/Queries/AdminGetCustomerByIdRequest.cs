@@ -17,7 +17,7 @@ namespace eShopping.Application.Features.Customers.Queries
 
     public class AdminGetCustomerByIdResponse
     {
-        public CustomerDetailModel Customer { get; set; }
+        public AdminCustomerDetailModel Customer { get; set; }
     }
 
     public class AdminGetCustomerByIdHandler : IRequestHandler<AdminGetCustomerByIdRequest, AdminGetCustomerByIdResponse>
@@ -45,7 +45,7 @@ namespace eShopping.Application.Features.Customers.Queries
             var customer = await _unitOfWork.Customers.Find(x => x.Id == request.Id).Include(x => x.Account).FirstOrDefaultAsync();
             ThrowError.Against(customer == null, "Cannot find customer information");
 
-            var customerDetailModel = new CustomerDetailModel()
+            var customerDetailModel = new AdminCustomerDetailModel()
             {
                 Id = customer.Id,
                 Code = customer.Account.Code,

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace eShopping.Models.Staffs
 {
-    public class StaffModel
+    public class AdminStaffModel
     {
         public Guid Id { get; set; }
 

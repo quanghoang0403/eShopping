@@ -43,7 +43,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public List<ImageModel> Images { get; set; }
 
-        public List<ProductPriceModel> ProductPrices { get; set; }
+        public List<AdminProductPriceModel> ProductPrices { get; set; }
 
     }
 

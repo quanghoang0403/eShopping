@@ -16,7 +16,7 @@ namespace eShopping.Application.Features.Products.Queries
 
     public class AdminGetAllProductCategoriesResponse
     {
-        public IEnumerable<ProductCategoryModel> AllProductCategories { get; set; }
+        public IEnumerable<AdminProductCategoryModel> AllProductCategories { get; set; }
     }
 
     public class AdminGetAllProductCategoriesRequestHandler : IRequestHandler<AdminGetAllProductCategoriesRequest, AdminGetAllProductCategoriesResponse>
@@ -47,12 +47,12 @@ namespace eShopping.Application.Features.Products.Queries
                     .AsNoTracking()
                     .Include(pc => pc.ProductInCategories)
                     .ThenInclude(ppc => ppc.Product).ThenInclude(p => p.ProductPrices)
-                    .Select(p => new ProductCategoryModel
+                    .Select(p => new AdminProductCategoryModel
                     {
                         Id = p.Id,
                         Name = p.Name,
                         Priority = p.Priority,
-                        Products = _mapper.Map<IEnumerable<ProductDatatableModel>>(p.ProductInCategories.Select(ppc => ppc.Product))
+                        Products = _mapper.Map<IEnumerable<AdminProductDatatableModel>>(p.ProductInCategories.Select(ppc => ppc.Product))
                     })
                     .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);

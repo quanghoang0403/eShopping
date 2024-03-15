@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace eShopping.Models.Customers
 {
-    public class CustomerDetailModel
+    public class AdminCustomerDetailModel
     {
         public Guid Id { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace eShopping.Models.Promotions
 {
-    public class PromotionCampaignUsageDetailModel
+    public class AdminPromotionCampaignUsageDetailModel
     {
         public int No { get; set; }
 

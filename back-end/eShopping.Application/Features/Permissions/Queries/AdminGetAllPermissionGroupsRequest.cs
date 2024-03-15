@@ -19,7 +19,7 @@ namespace eShopping.Application.Features.Settings.Queries
 
     public class AdminGetAllPermissionGroupsResponse
     {
-        public IEnumerable<PermissionGroupModel> PermissionGroups { get; set; }
+        public IEnumerable<AdminPermissionGroupModel> PermissionGroups { get; set; }
     }
 
     public class AdminGetAllPermissionGroupsRequestHandler : IRequestHandler<AdminGetAllPermissionGroupsRequest, AdminGetAllPermissionGroupsResponse>
@@ -48,7 +48,7 @@ namespace eShopping.Application.Features.Settings.Queries
             var permissionGroups = await _unitOfWork.PermissionGroups
                             .GetAll()
                             .AsNoTracking()
-                            .ProjectTo<PermissionGroupModel>(_mapperConfiguration)
+                            .ProjectTo<AdminPermissionGroupModel>(_mapperConfiguration)
                             .ToListAsync(cancellationToken: cancellationToken);
 
             return new AdminGetAllPermissionGroupsResponse()

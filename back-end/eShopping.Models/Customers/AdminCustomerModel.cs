@@ -2,7 +2,7 @@
 
 namespace eShopping.Models.Customers
 {
-    public class CustomerModel
+    public class AdminCustomerModel
     {
         public Guid Id { get; set; }
 

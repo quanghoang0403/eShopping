@@ -18,27 +18,27 @@ namespace eShopping.Application.Mappings
             CreateMap<District, DistrictModel>();
             CreateMap<Ward, WardModel>();
 
-            CreateMap<PermissionGroup, PermissionGroupDetailModel>();
-            CreateMap<PermissionGroup, PermissionGroupModel>();
-            CreateMap<Permission, PermissionModel>();
+            CreateMap<PermissionGroup, AdminPermissionGroupDetailModel>();
+            CreateMap<PermissionGroup, AdminPermissionGroupModel>();
+            CreateMap<Permission, AdminPermissionModel>();
 
             CreateMap<Image, ImageModel>();
 
-            CreateMap<Product, ProductDatatableModel>();
-            CreateMap<Product, ProductDetailModel>();
-            CreateMap<Product, ProductModel>();
+            CreateMap<Product, AdminProductDatatableModel>();
+            CreateMap<Product, AdminProductDetailModel>();
+            CreateMap<Product, AdminProductModel>();
 
-            CreateMap<Promotion, PromotionModel>();
-            CreateMap<Promotion, PromotionDetailModel>();
+            CreateMap<Promotion, AdminPromotionModel>();
+            CreateMap<Promotion, AdminPromotionDetailModel>();
 
             #endregion
 
             #region DAL => DTO
             CreateMap<AdminCreateProductCategoryRequest, ProductCategory>();
-            CreateMap<CreateProductRequest, Product>();
-            CreateMap<UpdateProductCategoryRequest, ProductCategory>();
-            CreateMap<UpdateProductRequest, Product>();
-            CreateMap<ProductPriceModel, ProductPrice>();
+            CreateMap<AdminCreateProductRequest, Product>();
+            CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
+            CreateMap<AdminUpdateProductRequest, Product>();
+            CreateMap<AdminProductPriceModel, ProductPrice>();
             #endregion
         }
     }

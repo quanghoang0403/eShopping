@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Queries
 {
-    public class GetPromotionByIdRequest : IRequest<GetPromotionByIdResponse>
+    public class AdminGetPromotionByIdRequest : IRequest<AdminGetPromotionByIdResponse>
     {
         public Guid Id { get; set; }
     }
 
-    public class GetPromotionByIdResponse
+    public class AdminGetPromotionByIdResponse
     {
-        public PromotionDetailModel Promotion { get; set; }
+        public AdminPromotionDetailModel Promotion { get; set; }
 
         public bool IsSuccess { get; set; }
 
@@ -27,13 +27,13 @@ namespace eShopping.Application.Features.Promotions.Queries
         public decimal TotalDiscountAmount { get; set; }
     }
 
-    public class GetPromotionByIdRequestHandler : IRequestHandler<GetPromotionByIdRequest, GetPromotionByIdResponse>
+    public class AdminGetPromotionByIdRequestHandler : IRequestHandler<AdminGetPromotionByIdRequest, AdminGetPromotionByIdResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetPromotionByIdRequestHandler(
+        public AdminGetPromotionByIdRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -43,7 +43,7 @@ namespace eShopping.Application.Features.Promotions.Queries
             _mapper = mapper;
         }
 
-        public async Task<GetPromotionByIdResponse> Handle(GetPromotionByIdRequest request, CancellationToken cancellationToken)
+        public async Task<AdminGetPromotionByIdResponse> Handle(AdminGetPromotionByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var promotion = await _unitOfWork.Promotions.GetPromotionByIdAsync(request.Id);
@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Promotions.Queries
                 isSuccess = false;
             }
 
-            var promotionDetail = _mapper.Map<PromotionDetailModel>(promotion);
+            var promotionDetail = _mapper.Map<AdminPromotionDetailModel>(promotion);
             if (promotion.IsStopped.HasValue && promotion.IsStopped.Value)
             {
                 promotionDetail.StatusId = (int)EnumPromotionStatus.Finished;
@@ -65,7 +65,7 @@ namespace eShopping.Application.Features.Promotions.Queries
                 promotionDetail.StatusId = (int)GetPromotionStatus(promotion.StartDate, promotion.EndDate);
             }
 
-            return new GetPromotionByIdResponse()
+            return new AdminGetPromotionByIdResponse()
             {
                 Promotion = promotionDetail,
                 IsSuccess = isSuccess,

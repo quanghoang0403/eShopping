@@ -23,7 +23,7 @@ namespace eShopping.Application.Features.Customers.Queries
 
     public class AdminGetCustomersResponse
     {
-        public IEnumerable<CustomerModel> Customers { get; set; }
+        public IEnumerable<AdminCustomerModel> Customers { get; set; }
 
         public int PageNumber { get; set; }
 
@@ -81,15 +81,15 @@ namespace eShopping.Application.Features.Customers.Queries
             };
         }
 
-        private List<CustomerModel> GetCustomerModelAsync(List<Customer> customers, AdminGetCustomersRequest request)
+        private List<AdminCustomerModel> GetCustomerModelAsync(List<Customer> customers, AdminGetCustomersRequest request)
         {
-            var customersResponse = new List<CustomerModel>();
+            var customersResponse = new List<AdminCustomerModel>();
             var customerIds = customers.Select(s => s.Id);
 
             customers.ForEach(customer =>
             {
                 var index = customers.IndexOf(customer) + ((request.PageNumber - 1) * request.PageSize) + 1;
-                var customerModel = new CustomerModel()
+                var customerModel = new AdminCustomerModel()
                 {
                     Id = customer.Id,
                     No = index,

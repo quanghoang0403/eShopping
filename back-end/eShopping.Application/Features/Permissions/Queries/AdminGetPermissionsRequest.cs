@@ -20,9 +20,9 @@ namespace eShopping.Application.Features.Settings.Queries
 
     public class AdminGetPermissionsResponse
     {
-        public IEnumerable<PermissionModel> Permissions { get; set; }
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
 
-        public IEnumerable<PermissionGroupModel> PermissionGroups { get; set; }
+        public IEnumerable<AdminPermissionGroupModel> PermissionGroups { get; set; }
 
     }
 
@@ -66,8 +66,8 @@ namespace eShopping.Application.Features.Settings.Queries
                 .SelectMany(g => g.Permissions)
                 .ToList();
 
-            var permissionGroupsResponse = _mapper.Map<List<PermissionGroupModel>>(permisionGroup);
-            var permissionsResponse = _mapper.Map<List<PermissionModel>>(permissions);
+            var permissionGroupsResponse = _mapper.Map<List<AdminPermissionGroupModel>>(permisionGroup);
+            var permissionsResponse = _mapper.Map<List<AdminPermissionModel>>(permissions);
             return new AdminGetPermissionsResponse()
             {
                 Permissions = permissionsResponse,

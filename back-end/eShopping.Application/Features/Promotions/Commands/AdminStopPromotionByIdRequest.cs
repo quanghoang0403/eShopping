@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Commands
 {
-    public class StopPromotionByIdRequest : IRequest<bool>
+    public class AdminStopPromotionByIdRequest : IRequest<bool>
     {
         public Guid Id { get; set; }
     }
 
-    public class StopPromotionByIdRequestHandler : IRequestHandler<StopPromotionByIdRequest, bool>
+    public class AdminStopPromotionByIdRequestHandler : IRequestHandler<AdminStopPromotionByIdRequest, bool>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
 
-        public StopPromotionByIdRequestHandler(
+        public AdminStopPromotionByIdRequestHandler(
             IUserProvider userProvider,
            IUnitOfWork unitOfWork)
         {
@@ -26,7 +26,7 @@ namespace eShopping.Application.Features.Promotions.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(StopPromotionByIdRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminStopPromotionByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 

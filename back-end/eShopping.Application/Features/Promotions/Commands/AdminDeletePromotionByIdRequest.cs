@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Commands
 {
-    public class DeletePromotionByIdRequest : IRequest<bool>
+    public class AdminDeletePromotionByIdRequest : IRequest<bool>
     {
         public Guid Id { get; set; }
     }
 
-    public class DeletePromotionRequestHandler : IRequestHandler<DeletePromotionByIdRequest, bool>
+    public class AdminDeletePromotionRequestHandler : IRequestHandler<AdminDeletePromotionByIdRequest, bool>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeletePromotionRequestHandler(
+        public AdminDeletePromotionRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork)
         {
@@ -25,7 +25,7 @@ namespace eShopping.Application.Features.Promotions.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeletePromotionByIdRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminDeletePromotionByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 

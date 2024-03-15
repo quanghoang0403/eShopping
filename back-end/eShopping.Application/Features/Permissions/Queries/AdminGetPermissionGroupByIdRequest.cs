@@ -16,7 +16,7 @@ namespace eShopping.Application.Features.Settings.Queries
 
     public class AdminGetPermissionGroupByIdResponse
     {
-        public PermissionGroupDetailModel PermissionGroup { get; set; }
+        public AdminPermissionGroupDetailModel PermissionGroup { get; set; }
     }
 
     public class AdminGetPermissionGroupByIdRequestHandler : IRequestHandler<AdminGetPermissionGroupByIdRequest, AdminGetPermissionGroupByIdResponse>
@@ -37,7 +37,7 @@ namespace eShopping.Application.Features.Settings.Queries
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var PermissionGroupData = await _unitOfWork.PermissionGroups.Where(x => x.Id == request.Id).Include(x => x.Permissions).FirstOrDefaultAsync(cancellationToken);
-            var PermissionGroup = _mapper.Map<PermissionGroupDetailModel>(PermissionGroupData);
+            var PermissionGroup = _mapper.Map<AdminPermissionGroupDetailModel>(PermissionGroupData);
 
             return new AdminGetPermissionGroupByIdResponse
             {

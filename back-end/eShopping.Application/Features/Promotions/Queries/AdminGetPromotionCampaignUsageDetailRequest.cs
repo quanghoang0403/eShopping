@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Queries
 {
-    public class GetPromotionCampaignUsageDetailRequest : IRequest<GetPromotionCampaignUsageDetailResponse>
+    public class AdminGetPromotionCampaignUsageDetailRequest : IRequest<AdminGetPromotionCampaignUsageDetailResponse>
     {
         public Guid PromotionCampaignId { get; set; }
 
@@ -21,21 +21,21 @@ namespace eShopping.Application.Features.Promotions.Queries
         public int PageSize { get; set; }
     }
 
-    public class GetPromotionCampaignUsageDetailResponse
+    public class AdminGetPromotionCampaignUsageDetailResponse
     {
-        public List<PromotionCampaignUsageDetailModel> PromotionCampaignUsageDetails { get; set; }
+        public List<AdminPromotionCampaignUsageDetailModel> PromotionCampaignUsageDetails { get; set; }
 
         public int PageNumber { get; set; }
 
         public int Total { get; set; }
     }
 
-    public class GetPromotionCampaignUsageDetailHandler : IRequestHandler<GetPromotionCampaignUsageDetailRequest, GetPromotionCampaignUsageDetailResponse>
+    public class AdminGetPromotionCampaignUsageDetailHandler : IRequestHandler<AdminGetPromotionCampaignUsageDetailRequest, AdminGetPromotionCampaignUsageDetailResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetPromotionCampaignUsageDetailHandler(
+        public AdminGetPromotionCampaignUsageDetailHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork)
         {
@@ -43,14 +43,14 @@ namespace eShopping.Application.Features.Promotions.Queries
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<GetPromotionCampaignUsageDetailResponse> Handle(GetPromotionCampaignUsageDetailRequest request, CancellationToken cancellationToken)
+        public async Task<AdminGetPromotionCampaignUsageDetailResponse> Handle(AdminGetPromotionCampaignUsageDetailRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var ordersHavePromotionCampaign = await _unitOfWork.Orders
               .Where(order => order.OrderPromotionDetails.Any(orderPromotionDetail => orderPromotionDetail.PromotionId == request.PromotionCampaignId) &&
                               order.Status == EnumOrderStatus.Completed)
-              .Select(o => new PromotionCampaignUsageDetailModel
+              .Select(o => new AdminPromotionCampaignUsageDetailModel
               {
                   OrderId = o.Id,
                   OrderCode = o.Code,
@@ -67,7 +67,7 @@ namespace eShopping.Application.Features.Promotions.Queries
                 item.No = usageDetails.IndexOf(item) + ((request.PageNumber - 1) * request.PageSize) + 1;
             });
 
-            return new GetPromotionCampaignUsageDetailResponse()
+            return new AdminGetPromotionCampaignUsageDetailResponse()
             {
                 PromotionCampaignUsageDetails = usageDetails,
                 PageNumber = request.PageNumber,

@@ -16,7 +16,7 @@ namespace eShopping.Application.Features.Products.Queries
 
     public class AdminGetAllProductsResponse
     {
-        public IEnumerable<ProductModel> Products { get; set; }
+        public IEnumerable<AdminProductModel> Products { get; set; }
     }
 
     public class AdminGetAllProductsRequestHandler : IRequestHandler<AdminGetAllProductsRequest, AdminGetAllProductsResponse>
@@ -47,7 +47,7 @@ namespace eShopping.Application.Features.Products.Queries
             var products = await _unitOfWork.Products
                 .GetAll()
                 .AsNoTracking()
-                .ProjectTo<ProductModel>(_mapperConfiguration)
+                .ProjectTo<AdminProductModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken: cancellationToken);
 
             var response = new AdminGetAllProductsResponse()

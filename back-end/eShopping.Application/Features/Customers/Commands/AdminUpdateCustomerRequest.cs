@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Customers.Commands
 {
-    public class UpdateCustomerRequest : IRequest<bool>
+    public class AdminUpdateCustomerRequest : IRequest<bool>
     {
 
         public Guid CustomerId { get; set; }
@@ -38,13 +38,13 @@ namespace eShopping.Application.Features.Customers.Commands
         public int? WardId { get; set; } // ward
     }
 
-    public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerRequest, bool>
+    public class AdminUpdateCustomerHandler : IRequestHandler<AdminUpdateCustomerRequest, bool>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
 
-        public UpdateCustomerHandler(
+        public AdminUpdateCustomerHandler(
             IMediator mediator,
             IUnitOfWork unitOfWork,
             IUserProvider userProvider
@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Customers.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(UpdateCustomerRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdateCustomerRequest request, CancellationToken cancellationToken)
         {
             var loggerUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggerUser.Id.Value;
@@ -102,7 +102,7 @@ namespace eShopping.Application.Features.Customers.Commands
             }
         }
 
-        private void CheckUniqueAndValidation(UpdateCustomerRequest request)
+        private void CheckUniqueAndValidation(AdminUpdateCustomerRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.FullName), new JObject()
             {

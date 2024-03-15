@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace eShopping.Models.Products
 {
-    public class ProductDatatableModel
+    public class AdminProductDatatableModel
     {
         public Guid Id { get; set; }
 
@@ -20,7 +20,7 @@ namespace eShopping.Models.Products
 
         public bool IsActive { get; set; }
 
-        public IEnumerable<ProductPriceModel> ProductPrices { get; set; }
+        public IEnumerable<AdminProductPriceModel> ProductPrices { get; set; }
 
     }
 }

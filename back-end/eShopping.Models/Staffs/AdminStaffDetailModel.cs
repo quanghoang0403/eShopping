@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace eShopping.Models.Staffs
 {
-    public class StaffDetailModel
+    public class AdminStaffDetailModel
     {
         public Guid Id { get; set; }
 

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Commands
 {
-    public class UpdatePromotionRequest : IRequest<bool>
+    public class AdminUpdatePromotionRequest : IRequest<bool>
     {
         public Guid Id { get; set; }
 
@@ -50,12 +50,12 @@ namespace eShopping.Application.Features.Promotions.Commands
 
     }
 
-    public class UpdatePromotionRequestHandler : IRequestHandler<UpdatePromotionRequest, bool>
+    public class AdminUpdatePromotionRequestHandler : IRequestHandler<AdminUpdatePromotionRequest, bool>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdatePromotionRequestHandler(
+        public AdminUpdatePromotionRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork
         )
@@ -64,7 +64,7 @@ namespace eShopping.Application.Features.Promotions.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(UpdatePromotionRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdatePromotionRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -86,13 +86,13 @@ namespace eShopping.Application.Features.Promotions.Commands
             return true;
         }
 
-        private static void RequestValidationAsync(UpdatePromotionRequest request)
+        private static void RequestValidationAsync(AdminUpdatePromotionRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter promotion name");
             ThrowError.BadRequestAgainstNull(request.PromotionTypeId, "Please select promotion type");
         }
 
-        public async Task<Promotion> UpdatePromotion(Promotion promotion, UpdatePromotionRequest request, Guid accountId, CancellationToken cancellationToken)
+        public async Task<Promotion> UpdatePromotion(Promotion promotion, AdminUpdatePromotionRequest request, Guid accountId, CancellationToken cancellationToken)
         {
             promotion.Name = request.Name;
             promotion.PromotionTypeId = request.PromotionTypeId;

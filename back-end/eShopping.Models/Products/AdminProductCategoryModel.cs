@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace eShopping.Models.Products
 {
-    public class ProductCategoryModel
+    public class AdminProductCategoryModel
     {
 
         public Guid Id { get; set; }
@@ -28,6 +28,6 @@ namespace eShopping.Models.Products
             }
         }
 
-        public IEnumerable<ProductDatatableModel> Products { get; set; }
+        public IEnumerable<AdminProductDatatableModel> Products { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace eShopping.Application.Features.Staffs.Queries
 
     public class AdminGetStaffByIdResponse
     {
-        public StaffDetailModel Staff { get; set; }
+        public AdminStaffDetailModel Staff { get; set; }
     }
 
     public class AdminGetStaffByIdRequestHandler : IRequestHandler<AdminGetStaffByIdRequest, AdminGetStaffByIdResponse>
@@ -47,9 +47,9 @@ namespace eShopping.Application.Features.Staffs.Queries
             // Get the staff by the id.
             var staff = await _unitOfWork.Staffs.GetStaffByIdAsync(request.Id);
             ThrowError.Against(staff == null, "Cannot find staff information");
-            var perrmissionGroups = _mapper.Map<IEnumerable<PermissionGroupModel>>(staff.StaffPermissionGroups.Select(x => x.PermissionGroup));
+            var perrmissionGroups = _mapper.Map<IEnumerable<AdminPermissionGroupModel>>(staff.StaffPermissionGroups.Select(x => x.PermissionGroup));
 
-            var staffDetailModel = new StaffDetailModel()
+            var staffDetailModel = new AdminStaffDetailModel()
             {
                 Id = staff.Id,
                 Code = staff.Account.Code,

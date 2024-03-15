@@ -24,7 +24,7 @@ namespace eShopping.Application.Features.Staffs.Queries
 
     public class AdminGetStaffsResponse
     {
-        public IEnumerable<StaffModel> Staffs { get; set; }
+        public IEnumerable<AdminStaffModel> Staffs { get; set; }
 
         public int PageNumber { get; set; }
 
@@ -88,9 +88,9 @@ namespace eShopping.Application.Features.Staffs.Queries
             };
         }
 
-        private async Task<List<StaffModel>> GetStaffModelAsync(List<Staff> staffs, AdminGetStaffsRequest request)
+        private async Task<List<AdminStaffModel>> GetStaffModelAsync(List<Staff> staffs, AdminGetStaffsRequest request)
         {
-            var staffsResponse = new List<StaffModel>();
+            var staffsResponse = new List<AdminStaffModel>();
             var staffIds = staffs.Select(s => s.Id);
             var staffGroupPermission = await _unitOfWork.StaffPermissionGroup.GetStaffGroupPermissionByStaffIds(staffIds);
             staffs.ForEach(staff =>
@@ -98,9 +98,9 @@ namespace eShopping.Application.Features.Staffs.Queries
                 var index = staffs.IndexOf(staff) + ((request.PageNumber - 1) * request.PageSize) + 1;
                 var staffGroupPermissionsByStaff = staffGroupPermission.Where(i => i.StaffId == staff.Id);
                 var groups = staffGroupPermissionsByStaff.Select(s => s.PermissionGroup).AsQueryable().DistinctBy(g => g.Id);
-                var perrmissionGroups = _mapper.Map<IEnumerable<PermissionGroupModel>>(groups);
+                var perrmissionGroups = _mapper.Map<IEnumerable<AdminPermissionGroupModel>>(groups);
 
-                var staffModel = new StaffModel()
+                var staffModel = new AdminStaffModel()
                 {
                     Id = staff.Id,
                     No = index,

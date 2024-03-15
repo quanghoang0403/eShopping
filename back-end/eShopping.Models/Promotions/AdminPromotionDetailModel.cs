@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace eShopping.Models.Promotions
 {
-    public class PromotionDetailModel
+    public class AdminPromotionDetailModel
     {
         public Guid Id { get; set; }
 

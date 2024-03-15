@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class GetProductCategoriesRequest : IRequest<GetProductCategoriesResponse>
+    public class AdminGetProductCategoriesRequest : IRequest<AdminGetProductCategoriesResponse>
     {
         public int PageNumber { get; set; }
 
@@ -22,22 +22,22 @@ namespace eShopping.Application.Features.Products.Queries
         public string KeySearch { get; set; }
     }
 
-    public class GetProductCategoriesResponse
+    public class AdminGetProductCategoriesResponse
     {
-        public IEnumerable<ProductCategoryModel> ProductCategories { get; set; }
+        public IEnumerable<AdminProductCategoryModel> ProductCategories { get; set; }
 
         public int PageNumber { get; set; }
 
         public int Total { get; set; }
     }
 
-    public class GetProductCategoriesRequestHandler : IRequestHandler<GetProductCategoriesRequest, GetProductCategoriesResponse>
+    public class AdminGetProductCategoriesRequestHandler : IRequestHandler<AdminGetProductCategoriesRequest, AdminGetProductCategoriesResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetProductCategoriesRequestHandler(
+        public AdminGetProductCategoriesRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -47,7 +47,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<GetProductCategoriesResponse> Handle(GetProductCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<AdminGetProductCategoriesResponse> Handle(AdminGetProductCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var allProductCategoriesInStore = new PagingExtensions.Pager<ProductCategory>(new List<ProductCategory>(), 0);
@@ -75,12 +75,12 @@ namespace eShopping.Application.Features.Products.Queries
             }
 
             var listAllProductCategoryInStore = allProductCategoriesInStore.Result;
-            var productCategoryListResponse = _mapper.Map<List<ProductCategoryModel>>(listAllProductCategoryInStore);
+            var productCategoryListResponse = _mapper.Map<List<AdminProductCategoryModel>>(listAllProductCategoryInStore);
             productCategoryListResponse.ForEach(pc =>
             {
                 var productCategory = listAllProductCategoryInStore.FirstOrDefault(i => i.Id == pc.Id);
                 var products = productCategory.ProductInCategories.Select(p => p.Product);
-                pc.Products = _mapper.Map<IEnumerable<ProductDatatableModel>>(products);
+                pc.Products = _mapper.Map<IEnumerable<AdminProductDatatableModel>>(products);
             });
 
             productCategoryListResponse.ForEach(p =>
@@ -88,7 +88,7 @@ namespace eShopping.Application.Features.Products.Queries
                 p.No = productCategoryListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
             });
 
-            var response = new GetProductCategoriesResponse()
+            var response = new AdminGetProductCategoriesResponse()
             {
                 PageNumber = request.PageNumber,
                 Total = allProductCategoriesInStore.Total,

@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class DeleteProductByIdRequest : IRequest<bool>
+    public class AdminDeleteProductByIdRequest : IRequest<bool>
     {
         public Guid Id { get; set; }
     }
 
-    public class DeactivateProductByIdRequestHandler : IRequestHandler<DeleteProductByIdRequest, bool>
+    public class AdminDeleteProductByIdRequestHandler : IRequestHandler<AdminDeleteProductByIdRequest, bool>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
 
-        public DeactivateProductByIdRequestHandler(
+        public AdminDeleteProductByIdRequestHandler(
             IMediator mediator,
             IUnitOfWork unitOfWork,
             IUserProvider userProvider
@@ -29,7 +29,7 @@ namespace eShopping.Application.Features.Products.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(DeleteProductByIdRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminDeleteProductByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace eShopping.Models.Products
 {
-    public class ProductDetailModel
+    public class AdminProductDetailModel
     {
         public Guid Id { get; set; }
 
@@ -37,7 +37,7 @@ namespace eShopping.Models.Products
 
         public IEnumerable<AdminProductCategoryModel> ProductCategories { get; set; }
 
-        public IEnumerable<ProductPriceModel> ProductPrices { get; set; }
+        public IEnumerable<AdminProductPriceModel> ProductPrices { get; set; }
 
         public IEnumerable<ImageModel> Images { get; set; }
     }

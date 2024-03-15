@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Queries
 {
-    public class GetPromotionsRequest : IRequest<GetPromotionsResponse>
+    public class AdminGetPromotionsRequest : IRequest<AdminGetPromotionsResponse>
     {
         public int PageNumber { get; set; }
 
@@ -38,22 +38,22 @@ namespace eShopping.Application.Features.Promotions.Queries
 
     }
 
-    public class GetPromotionsResponse
+    public class AdminGetPromotionsResponse
     {
-        public IEnumerable<PromotionModel> Promotions { get; set; }
+        public IEnumerable<AdminPromotionModel> Promotions { get; set; }
 
         public int PageNumber { get; set; }
 
         public int Total { get; set; }
     }
 
-    public class GetPromotionsRequestHandler : IRequestHandler<GetPromotionsRequest, GetPromotionsResponse>
+    public class AdminGetPromotionsRequestHandler : IRequestHandler<AdminGetPromotionsRequest, AdminGetPromotionsResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetPromotionsRequestHandler(
+        public AdminGetPromotionsRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper
@@ -64,7 +64,7 @@ namespace eShopping.Application.Features.Promotions.Queries
             _mapper = mapper;
         }
 
-        public async Task<GetPromotionsResponse> Handle(GetPromotionsRequest request, CancellationToken cancellationToken)
+        public async Task<AdminGetPromotionsResponse> Handle(AdminGetPromotionsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var EnumPromotion = new List<Promotion>();
@@ -76,7 +76,7 @@ namespace eShopping.Application.Features.Promotions.Queries
                                   .OrderByDescending(p => p.CreatedTime)
                                   .ToListAsync(cancellationToken);
 
-            var promotionListResponse = _mapper.Map<List<PromotionModel>>(EnumPromotion);
+            var promotionListResponse = _mapper.Map<List<AdminPromotionModel>>(EnumPromotion);
 
             // Manually mapping
             promotionListResponse.ForEach(item =>
@@ -151,7 +151,7 @@ namespace eShopping.Application.Features.Promotions.Queries
                 index++;
             }
 
-            var response = new GetPromotionsResponse()
+            var response = new AdminGetPromotionsResponse()
             {
                 PageNumber = request.PageNumber,
                 Total = promotionListResponse.Count,

@@ -2,7 +2,7 @@
 
 namespace eShopping.Models.Permissions
 {
-    public class PermissionModel
+    public class AdminPermissionModel
     {
         public Guid Id { get; set; }
 

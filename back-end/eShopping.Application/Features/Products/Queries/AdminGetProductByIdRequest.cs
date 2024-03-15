@@ -22,7 +22,7 @@ namespace eShopping.Application.Features.Products.Queries
 
     public class AdminGetProductByIdResponse
     {
-        public ProductDetailModel Product { get; set; }
+        public AdminProductDetailModel Product { get; set; }
 
     }
 
@@ -58,12 +58,12 @@ namespace eShopping.Application.Features.Products.Queries
                 .Include(x => x.ProductPrices)
                 .Include(x => x.Images)
                 .Include(p => p.ProductInCategories)
-                .ProjectTo<ProductDetailModel>(_mapperConfiguration)
+                .ProjectTo<AdminProductDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             ThrowError.Against(ProductData == null, "Cannot find product detail information");
             var images = _unitOfWork.Images.GetAllImagesByObjectId(ProductData.Id, EnumImageTypeObject.Product);
-            var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(ProductData.Id).ProjectTo<ProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
+            var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(ProductData.Id).ProjectTo<AdminProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
             ProductData.Images = _mapper.Map<List<ImageModel>>(images);
             ProductData.ProductCategories = category;
 

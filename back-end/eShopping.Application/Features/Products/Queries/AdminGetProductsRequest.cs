@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class GetProductsRequest : IRequest<GetProductsResponse>
+    public class AdminGetProductsRequest : IRequest<AdminGetProductsResponse>
     {
         public int PageNumber { get; set; }
 
@@ -27,22 +27,22 @@ namespace eShopping.Application.Features.Products.Queries
 
     }
 
-    public class GetProductsResponse
+    public class AdminGetProductsResponse
     {
-        public IEnumerable<ProductDatatableModel> Products { get; set; }
+        public IEnumerable<AdminProductDatatableModel> Products { get; set; }
 
         public int PageNumber { get; set; }
 
         public int Total { get; set; }
     }
 
-    public class GetProductsRequestHandler : IRequestHandler<GetProductsRequest, GetProductsResponse>
+    public class AdminGetProductsRequestHandler : IRequestHandler<AdminGetProductsRequest, AdminGetProductsResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetProductsRequestHandler(
+        public AdminGetProductsRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -52,7 +52,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
+        public async Task<AdminGetProductsResponse> Handle(AdminGetProductsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var products = _unitOfWork.Products.GetAll();
@@ -82,13 +82,13 @@ namespace eShopping.Application.Features.Products.Queries
                                     .OrderByDescending(p => p.CreatedTime)
                                     .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProductsInStore.Result;
-            var productListResponse = _mapper.Map<List<ProductDatatableModel>>(pagingResult);
+            var productListResponse = _mapper.Map<List<AdminProductDatatableModel>>(pagingResult);
             productListResponse.ForEach(p =>
             {
                 p.No = productListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
             });
 
-            var response = new GetProductsResponse()
+            var response = new AdminGetProductsResponse()
             {
                 PageNumber = request.PageNumber,
                 Total = allProductsInStore.Total,

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Promotions.Commands
 {
-    public class CreatePromotionRequest : IRequest<bool>
+    public class AdminCreatePromotionRequest : IRequest<bool>
     {
         public string Name { get; set; }
 
@@ -46,12 +46,12 @@ namespace eShopping.Application.Features.Promotions.Commands
 
     }
 
-    public class CreatePromotionRequestHandler : IRequestHandler<CreatePromotionRequest, bool>
+    public class AdminCreatePromotionRequestHandler : IRequestHandler<AdminCreatePromotionRequest, bool>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreatePromotionRequestHandler(
+        public AdminCreatePromotionRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork)
         {
@@ -59,7 +59,7 @@ namespace eShopping.Application.Features.Promotions.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(CreatePromotionRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminCreatePromotionRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -71,12 +71,12 @@ namespace eShopping.Application.Features.Promotions.Commands
             return true;
         }
 
-        private static void RequestValidation(CreatePromotionRequest request)
+        private static void RequestValidation(AdminCreatePromotionRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter promotion name");
         }
 
-        private async Task<Promotion> CreatePromotion(CreatePromotionRequest request, Guid accountId, CancellationToken cancellationToken)
+        private async Task<Promotion> CreatePromotion(AdminCreatePromotionRequest request, Guid accountId, CancellationToken cancellationToken)
         {
             var newPromotion = new Promotion()
             {

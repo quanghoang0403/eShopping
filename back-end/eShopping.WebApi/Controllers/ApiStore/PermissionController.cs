@@ -20,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         [Route("get-permissions")]
         public async Task<IActionResult> GetPermissionsAsync([FromQuery] string token)
         {
-            var response = await _mediator.Send(new GetPermissionsRequest() { Token = token });
+            var response = await _mediator.Send(new AdminGetPermissionsRequest() { Token = token });
             return await SafeOkAsync(response);
         }
     }
