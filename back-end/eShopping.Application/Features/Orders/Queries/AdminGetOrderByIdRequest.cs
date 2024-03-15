@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using eShopping.Common.Exceptions;
 using eShopping.Interfaces;
+using eShopping.Models.Orders;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +19,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Queries
 
     public class AdminGetOrderByIdResponse
     {
-        public OrderDetailDataById Order { get; set; }
+        public AdminOrderDetailModel Order { get; set; }
     }
 
     public class AdminGetOrderByIdRequestHandler : IRequestHandler<AdminGetOrderByIdRequest, AdminGetOrderByIdResponse>
@@ -46,50 +48,28 @@ namespace GoFoodBeverage.Application.Features.Orders.Queries
 
             if (request == null || request.Id.Equals(Guid.Empty))
             {
-                return null;
+                ThrowError.Against(request == null || request.Id.Equals(Guid.Empty), "Not find request");
             }
 
-            var order = await _unitOfWork.Orders.GetOrderDetailDataById(request.Id, loggedUser.StoreId)
-                              .AsNoTracking()
-                              .ProjectTo<OrderDetailDataById>(_mapperConfiguration)
-                              .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
-            order.OrderItems = order.OrderItems.Where(oi => oi.StatusId != Domain.Enums.EnumOrderItemStatus.Canceled);
+            var order = await _unitOfWork.Orders.Where(o => o.Id == request.Id)
+                                                .Include(o => o.Customer)
+                                                .Include(o => o.Customer).ThenInclude(c => c.District)
+                                                .Include(o => o.Customer).ThenInclude(c => c.Ward)
+                                                .Include(o => o.Customer).ThenInclude(c => c.City)
+                                                .Include(o => o.OrderItems)
+                                                .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice)
+                                                .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice).ThenInclude(p => p.Product)
+                                                .AsNoTracking()
+                                                .ProjectTo<AdminOrderDetailModel>(_mapperConfiguration)
+                                                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             if (order == null)
             {
-                return null;
-            }
-
-            if (order.BranchId != null)
-            {
-                order.BranchName = await _unitOfWork.StoreBranches
-                    .GetStoreBranchByIdAsync(order.BranchId)
-                    .AsNoTracking()
-                    .Select(b => b.Name)
-                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-            }
-
-            //If there is no customer profile. Do not query table CustomerMembershipLevel
-            if (order.CustomerId != null)
-            {
-                //Only select max membership base on AccumulatedPoint <= order.Customer.AccumulatedPoint. Get max item
-                string membership = await _unitOfWork.CustomerMemberships
-                    .GetAllCustomerMembershipInStore(loggedUser.StoreId)
-                    .Where(cm => cm.AccumulatedPoint <= order.Customer.AccumulatedPoint)
-                    .OrderByDescending(x => x.AccumulatedPoint)
-                    .AsNoTracking()
-                    .Select(m => m.Name)
-                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
-                if (!string.IsNullOrWhiteSpace(membership))
-                {
-                    order.Customer.Rank = membership;
-                }
+                ThrowError.Against(request == null || request.Id.Equals(Guid.Empty), "Not found order");
             }
 
             order.Reason = await _unitOfWork.OrderHistories
-                .Where(oh => oh.OrderId == order.Id && oh.StoreId == loggedUser.StoreId && oh.CancelReason != null)
+                .Where(oh => oh.OrderId == order.Id && oh.CancelReason != null)
                 .OrderByDescending(oh => oh.CreatedTime)
                 .AsNoTracking()
                 .Select(oh => oh.CancelReason)

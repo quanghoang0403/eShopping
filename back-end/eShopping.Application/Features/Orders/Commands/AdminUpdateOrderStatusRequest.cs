@@ -29,12 +29,12 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
 
         public async Task<bool> Handle(AdminUpdateOrderStatusRequest request, CancellationToken cancellationToken)
         {
-            var loggerUser = await _userProvider.ProvideAsync(cancellationToken);
+            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).FirstOrDefaultAsync(cancellationToken);
             if (order != null)
             {
                 order.Status = request.Status;
-                order.LastSavedUser = loggerUser.Id.Value;
+                order.LastSavedUser = loggedUser.AccountId.Value;
                 order.LastSavedTime = DateTime.UtcNow;
                 await _unitOfWork.SaveChangesAsync();
             }

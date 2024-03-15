@@ -27,6 +27,8 @@ namespace eShopping.Interfaces
 
         IOrderRepository Orders { get; }
 
+        IOrderHistoryRepository OrderHistories { get; }
+
         IOrderPromotionDetailRepository OrderPromotionDetails { get; }
 
         IOrderItemRepository OrderItems { get; }

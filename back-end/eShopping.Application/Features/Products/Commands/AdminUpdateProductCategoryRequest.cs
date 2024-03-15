@@ -38,10 +38,10 @@ namespace eShopping.Application.Features.Products.Commands
 
         public Guid? ParentId { set; get; }
 
-        public List<ProductSelectedModel> Products { get; set; }
+        public List<AdminProductSelectedModel> Products { get; set; }
     }
 
-    public class ProductSelectedModel
+    public class AdminProductSelectedModel
     {
         public Guid Id { get; set; }
 

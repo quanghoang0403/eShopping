@@ -33,10 +33,10 @@ namespace eShopping.Application.Features.Users.Commands
         /// <returns>Boolean</returns>
         public async Task<bool> Handle(DisableAccountRequest request, CancellationToken cancellationToken)
         {
-            var loggerUser = _userProvider.Provide();
+            var loggedUser = _userProvider.Provide();
             var account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(request.Id);
             account.IsActivated = false;
-            account.LastSavedUser = loggerUser.Id.Value;
+            account.LastSavedUser = loggedUser.AccountId.Value;
             account.LastSavedTime = DateTime.UtcNow;
             await _unitOfWork.SaveChangesAsync();
 

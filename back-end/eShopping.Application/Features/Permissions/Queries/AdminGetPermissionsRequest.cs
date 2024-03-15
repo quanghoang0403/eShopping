@@ -53,7 +53,7 @@ namespace eShopping.Application.Features.Settings.Queries
                 .StaffPermissionGroup
                 .GetAll()
                 .AsNoTracking()
-                .Where(s => s.StaffId == loggedUser.Id.Value)
+                .Where(s => s.StaffId == loggedUser.AccountId.Value)
                 .Include(s => s.PermissionGroup)
                 .Select(s => s.PermissionGroup)
                 .ToList();

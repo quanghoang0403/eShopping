@@ -57,8 +57,8 @@ namespace eShopping.Application.Features.Customers.Commands
 
         public async Task<bool> Handle(AdminUpdateCustomerRequest request, CancellationToken cancellationToken)
         {
-            var loggerUser = await _userProvider.ProvideAsync(cancellationToken);
-            var accountId = loggerUser.Id.Value;
+            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
+            var accountId = loggedUser.AccountId.Value;
 
             Customer customer = await _unitOfWork.Customers.GetCustomerById(request.CustomerId);
             ThrowError.Against(customer == null, "Customer is not exist or was inactive");

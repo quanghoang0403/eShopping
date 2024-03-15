@@ -57,8 +57,8 @@ namespace eShopping.Application.Features.Customers.Commands
 
         public async Task<bool> Handle(AdminCreateCustomerRequest request, CancellationToken cancellationToken)
         {
-            var loggerUser = await _userProvider.ProvideAsync(cancellationToken);
-            var accountId = loggerUser.Id.Value;
+            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
+            var accountId = loggedUser.AccountId.Value;
             CheckUniqueAndValidation(request);
 
             // Create a new transaction to save data more securely, data will be restored if an error occurs.

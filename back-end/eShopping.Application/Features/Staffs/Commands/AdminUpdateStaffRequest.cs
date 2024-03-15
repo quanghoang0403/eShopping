@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Staffs.Commands
             // Get the current user information from the user token.
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            Account account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(loggedUser.Id ?? Guid.Empty);
+            Account account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(loggedUser.AccountId ?? Guid.Empty);
             ThrowError.Against(account == null, "Account is not exist or was inactive");
 
             CheckUniqueAndValidation(request);

@@ -42,6 +42,9 @@ namespace eShopping.Infrastructure.Repositories
         private IDistrictRepository _districtRepository;
         public IDistrictRepository Districts { get { return _districtRepository ??= new DistrictRepository(_dbContext); } }
 
+        private IOrderHistoryRepository _orderHistoryRepository;
+        public IOrderHistoryRepository OrderHistories { get { return _orderHistoryRepository ??= new OrderHistoryRepository(_dbContext); } }
+
         private IOrderRepository _orderRepository;
         public IOrderRepository Orders { get { return _orderRepository ??= new OrderRepository(_dbContext); } }
 

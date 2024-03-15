@@ -1,8 +1,12 @@
-﻿using eShopping.WebApi.Controllers.Base;
+﻿using eShopping.Common.Attributes.Permission;
+using eShopping.Domain.Enums;
+using eShopping.WebApi.Controllers.Base;
 using GoFoodBeverage.Application.Features.Orders.Commands;
 using GoFoodBeverage.Application.Features.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiAdmin
 {
@@ -16,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-orders")]
         [HasPermission(EnumPermission.VIEW_ORDER)]
-        public async Task<IActionResult> GetOrderManagementAsync([FromQuery] GetOrdersManagementRequest request)
+        public async Task<IActionResult> GetOrdersAsync([FromQuery] AdminGetOrdersRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -33,16 +37,8 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         }
 
         [HttpGet]
-        [Route("get-order-business-summary-widget")]
-        public async Task<IActionResult> GetOrderBusinessSummaryWidgetAsync([FromQuery] AdminGetOrderBusinessSummaryWidgetRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
-        }
-
-        [HttpGet]
-        [Route("get-order-top-selling-product")]
-        public async Task<IActionResult> GetOrderTopSellingProductAsync([FromQuery] AdminGetOrderTopSellingProductRequest request)
+        [Route("get-order-top-selling")]
+        public async Task<IActionResult> GetOrderTopSellingAsync([FromQuery] AdminGetOrderTopSellingRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

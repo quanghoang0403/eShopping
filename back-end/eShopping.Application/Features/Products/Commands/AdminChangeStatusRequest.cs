@@ -35,7 +35,7 @@ namespace eShopping.Application.Features.Products.Commands
 
             var product = await _unitOfWork.Products.GetProductByIdAsync(request.Id);
             product.Status = product.Status == EnumStatus.Active ? EnumStatus.InActive : EnumStatus.InActive;
-            product.LastSavedUser = loggedUser.Id.Value;
+            product.LastSavedUser = loggedUser.AccountId.Value;
             product.LastSavedTime = DateTime.UtcNow;
             await _unitOfWork.Products.UpdateAsync(product);
             return true;

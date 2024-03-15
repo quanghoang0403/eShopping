@@ -36,6 +36,12 @@ namespace eShopping.Domain.Entities
         [MaxLength(10)]
         public string ShipPhoneNumber { set; get; }
 
+        public int? ShipCityId { get; set; }
+
+        public int? ShipDistrictId { get; set; }
+
+        public int? ShipWardId { get; set; }
+
         public Guid? CustomerId { get; set; }
 
         public Guid? PromotionId { get; set; }

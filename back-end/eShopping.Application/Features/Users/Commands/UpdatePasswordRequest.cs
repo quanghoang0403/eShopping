@@ -40,15 +40,15 @@ namespace eShopping.Application.Features.Users.Commands
                 { $"{nameof(request.NewPassword)} && {nameof(request.ConfirmPassword)}", "The new password and confirmation password does not match" },
             });
 
-            var loggerUser = _userProvider.Provide();
-            if (loggerUser == null)
+            var loggedUser = _userProvider.Provide();
+            if (loggedUser == null)
             {
-                ThrowError.Against(!loggerUser.AccountId.HasValue, "Cannot find account information");
+                ThrowError.Against(!loggedUser.AccountId.HasValue, "Cannot find account information");
             }
 
             var hasher = new PasswordHasher<Account>();
 
-            Account account = _unitOfWork.Accounts.Find(a => a.Id == loggerUser.AccountId).FirstOrDefaultAsync().Result;
+            Account account = _unitOfWork.Accounts.Find(a => a.Id == loggedUser.AccountId).FirstOrDefaultAsync().Result;
             var verified = hasher.VerifyHashedPassword(null, account.Password, request.CurrentPassword);
 
             ThrowError.Against(verified == PasswordVerificationResult.Failed, new JObject()
