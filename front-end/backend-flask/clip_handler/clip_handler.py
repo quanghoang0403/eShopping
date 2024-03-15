@@ -36,9 +36,7 @@ class CLIPHandler:
         return embedding
 
     def get_text_embedding(self, text: str) -> np.ndarray:
-        payload = {
-            "text": text  # Provide the text data here
-        }
+        payload = { "text": text }
         data = requests.post(
             self.inference_endpoint + "/clip/embed_text?api_key=" + self.private_key,
             json=payload
@@ -61,9 +59,7 @@ class CLIPHandler:
 
     def insert_item(self, image, image_path):
         embedding = self.get_image_embedding(image)
-        print(embedding)
         self.index.add(np.array(embedding).astype(np.float32))
-        print(self.index.ntotal)
         self.mongo_handler.insert_item(image_path)
         self.save()
         return
