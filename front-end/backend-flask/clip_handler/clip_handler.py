@@ -88,7 +88,7 @@ class CLIPHandler:
             index.add(np.array(embedding).astype(np.float32))
             documents.append({ 'url': frame_name})
 
-        faiss.write_index(index, "index.bin")
+        faiss.write_index(index, "./clip_handler/index.bin")
         self.index = index
         self.mongo_handler.delete_all_item()
         self.mongo_handler.insert_list_item(documents)

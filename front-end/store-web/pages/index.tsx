@@ -10,6 +10,7 @@ export default function HomePage() {
   const onChange = ({ target }: any) => setText(target.value)
   const onSearchText = async () => {
     try {
+      setImageURL('')
       setLoading(true)
       const res = await ImageService.searchByText({ text })
       setListImg(res.data)
