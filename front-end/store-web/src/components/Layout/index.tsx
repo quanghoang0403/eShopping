@@ -8,7 +8,9 @@ const MainLayout: React.FC<ILayout> = ({ children }) => {
   return (
     <div>
       <Header />
-      <main>{children}</main>
+      <main className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+        {children}
+      </main>
       <Footer />
     </div>
   )
