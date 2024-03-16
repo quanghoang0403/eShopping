@@ -1,244 +1,452 @@
 import React, { useState } from 'react'
-import { ImageService } from '@/services'
-import { ISearchImageResponse } from '@/services/image.service'
+import SEO from '@/components/Layout/SEO'
 
 export default function HomePage() {
-  const [text, setText] = useState<string>('')
-  const [listImg, setListImg] = useState<ISearchImageResponse[]>()
-  const [imageURL, setImageURL] = useState<any>('')
-  const [loading, setLoading] = useState<boolean>(false)
-  const onChange = ({ target }: any) => setText(target.value)
-  const onSearchText = async () => {
-    try {
-      setImageURL('')
-      setLoading(true)
-      const res = await ImageService.searchByText({ text })
-      setListImg(res.data)
-    } catch (err) {
-      alert(err)
-    }
-    setLoading(false)
-  }
-
-  const onSearchUpload = async (event: any) => {
-    const files = event.target.files
-
-    if (files && files[0]) {
-      try {
-        const reader = new FileReader()
-        setImageURL(URL.createObjectURL(event.target.files[0]))
-        setLoading(true)
-        const res = await ImageService.searchByImage(files[0])
-        setListImg(res.data)
-      } catch (err) {
-        alert(err)
-      }
-    } else {
-      console.log('Not choose file')
-    }
-    setLoading(false)
-  }
-
-  const onUpload = async (event: any) => {
-    console.log('onUpload')
-    const files = event.target.files
-
-    if (files && files[0]) {
-      try {
-        setLoading(true)
-        await ImageService.uploadImage(files[0])
-        alert('Successfully uploaded')
-      } catch (err) {
-        alert(err)
-      }
-    } else {
-      console.log('Not choose file')
-    }
-    setLoading(false)
-  }
-
-  const onDelete = async (id: number, url: string) => {
-    try {
-      setLoading(true)
-      await ImageService.deleteImage({ id, url })
-      setListImg(listImg?.filter((img) => img.id !== id))
-      alert('Successfully deleted')
-    } catch (err) {
-      alert(err)
-    }
-    setLoading(false)
-  }
-
-  const handleKeyDown = (event: any) => {
-    if (event.key === 'Enter') {
-      onSearchText()
-    }
-  }
-
   return (
-    <main>
-      {loading && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-500"></div>
-        </div>
-      )}
-      <div className="container mx-auto px-4 mt-20">
-        <h1 className="mb-12 text-6xl font-bold mb-4 text-blue-500 text-center">
-          Search Image Engine
-        </h1>
-        <div className="w-full w-1000 mx-auto">
-          <div className="relative">
-            <input
-              type="text"
-              onChange={onChange}
-              onKeyDown={handleKeyDown}
-              placeholder="Search..."
-              className="w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:border-blue-500"
-            />
-            <button
-              className="absolute inset-y-0 right-0 px-3 py-2 bg-blue-500 text-white rounded-md"
-              onClick={onSearchText}
+    <>
+      <SEO title="Home Page" description="Describe the home page" />
+      <div
+        className="carousel relative container mx-auto"
+        style={{ maxWidth: 1600 }}
+      >
+        <div className="carousel-inner relative overflow-hidden w-full">
+          {/* <!--Slide 1--> */}
+          <input
+            className="carousel-open"
+            type="radio"
+            id="carousel-1"
+            name="carousel"
+            aria-hidden="true"
+            checked={true}
+            hidden
+          />
+          <div
+            className="carousel-item absolute opacity-0"
+            style={{ height: '50vh' }}
+          >
+            <div
+              className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-right"
+              style={{ backgroundImage: 'url(/imgs/slide1.avif)' }}
             >
-              Search
-            </button>
+              <div className="container mx-auto">
+                <div className="flex flex-col w-full lg:w-1/2 md:ml-16 items-center md:items-start px-6 tracking-wide">
+                  <p className="text-black text-2xl my-4">
+                    Stripy Zig Zag Jigsaw Pillow and Duvet Set
+                  </p>
+                  <a
+                    className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
+                    href="#"
+                  >
+                    view product
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label
+            htmlFor="carousel-3"
+            className="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900 leading-tight text-center z-10 inset-y-0 left-0 my-auto"
+          >
+            ‹
+          </label>
+          <label
+            htmlFor="carousel-2"
+            className="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900 leading-tight text-center z-10 inset-y-0 right-0 my-auto"
+          >
+            ›
+          </label>
+
+          {/* <!--Slide 2--> */}
+          <input
+            className="carousel-open"
+            type="radio"
+            id="carousel-2"
+            name="carousel"
+            aria-hidden="true"
+            hidden
+          />
+          <div
+            className="carousel-item absolute opacity-0 bg-cover bg-right"
+            style={{ height: '50vh' }}
+          >
+            <div
+              className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-right"
+              style={{ backgroundImage: 'url(/imgs/slide2.avif)' }}
+            >
+              <div className="container mx-auto">
+                <div className="flex flex-col w-full lg:w-1/2 md:ml-16 items-center md:items-start px-6 tracking-wide">
+                  <p className="text-black text-2xl my-4">
+                    Real Bamboo Wall Clock
+                  </p>
+                  <a
+                    className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
+                    href="#"
+                  >
+                    view product
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label
+            htmlFor="carousel-1"
+            className="prev control-2 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900  leading-tight text-center z-10 inset-y-0 left-0 my-auto"
+          >
+            ‹
+          </label>
+          <label
+            htmlFor="carousel-3"
+            className="next control-2 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900  leading-tight text-center z-10 inset-y-0 right-0 my-auto"
+          >
+            ›
+          </label>
+
+          {/* <!--Slide 3--> */}
+          <input
+            className="carousel-open"
+            type="radio"
+            id="carousel-3"
+            name="carousel"
+            aria-hidden="true"
+            hidden
+          />
+          <div
+            className="carousel-item absolute opacity-0"
+            style={{ height: '50vh' }}
+          >
+            <div
+              className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-bottom"
+              style={{ backgroundImage: 'url(/imgs/slide3.avif)' }}
+            >
+              <div className="container mx-auto">
+                <div className="flex flex-col w-full lg:w-1/2 md:ml-16 items-center md:items-start px-6 tracking-wide">
+                  <p className="text-black text-2xl my-4">
+                    Brown and blue hardbound book
+                  </p>
+                  <a
+                    className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
+                    href="#"
+                  >
+                    view product
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label
+            htmlFor="carousel-2"
+            className="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900  leading-tight text-center z-10 inset-y-0 left-0 my-auto"
+          >
+            ‹
+          </label>
+          <label
+            htmlFor="carousel-1"
+            className="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900  leading-tight text-center z-10 inset-y-0 right-0 my-auto"
+          >
+            ›
+          </label>
+          <ol className="carousel-indicators">
+            <li className="inline-block mr-3">
+              <label
+                htmlFor="carousel-1"
+                className="carousel-bullet cursor-pointer block text-4xl text-gray-400 hover:text-gray-900"
+              >
+                •
+              </label>
+            </li>
+            <li className="inline-block mr-3">
+              <label
+                htmlFor="carousel-2"
+                className="carousel-bullet cursor-pointer block text-4xl text-gray-400 hover:text-gray-900"
+              >
+                •
+              </label>
+            </li>
+            <li className="inline-block mr-3">
+              <label
+                htmlFor="carousel-3"
+                className="carousel-bullet cursor-pointer block text-4xl text-gray-400 hover:text-gray-900"
+              >
+                •
+              </label>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      {/* For one slide */}
+      {/* <section
+        className="w-full mx-auto bg-nordic-gray-light flex pt-12 md:pt-0 md:items-center bg-cover bg-right"
+        style={{
+          maxWidth: 1600,
+          height: '32rem',
+          backgroundImage: 'url(/imgs/slide1.avif)',
+        }}
+      >
+        <div className="container mx-auto">
+          <div className="flex flex-col w-full lg:w-1/2 justify-center items-start  px-6 tracking-wide">
+            <h1 className="text-black text-2xl my-4">
+              Stripy Zig Zag Jigsaw Pillow and Duvet Set
+            </h1>
+            <a
+              className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
+              href="#"
+            >
+              products
+            </a>
           </div>
         </div>
-      </div>
-      <div className="container mx-auto px-4 mt-2 flex">
-        <div className="mr-4" style={{ flexGrow: 0.7 }}>
-          <label
-            htmlFor="search-file"
-            className="flex flex-col items-center justify-center w-full h-14 border-2 border-blue-400 border-solid rounded-lg cursor-pointer bg-blue-50 dark:hover:bg-blue-200 bg-blue-100 hover:bg-blue-100 dark:border-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-600"
-          >
-            <div className="flex flex-row items-center pt-5 pb-6">
-              <svg
-                className="h-8 w-8 mr-4 text-blue-500"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+      </section> */}
+
+      <section className="bg-white py-8">
+        <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+          <nav id="store" className="w-full z-30 top-0 px-6 py-1">
+            <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+              <a
+                className="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
+                href="#"
               >
-                {' '}
-                <circle cx="11" cy="11" r="8" />{' '}
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <p className="text-sm text-blue-500 dark:text-blue-400">
-                <span className="font-semibold">Search by image</span>
-              </p>
-            </div>
-            <input
-              onChange={onSearchUpload}
-              id="search-file"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              multiple={false}
-            />
-          </label>
-        </div>
-        <div style={{ flexGrow: 0.3 }}>
-          <label
-            htmlFor="upload-file"
-            className="flex flex-col items-center justify-center w-full h-14 border-2 border-blue-400 border-solid rounded-lg cursor-pointer bg-blue-50 dark:hover:bg-blue-200 bg-blue-100 hover:bg-blue-100 dark:border-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-600"
-          >
-            <div className="flex flex-row items-center justify-center pt-5 pb-6">
-              <svg
-                className="w-8 h-8 mr-4 text-blue-500 dark:text-blue-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 16"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                />
-              </svg>
-              <p className="text-sm text-blue-500 dark:text-blue-400">
-                <span className="font-semibold">Upload image</span> to library
-              </p>
-            </div>
-            <input
-              onChange={onUpload}
-              id="upload-file"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              multiple={false}
-            />
-          </label>
-        </div>
-      </div>
-      {/* Display uploaded image */}
-      {imageURL && (
-        <div className="mt-8 flex justify-center">
-          <img src={imageURL} alt="Uploaded" className="max-w-full h-auto" />
-        </div>
-      )}
-      <div className="container mx-auto px-4 mt-20">
-        <div className="grid grid-cols-6 gap-6">
-          {listImg &&
-            listImg.map((img, index) => (
-              <div
-                key={index}
-                className="relative border border-solid border-blue-400 p-4"
-              >
-                <img
-                  src={`/imgs/${img.url}`}
-                  alt="Image"
-                  className="relative object-contain"
-                />
-                <svg
-                  onClick={() => onDelete(img.id, img.url)}
-                  className="cursor-pointer absolute top-0 right-0 w-10 h-10 h-8 w-8 text-red-500"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                Store
+              </a>
+              <div className="flex items-center" id="store-nav-content">
+                <a
+                  className="pl-3 inline-block no-underline hover:text-black"
+                  href="#"
                 >
-                  {' '}
-                  <path stroke="none" d="M0 0h24v24H0z" />{' '}
-                  <line x1="18" y1="6" x2="6" y2="18" />{' '}
-                  <line x1="6" y1="6" x2="18" y2="18" />
+                  <svg
+                    className="fill-current hover:text-black"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M7 11H17V13H7zM4 7H20V9H4zM10 15H14V17H10z" />
+                  </svg>
+                </a>
+                <a
+                  className="pl-3 inline-block no-underline hover:text-black"
+                  href="#"
+                >
+                  <svg
+                    className="fill-current hover:text-black"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </nav>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
                 </svg>
               </div>
-            ))}
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
+          <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+            <a href="#">
+              <img
+                className="hover:grow hover:shadow-lg"
+                src="/imgs/product.avif"
+              />
+              <div className="pt-3 flex items-center justify-between">
+                <p className="">Product Name</p>
+                <svg
+                  className="h-6 w-6 fill-current text-gray-500 hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z" />
+                </svg>
+              </div>
+              <p className="pt-1 text-gray-900">£9.99</p>
+            </a>
+          </div>
         </div>
-      </div>
-    </main>
+      </section>
+
+      <section className="bg-white py-8">
+        <div className="container py-8 px-6 mx-auto">
+          <a
+            className="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl mb-8"
+            href="#"
+          >
+            About
+          </a>
+          <p className="mt-8 mb-8">
+            This template is inspired by the stunning nordic minimalist design -
+            in particular:
+            <br />
+            <a
+              className="text-gray-800 underline hover:text-gray-900"
+              href="http://savoy.nordicmade.com/"
+              target="_blank"
+            >
+              Savoy Theme
+            </a>{' '}
+            created by{' '}
+            <a
+              className="text-gray-800 underline hover:text-gray-900"
+              href="https://nordicmade.com/"
+            >
+              https://nordicmade.com/
+            </a>{' '}
+            and{' '}
+            <a
+              className="text-gray-800 underline hover:text-gray-900"
+              href="https://www.metricdesign.no/"
+              target="_blank"
+            >
+              https://www.metricdesign.no/
+            </a>
+          </p>
+          <p className="mb-8">
+            Lorem ipsum dolor sit amet, consectetur <a href="#">random link</a>{' '}
+            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Vel risus commodo viverra maecenas accumsan
+            lacus vel facilisis volutpat. Vitae aliquet nec ullamcorper sit.
+            Nullam eget felis eget nunc lobortis mattis aliquam. In est ante in
+            nibh mauris. Egestas congue quisque egestas diam in. Facilisi nullam
+            vehicula ipsum a arcu. Nec nam aliquam sem et tortor consequat. Eget
+            mi proin sed libero enim sed faucibus turpis in. Hac habitasse
+            platea dictumst quisque. In aliquam sem fringilla ut. Gravida rutrum
+            quisque non tellus orci ac auctor augue mauris. Accumsan lacus vel
+            facilisis volutpat est velit egestas dui id. At tempor commodo
+            ullamcorper a. Volutpat commodo sed egestas egestas fringilla. Vitae
+            congue eu consequat ac.
+          </p>
+        </div>
+      </section>
+    </>
   )
 }
-
-// import SEO from '@/components/Layout/SEO'
-// import React from 'react'
-// import { Input, Space } from 'antd'
-// import { counterActions } from '@/redux/features/counterSlice'
-// import { useAppSelector, useAppDispatch } from '@/redux/hooks'
-// import Search from 'antd/es/transfer/search'
-// const HomePage = () => {
-//   const count = useAppSelector((state) => state.counter.value)
-//   const dispatch = useAppDispatch()
-//   return (
-//     <>
-//       <SEO title="Home Page" description="Describe the home page" />
-//       <h1>Home Page</h1>
-//       <h1>Counter: {count}</h1>
-//       <button onClick={() => dispatch(counterActions.decrement())}>
-//         Decrement
-//       </button>
-//       <button onClick={() => dispatch(counterActions.increment())}>
-//         Increment
-//       </button>
-//     </>
-//   )
-// }
-// export default HomePage

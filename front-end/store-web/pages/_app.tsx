@@ -3,7 +3,16 @@ import SEO from '@/components/Layout/SEO'
 import MainLayout from '@/components/Layout'
 import { Provider } from 'react-redux'
 import { makeStore } from '@/redux/store'
+import NProgress from 'nprogress'
+import { Router } from 'next/router'
 import '../src/styles/global.css'
+
+NProgress.configure({ showSpinner: true })
+Router.events.on('routeChangeStart', () => {
+  NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 const store = makeStore()
 export default function App({ Component, pageProps }: AppProps) {

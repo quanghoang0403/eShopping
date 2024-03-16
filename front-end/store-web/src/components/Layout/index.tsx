@@ -6,11 +6,9 @@ interface ILayout {
 
 const MainLayout: React.FC<ILayout> = ({ children }) => {
   return (
-    <div>
+    <div className="bg-white text-gray-600 leading-normal text-base tracking-normal">
       <Header />
-      <main className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
-        {children}
-      </main>
+      <main>{children}</main>
       <Footer />
     </div>
   )
