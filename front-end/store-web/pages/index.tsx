@@ -189,7 +189,7 @@ export default function HomePage() {
                 className="relative border border-solid border-blue-400 p-4"
               >
                 <img
-                  src={`/img/${img.url}`}
+                  src={`/imgs/${img.url}`}
                   alt="Image"
                   className="relative object-contain"
                 />
