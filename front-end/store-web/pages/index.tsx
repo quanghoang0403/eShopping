@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
-import Carousel from '@/components/Carousel'
+import HomeCarousel from '@/components/Home/HomeCarousel'
 
 export default function HomePage() {
   return (
     <>
       <SEO title="Home Page" description="Describe the home page" />
-      <Carousel />
+      <HomeCarousel />
       <section className="bg-white py-8">
         <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
