@@ -24,10 +24,10 @@ export default function HomePage() {
     <>
       <SEO title="Home Page" description="Describe the home page" />
       <div className="max-w-[1600px] h-[50vh] mx-auto">
-        <Carousel placeholder={undefined} loop autoplay>
-          <Image src="/imgs/sliders/1.jpeg" alt="image 1" className="h-full w-full object-cover" />
-          <Image src="/imgs/sliders/2.jpeg" alt="image 2" className="h-full w-full object-cover" />
-          <Image src="/imgs/sliders/3.jpeg" alt="image 3" className="h-full w-full object-cover" />
+        <Carousel placeholder={undefined} loop>
+          <Image fill src="/imgs/sliders/1.jpeg" alt="image 1" className="h-full w-full object-cover" />
+          <Image fill src="/imgs/sliders/2.jpeg" alt="image 2" className="h-full w-full object-cover" />
+          <Image fill src="/imgs/sliders/3.jpeg" alt="image 3" className="h-full w-full object-cover" />
         </Carousel>
         {/* <section className="max-w-[1600px] h-[32rem] w-full mx-auto bg-nordic-gray-light flex pt-12 md:pt-0 md:items-center bg-cover bg-right bg-[url('/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg')]">
           <div className="container mx-auto">

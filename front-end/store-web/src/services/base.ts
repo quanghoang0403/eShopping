@@ -1,8 +1,8 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
 import qs from 'qs'
-import { localStorageKeys, getStorage } from '@/utils/localStorage.helpers'
-import { tokenExpired } from '@/utils/helpers'
+import { localStorageKeys, getStorage } from '@/utils/localStorage.helper'
+import { tokenExpired } from '@/utils/common.helper'
 
 const APIService = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND,

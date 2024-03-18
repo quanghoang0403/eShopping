@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import Image from 'next/image'
-import { getCurrency } from '@/utils/helpers'
+import { formatNumberCurrency } from '@/utils/common.helper'
 
 export default function CartPage() {
-  const currency = getCurrency()
   const cartItems: ICartItem[] = [
     { name: 'Basic Tee Long Sleeves', priceName: 'Blue', thumbnail: '/imgs/productPromo/1.jpg', priceValue: 180000, quantity: 3 },
     { name: 'Basic Tee Long Sleeves', priceName: 'Black', thumbnail: '/imgs/productPromo/2.jpg', priceValue: 200000, quantity: 2 },
@@ -25,15 +24,15 @@ export default function CartPage() {
   return (
     <>
       <SEO title="Cart Page" description="Describe the cart page" />
-      <div className="h-screen bg-gray-100 pt-20">
-        <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+      <div className="bg-gray-100 pt-10">
+        <h1 className="mb-10 text-center text-2xl text-gray-900 uppercase">Giỏ hàng</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
             {cartItems?.length > 0 &&
               cartItems.map((cart, index) => {
                 return (
                   <div key={index} className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-                    <Image src={cart.thumbnail} alt={cart.name} className="w-full rounded-lg sm:w-40" />
+                    <Image width={300} height={300} src={cart.thumbnail} alt={cart.name} className="w-full rounded-lg sm:w-40" />
                     <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                       <div className="mt-5 sm:mt-0">
                         <h2 className="text-lg font-bold text-gray-900">{cart.name}</h2>
@@ -46,10 +45,7 @@ export default function CartPage() {
                           <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
                         </div>
                         <div className="flex items-center space-x-4">
-                          <p className="text-sm">
-                            {cart.priceValue}
-                            {currency}
-                          </p>
+                          <p className="text-sm">{formatNumberCurrency(cart.priceValue)}</p>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -69,22 +65,21 @@ export default function CartPage() {
           </div>
           <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
             <div className="mb-2 flex justify-between">
-              <p className="text-gray-700">Subtotal</p>
-              <p className="text-gray-700">$129.99</p>
+              <p className="text-gray-700">Tổng tiền</p>
+              <p className="text-gray-700">{formatNumberCurrency(600000)}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700">Shipping</p>
-              <p className="text-gray-700">$4.99</p>
+              <p className="text-gray-700">{formatNumberCurrency(20000)}</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
-              <p className="text-lg font-bold">Total</p>
-              <div className="">
-                <p className="mb-1 text-lg font-bold">$134.98 USD</p>
-                <p className="text-sm text-gray-700">including VAT</p>
-              </div>
+              <p className="text-lg font-bold text-gray-900">THANH TOÁN</p>
+              <p className="mb-1 text-lg font-bold text-gray-900">{formatNumberCurrency(620000)}</p>
             </div>
-            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Check out</button>
+            <p className="text-sm text-gray-700">Đã bao gồm thuế VAT</p>
+
+            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Thanh toán</button>
           </div>
         </div>
       </div>
