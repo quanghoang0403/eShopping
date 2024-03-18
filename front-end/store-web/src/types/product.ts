@@ -1,5 +1,5 @@
 interface IProduct {
   name: string
-  url: string
+  thumbnail: string
   price: number
 }

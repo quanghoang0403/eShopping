@@ -6,6 +6,8 @@ import { makeStore } from '@/redux/store'
 import NProgress from 'nprogress'
 import { Router } from 'next/router'
 import '../src/styles/global.css'
+import { Suspense } from 'react'
+import Loading from '@/components/Loading'
 
 NProgress.configure({ showSpinner: true })
 Router.events.on('routeChangeStart', () => {
@@ -21,7 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <MainLayout>
           <SEO />
-          <Component {...pageProps} />
+          <Suspense fallback={<Loading />}>
+            <Component {...pageProps} />
+          </Suspense>
         </MainLayout>
       </Provider>
     </>

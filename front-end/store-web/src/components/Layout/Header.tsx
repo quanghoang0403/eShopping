@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BiArrowToTop } from 'react-icons/bi'
 
-const Header = () => {
+export default function Header() {
   const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
     const toggleVisibility = () => {
@@ -94,5 +94,3 @@ const Header = () => {
     </>
   )
 }
-
-export default Header

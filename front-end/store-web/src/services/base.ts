@@ -1,6 +1,8 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
 import qs from 'qs'
+import { localStorageKeys, getStorage } from '@/utils/localStorage.helpers'
+import { tokenExpired } from '@/utils/helpers'
 
 const APIService = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND,
@@ -17,6 +19,11 @@ APIService.interceptors.request.use(
     }
     const token = cookie.get('token')
     if (token) {
+      const expired = tokenExpired(token)
+      if (expired === true) {
+        _redirectToLoginPage()
+        return
+      }
       request.headers.Authorization = `Bearer ${token}`
     } else {
       delete request.headers.Authorization
@@ -50,8 +57,13 @@ APIServiceUpload.interceptors.request.use(
     if (!request.params) {
       request.params = {}
     }
-    const token = cookie.get('token')
+    const token = _getToken()
     if (token) {
+      const expired = tokenExpired(token)
+      if (expired === true) {
+        _redirectToLoginPage()
+        return
+      }
       request.headers.Authorization = `Bearer ${token}`
     } else {
       delete request.headers.Authorization
@@ -64,6 +76,16 @@ APIServiceUpload.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
+const _getToken = () => {
+  const token = getStorage(localStorageKeys.TOKEN)
+  return token
+}
+
+const _redirectToLoginPage = () => {
+  // store.dispatch(resetSession());
+  window.location.href = '/login'
+}
 
 export { APIServiceUpload }
 export default APIService

@@ -27,6 +27,8 @@ namespace eShopping.Domain.Entities
 
         public int Priority { get; set; }
 
+        public string Thumbnail { set; get; }
+
         public virtual Product Product { get; set; }
 
         public virtual ICollection<PromotionProduct> DiscountProduct { get; set; }
