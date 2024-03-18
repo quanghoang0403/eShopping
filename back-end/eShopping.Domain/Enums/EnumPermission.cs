@@ -5,35 +5,37 @@ namespace eShopping.Domain.Enums
 {
     public enum EnumPermission
     {
-        ADMIN = 2000,
+        ADMIN,
 
-        VIEW_PRODUCT = 1,
-        CREATE_PRODUCT = 2,
-        EDIT_PRODUCT = 3,
+        VIEW_PRODUCT,
+        CREATE_PRODUCT,
+        EDIT_PRODUCT,
 
-        VIEW_PRODUCT_CATEGORY = 4,
-        CREATE_PRODUCT_CATEGORY = 5,
-        EDIT_PRODUCT_CATEGORY = 6,
+        VIEW_PRODUCT_CATEGORY,
+        CREATE_PRODUCT_CATEGORY,
+        EDIT_PRODUCT_CATEGORY,
 
-        VIEW_CUSTOMER = 7,
-        CREATE_CUSTOMER = 8,
-        EDIT_CUSTOMER = 9,
+        VIEW_CUSTOMER,
+        CREATE_CUSTOMER,
+        EDIT_CUSTOMER,
 
-        VIEW_STAFF = 10,
-        CREATE_STAFF = 11,
-        EDIT_STAFF = 12,
+        VIEW_STAFF,
+        CREATE_STAFF,
+        EDIT_STAFF,
 
-        VIEW_PROMOTION = 13,
-        CREATE_PROMOTION = 14,
-        EDIT_PROMOTION = 15,
+        VIEW_PROMOTION,
+        CREATE_PROMOTION,
+        EDIT_PROMOTION,
 
-        VIEW_ORDER = 16,
-        CREATE_ORDER = 17,
-        EDIT_ORDER = 18,
+        VIEW_ORDER,
+        CREATE_ORDER,
+        EDIT_ORDER,
 
-        VIEW_BLOG = 19,
-        CREATE_BLOG = 20,
-        EDIT_BLOG = 21,
+        VIEW_BLOG,
+        CREATE_BLOG,
+        EDIT_BLOG,
+
+        STORE_WEB
     }
 
     public static class EnumPermissionExtensions
@@ -68,6 +70,8 @@ namespace eShopping.Domain.Enums
             EnumPermission.VIEW_BLOG => new Guid("6C626154-5065-7265-6D69-737300000014"),
             EnumPermission.CREATE_BLOG => new Guid("6C626154-5065-7265-6D69-737300000015"),
             EnumPermission.EDIT_BLOG => new Guid("6C626154-5065-7265-6D69-737300000016"),
+
+            EnumPermission.STORE_WEB => new Guid("6C626154-5065-7265-6D69-737300000100"),
 
             _ => new Guid("00000000-0000-0000-0000-000000000000"),
 

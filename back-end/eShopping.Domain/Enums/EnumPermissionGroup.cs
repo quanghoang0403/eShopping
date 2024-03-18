@@ -19,7 +19,9 @@ namespace eShopping.Domain.Enums
 
         Order,
 
-        Blog
+        Blog,
+
+        StoreWeb
 
     }
 
@@ -35,6 +37,7 @@ namespace eShopping.Domain.Enums
             EnumPermissionGroup.Promotion => new Guid("6C626154-5065-7265-6D69-937300000006"),
             EnumPermissionGroup.Order => new Guid("6C626154-5065-7265-6D69-937300000007"),
             EnumPermissionGroup.Blog => new Guid("6C626154-5065-7265-6D69-937300000008"),
+            EnumPermissionGroup.StoreWeb => new Guid("6C626154-5065-7265-6D69-937300000100"),
             _ => new Guid("00000000-0000-0000-0000-000000000000")
         };
     }

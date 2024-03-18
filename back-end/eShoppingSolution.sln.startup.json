@@ -2,7 +2,7 @@
   "Version": 3,
   "ListAllProjects": false,
   "MultiProjectConfigurations": {
-    "1.Admin": {
+    "1.All": {
       "Projects": {
         "eShopping.WebApi": {}
       }

@@ -3,7 +3,6 @@ using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models.User;
 using eShopping.Domain.Entities;
-using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -48,7 +47,7 @@ namespace eShopping.Application.Features.Users.Commands
 
             PasswordHasher<Account> hasher = new();
             var accounts = await _unitOfWork.Accounts
-                .Find(a => a.Email == request.Email.ToLower() && a.AccountType == EnumAccountType.Staff && !a.IsDeleted)
+                .Find(a => a.Email == request.Email.ToLower() && !a.IsDeleted)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
             ThrowError.Against(!accounts.Any() || accounts.Count > 1, "login.errorLogin");
@@ -66,15 +65,13 @@ namespace eShopping.Application.Features.Users.Commands
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            ThrowError.Against(staff == null, "login.errorLogin");
-
             if (staff == null)
             {
                 Customer customer = await _unitOfWork.Customers
                     .Find(s => s.AccountId == account.Id)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
+                ThrowError.Against(customer == null, "login.errorLogin");
                 user.Id = customer?.Id;
             }
             else

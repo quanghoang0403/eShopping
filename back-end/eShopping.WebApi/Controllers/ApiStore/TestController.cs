@@ -8,7 +8,6 @@ namespace eShopping.WebApi.Controllers.ApiStore
     {
         public TestController(IMediator mediator) : base(mediator)
         {
-
         }
 
         [HttpGet("Ping")]

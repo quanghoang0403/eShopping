@@ -38,6 +38,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         [HttpGet]
         [Route("get-order-top-selling")]
+        [HasPermission(EnumPermission.VIEW_ORDER)]
         public async Task<IActionResult> GetOrderTopSellingAsync([FromQuery] AdminGetOrderTopSellingRequest request)
         {
             var response = await _mediator.Send(request);
@@ -55,6 +56,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         [HttpGet]
         [Route("get-order-history-by-order-id/{id}")]
+        [HasPermission(EnumPermission.VIEW_ORDER)]
         public async Task<IActionResult> GetOrderHistoryByOrderId([FromRoute] AdminGetOrderHistoryByOrderIdRequest request)
         {
             var response = await _mediator.Send(request);

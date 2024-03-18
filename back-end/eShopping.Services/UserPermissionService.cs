@@ -1,4 +1,5 @@
 ﻿using eShopping.Common.Constants;
+using eShopping.Common.Extensions;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -24,43 +25,45 @@ namespace eShopping.Services.User
             try
             {
                 var claimAccountId = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.ACCOUNT_ID);
-                var claimStaffId = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.ID);
+                var claimUserId = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.ID);
+                var claimAccountType = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.ACCOUNT_TYPE);
 
                 var accountId = Guid.Parse(claimAccountId.Value);
-                var staffId = Guid.Parse(claimStaffId.Value);
+                var userId = Guid.Parse(claimUserId.Value);
 
-                //If user has ADMIN role. No need to check anymore
-                //if (requirementPermission.Any(permission => permission == EnumPermission.ADMIN)) return true;
-                //var requirementGuids = requirementPermission.Select(requirePermission => requirePermission.ToGuid()).ToList();
-                //hasPermission = _unitOfWork.Permissions
-                //    .Where(permission => requirementGuids.Contains(permission.Id))
-                //    .Any();
-                //return hasPermission;
-
-                // Get all permission assigned to user and check
-                var permisionGroupIds = _unitOfWork
-                    .StaffPermissionGroup
-                    .GetAll()
-                    .AsNoTracking()
-                    .Where(s => s.StaffId == staffId)
-                    .Include(s => s.PermissionGroup)
-                    .Select(g => g.PermissionGroupId)
-                    .Distinct();
-
-                if (permisionGroupIds.ToList().Contains(EnumPermissionGroup.Admin.ToGuid()))
+                if (claimAccountType.Value == EnumAccountType.Customer.GetDescription())
                 {
-                    return true;
+                    var hasPerminssion = requirementPermission.Any(permission => permission == EnumPermission.STORE_WEB);
+                    return hasPerminssion;
                 }
+                else
+                {
+                    // Get all permission assigned to user and check
+                    var permisionGroupIds = _unitOfWork
+                        .StaffPermissionGroup
+                        .GetAll()
+                        .AsNoTracking()
+                        .Where(s => s.StaffId == userId)
+                        .Include(s => s.PermissionGroup)
+                        .Select(g => g.PermissionGroupId)
+                        .Distinct();
 
-                var hasPerminssion = _unitOfWork
-                    .PermissionGroups
-                    .Find(g => permisionGroupIds.Any(gpid => gpid == g.Id))
-                    .AsNoTracking()
-                    .Include(g => g.Permissions)
-                    .Select(g => g.Permissions)
-                    .AsEnumerable()
-                    .Any(listP => listP.Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id)));
-                return hasPerminssion;
+                    //If user has ADMIN role. No need to check anymore
+                    if (permisionGroupIds.ToList().Contains(EnumPermissionGroup.Admin.ToGuid()))
+                    {
+                        return true;
+                    }
+
+                    var hasPerminssion = _unitOfWork
+                        .PermissionGroups
+                        .Find(g => permisionGroupIds.Any(gpid => gpid == g.Id))
+                        .AsNoTracking()
+                        .Include(g => g.Permissions)
+                        .Select(g => g.Permissions)
+                        .AsEnumerable()
+                        .Any(listP => listP.Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id)));
+                    return hasPerminssion;
+                }
             }
             catch
             {
