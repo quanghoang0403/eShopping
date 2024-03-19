@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import { Carousel } from '@material-tailwind/react'
 import Image from 'next/image'
-import ProductList from '@/components/ProductList'
+import ProductList from '@/components/Product/ProductList'
 
 export default function HomePage() {
   const promoProduct: IProduct[] = [

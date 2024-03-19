@@ -1,3 +1,5 @@
+import CurrencyFormat from 'react-currency-format'
+
 export const upperFirst = (string) => {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : ''
 }
@@ -78,25 +80,6 @@ export const getCurrency = () => {
   return 'đ'
 }
 
-export const getSuffixShortValue = (number) => {
-  if (!number || number === 0) {
-    return ''
-  }
-  const absNumber = Math.abs(number)
-  let suffixShoftValue = ''
-  if (absNumber >= 1000000) {
-    suffixShoftValue = 'millions'
-  }
-  if (absNumber >= 1000000000) {
-    suffixShoftValue = 'billions'
-  }
-  if (absNumber >= 1000000000000) {
-    suffixShoftValue = 'trillions'
-  }
-
-  return suffixShoftValue
-}
-
 export const getShortValue = (number) => {
   if (!number || number === 0) {
     return '0'
@@ -117,30 +100,12 @@ export const getShortValue = (number) => {
     .replace('.00', '')
 }
 
-export const getCurrencyWithSymbol = () => {
-  const { session } = store.getState()
-  const { auth } = session
-  if (auth?.user) {
-    return auth?.user?.currencySymbol ?? 'VND'
-  }
-  return 'VND'
-}
-
 /// Format Currency with code
 export const formatCurrency = (number, decimalScale = 2) => {
   const convertNumber = parseFloat(number)
   if (convertNumber >= 0) {
-    const currencyCode = ` ${getCurrency()}`
+    const currencyCode = `${getCurrency()}`
     return <CurrencyFormat value={convertNumber} displayType={'text'} thousandSeparator={true} suffix={currencyCode} decimalScale={decimalScale} />
-  }
-  return ''
-}
-
-/// Format Currency with code
-export const formatCurrencyWithoutSuffix = (number) => {
-  const convertNumber = parseFloat(number)
-  if (convertNumber >= 0) {
-    return <CurrencyFormat value={convertNumber} displayType={'text'} thousandSeparator={true} />
   }
   return ''
 }
@@ -154,13 +119,6 @@ export const formatCurrencyWithoutSymbol = (number) => {
   return ''
 }
 
-/// Format Currency with symbol
-export const formatCurrencyWithSymbol = (number) => {
-  const convertNumber = parseFloat(number)
-  const currencySymbol = ' đ'
-  return <CurrencyFormat value={convertNumber} displayType={'text'} thousandSeparator={true} suffix={currencySymbol} />
-}
-
 export const getUnitNumberType = (number) => {
   if (number >= 1_000_000_000_000) return 4
   if (number >= 1_000_000_000) return 3
@@ -169,19 +127,21 @@ export const getUnitNumberType = (number) => {
   return 0
 }
 
-export const formatNumber = (number, decimalScale = 2) => {
-  if (!number) {
-    return number
-  }
-
-  return <CurrencyFormat value={number} displayType={'text'} thousandSeparator={true} decimalScale={decimalScale} />
-}
-
 export const formatTextNumber = (number) => {
   if (isNaN(number) || number === null) {
     return '0'
   }
   return `${number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ''
+}
+
+export const formatNumber = (val, defaultNull = false) => {
+  if (!val) return defaultNull ? null : 0
+  return `${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
+export const parserDecimalNumber = (val, defaultNull = false) => {
+  if (!val) return defaultNull ? null : 0
+  return Number.parseFloat(val.replace(/\$\s?|(\,*)/g, '').replace(/(\,{1})/g, ',')).toFixed(2)
 }
 
 export const formatNumberDecimalOrInteger = (number) => {

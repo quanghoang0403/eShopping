@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import Image from 'next/image'
-import { formatNumberCurrency } from '@/utils/common.helper'
+import { formatCurrency } from '@/utils/string.helper'
 
 export default function CartPage() {
   const cartItems: ICartItem[] = [
@@ -27,7 +27,7 @@ export default function CartPage() {
       <div className="bg-gray-100 pt-10">
         <h1 className="mb-10 text-center text-2xl text-gray-900 uppercase">Giỏ hàng</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-          <div className="rounded-lg md:w-2/3">
+          <section className="rounded-lg md:w-2/3">
             {cartItems?.length > 0 &&
               cartItems.map((cart, index) => {
                 return (
@@ -45,7 +45,7 @@ export default function CartPage() {
                           <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
                         </div>
                         <div className="flex items-center space-x-4">
-                          <p className="text-sm">{formatNumberCurrency(cart.priceValue)}</p>
+                          <p className="text-sm">{formatCurrency(cart.priceValue)}</p>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -62,25 +62,25 @@ export default function CartPage() {
                   </div>
                 )
               })}
-          </div>
-          <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+          </section>
+          <section className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Tổng tiền</p>
-              <p className="text-gray-700">{formatNumberCurrency(600000)}</p>
+              <p className="text-gray-700">{formatCurrency(600000)}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700">Shipping</p>
-              <p className="text-gray-700">{formatNumberCurrency(20000)}</p>
+              <p className="text-gray-700">{formatCurrency(20000)}</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold text-gray-900">THANH TOÁN</p>
-              <p className="mb-1 text-lg font-bold text-gray-900">{formatNumberCurrency(620000)}</p>
+              <p className="mb-1 text-lg font-bold text-gray-900">{formatCurrency(620000)}</p>
             </div>
             <p className="text-sm text-gray-700">Đã bao gồm thuế VAT</p>
 
             <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Thanh toán</button>
-          </div>
+          </section>
         </div>
       </div>
     </>
