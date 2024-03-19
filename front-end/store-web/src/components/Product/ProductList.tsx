@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
+import Link from 'next/link'
 interface IProps {
   title: string
   products: IProduct[]
@@ -34,9 +35,9 @@ export default function ProductList(props: IProps) {
           products.map((product, index) => {
             return (
               <div key={index} className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-                <a href="#">
+                <Link href="/san-pham/1">
                   <div></div>
-                  <Image className="hover:grow hover:shadow-lg" src={product.thumbnail} alt={product.name} width={300} height={300} objectFit="cover" />
+                  <Image className="hover:grow hover:shadow-lg" src={product.thumbnail} alt={product.name} width={300} height={300} />
                   <div className="pt-3 flex items-center justify-between">
                     <p className="line-clamp-3">{product.name}</p>
                     <svg className="h-6 w-6 fill-current text-gray-500 hover:text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -44,7 +45,7 @@ export default function ProductList(props: IProps) {
                     </svg>
                   </div>
                   <p className="pt-1 text-gray-900">{formatCurrency(product.price)}</p>
-                </a>
+                </Link>
               </div>
             )
           })}
