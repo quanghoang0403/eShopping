@@ -13,6 +13,8 @@ module.exports = withMT({
     extend: {
       fontFamily: {
         main: ['Work Sans', 'sans-serif'],
+        sans: ['Roboto', 'sans-serif'],
+        serif: ['Roboto Slab', 'serif'],
       },
       colors: {},
     },
