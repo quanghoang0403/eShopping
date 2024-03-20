@@ -1,5 +1,6 @@
 import Header from './Header'
 import Footer from './Footer'
+import { useRef } from 'react'
 interface ILayout {
   children: React.ReactNode
 }

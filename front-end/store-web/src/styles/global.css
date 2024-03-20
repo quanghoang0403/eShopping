@@ -6,6 +6,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 
   body {
@@ -30,6 +32,32 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* .show-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+  } */
 }
 
 #nprogress {
