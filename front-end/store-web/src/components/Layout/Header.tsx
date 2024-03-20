@@ -1,19 +1,23 @@
+import { Badge, Button, Card, IconButton, MobileNav, Navbar, Popover, PopoverContent, PopoverHandler, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { BiArrowToTop } from 'react-icons/bi'
+import { IoIosArrowUp } from 'react-icons/io'
+import PopoverCart from './PopoverCart'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(false)
+  const [openNav, setOpenNav] = useState(false)
+
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.screenY > 300) {
+      if (window.scrollY > 300) {
         setIsVisible(true)
       } else {
         setIsVisible(false)
       }
     }
     window.addEventListener('scroll', toggleVisibility)
-
+    window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false))
     return () => window.removeEventListener('scroll', toggleVisibility)
   }, [])
 
@@ -24,45 +28,39 @@ export default function Header() {
     })
   }
 
+  const navItems = [
+    { text: 'Áo', url: '/danh-muc/ao' },
+    { text: 'Quần', url: '/danh-muc/quan' },
+    { text: 'Đầm & Váy', url: '/danh-muc/dam-vay' },
+    { text: 'Phụ kiện', url: '/danh-muc/phu-kien' },
+  ]
+
+  const navList = (
+    <ul className="mt-4 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      {navItems.map((item, index) => (
+        <Typography key={index} as="li" variant="small" color="blue-gray" className="p-1 font-normal hover:text-black hover:underline text-base">
+          <Link href={item.url}>{item.text}</Link>
+        </Typography>
+      ))}
+    </ul>
+  )
+
   return (
     <>
-      <nav id="header" className="w-full z-30 top-0 py-1">
-        <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3">
-          <label htmlFor="menu-toggle" className="cursor-pointer md:hidden block">
-            <svg className="fill-current text-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-              <title>menu</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-            </svg>
-          </label>
-          <input className="hidden" type="checkbox" id="menu-toggle" />
-
-          <div className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
-            <nav>
-              <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-                <li>
-                  <a className="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="#">
-                    Shop
-                  </a>
-                </li>
-                <li>
-                  <a className="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="#">
-                    About
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          <div className="order-1 md:order-2">
-            <a className="flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl " href="#">
+      <Navbar className="sticky top-0 z-50 h-max max-w-full rounded-none px-4 py-1 lg:px-8 lg:py-3">
+        <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+          <Link href="/">
+            <div className="w-[150px] flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl">
               <svg className="fill-current text-gray-800 mr-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" />
               </svg>
-              TIEMDOCUCHOAMI
-            </a>
+              Cúc Hoạ Mi
+            </div>
+          </Link>
+          <div className="flex items-center gap-4">
+            <div className="mr-4 hidden lg:block">{navList}</div>
           </div>
-
-          <div className="order-2 md:order-3 flex items-center" id="nav-content">
+          <div className="w-[150px] flex justify-end items-center gap-x-1">
             <div className="inline-block no-underline hover:text-black">
               <Link href="/my-account">
                 <svg className="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -71,29 +69,37 @@ export default function Header() {
                 </svg>
               </Link>
             </div>
+            <PopoverCart className="pl-3 inline-block no-underline hover:text-black" />
             <div className="pl-3 inline-block no-underline hover:text-black">
-              <Link href="/gio-hang">
-                <svg className="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
-                  <circle cx="10.5" cy="18.5" r="1.5" />
-                  <circle cx="17.5" cy="18.5" r="1.5" />
-                </svg>
-              </Link>
+              <IconButton
+                variant="text"
+                className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+                ripple={false}
+                onClick={() => setOpenNav(!openNav)}
+              >
+                {openNav ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
+              </IconButton>
             </div>
           </div>
         </div>
-      </nav>
+        <MobileNav open={openNav}>{navList}</MobileNav>
+      </Navbar>
       <button
-        type="button"
-        data-mdb-ripple="true"
-        data-mdb-ripple-color="light"
         className={`${
           isVisible ? 'opacity-100' : 'opacity-0'
-        } fixed right-10 bottom-10 md:right-20 md-bottom-20 lg:right-32 md-bottom-20 transition-opacity duration-300 ease-in-out border border-primaryGold text-primaryGold hover:text-black hover:bg-primaryGold rounded-lg font-bold p-2`}
+        } fixed right-10 bottom-10 md:right-20 md-bottom-20 lg:right-32 md-bottom-20 transition-opacity duration-300 ease-in-out border bg-white hover:text-gray-700 hover:border-gray-700 rounded-lg font-bold p-2`}
         onClick={handleScrollToTop}
         id="btn-back-to-top"
       >
-        <BiArrowToTop size={26}></BiArrowToTop>
+        <IoIosArrowUp size={26} />
       </button>
     </>
   )

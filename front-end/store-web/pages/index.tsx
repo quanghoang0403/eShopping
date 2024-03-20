@@ -24,7 +24,7 @@ export default function HomePage() {
     <>
       <SEO title="Home Page" description="Describe the home page" />
       <div className="max-w-[1600px] h-[50vh] mx-auto">
-        <Carousel placeholder={undefined} loop>
+        <Carousel loop>
           <Image fill src="/imgs/sliders/1.jpeg" alt="image 1" className="h-full w-full object-cover" />
           <Image fill src="/imgs/sliders/2.jpeg" alt="image 2" className="h-full w-full object-cover" />
           <Image fill src="/imgs/sliders/3.jpeg" alt="image 3" className="h-full w-full object-cover" />
