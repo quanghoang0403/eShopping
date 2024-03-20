@@ -9,24 +9,22 @@ export default function ProductGallery() {
   // const { images } = props
   const data = [
     {
-      imgelink:
-        'https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+      imgelink: '/imgs/productPromo/1.jpg',
     },
     {
-      imgelink:
-        'https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+      imgelink: '/imgs/productPromo/2.jpg',
     },
     {
-      imgelink:
-        'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80',
+      imgelink: '/imgs/productPromo/3.jpg',
     },
     {
-      imgelink:
-        'https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80',
+      imgelink: '/imgs/productPromo/1.jpg',
     },
     {
-      imgelink:
-        'https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80',
+      imgelink: '/imgs/productPromo/2.jpg',
+    },
+    {
+      imgelink: '/imgs/productPromo/3.jpg',
     },
   ]
   const [activeIndex, setActiveIndex] = useState(0)
@@ -39,14 +37,10 @@ export default function ProductGallery() {
   }
   return (
     <>
-      <Image
-        alt="ecommerce"
-        className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-        src="https://www.whitmorerarebooks.com/pictures/medium/2465.jpg"
-      />
+      <Image fill alt="" className="lg:w-1/2 w-40 object-cover object-center rounded border border-gray-200" src="/imgs/productPromo/1.jpg" />
       <div className="grid gap-4">
         <div className="carousel-inner relative overflow-hidden w-full">
-          <Image className="h-auto w-full max-w-full rounded-lg object-cover object-center md:h-[480px]" src={activeImage.imgelink} alt="" />
+          <Image fill className="h-auto w-40 max-w-full rounded-lg object-cover object-center md:h-[480px]" src={activeImage.imgelink} alt="" />
           <label
             onClick={() => {
               handleActiveIndex(activeIndex - 1)
@@ -68,6 +62,7 @@ export default function ProductGallery() {
           {data.map((image, index) => (
             <div key={index}>
               <Image
+                fill
                 onClick={() => {
                   setActiveIndex(index)
                   setActiveImage(image)

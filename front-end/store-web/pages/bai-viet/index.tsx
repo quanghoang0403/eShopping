@@ -16,7 +16,7 @@ const generateRandomBlog = (): IBlog => {
   const name = `Bài viết thời trang ${id}`
   const content = 'Nội dung bài viết thời trang. Bạn có thể viết mô tả chi tiết về xu hướng thời trang, cách phối đồ, hay những mẹo chọn trang phục phù hợp.'
   const url = `https://example.com/blog/${id}`
-  const thumbnail = `https://via.placeholder.com/300?text=Thumbnail+${id}`
+  const thumbnail = `/imgs/productPromo/1.jpg`
   const category = categories[Math.floor(Math.random() * categories.length)]
   const publishedTime = new Date().toISOString()
   const description = 'Mô tả ngắn gọn về bài viết thời trang.'
