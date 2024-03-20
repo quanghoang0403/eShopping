@@ -2,7 +2,7 @@ import { Badge, Button, Card, IconButton, MobileNav, Navbar, Popover, PopoverCon
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
-import PopoverCart from './SidebarCart'
+import SidebarCart from './SidebarCart'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(false)
@@ -69,7 +69,7 @@ export default function Header() {
                 </svg>
               </Link>
             </div>
-            <PopoverCart className="pl-3 inline-block no-underline hover:text-black" />
+            <SidebarCart className="pl-3 inline-block no-underline hover:text-black" />
             <div className="pl-3 inline-block no-underline hover:text-black">
               <IconButton
                 variant="text"

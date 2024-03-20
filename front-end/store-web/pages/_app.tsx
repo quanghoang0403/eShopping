@@ -30,9 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <I18nextProvider i18n={i18n}>
               <MainLayout>
                 <SEO />
-                <Suspense fallback={<Loading />}>
-                  <Component {...pageProps} />
-                </Suspense>
+                <Component {...pageProps} />
               </MainLayout>
               <ReactQueryDevtools initialIsOpen={false} />
             </I18nextProvider>
