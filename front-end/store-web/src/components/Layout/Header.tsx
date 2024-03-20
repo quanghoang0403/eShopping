@@ -47,7 +47,7 @@ export default function Header() {
 
   return (
     <>
-      <Navbar className="sticky top-0 z-50 h-max max-w-full rounded-none border-none px-4 py-1 lg:px-8 lg:py-3">
+      <Navbar className="sticky top-0 z-50 h-max max-w-full rounded-none border-none px-4 py-3 lg:px-8 lg:py-3">
         <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
           <Link href="/">
             <div className="w-[150px] flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl">

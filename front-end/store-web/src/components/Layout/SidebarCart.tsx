@@ -2,6 +2,7 @@ import React from 'react'
 import { Badge, Drawer, Button } from '@material-tailwind/react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import CartList from '../CartList'
 
 interface IProps {
@@ -10,8 +11,15 @@ interface IProps {
 
 export default function SidebarCart(props: IProps) {
   const { className } = props
+  const router = useRouter()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const openDrawer = () => setIsDrawerOpen(true)
+  const openDrawer = () => {
+    if (window.innerWidth <= 640) {
+      router.push('/gio-hang')
+    } else {
+      setIsDrawerOpen(true)
+    }
+  }
   const closeDrawer = () => setIsDrawerOpen(false)
   const cartItems: ICartItem[] = [
     { name: 'Basic Tee Long Sleeves', priceName: 'Blue', thumbnail: '/imgs/productPromo/1.jpg', priceValue: 180000, quantity: 3 },
@@ -43,7 +51,14 @@ export default function SidebarCart(props: IProps) {
           </div>
         </Badge>
       </div>
-      <Drawer size={500} open={isDrawerOpen} onClose={closeDrawer} className="!max-h-screen !bg-gray-100 overflow-y-scroll" placement="right">
+      <Drawer
+        size={500}
+        open={isDrawerOpen}
+        onClose={closeDrawer}
+        className="!max-h-screen !bg-gray-100 overflow-y-scroll"
+        placement="right"
+        overlayProps={{ className: '!h-screen' }}
+      >
         <div className="sticky top-0 bg-gray-100 z-10 w-full shadow-lg flex items-center justify-between mb-2 px-4 py-2">
           <Button variant="text" className="flex items-center gap-2 text-sm" onClick={closeDrawer}>
             Đóng{' '}
