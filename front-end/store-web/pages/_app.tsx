@@ -11,6 +11,8 @@ import '../src/styles/global.css'
 import { Suspense } from 'react'
 import Loading from '@/components/Loading'
 import React from 'react'
+import { I18nextProvider } from 'react-i18next'
+import i18n from '../src/utils/i18n'
 
 NProgress.configure({ showSpinner: true })
 Router.events.on('routeChangeStart', () => NProgress.start())
@@ -24,15 +26,17 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient.current}>
-          {/* <Hydrate state={pageProps.dehydratedState}> */}
-          <MainLayout>
-            <SEO />
-            <Suspense fallback={<Loading />}>
-              <Component {...pageProps} />
-            </Suspense>
-          </MainLayout>
-          <ReactQueryDevtools initialIsOpen={false} />
-          {/* </Hydrate> */}
+          <Hydrate state={pageProps.dehydratedState}>
+            <I18nextProvider i18n={i18n}>
+              <MainLayout>
+                <SEO />
+                <Suspense fallback={<Loading />}>
+                  <Component {...pageProps} />
+                </Suspense>
+              </MainLayout>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </I18nextProvider>
+          </Hydrate>
         </QueryClientProvider>
       </Provider>
     </>

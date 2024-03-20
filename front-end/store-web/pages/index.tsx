@@ -3,8 +3,10 @@ import SEO from '@/components/Layout/SEO'
 import { Carousel } from '@material-tailwind/react'
 import Image from 'next/image'
 import ProductList from '@/components/Product/ProductList'
+import { useTranslation } from 'react-i18next'
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const promoProduct: IProduct[] = [
     { name: 'Basic Tee Long Sleeves Blue', thumbnail: '/imgs/productPromo/1.jpg', price: 180000 },
     { name: 'Basic Tee Long Sleeves Black', thumbnail: '/imgs/productPromo/2.jpg', price: 200000 },

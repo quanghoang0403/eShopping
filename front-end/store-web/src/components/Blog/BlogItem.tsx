@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { cx } from '@/utils/all'
+import { cx } from '@/utils/common.helper'
 import BlogCategoryLabel from './BlogCategoryLabel'
 import DateTime from './DateTime'
 import { MdInsertPhoto } from 'react-icons/md'

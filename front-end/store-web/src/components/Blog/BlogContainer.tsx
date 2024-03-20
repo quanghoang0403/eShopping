@@ -1,4 +1,4 @@
-import { cx } from '@/utils/all'
+import { cx } from '@/utils/common.helper'
 import { PropsWithChildren } from 'react'
 
 interface IProps extends PropsWithChildren {

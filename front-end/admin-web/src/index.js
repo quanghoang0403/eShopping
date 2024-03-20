@@ -13,11 +13,11 @@ import theme from './theme'
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={store}>
-    <I18nextProvider>
-      <ThemeProvider theme={theme}>
+      <I18nextProvider>
+        <ThemeProvider theme={theme}>
           <App />
         </ThemeProvider>
-    </I18nextProvider>
+      </I18nextProvider>
     </Provider>
   </HelmetProvider>,
   document.getElementById('root')

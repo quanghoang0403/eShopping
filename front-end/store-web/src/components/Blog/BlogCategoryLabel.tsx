@@ -1,4 +1,4 @@
-import { cx } from '@/utils/all'
+import { cx } from '@/utils/common.helper'
 import Link from 'next/link'
 
 interface IProps {

@@ -1,6 +1,7 @@
 import jwt_decode from 'jwt-decode'
 import moment from 'moment'
-import { getCurrency } from './string.helper'
+
+export const cx = (...classNames) => classNames.filter(Boolean).join(' ')
 
 /// Run the function in next tick
 export const executeAfter = (ms, callback) => {

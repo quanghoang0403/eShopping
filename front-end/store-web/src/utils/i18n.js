@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 
 const languageCode = {
   en: 'en',
-  vi: 'vi'
+  vi: 'vi',
 }
 
 void i18n.use(initReactI18next).init(
@@ -19,19 +19,19 @@ void i18n.use(initReactI18next).init(
       order: ['localStorage', 'cookie'],
       lookupCookie: 'i18nextLng',
       lookupLocalStorage: 'i18nextLng',
-      caches: ['localStorage']
+      caches: ['localStorage'],
     },
     resources: {
       en: {
-        translations: require('locales/en.json')
+        translations: require('../locales/en.json'),
       },
       vi: {
-        translations: require('locales/vi.json')
-      }
+        translations: require('../locales/vi.json'),
+      },
     },
     react: {
-      useSuspense: false
-    }
+      useSuspense: false,
+    },
   },
   (_error, t) => {
     console.log('i18next: setup language successfully')
