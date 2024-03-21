@@ -71,6 +71,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .error::before {
+    display: inline;
+    content: '⚠ ';
+  }
 }
 
 #nprogress {
