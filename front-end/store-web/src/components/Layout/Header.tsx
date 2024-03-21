@@ -33,12 +33,20 @@ export default function Header() {
     { text: 'Quần', url: '/danh-muc/quan' },
     { text: 'Đầm & Váy', url: '/danh-muc/dam-vay' },
     { text: 'Phụ kiện', url: '/danh-muc/phu-kien' },
+    { text: 'Blog', url: '/bai-viet' },
   ]
 
   const navList = (
     <ul className="mt-4 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {navItems.map((item, index) => (
-        <Typography key={index} as="li" variant="small" color="blue-gray" className="p-1 font-normal hover:text-black hover:underline text-base">
+        <Typography
+          onClick={() => setOpenNav(false)}
+          key={index}
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal hover:text-black hover:underline text-base"
+        >
           <Link href={item.url}>{item.text}</Link>
         </Typography>
       ))}

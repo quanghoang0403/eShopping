@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
-import { Carousel } from '@material-tailwind/react'
-import Image from 'next/image'
 import ProductList from '@/components/Product/ProductList'
 import { useTranslation } from 'react-i18next'
 import Banner from '@/components/Banner'
@@ -9,9 +7,9 @@ import Banner from '@/components/Banner'
 export default function HomePage() {
   const { t } = useTranslation()
   const images: IImage[] = [
+    { name: 'Basic Tee Long Sleeves Striped', url: '/imgs/sliders/3.jpeg' },
     { name: 'Basic Tee Long Sleeves Blue', url: '/imgs/sliders/2.jpeg' },
     { name: 'Basic Tee Long Sleeves Black', url: '/imgs/sliders/1.jpeg' },
-    { name: 'Basic Tee Long Sleeves Striped', url: '/imgs/sliders/3.jpeg' },
   ]
   const promoProduct: IProduct[] = [
     { name: 'Basic Tee Long Sleeves Blue', thumbnail: '/imgs/productPromo/1.jpg', price: 180000 },

@@ -23,23 +23,21 @@ export default function BlogCategoryLabel(props: IProps) {
     purple: 'bg-purple-50',
     pink: 'bg-pink-50',
   }
-  const isMargin = categories?.length > 1
   return (
-    <div className="flex gap-3">
+    <div className={cx('flex flex-wrap mb-1', showBg ? 'gap-3 justify-center' : '')}>
       {categories?.length &&
         categories.map((category, index) => (
-          <Link href={`/category/${category.url}`} key={index}>
-            <div
+          <Link className={showBg ? '' : 'h-5'} href={`/bai-viet/danh-muc/${category.url}`} key={index}>
+            <p
               className={cx(
-                'inline-block text-xs font-medium tracking-wider uppercase ',
+                'inline-block text-xs font-medium tracking-wider uppercase text-nowrap mr-3',
                 className,
-                isMargin && ' mt-5',
                 color[category.color] || color.pink,
                 showBg ? bgcolor[category.color] || bgcolor.pink : ''
               )}
             >
               {category.name}
-            </div>
+            </p>
           </Link>
         ))}
     </div>

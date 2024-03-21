@@ -47,7 +47,8 @@ export default function ProductCategoryPage() {
       <ProductList title="Áo" products={products} showFilter onSortChange={setActiveSort} />
       <div className="flex items-center justify-center gap-4 pb-4 md:pb-16">
         <Button variant="text" className="flex items-center gap-2" onClick={prev} disabled={activeIndex === 1}>
-          <FaArrowLeftLong strokeWidth={2} className="h-4 w-4" /> Previous
+          <FaArrowLeftLong strokeWidth={2} className="h-4 w-4" />
+          <p className="hidden md:inline"> Previous</p>
         </Button>
         <div className="flex items-center gap-2">
           <IconButton {...getItemProps(1)}>1</IconButton>
@@ -57,7 +58,7 @@ export default function ProductCategoryPage() {
           <IconButton {...getItemProps(5)}>5</IconButton>
         </div>
         <Button variant="text" className="flex items-center gap-2" onClick={next} disabled={activeIndex === 5}>
-          Next
+          <p className="hidden md:inline">Next</p>
           <FaArrowRightLong strokeWidth={2} className="h-4 w-4" />
         </Button>
       </div>

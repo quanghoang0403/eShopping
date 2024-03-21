@@ -1,57 +1,141 @@
 import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
-import BlogItem from '@/components/Blog/BlogItem'
+import BlogList from '@/components/Blog/BlogList'
 import Link from 'next/link'
 import BlogCategoryLabel from '@/components/Blog/BlogCategoryLabel'
 import Title from '@/components/Title'
 
 const categories: IBlogCategory[] = [
-  { id: '1', name: 'Thời trang nam', url: 'https://example.com/thoi-trang-nam', color: 'blue' },
-  { id: '2', name: 'Thời trang nữ', url: 'https://example.com/thoi-trang-nu', color: 'pink' },
-  { id: '3', name: 'Phụ kiện thời trang', url: 'https://example.com/phu-kien-thoi-trang', color: 'orange' },
+  { id: '1', name: 'Thời trang công sở', url: 'cong-so', color: 'blue' },
+  { id: '2', name: 'Thời trang hàng ngày', url: 'hang-ngay', color: 'pink' },
+  { id: '3', name: 'Thời trang sự kiện', url: 'su-kien', color: 'orange' },
 ]
 
-const generateRandomBlog = (): IBlog => {
-  const id = Math.random().toString(36).substring(7) // Generate a random ID
-  const name = 'Bài viết thời trang'
-  const content = 'Nội dung bài viết thời trang. Bạn có thể viết mô tả chi tiết về xu hướng thời trang, cách phối đồ, hay những mẹo chọn trang phục phù hợp.'
-  const url = '1'
-  const thumbnail = '/imgs/productPromo/1.jpg'
-  const category = categories[Math.floor(Math.random() * categories.length)]
-  const publishedTime = new Date().toISOString()
-  const description = 'Mô tả ngắn gọn về bài viết thời trang.'
-  return {
-    id,
-    name,
-    content,
-    url,
-    thumbnail,
-    categories: [category],
-    publishedTime,
-    description,
-  }
-}
+const blogs: IBlog[] = [
+  {
+    id: '1',
+    name: 'TOP ĐẦM HOA CỰC XINH CHO CHỊ EM TỰ TIN DẠO PHỐ',
+    url: '1',
+    content: 'blue',
+    thumbnail: '/imgs/blog/1.webp',
+    description: 'Dưới ánh nắng cuối xuân-đầu hè, không thể phủ nhận sức hút nữ tính, nhẹ nhàng đến từ những chiếc đầm hoa của Lamer.',
+    categories: [categories[1]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    name: 'BST HOA THÁNG BA | TÔN VINH VẺ ĐẸP PHỤ NỮ',
+    url: '2',
+    content: 'blue',
+    thumbnail: '/imgs/blog/2.webp',
+    description: 'Mỗi người phụ nữ đều là một bông hoa độc nhất. Vẻ đẹp của bông hoa ấy không đơn thuần nằm ở “hương sắc”. ',
+    categories: [categories[1], categories[2]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '3',
+    name: 'BST ĐIỂU CA: LƯU GIỮ KHUNG CẢNH XUÂN TRONG TÀ ÁO DÀI',
+    url: '3',
+    content: 'blue',
+    thumbnail: '/imgs/blog/3.webp',
+    description: 'Một khung cảnh mùa xuân mở ra với những bông hoa đua nở, chim hót ríu rít được LAMER gói ghém trong 6 mẫu áo dài',
+    categories: [categories[2]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '4',
+    name: 'KHÁNH VY CÙNG CHỊ GÁI TRONG BST HER DAILY JOURNEY',
+    url: '4',
+    content: 'blue',
+    thumbnail: '/imgs/blog/4.webp',
+    description: 'Tuy có gu trang phục khác nhau do khoảng cách thế hệ, nhưng 3 chị em Khánh Vy vẫn rạng rỡ và tự tin làm chủ',
+    categories: [categories[0]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '5',
+    name: 'HER DAILY JOURNEY - HÀNH TRÌNH MỖI NGÀY CỦA NGƯỜI PHỤ NỮ',
+    url: '5',
+    content: 'blue',
+    thumbnail: '/imgs/blog/5.webp',
+    description: 'Vừa hết mình cho sự nghiệp và vừa đảm đang việc nhà, trải qua nhiều thập kỷ, dường như người phụ nữ hiện đại',
+    categories: [categories[1]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '6',
+    name: 'GỢI Ý NHỮNG SET ĐỒ HOT HIT NHẤT MÙA THU',
+    url: '6',
+    content: 'blue',
+    thumbnail: '/imgs/blog/6.webp',
+    description: 'Mùa thu là thời điểm giao mùa, thời tiết mát mẻ, dễ chịu, thích hợp cho các hoạt động ngoài trời. ',
+    categories: [categories[0], categories[2]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '7',
+    name: 'TOP 3 GAM MÀU GIÚP CHỊ EM “ BIẾN HOÁ” ĐA DẠNG TRONG MÙA THU',
+    url: '7',
+    content: 'blue',
+    thumbnail: '/imgs/blog/7.webp',
+    description: 'Mùa thu được mệnh danh là mùa tình nhất năm với những chiếc lá vàng rơi, cơn gió se lạnh, và những gam màu rực rỡ',
+    categories: [categories[1]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '8',
+    name: 'Biến hoá đa dạng với các mẫu chân váy dành cho nàng công sở',
+    url: '8',
+    content: 'blue',
+    thumbnail: '/imgs/blog/8.webp',
+    description: 'Thời trang công sở là một trong những chủ đề hàng đầu được các chị em văn phòng quan tâm.',
+    categories: [categories[2]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '9',
+    name: 'TOP ĐẦM HOA CỰC XINH CHO CHỊ EM TỰ TIN DẠO PHỐ',
+    url: '9',
+    content: 'blue',
+    thumbnail: '/imgs/blog/1.webp',
+    description: 'Dưới ánh nắng cuối xuân-đầu hè, không thể phủ nhận sức hút nữ tính, nhẹ nhàng đến từ những chiếc đầm hoa của Lamer.',
+    categories: [categories[1]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '10',
+    name: 'BST HOA THÁNG BA | TÔN VINH VẺ ĐẸP PHỤ NỮ',
+    url: '10',
+    content: 'blue',
+    thumbnail: '/imgs/blog/2.webp',
+    description: 'Mỗi người phụ nữ đều là một bông hoa độc nhất. Vẻ đẹp của bông hoa ấy không đơn thuần nằm ở “hương sắc”. ',
+    categories: [categories[0]],
+    publishedTime: new Date().toISOString(),
+  },
+  {
+    id: '11',
+    name: 'BST ĐIỂU CA: LƯU GIỮ KHUNG CẢNH XUÂN TRONG TÀ ÁO DÀI',
+    url: '11',
+    content: 'blue',
+    thumbnail: '/imgs/blog/3.webp',
+    description: 'Một khung cảnh mùa xuân mở ra với những bông hoa đua nở, chim hót ríu rít được LAMER gói ghém trong 6 mẫu áo dài',
+    categories: [categories[1], categories[2], categories[0]],
+    publishedTime: new Date().toISOString(),
+  },
+]
+
 export default function BlogPage() {
-  const blogs: IBlog[] = Array.from({ length: 11 }, generateRandomBlog)
   return (
     <>
       <SEO title="Home Page" description="Describe the home page" />
       <Title title="Danh mục bài viết" />
-      <div className="md:pt-2 flex justify-center">
-        <BlogCategoryLabel className="!text-lg space-x-2 p-2 rounded-md" categories={categories} showBg />
+      <div className="flex justify-center px-4">
+        <BlogCategoryLabel className="!md:text-lg !text-sm space-x-2 p-2 rounded-md" categories={categories} showBg />
       </div>
       {blogs && (
-        <div className="container py-4 md:py-8 px-8 mx-auto xl:px-5">
-          <div className="grid gap-10 md:grid-cols-3 lg:gap-10 ">
-            {blogs.slice(0, 3).map((blog) => (
-              <BlogItem key={blog.id} blog={blog} aspect="landscape" preloadImage />
-            ))}
-          </div>
-          <div className="mt-10 grid gap-10 md:grid-cols-3 lg:gap-10 xl:grid-cols-4 ">
-            {blogs.slice(3, 14).map((blog) => (
-              <BlogItem key={blog.id} blog={blog} aspect="square" />
-            ))}
-          </div>
+        <div className="container p-4 md:p-8 mx-auto ">
+          <BlogList className="!mt-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3" blogs={blogs.slice(0, 3)} aspect="landscape" preloadImage />
+          <BlogList blogs={blogs.slice(3, 14)} aspect="square" />
           <div className="mt-10 flex justify-center">
             <Link
               href="/archive"
