@@ -219,7 +219,13 @@ export default function LoginPage() {
                 Email
               </label>
               <input
-                {...register('email', { required: 'Vui lòng điền email' })}
+                {...register('email', {
+                  required: 'Vui lòng điền email',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'Email không hợp lệ',
+                  },
+                })}
                 type="text"
                 className="mt-2 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
               />
