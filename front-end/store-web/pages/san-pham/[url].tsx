@@ -23,13 +23,51 @@ export default function ProductPage({ params }: { params: { url: string } }) {
     { name: 'Winter-Striped Tee Dress Black', thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg', price: 120000 },
     { name: 'Winter-Striped Tee Dress White', thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg', price: 120000 },
   ]
+  const images: IImage[] = [
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/1.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/2.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/3.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/4.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/5.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/6.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/7.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/8.jpg',
+    },
+    {
+      name: 'Paris Long Tee',
+      url: '/imgs/productDetail4/9.jpg',
+    },
+  ]
   return (
     <>
       <SEO title="Home Page" description="Describe the home page" />
       <div className="container lg:py-24 mx-auto">
         <div className="container mx-auto flex flex-wrap">
           <div className="lg:w-3/5 w-full">
-            <ProductGallery />
+            <ProductGallery images={images} />
           </div>
           <div className="lg:w-2/5 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h1 className="text-gray-900 text-4xl title-font font-medium mb-5">The Catcher in the Rye</h1>

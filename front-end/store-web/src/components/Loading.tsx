@@ -11,18 +11,9 @@ export default function Loading() {
 }
 
 const SkeletonImg = () => {
-  const style = `
-     .dark svg#skeleton #colorbase {
-        stop-color: #2d2d2d;
-      }
-      .dark svg#skeleton #colorhighlight {
-        stop-color: #3d3d3d;
-      }
-  `
   return (
     <svg xmlns="http://www.w3.org/2000/svg" role="img" id="skeleton" aria-labelledby="loading-aria" viewBox="0 0 500 750" preserveAspectRatio="none">
       <title id="loading-aria">Loading...</title>
-      <style dangerouslySetInnerHTML={{ __html: style }} />
       <rect x="0" y="0" width="100%" height="100%" clipPath="url(#clip-path)" style={{ fill: 'url("#fill")' }} />
       <defs>
         <clipPath id="clip-path">

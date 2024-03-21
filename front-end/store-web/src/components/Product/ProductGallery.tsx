@@ -6,51 +6,22 @@ interface IProps {
   images: IImage[]
 }
 
-export default function ProductGallery() {
-  // const { images } = props
-  const data = [
-    {
-      imgelink: '/imgs/productPromo/1.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/2.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/3.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/1.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/2.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/3.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/1.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/2.jpg',
-    },
-    {
-      imgelink: '/imgs/productPromo/3.jpg',
-    },
-  ]
+export default function ProductGallery(props: IProps) {
+  const { images } = props
   const [activeIndex, setActiveIndex] = useState(0)
-  const [activeImage, setActiveImage] = useState(data[0])
+  const [activeImage, setActiveImage] = useState(images[0])
   const handleActiveIndex = (index: number) => {
-    if (index < 0) index = data.length - 1
-    else if (index >= data.length) index = 0
-    setActiveImage(data[index])
+    if (index < 0) index = images.length - 1
+    else if (index >= images.length) index = 0
+    setActiveImage(images[index])
     setActiveIndex(index)
   }
   return (
     <>
       <div className="flex flex-col-reverse md:flex-row gap-2">
         <div className="flex-nowrap flex overflow-auto w-full md:w-1/4 md:grid md:grid-cols-2 md:grid-rows-8 gap-1">
-          {data.map((image, index) => (
-            <div key={index} className={cx('flex-none p-1 border', activeIndex == index ? 'border-gray-900' : 'border-gray-100')}>
+          {images.map((image, index) => (
+            <div key={index} className={cx('aspect-square flex-none p-1 border', activeIndex == index ? 'border-gray-900' : 'border-gray-100')}>
               <Image
                 width={100}
                 height={100}
@@ -59,14 +30,14 @@ export default function ProductGallery() {
                   setActiveImage(image)
                 }}
                 className="cursor-pointer"
-                src={image.imgelink}
+                src={image.url}
                 alt="gallery-image"
               />
             </div>
           ))}
         </div>
         <div className="w-3/4 carousel-inner relative overflow-hidden w-full">
-          <Image width={900} height={900} className="object-contain object-center rounded border border-gray-200" src={activeImage.imgelink} alt="" />
+          <Image width={900} height={900} className="object-contain object-center rounded border border-gray-200" src={activeImage.url} alt="" />
           <label
             onClick={() => {
               handleActiveIndex(activeIndex - 1)

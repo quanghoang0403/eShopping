@@ -27,7 +27,6 @@ export const notifySuccess = (message: string) =>
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: 'dark',
   })
 
 export const notifyError = (message: string) =>
@@ -39,7 +38,6 @@ export const notifyError = (message: string) =>
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: 'dark',
   })
 
 export default Notification

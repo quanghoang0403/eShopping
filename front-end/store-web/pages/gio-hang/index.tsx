@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
 import { IconButton } from '@material-tailwind/react'
 import CartList from '@/components/CartList'
+import Title from '@/components/Title'
 
 export default function CartPage() {
   const cartItems: ICartItem[] = [
@@ -26,7 +27,8 @@ export default function CartPage() {
   return (
     <>
       <SEO title="Cart Page" description="Describe the cart page" />
-      <div className="bg-gray-100 pt-10">
+      <div className="bg-gray-100">
+        <Title title="Giỏ hàng" />
         <h1 className="mb-10 text-center text-2xl text-gray-900 uppercase">Giỏ hàng</h1>
         <div className="container mx-auto justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <section className="rounded-lg md:w-2/3">

@@ -3,10 +3,12 @@ import Link from 'next/link'
 
 interface IProps {
   categories: IBlogCategory[]
+  className?: string
+  showBg?: boolean
 }
 
 export default function BlogCategoryLabel(props: IProps) {
-  const { categories } = props
+  const { categories, className, showBg } = props
   const color = {
     green: 'text-emerald-700',
     blue: 'text-blue-600',
@@ -27,7 +29,15 @@ export default function BlogCategoryLabel(props: IProps) {
       {categories?.length &&
         categories.map((category, index) => (
           <Link href={`/category/${category.url}`} key={index}>
-            <div className={cx('inline-block text-xs font-medium tracking-wider uppercase ', isMargin && ' mt-5', color[category.color] || color.pink)}>
+            <div
+              className={cx(
+                'inline-block text-xs font-medium tracking-wider uppercase ',
+                className,
+                isMargin && ' mt-5',
+                color[category.color] || color.pink,
+                showBg ? bgcolor[category.color] || bgcolor.pink : ''
+              )}
+            >
               {category.name}
             </div>
           </Link>
