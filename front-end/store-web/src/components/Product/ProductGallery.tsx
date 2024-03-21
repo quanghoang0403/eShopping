@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { cx } from '@/utils/common.helper'
 
 interface IProps {
   images: IImage[]
@@ -8,6 +9,15 @@ interface IProps {
 export default function ProductGallery() {
   // const { images } = props
   const data = [
+    {
+      imgelink: '/imgs/productPromo/1.jpg',
+    },
+    {
+      imgelink: '/imgs/productPromo/2.jpg',
+    },
+    {
+      imgelink: '/imgs/productPromo/3.jpg',
+    },
     {
       imgelink: '/imgs/productPromo/1.jpg',
     },
@@ -37,42 +47,43 @@ export default function ProductGallery() {
   }
   return (
     <>
-      <Image fill alt="" className="lg:w-1/2 w-40 object-cover object-center rounded border border-gray-200" src="/imgs/productPromo/1.jpg" />
-      <div className="grid gap-4">
-        <div className="carousel-inner relative overflow-hidden w-full">
-          <Image fill className="h-auto w-40 max-w-full rounded-lg object-cover object-center md:h-[480px]" src={activeImage.imgelink} alt="" />
-          <label
-            onClick={() => {
-              handleActiveIndex(activeIndex - 1)
-            }}
-            className="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900  leading-tight text-center z-10 inset-y-0 left-0 my-auto"
-          >
-            ‹
-          </label>
-          <label
-            onClick={() => {
-              handleActiveIndex(activeIndex + 1)
-            }}
-            className="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-gray-900  leading-tight text-center z-10 inset-y-0 right-0 my-auto"
-          >
-            ›
-          </label>
-        </div>
-        <div className="grid grid-cols-5 gap-4">
+      <div className="flex flex-col-reverse md:flex-row gap-2">
+        <div className="flex-nowrap flex overflow-auto w-full md:w-1/4 md:grid md:grid-cols-2 md:grid-rows-8 gap-1">
           {data.map((image, index) => (
-            <div key={index}>
+            <div key={index} className={cx('flex-none p-1 border', activeIndex == index ? 'border-gray-900' : 'border-gray-100')}>
               <Image
-                fill
+                width={100}
+                height={100}
                 onClick={() => {
                   setActiveIndex(index)
                   setActiveImage(image)
                 }}
+                className="cursor-pointer"
                 src={image.imgelink}
-                className="h-20 max-w-full cursor-pointer rounded-lg object-cover object-center"
                 alt="gallery-image"
               />
             </div>
           ))}
+        </div>
+        <div className="w-3/4 carousel-inner relative overflow-hidden w-full">
+          <Image width={900} height={900} className="object-contain object-center rounded border border-gray-200" src={activeImage.imgelink} alt="" />
+          <label
+            onClick={() => {
+              handleActiveIndex(activeIndex - 1)
+            }}
+            className="block w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer text-3xl font-bold text-black hover:text-white rounded-full bg-gray-200 hover:bg-gray-900 text-center inset-y-0 left-0 my-auto"
+          >
+            ‹{/* Replaced ‹ with > */}
+          </label>
+
+          <label
+            onClick={() => {
+              handleActiveIndex(activeIndex + 1)
+            }}
+            className="block w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer text-3xl font-bold text-black hover:text-white rounded-full bg-gray-200 hover:bg-gray-900 text-center inset-y-0 right-0 my-auto"
+          >
+            › {/* Replaced › with < */}
+          </label>
         </div>
       </div>
     </>
