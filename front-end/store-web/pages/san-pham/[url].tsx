@@ -65,7 +65,7 @@ export default function ProductPage({ params }: { params: { url: string } }) {
     <>
       <SEO title="Home Page" description="Describe the home page" />
       <div className="container lg:py-24 mx-auto">
-        <div className="container mx-auto flex flex-wrap">
+        <div className="container mx-auto flex flex-wrap lg:px-0 px-3">
           <div className="lg:w-3/5 w-full">
             <ProductGallery images={images} />
           </div>

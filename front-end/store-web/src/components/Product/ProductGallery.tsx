@@ -21,7 +21,7 @@ export default function ProductGallery(props: IProps) {
       <div className="flex flex-col-reverse md:flex-row gap-2">
         <div className="flex-nowrap flex overflow-auto w-full md:w-1/4 md:grid md:grid-cols-2 md:grid-rows-8 gap-1">
           {images.map((image, index) => (
-            <div key={index} className={cx('aspect-square flex-none p-1 border', activeIndex == index ? 'border-gray-900' : 'border-gray-100')}>
+            <div key={index} className={cx('flex-none p-1 border', activeIndex == index ? 'border-gray-900' : 'border-gray-100')}>
               <Image
                 width={100}
                 height={100}
@@ -29,7 +29,7 @@ export default function ProductGallery(props: IProps) {
                   setActiveIndex(index)
                   setActiveImage(image)
                 }}
-                className="cursor-pointer"
+                className="aspect-square object-cover cursor-pointer"
                 src={image.url}
                 alt="gallery-image"
               />
@@ -37,7 +37,7 @@ export default function ProductGallery(props: IProps) {
           ))}
         </div>
         <div className="w-3/4 carousel-inner relative overflow-hidden w-full">
-          <Image width={900} height={900} className="object-contain object-center rounded border border-gray-200" src={activeImage.url} alt="" />
+          <Image width={900} height={900} className="aspect-square object-cover rounded border border-gray-200" src={activeImage.url} alt="" />
           <label
             onClick={() => {
               handleActiveIndex(activeIndex - 1)
