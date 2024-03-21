@@ -6,7 +6,7 @@ interface IProps {
   title: string
   products: IProduct[]
   showFilter?: boolean
-  onSortChange?: (sortOption: string) => void
+  onSortChange?: any
 }
 
 export default function ProductList(props: IProps) {
