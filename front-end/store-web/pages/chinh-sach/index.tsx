@@ -1,134 +1,112 @@
 import React from 'react'
 import SEO from '@/components/Layout/SEO'
-import Link from 'next/link'
 import Image from 'next/image'
+import { IoTimeOutline } from 'react-icons/io5'
+import { BiError } from 'react-icons/bi'
+import { ImSpinner11 } from 'react-icons/im'
+import { GiChemicalDrop } from 'react-icons/gi'
+import { TbIroning } from 'react-icons/tb'
+import { PiHandCoinsLight } from 'react-icons/pi'
 
 export default function PolicyPage() {
   return (
     <>
-      <SEO title="Home Page" description="Describe the home page" />
-      <section className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div className="justify-center md:flex md:gap-24">
+      <SEO title="Chính sách" description="Chính sách và quy định đổi trả" />
+      <section className="container mx-auto px-6 py-10 md:py-14 border-t border-b border-gray-300">
+        <div className="justify-center md:flex md:gap-12">
           <div className="md:w-2/3">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Chính sách tại Cúc Họa Mi</h2>
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Đôi điều về Cúc Hoạ Mi</h2>
             <p className="mt-8 text-gray-600 text-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis eros at lacus feugiat hendrerit sed ut tortor. Suspendisse et magna quis elit
-              efficitur consequat. Mauris eleifend velit a pretium iaculis. Donec sagittis velit et magna euismod, vel aliquet nulla malesuada. Nunc pharetra
-              massa lectus, a fermentum arcu volutpat vel.
+              Cúc Hoạ Mi là project thời trang cao cấp nửa cổ điển nửa hiện đại mà tụi mình hay gọi với cái tên thân thuộc Parisian Chic được làm bằng sự chân
+              thành và tử tế của Team. Nếu bạn yêu thích phong cách này hãy cùng tiệm trải nghiệm những items thời thượng này nhé!
             </p>
-            <div className="mt-8">
-              <Link href="/" className="text-blue-500 hover:text-blue-600 font-medium hover:font-semibold">
-                Tiếp tục mua sắm
-                <span className="ml-2">&#8594;</span>
-              </Link>
-            </div>
+            <p className="mt-4 text-gray-600 text-lg">
+              Hy vọng những items nhỏ xinh của tiệm sẽ làm cho ngày hôm nay của bạn thêm chút dễ thương và ngọt ngào bạn nhé! Nếu hài lòng về sản phẩm đừng quên
+              gửi những feedback đáng yêu cho tiệm. Còn nếu có bất kỳ vấn đề về sản phẩm đừng ngần ngại liên hệ với tiệm, tiệm sẽ giải quyết ngay ạ!
+            </p>
           </div>
           <div className="md:w-1/3 mt-12 md:mt-0">
-            <Image width={300} height={300} src="/imgs/bg/cuchoami.jpg" alt="About Us Image" className="object-cover rounded-lg shadow-md" />
+            <Image width={300} height={300} src="/imgs/cuchoami/square.jpg" alt="About Us Image" className="mx-auto object-cover shadow-md" />
           </div>
         </div>
       </section>
 
-      <section className="relative block px-6 py-10 md:py-20 md:px-10 border-t border-b border-gray-300">
+      <section className="container mx-auto px-6 py-10 md:py-14 border-t border-b border-gray-300">
         <div className="relative mx-auto max-w-5xl text-center">
-          <span className="text-gray-600 my-3 flex items-center justify-center font-medium uppercase tracking-wider text-lg">
-            Tại sao bạn nên chọn Cúc Họa Mi
+          <span className="text-gray-700 my-2 flex items-center justify-center font-medium uppercase tracking-wider text-2xl">
+            QUY ĐỊNH ĐỔI TRẢ HÀNG CỦA TIỆM
           </span>
-          <h2 className="block w-full bg-gradient-to-b from-gray-900 to-gray-700 bg-clip-text font-bold text-transparent text-3xl sm:text-4xl">
-            Build a Website That Your Customers Love
-          </h2>
-          <p className="mx-auto my-4 w-full max-w-xl bg-transparent text-center font-medium leading-relaxed tracking-wide text-gray-600">
-            Our templates allow for maximum customization. No technical skills required – our intuitive design tools let you get the job done easily.
-          </p>
         </div>
 
-        <div className="relative mx-auto max-w-7xl z-10 grid grid-cols-1 gap-10 pt-14 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="relative mx-auto max-w-7xl z-10 grid grid-cols-1 gap-10 pt-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-md border p-8 text-center shadow">
-            <div
-              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border bg-gradient-to-b from-purple-400 via-purple-500 to-purple-600"
-              style={{ borderColor: 'rgb(93, 79, 240)' }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-color-swatch"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z"></path>
-                <path d="M19 3h-4a2 2 0 0 0 -2 2v12a4 4 0 0 0 8 0v-12a2 2 0 0 0 -2 -2"></path>
-                <path d="M13 7.35l-2 -2a2 2 0 0 0 -2.828 0l-2.828 2.828a2 2 0 0 0 0 2.828l9 9"></path>
-                <path d="M7.3 13h-2.3a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h12"></path>
-                <line x1="17" y1="17" x2="17" y2="17.01"></line>
-              </svg>
+            <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300">
+              <IoTimeOutline size={24} />
             </div>
-            <h3 className="mt-6 text-gray-600">Customizable</h3>
+            <h2 className="mt-6 text-gray-700">Thời gian đổi trả</h2>
+            <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-600">Quý khách có thể đổi hàng trong vòng 48h kể từ ngày nhận hàng</p>
+          </div>
+
+          <div className="rounded-md border border-gray-300 p-8 text-center shadow">
+            <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300">
+              <BiError size={24} />
+            </div>
+            <h2 className="mt-6 text-gray-700">Sản phẩm có lỗi</h2>
+            <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-600">Tiệm hỗ trợ đổi sản phẩm miễn phí khi có lỗi từ nhà sản xuất!</p>
+          </div>
+
+          <div className="rounded-md border border-gray-300 p-8 text-center shadow">
+            <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300">
+              <ImSpinner11 size={24} />
+            </div>
+            <h2 className="mt-6 text-gray-700">Đổi/trả theo nhu cầu</h2>
             <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-600">
-              Tailor your landing pages look and feel, from the color scheme to the font size, to the design of the page.
+              Hỗ trợ đổi sản phẩm không vừa hoặc không hợp. Quý khách vui lòng chịu phí ship và + 30k phí đổi trả giúp tiệm.
+            </p>
+          </div>
+        </div>
+        <p className="mt-12">
+          <b>▪️ Lưu ý về việc đổi hàng -</b> Mặt hàng phải ở trong tình trạng ban đầu, còn nguyên tem mác, chưa qua sử dụng, chưa giặt giũ - À cậu nhớ quay lại
+          video khui hàng để tụi mình xác nhận đổi nhen, do trước khi gửi tiệm đã kiểm tra kỹ hêt rồi nè. Cậu vui lòng liên hệ với tiệm qua Direct hoặc qua
+          Instagram @tiemdocuchoami để được hỗ trợ ạ!
+        </p>
+      </section>
+
+      <section className="container mx-auto px-6 py-10 md:py-14 border-t border-b border-gray-300">
+        <div className="relative mx-auto max-w-5xl text-center">
+          <span className="text-gray-700 my-2 flex items-center justify-center font-medium uppercase tracking-wider text-2xl">
+            NHỮNG ĐIỀU LƯU Ý KHI BẢO QUẢN ÁO
+          </span>
+        </div>
+
+        <div className="relative mx-auto max-w-7xl z-10 grid grid-cols-1 gap-10 pt-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rounded-md border p-8 text-center shadow">
+            <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300">
+              <PiHandCoinsLight size={24} />
+            </div>
+            <h2 className="mt-6 text-gray-700">Giặt tay & phân loại màu</h2>
+            <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-600">
+              Bạn hãy giặt tay nhẹ nếu có thể, phân loại màu và phơi khô ngay sau khi giặt.
             </p>
           </div>
 
           <div className="rounded-md border border-gray-300 p-8 text-center shadow">
-            <div
-              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border bg-gradient-to-b from-purple-400 via-purple-500 to-purple-600"
-              style={{ borderColor: 'rgb(93, 79, 240)' }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-bolt"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z"></path>
-                <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3"></polyline>
-              </svg>
+            <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300">
+              <GiChemicalDrop size={24} />
             </div>
-            <h3 className="mt-6 text-gray-600">Fast Performance</h3>
+            <h2 className="mt-6 text-gray-700">Không hoá chất</h2>
             <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-600">
-              We build our templates for speed in mind, for super-fast load times so your customers never waver.
+              Không nên ngâm lâu và sử dụng các sản phẩm giặt có chất tẩy mạnh
             </p>
           </div>
 
           <div className="rounded-md border border-gray-300 p-8 text-center shadow">
-            <div
-              className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border bg-gradient-to-b from-purple-400 via-purple-500 to-purple-600"
-              style={{ borderColor: 'rgb(93, 79, 240)' }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-tools"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z"></path>
-                <path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4"></path>
-                <line x1="14.5" y1="5.5" x2="18.5" y2="9.5"></line>
-                <polyline points="12 8 7 3 3 7 8 12"></polyline>
-                <line x1="7" y1="8" x2="5.5" y2="9.5"></line>
-                <polyline points="16 12 21 17 17 21 12 16"></polyline>
-                <line x1="16" y1="17" x2="14.5" y2="18.5"></line>
-              </svg>
+            <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300">
+              <TbIroning size={24} />
             </div>
-            <h3 className="mt-6 text-gray-600">Fully Featured</h3>
+            <h2 className="mt-6 text-gray-700">Không nhiệt độ cao</h2>
             <p className="my-4 mb-0 font-normal leading-relaxed tracking-wide text-gray-600">
-              Everything you need to succeed and launch your landing page, right out of the box. No need to install anything else.
+              Các sản phẩm có chất liệu thun và len, dạ nên là/ủi sản phẩm ở nhiệt độ thấp và tránh giặt sấy ở nhiệt độ cao.
             </p>
           </div>
         </div>

@@ -1,8 +1,10 @@
-import { Badge, Button, Card, IconButton, MobileNav, Navbar, Popover, PopoverContent, PopoverHandler, Typography } from '@material-tailwind/react'
+import { IconButton, MobileNav, Navbar, Popover, PopoverContent, PopoverHandler, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 import SidebarCart from './SidebarCart'
+import { cx } from '@/utils/common.helper'
+import Image from 'next/image'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(false)
@@ -59,10 +61,8 @@ export default function Header() {
       <Navbar className="sticky top-0 z-50 h-max max-w-full rounded-none border-none px-4 py-3 lg:px-8 lg:py-3">
         <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
           <Link href="/">
-            <div className="w-[150px] flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl">
-              <svg className="fill-current text-gray-800 mr-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" />
-              </svg>
+            <div className=" flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl">
+              <Image src="/imgs/cuchoami/round.png" width={44} height={44} alt="Cúc Hoạ Mi logo" className="mr-3" />
               Cúc Hoạ Mi
             </div>
           </Link>
@@ -102,9 +102,10 @@ export default function Header() {
         <MobileNav open={openNav}>{navList}</MobileNav>
       </Navbar>
       <button
-        className={`${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        } fixed right-10 bottom-10 md:right-20 md-bottom-20 lg:right-32 md-bottom-20 transition-opacity duration-300 ease-in-out border bg-white hover:text-gray-700 hover:border-gray-700 rounded-lg font-bold p-2`}
+        className={cx(
+          isVisible ? 'opacity-100' : 'opacity-0',
+          'z-40 fixed right-10 bottom-10 md:right-20 md-bottom-20 lg:right-32 md-bottom-20 transition-opacity duration-300 ease-in-out border bg-white hover:text-gray-700 hover:border-gray-700 rounded-lg font-bold p-2'
+        )}
         onClick={handleScrollToTop}
         id="btn-back-to-top"
       >

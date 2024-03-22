@@ -9,9 +9,8 @@ export default function Footer() {
             <div className="px-3 md:px-0">
               <h3 className="font-bold text-gray-900">Về chúng tôi</h3>
               <p className="py-4">
-                Cúc Hoạ Mi luôn muốn mang đến cho các bạn những bộ trang phục tốt nhất. Hy vọng những items nhỏ xinh của tiệm sẽ làm cho ngày hôm nay của bạn
-                thêm chút dễ thương và ngọt ngào bạn nhé! Nếu hài lòng về sản phẩm đừng quên gửi những feedback đáng yêu cho tiệm nhé. Còn nếu có bất kỳ vấn đề
-                về sản phẩm đừng ngần ngại liên hệ với tiệm, tiệm sẽ giải quyết ngay ạ!
+                Tiemdocuchoami là project thời trang cao cấp nửa cổ điển nửa hiện đại mà tụi mình hay gọi với cái tên thân thuộc Parisian Chic được làm bằng sự
+                chân thành và tử tế của Team. Nếu bạn yêu thích phong cách này hãy cùng tiệm trải nghiệm những items thời thượng này nhé!
               </p>
             </div>
           </div>

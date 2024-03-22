@@ -1,5 +1,3 @@
-import CurrencyFormat from 'react-currency-format'
-
 export const upperFirst = (string) => {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : ''
 }
@@ -100,25 +98,6 @@ export const getShortValue = (number) => {
     .replace('.00', '')
 }
 
-/// Format Currency with code
-export const formatCurrency = (number, decimalScale = 2) => {
-  const convertNumber = parseFloat(number)
-  if (convertNumber >= 0) {
-    const currencyCode = `${getCurrency()}`
-    return <CurrencyFormat value={convertNumber} displayType={'text'} thousandSeparator={true} suffix={currencyCode} decimalScale={decimalScale} />
-  }
-  return ''
-}
-
-/// Format Currency without currency symbol
-export const formatCurrencyWithoutSymbol = (number) => {
-  const convertNumber = parseFloat(number)
-  if (convertNumber >= 0) {
-    return <CurrencyFormat value={convertNumber} displayType={'text'} thousandSeparator={true} />
-  }
-  return ''
-}
-
 export const getUnitNumberType = (number) => {
   if (number >= 1_000_000_000_000) return 4
   if (number >= 1_000_000_000) return 3
@@ -137,6 +116,16 @@ export const formatTextNumber = (number) => {
 export const formatNumber = (val, defaultNull = false) => {
   if (!val) return defaultNull ? null : 0
   return `${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
+/// Format Currency with code
+export const formatCurrency = (number) => {
+  const convertNumber = parseFloat(number)
+  if (convertNumber >= 0) {
+    const currencyCode = `${getCurrency()}`
+    return formatNumber(number) + currencyCode
+  }
+  return number
 }
 
 export const parserDecimalNumber = (val, defaultNull = false) => {

@@ -43,7 +43,7 @@ export default function ProductCategoryPage() {
   }
   return (
     <>
-      <SEO title="Home Page" description="Describe the home page" />
+      <SEO title="Danh mục sản phẩm" />
       <ProductList title="Áo" products={products} showFilter onSortChange={setActiveSort} />
       <div className="flex items-center justify-center gap-4 pb-4 md:pb-16">
         <Button variant="text" className="flex items-center gap-2" onClick={prev} disabled={activeIndex === 1}>

@@ -17,7 +17,7 @@ export default function Banner(props: IProps) {
           ))}
         </Carousel>
       )}
-      {images.length === 1 && <Image fill src={images[0].url} alt="Single Image" className="h-full w-full object-cover" />}
+      {images.length === 1 && <Image src={images[0].url} alt="Single Image" className="h-full w-full object-cover" />}
     </div>
   )
 }

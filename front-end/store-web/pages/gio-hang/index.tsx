@@ -26,7 +26,7 @@ export default function CartPage() {
   ]
   return (
     <>
-      <SEO title="Cart Page" description="Describe the cart page" />
+      <SEO title="Giỏ hàng" />
       <div className="bg-gray-100">
         <Title title="Giỏ hàng" />
         <h1 className="mb-10 text-center text-2xl text-gray-900 uppercase">Giỏ hàng</h1>
