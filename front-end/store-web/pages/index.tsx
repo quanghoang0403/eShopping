@@ -32,7 +32,7 @@ export default function HomePage() {
   const images3: IImage[] = [{ name: 'Striped', url: '/imgs/cuchoami/3.jpg' }]
   return (
     <>
-      <SEO title="Thời trang 2" description="Describe the home page" />
+      <SEO title="Thời trang" description="Describe the home page" />
       <Banner images={images} />
       <ProductList title="Sản phẩm mới về" products={productHighlight} />
       <Image src="/imgs/cuchoami/3.jpg" width={1024} height={209} className="container w-full mx-auto" alt="" />
