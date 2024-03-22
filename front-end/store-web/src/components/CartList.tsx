@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
-import { IconButton } from '@material-tailwind/react'
 import { cx } from '@/utils/common.helper'
+import { IconButton } from '@material-tailwind/react'
 
 interface IProps {
   cartItems: ICartItem[]
