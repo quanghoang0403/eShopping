@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from 'react-query'
 import { notifyError } from '@/components/Notification'
 
+// Use throughout your app instead of plain `useMutation` and `useAppQuery`
 export const useAppMutation = (request: any, onSuccessRequest: any) => {
   return useMutation(request, {
     onSuccess: async (res) => onSuccessRequest(res),

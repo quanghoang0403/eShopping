@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FiEyeOff, FiEye } from 'react-icons/fi'
 import { useRouter } from 'next/router'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { ISignInRequest, ISignInResponse } from '@/services/auth.service'
 import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
@@ -11,7 +11,7 @@ import { authActions } from '@/redux/features/authSlice'
 import { notifyError } from '@/components/Notification'
 import ErrorForm from '@/components/Input/ErrorForm'
 import Link from 'next/link'
-import { useAppMutation } from '@/hooks/queryHook'
+import { useAppMutation, useAppQuery } from '@/hooks/queryHook'
 import ControlledInput from '@/components/Input/ControlledInput'
 import { INPUT_TYPES } from '@/components/Input/type'
 
@@ -41,6 +41,12 @@ export default function SignInPage() {
     }
     console.log(res)
   })
+
+  // useAppQuery(
+  //   ['getNewsById'],
+  //   () => handleSignIn({ email: 'customer@gmail.com', password: '1' }),
+  //   () => console.log(1)
+  // )
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
   return (

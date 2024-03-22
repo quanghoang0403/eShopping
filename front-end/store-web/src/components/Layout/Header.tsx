@@ -34,6 +34,7 @@ export default function Header() {
     { text: 'Đầm & Váy', url: '/danh-muc/dam-vay' },
     { text: 'Phụ kiện', url: '/danh-muc/phu-kien' },
     { text: 'Blog', url: '/bai-viet' },
+    { text: 'Chính sách', url: '/chinh-sach' },
   ]
 
   const navList = (
