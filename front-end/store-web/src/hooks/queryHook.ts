@@ -10,12 +10,11 @@ export const useAppMutation = (request: any, onSuccessRequest: any) => {
   })
 }
 
-// export const useAppQuery = <TData = any, TVariables = any>(
-//   query: Request<TData, TVariables>,
-//   onSuccessRequest: Function
-// ) => {
-//   return useQuery<TData, any, TVariables>(query, {
-//     // Set default options here, e.g., staleTime, refetchInterval, etc.
-//     ...options, // Apply any additional options passed in
-//   });
-// };
+export const useAppQuery = (key: string[], request: any, onSuccessRequest: any) => {
+  return useQuery(key, () => request, {
+    onSuccess: async (res) => onSuccessRequest(res),
+    onError: (error: any) => {
+      notifyError(error.message)
+    },
+  })
+}
