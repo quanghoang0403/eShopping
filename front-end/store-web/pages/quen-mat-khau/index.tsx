@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FiEyeOff, FiEye } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
-import { ISignInRequest, ISignInResponse } from '@/services/auth.service'
+import { IForgotPasswordRequest } from '@/services/auth.service'
 import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { authActions } from '@/redux/features/authSlice'
@@ -15,7 +15,7 @@ import { useAppMutation } from '@/hooks/queryHook'
 import ControlledInput from '@/components/Input/ControlledInput'
 import { INPUT_TYPES } from '@/components/Input/type'
 
-export default function SignInPage() {
+export default function ForgotPasswordPage() {
   const {
     handleSubmit,
     register,
@@ -29,11 +29,11 @@ export default function SignInPage() {
     setShowPassword(!showPassword)
   }
 
-  const handleSignIn = useCallback(async (data: ISignInRequest) => {
-    return AuthService.signIn(data)
+  const handleForgotPassword = useCallback(async (data: IForgotPasswordRequest) => {
+    return AuthService.forgotPassword(data)
   }, [])
 
-  const mutation = useAppMutation(handleSignIn, async (res: ISignInResponse) => {
+  const mutation = useAppMutation(handleForgotPassword, async (res: any) => {
     if (query?.email) {
       router.push('/')
     } else {
@@ -44,12 +44,12 @@ export default function SignInPage() {
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
   return (
-    <LayoutLogin title="Đăng nhập" description="Chào mừng bạn quay lại với Cúc Hoạ Mi, mời bạn đăng nhập để tiếp tục mua sắm!">
+    <LayoutLogin title="Bạn đã quên mật khẩu" description="Mời bạn điền thông tin để Cúc Họa Mi hỗ trợ bạn tạo mật khẩu mới!">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
           <ControlledInput
             inputType={INPUT_TYPES.TEXT}
-            label="Email"
+            label="Email tạo tài khoản"
             register={register}
             patternValidate={{
               required: true,
@@ -64,7 +64,7 @@ export default function SignInPage() {
         </div>
         <div>
           <label htmlFor="password" className="block text-base font-medium text-gray-700">
-            Password
+            Nhập mật khẩu mới
           </label>
           <div className="relative">
             <input
@@ -76,22 +76,45 @@ export default function SignInPage() {
               {showPassword ? <FiEyeOff className="text-gray-500" /> : <FiEye className="text-gray-500" />}
             </button>
           </div>
-
           <ErrorForm errors={errors} name="password" />
+        </div>
+        <div>
+          <label htmlFor="passwordConfirm" className="block text-base font-medium text-gray-700">
+            Nhập lại mật khẩu mới
+          </label>
+          <div className="relative">
+            <input
+              {...register('passwordConfirm', { required: 'Vui lòng điền mật khẩu' })}
+              type={showPassword ? 'text' : 'password'}
+              className="px-3 py-2 mt-2 w-full border rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+            />
+            <button type="button" className="absolute my-3 right-3 transform translate-y-1/2" onClick={togglePasswordVisibility}>
+              {showPassword ? <FiEyeOff className="text-gray-500" /> : <FiEye className="text-gray-500" />}
+            </button>
+          </div>
+          <ErrorForm errors={errors} name="passwordConfirm" />
         </div>
         <div>
           <button
             type="submit"
             className="mt-2 w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
           >
-            Đăng nhập
+            Lấy lại mật khẩu
           </button>
         </div>
       </form>
       <div className="mt-4 text-sm text-gray-700 text-center">
         <p>
+          Đã có tài khoản?{' '}
+          <Link href="/dang-nhap" className="text-black hover:underline font-semibold">
+            Đăng nhập
+          </Link>
+        </p>
+      </div>
+      <div className="mt-4 text-sm text-gray-700 text-center">
+        <p>
           Chưa có tài khoản?{' '}
-          <Link href="/dang-ky" className="text-black hover:underline font-semibold">
+          <Link href="/dang-nhap" className="text-black hover:underline font-semibold">
             Đăng ký
           </Link>
         </p>
