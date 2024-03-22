@@ -42,12 +42,26 @@ export default function ProductList(props: IProps) {
         </nav>
         {products?.length > 0 &&
           products.map((product, index) => {
+            const isDiscount = product.price !== product.priceOrigin
             return (
               <div key={index} className="w-1/2 p-1 md:w-1/3 xl:w-1/4 md:p-6 flex flex-col">
                 <Link href="/san-pham/1">
-                  <Image className="hover:grow hover:shadow-lg" src={product.thumbnail} alt={product.name} width={300} height={300} />
+                  <Image
+                    className="hover:grow hover:shadow-lg aspect-square object-cover"
+                    src={product.thumbnail}
+                    alt={product.name}
+                    width={300}
+                    height={300}
+                  />
                   <p className="pt-3 line-clamp-3">{product.name}</p>
-                  <p className="pt-1 text-gray-900">{formatCurrency(product.price)}</p>
+                  {isDiscount ? (
+                    <p className="pt-1 text-gray-900">
+                      <span className="line-through pr-2"> {formatCurrency(product.priceOrigin)}</span>
+                      <span className="text-red-500">{formatCurrency(product.price)}</span>
+                    </p>
+                  ) : (
+                    <p className="pt-1 text-gray-900">{formatCurrency(product.price)}</p>
+                  )}
                 </Link>
               </div>
             )

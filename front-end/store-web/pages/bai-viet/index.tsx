@@ -127,7 +127,7 @@ const blogs: IBlog[] = [
 export default function BlogPage() {
   return (
     <>
-      <SEO title="Home Page" description="Describe the home page" />
+      <SEO title="Bài viết thời trang" description="Describe the home page" />
       <Title title="Danh mục bài viết" />
       <div className="flex justify-center px-4">
         <BlogCategoryLabel className="!md:text-lg !text-sm space-x-2 p-2 rounded-md" categories={categories} showBg />

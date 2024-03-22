@@ -95,7 +95,10 @@ const blogs: IBlog[] = [
 export default function BlogDetailPage() {
   return (
     <>
-      <SEO title="Home Page" description="Describe the home page" />
+      <SEO
+        title="Gợi ý những set đồ hot hit nhất mùa thu"
+        description="Mùa thu là thời điểm giao mùa, thời tiết mát mẻ, dễ chịu, thích hợp cho các hoạt động ngoài trời."
+      />
       <div className="container px-8 mx-auto xl:px-5 pt-5">
         <div className="mx-auto max-w-screen-md ">
           <div className="flex justify-center">
