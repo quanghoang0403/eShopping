@@ -17,6 +17,7 @@
 ### 2.1 Admin Web Frontend
 - Framework: ReactJS
 - UI: Ant-Design, Bootstrap, SCSS
+- Locales: i18
 - Install package: npm i -f
 - Run local: npm start
 - Account: a@gmail.com/1
@@ -25,6 +26,7 @@
 ### 2.2 Store Web Frontend
 - Framework: NextJS 
 - UI: Tailwind, Material-Tailwind, SCSS
+- Locales: i18
 - Install package: npm i -f
 - Run local: npm run dev
 - Account: c@gmail.com/1
