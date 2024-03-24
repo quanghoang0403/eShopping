@@ -95,7 +95,7 @@ code --install-extension xabikos.ReactSnippets
 
 ## 4. Work flow
 
-### Git 
+### 4.1 Git 
 - Create a branch base on latest main
 - Dev feature
 - Commit & push
@@ -103,11 +103,11 @@ code --install-extension xabikos.ReactSnippets
 - After merged => merge main branch into current branch/ Create new branch base on latest main 
 - Continue...
 
-### Task
+### 4.2 Task
 - Map Backend API to UI and complete the feature
 - Check & fix api if has error
 
-### To do
+### 4.3 To do
 #### 18/3 -> 24/3
 - [ ] Explain business (store + admin)
 - [ ] Explain architechture (FE + BE)
@@ -116,9 +116,8 @@ code --install-extension xabikos.ReactSnippets
 - [ ] Using swagger
 - [ ] Using debug browser
 - [ ] Test git work flow
-
+- [ ] Note naming Admin and demo one feature
 #### 25/3 -> 31/3
-- [ ] ProductCategory
 - [ ] ProductCategory
 
 #### 1/4 -> 7/4
