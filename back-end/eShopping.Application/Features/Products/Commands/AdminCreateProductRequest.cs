@@ -32,8 +32,6 @@ namespace eShopping.Application.Features.Products.Commands
 
         public bool? IsFeatured { get; set; }
 
-        public EnumStatus Status { get; set; }
-
         public List<Guid> ProductCategoryIds { get; set; }
 
         public List<string> ImagePaths { get; set; }
@@ -74,51 +72,66 @@ namespace eShopping.Application.Features.Products.Commands
             // Add product
             var product = _mapper.Map<Product>(request);
             var accountId = loggedUser.AccountId.Value;
+            product.Status = EnumStatus.Active;
             product.CreatedUser = accountId;
             product.CreatedTime = DateTime.UtcNow;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
-            await _unitOfWork.Products.AddAsync(product);
-
-            // Add map category
-            List<ProductInCategory> productInCategories = new();
-            foreach (var id in request.ProductCategoryIds)
+            // Create a new transaction to save data more securely, data will be restored if an error occurs.
+            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+            try
             {
-                ProductInCategory map = new()
+                await _unitOfWork.Products.AddAsync(product);
+
+                // Add map category
+                List<ProductInCategory> productInCategories = new();
+                foreach (var id in request.ProductCategoryIds)
                 {
-                    ProductCategoryId = id,
-                    ProductId = product.Id
-                };
-                productInCategories.Add(map);
-            }
-            await _unitOfWork.ProductInCategories.AddRangeAsync(productInCategories);
+                    ProductInCategory map = new()
+                    {
+                        ProductCategoryId = id,
+                        ProductId = product.Id
+                    };
+                    productInCategories.Add(map);
+                }
+                await _unitOfWork.ProductInCategories.AddRangeAsync(productInCategories);
 
-            // Add image
-            List<Image> productImages = new();
-            foreach (var path in request.ImagePaths)
-            {
-                Image image = new()
+                // Add image
+                List<Image> productImages = new();
+                foreach (var path in request.ImagePaths)
                 {
-                    ObjectId = product.Id,
-                    ImagePath = path,
-                    CreatedUser = accountId,
-                    CreatedTime = DateTime.UtcNow
-                };
-                productImages.Add(image);
-            }
-            await _unitOfWork.Images.AddRangeAsync(productImages);
+                    Image image = new()
+                    {
+                        ObjectId = product.Id,
+                        ImagePath = path,
+                        CreatedUser = accountId,
+                        CreatedTime = DateTime.UtcNow
+                    };
+                    productImages.Add(image);
+                }
+                await _unitOfWork.Images.AddRangeAsync(productImages);
 
-            // Add option
-            List<ProductPrice> productPrices = new();
-            foreach (var option in request.ProductPrices)
-            {
-                var optionToAdd = _mapper.Map<ProductPrice>(option);
-                optionToAdd.ProductId = product.Id;
-                optionToAdd.CreatedUser = accountId;
-                optionToAdd.CreatedTime = DateTime.UtcNow;
-                productPrices.Add(optionToAdd);
+                // Add option
+                List<ProductPrice> productPrices = new();
+                foreach (var option in request.ProductPrices)
+                {
+                    var optionToAdd = _mapper.Map<ProductPrice>(option);
+                    optionToAdd.ProductId = product.Id;
+                    optionToAdd.CreatedUser = accountId;
+                    optionToAdd.CreatedTime = DateTime.UtcNow;
+                    productPrices.Add(optionToAdd);
+                }
+                await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
+                // Complete this transaction, data will be saved.
+                await createTransaction.CommitAsync(cancellationToken);
+
             }
-            await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
+            catch (Exception ex)
+            {
+                // Data will be restored.
+                await createTransaction.RollbackAsync(cancellationToken);
+                return false;
+            }
 
             return true;
         }
@@ -126,9 +139,11 @@ namespace eShopping.Application.Features.Products.Commands
         private static void RequestValidation(AdminCreateProductRequest request)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
-            ThrowError.Against(request.ProductPrices != null && !request.ProductPrices.Any(), "Please enter product option");
-            ThrowError.Against(string.IsNullOrEmpty((request.ProductPrices.FirstOrDefault().PriceName)), "Please enter product option name");
-            ThrowError.Against(request.ProductPrices.FirstOrDefault().PriceValue <= 0, "Please enter product option price");
+            ThrowError.Against(request.ProductPrices == null || !request.ProductPrices.Any(), "Please enter product price");
+            ThrowError.Against(request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)), "Please enter product name");
+            ThrowError.Against(request.ProductPrices.Any(p => p.PriceValue <= 0), "Please enter product price");
+            ThrowError.Against(request.ProductPrices.Any(p => p.OriginalPrice <= 0), "Please enter product price");
+            ThrowError.Against(request.ProductPrices.Any(p => p.OriginalPrice > p.PriceValue), "OriginalPrice must less than PriceValue");
         }
     }
 }

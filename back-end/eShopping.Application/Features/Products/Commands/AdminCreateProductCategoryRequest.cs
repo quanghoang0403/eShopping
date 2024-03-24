@@ -73,32 +73,46 @@ namespace eShopping.Application.Features.Products.Commands
                 { $"{nameof(request.Name)}", "Product category name has already existed" },
             });
 
-            var newProductCategory = _mapper.Map<ProductCategory>(request);
-            var accountId = loggedUser.AccountId.Value;
-            newProductCategory.CreatedUser = accountId;
-            newProductCategory.CreatedTime = DateTime.UtcNow;
-            newProductCategory.UrlSEO = StringHelpers.UrlEncode(newProductCategory.Name);
-            var productIds = request.Products.Select(p => p.Id);
-            var productInCategories = _unitOfWork.ProductInCategories.Find(p => productIds.Any(pid => pid == p.ProductId));
-            _unitOfWork.ProductInCategories.RemoveRange(productInCategories);
-
-            /// Save new product - product category to sub-table
-            if (request.Products != null && request.Products.Any())
+            // Create a new transaction to save data more securely, data will be restored if an error occurs.
+            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+            try
             {
-                request.Products.ForEach(product =>
-                {
-                    var index = request.Products.IndexOf(product);
-                    var productProductCategory = new ProductInCategory()
-                    {
-                        ProductId = product.Id,
-                        ProductCategoryId = newProductCategory.Id,
-                    };
-                    newProductCategory.ProductInCategories.Add(productProductCategory);
-                });
-            }
+                var newProductCategory = _mapper.Map<ProductCategory>(request);
+                var accountId = loggedUser.AccountId.Value;
+                newProductCategory.CreatedUser = accountId;
+                newProductCategory.CreatedTime = DateTime.UtcNow;
+                newProductCategory.UrlSEO = StringHelpers.UrlEncode(newProductCategory.Name);
+                var productIds = request.Products.Select(p => p.Id);
+                var productInCategories = _unitOfWork.ProductInCategories.Find(p => productIds.Any(pid => pid == p.ProductId));
+                _unitOfWork.ProductInCategories.RemoveRange(productInCategories);
 
-            _unitOfWork.ProductCategories.Add(newProductCategory);
-            await _unitOfWork.SaveChangesAsync();
+                /// Save new product - product category to sub-table
+                if (request.Products != null && request.Products.Any())
+                {
+                    request.Products.ForEach(product =>
+                    {
+                        var index = request.Products.IndexOf(product);
+                        var productProductCategory = new ProductInCategory()
+                        {
+                            ProductId = product.Id,
+                            ProductCategoryId = newProductCategory.Id,
+                        };
+                        newProductCategory.ProductInCategories.Add(productProductCategory);
+                    });
+                }
+
+                _unitOfWork.ProductCategories.Add(newProductCategory);
+                await _unitOfWork.SaveChangesAsync();
+                // Complete this transaction, data will be saved.
+                await createTransaction.CommitAsync(cancellationToken);
+
+            }
+            catch (Exception ex)
+            {
+                // Data will be restored.
+                await createTransaction.RollbackAsync(cancellationToken);
+                return false;
+            }
 
             return true;
         }

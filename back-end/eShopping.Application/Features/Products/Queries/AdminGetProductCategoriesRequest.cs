@@ -75,7 +75,16 @@ namespace eShopping.Application.Features.Products.Queries
             }
 
             var listAllProductCategoryInStore = allProductCategoriesInStore.Result;
-            var productCategoryListResponse = _mapper.Map<List<AdminProductCategoryModel>>(listAllProductCategoryInStore);
+            var productCategoryListResponse = new List<AdminProductCategoryModel>();
+            foreach (var category in listAllProductCategoryInStore)
+            {
+                productCategoryListResponse.Add(new AdminProductCategoryModel()
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Priority = category.Priority,
+                });
+            }
             productCategoryListResponse.ForEach(pc =>
             {
                 var productCategory = listAllProductCategoryInStore.FirstOrDefault(i => i.Id == pc.Id);

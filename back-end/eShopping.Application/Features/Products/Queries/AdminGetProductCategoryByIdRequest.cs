@@ -12,7 +12,7 @@ namespace eShopping.Application.Features.Products.Queries
 {
     public class AdminGetProductCategoryByIdRequest : IRequest<AdminGetProductCategoryByIdResponse>
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class AdminGetProductCategoryByIdResponse
@@ -37,7 +37,7 @@ namespace eShopping.Application.Features.Products.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id.Value);
+            var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id);
             ThrowError.Against(productCategoryData == null, "Cannot find product category information");
 
             var productCategory = _mapper.Map<AdminProductCategoryDetailModel>(productCategoryData);

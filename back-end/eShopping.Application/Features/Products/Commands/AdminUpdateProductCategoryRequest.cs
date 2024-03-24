@@ -79,37 +79,51 @@ namespace eShopping.Application.Features.Products.Commands
                 { $"{nameof(request.Name)}", "Product category name has already existed" },
             });
 
-            /// Delete product - product category from sub-table
-            var productIds = request.Products.Select(p => p.Id);
-            var currentProductInCategories = _unitOfWork.ProductInCategories
-                .Find(p => p.ProductCategoryId == productCategory.Id || productIds.Any(pid => pid == p.ProductId));
-            _unitOfWork.ProductInCategories.RemoveRange(currentProductInCategories);
-
-            var newProductInCategories = new List<ProductInCategory>();
-
-            if (request.Products != null && request.Products.Any())
+            // Create a new transaction to save data more securely, data will be restored if an error occurs.
+            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+            try
             {
-                /// Add new
-                request.Products.ForEach(product =>
+                /// Delete product - product category from sub-table
+                var productIds = request.Products.Select(p => p.Id);
+                var currentProductInCategories = _unitOfWork.ProductInCategories
+                    .Find(p => p.ProductCategoryId == productCategory.Id || productIds.Any(pid => pid == p.ProductId));
+                _unitOfWork.ProductInCategories.RemoveRange(currentProductInCategories);
+
+                var newProductInCategories = new List<ProductInCategory>();
+
+                if (request.Products != null && request.Products.Any())
                 {
-                    var newProduct = new ProductInCategory()
+                    /// Add new
+                    request.Products.ForEach(product =>
                     {
-                        ProductCategoryId = productCategory.Id,
-                        ProductId = product.Id,
-                    };
-                    newProductInCategories.Add(newProduct);
-                });
+                        var newProduct = new ProductInCategory()
+                        {
+                            ProductCategoryId = productCategory.Id,
+                            ProductId = product.Id,
+                        };
+                        newProductInCategories.Add(newProduct);
+                    });
 
-                _unitOfWork.ProductInCategories.AddRange(newProductInCategories);
+                    _unitOfWork.ProductInCategories.AddRange(newProductInCategories);
+                }
+
+                var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
+                modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
+                modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
+                modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
+
+                await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
+                await _unitOfWork.SaveChangesAsync();
+                // Complete this transaction, data will be saved.
+                await createTransaction.CommitAsync(cancellationToken);
+
             }
-
-            var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
-            modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
-            modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
-            modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
-
-            await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
-            await _unitOfWork.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                // Data will be restored.
+                await createTransaction.RollbackAsync(cancellationToken);
+                return false;
+            }
 
             return true;
         }

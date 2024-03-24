@@ -915,6 +915,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<int>("QuantitySold")
                         .HasColumnType("int");
 
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
