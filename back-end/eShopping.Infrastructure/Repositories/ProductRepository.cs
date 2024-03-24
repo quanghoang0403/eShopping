@@ -85,12 +85,6 @@ namespace eShopping.Infrastructure.Repositories
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                // enable modify mode for records
-                if (allProductPrices.Any())
-                {
-                    _dbContext.AttachRange(allProductPrices);
-                }
-
                 // update product prices
                 if (request.ProductPrices.Any())
                 {
@@ -101,7 +95,7 @@ namespace eShopping.Infrastructure.Repositories
                     // add product prices not insert to DB
                     var newProductPrices = request.ProductPrices.Where(p => p.Id == Guid.Empty);
                     var newProductPricesToDB = new List<ProductPrice>();
-                    foreach (var option in unusedProductPrices)
+                    foreach (var option in newProductPrices)
                     {
                         allProductPrices.Remove(option);
                         var newProductPrice = new ProductPrice()
@@ -118,14 +112,15 @@ namespace eShopping.Infrastructure.Repositories
                     }
 
                     // update product prices existed
-                    foreach (var productPrice in allProductPrices)
+                    var reusedProductPrices = allProductPrices.Where(p => request.ProductPrices.Any(r => r.Id == p.Id));
+                    foreach (var productPrice in reusedProductPrices)
                     {
                         var newProductPrice = request.ProductPrices.FirstOrDefault(p => p.Id == productPrice.Id);
                         productPrice.Priority = newProductPrice.Priority;
                         productPrice.PriceName = newProductPrice.PriceName;
                         productPrice.PriceValue = newProductPrice.PriceValue;
                     }
-                    _dbContext.ProductPrices.UpdateRange(allProductPrices);
+                    _dbContext.ProductPrices.UpdateRange(reusedProductPrices);
                 }
                 #endregion
 

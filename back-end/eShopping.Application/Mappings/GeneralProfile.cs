@@ -39,8 +39,11 @@ namespace eShopping.Application.Mappings
             CreateMap<PermissionGroup, AdminPermissionGroupModel>();
             CreateMap<Permission, AdminPermissionModel>();
 
+            CreateMap<ProductCategory, AdminProductCategoryModel>();
+
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();
+            CreateMap<ProductPrice, AdminProductPriceModel>();
             CreateMap<Product, AdminProductModel>();
 
             CreateMap<Promotion, AdminPromotionModel>();
@@ -53,6 +56,7 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductPriceModel, ProductPrice>();
+            CreateMap<ImageModel, Image>();
             #endregion
         }
     }

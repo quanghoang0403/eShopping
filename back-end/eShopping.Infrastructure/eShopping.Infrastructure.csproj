@@ -45,16 +45,16 @@
     <None Update="Migrations\StaticData\s12-update-pos-package.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\permission-groups.sql">
+    <None Update="Migrations\StaticData\4.permission-groups.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\permissions.sql">
+    <None Update="Migrations\StaticData\5..sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\S7.calculate-customers-by-segment.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\cities.sql">
+    <None Update="Migrations\StaticData\1.cities.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\account-transfer.sql">
@@ -72,7 +72,7 @@
     <None Update="Migrations\StaticData\S1.permission-groups.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\districts.sql">
+    <None Update="Migrations\StaticData\2.districts.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\S1.states.sql">
@@ -81,10 +81,10 @@
     <None Update="Migrations\StaticData\S1wards-vn.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\account.sql">
+    <None Update="Migrations\StaticData\6.account.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\wards.sql">
+    <None Update="Migrations\StaticData\3.wards.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\TableType\TVP_Order.sql">
