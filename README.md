@@ -20,7 +20,7 @@
 - Locales: i18
 - Install package: npm i -f
 - Run local: npm start
-- Account: a@gmail.com/1
+- Account: admin@gmail.com/1
 - [https://eshopping-store-web.vercel.app/](https://eshopping-admin-web.vercel.app/)
 
 ### 2.2 Store Web Frontend
@@ -29,7 +29,7 @@
 - Locales: i18
 - Install package: npm i -f
 - Run local: npm run dev
-- Account: c@gmail.com/1
+- Account: customer@gmail.com/1
 - [https://eshopping-store-web.vercel.app/](https://eshopping-store-web.vercel.app/)
 
 ## 3. Extension & Tool
