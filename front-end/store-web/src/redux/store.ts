@@ -1,16 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './features/counterSlice'
-import authReducer from './features/authSlice'
+import { persistedReducer } from './persistConfig'
+import { persistStore } from 'redux-persist'
 
 export const makeStore = () => {
-  return configureStore({
-    reducer: {
-      counter: counterReducer,
-      auth: authReducer,
-    },
+  const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false, // Disable serializable check for easier integration
+      }),
   })
+  const persistor = persistStore(store)
+  return { store, persistor }
 }
 
 export type AppStore = ReturnType<typeof makeStore>
-export type RootState = ReturnType<AppStore['getState']>
-export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<AppStore['store']['getState']>
+export type AppDispatch = AppStore['store']['dispatch']
