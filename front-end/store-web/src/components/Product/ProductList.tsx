@@ -42,9 +42,8 @@ export default function ProductList(props: IProps) {
         </nav>
         {products?.length > 0 &&
           products.map((product, index) => {
-            const isDiscount = product.price !== product.priceOrigin
             return (
-              <div key={index} className="w-1/2 p-1 md:w-1/3 xl:w-1/4 md:p-6 flex flex-col">
+              <div key={index} className="w-1/2 p-1 md:w-1/3 xl:w-1/4 md:p-6 flex flex-col relative">
                 <Link href="/san-pham/1">
                   <Image
                     className="hover:grow hover:shadow-lg aspect-square object-cover"
@@ -54,15 +53,16 @@ export default function ProductList(props: IProps) {
                     height={300}
                   />
                   <p className="pt-3 line-clamp-3">{product.name}</p>
-                  {isDiscount ? (
-                    <p className="pt-1 text-gray-900">
-                      <span className="line-through pr-2"> {formatCurrency(product.priceOrigin)}</span>
-                      <span className="text-red-500">{formatCurrency(product.price)}</span>
-                    </p>
-                  ) : (
-                    <p className="pt-1 text-gray-900">{formatCurrency(product.price)}</p>
-                  )}
+                  <p className="pt-1 text-gray-900">
+                    <span className={product.priceDiscount ? 'line-through pr-2' : ''}>{formatCurrency(product.priceValue)}</span>
+                    {product.priceDiscount && <span className="text-red-500">{formatCurrency(product.priceDiscount)}</span>}
+                  </p>
                 </Link>
+                {product.percentNumber && (
+                  <span className="absolute top-8 right-8 px-1.5 py-0.5 text-xs md:text-sm rounded-lg text-gray-900 bg-white font-semibold">
+                    {product.percentNumber}%
+                  </span>
+                )}
               </div>
             )
           })}

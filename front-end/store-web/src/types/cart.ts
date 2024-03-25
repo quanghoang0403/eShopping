@@ -1,8 +1,11 @@
 interface ICartItem {
-  name: string
-  priceName?: string
+  productId: string
+  productName: string
+  priceId: string
+  priceName: string
   priceValue: number
-  originalPrice?: number
+  priceDiscount?: number
+  percentNumber?: number
   quantity: number
   thumbnail: string
 }

@@ -3,28 +3,46 @@ import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
 import { cx } from '@/utils/common.helper'
 import { IconButton } from '@material-tailwind/react'
+import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
+import { sessionActions } from '@/redux/features/sessionSlice'
 
 interface IProps {
-  cartItems: ICartItem[]
   isSmall?: boolean
 }
 
 export default function CartList(props: IProps) {
-  const { cartItems, isSmall } = props
+  const { isSmall } = props
+  const cartItems = useAppSelector((state) => state.session.cartItems)
+  const dispatch = useAppDispatch()
+
+  const removeCartItem = (productId: string, priceId: string) => {
+    dispatch(sessionActions.removeProductFromCart({ productId, priceId }))
+  }
+
+  const updateCartItem = (productId: string, priceId: string, quantity: number) => {
+    dispatch(sessionActions.updateProductInCart({ productId, priceId, quantity }))
+  }
+
   return (
     <>
       {cartItems?.length > 0 &&
         cartItems.map((cart, index) => {
           return (
             <div key={index} className={cx('justify-between rounded-lg bg-white shadow-md sm:flex sm:justify-start', isSmall ? 'mb-2 p-2' : 'mb-6 p-6')}>
-              <Image width={300} height={300} src={cart.thumbnail} alt={cart.name} className={cx('rounded-lg h-fit', isSmall ? 'w-28' : 'w-full sm:w-40')} />
+              <Image
+                width={300}
+                height={300}
+                src={cart.thumbnail}
+                alt={cart.productName}
+                className={cx('rounded-lg h-fit', isSmall ? 'w-28' : 'w-full sm:w-40')}
+              />
               <div className={cx('flex flex-col w-full', isSmall ? 'ml-2' : ' sm:ml-6')}>
                 <div className="flex flex-row justify-between">
                   <div className="mt-5 sm:mt-0">
-                    <h2 className={cx('text-gray-900', isSmall ? 'text-base line-clamp-1' : 'text-lg line-clamp-2')}>{cart.name}</h2>
+                    <h2 className={cx('text-gray-900', isSmall ? 'text-base line-clamp-1' : 'text-lg line-clamp-2')}>{cart.productName}</h2>
                     {cart.priceName && <p className={cx('text-sm text-gray-700', isSmall ? '' : 'mt-1')}>{cart.priceName}</p>}
                   </div>
-                  <IconButton variant="text" color="blue-gray">
+                  <IconButton variant="text" color="blue-gray" onClick={() => removeCartItem(cart.productId, cart.priceId)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -49,6 +67,7 @@ export default function CartList(props: IProps) {
                       <select
                         className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-3 py-1 pr-7 rounded shadow leading-tight focus:outline-none focus:ring focus:border-blue-500"
                         defaultValue={cart.quantity}
+                        onChange={(e) => updateCartItem(cart.productId, cart.priceId, Number(e.target.value))}
                       >
                         {[...Array(10)].map((_, index) => (
                           <option key={index + 1} value={index + 1}>

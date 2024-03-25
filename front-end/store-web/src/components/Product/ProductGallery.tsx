@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { cx } from '@/utils/common.helper'
 
 interface IProps {
-  images: IImage[]
+  images: string[]
 }
 
 export default function ProductGallery(props: IProps) {
@@ -30,14 +30,14 @@ export default function ProductGallery(props: IProps) {
                   setActiveImage(image)
                 }}
                 className="aspect-square object-cover cursor-pointer"
-                src={image.url}
+                src={image}
                 alt="gallery-image"
               />
             </div>
           ))}
         </div>
         <div className="w-3/4 carousel-inner relative overflow-hidden w-full">
-          <Image width={900} height={900} className="aspect-square object-cover rounded border border-gray-200" src={activeImage.url} alt="" />
+          <Image width={900} height={900} className="aspect-square object-cover rounded border border-gray-200" src={activeImage} alt="" />
           <label
             onClick={() => {
               handleActiveIndex(activeIndex - 1)

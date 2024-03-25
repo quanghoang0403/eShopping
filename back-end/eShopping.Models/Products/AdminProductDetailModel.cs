@@ -39,6 +39,6 @@ namespace eShopping.Models.Products
 
         public IEnumerable<AdminProductPriceModel> ProductPrices { get; set; }
 
-        public IEnumerable<ImageModel> Images { get; set; }
+        public IEnumerable<AdminImageModel> Images { get; set; }
     }
 }

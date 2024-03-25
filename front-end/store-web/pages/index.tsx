@@ -7,29 +7,51 @@ import Image from 'next/image'
 
 export default function HomePage() {
   const { t } = useTranslation()
-  const images: IImage[] = [
-    { name: 'Basic Tee Long Sleeves Striped', url: '/imgs/sliders/3.jpeg' },
-    { name: 'Basic Tee Long Sleeves Blue', url: '/imgs/sliders/2.jpeg' },
-    { name: 'Basic Tee Long Sleeves Black', url: '/imgs/sliders/1.jpeg' },
-  ]
+  const images: string[] = ['/imgs/sliders/3.jpeg', '/imgs/sliders/2.jpeg', '/imgs/sliders/1.jpeg']
   const promoProduct: IProduct[] = [
-    { name: 'Basic Tee Long Sleeves Blue', thumbnail: '/imgs/productPromo/1.jpg', priceOrigin: 180000, price: 170000 },
-    { name: 'Basic Tee Long Sleeves Black', thumbnail: '/imgs/productPromo/2.jpg', priceOrigin: 200000, price: 200000 },
-    { name: 'Basic Tee Long Sleeves Striped', thumbnail: '/imgs/productPromo/3.jpg', priceOrigin: 220000, price: 220000 },
-    { name: 'Basic Tee Long Sleeves Red', thumbnail: '/imgs/productPromo/4.jpg', priceOrigin: 230000, price: 200000 },
+    { id: '1', percentNumber: -10, name: 'Basic Tee Long Sleeves Blue', thumbnail: '/imgs/productPromo/1.jpg', priceValue: 180000, priceDiscount: 170000 },
+    { id: '1', name: 'Basic Tee Long Sleeves Black', thumbnail: '/imgs/productPromo/2.jpg', priceValue: 200000, priceDiscount: 200000 },
+    { id: '1', name: 'Basic Tee Long Sleeves Striped', thumbnail: '/imgs/productPromo/3.jpg', priceValue: 220000, priceDiscount: 220000 },
+    { id: '1', percentNumber: -10, name: 'Basic Tee Long Sleeves Red', thumbnail: '/imgs/productPromo/4.jpg', priceValue: 230000, priceDiscount: 200000 },
   ]
   const productHighlight: IProduct[] = [
-    { name: 'Basic Tee With Long Sleeves Red', thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg', priceOrigin: 120000, price: 100000 },
-    { name: 'Classic Short Sleeves Shirt', thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg', priceOrigin: 120000, price: 120000 },
-    { name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceOrigin: 120000, price: 120000 },
-    { name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceOrigin: 120000, price: 120000 },
-    { name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceOrigin: 120000, price: 120000 },
-    { name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceOrigin: 120000, price: 120000 },
-    { name: 'Winter-Striped Tee Dress Black', thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg', priceOrigin: 120000, price: 120000 },
-    { name: 'Winter-Striped Tee Dress White', thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg', priceOrigin: 120000, price: 100000 },
+    {
+      id: '1',
+      percentNumber: -10,
+      name: 'Basic Tee With Long Sleeves Red',
+      thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
+      priceValue: 120000,
+      priceDiscount: 100000,
+    },
+    {
+      id: '1',
+      name: 'Classic Short Sleeves Shirt',
+      thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
+      priceValue: 120000,
+      priceDiscount: 120000,
+    },
+    { id: '1', name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceValue: 120000, priceDiscount: 120000 },
+    { id: '1', name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceValue: 120000, priceDiscount: 120000 },
+    { id: '1', name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceValue: 120000, priceDiscount: 120000 },
+    { id: '1', name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceValue: 120000, priceDiscount: 120000 },
+    {
+      id: '1',
+      name: 'Winter-Striped Tee Dress Black',
+      thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
+      priceValue: 120000,
+      priceDiscount: 120000,
+    },
+    {
+      id: '1',
+      percentNumber: -20,
+      name: 'Winter-Striped Tee Dress White',
+      thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
+      priceValue: 120000,
+      priceDiscount: 100000,
+    },
   ]
-  const images2: IImage[] = [{ name: 'New arrivals', url: '/imgs/cuchoami/2.jpg' }]
-  const images3: IImage[] = [{ name: 'Striped', url: '/imgs/cuchoami/3.jpg' }]
+  const images2: string[] = ['/imgs/cuchoami/2.jpg']
+  const images3: string[] = ['/imgs/cuchoami/3.jpg']
   return (
     <>
       <SEO title="Thời trang" description="Describe the home page" />

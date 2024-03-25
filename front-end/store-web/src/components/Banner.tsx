@@ -2,7 +2,7 @@ import { Carousel } from '@material-tailwind/react'
 import Image from 'next/image'
 
 interface IProps {
-  images: IImage[]
+  images: string[]
   className?: string
 }
 
@@ -13,11 +13,11 @@ export default function Banner(props: IProps) {
       {images.length > 1 && (
         <Carousel loop>
           {images.map((image, index) => (
-            <Image key={index} fill src={image.url} alt={image.name} className="h-full w-full object-cover" />
+            <Image key={index} fill src={image} alt={image} className="h-full w-full object-cover" />
           ))}
         </Carousel>
       )}
-      {images.length === 1 && <Image src={images[0].url} alt="Single Image" className="h-full w-full object-cover" />}
+      {images.length === 1 && <Image src={images[0]} alt="Single Image" className="h-full w-full object-cover" />}
     </div>
   )
 }

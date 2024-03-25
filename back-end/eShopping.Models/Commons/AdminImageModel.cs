@@ -2,7 +2,7 @@
 
 namespace eShopping.Models.Commons
 {
-    public class ImageModel
+    public class AdminImageModel
     {
         public Guid? Id { get; set; }
 

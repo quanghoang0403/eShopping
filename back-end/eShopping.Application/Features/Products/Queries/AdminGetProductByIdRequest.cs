@@ -64,7 +64,7 @@ namespace eShopping.Application.Features.Products.Queries
             ThrowError.Against(ProductData == null, "Cannot find product detail information");
             var images = _unitOfWork.Images.GetAllImagesByObjectId(ProductData.Id, EnumImageTypeObject.Product).Result;
             var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(ProductData.Id).ProjectTo<AdminProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
-            ProductData.Images = _mapper.Map<List<ImageModel>>(images);
+            ProductData.Images = _mapper.Map<List<AdminImageModel>>(images);
             ProductData.ProductCategories = category;
 
             // Check discount

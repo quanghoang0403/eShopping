@@ -1,12 +1,12 @@
 import axios from 'axios'
-import cookie from 'js-cookie'
 import qs from 'qs'
-import { localStorageKeys, getStorage } from '@/utils/localStorage.helper'
 import { tokenExpired } from '@/utils/common.helper'
-import { notifyError } from '@/components/Notification'
+import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
+import { sessionActions } from '@/redux/features/sessionSlice'
 
 const _redirectToLoginPage = () => {
-  // store.dispatch(resetSession());
+  const dispatch = useAppDispatch()
+  dispatch(sessionActions.logout())
   window.location.href = '/login'
 }
 
@@ -14,7 +14,7 @@ const _configRequest = async (request: any) => {
   if (!request.params) {
     request.params = {}
   }
-  const token = cookie.get('token')
+  const token = useAppSelector((state) => state.session.token)
   if (token) {
     const expired = tokenExpired(token)
     if (expired === true) {

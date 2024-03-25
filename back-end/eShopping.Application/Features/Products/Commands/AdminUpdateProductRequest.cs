@@ -41,7 +41,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public List<Guid> ProductCategoryIds { get; set; }
 
-        public List<ImageModel> Images { get; set; }
+        public List<AdminImageModel> Images { get; set; }
 
         public List<AdminProductPriceModel> ProductPrices { get; set; }
 

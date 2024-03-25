@@ -19,7 +19,7 @@ namespace eShopping.Application.Mappings
             CreateMap<District, DistrictModel>();
             CreateMap<Ward, WardModel>();
 
-            CreateMap<Image, ImageModel>();
+            CreateMap<Image, AdminImageModel>();
 
             CreateMap<Order, AdminOrderModel>();
             CreateMap<Customer, AdminOrderModel.CustomerDto>()
@@ -56,7 +56,7 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductPriceModel, ProductPrice>();
-            CreateMap<ImageModel, Image>();
+            CreateMap<AdminImageModel, Image>();
             #endregion
         }
     }

@@ -7,7 +7,7 @@ import { useMutation, useQuery } from 'react-query'
 import { ISignInRequest, ISignInResponse } from '@/services/auth.service'
 import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
-import { authActions } from '@/redux/features/authSlice'
+import { sessionActions } from '@/redux/features/sessionSlice'
 import { notifyError } from '@/components/Notification'
 import ErrorForm from '@/components/Input/ErrorForm'
 import Link from 'next/link'
@@ -40,6 +40,7 @@ export default function SignInPage() {
     } else {
       router.push(router.asPath)
     }
+    dispatch(sessionActions.signInSuccess(res))
     console.log(res)
   })
 

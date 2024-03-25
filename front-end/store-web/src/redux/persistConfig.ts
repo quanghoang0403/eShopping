@@ -3,7 +3,7 @@ import storage from 'redux-persist/lib/storage'
 
 // Import your reducers
 import counterReducer from './features/counterSlice'
-import authReducer from './features/authSlice'
+import sessionReducer from './features/sessionSlice'
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootPersistConfig = {
@@ -26,7 +26,7 @@ const rootPersistConfig = {
 
 const rootReducer = combineReducers({
   counter: counterReducer,
-  auth: authReducer,
+  session: sessionReducer,
 })
 
 export const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
