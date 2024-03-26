@@ -20,6 +20,7 @@ interface IProductPrice {
   percentNumber?: number
   priceValue: number
   priceDiscount: number
+  quantityLeft: number
   thumbnail?: string
 }
 

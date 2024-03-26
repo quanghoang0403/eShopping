@@ -9,12 +9,12 @@ import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import { notifyError } from '@/components/Notification'
-import ErrorForm from '@/components/Input/ErrorForm'
+import ErrorForm from '@/components/Controller/ErrorForm'
 import Link from 'next/link'
 import { useAppMutation, useAppQuery } from '@/hooks/queryHook'
-import ControlledInput from '@/components/Input/ControlledInput'
-import { INPUT_TYPES } from '@/components/Input/type'
+import Input from '@/components/Controller/Input'
 import SEO from '@/components/Layout/SEO'
+import { INPUT_TYPES } from '@/components/Controller/CustomInputText'
 
 export default function SignInPage() {
   const {
@@ -41,7 +41,6 @@ export default function SignInPage() {
       router.push(router.asPath)
     }
     dispatch(sessionActions.signInSuccess(res))
-    console.log(res)
   })
 
   // useAppQuery(
@@ -57,7 +56,7 @@ export default function SignInPage() {
       <LayoutLogin title="Đăng nhập" description="Chào mừng bạn quay lại với Cúc Hoạ Mi, mời bạn đăng nhập để tiếp tục mua sắm!">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
-            <ControlledInput
+            <Input
               inputType={INPUT_TYPES.TEXT}
               label="Email"
               register={register}

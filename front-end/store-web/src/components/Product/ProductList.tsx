@@ -59,7 +59,7 @@ export default function ProductList(props: IProps) {
                   </p>
                 </Link>
                 {product.percentNumber && (
-                  <span className="absolute top-8 right-8 px-1.5 py-0.5 text-xs md:text-sm rounded-lg text-gray-900 bg-white font-semibold">
+                  <span className="shadow absolute top-8 right-8 px-1.5 py-0.5 text-xs md:text-sm rounded-lg text-gray-900 bg-white font-semibold">
                     {product.percentNumber}%
                   </span>
                 )}

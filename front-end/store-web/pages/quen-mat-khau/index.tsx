@@ -9,12 +9,12 @@ import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import { notifyError } from '@/components/Notification'
-import ErrorForm from '@/components/Input/ErrorForm'
+import ErrorForm from '@/components/Controller/ErrorForm'
 import Link from 'next/link'
 import { useAppMutation } from '@/hooks/queryHook'
-import ControlledInput from '@/components/Input/ControlledInput'
-import { INPUT_TYPES } from '@/components/Input/type'
+import Input from '@/components/Controller/Input'
 import SEO from '@/components/Layout/SEO'
+import { INPUT_TYPES } from '@/components/Controller/CustomInputText'
 
 export default function ForgotPasswordPage() {
   const {
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
       <LayoutLogin title="Bạn đã quên mật khẩu" description="Mời bạn điền thông tin để Cúc Họa Mi hỗ trợ bạn tạo mật khẩu mới!">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
-            <ControlledInput
+            <Input
               inputType={INPUT_TYPES.TEXT}
               label="Email tạo tài khoản"
               register={register}

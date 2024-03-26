@@ -9,12 +9,12 @@ import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import { notifyError } from '@/components/Notification'
-import ErrorForm from '@/components/Input/ErrorForm'
+import ErrorForm from '@/components/Controller/ErrorForm'
 import Link from 'next/link'
 import { useAppMutation } from '@/hooks/queryHook'
-import ControlledInput from '@/components/Input/ControlledInput'
-import { INPUT_TYPES } from '@/components/Input/type'
+import Input from '@/components/Controller/Input'
 import SEO from '@/components/Layout/SEO'
+import { INPUT_TYPES } from '@/components/Controller/CustomInputText'
 
 export default function SignUpPage() {
   const {
@@ -50,7 +50,7 @@ export default function SignUpPage() {
       <LayoutLogin title="Đăng ký" description="Mời bạn đăng ký để tiếp tục mua sắm tại Cúc Họa Mi!">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
-            <ControlledInput
+            <Input
               inputType={INPUT_TYPES.TEXT}
               label="Họ tên của bạn"
               register={register}
@@ -62,7 +62,7 @@ export default function SignUpPage() {
             />
           </div>
           <div>
-            <ControlledInput
+            <Input
               inputType={INPUT_TYPES.TEXT}
               label="Email"
               register={register}

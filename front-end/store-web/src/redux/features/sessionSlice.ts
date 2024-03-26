@@ -1,3 +1,4 @@
+import { notifyInfo } from '@/components/Notification'
 import { ISignInResponse } from '@/services/auth.service'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import cookie from 'js-cookie'
@@ -57,7 +58,11 @@ const sessionSlice = createSlice({
       const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.priceId === priceId)
 
       if (existingItemIndex !== -1) {
-        state.cartItems[existingItemIndex].quantity = quantity
+        const quantityLeft = state.cartItems[existingItemIndex].quantityLeft
+        if (state.cartItems[existingItemIndex].quantity > quantityLeft) {
+          state.cartItems[existingItemIndex].quantity = quantityLeft
+          notifyInfo(`${state.cartItems[existingItemIndex].productName} - ${state.cartItems[existingItemIndex].priceName} chỉ còn ${quantityLeft} sản phẩm`)
+        } else state.cartItems[existingItemIndex].quantity = quantity
       }
       state.totalQuantity = calculateTotalQuantity(state.cartItems)
       state.totalPrice = calculateTotalPrice(state.cartItems)
@@ -67,6 +72,11 @@ const sessionSlice = createSlice({
       state.cartItems = state.cartItems.filter((item) => !(item.productId === productId && item.priceId === priceId))
       state.totalQuantity = calculateTotalQuantity(state.cartItems)
       state.totalPrice = calculateTotalPrice(state.cartItems)
+    },
+    resetCart(state) {
+      state.cartItems = []
+      state.totalQuantity = 0
+      state.totalPrice = 0
     },
   },
 })

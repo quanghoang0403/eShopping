@@ -1,12 +1,11 @@
 import { memo } from 'react'
-import { INPUT_TYPES, InputCustomProps } from './type'
-import CustomInputText, { CustomInputTextArea } from './CustomInputText'
+import CustomInputText, { CustomInputTextArea, INPUT_TYPES, InputCustomProps } from './CustomInputText'
+import ErrorForm from './ErrorForm'
 
-const UncontrolledInput = (props: InputCustomProps) => {
+const Input = (props: InputCustomProps) => {
   let Input: null | typeof CustomInputText | typeof CustomInputTextArea = null
 
-  const { inputType } = props
-
+  const { inputType, name, label, errors } = props
   switch (inputType) {
     case INPUT_TYPES.TEXT:
       Input = CustomInputText
@@ -14,7 +13,6 @@ const UncontrolledInput = (props: InputCustomProps) => {
     case INPUT_TYPES.TEXTAREA:
       Input = CustomInputTextArea
       break
-
     default:
       break
   }
@@ -23,10 +21,11 @@ const UncontrolledInput = (props: InputCustomProps) => {
     return (
       <>
         <Input {...props} />
+        {errors && <ErrorForm name={name} label={label} errors={errors} />}
       </>
     )
   }
   return null
 }
 
-export default memo(UncontrolledInput)
+export default memo(Input)

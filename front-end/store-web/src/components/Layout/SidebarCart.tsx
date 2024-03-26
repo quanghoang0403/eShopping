@@ -16,17 +16,18 @@ export default function SidebarCart(props: IProps) {
   const { className } = props
   const router = useRouter()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  const checkScreen = useWindowDimensions()
+  const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
+  const totalPrice = useAppSelector((state) => state.session.totalPrice)
+  const isMobile = checkScreen == SizeScreen.IS_MOBILE
   const openDrawer = () => {
-    if (window.innerWidth <= 640) {
+    if (!isMobile) {
       router.push('/gio-hang')
     } else {
       setIsDrawerOpen(true)
     }
   }
-  const checkScreen = useWindowDimensions()
-  const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
-  const totalPrice = useAppSelector((state) => state.session.totalPrice)
-
   const closeDrawer = () => setIsDrawerOpen(false)
 
   const renderCartIcon = () => {
@@ -51,7 +52,7 @@ export default function SidebarCart(props: IProps) {
           renderCartIcon()
         )}
       </div>
-      {checkScreen == SizeScreen.IS_MOBILE && (
+      {!isMobile && (
         <Drawer
           size={500}
           open={isDrawerOpen}

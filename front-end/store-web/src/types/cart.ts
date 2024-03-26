@@ -7,5 +7,6 @@ interface ICartItem {
   priceDiscount?: number
   percentNumber?: number
   quantity: number
+  quantityLeft: number
   thumbnail: string
 }

@@ -9,7 +9,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['counter', 'auth'],
+  whitelist: ['counter', 'session'],
 }
 
 // const counterPersistConfig = {
