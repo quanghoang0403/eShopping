@@ -1,8 +1,0 @@
-Flask
-flask_cors
-pyodbc
-python-dotenv
-numpy
-supervision
-pymongo
-# pip install -r requirements.txt
