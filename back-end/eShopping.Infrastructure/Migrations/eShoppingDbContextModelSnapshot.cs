@@ -332,7 +332,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CustomerId")
+                    b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("DeliveryFee")
@@ -340,9 +340,6 @@ namespace eShopping.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPromotionDiscountPercentage")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastSavedTime")
@@ -358,33 +355,13 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("PriceOriginal")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("PromotionDiscountValue")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("PromotionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PromotionName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShipAddress")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("ShipCityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ShipDistrictId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ShipEmail")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ShipFullAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ShipName")
                         .HasMaxLength(50)
@@ -394,29 +371,14 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int?>("ShipWardId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Order revenue: PriceOriginal - TotalDiscountAmount + DeliveryFee");
-
-                    b.Property<decimal>("TotalDiscountAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDeleted");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IsDeleted");
 
                     b.ToTable("Order");
                 });
@@ -483,17 +445,11 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPromotionDiscountPercentage")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastSavedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -501,11 +457,18 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("OrderSessionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("PriceOriginal")
+                    b.Property<decimal?>("PriceDiscount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("PriceAfterDiscount")
+                    b.Property<string>("PriceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PriceOrigin")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceValue")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -518,17 +481,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("ProductPriceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ProductPriceName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PromotionDiscountValue")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("PromotionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PromotionName")
+                    b.Property<string>("ProductUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
@@ -544,67 +497,7 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("ProductPriceId");
 
-                    b.HasIndex("PromotionId");
-
                     b.ToTable("OrderItem");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.OrderPromotionDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("MaximumDiscountAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("OrderItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("PercentNumber")
-                        .HasColumnType("int")
-                        .HasComment("PercentNumber > 0 is promotion by percent");
-
-                    b.Property<Guid>("PromotionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PromotionName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PromotionType")
-                        .HasColumnType("int")
-                        .HasComment("Discount total, discount product, discount product category");
-
-                    b.Property<decimal>("PromotionValue")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderPromotionDetail");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>
@@ -717,6 +610,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsDiscounted")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("IsFeatured")
                         .HasColumnType("bit");
 
@@ -809,9 +705,6 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
@@ -882,6 +775,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedUser")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -891,13 +787,20 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("PriceOriginal")
+                    b.Property<float?>("PercentNumber")
+                        .HasColumnType("real");
+
+                    b.Property<decimal?>("PriceDiscount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PriceName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("PriceOriginal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("PriceValue")
                         .HasPrecision(18, 2)
@@ -915,6 +818,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<int>("QuantitySold")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Thumbnail")
                         .HasColumnType("nvarchar(max)");
 
@@ -925,161 +831,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductPrice");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.Promotion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsApplyAllCategories")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsApplyAllProducts")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsMinimumPurchaseAmount")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPercentDiscount")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsStopped")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("MaximumDiscountAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("MinimumPurchaseAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PercentNumber")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PromotionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TermsAndCondition")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Promotion");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.PromotionProduct", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProductPriceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PromotionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductPriceId");
-
-                    b.HasIndex("PromotionId");
-
-                    b.ToTable("PromotionProduct");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.PromotionProductCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductCategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PromotionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("ProductCategoryId");
-
-                    b.HasIndex("PromotionId");
-
-                    b.ToTable("PromotionProductCategory");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Staff", b =>
@@ -1250,7 +1001,7 @@ namespace eShopping.Infrastructure.Migrations
                 {
                     b.HasOne("eShopping.Domain.Entities.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1282,28 +1033,11 @@ namespace eShopping.Infrastructure.Migrations
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductPriceId");
 
-                    b.HasOne("eShopping.Domain.Entities.Promotion", "Promotion")
-                        .WithMany()
-                        .HasForeignKey("PromotionId");
-
                     b.Navigation("Order");
 
                     b.Navigation("Product");
 
                     b.Navigation("ProductPrice");
-
-                    b.Navigation("Promotion");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.OrderPromotionDetail", b =>
-                {
-                    b.HasOne("eShopping.Domain.Entities.Order", "Order")
-                        .WithMany("OrderPromotionDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>
@@ -1345,48 +1079,6 @@ namespace eShopping.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.PromotionProduct", b =>
-                {
-                    b.HasOne("eShopping.Domain.Entities.Product", "Product")
-                        .WithMany("PromotionProducts")
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("eShopping.Domain.Entities.ProductPrice", "ProductPrice")
-                        .WithMany("DiscountProduct")
-                        .HasForeignKey("ProductPriceId");
-
-                    b.HasOne("eShopping.Domain.Entities.Promotion", "Promotion")
-                        .WithMany("PromotionProducts")
-                        .HasForeignKey("PromotionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductPrice");
-
-                    b.Navigation("Promotion");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.PromotionProductCategory", b =>
-                {
-                    b.HasOne("eShopping.Domain.Entities.ProductCategory", "ProductCategory")
-                        .WithMany("PromotionProductCategories")
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eShopping.Domain.Entities.Promotion", "Promotion")
-                        .WithMany("PromotionProductCategories")
-                        .HasForeignKey("PromotionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductCategory");
-
-                    b.Navigation("Promotion");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Staff", b =>
@@ -1450,8 +1142,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("OrderHistories");
 
                     b.Navigation("OrderItems");
-
-                    b.Navigation("OrderPromotionDetails");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.PermissionGroup", b =>
@@ -1468,31 +1158,18 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("ProductInCategories");
 
                     b.Navigation("ProductPrices");
-
-                    b.Navigation("PromotionProducts");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.ProductCategory", b =>
                 {
                     b.Navigation("ProductInCategories");
-
-                    b.Navigation("PromotionProductCategories");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.ProductPrice", b =>
                 {
                     b.Navigation("Carts");
 
-                    b.Navigation("DiscountProduct");
-
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.Promotion", b =>
-                {
-                    b.Navigation("PromotionProductCategories");
-
-                    b.Navigation("PromotionProducts");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Staff", b =>
