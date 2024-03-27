@@ -58,7 +58,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Queries
                                                             && o.Status != EnumOrderStatus.Draft
                                                             && o.Status != EnumOrderStatus.ToConfirm
                                                             && o.Status != EnumOrderStatus.Returned)
-                .Select(x => new { x.Id, x.CreatedTime, x.Status, x.CustomerId, x.PriceAfterDiscount, x.DeliveryFee, x.TotalAmount })
+                .Select(x => new { x.Id, x.CreatedTime, x.Status, x.CustomerId, x.TotalPrice, x.DeliveryFee, x.TotalAmount })
                 .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
 
@@ -106,8 +106,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Queries
                 }
             }
             listTopSelling = listTopSelling.OrderByDescending(x => x.Quantity).ThenByDescending(y => y.TotalCost).ToList();
-            var listOrderCustomerNotNull = listOrder.Where(x => x.CustomerId != null).ToList();
-            var listCustomereObject = listOrderCustomerNotNull.GroupBy(x => new { x.CustomerId })
+            var listCustomereObject = listOrder.GroupBy(x => new { x.CustomerId })
                                                               .Select(g => new { CustomerId = g.Key.CustomerId, Cost = g.Sum(x => x.TotalAmount) })
                                                               .OrderByDescending(x => x.Cost).Take(5).ToList();
 

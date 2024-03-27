@@ -440,17 +440,6 @@ namespace eShopping.Common.Helpers
             return concatInitialWordsOfName;
         }
 
-        public static string GeneratePromotionTag(decimal priceAfterDiscount, decimal originalPrice)
-        {
-            if (originalPrice == 0)
-            {
-                return String.Empty;
-            }
-
-            var percentDiscount = (originalPrice - priceAfterDiscount) / originalPrice * 100;
-            return "-" + FormatTextNumber(percentDiscount) + "%";
-        }
-
         public static string GetShortDataHaveIMG(string shortData, string fullData)
         {
             if (!string.IsNullOrEmpty(shortData) || string.IsNullOrEmpty(fullData))

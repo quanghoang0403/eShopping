@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace eShopping.Models.Orders
 {
@@ -8,51 +9,35 @@ namespace eShopping.Models.Orders
 
         public Guid? OrderId { get; set; }
 
+        public Guid? ProductId { get; set; }
+
         public Guid? ProductPriceId { get; set; }
-
-        public decimal? Price { get; set; }
-
-        public string ProductPriceName { get; set; }
-
-        public decimal ProductPriceValue { get; set; }
 
         public int Quantity { get; set; }
 
-        public string Notes { get; set; }
+        public string ProductName { get; set; }
 
-        public bool IsPromotionDiscountPercentage { get; set; }
+        public string PriceName { get; set; }
 
-        public decimal PromotionDiscountValue { get; set; }
+        public string ItemName { get; set; }
 
-        public decimal OriginalPrice { get; set; }
+        [Precision(18, 2)]
+        public decimal PriceOrigin { get; set; }
 
-        public decimal? PriceAfterDiscount { get; set; }
+        [Precision(18, 2)]
+        public decimal PriceValue { get; set; }
 
-        public Guid? PromotionId { get; set; }
+        [Precision(18, 2)]
+        public decimal? PriceDiscount { get; set; }
 
-        public ProductPriceDto ProductPrice { get; set; }
+        public decimal TotalPriceOrigin { get; set; }
 
-        public decimal Cost { get; set; }
+        public decimal TotalPriceValue { get; set; }
 
-        public class ProductPriceDto
-        {
-            public string PriceName { get; set; }
+        public decimal TotalPriceDiscount { get; set; }
 
-            public decimal PriceValue { get; set; }
+        public decimal TotalPrice { get; set; }
 
-            public ProductDto Product { get; set; }
-
-            public class ProductDto
-            {
-                public string Name { get; set; }
-
-                public Guid Id { get; set; }
-
-                public string Description { get; set; }
-
-                public string Thumbnail { get; set; }
-            }
-        }
-
+        public decimal Profit { get; set; }
     }
 }

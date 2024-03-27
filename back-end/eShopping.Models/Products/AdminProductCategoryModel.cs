@@ -13,6 +13,8 @@ namespace eShopping.Models.Products
 
         public string Name { get; set; }
 
+        public bool IsShowOnHome { set; get; }
+
         public int Priority { get; set; }
 
         public int NumberOfProduct

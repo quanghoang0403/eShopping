@@ -16,13 +16,13 @@ namespace eShopping.Models.Orders
 
         public string StatusName { get { return Status.GetName(); } }
 
-        public decimal OriginalPrice { get; set; }
+        public decimal PriceOriginal { get; set; }
 
         public decimal TotalDiscountAmount { get; set; }
 
         public decimal DeliveryFee { get; set; }
 
-        public decimal TotalAmount { get { return OriginalPrice - TotalDiscountAmount + DeliveryFee; } }
+        public decimal TotalAmount { get { return PriceOriginal - TotalDiscountAmount + DeliveryFee; } }
 
         public CustomerDto Customer { get; set; }
 

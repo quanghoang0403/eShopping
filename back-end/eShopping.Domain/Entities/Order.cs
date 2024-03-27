@@ -3,9 +3,9 @@ using eShopping.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace eShopping.Domain.Entities
 {
@@ -22,13 +22,13 @@ namespace eShopping.Domain.Entities
 
         public EnumOrderStatus Status { get; set; }
 
-        public Guid UserId { set; get; }
+        public Guid CustomerId { set; get; }
 
         [MaxLength(50)]
         public string ShipName { set; get; }
 
         [MaxLength(500)]
-        public string ShipAddress { set; get; }
+        public string ShipFullAddress { get; set; }
 
         [MaxLength(50)]
         public string ShipEmail { set; get; }
@@ -36,58 +36,34 @@ namespace eShopping.Domain.Entities
         [MaxLength(10)]
         public string ShipPhoneNumber { set; get; }
 
-        public int? ShipCityId { get; set; }
-
-        public int? ShipDistrictId { get; set; }
-
-        public int? ShipWardId { get; set; }
-
-        public Guid? CustomerId { get; set; }
-
-        public Guid? PromotionId { get; set; }
 
         [MaxLength(255)]
         public string Note { get; set; }
 
+        public int TotalQuantity { get { return OrderItems.Sum(x => x.Quantity); } }
+
 
         [Precision(18, 2)]
-        public decimal OriginalPrice { get; set; }
+        public decimal TotalPriceOrigin { get { return OrderItems.Sum(x => x.TotalPriceOrigin); } }
 
-        /// <summary>
-        /// Sum total discount of all product items in order, promotion
-        /// </summary>
         [Precision(18, 2)]
-        public decimal TotalDiscountAmount { get; set; }
+        public decimal TotalPriceValue { get { return OrderItems.Sum(x => x.TotalPriceValue); } }
 
-        public decimal PriceAfterDiscount
-        { get { return OriginalPrice - TotalDiscountAmount; } }
-
-        public bool IsPromotionDiscountPercentage { get; set; }
-
-        /// <summary>
-        /// Total discount value of promotion
-        /// </summary>
         [Precision(18, 2)]
-        public decimal PromotionDiscountValue { get; set; }
+        public decimal TotalPriceDiscount { get { return OrderItems.Sum(x => x.TotalPriceDiscount); } }
 
-        /// <summary>
-        /// The promotion name apply for this order
-        /// </summary>
-        public string PromotionName { get; set; }
+        public decimal TotalPrice
+        { get { return TotalPriceValue - TotalPriceDiscount; } }
 
         [Precision(18, 2)]
         public decimal DeliveryFee { get; set; }
 
-
-        [Description("Order revenue: OriginalPrice - TotalDiscountAmount + DeliveryFee")]
         [Precision(18, 2)]
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get { return TotalPrice + DeliveryFee; } }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
         public virtual ICollection<OrderHistory> OrderHistories { get; set; }
-
-        public virtual ICollection<OrderPromotionDetail> OrderPromotionDetails { get; set; }
 
         public virtual Customer Customer { get; set; }
 

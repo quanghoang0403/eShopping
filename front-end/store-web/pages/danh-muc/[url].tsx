@@ -10,6 +10,7 @@ import ProductList from '@/components/Product/ProductList'
 const products: IProduct[] = [
   {
     id: '10',
+    code: 1,
     name: 'Basic Tee With Long Sleeves Red',
     thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
     priceDiscount: 120000,
@@ -17,17 +18,19 @@ const products: IProduct[] = [
   },
   {
     id: '10',
+    code: 1,
     name: 'Classic Short Sleeves Shirt',
     thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
     priceDiscount: 120000,
     priceValue: 120000,
   },
-  { id: '10', name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
-  { id: '10', name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
-  { id: '10', name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
-  { id: '10', name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
+  { id: '10', code: 1, name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
+  { id: '10', code: 1, name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
+  { id: '10', code: 1, name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
+  { id: '10', code: 1, name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
   {
     id: '10',
+    code: 1,
     percentNumber: -10,
     name: 'Winter-Striped Tee Dress Black',
     thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
@@ -36,6 +39,7 @@ const products: IProduct[] = [
   },
   {
     id: '10',
+    code: 1,
     percentNumber: -10,
     name: 'Winter-Striped Tee Dress White',
     thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',

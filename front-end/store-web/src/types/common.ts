@@ -2,7 +2,7 @@ interface ISEO {
   id: string
   name: string
   titleSEO?: string
-  content: string
+  content?: string
   keywordSEO?: string
   urlSEO: string
   descriptionSEO?: string

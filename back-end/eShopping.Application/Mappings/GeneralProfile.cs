@@ -6,7 +6,6 @@ using eShopping.Models.Commons;
 using eShopping.Models.Orders;
 using eShopping.Models.Permissions;
 using eShopping.Models.Products;
-using eShopping.Models.Promotions;
 
 namespace eShopping.Application.Mappings
 {
@@ -22,6 +21,7 @@ namespace eShopping.Application.Mappings
             CreateMap<Image, AdminImageModel>();
 
             CreateMap<Order, AdminOrderModel>();
+            CreateMap<Order, StoreOrderModel>();
             CreateMap<Customer, AdminOrderModel.CustomerDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Account.FullName))
@@ -32,22 +32,22 @@ namespace eShopping.Application.Mappings
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Account.FullName))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account.PhoneNumber));
             CreateMap<OrderItem, AdminOrderItemModel>();
-            CreateMap<ProductPrice, AdminOrderItemModel.ProductPriceDto>();
-            CreateMap<Product, AdminOrderItemModel.ProductPriceDto.ProductDto>();
 
             CreateMap<PermissionGroup, AdminPermissionGroupDetailModel>();
             CreateMap<PermissionGroup, AdminPermissionGroupModel>();
             CreateMap<Permission, AdminPermissionModel>();
 
+            CreateMap<ProductCategory, AdminProductCategoryDetailModel>();
+            CreateMap<ProductCategory, StoreProductCategoryDetailModel>();
             CreateMap<ProductCategory, AdminProductCategoryModel>();
 
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();
-            CreateMap<ProductPrice, AdminProductPriceModel>();
+            CreateMap<Product, StoreProductDetailModel>();
             CreateMap<Product, AdminProductModel>();
 
-            CreateMap<Promotion, AdminPromotionModel>();
-            CreateMap<Promotion, AdminPromotionDetailModel>();
+            CreateMap<ProductPrice, AdminProductPriceModel>();
+            CreateMap<ProductPrice, StoreProductPriceModel>();
             #endregion
 
             #region DAL => DTO

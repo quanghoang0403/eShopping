@@ -14,63 +14,64 @@ namespace eShopping.Domain.Entities
 
         public Guid? ProductPriceId { get; set; }
 
-        /// <summary>
-        /// This name compiled from the product name and price name
-        /// </summary>
-        public string ProductPriceName { get; set; }
+        public string ProductUrl { get; set; }
 
-        /// <summary>
-        /// Original price of product price
-        /// </summary>
-        [Precision(18, 2)]
-        public decimal OriginalPrice { get; set; }
+        public string PriceName { get; set; }
 
-        /// <summary>
-        /// Price of item after discount.
-        /// </summary>
         [Precision(18, 2)]
-        public decimal? PriceAfterDiscount { get; set; }
+        public decimal PriceOrigin { get; set; }
+
+        [Precision(18, 2)]
+        public decimal PriceValue { get; set; }
+
+        [Precision(18, 2)]
+        public decimal? PriceDiscount { get; set; }
 
         public int Quantity { get; set; }
 
-        /// <summary>
-        /// Used for merging cart items
-        /// </summary>
-        [NotMapped]
-        public int QuantityCompleted { get; set; }
-
-        public decimal TotalPriceAfterDiscount
+        public decimal TotalPriceOrigin
         {
             get
             {
-                return (PriceAfterDiscount ?? 0) * Quantity;
+                return PriceOrigin * Quantity;
             }
         }
+
+        public decimal TotalPriceValue
+        {
+            get
+            {
+                return PriceValue * Quantity;
+            }
+        }
+
+        public decimal TotalPriceDiscount
+        {
+            get
+            {
+                return (PriceDiscount ?? 0) * Quantity;
+            }
+        }
+
+        public decimal TotalPrice
+        { get { return TotalPriceValue - TotalPriceDiscount; } }
+
+        public decimal Profit
+        { get { return TotalPrice - TotalPriceOrigin; } }
 
         public string ItemName
         {
             get
             {
                 string itemName = ProductName;
-                if (!string.IsNullOrWhiteSpace(ProductPriceName))
+                if (!string.IsNullOrWhiteSpace(PriceName))
                 {
-                    itemName += $" ({ProductPriceName})";
+                    itemName += $" ({PriceName})";
                 }
 
                 return itemName;
             }
         }
-
-        public string Notes { get; set; }
-
-        public bool IsPromotionDiscountPercentage { get; set; }
-
-        [Precision(18, 2)]
-        public decimal PromotionDiscountValue { get; set; }
-
-        public Guid? PromotionId { get; set; }
-
-        public string PromotionName { get; set; }
 
         public Guid? ProductId { get; set; }
 
@@ -80,9 +81,6 @@ namespace eShopping.Domain.Entities
 
         public virtual ProductPrice ProductPrice { get; set; }
 
-        public virtual Promotion Promotion { get; set; }
-
         public virtual Product Product { get; set; }
-
     }
 }

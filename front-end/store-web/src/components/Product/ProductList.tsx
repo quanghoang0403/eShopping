@@ -31,10 +31,11 @@ export default function ProductList(props: IProps) {
                   onChange={handleSortChange}
                   className="px-1 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                 >
-                  <option value={'1'}>Giá tăng dần</option>
-                  <option value={'2'}>Giá giảm dần</option>
-                  <option value={'3'}>Mới nhất</option>
-                  <option value={'4'}>Nổi bật</option>
+                  <option value="0" selected hidden>
+                    Sắp xếp
+                  </option>
+                  <option value="1">Giá tăng dần</option>
+                  <option value="2">Giá giảm dần</option>
                 </select>
               </div>
             )}

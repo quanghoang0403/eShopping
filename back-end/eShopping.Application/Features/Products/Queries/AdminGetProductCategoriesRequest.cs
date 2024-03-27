@@ -83,6 +83,7 @@ namespace eShopping.Application.Features.Products.Queries
                     Id = category.Id,
                     Name = category.Name,
                     Priority = category.Priority,
+                    IsShowOnHome = category.IsShowOnHome,
                 });
             }
             productCategoryListResponse.ForEach(pc =>

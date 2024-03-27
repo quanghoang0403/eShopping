@@ -29,8 +29,6 @@ namespace eShopping.Interfaces
 
         IOrderHistoryRepository OrderHistories { get; }
 
-        IOrderPromotionDetailRepository OrderPromotionDetails { get; }
-
         IOrderItemRepository OrderItems { get; }
 
         IPermissionRepository Permissions { get; }
@@ -44,12 +42,6 @@ namespace eShopping.Interfaces
         IProductPriceRepository ProductPrices { get; }
 
         IProductInCategoryRepository ProductInCategories { get; }
-
-        IPromotionRepository Promotions { get; }
-
-        IPromotionProductRepository PromotionProducts { get; }
-
-        IPromotionProductCategoryRepository PromotionProductCategories { get; }
 
         IStaffRepository Staffs { get; }
 

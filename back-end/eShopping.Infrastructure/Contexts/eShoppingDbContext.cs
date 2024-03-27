@@ -38,16 +38,12 @@ namespace eShopping.Infrastructure.Contexts
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderHistory> OrderHistories { get; set; }
-        public DbSet<OrderPromotionDetail> OrderPromotionDetails { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<PermissionGroup> PermissionGroups { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<ProductInCategory> ProductInCategories { get; set; }
         public DbSet<ProductPrice> ProductPrices { get; set; }
-        public DbSet<Promotion> Promotions { get; set; }
-        public DbSet<PromotionProduct> PromotionProducts { get; set; }
-        public DbSet<PromotionProductCategory> PromotionProductCategories { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<StaffPermissionGroup> StaffGroupPermissionBranches { get; set; }
         public DbSet<Ward> Wards { get; set; }
@@ -79,7 +75,7 @@ namespace eShopping.Infrastructure.Contexts
 
             builder.Entity<Order>().HasKey(x => x.Id);
             builder.Entity<Order>().HasMany(x => x.OrderItems).WithOne(x => x.Order).HasForeignKey(x => x.OrderId);
-            builder.Entity<Order>().HasOne(x => x.Customer).WithMany(x => x.Orders).HasForeignKey(x => x.UserId);
+            builder.Entity<Order>().HasOne(x => x.Customer).WithMany(x => x.Orders).HasForeignKey(x => x.CustomerId);
 
             builder.Entity<OrderItem>().HasKey(x => x.Id);
             builder.Entity<OrderItem>().HasOne(x => x.Order).WithMany(x => x.OrderItems).HasForeignKey(x => x.OrderId);
@@ -102,28 +98,6 @@ namespace eShopping.Infrastructure.Contexts
 
             builder.Entity<ProductPrice>().HasKey(x => x.Id);
             builder.Entity<ProductPrice>().HasOne(x => x.Product).WithMany(x => x.ProductPrices).HasForeignKey(x => x.ProductId);
-
-            builder.Entity<Promotion>().HasKey(x => x.Id);
-
-            builder.Entity<PromotionProduct>().HasKey(x => new { x.Id });
-            builder.Entity<PromotionProduct>()
-                .HasOne<Promotion>(sc => sc.Promotion)
-                .WithMany(s => s.PromotionProducts)
-                .HasForeignKey(sc => sc.PromotionId);
-            builder.Entity<PromotionProduct>()
-                .HasOne<Product>(sc => sc.Product)
-                .WithMany(s => s.PromotionProducts)
-                .HasForeignKey(sc => sc.ProductId);
-
-            builder.Entity<PromotionProductCategory>().HasKey(x => new { x.Id });
-            builder.Entity<PromotionProductCategory>()
-                .HasOne<Promotion>(sc => sc.Promotion)
-                .WithMany(s => s.PromotionProductCategories)
-                .HasForeignKey(sc => sc.PromotionId);
-            builder.Entity<PromotionProductCategory>()
-                .HasOne<ProductCategory>(sc => sc.ProductCategory)
-                .WithMany(s => s.PromotionProductCategories)
-                .HasForeignKey(sc => sc.ProductCategoryId);
 
             builder.Entity<Staff>().HasKey(x => x.Id);
 
@@ -236,15 +210,11 @@ namespace eShopping.Infrastructure.Contexts
             builder.Entity<Order>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<OrderItem>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<OrderHistory>().HasQueryFilter(m => m.IsDeleted == false);
-            builder.Entity<OrderPromotionDetail>().HasQueryFilter(m => m.IsDeleted == false);
             builder.Entity<Permission>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<PermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Product>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<ProductInCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<ProductPrice>().HasQueryFilter(m => !m.IsDeleted);
-            builder.Entity<Promotion>().HasQueryFilter(m => !m.IsDeleted);
-            builder.Entity<PromotionProduct>().HasQueryFilter(m => !m.IsDeleted);
-            builder.Entity<PromotionProductCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Staff>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<StaffPermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
         }

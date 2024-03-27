@@ -16,10 +16,19 @@ namespace eShopping.Domain.Entities
         public string PriceName { get; set; }
 
         [Precision(18, 2)]
-        public decimal OriginalPrice { set; get; }
+        public decimal PriceOriginal { set; get; }
 
         [Precision(18, 2)]
         public decimal PriceValue { set; get; }
+
+        [Precision(18, 2)]
+        public decimal? PriceDiscount { set; get; }
+
+        public float? PercentNumber { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
 
         public int QuantityLeft { get; set; }
 
@@ -30,8 +39,6 @@ namespace eShopping.Domain.Entities
         public string Thumbnail { set; get; }
 
         public virtual Product Product { get; set; }
-
-        public virtual ICollection<PromotionProduct> DiscountProduct { get; set; }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 

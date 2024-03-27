@@ -1,5 +1,6 @@
 ﻿using eShopping.Application.Features.Staffs.Commands;
 using eShopping.Application.Features.Staffs.Queries;
+using eShopping.Application.Features.Users.Commands;
 using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
@@ -72,5 +73,21 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return await SafeOkAsync(response);
         }
 
+
+        [HttpPost]
+        [Route("update-password")]
+        public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request)
+        {
+            bool response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
+
+        [HttpPut]
+        [Route("disable-account")]
+        public async Task<IActionResult> DisableAccount([FromRoute] DisableAccountRequest request)
+        {
+            bool response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
     }
 }

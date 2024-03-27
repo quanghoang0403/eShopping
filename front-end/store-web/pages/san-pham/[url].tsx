@@ -15,9 +15,14 @@ export default function ProductPage({ params }: { params: { url: string } }) {
   console.log(params)
   const productDetail: IProductDetail = {
     id: '1',
+    code: 1,
     name: 'The Catcher in the Rye',
     thumbnail: '/imgs/productDetail4/1.jpg',
-    productCategoryName: 'Áo',
+    productCategory: {
+      id: '1',
+      name: 'Áo',
+      urlSEO: 'ao',
+    },
     urlSEO: 'the-catcher-in-the-rye',
     description: `Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw
     denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo
@@ -63,6 +68,7 @@ export default function ProductPage({ params }: { params: { url: string } }) {
   const productHighlight: IProduct[] = [
     {
       id: '1',
+      code: 1,
       name: 'Basic Tee With Long Sleeves Red',
       thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
       priceDiscount: 120000,
@@ -70,18 +76,20 @@ export default function ProductPage({ params }: { params: { url: string } }) {
     },
     {
       id: '2',
+      code: 1,
       percentNumber: -10,
       name: 'Classic Short Sleeves Shirt',
       thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
       priceDiscount: 120000,
       priceValue: 130000,
     },
-    { id: '3', name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
-    { id: '4', name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
-    { id: '5', percentNumber: -30, name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 150000 },
-    { id: '6', name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
+    { id: '3', code: 1, name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
+    { id: '4', code: 1, name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
+    { id: '5', code: 1, percentNumber: -30, name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 150000 },
+    { id: '6', code: 1, name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
     {
       id: '7',
+      code: 1,
       name: 'Winter-Striped Tee Dress Black',
       thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
       priceDiscount: 120000,
@@ -89,6 +97,7 @@ export default function ProductPage({ params }: { params: { url: string } }) {
     },
     {
       id: '8',
+      code: 1,
       name: 'Winter-Striped Tee Dress White',
       thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
       priceDiscount: 120000,

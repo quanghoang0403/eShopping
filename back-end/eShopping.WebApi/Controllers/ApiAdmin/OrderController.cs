@@ -46,9 +46,9 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         }
 
         [HttpPut]
-        [Route("admin-update-order-status")]
+        [Route("update-order-status")]
         [HasPermission(EnumPermission.EDIT_ORDER)]
-        public async Task<IActionResult> AdminUpdateOrderStatusAsync(AdminUpdateOrderStatusRequest command)
+        public async Task<IActionResult> UpdateOrderStatusAsync(AdminUpdateOrderStatusRequest command)
         {
             var response = await _mediator.Send(command);
             return await SafeOkAsync(response);
@@ -57,7 +57,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-order-history-by-order-id/{id}")]
         [HasPermission(EnumPermission.VIEW_ORDER)]
-        public async Task<IActionResult> GetOrderHistoryByOrderId([FromRoute] AdminGetOrderHistoryByOrderIdRequest request)
+        public async Task<IActionResult> GetOrderHistoryByOrderId([FromRoute] GetOrderHistoryByOrderIdRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

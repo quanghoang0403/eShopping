@@ -59,17 +59,13 @@ namespace eShopping.Domain.Enums
             EnumPermission.CREATE_STAFF => new Guid("6C626154-5065-7265-6D69-73730000000C"),
             EnumPermission.EDIT_STAFF => new Guid("6C626154-5065-7265-6D69-73730000000D"),
 
-            EnumPermission.VIEW_PROMOTION => new Guid("6C626154-5065-7265-6D69-73730000000E"),
-            EnumPermission.CREATE_PROMOTION => new Guid("6C626154-5065-7265-6D69-73730000000F"),
-            EnumPermission.EDIT_PROMOTION => new Guid("6C626154-5065-7265-6D69-737300000010"),
+            EnumPermission.VIEW_ORDER => new Guid("6C626154-5065-7265-6D69-73730000000E"),
+            EnumPermission.CREATE_ORDER => new Guid("6C626154-5065-7265-6D69-73730000000F"),
+            EnumPermission.EDIT_ORDER => new Guid("6C626154-5065-7265-6D69-737300000010"),
 
-            EnumPermission.VIEW_ORDER => new Guid("6C626154-5065-7265-6D69-737300000011"),
-            EnumPermission.CREATE_ORDER => new Guid("6C626154-5065-7265-6D69-737300000012"),
-            EnumPermission.EDIT_ORDER => new Guid("6C626154-5065-7265-6D69-737300000013"),
-
-            EnumPermission.VIEW_BLOG => new Guid("6C626154-5065-7265-6D69-737300000014"),
-            EnumPermission.CREATE_BLOG => new Guid("6C626154-5065-7265-6D69-737300000015"),
-            EnumPermission.EDIT_BLOG => new Guid("6C626154-5065-7265-6D69-737300000016"),
+            EnumPermission.VIEW_BLOG => new Guid("6C626154-5065-7265-6D69-737300000011"),
+            EnumPermission.CREATE_BLOG => new Guid("6C626154-5065-7265-6D69-737300000012"),
+            EnumPermission.EDIT_BLOG => new Guid("6C626154-5065-7265-6D69-737300000013"),
 
             EnumPermission.STORE_WEB => new Guid("6C626154-5065-7265-6D69-737300000100"),
 

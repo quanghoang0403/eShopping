@@ -358,7 +358,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("OriginalPrice")
+                    b.Property<decimal>("PriceOriginal")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -403,7 +403,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<decimal>("TotalAmount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
-                        .HasComment("Order revenue: OriginalPrice - TotalDiscountAmount + DeliveryFee");
+                        .HasComment("Order revenue: PriceOriginal - TotalDiscountAmount + DeliveryFee");
 
                     b.Property<decimal>("TotalDiscountAmount")
                         .HasPrecision(18, 2)
@@ -501,7 +501,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("OrderSessionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("OriginalPrice")
+                    b.Property<decimal>("PriceOriginal")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -891,7 +891,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("OriginalPrice")
+                    b.Property<decimal>("PriceOriginal")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 

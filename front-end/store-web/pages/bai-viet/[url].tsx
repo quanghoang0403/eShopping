@@ -8,15 +8,15 @@ import Image from 'next/image'
 import BlogList from '@/components/Blog/BlogList'
 
 const categories: IBlogCategory[] = [
-  { id: '1', name: 'Thời trang công sở', url: 'cong-so', color: 'blue' },
-  { id: '2', name: 'Thời trang hàng ngày', url: 'hang-ngay', color: 'pink' },
-  { id: '3', name: 'Thời trang sự kiện', url: 'su-kien', color: 'orange' },
+  { id: '1', name: 'Thời trang công sở', urlSEO: 'cong-so', color: 'blue', description: 'Thời trang' },
+  { id: '2', name: 'Thời trang hàng ngày', urlSEO: 'hang-ngay', color: 'pink', description: 'Thời trang' },
+  { id: '3', name: 'Thời trang sự kiện', urlSEO: 'su-kien', color: 'orange', description: 'Thời trang' },
 ]
 
 const blog: IBlog = {
   id: '1',
   name: 'TOP ĐẦM HOA CỰC XINH CHO CHỊ EM TỰ TIN DẠO PHỐ',
-  url: '1',
+  urlSEO: '1',
   content: `<div class="article-content js-toc-content">
   <div class="rte" id="ega-uti-editable-content" data-platform="haravan" data-id="1002274290" data-blog-id="1000802342">
                       
@@ -33,7 +33,7 @@ const blogs: IBlog[] = [
   {
     id: '1',
     name: 'TOP ĐẦM HOA CỰC XINH CHO CHỊ EM TỰ TIN DẠO PHỐ',
-    url: '1',
+    urlSEO: '1',
     content: 'blue',
     thumbnail: '/imgs/blog/1.webp',
     description: 'Dưới ánh nắng cuối xuân-đầu hè, không thể phủ nhận sức hút nữ tính, nhẹ nhàng đến từ những chiếc đầm hoa của Lamer.',
@@ -43,7 +43,7 @@ const blogs: IBlog[] = [
   {
     id: '2',
     name: 'BST HOA THÁNG BA | TÔN VINH VẺ ĐẸP PHỤ NỮ',
-    url: '2',
+    urlSEO: '2',
     content: 'blue',
     thumbnail: '/imgs/blog/2.webp',
     description: 'Mỗi người phụ nữ đều là một bông hoa độc nhất. Vẻ đẹp của bông hoa ấy không đơn thuần nằm ở “hương sắc”. ',
@@ -53,7 +53,7 @@ const blogs: IBlog[] = [
   {
     id: '3',
     name: 'BST ĐIỂU CA: LƯU GIỮ KHUNG CẢNH XUÂN TRONG TÀ ÁO DÀI',
-    url: '3',
+    urlSEO: '3',
     content: 'blue',
     thumbnail: '/imgs/blog/3.webp',
     description: 'Một khung cảnh mùa xuân mở ra với những bông hoa đua nở, chim hót ríu rít được LAMER gói ghém trong 6 mẫu áo dài',
@@ -63,7 +63,7 @@ const blogs: IBlog[] = [
   {
     id: '4',
     name: 'KHÁNH VY CÙNG CHỊ GÁI TRONG BST HER DAILY JOURNEY',
-    url: '4',
+    urlSEO: '4',
     content: 'blue',
     thumbnail: '/imgs/blog/4.webp',
     description: 'Tuy có gu trang phục khác nhau do khoảng cách thế hệ, nhưng 3 chị em Khánh Vy vẫn rạng rỡ và tự tin làm chủ',
@@ -73,7 +73,7 @@ const blogs: IBlog[] = [
   {
     id: '5',
     name: 'HER DAILY JOURNEY - HÀNH TRÌNH MỖI NGÀY CỦA NGƯỜI PHỤ NỮ',
-    url: '5',
+    urlSEO: '5',
     content: 'blue',
     thumbnail: '/imgs/blog/5.webp',
     description: 'Vừa hết mình cho sự nghiệp và vừa đảm đang việc nhà, trải qua nhiều thập kỷ, dường như người phụ nữ hiện đại',
@@ -83,7 +83,7 @@ const blogs: IBlog[] = [
   {
     id: '6',
     name: 'GỢI Ý NHỮNG SET ĐỒ HOT HIT NHẤT MÙA THU',
-    url: '6',
+    urlSEO: '6',
     content: 'blue',
     thumbnail: '/imgs/blog/6.webp',
     description: 'Mùa thu là thời điểm giao mùa, thời tiết mát mẻ, dễ chịu, thích hợp cho các hoạt động ngoài trời. ',

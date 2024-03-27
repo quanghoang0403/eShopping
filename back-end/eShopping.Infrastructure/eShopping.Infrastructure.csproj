@@ -48,7 +48,7 @@
     <None Update="Migrations\StaticData\4.permission-groups.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\5..sql">
+    <None Update="Migrations\StaticData\5.permission.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\S7.calculate-customers-by-segment.sql">

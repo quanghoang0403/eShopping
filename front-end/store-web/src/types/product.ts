@@ -1,5 +1,6 @@
 interface IProduct {
   id: string
+  code: number
   name: string
   thumbnail: string
   percentNumber?: number
@@ -8,9 +9,11 @@ interface IProduct {
 }
 
 interface IProductDetail extends ISEO {
-  gallery: string[]
-  productCategoryName: string
+  code: number
   thumbnail: string
+  isFeatured?: boolean
+  gallery: string[]
+  productCategory: IProductCategory
   productPrices: IProductPrice[]
 }
 
@@ -24,6 +27,11 @@ interface IProductPrice {
   thumbnail?: string
 }
 
-interface IProductCategory extends ISEO {
-  isShowOnHome: boolean
+interface IProductCategory {
+  id: string
+  name: string
+  urlSEO: string
+  isShowOnHome?: boolean
 }
+
+interface IProductCategoryDetail extends ISEO {}

@@ -1,4 +1,5 @@
 ﻿using eShopping.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
@@ -18,17 +19,24 @@ namespace eShopping.Models.Orders
 
         public string Reason { get; set; }
 
+        [Precision(18, 2)]
+        public decimal TotalPriceOrigin { get; set; }
+
+        [Precision(18, 2)]
+        public decimal TotalPriceValue { get; set; }
+
+        [Precision(18, 2)]
+        public decimal TotalPriceDiscount { get; set; }
+
+        public decimal TotalPrice { get; set; }
+
+        [Precision(18, 2)]
         public decimal DeliveryFee { get; set; }
 
-        public decimal OriginalPrice { get; set; }
+        [Precision(18, 2)]
+        public decimal TotalAmount { get; set; }
 
-        public decimal TotalDiscountAmount { get; set; }
-
-        public decimal TotalAmount { get { return OriginalPrice - TotalDiscountAmount + DeliveryFee; } }
-
-        public decimal TotalCost { get; set; }
-
-        public decimal Profit { get { return TotalAmount - TotalCost; } }
+        public decimal Profit { get; set; }
 
         public DateTime? CreatedTime { get; set; }
 

@@ -27,7 +27,7 @@ export default function BlogCategoryLabel(props: IProps) {
     <div className={cx('flex flex-wrap mb-1', showBg ? 'gap-3 justify-center' : '')}>
       {categories?.length &&
         categories.map((category, index) => (
-          <Link className={showBg ? '' : 'h-5'} href={`/bai-viet/danh-muc/${category.url}`} key={index}>
+          <Link className={showBg ? '' : 'h-5'} href={`/bai-viet/danh-muc/${category.urlSEO}`} key={index}>
             <p
               className={cx(
                 'inline-block text-xs font-medium tracking-wider uppercase text-nowrap mr-3',

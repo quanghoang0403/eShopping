@@ -10,10 +10,19 @@ namespace eShopping.Models.Products
         public string PriceName { get; set; }
 
         [Precision(18, 2)]
-        public decimal OriginalPrice { set; get; }
+        public decimal PriceOriginal { set; get; }
 
         [Precision(18, 2)]
         public decimal PriceValue { set; get; }
+
+        [Precision(18, 2)]
+        public decimal? PriceDiscount { set; get; }
+
+        public float? PercentNumber { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
 
         public int QuantityLeft { get; set; }
 

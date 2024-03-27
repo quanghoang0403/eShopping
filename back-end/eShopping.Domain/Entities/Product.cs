@@ -18,6 +18,8 @@ namespace eShopping.Domain.Entities
 
         public bool? IsFeatured { get; set; }
 
+        public bool? IsDiscounted { get; set; }
+
         public EnumStatus Status { get; set; }
 
         public int Priority { set; get; }
@@ -27,8 +29,6 @@ namespace eShopping.Domain.Entities
         public virtual ICollection<ProductInCategory> ProductInCategories { get; set; }
 
         public virtual ICollection<ProductPrice> ProductPrices { get; set; }
-
-        public virtual ICollection<PromotionProduct> PromotionProducts { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
     }

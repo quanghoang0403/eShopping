@@ -102,7 +102,6 @@ namespace eShopping.WebApi
             services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
-            services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IStaffPermissionGroupRepository, StaffPermissionGroupRepository>();
 

@@ -66,7 +66,6 @@ namespace GoFoodBeverage.Application.Features.Orders.Queries
 
             if (!string.IsNullOrEmpty(keySearch))
             {
-                bool isDefault;
                 if (int.TryParse(keySearch, out _))
                 {
                     listOrderCurrent = listOrderCurrent

@@ -23,7 +23,7 @@ export default function BlogList(props: IProps) {
               <div className="overflow-hidden rounded-md bg-gray-100 transition-all hover:scale-105">
                 <Link
                   className={cx('relative block', aspect === 'landscape' ? 'aspect-video' : aspect === 'custom' ? 'aspect-[5/4]' : 'aspect-square')}
-                  href={`/bai-viet/${blog.url}`}
+                  href={`/bai-viet/${blog.urlSEO}`}
                 >
                   {blog.thumbnail ? (
                     <Image
@@ -42,7 +42,7 @@ export default function BlogList(props: IProps) {
                 </Link>
               </div>
               <div className="flex items-center">
-                <Link href={`/bai-viet/${blog.url}`}>
+                <Link href={`/bai-viet/${blog.urlSEO}`}>
                   <div className="mt-2 flex justify-between items-center">
                     <BlogCategoryLabel categories={blog.categories} />
                     {/* <DateTime date={blog?.publishedTime} className="truncate text-sm text-gray-500" /> */}

@@ -56,7 +56,7 @@ namespace eShopping.Application.Features.Users.Commands
                 { $"{nameof(request.CurrentPassword)}", "Password invalid" },
             });
 
-            var passwordHash = (new PasswordHasher<Account>()).HashPassword(null, request.NewPassword);
+            var passwordHash = new PasswordHasher<Account>().HashPassword(null, request.NewPassword);
             account.Password = passwordHash;
 
             _unitOfWork.Accounts.Update(account);
