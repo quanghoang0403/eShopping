@@ -30,10 +30,10 @@ const TableProduct = ({
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
     addNew: t('button.addNew'),
-    title: t('category.manageCategory'),
+    title: t('productCategory.manageCategory'),
     confirmDelete: t('dialog.confirmDelete'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
-    productCategoryDeleteSuccess: t('category.productCategoryDeleteSuccess'),
+    productCategoryDeleteSuccess: t('productCategory.productCategoryDeleteSuccess'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table..no'),
