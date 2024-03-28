@@ -12,21 +12,15 @@ interface ISEO {
 interface IArea {
   id: number
   name: string
-  lat: number | null
-  lng: number | null
 }
 
-interface ICity extends IArea {
-  code: string
+interface IBaseResponse {
+  pageNumber: number
+  total: number
 }
 
-interface IDistrict {
-  cityId: number
-  prefix: string
-}
-
-interface IWard {
-  cityId: number
-  districtId: number
-  prefix: string
+interface IBaseRequest {
+  pageNumber: number
+  pageSize: number
+  keySearch: string
 }

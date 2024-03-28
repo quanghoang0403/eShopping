@@ -9,3 +9,11 @@ interface ICartItem {
   quantity: number
   quantityLeft: number
 }
+
+interface IOrder {}
+
+interface IOrderDetail {}
+
+interface IOrderItem {}
+
+interface IOrderHistory {}
