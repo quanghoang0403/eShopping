@@ -11,6 +11,7 @@
 ### 1.2 EF
 - add-migration [Message]
 - update-database
+- run script.sql in folder Migration/StaticData in DB to Init data 
 
 ## 2. Frontend
 
