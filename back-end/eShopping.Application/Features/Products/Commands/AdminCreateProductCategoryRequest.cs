@@ -32,7 +32,6 @@ namespace eShopping.Application.Features.Products.Commands
 
         public bool IsShowOnHome { set; get; }
 
-        public Guid? ParentId { set; get; }
 
         public List<ProductSelectedModel> Products { get; set; }
     }

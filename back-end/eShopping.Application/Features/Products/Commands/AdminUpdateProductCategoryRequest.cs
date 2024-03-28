@@ -36,8 +36,6 @@ namespace eShopping.Application.Features.Products.Commands
 
         public bool IsShowOnHome { set; get; }
 
-        public Guid? ParentId { set; get; }
-
         public List<AdminProductSelectedModel> Products { get; set; }
     }
 
@@ -69,11 +67,11 @@ namespace eShopping.Application.Features.Products.Commands
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategory = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id);
+            var productCategory = await _unitOfWork.ProductCategories.Where(c => c.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
             RequestValidation(request);
             ThrowError.Against(productCategory == null, "Cannot find product category information");
 
-            var productCategoryNameExisted = await _unitOfWork.ProductCategories.Where(p => p.Id != request.Id && p.Name.Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
+            var productCategoryNameExisted = await _unitOfWork.ProductCategories.Where(p => p.Id != request.Id && p.Name.Trim().ToLower().Equals(request.Name.Trim().ToLower())).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(productCategoryNameExisted != null, new JObject()
             {
                 { $"{nameof(request.Name)}", "Product category name has already existed" },
@@ -111,7 +109,7 @@ namespace eShopping.Application.Features.Products.Commands
                 modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
                 modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
                 modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
-
+                
                 await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
                 await _unitOfWork.SaveChangesAsync();
                 // Complete this transaction, data will be saved.

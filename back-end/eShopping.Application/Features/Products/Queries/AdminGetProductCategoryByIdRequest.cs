@@ -41,16 +41,20 @@ namespace eShopping.Application.Features.Products.Queries
             ThrowError.Against(productCategoryData == null, "Cannot find product category information");
 
             var productCategory = _mapper.Map<AdminProductCategoryDetailModel>(productCategoryData);
-            productCategory.Products = productCategoryData.ProductInCategories
-                .Select(x => new AdminProductCategoryDetailModel.AdminProductSelectedModel
-                {
-                    Id = x.ProductId,
-                    Name = x.Product.Name,
-                    Priority = x.Product.Priority,
-                    Thumbnail = x.Product?.Thumbnail,
-                })
-                .OrderByDescending(x => x.Priority)
-                .ToList();
+            // if (productCategory.Products != null)
+            if (productCategoryData.ProductInCategories != null)
+            {
+                productCategory.Products = productCategoryData.ProductInCategories
+                    .Select(x => new AdminProductCategoryDetailModel.AdminProductSelectedModel
+                    {
+                        Id = x.ProductId,
+                        Name = x.Product.Name,
+                        Priority = x.Product.Priority,
+                        Thumbnail = x.Product?.Thumbnail,
+                    })
+                    .OrderByDescending(x => x.Priority)
+                    .ToList();
+            }
 
             return new AdminGetProductCategoryByIdResponse
             {

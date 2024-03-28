@@ -35,9 +35,9 @@ export default function TableProductCategory () {
     btnIgnore: t('button.ignore'),
     confirmDelete: t('dialog.confirmDelete'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
-    productCategoryDeleteSuccess: t('category.productCategoryDeleteSuccess'),
-    productCategoryUpdateSuccess: t('category.productCategoryUpdateSuccess'),
-    productCategoryDeleteFail: t('category.productCategoryDeleteFail'),
+    productCategoryDeleteSuccess: t('productCategory.productCategoryDeleteSuccess'),
+    productCategoryUpdateSuccess: t('productCategory.productCategoryUpdateSuccess'),
+    productCategoryDeleteFail: t('productCategory.productCategoryDeleteFail'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table.no'),
@@ -47,8 +47,8 @@ export default function TableProductCategory () {
       action: t('table.action')
     },
     product: {
-      title: t('category.titleProduct'),
-      placeholder: t('category.placeholderProduct')
+      title: t('productCategory.titleProduct'),
+      placeholder: t('productCategory.placeholderProduct')
     }
   }
 
