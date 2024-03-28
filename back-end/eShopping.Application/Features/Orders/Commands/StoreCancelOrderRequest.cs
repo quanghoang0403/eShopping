@@ -2,41 +2,39 @@
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoFoodBeverage.Application.Features.Orders.Commands
 {
-    public class AdminUpdateOrderStatusRequest : IRequest<bool>
+    public class StoreCancelOrderRequest : IRequest<bool>
     {
         public Guid OrderId { get; set; }
 
-        public EnumOrderStatus Status { get; set; }
+        public string CancelReason { get; set; }
 
-        public string Note { get; set; }
     }
 
-    public class AdminUpdateOrderStatusRequestHandle : IRequestHandler<AdminUpdateOrderStatusRequest, bool>
+    public class StoreUpdateOrderStatusRequestHandle : IRequestHandler<StoreCancelOrderRequest, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
 
-        public AdminUpdateOrderStatusRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider)
+        public StoreUpdateOrderStatusRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider)
         {
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminUpdateOrderStatusRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(StoreCancelOrderRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
-            var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).FirstOrDefaultAsync(cancellationToken);
+            var order = await _unitOfWork.Orders.GetOrderItemByOrderIdAsync(request.OrderId);
             if (order != null)
             {
-                order.Status = request.Status;
+                order.Status = EnumOrderStatus.Canceled;
                 order.LastSavedUser = accountId;
                 order.LastSavedTime = DateTime.UtcNow;
             }
@@ -46,7 +44,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
             {
                 OrderId = order.Id,
                 ActionType = EnumOrderActionType.CANCEL,
-                Note = request.Note,
+                CancelReason = request.CancelReason,
                 CreatedTime = DateTime.Now,
                 CreatedUser = accountId,
             });

@@ -42,8 +42,8 @@ const sessionSlice = createSlice({
       state.accountId = null
     },
     addProductToCart(state, action: PayloadAction<ICartItem>) {
-      const { productId, priceId } = action.payload
-      const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.priceId === priceId)
+      const { productId, productPriceId } = action.payload
+      const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productPriceId === productPriceId)
 
       if (existingItemIndex !== -1) {
         state.cartItems[existingItemIndex].quantity += 1
@@ -53,9 +53,9 @@ const sessionSlice = createSlice({
       state.totalQuantity = calculateTotalQuantity(state.cartItems)
       state.totalPrice = calculateTotalPrice(state.cartItems)
     },
-    updateProductInCart(state, action: PayloadAction<{ productId: string; priceId: string; quantity: number }>) {
-      const { productId, priceId, quantity } = action.payload
-      const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.priceId === priceId)
+    updateProductInCart(state, action: PayloadAction<{ productId: string; productPriceId: string; quantity: number }>) {
+      const { productId, productPriceId, quantity } = action.payload
+      const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productPriceId === productPriceId)
 
       if (existingItemIndex !== -1) {
         const quantityLeft = state.cartItems[existingItemIndex].quantityLeft
@@ -67,9 +67,9 @@ const sessionSlice = createSlice({
       state.totalQuantity = calculateTotalQuantity(state.cartItems)
       state.totalPrice = calculateTotalPrice(state.cartItems)
     },
-    removeProductFromCart(state, action: PayloadAction<{ productId: string; priceId: string }>) {
-      const { productId, priceId } = action.payload
-      state.cartItems = state.cartItems.filter((item) => !(item.productId === productId && item.priceId === priceId))
+    removeProductFromCart(state, action: PayloadAction<{ productId: string; productPriceId: string }>) {
+      const { productId, productPriceId } = action.payload
+      state.cartItems = state.cartItems.filter((item) => !(item.productId === productId && item.productPriceId === productPriceId))
       state.totalQuantity = calculateTotalQuantity(state.cartItems)
       state.totalPrice = calculateTotalPrice(state.cartItems)
     },

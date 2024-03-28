@@ -7,13 +7,15 @@ namespace eShopping.Models.Orders
     {
         public Guid Id { get; set; }
 
-        public Guid? OrderId { get; set; }
+        public Guid OrderId { get; set; }
+
+        public Guid ProductId { get; set; }
 
         public string ProductUrl { get; set; }
 
-        public int Quantity { get; set; }
-
         public string ProductName { get; set; }
+
+        public int Quantity { get; set; }
 
         public string PriceName { get; set; }
 
@@ -30,7 +32,5 @@ namespace eShopping.Models.Orders
         public decimal TotalPriceDiscount { get; set; }
 
         public decimal TotalPrice { get; set; }
-
-        public decimal Profit { get; set; }
     }
 }

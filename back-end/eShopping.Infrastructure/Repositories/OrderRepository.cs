@@ -18,7 +18,7 @@ namespace eShopping.Infrastructure.Repositories
         {
         }
 
-        public Task<Order> GetOrderItemByOrderIdAsync(Guid? id)
+        public Task<Order> GetOrderByIdAsync(Guid id)
         {
             var order = dbSet.Where(o => o.Id == id)
                 .Include(o => o.Customer).ThenInclude(a => a.City)
@@ -28,6 +28,12 @@ namespace eShopping.Infrastructure.Repositories
                 .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice).ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync();
 
+            return order;
+        }
+
+        public Task<Order> GetOrderItemByOrderIdAsync(Guid id)
+        {
+            var order = dbSet.Where(o => o.Id == id).FirstOrDefaultAsync();
             return order;
         }
 

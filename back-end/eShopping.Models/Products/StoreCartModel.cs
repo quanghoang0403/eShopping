@@ -7,9 +7,9 @@ namespace eShopping.Models.Products
     {
         public Guid ProductId { get; set; }
 
-        public Guid PriceId { get; set; }
-
         public string ProductName { get; set; }
+
+        public Guid ProductPriceId { get; set; }
 
         public string PriceName { get; set; }
 
@@ -23,6 +23,5 @@ namespace eShopping.Models.Products
 
         public int Quantity { get; set; }
 
-        public string Thumbnail { get; set; }
     }
 }

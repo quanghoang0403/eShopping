@@ -12,8 +12,6 @@ namespace eShopping.Domain.Entities
     {
         public Guid OrderId { get; set; }
 
-        public string ActionName { get; set; }
-
         public string Note { get; set; }
 
         [MaxLength(255)]

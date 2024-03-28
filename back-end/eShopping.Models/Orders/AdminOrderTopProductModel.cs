@@ -22,7 +22,7 @@ namespace eShopping.Models.Orders
 
         public Guid? ProductId { get; set; }
 
-        public Guid? PriceId { get; set; }
+        public Guid? ProductPriceId { get; set; }
 
         [Precision(18, 2)]
         public decimal TotalCost { get; set; }

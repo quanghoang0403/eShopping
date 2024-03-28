@@ -22,11 +22,15 @@ namespace eShopping.Application.Mappings
 
             CreateMap<Order, AdminOrderModel>();
             CreateMap<Order, StoreOrderModel>();
+            CreateMap<Order, AdminOrderDetailModel>();
+            CreateMap<Order, StoreOrderDetailModel>();
+            CreateMap<OrderItem, AdminOrderItemModel>();
+            CreateMap<OrderItem, StoreOrderItemModel>();
+
             CreateMap<Customer, AdminOrderModel.CustomerDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Account.FullName))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account.PhoneNumber));
-            CreateMap<Order, AdminOrderDetailModel>();
             CreateMap<Customer, AdminOrderDetailModel.CustomerDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Account.FullName))

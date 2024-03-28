@@ -12,17 +12,15 @@ namespace eShopping.Domain.Entities
     [Table(nameof(Order))]
     public class Order : BaseEntity
     {
+        public Guid CustomerId { set; get; }
+
         /// <summary>
         /// The database generates a value when a row is inserted.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Code { get; set; }
 
-        public DateTime OrderDate { set; get; }
-
         public EnumOrderStatus Status { get; set; }
-
-        public Guid CustomerId { set; get; }
 
         [MaxLength(50)]
         public string ShipName { set; get; }
@@ -36,12 +34,13 @@ namespace eShopping.Domain.Entities
         [MaxLength(10)]
         public string ShipPhoneNumber { set; get; }
 
-
         [MaxLength(255)]
         public string Note { get; set; }
 
-        public int TotalQuantity { get { return OrderItems.Sum(x => x.Quantity); } }
+        [Precision(18, 2)]
+        public decimal DeliveryFee { get; set; }
 
+        public int TotalQuantity { get { return OrderItems.Sum(x => x.Quantity); } }
 
         [Precision(18, 2)]
         public decimal TotalPriceOrigin { get { return OrderItems.Sum(x => x.TotalPriceOrigin); } }
@@ -52,11 +51,8 @@ namespace eShopping.Domain.Entities
         [Precision(18, 2)]
         public decimal TotalPriceDiscount { get { return OrderItems.Sum(x => x.TotalPriceDiscount); } }
 
-        public decimal TotalPrice
-        { get { return TotalPriceValue - TotalPriceDiscount; } }
-
         [Precision(18, 2)]
-        public decimal DeliveryFee { get; set; }
+        public decimal TotalPrice { get { return OrderItems.Sum(x => x.TotalPrice); } }
 
         [Precision(18, 2)]
         public decimal TotalAmount { get { return TotalPrice + DeliveryFee; } }

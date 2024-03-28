@@ -55,15 +55,14 @@ namespace GoFoodBeverage.Application.Features.Orders.Queries
             var listOrder = await _unitOfWork.Orders.Find(o => o.CreatedTime.Value.CompareTo(request.StartDate) >= 0
                                                             && request.EndDate.CompareTo(o.CreatedTime.Value) >= 0
                                                             && o.Status != EnumOrderStatus.Canceled
-                                                            && o.Status != EnumOrderStatus.Draft
-                                                            && o.Status != EnumOrderStatus.ToConfirm
+                                                            && o.Status != EnumOrderStatus.Confirmed
                                                             && o.Status != EnumOrderStatus.Returned)
                 .Select(x => new { x.Id, x.CreatedTime, x.Status, x.CustomerId, x.TotalPrice, x.DeliveryFee, x.TotalAmount })
                 .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
 
             var listOrderIds = listOrder.Select(x => x.Id);
-            var listAllProductPrices = await _unitOfWork.OrderItems.Find(x => listOrderIds.Contains(x.OrderId.Value))
+            var listAllProductPrices = await _unitOfWork.OrderItems.Find(x => listOrderIds.Contains(x.OrderId))
                                                              .Select(x => new { x.ProductPriceId, x.Quantity })
                                                              .GroupBy(x => new { x.ProductPriceId })
                                                              .Select(g => new AdminProductPriceGroupModel { ProductPriceId = g.Key.ProductPriceId, Quantity = g.Sum(x => x.Quantity) })

@@ -19,12 +19,12 @@ export default function CartList(props: IProps) {
     return { id: index }
   })
 
-  const removeCartItem = (productId: string, priceId: string) => {
-    dispatch(sessionActions.removeProductFromCart({ productId, priceId }))
+  const removeCartItem = (productId: string, productPriceId: string) => {
+    dispatch(sessionActions.removeProductFromCart({ productId, productPriceId }))
   }
 
-  const updateCartItem = (productId: string, priceId: string, quantity: number) => {
-    dispatch(sessionActions.updateProductInCart({ productId, priceId, quantity }))
+  const updateCartItem = (productId: string, productPriceId: string, quantity: number) => {
+    dispatch(sessionActions.updateProductInCart({ productId, productPriceId, quantity }))
   }
 
   return (
@@ -46,7 +46,7 @@ export default function CartList(props: IProps) {
                     <h2 className={cx('text-gray-900', isSmall ? 'text-base line-clamp-1' : 'text-lg line-clamp-2')}>{cart.productName}</h2>
                     {cart.priceName && <p className={cx('text-sm text-gray-700', isSmall ? '' : 'mt-1')}>{cart.priceName}</p>}
                   </div>
-                  <IconButton variant="text" color="blue-gray" onClick={() => removeCartItem(cart.productId, cart.priceId)}>
+                  <IconButton variant="text" color="blue-gray" onClick={() => removeCartItem(cart.productId, cart.productPriceId)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -66,7 +66,7 @@ export default function CartList(props: IProps) {
                       name="quantity"
                       defaultValue={cart.quantity}
                       options={options}
-                      onChange={(value: any) => updateCartItem(cart.productId, cart.priceId, value)}
+                      onChange={(value: any) => updateCartItem(cart.productId, cart.productPriceId, value)}
                     />
                   </div>
 

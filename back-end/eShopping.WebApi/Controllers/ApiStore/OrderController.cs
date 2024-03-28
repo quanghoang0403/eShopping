@@ -39,7 +39,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         [HttpPut]
         [Route("update-order-status")]
         [HasPermission(EnumPermission.STORE_WEB)]
-        public async Task<IActionResult> UpdateOrderStatusAsync(StoreUpdateOrderStatusRequest command)
+        public async Task<IActionResult> UpdateOrderStatusAsync(StoreCancelOrderRequest command)
         {
             var response = await _mediator.Send(command);
             return await SafeOkAsync(response);

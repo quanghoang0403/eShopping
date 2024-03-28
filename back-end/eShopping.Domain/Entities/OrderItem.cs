@@ -8,13 +8,15 @@ namespace eShopping.Domain.Entities
     [Table(nameof(OrderItem))]
     public class OrderItem : BaseEntity
     {
-        public Guid? OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
-        public Guid? OrderSessionId { get; set; }
+        public Guid ProductId { get; set; }
 
-        public Guid? ProductPriceId { get; set; }
+        public string ProductName { get; set; }
 
         public string ProductUrl { get; set; }
+
+        public Guid ProductPriceId { get; set; }
 
         public string PriceName { get; set; }
 
@@ -29,35 +31,18 @@ namespace eShopping.Domain.Entities
 
         public int Quantity { get; set; }
 
-        public decimal TotalPriceOrigin
-        {
-            get
-            {
-                return PriceOrigin * Quantity;
-            }
-        }
+        public decimal TotalPriceOrigin { get { return PriceOrigin * Quantity; } }
 
-        public decimal TotalPriceValue
-        {
-            get
-            {
-                return PriceValue * Quantity;
-            }
-        }
+        public decimal TotalPriceValue { get { return PriceValue * Quantity; } }
 
-        public decimal TotalPriceDiscount
-        {
-            get
-            {
-                return (PriceDiscount ?? 0) * Quantity;
-            }
-        }
+        public decimal TotalPriceDiscount { get { return PriceDiscount ?? 0 * Quantity; } }
 
-        public decimal TotalPrice
-        { get { return TotalPriceValue - TotalPriceDiscount; } }
+        /// <summary>
+        /// Get price discount if has discount, if not - get normal price
+        /// </summary>
+        public decimal TotalPrice { get { return TotalPriceDiscount > 0 ? TotalPriceDiscount : TotalPriceValue; } }
 
-        public decimal Profit
-        { get { return TotalPrice - TotalPriceOrigin; } }
+        public decimal Profit { get { return TotalPrice - TotalPriceOrigin; } }
 
         public string ItemName
         {
@@ -72,10 +57,6 @@ namespace eShopping.Domain.Entities
                 return itemName;
             }
         }
-
-        public Guid? ProductId { get; set; }
-
-        public string ProductName { get; set; }
 
         public virtual Order Order { get; set; }
 
