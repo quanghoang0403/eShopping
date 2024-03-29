@@ -13,7 +13,7 @@ export default function CategoryPage (props) {
   const [showAddNewProductCategoryForm, setShowAddNewProductCategoryForm] = useState(false)
   const { t } = useTranslation()
   const pageData = {
-    title: t('category.manageCategory'),
+    title: t('productCategory.manageCategory'),
     button: {
       addNew: t('button.addNew')
     }

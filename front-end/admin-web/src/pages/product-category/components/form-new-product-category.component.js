@@ -23,33 +23,33 @@ export default function FormNewProductCategory (props) {
   const [form] = Form.useForm()
 
   const pageData = {
-    title: t('category.addProductCategory'),
+    title: t('productCategory.addProductCategory'),
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
     btnAddNew: t('button.addNew'),
     btnDiscard: t('button.discard'),
     generalInformation: {
-      title: t('category.titleInfo'),
+      title: t('productCategory.titleInfo'),
       name: {
-        label: t('category.labelName'),
-        placeholder: t('category.placeholderName'),
+        label: t('productCategory.labelName'),
+        placeholder: t('productCategory.placeholderName'),
         required: true,
         maxLength: 100,
-        validateMessage: t('category.validateName')
+        validateMessage: t('productCategory.validateName')
       }
     },
     product: {
-      title: t('category.titleProduct'),
-      placeholder: t('category.placeholderProduct')
+      title: t('productCategory.titleProduct'),
+      placeholder: t('productCategory.placeholderProduct')
     },
     priority: {
-      title: t('category.titlePriority'),
-      placeholder: t('category.placeholderPriority'),
-      validateMessage: t('category.validatePriority'),
-      tooltip: t('category.tooltipPriority')
+      title: t('productCategory.titlePriority'),
+      placeholder: t('productCategory.placeholderPriority'),
+      validateMessage: t('productCategory.validatePriority'),
+      tooltip: t('productCategory.tooltipPriority')
     },
-    productCategoryNameExisted: t('category.productNameExisted'),
-    productCategoryAddedSuccess: t('category.productCategoryAddedSuccess'),
+    productCategoryNameExisted: t('productCategory.productNameExisted'),
+    productCategoryAddedSuccess: t('productCategory.productCategoryAddedSuccess'),
     leaveDialog: {
       confirmLeave: t('dialog.confirmLeave'),
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
