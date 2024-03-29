@@ -17,6 +17,8 @@ namespace eShopping.Models.Orders
 
         public string PriceName { get; set; }
 
+        public string Thumbnail { get; set; }
+
         public int Quantity { get; set; }
 
         public string ItemName { get; set; }

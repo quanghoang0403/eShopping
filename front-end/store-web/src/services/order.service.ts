@@ -1,19 +1,6 @@
 import { AxiosResponse } from 'axios'
 import APIService from './base'
 
-interface IGetOrdersRequest extends IBaseRequest {
-  startDate: Date
-  endDate: Date
-}
-
-interface IGetOrdersResponse extends IBaseResponse {
-  orders: IOrder[]
-}
-
-interface IUpdateOrderRequest {}
-
-interface ICreateOrderRequest {}
-
 export default class OrderService {
   static getOrders(request: IGetOrdersRequest): Promise<AxiosResponse<IGetOrdersResponse>> {
     return APIService.get(

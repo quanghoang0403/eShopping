@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ImageService } from '@/services'
-import { ISearchImageResponse } from '@/services/image.service'
 import SEO from '@/components/Layout/SEO'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, GetStaticProps } from 'next'

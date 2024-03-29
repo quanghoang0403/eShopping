@@ -157,6 +157,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
                             PriceDiscount = price.PriceDiscount,
                             PriceValue = price.PriceValue,
                             Quantity = item.Quantity,
+                            Thumbnail = item.Thumbnail,
                             CreatedTime = DateTime.Now,
                             CreatedUser = accountId,
                         });

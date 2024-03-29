@@ -1,12 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
 import { tokenExpired } from '@/utils/common.helper'
-import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
-import { sessionActions } from '@/redux/features/sessionSlice'
-
+import cookie from 'js-cookie'
 const _redirectToLoginPage = () => {
-  const dispatch = useAppDispatch()
-  dispatch(sessionActions.logout())
   window.location.href = '/login'
 }
 
@@ -14,7 +10,7 @@ const _configRequest = async (request: any) => {
   if (!request.params) {
     request.params = {}
   }
-  const token = useAppSelector((state) => state.session.token)
+  const token = cookie.get('token')
   if (token) {
     const expired = tokenExpired(token)
     if (expired === true) {

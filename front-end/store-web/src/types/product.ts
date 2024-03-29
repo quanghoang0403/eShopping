@@ -35,3 +35,20 @@ interface IProductCategory {
 }
 
 interface IProductCategoryDetail extends ISEO {}
+
+enum EnumSortType {
+  Default = 0,
+  PriceAsc = 1,
+  PriceDesc = 2,
+}
+
+interface IGetProductsRequest extends IBaseRequest {
+  productCategoryId?: string
+  isFeatured?: boolean
+  isDiscounted?: boolean
+  sortType: EnumSortType
+}
+
+interface IGetProductsResponse extends IBaseResponse {
+  products: IProduct[]
+}

@@ -3,6 +3,7 @@ import Input from './Controller/Input'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import Selection, { IOption } from './Controller/Selection'
 import { INPUT_TYPES } from './Controller/CustomInputText'
+import { useAppQuery } from '@/hooks/queryHook'
 
 interface IProps {
   isShipping?: boolean
@@ -12,6 +13,12 @@ interface IProps {
 
 export default function CustomerInfo(props: IProps) {
   const { isShipping, register, errors } = props
+
+  // const cities = useAppQuery(
+  //   ['getNewsById'],
+  //   () => handleSignIn({ email: 'customer@gmail.com', password: '1' }),
+  //   () => console.log(1)
+  // )
   const cities: IOption[] = [
     { id: 1, name: 'Hà Nội' },
     { id: 2, name: 'Hồ Chí Minh' },

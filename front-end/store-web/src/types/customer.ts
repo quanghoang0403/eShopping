@@ -1,3 +1,9 @@
+enum EnumGender {
+  Male = 1,
+  Female = 2,
+  Other = 3,
+}
+
 interface ICustomer {
   id: string
   accountId: string
@@ -12,6 +18,6 @@ interface ICustomer {
   fullName: string
   thumbnail: string
   birthday: string | null
-  gender: number
+  gender: EnumGender
   code: number
 }

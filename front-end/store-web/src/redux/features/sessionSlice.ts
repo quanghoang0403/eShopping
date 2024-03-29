@@ -1,11 +1,9 @@
 import { notifyInfo } from '@/components/Notification'
-import { ISignInResponse } from '@/services/auth.service'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import cookie from 'js-cookie'
 
 interface SessionState {
   isLoggedIn: boolean
-  token?: string
   customerId: string | null
   accountId: string | null
   cartItems: ICartItem[]
@@ -27,16 +25,15 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     signInSuccess(state, action: PayloadAction<ISignInResponse>) {
-      // cookie.set('token', action.payload.token, {
-      //   sameSite: 'lax',
-      // })
-      state.token = action.payload.token
+      cookie.set('token', action.payload.token, {
+        sameSite: 'lax',
+      })
       state.isLoggedIn = true
       state.customerId = action.payload.customerId
       state.accountId = action.payload.accountId
     },
     logout(state) {
-      state.token = ''
+      cookie.remove('token')
       state.isLoggedIn = false
       state.customerId = null
       state.accountId = null

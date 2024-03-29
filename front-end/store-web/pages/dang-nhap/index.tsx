@@ -1,17 +1,14 @@
 import LayoutLogin from '@/components/Layout/LayoutLogin'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FiEyeOff, FiEye } from 'react-icons/fi'
 import { useRouter } from 'next/router'
-import { useMutation, useQuery } from 'react-query'
-import { ISignInRequest, ISignInResponse } from '@/services/auth.service'
 import AuthService from '@/services/auth.service'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
-import { notifyError } from '@/components/Notification'
 import ErrorForm from '@/components/Controller/ErrorForm'
 import Link from 'next/link'
-import { useAppMutation, useAppQuery } from '@/hooks/queryHook'
+import { useAppMutation } from '@/hooks/queryHook'
 import Input from '@/components/Controller/Input'
 import SEO from '@/components/Layout/SEO'
 import { INPUT_TYPES } from '@/components/Controller/CustomInputText'
@@ -30,24 +27,17 @@ export default function SignInPage() {
     setShowPassword(!showPassword)
   }
 
-  const handleSignIn = useCallback(async (data: ISignInRequest) => {
-    return AuthService.signIn(data)
-  }, [])
-
-  const mutation = useAppMutation(handleSignIn, async (res: ISignInResponse) => {
-    if (query?.email) {
-      router.push('/')
-    } else {
-      router.push(router.asPath)
+  const mutation = useAppMutation(
+    async (data: ISignInRequest) => AuthService.signIn(data),
+    async (res: ISignInResponse) => {
+      if (query?.email) {
+        router.push('/')
+      } else {
+        router.push(router.asPath)
+      }
+      dispatch(sessionActions.signInSuccess(res))
     }
-    dispatch(sessionActions.signInSuccess(res))
-  })
-
-  // useAppQuery(
-  //   ['getNewsById'],
-  //   () => handleSignIn({ email: 'customer@gmail.com', password: '1' }),
-  //   () => console.log(1)
-  // )
+  )
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
   return (
