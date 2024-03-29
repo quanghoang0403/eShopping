@@ -36,10 +36,10 @@
   }
 }
 
-@layer components {
-}
+@layer components {}
 
 @layer utilities {
+
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -143,6 +143,7 @@
   0% {
     -webkit-transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
   }
@@ -152,12 +153,13 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
-#menu-toggle:checked + #menu {
+#menu-toggle:checked+#menu {
   display: block;
 }
 

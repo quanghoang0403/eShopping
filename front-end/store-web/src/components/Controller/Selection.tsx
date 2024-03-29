@@ -2,15 +2,11 @@ import { cx } from '@/utils/common.helper'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import ErrorForm from './ErrorForm'
 
-export interface IOption {
-  id: string | number
-  name?: string
-}
-
 interface IProps {
   defaultValue?: any
+  disable?: boolean
   onChange?: (value: string | number | null | undefined) => void
-  options: IOption[]
+  options: IOption[] | IArea[]
   label?: string
   name: string
   className?: string
@@ -21,12 +17,26 @@ interface IProps {
 }
 
 export default function Selection(props: IProps) {
-  const { defaultValue, onChange, options, label, name, className, isFullWidth, register, patternValidate, errors } = props
+  const { defaultValue, onChange, options, label, name, className, isFullWidth, register, patternValidate, errors, disable } = props
 
   const handleOnChange = (value: string | number | null | undefined) => {
     onChange && onChange(value)
   }
-
+  const isEmpty = !(options?.length > 0)
+  console.log(options)
+  const renderOptions = () => {
+    return (
+      <>
+        {!defaultValue && <option disabled selected hidden value=""></option>}
+        {!isEmpty &&
+          options.map((option, index) => (
+            <option key={index} value={option.id}>
+              {option.name ?? option.id}
+            </option>
+          ))}
+      </>
+    )
+  }
   return (
     <>
       {label && (
@@ -38,7 +48,7 @@ export default function Selection(props: IProps) {
         {register && patternValidate ? (
           <select
             className={cx(
-              'px-3 py-2 w-full pr-7 appearance-none rounded-md shadow border border-gray-400 focus:outline-none focus:ring focus:border-blue-500',
+              'px-3 py-2 w-full pr-7 appearance-none rounded-md shadow  cursor-pointer border border-gray-400 focus:outline-none focus:ring focus:border-blue-500 disabled:bg-gray-200 disabled:cursor-auto',
               className
             )}
             {...register(name, {
@@ -47,13 +57,9 @@ export default function Selection(props: IProps) {
             onChange={(e) => handleOnChange(e.target.value)}
             name={name}
             defaultValue={defaultValue}
+            disabled={disable || isEmpty}
           >
-            <option disabled selected hidden value=""></option>
-            {options.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name ?? option.id}
-              </option>
-            ))}
+            {renderOptions()}
           </select>
         ) : (
           <select
@@ -64,13 +70,9 @@ export default function Selection(props: IProps) {
             onChange={(e) => handleOnChange(e.target.value)}
             name={name}
             defaultValue={defaultValue}
+            disabled={disable || isEmpty}
           >
-            <option disabled selected hidden value=""></option>
-            {options.map((option, index) => (
-              <option key={index} value={option.id}>
-                {option.name ?? option.id}
-              </option>
-            ))}
+            {renderOptions()}
           </select>
         )}
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

@@ -14,6 +14,11 @@ interface IArea {
   name: string
 }
 
+interface IOption {
+  id: string | number
+  name?: string
+}
+
 interface IBaseResponse {
   pageNumber: number
   total: number

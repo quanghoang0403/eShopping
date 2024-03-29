@@ -76,7 +76,7 @@ export default function CartPage() {
           </div>
           <div className="rounded-lg border bg-white p-6 shadow-md mt-6">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <CustomerInfo register={register} errors={errors} isShipping />
+              <CustomerInfo register={register} errors={errors} isShipping cityId={0} districtId={0} wardId={0} />
             </form>
             <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
           </div>

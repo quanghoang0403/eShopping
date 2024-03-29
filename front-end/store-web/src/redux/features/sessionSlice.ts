@@ -79,11 +79,15 @@ const sessionSlice = createSlice({
 })
 
 function calculateTotalQuantity(cartItems: ICartItem[]): number {
-  return cartItems.reduce((total, item) => total + item.quantity, 0)
+  let sum = 0
+  cartItems.forEach((item) => (sum += item.quantity))
+  return sum
 }
 
 function calculateTotalPrice(cartItems: ICartItem[]): number {
-  return cartItems.reduce((total, item) => total + item.priceValue * item.quantity, 0)
+  let sum = 0
+  cartItems.forEach((item) => (sum += item.quantity * (item.priceDiscount ?? item.priceValue)))
+  return sum
 }
 
 export const sessionActions = sessionSlice.actions

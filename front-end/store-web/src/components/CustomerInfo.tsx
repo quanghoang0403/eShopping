@@ -1,39 +1,63 @@
 import { cx } from '@/utils/common.helper'
 import Input from './Controller/Input'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
-import Selection, { IOption } from './Controller/Selection'
+import Selection from './Controller/Selection'
 import { INPUT_TYPES } from './Controller/CustomInputText'
 import { useAppQuery } from '@/hooks/queryHook'
+import AddressService from '@/services/address.service'
+import { useEffect, useState } from 'react'
 
 interface IProps {
   isShipping?: boolean
   register: UseFormRegister<FieldValues>
   errors: FieldErrors<FieldValues>
+  cityId: number
+  districtId: number
+  wardId: number
 }
 
 export default function CustomerInfo(props: IProps) {
-  const { isShipping, register, errors } = props
+  const { isShipping, register, errors, wardId } = props
+  const [cityId, setCityId] = useState<number>(props.cityId)
+  const [districtId, setDistrictId] = useState<number>(props.districtId)
 
-  // const cities = useAppQuery(
-  //   ['getNewsById'],
-  //   () => handleSignIn({ email: 'customer@gmail.com', password: '1' }),
-  //   () => console.log(1)
-  // )
-  const cities: IOption[] = [
-    { id: 1, name: 'Hà Nội' },
-    { id: 2, name: 'Hồ Chí Minh' },
-    { id: 3, name: 'Đà Nẵng' },
-  ]
-  const districts: IOption[] = [
-    { id: 1, name: 'Quận 1' },
-    { id: 2, name: 'Quận 2' },
-    { id: 3, name: 'Quận Bình Thạnh' },
-  ]
-  const wards: IOption[] = [
-    { id: 1, name: 'Phường 17' },
-    { id: 2, name: 'Phường 1' },
-    { id: 3, name: 'Phường 2' },
-  ]
+  const [cities, setCities] = useState<IArea[]>([])
+  const [districts, setDistricts] = useState<IArea[]>([])
+  const [wards, setWards] = useState<IArea[]>([])
+
+  useEffect(() => {
+    fetchCities()
+  }, [])
+
+  useEffect(() => {
+    fetchDistricts(cityId)
+  }, [cityId])
+
+  useEffect(() => {
+    fetchWards(districtId)
+  }, [districtId])
+
+  const fetchCities = async () => {
+    const res = await AddressService.getCities()
+    if (res.data) {
+      setCities(res.data.cities)
+    }
+  }
+
+  const fetchDistricts = async (cityId: number) => {
+    const res = await AddressService.getDistricts(cityId)
+    if (res.data) {
+      setDistricts(res.data.districts)
+    }
+  }
+
+  const fetchWards = async (districtId: number) => {
+    const res = await AddressService.getWards(districtId)
+    if (res.data) {
+      setWards(res.data.wards)
+    }
+  }
+
   return (
     <div className="space-y-3">
       <div className="md:flex gap-2">
@@ -80,6 +104,8 @@ export default function CustomerInfo(props: IProps) {
             isFullWidth
             label="Tỉnh/Thành"
             options={cities}
+            onChange={(value: any) => setCityId(value)}
+            // defaultValue={cityId}
             name={isShipping ? 'ShipCityId' : 'CityId'}
             register={register}
             patternValidate={{
@@ -95,6 +121,8 @@ export default function CustomerInfo(props: IProps) {
             isFullWidth
             label="Quận/Huyện"
             options={districts}
+            onChange={(value: any) => setDistrictId(value)}
+            defaultValue={districtId}
             name={isShipping ? 'ShipDistrictId' : 'DistrictId'}
             register={register}
             patternValidate={{
@@ -108,6 +136,7 @@ export default function CustomerInfo(props: IProps) {
             isFullWidth
             label="Phường/Xã"
             options={wards}
+            defaultValue={wardId}
             name={isShipping ? 'ShipWardId' : 'WardId'}
             register={register}
             patternValidate={{

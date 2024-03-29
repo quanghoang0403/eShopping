@@ -26,7 +26,7 @@ const _configRequest = async (request: any) => {
   return request
 }
 
-const _configResponse = async (response: any) => response.data
+const _configResponse = async (response: any) => response
 
 const _configError = async (error: any) => {
   console.log(error)
