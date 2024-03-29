@@ -5,7 +5,7 @@ import { cx } from '@/utils/common.helper'
 import { IconButton } from '@material-tailwind/react'
 import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
-import Selection, { IOption } from './Controller/Selection'
+import Selection from './Controller/Selection'
 
 interface IProps {
   isSmall?: boolean
@@ -15,9 +15,6 @@ export default function CartList(props: IProps) {
   const { isSmall } = props
   const cartItems = useAppSelector((state) => state.session.cartItems)
   const dispatch = useAppDispatch()
-  const options: IOption[] = [...Array(10)].map((_, index) => {
-    return { id: index }
-  })
 
   const removeCartItem = (productId: string, productPriceId: string) => {
     dispatch(sessionActions.removeProductFromCart({ productId, productPriceId }))
@@ -31,6 +28,9 @@ export default function CartList(props: IProps) {
     <>
       {cartItems?.length > 0 &&
         cartItems.map((cart, index) => {
+          const options: IOption[] = [...Array(cart.quantityLeft)].map((_, index) => {
+            return { id: index + 1 }
+          })
           return (
             <div key={index} className={cx('justify-between rounded-lg bg-white shadow-md sm:flex sm:justify-start', isSmall ? 'mb-2 p-2' : 'mb-6 p-6')}>
               <Image

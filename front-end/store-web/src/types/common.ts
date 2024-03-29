@@ -15,7 +15,7 @@ interface IArea {
 }
 
 interface IOption {
-  id: string | number
+  id: number
   name?: string
 }
 
