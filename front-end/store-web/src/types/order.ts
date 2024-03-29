@@ -11,6 +11,7 @@ enum EnumOrderStatus {
 interface ICartItem {
   productId: string
   productName: string
+  productUrl: string
   productPriceId: string
   priceName: string
   priceValue: number

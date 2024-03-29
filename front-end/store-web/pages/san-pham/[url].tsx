@@ -109,6 +109,7 @@ export default function ProductPage({ params }: { params: { url: string } }) {
     const cartItem: ICartItem = {
       productId: productDetail.id,
       productName: productDetail.name,
+      productUrl: productDetail.urlSEO,
       productPriceId: activePrice.id,
       priceName: activePrice.priceName,
       priceValue: activePrice.priceValue,

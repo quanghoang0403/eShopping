@@ -23,7 +23,8 @@ export default function Selection(props: IProps) {
     onChange && onChange(value)
   }
   const isEmpty = !(options?.length > 0)
-  console.log(options)
+  const classCSS =
+    'px-3 py-2 w-full pr-7 appearance-none rounded-md shadow cursor-pointer border border-gray-400 focus:outline-none focus:ring focus:border-blue-500 disabled:bg-gray-200 disabled:cursor-auto'
   const renderOptions = () => {
     return (
       <>
@@ -47,10 +48,7 @@ export default function Selection(props: IProps) {
       <div className={cx('relative text-left', isFullWidth ? '' : 'inline-block')}>
         {register && patternValidate ? (
           <select
-            className={cx(
-              'px-3 py-2 w-full pr-7 appearance-none rounded-md shadow  cursor-pointer border border-gray-400 focus:outline-none focus:ring focus:border-blue-500 disabled:bg-gray-200 disabled:cursor-auto',
-              className
-            )}
+            className={cx(classCSS, className)}
             {...register(name, {
               ...patternValidate,
             })}
@@ -63,10 +61,7 @@ export default function Selection(props: IProps) {
           </select>
         ) : (
           <select
-            className={cx(
-              'px-3 py-2 w-full pr-7 appearance-none rounded-md shadow border border-gray-400 focus:outline-none focus:ring focus:border-blue-500',
-              className
-            )}
+            className={cx(classCSS, className)}
             onChange={(e) => handleOnChange(e.target.value)}
             name={name}
             defaultValue={defaultValue}

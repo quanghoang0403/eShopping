@@ -6,6 +6,7 @@ import { IconButton } from '@material-tailwind/react'
 import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import Selection from './Controller/Selection'
+import Link from 'next/link'
 
 interface IProps {
   isSmall?: boolean
@@ -28,12 +29,13 @@ export default function CartList(props: IProps) {
     <>
       {cartItems?.length > 0 &&
         cartItems.map((cart, index) => {
+          const link = `/san-pham/${cart.productUrl}`
           const options: IOption[] = [...Array(cart.quantityLeft)].map((_, index) => {
             return { id: index + 1 }
           })
           return (
             <div key={index} className={cx('justify-between rounded-lg bg-white shadow-md sm:flex sm:justify-start', isSmall ? 'mb-2 p-2' : 'mb-6 p-6')}>
-              <div className="relative">
+              <Link href={link} className="relative">
                 <Image
                   width={300}
                   height={300}
@@ -46,11 +48,13 @@ export default function CartList(props: IProps) {
                     {cart.percentNumber}%
                   </span>
                 )}
-              </div>
+              </Link>
               <div className={cx('flex flex-col w-full', isSmall ? 'ml-2' : ' sm:ml-6')}>
                 <div className="flex flex-row justify-between">
                   <div className="mt-5 sm:mt-0">
-                    <h2 className={cx('text-gray-900', isSmall ? 'text-base line-clamp-1' : 'text-lg line-clamp-2')}>{cart.productName}</h2>
+                    <Link href={link} className={cx('text-gray-900', isSmall ? 'text-base line-clamp-1' : 'text-lg line-clamp-2')}>
+                      {cart.productName}
+                    </Link>
                     {cart.priceName && <p className={cx('text-sm text-gray-700', isSmall ? '' : 'mt-1')}>{cart.priceName}</p>}
                   </div>
                   <IconButton variant="text" color="blue-gray" onClick={() => removeCartItem(cart.productId, cart.productPriceId)}>
