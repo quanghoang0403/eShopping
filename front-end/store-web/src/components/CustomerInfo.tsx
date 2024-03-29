@@ -60,7 +60,7 @@ export default function CustomerInfo(props: IProps) {
 
   return (
     <div className="space-y-3">
-      <div className="md:flex gap-2">
+      <div className="flex flex-col md:flex-row gap-3">
         <div className="md:w-1/2">
           <Input
             inputType={INPUT_TYPES.TEXT}
@@ -82,7 +82,7 @@ export default function CustomerInfo(props: IProps) {
           />
         </div>
       </div>
-      <div className="md:flex gap-2">
+      <div className="flex flex-col md:flex-row gap-3">
         <div className="md:w-1/2">
           <Input
             inputType={INPUT_TYPES.TEXT}
@@ -115,7 +115,7 @@ export default function CustomerInfo(props: IProps) {
           />
         </div>
       </div>
-      <div className="md:flex gap-2">
+      <div className="flex flex-col md:flex-row gap-3">
         <div className="md:w-1/2">
           <Selection
             isFullWidth

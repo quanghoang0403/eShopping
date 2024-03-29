@@ -29,8 +29,8 @@ const _configRequest = async (request: any) => {
 const _configResponse = async (response: any) => response
 
 const _configError = async (error: any) => {
-  console.log(error)
-  const messageError = error.response.data?.message || error.message
+  console.log('error', error)
+  const messageError = error.response?.data?.message || error.message
   if (axios.isCancel(error)) {
     return new Promise((r) => {
       console.log('Cancel:', r)

@@ -43,7 +43,13 @@ const sessionSlice = createSlice({
       const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productPriceId === productPriceId)
 
       if (existingItemIndex !== -1) {
-        state.cartItems[existingItemIndex].quantity += 1
+        const currentQuantity = state.cartItems[existingItemIndex].quantity
+        const maxQuantity = state.cartItems[existingItemIndex].quantityLeft
+        if (currentQuantity == maxQuantity) {
+          notifyInfo(`${action.payload.productName} - ${action.payload.priceName} chỉ còn ${maxQuantity} sản phẩm`)
+        } else {
+          state.cartItems[existingItemIndex].quantity = currentQuantity + 1
+        }
       } else {
         state.cartItems.push(action.payload)
       }
@@ -81,7 +87,8 @@ const sessionSlice = createSlice({
 function calculateTotalQuantity(cartItems: ICartItem[]): number {
   let sum = 0
   cartItems.forEach((item) => (sum += item.quantity))
-  return sum
+  console.log(sum)
+  return +sum
 }
 
 function calculateTotalPrice(cartItems: ICartItem[]): number {
