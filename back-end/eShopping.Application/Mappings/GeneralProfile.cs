@@ -56,7 +56,9 @@ namespace eShopping.Application.Mappings
 
             #region DAL => DTO
             CreateMap<AdminCreateProductCategoryRequest, ProductCategory>();
+            CreateMap<AdminCreateBlogRequest, Blog>();
             CreateMap<AdminCreateProductRequest, Product>();
+            CreateMap<AdminUpdateBlogRequest, Blog>();
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductPriceModel, ProductPrice>();

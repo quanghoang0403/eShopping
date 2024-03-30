@@ -77,7 +77,8 @@ namespace eShopping.Infrastructure.Repositories
 
         private IWardRepository _wardRepository;
         public IWardRepository Wards { get { return _wardRepository ??= new WardRepository(_dbContext); } }
-
+        private IBlogRepository _blogRepository;
+        public IBlogRepository Blogs { get { return _blogRepository ??= new BlogRepository(_dbContext); ; } }
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
