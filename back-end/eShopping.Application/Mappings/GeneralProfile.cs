@@ -1,7 +1,9 @@
 using AutoMapper;
+using eShopping.Application.Features.Blogs.Commands;
 using eShopping.Application.Features.Products.Commands;
 using eShopping.Domain.Entities;
 using eShopping.Models.Addresses;
+using eShopping.Models.Blog;
 using eShopping.Models.Commons;
 using eShopping.Models.Orders;
 using eShopping.Models.Permissions;
@@ -57,12 +59,18 @@ namespace eShopping.Application.Mappings
             #region DAL => DTO
             CreateMap<AdminCreateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminCreateBlogRequest, Blog>();
+            CreateMap<AdminCreateBlogCategoryRequest, BlogCategory>();
             CreateMap<AdminCreateProductRequest, Product>();
             CreateMap<AdminUpdateBlogRequest, Blog>();
+            CreateMap<AdminUpdateBlogCategoryRequest, BlogCategory>();
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductPriceModel, ProductPrice>();
+            CreateMap<Blog, AdminBlogModel>();
+            CreateMap<Blog, AdminBlogDetailModel>();
+            CreateMap<BlogCategory, AdminBlogCategoryModel>();
             CreateMap<AdminImageModel, Image>();
+            CreateMap<BlogCategory, AdminBlogCategoryDetailModel>();
             #endregion
         }
     }

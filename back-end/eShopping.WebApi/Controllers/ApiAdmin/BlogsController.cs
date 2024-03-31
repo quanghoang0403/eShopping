@@ -1,5 +1,5 @@
-﻿using eShopping.Application.Features.Products.Commands;
-using eShopping.Application.Features.Products.Queries;
+﻿using eShopping.Application.Features.Blogs.Commands;
+using eShopping.Application.Features.Blogs.Queries;
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

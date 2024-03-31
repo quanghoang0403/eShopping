@@ -1,6 +1,7 @@
 ﻿using eShopping.Domain.Base;
 using eShopping.Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace eShopping.Domain.Entities
 {
@@ -11,7 +12,7 @@ namespace eShopping.Domain.Entities
         public DateTime? PublishedTime { get; set; }
         public int Priority { set; get; }
         public string Thumbnail { set; get; }
-
+        public virtual IEnumerable<BlogInCategory> BlogInCategories { get; set; }
 
     }
 }

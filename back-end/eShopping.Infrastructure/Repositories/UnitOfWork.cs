@@ -77,8 +77,16 @@ namespace eShopping.Infrastructure.Repositories
 
         private IWardRepository _wardRepository;
         public IWardRepository Wards { get { return _wardRepository ??= new WardRepository(_dbContext); } }
+
         private IBlogRepository _blogRepository;
         public IBlogRepository Blogs { get { return _blogRepository ??= new BlogRepository(_dbContext); ; } }
+
+        private IBlogCategoryRepository _blogCategoryRepository;
+        public IBlogCategoryRepository BlogCategories { get { return _blogCategoryRepository ??= new BlogCategoryRepository(_dbContext); } }
+
+        private IBlogInCategoryRepository _blogInCategoryRepository;
+        public IBlogInCategoryRepository BlogInCategories { get { return _blogInCategoryRepository ??= new BlogInCategoryRepository(_dbContext); } }
+
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await _dbContext.SaveChangesAsync(cancellationToken);

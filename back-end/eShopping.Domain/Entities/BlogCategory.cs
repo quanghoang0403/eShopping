@@ -1,5 +1,6 @@
 ﻿using eShopping.Domain.Base;
 using eShopping.Domain.Enums;
+using System.Collections.Generic;
 
 namespace eShopping.Domain.Entities
 {
@@ -7,5 +8,6 @@ namespace eShopping.Domain.Entities
     {
         public int Priority { set; get; }
         public EnumColorCategory Color { get; set; }
+        public ICollection<BlogInCategory> InCategories { get; set; }
     }
 }
