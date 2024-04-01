@@ -27,15 +27,15 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryClientProvider client={queryClient.current}>
-            {/* <Hydrate state={pageProps.dehydratedState}> */}
-            <I18nextProvider i18n={i18n}>
-              <MainLayout>
-                <SEO />
-                <Component {...pageProps} />
-              </MainLayout>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </I18nextProvider>
-            {/* </Hydrate> */}
+            <Hydrate state={pageProps.dehydratedState}>
+              <I18nextProvider i18n={i18n}>
+                <MainLayout>
+                  <SEO />
+                  <Component {...pageProps} />
+                </MainLayout>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </I18nextProvider>
+            </Hydrate>
           </QueryClientProvider>
         </PersistGate>
       </Provider>

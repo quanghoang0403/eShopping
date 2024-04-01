@@ -9,20 +9,8 @@ interface IProps {
 
 export default function BlogCategoryLabel(props: IProps) {
   const { categories, className, showBg } = props
-  const color = {
-    green: 'text-emerald-700',
-    blue: 'text-blue-600',
-    orange: 'text-orange-700',
-    purple: 'text-purple-600',
-    pink: 'text-pink-600',
-  }
-  const bgcolor = {
-    green: 'bg-emerald-50',
-    blue: 'bg-blue-50',
-    orange: 'bg-orange-50',
-    purple: 'bg-purple-50',
-    pink: 'bg-pink-50',
-  }
+  const color = ['text-emerald-700', 'text-blue-600', 'text-orange-700', 'text-purple-600', 'text-pink-600']
+  const bgcolor = ['bg-emerald-50', 'bg-blue-50', 'bg-orange-50', 'bg-purple-50', 'bg-pink-50']
   return (
     <div className={cx('flex flex-wrap mb-1', showBg ? 'gap-3 justify-center' : '')}>
       {categories?.length &&
@@ -32,8 +20,8 @@ export default function BlogCategoryLabel(props: IProps) {
               className={cx(
                 'inline-block text-xs font-medium tracking-wider uppercase text-nowrap mr-3',
                 className,
-                color[category.color] || color.pink,
-                showBg ? bgcolor[category.color] || bgcolor.pink : ''
+                color[category.color] || color[EnumColorCategory.Pink],
+                showBg ? bgcolor[category.color] || bgcolor[EnumColorCategory.Pink] : ''
               )}
             >
               {category.name}

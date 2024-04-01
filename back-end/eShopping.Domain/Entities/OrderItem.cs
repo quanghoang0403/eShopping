@@ -18,6 +18,8 @@ namespace eShopping.Domain.Entities
 
         public Guid ProductPriceId { get; set; }
 
+        public string Thumbnail { get; set; }
+
         public string PriceName { get; set; }
 
         [Precision(18, 2)]

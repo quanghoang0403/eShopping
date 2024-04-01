@@ -1,30 +1,5 @@
 import { AxiosResponse } from 'axios'
-import APIService, { APIServiceUpload } from './base'
-
-export interface ISignUpRequest {
-  name: string
-  email: string
-  password: string
-  passwordConfirm: string
-}
-
-export interface ISignInRequest {
-  email: string
-  password?: string
-  token?: string
-}
-
-export interface IForgotPasswordRequest {
-  email: string
-  password: string
-  passwordConfirm: string
-}
-
-export interface ISignInResponse {
-  token: string
-  customerId: string
-  accountId: string
-}
+import APIService from './base'
 
 export default class AuthService {
   static signUp(body: ISignUpRequest): Promise<AxiosResponse<{ token: string }>> {

@@ -12,6 +12,23 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import AuthService from '@/services/auth.service'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import CustomerInfo from '@/components/CustomerInfo'
+import OrderService from '@/services/order.service'
+
+// export async function getServerSideProps() {
+//   const cities = await fetch('API_ENDPOINT_1')
+//   const productHighlight1 = await res1.json()
+
+//   const res2 = await fetch('API_ENDPOINT_2')
+//   const promoProduct2 = await res2.json()
+
+//   // Pass fetched data to the page component as props
+//   return {
+//     props: {
+//       productHighlight1,
+//       promoProduct2,
+//     },
+//   }
+// }
 
 export default function CartPage() {
   const {
@@ -24,13 +41,14 @@ export default function CartPage() {
   const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
 
-  const handleSignIn = useCallback(async (data: any) => {
-    return AuthService.signIn(data)
+  const handleCheckout = useCallback(async (data: ICreateOrderRequest) => {
+    return OrderService.checkout(data)
   }, [])
 
-  const mutation = useAppMutation(handleSignIn, async (res: any) => {
-    dispatch(sessionActions.resetCart())
+  const mutation = useAppMutation(handleCheckout, async (res: ICreateOrderResponse) => {
+    // Handle after create
   })
+
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
 
   const renderCart = () => {
@@ -58,7 +76,7 @@ export default function CartPage() {
           </div>
           <div className="rounded-lg border bg-white p-6 shadow-md mt-6">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <CustomerInfo register={register} errors={errors} isShipping />
+              <CustomerInfo register={register} errors={errors} isShipping cityId={0} districtId={0} wardId={0} />
             </form>
             <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
           </div>

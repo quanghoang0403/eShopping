@@ -23,5 +23,7 @@ namespace eShopping.Models.Products
 
         public int Quantity { get; set; }
 
+        public string Thumbnail { get; set; }
+
     }
 }

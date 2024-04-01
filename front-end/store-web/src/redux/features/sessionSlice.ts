@@ -1,11 +1,9 @@
 import { notifyInfo } from '@/components/Notification'
-import { ISignInResponse } from '@/services/auth.service'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import cookie from 'js-cookie'
 
 interface SessionState {
   isLoggedIn: boolean
-  token?: string
   customerId: string | null
   accountId: string | null
   cartItems: ICartItem[]
@@ -27,16 +25,15 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     signInSuccess(state, action: PayloadAction<ISignInResponse>) {
-      // cookie.set('token', action.payload.token, {
-      //   sameSite: 'lax',
-      // })
-      state.token = action.payload.token
+      cookie.set('token', action.payload.token, {
+        sameSite: 'lax',
+      })
       state.isLoggedIn = true
       state.customerId = action.payload.customerId
       state.accountId = action.payload.accountId
     },
     logout(state) {
-      state.token = ''
+      cookie.remove('token')
       state.isLoggedIn = false
       state.customerId = null
       state.accountId = null
@@ -46,7 +43,13 @@ const sessionSlice = createSlice({
       const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productPriceId === productPriceId)
 
       if (existingItemIndex !== -1) {
-        state.cartItems[existingItemIndex].quantity += 1
+        const currentQuantity = state.cartItems[existingItemIndex].quantity
+        const maxQuantity = state.cartItems[existingItemIndex].quantityLeft
+        if (currentQuantity == maxQuantity) {
+          notifyInfo(`${action.payload.productName} - ${action.payload.priceName} chỉ còn ${maxQuantity} sản phẩm`)
+        } else {
+          state.cartItems[existingItemIndex].quantity = currentQuantity + 1
+        }
       } else {
         state.cartItems.push(action.payload)
       }
@@ -82,11 +85,16 @@ const sessionSlice = createSlice({
 })
 
 function calculateTotalQuantity(cartItems: ICartItem[]): number {
-  return cartItems.reduce((total, item) => total + item.quantity, 0)
+  let sum = 0
+  cartItems.forEach((item) => (sum += item.quantity))
+  console.log(sum)
+  return +sum
 }
 
 function calculateTotalPrice(cartItems: ICartItem[]): number {
-  return cartItems.reduce((total, item) => total + item.priceValue * item.quantity, 0)
+  let sum = 0
+  cartItems.forEach((item) => (sum += item.quantity * (item.priceDiscount ?? item.priceValue)))
+  return sum
 }
 
 export const sessionActions = sessionSlice.actions

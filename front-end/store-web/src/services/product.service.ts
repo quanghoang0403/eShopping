@@ -1,17 +1,6 @@
 import { AxiosResponse } from 'axios'
 import APIService from './base'
 
-interface IGetProductsRequest extends IBaseRequest {
-  productCategoryId?: string
-  isFeatured?: boolean
-  isDiscounted?: boolean
-  sortType: EnumSortType
-}
-
-interface IGetProductsResponse extends IBaseResponse {
-  products: IProduct[]
-}
-
 export default class ProductService {
   static getProducts(request: IGetProductsRequest): Promise<AxiosResponse<IGetProductsResponse>> {
     return APIService.get(

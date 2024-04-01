@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ImageService } from '@/services'
-import { ISearchImageResponse } from '@/services/image.service'
 import SEO from '@/components/Layout/SEO'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, GetStaticProps } from 'next'
@@ -111,6 +109,7 @@ export default function ProductPage({ params }: { params: { url: string } }) {
     const cartItem: ICartItem = {
       productId: productDetail.id,
       productName: productDetail.name,
+      productUrl: productDetail.urlSEO,
       productPriceId: activePrice.id,
       priceName: activePrice.priceName,
       priceValue: activePrice.priceValue,

@@ -7,10 +7,10 @@ export default function Footer() {
         <div className="w-full mx-auto flex flex-wrap">
           <div className="flex w-full lg:w-2/3 ">
             <div className="px-3 md:px-0">
-              <h3 className="font-bold text-gray-900">Về chúng tôi</h3>
+              <h3 className="font-bold text-gray-900">Cúc Hoạ Mi</h3>
               <p className="py-4">
-                Tiemdocuchoami là project thời trang cao cấp nửa cổ điển nửa hiện đại mà tụi mình hay gọi với cái tên thân thuộc Parisian Chic được làm bằng sự
-                chân thành và tử tế của Team. Nếu bạn yêu thích phong cách này hãy cùng tiệm trải nghiệm những items thời thượng này nhé!
+                Cúc Hoạ Mi là project thời trang cao cấp nửa cổ điển nửa hiện đại mà tụi mình hay gọi với cái tên thân thuộc Parisian Chic được làm bằng sự chân
+                thành và tử tế của Team. Nếu bạn yêu thích phong cách này hãy cùng tiệm trải nghiệm những items thời thượng này nhé!
               </p>
             </div>
           </div>
