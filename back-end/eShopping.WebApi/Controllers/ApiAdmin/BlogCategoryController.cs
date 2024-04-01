@@ -32,8 +32,8 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         }
         [HttpGet]
-        [Route("get-all-blog-category-by-id/{id}")]
-        public async Task<IActionResult> GetAllBlogCategoryById(Guid id)
+        [Route("get-blog-category-by-id/{id}")]
+        public async Task<IActionResult> GetBlogCategoryById(Guid id)
         {
             var response = await _mediator.Send(new AdminGetBlogCategoryByIdRequest { Id = id });
             return SafeOk(response);
