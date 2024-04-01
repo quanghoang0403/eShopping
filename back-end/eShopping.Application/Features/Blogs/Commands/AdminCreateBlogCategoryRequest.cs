@@ -69,7 +69,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                 var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId));
                 if (request.Blogs != null && request.Blogs.Any())
                 {
-                    newBlogCategory.InCategories = new List<BlogInCategory>();
+                    newBlogCategory.BlogInCategories = new List<BlogInCategory>();
                     request.Blogs.ForEach(b =>
                     {
                         var blogCategory = new BlogInCategory()
@@ -78,7 +78,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                             categoryId = newBlogCategory.Id
                         };
 
-                        newBlogCategory.InCategories.Add(blogCategory);
+                        newBlogCategory.BlogInCategories.Add(blogCategory);
                     });
                 }
                 _unitOfWork.BlogCategories.Add(newBlogCategory);

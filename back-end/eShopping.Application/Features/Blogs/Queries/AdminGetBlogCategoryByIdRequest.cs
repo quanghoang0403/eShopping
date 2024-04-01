@@ -38,13 +38,13 @@ namespace eShopping.Application.Features.Blogs.Queries
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategoryData = await _unitOfWork.BlogCategories
                 .Find(bc => bc.Id == request.Id)
-                .Include(bc => bc.InCategories).ThenInclude(bic => bic.blog)
+                .Include(bc => bc.BlogInCategories).ThenInclude(bic => bic.blog)
                 .FirstOrDefaultAsync();
             ThrowError.Against(blogCategoryData == null, "Couldn't found blog category");
             var blogCategory = _mapper.Map<AdminBlogCategoryDetailModel>(blogCategoryData);
-            if (blogCategoryData.InCategories != null)
+            if (blogCategoryData.BlogInCategories != null)
             {
-                blogCategory.Blogs = blogCategoryData.InCategories
+                blogCategory.Blogs = blogCategoryData.BlogInCategories
                     .Select(bc => new AdminBlogCategoryDetailModel.AdminBlogSelectedModel
                     {
                         Id = bc.blogId,

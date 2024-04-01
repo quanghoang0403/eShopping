@@ -50,7 +50,7 @@ namespace eShopping.Application.Features.Blogs.Queries
                 .FirstOrDefaultAsync(cancellationToken);
             ThrowError.Against(blog == null, "Cannot find blog information");
             var blogCategory = await _unitOfWork.BlogCategories
-                .Where(bc => bc.InCategories
+                .Where(bc => bc.BlogInCategories
                 .Any(bic => bic.blogId == request.Id))
                 .ProjectTo<AdminBlogCategoryModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken);
