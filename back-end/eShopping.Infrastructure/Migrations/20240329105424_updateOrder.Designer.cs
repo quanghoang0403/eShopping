@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopping.Infrastructure.Contexts;
 
@@ -11,9 +12,11 @@ using eShopping.Infrastructure.Contexts;
 namespace eShopping.Infrastructure.Migrations
 {
     [DbContext(typeof(eShoppingDbContext))]
-    partial class eShoppingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240329105424_updateOrder")]
+    partial class updateOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,183 +105,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("AppConfigs");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.Blog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("DescriptionSEO")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasComment("SEO Configuration: SEO on Description");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("KeywordSEO")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("SEO Configuration: SEO on Keyword");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("PublishedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Thumbnail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TitleSEO")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("SEO Configuration: SEO on Title");
-
-                    b.Property<string>("UrlSEO")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)")
-                        .HasComment("SEO Configuration: URL Link");
-
-                    b.Property<int>("ViewCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Blogs");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.BlogCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Color")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("DescriptionSEO")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasComment("SEO Configuration: SEO on Description");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("KeywordSEO")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("SEO Configuration: SEO on Keyword");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TitleSEO")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("SEO Configuration: SEO on Title");
-
-                    b.Property<string>("UrlSEO")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)")
-                        .HasComment("SEO Configuration: URL Link");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("BlogCategories");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.BlogInCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("blogId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("categoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("blogId");
-
-                    b.HasIndex("categoryId");
-
-                    b.ToTable("BlogInCategory");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Cart", b =>
@@ -1110,25 +936,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.ToTable("Ward");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.BlogInCategory", b =>
-                {
-                    b.HasOne("eShopping.Domain.Entities.Blog", "blog")
-                        .WithMany("BlogInCategories")
-                        .HasForeignKey("blogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eShopping.Domain.Entities.BlogCategory", "category")
-                        .WithMany("InCategories")
-                        .HasForeignKey("categoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("blog");
-
-                    b.Navigation("category");
-                });
-
             modelBuilder.Entity("eShopping.Domain.Entities.Cart", b =>
                 {
                     b.HasOne("eShopping.Domain.Entities.Customer", "Customer")
@@ -1311,16 +1118,6 @@ namespace eShopping.Infrastructure.Migrations
             modelBuilder.Entity("eShopping.Domain.Entities.Account", b =>
                 {
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.Blog", b =>
-                {
-                    b.Navigation("BlogInCategories");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.BlogCategory", b =>
-                {
-                    b.Navigation("InCategories");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.City", b =>
