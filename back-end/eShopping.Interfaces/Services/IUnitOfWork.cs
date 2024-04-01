@@ -48,6 +48,8 @@ namespace eShopping.Interfaces
         IStaffPermissionGroupRepository StaffPermissionGroup { get; }
 
         IWardRepository Wards { get; }
-
+        IBlogRepository Blogs { get; }
+        IBlogCategoryRepository BlogCategories { get; }
+        IBlogInCategoryRepository BlogInCategories { get; }
     }
 }
