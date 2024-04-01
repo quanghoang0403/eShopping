@@ -22,6 +22,9 @@ namespace eShopping.Domain.Entities
 
         public EnumOrderStatus Status { get; set; }
 
+        public string Thumbnail { get; set; }
+
+
         [MaxLength(50)]
         public string ShipName { set; get; }
 

@@ -25,6 +25,7 @@ interface ICartItem {
 interface IOrder {
   id: string
   code: string
+  thumbnail: string
   status: EnumOrderStatus
   createdTime: string
   shipFullAddress: string
@@ -33,6 +34,12 @@ interface IOrder {
   deliveryFee: number
   totalPriceValue: number
   totalAmount: number
+  orderItems: IOrderItemDto[]
+}
+
+interface IOrderItemDto {
+  priceName: string
+  quantity: number
 }
 
 interface IOrderItem {

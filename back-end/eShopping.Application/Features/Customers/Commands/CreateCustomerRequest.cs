@@ -27,8 +27,6 @@ namespace eShopping.Application.Features.Customers.Commands
 
         public EnumGender Gender { get; set; }
 
-        public string Note { get; set; }
-
         public int? CityId { get; set; }
 
         public int? DistrictId { get; set; }
@@ -81,7 +79,6 @@ namespace eShopping.Application.Features.Customers.Commands
 
                 var newCustomer = new Customer()
                 {
-                    Note = request.Note,
                     Address = request.Address,
                     WardId = request.WardId,
                     DistrictId = request.DistrictId,

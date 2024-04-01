@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import Selection from './Controller/Selection'
 import Link from 'next/link'
+import WhiteCard from './WhiteCard'
 
 interface IProps {
   isSmall?: boolean
@@ -34,7 +35,7 @@ export default function CartList(props: IProps) {
             return { id: index + 1 }
           })
           return (
-            <div key={index} className={cx('justify-between rounded-lg bg-white shadow-md sm:flex sm:justify-start', isSmall ? 'mb-2 p-2' : 'mb-6 p-6')}>
+            <WhiteCard key={index} className={cx('justify-between sm:flex sm:justify-start', isSmall ? 'mb-2 p-2' : 'mb-6')}>
               <Link href={link} className="relative">
                 <Image
                   width={300}
@@ -93,7 +94,7 @@ export default function CartList(props: IProps) {
                   <p className="text-sm font-bold">Tổng: {formatCurrency((cart.priceDiscount ?? cart.priceValue) * cart.quantity)}</p>
                 </div>
               </div>
-            </div>
+            </WhiteCard>
           )
         })}
     </>

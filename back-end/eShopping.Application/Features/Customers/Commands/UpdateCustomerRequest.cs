@@ -12,9 +12,6 @@ namespace eShopping.Application.Features.Customers.Commands
 {
     public class UpdateCustomerRequest : IRequest<bool>
     {
-
-        public Guid CustomerId { get; set; }
-
         public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }
@@ -28,8 +25,6 @@ namespace eShopping.Application.Features.Customers.Commands
         public DateTime? Birthday { get; set; }
 
         public string Address { get; set; }
-
-        public string Note { get; set; }
 
         public int? CityId { get; set; } // Province / city / town
 
@@ -60,7 +55,7 @@ namespace eShopping.Application.Features.Customers.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
 
-            Customer customer = await _unitOfWork.Customers.GetCustomerById(request.CustomerId);
+            Customer customer = await _unitOfWork.Customers.GetCustomerById(loggedUser.Id.Value);
             ThrowError.Against(customer == null, "Customer is not exist or was inactive");
 
             Account account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(accountId);
@@ -80,7 +75,6 @@ namespace eShopping.Application.Features.Customers.Commands
                     account.LastSavedTime = DateTime.UtcNow;
                     //await _unitOfWork.Accounts.UpdateAsync(account);
 
-                    customer.Note = request.Note;
                     customer.Address = request.Address;
                     customer.WardId = request.WardId;
                     customer.DistrictId = request.DistrictId;

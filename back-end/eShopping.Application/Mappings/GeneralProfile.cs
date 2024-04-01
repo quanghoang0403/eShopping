@@ -26,6 +26,7 @@ namespace eShopping.Application.Mappings
             CreateMap<Order, StoreOrderDetailModel>();
             CreateMap<OrderItem, AdminOrderItemModel>();
             CreateMap<OrderItem, StoreOrderItemModel>();
+            CreateMap<OrderItem, StoreOrderModel.OrderItemDto>();
 
             CreateMap<Customer, AdminOrderModel.CustomerDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
