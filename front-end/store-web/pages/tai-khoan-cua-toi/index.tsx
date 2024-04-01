@@ -20,7 +20,6 @@ const orderList: IOrder[] = [
     id: '1',
     code: '1',
     status: EnumOrderStatus.Completed,
-    thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
     shipFullAddress: '465 Nguyễn Văn Cừ',
     createdTime: 'Now',
     statusName: 'Completed',
@@ -28,13 +27,12 @@ const orderList: IOrder[] = [
     totalPriceValue: 300000,
     totalAmount: 250000,
     deliveryFee: 20000,
-    orderItems: [{ quantity: 1, priceName: 'Áo kẻ sọc trắng' }],
+    orderItems: [{ quantity: 1, priceName: 'Áo kẻ sọc trắng', thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg' }],
   },
   {
     id: '2',
     code: '3',
     status: EnumOrderStatus.Completed,
-    thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
     shipFullAddress: '465 Nguyễn Văn Cừ',
     createdTime: 'Now',
     statusName: 'Completed',
@@ -42,7 +40,7 @@ const orderList: IOrder[] = [
     totalPriceValue: 300000,
     totalAmount: 250000,
     deliveryFee: 20000,
-    orderItems: [{ quantity: 2, priceName: 'Áo kẻ sọc đen' }],
+    orderItems: [{ quantity: 2, priceName: 'Áo kẻ sọc đen', thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg' }],
   },
 ]
 

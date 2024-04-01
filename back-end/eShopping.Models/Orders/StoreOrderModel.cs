@@ -10,8 +10,6 @@ namespace eShopping.Models.Orders
 
         public string Code { get; set; }
 
-        public string Thumbnail { get; set; }
-
         public EnumOrderStatus Status { get; set; }
 
         public DateTime CreatedTime { get; set; }
@@ -39,6 +37,8 @@ namespace eShopping.Models.Orders
             public int Quantity { get; set; }
 
             public int PriceName { get; set; }
+
+            public string Thumbnail { get; set; }
         }
     }
 }

@@ -113,7 +113,6 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
                 // Add order
                 var order = await _unitOfWork.Orders.AddAsync(new Order()
                 {
-                    Thumbnail = request.CartItem.FirstOrDefault().Thumbnail,
                     CustomerId = customerId,
                     Status = EnumOrderStatus.New,
                     DeliveryFee = DefaultConstants.DELIVERY_FEE,
