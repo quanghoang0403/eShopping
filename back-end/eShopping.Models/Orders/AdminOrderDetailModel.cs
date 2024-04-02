@@ -40,12 +40,6 @@ namespace eShopping.Models.Orders
         public decimal TotalPriceOrigin { get; set; }
 
         [Precision(18, 2)]
-        public decimal TotalPriceValue { get; set; }
-
-        [Precision(18, 2)]
-        public decimal TotalPriceDiscount { get; set; }
-
-        [Precision(18, 2)]
         public decimal TotalPrice { get; set; }
 
         [Precision(18, 2)]

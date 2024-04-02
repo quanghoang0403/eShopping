@@ -33,6 +33,8 @@ namespace eShopping.Domain.Entities
 
         public int Quantity { get; set; }
 
+        public float? PercentNumber { get; set; }
+
         public decimal TotalPriceOrigin { get { return PriceOrigin * Quantity; } }
 
         public decimal TotalPriceValue { get { return PriceValue * Quantity; } }

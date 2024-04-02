@@ -47,12 +47,6 @@ namespace eShopping.Domain.Entities
         public decimal TotalPriceOrigin { get { return OrderItems.Sum(x => x.TotalPriceOrigin); } }
 
         [Precision(18, 2)]
-        public decimal TotalPriceValue { get { return OrderItems.Sum(x => x.TotalPriceValue); } }
-
-        [Precision(18, 2)]
-        public decimal TotalPriceDiscount { get { return OrderItems.Sum(x => x.TotalPriceDiscount); } }
-
-        [Precision(18, 2)]
         public decimal TotalPrice { get { return OrderItems.Sum(x => x.TotalPrice); } }
 
         [Precision(18, 2)]

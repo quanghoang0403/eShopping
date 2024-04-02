@@ -152,6 +152,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
                             ProductName = item.ProductName,
                             ProductUrl = price.Product.UrlSEO,
                             ProductPriceId = item.ProductPriceId,
+                            PercentNumber = item.PercentNumber,
                             PriceName = price.PriceName,
                             PriceOrigin = price.PriceOriginal,
                             PriceDiscount = price.PriceDiscount,
