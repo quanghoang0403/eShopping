@@ -4,10 +4,6 @@
     {
         public AzureStorageSettings AzureStorageSettings { get; set; }
 
-        public string UseEmailProvider { get; set; }
-
-        public EmailSettings SendGrid { get; set; }
-
         public EmailSettings Elastic { get; set; }
     }
 

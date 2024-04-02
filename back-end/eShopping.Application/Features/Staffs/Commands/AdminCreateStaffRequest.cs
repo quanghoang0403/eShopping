@@ -1,12 +1,19 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Application.Providers.Email;
+using eShopping.Common.Exceptions;
+using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
+using eShopping.Domain.Settings;
+using eShopping.Email;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +21,6 @@ namespace eShopping.Application.Features.Staffs.Commands
 {
     public class AdminCreateStaffRequest : IRequest<bool>
     {
-        public string Password { get; set; }
 
         public string FullName { get; set; }
 
@@ -33,16 +39,22 @@ namespace eShopping.Application.Features.Staffs.Commands
 
     public class AdminCreateStaffRequestHandler : IRequestHandler<AdminCreateStaffRequest, bool>
     {
+        private readonly DomainFE _domainFE;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
+        private readonly IEmailSenderProvider _emailProvider;
 
         public AdminCreateStaffRequestHandler(
+             IOptions<DomainFE> domainFE,
              IUnitOfWork unitOfWork,
-             IUserProvider userProvider
+             IUserProvider userProvider,
+             IEmailSenderProvider emailProvider
         )
         {
+            _domainFE = domainFE.Value;
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
+            _emailProvider = emailProvider;
         }
 
         /// <summary>
@@ -63,10 +75,12 @@ namespace eShopping.Application.Features.Staffs.Commands
             using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
+                // Generate the user's password.
+                var password = StringHelpers.GeneratePassword();
                 var newStaffAccount = new Account()
                 {
                     Email = request.Email,
-                    Password = (new PasswordHasher<Account>()).HashPassword(null, request.Password),
+                    Password = (new PasswordHasher<Account>()).HashPassword(null, password),
                     EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
                     AccountType = EnumAccountType.Staff,
                     FullName = request.FullName,
@@ -108,6 +122,7 @@ namespace eShopping.Application.Features.Staffs.Commands
 
                 // Complete this transaction, data will be saved.
                 await createStaffTransaction.CommitAsync(cancellationToken);
+                await SendEmailPasswordAsync(request.FullName, request.Email, password);
 
             }
             catch
@@ -119,6 +134,24 @@ namespace eShopping.Application.Features.Staffs.Commands
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// This method is used to send a email to the current staff when the data has been saved successfully.
+        /// </summary>
+        /// <param name="emailAddress">Staff's email, for example: staff001@gmail.com</param>
+        /// <param name="password">Staff's temporary password.</param>
+        /// <returns></returns>
+        private async Task SendEmailPasswordAsync(string fullName, string emailAddress, string password)
+        {
+            ResourceManager myManager = new("eShopping.Application.Providers.Email.EmailTemplate", Assembly.GetExecutingAssembly());
+            var link = $"{_domainFE.AdminWeb}/login?email={emailAddress?.Trim()}";
+            string subject = $"Chào bạn đến với {EmailTemplates.SHOP_NAME}";
+
+            string htmlFromResource = myManager.GetString(EmailTemplates.REGISTER_NEW_ADMIN_ACCOUNT);
+            string htmlContext = string.Format(htmlFromResource, EmailTemplates.SHOP_NAME, fullName, emailAddress, password, link);
+
+            await _emailProvider.SendEmailAsync(subject, htmlContext, emailAddress);
         }
 
         /// <summary>

@@ -117,20 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="REGISTER_NEW_STORE_ACCOUNT" xml:space="preserve">
-    <value>&lt;div style="text-align:center;font-family: 'Plus Jakarta Sans';letter-spacing:0.3px;"&gt;
-    &lt;div style="font-size:40px;font-weight:800;line-height:50px;color:#50429B;"&gt;Welcome to {0}&lt;/div&gt;
-    &lt;div style="font-size:28px;font-weight:700;line-height:35px;color:#000;"&gt;Dear {1}&lt;/div&gt;
-    &lt;div style="font-size:60px;font-weight:800;line-height:76px;text-transform:uppercase;margin-top:80px;color:#50429B;"&gt;Congratulation !&lt;/div&gt;
-    &lt;div style="font-size:32px;font-weight:400;margin-top:53px;text-align:center;color:#000;"&gt;You has been registered account successfully on {0} by email: &lt;span style="font-weight:700;"&gt;{2}&lt;/span&gt;&lt;/div&gt;
-    &lt;div style="font-size:32px;font-weight:700;line-height:40px;margin-top:68px;color:#000;"&gt;Please using this Password to login:&lt;/div&gt;
-    &lt;div style="display:inline-block;padding:20px 98px;background-color:#F7F5FF;border:1px dashed #A5ABDE;border-radius:16px;color:#50429B;font-size:32px;margin-top:10px;"&gt;{3}&lt;/div&gt;
-    &lt;a href="{4}" target="_blank" style="display:block;color:#fff;text-transform:uppercase;text-decoration:none;font-weight:700;font-size:40px;line-height:50px;"&gt;&lt;div style="display:inline-block;padding:27px 138px;background:#FF8C21;border-radius:40px;margin-top:68px;"&gt;Login Now&lt;/div&gt;&lt;/a&gt;
-    &lt;div style="font-size:28px;line-height:35px;margin-top:80px;color:#000;"&gt;Thank you so much for using our service!&lt;/div&gt;
-    &lt;div style="font-size:32px;font-weight:700;line-height:40px;text-transform:uppercase;text-align:center;color:#000;"&gt;Gosell Support Team&lt;/div&gt;
-&lt;/div&gt;</value>
-  </data>
-  <data name="REGISTER_NEW_STORE_ACCOUNT_VI" xml:space="preserve">
+  <data name="REGISTER_NEW_ADMIN_ACCOUNT" xml:space="preserve">
     <value>&lt;div style="text-align:center;font-family: 'Plus Jakarta Sans';letter-spacing:0.3px;"&gt;
     &lt;div style="font-size:40px;font-weight:800;line-height:50px;color:#50429B;"&gt;Chúc mừng bạn đến với {0}&lt;/div&gt;
     &lt;div style="font-size:28px;font-weight:700;line-height:35px;color:#000;"&gt;Chào {1}&lt;/div&gt;
@@ -140,7 +127,20 @@
     &lt;div style="display:inline-block;padding:20px 98px;background-color:#F7F5FF;border:1px dashed #A5ABDE;border-radius:16px;color:#50429B;font-size:32px;margin-top:10px;"&gt;{3}&lt;/div&gt;
     &lt;a href="{4}" target="_blank" style="display:block;color:#fff;text-transform:uppercase;text-decoration:none;font-weight:700;font-size:40px;line-height:50px;"&gt;&lt;div style="display:inline-block;padding:27px 138px;background:#FF8C21;border-radius:40px;margin-top:68px;"&gt;Đăng nhập ngay bây giờ&lt;/div&gt;&lt;/a&gt;
     &lt;div style="font-size:28px;line-height:35px;margin-top:80px;color:#000;"&gt;Chân thành cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!&lt;/div&gt;
-    &lt;div style="font-size:32px;font-weight:700;line-height:40px;text-transform:uppercase;text-align:center;color:#000;"&gt;Đội ngũ hỗ trợ Gosell&lt;/div&gt;
+    &lt;div style="font-size:32px;font-weight:700;line-height:40px;text-transform:uppercase;text-align:center;color:#000;"&gt;Cúc Họa Mi&lt;/div&gt;
+&lt;/div&gt;</value>
+  </data>
+  <data name="REGISTER_NEW_STORE_ACCOUNT" xml:space="preserve">
+    <value>&lt;div style="text-align:center;font-family: 'Plus Jakarta Sans';letter-spacing:0.3px;"&gt;
+    &lt;div style="font-size:40px;font-weight:800;line-height:50px;color:#50429B;"&gt;Chúc mừng bạn đến với {0}&lt;/div&gt;
+    &lt;div style="font-size:28px;font-weight:700;line-height:35px;color:#000;"&gt;Chào {1}&lt;/div&gt;
+    &lt;div style="font-size:60px;font-weight:800;line-height:76px;text-transform:uppercase;margin-top:80px;color:#50429B;"&gt;Chúc mừng!&lt;/div&gt;
+    &lt;div style="font-size:32px;font-weight:400;margin-top:53px;text-align:center;color:#000;"&gt;Bạn đã đăng ký tài khoản và kích hoạt thành công trên hệ thống {0} bằng email: &lt;span style="font-weight:700;"&gt;{2}&lt;/span&gt;&lt;/div&gt;
+    &lt;div style="font-size:32px;font-weight:700;line-height:40px;margin-top:68px;color:#000;"&gt;Vui lòng sử dụng mật khẩu này để đăng nhập:&lt;/div&gt;
+    &lt;div style="display:inline-block;padding:20px 98px;background-color:#F7F5FF;border:1px dashed #A5ABDE;border-radius:16px;color:#50429B;font-size:32px;margin-top:10px;"&gt;{3}&lt;/div&gt;
+    &lt;a href="{4}" target="_blank" style="display:block;color:#fff;text-transform:uppercase;text-decoration:none;font-weight:700;font-size:40px;line-height:50px;"&gt;&lt;div style="display:inline-block;padding:27px 138px;background:#FF8C21;border-radius:40px;margin-top:68px;"&gt;Đăng nhập ngay bây giờ&lt;/div&gt;&lt;/a&gt;
+    &lt;div style="font-size:28px;line-height:35px;margin-top:80px;color:#000;"&gt;Chân thành cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!&lt;/div&gt;
+    &lt;div style="font-size:32px;font-weight:700;line-height:40px;text-transform:uppercase;text-align:center;color:#000;"&gt;Cúc Họa Mi&lt;/div&gt;
 &lt;/div&gt;</value>
   </data>
 </root>

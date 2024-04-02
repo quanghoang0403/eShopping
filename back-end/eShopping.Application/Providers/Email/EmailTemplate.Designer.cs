@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace eShopping.Application.roviders.Email {
+namespace eShopping.Application.Providers.Email {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace eShopping.Application.roviders.Email {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("eShopping.Application.roviders.Email.EmailTemplate", typeof(EmailTemplate).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("eShopping.Application.Providers.Email.EmailTemplate", typeof(EmailTemplate).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,14 +62,14 @@ namespace eShopping.Application.roviders.Email {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;div style=&quot;text-align:center;font-family: &apos;Plus Jakarta Sans&apos;;letter-spacing:0.3px;&quot;&gt;
-        ///    &lt;div style=&quot;font-size:40px;font-weight:800;line-height:50px;color:#50429B;&quot;&gt;Welcome to {0}&lt;/div&gt;
-        ///    &lt;div style=&quot;font-size:28px;font-weight:700;line-height:35px;color:#000;&quot;&gt;Dear {1}&lt;/div&gt;
-        ///    &lt;div style=&quot;font-size:60px;font-weight:800;line-height:76px;text-transform:uppercase;margin-top:80px;color:#50429B;&quot;&gt;Congratulation !&lt;/div&gt;
-        ///    &lt;div style=&quot;font-size:32px;font-weight:400;margin-top:53px;text-align:center;color:# [rest of string was truncated]&quot;;.
+        ///    &lt;div style=&quot;font-size:40px;font-weight:800;line-height:50px;color:#50429B;&quot;&gt;Chúc mừng bạn đến với {0}&lt;/div&gt;
+        ///    &lt;div style=&quot;font-size:28px;font-weight:700;line-height:35px;color:#000;&quot;&gt;Chào {1}&lt;/div&gt;
+        ///    &lt;div style=&quot;font-size:60px;font-weight:800;line-height:76px;text-transform:uppercase;margin-top:80px;color:#50429B;&quot;&gt;Chúc mừng!&lt;/div&gt;
+        ///    &lt;div style=&quot;font-size:32px;font-weight:400;margin-top:53px;text-align:cente [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string REGISTER_NEW_STORE_ACCOUNT {
+        internal static string REGISTER_NEW_ADMIN_ACCOUNT {
             get {
-                return ResourceManager.GetString("REGISTER_NEW_STORE_ACCOUNT", resourceCulture);
+                return ResourceManager.GetString("REGISTER_NEW_ADMIN_ACCOUNT", resourceCulture);
             }
         }
         
@@ -78,11 +78,11 @@ namespace eShopping.Application.roviders.Email {
         ///    &lt;div style=&quot;font-size:40px;font-weight:800;line-height:50px;color:#50429B;&quot;&gt;Chúc mừng bạn đến với {0}&lt;/div&gt;
         ///    &lt;div style=&quot;font-size:28px;font-weight:700;line-height:35px;color:#000;&quot;&gt;Chào {1}&lt;/div&gt;
         ///    &lt;div style=&quot;font-size:60px;font-weight:800;line-height:76px;text-transform:uppercase;margin-top:80px;color:#50429B;&quot;&gt;Chúc mừng!&lt;/div&gt;
-        ///    &lt;div style=&quot;font-size:32px;font-weight:400;margin-top:53px;text-align:center;co [rest of string was truncated]&quot;;.
+        ///    &lt;div style=&quot;font-size:32px;font-weight:400;margin-top:53px;text-align:cente [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string REGISTER_NEW_STORE_ACCOUNT_VI {
+        internal static string REGISTER_NEW_STORE_ACCOUNT {
             get {
-                return ResourceManager.GetString("REGISTER_NEW_STORE_ACCOUNT_VI", resourceCulture);
+                return ResourceManager.GetString("REGISTER_NEW_STORE_ACCOUNT", resourceCulture);
             }
         }
     }
