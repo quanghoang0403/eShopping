@@ -1,4 +1,3 @@
-using Amazon.S3;
 using eShopping.Application;
 using eShopping.Application.Mappings;
 using eShopping.Application.Middlewares;
@@ -73,11 +72,8 @@ namespace eShopping.WebApi
 
             // Auto register services from Application layer
             services.WithScopedLifetime<IApplication>();
-            services.WithScopedLifetime<IeShoppingStorage>();
-            services.WithScopedLifetime<IeShoppingMemoryCaching>();
-
-            // Add Amazon S3 service
-            services.AddAWSService<IAmazonS3>();
+            services.WithScopedLifetime<IStorage>();
+            services.WithScopedLifetime<IMemoryCaching>();
 
             // Email configurations.
             services.AddScoped<IEmailSenderProvider, EmailSenderProvider>();

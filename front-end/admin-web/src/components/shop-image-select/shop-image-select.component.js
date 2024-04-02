@@ -26,16 +26,16 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   const [errorMessage, setErrorMessage] = useState(null)
 
   useImperativeHandle(ref, () => ({
-    setImageUrl (url) {
+    setImageUrl(url) {
       setImageUrl(url)
     },
-    getImageUrl () {
+    getImageUrl() {
       return selectedImage ?? ''
     }
   }))
 
   const pageData = {
-    addFromUrl: t('file.addFromUrl'),
+    // addFromUrl: t('file.addFromUrl'),
     uploadImage: t('file.uploadImage'),
     textNonImage: t('file.textNonImage'),
     bestDisplayImage: t('file.bestDisplayImage'),
@@ -90,9 +90,9 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
               isDisabled={isDisabled}
               onError={isShowMessageError ? onShowErrorMessage : undefined}
             />
-            <a className="upload-image-url" hidden={selectedImage !== null}>
+            {/* <a className="upload-image-url" hidden={selectedImage !== null}>
               {pageData.addFromUrl}
-            </a>
+            </a> */}
           </div>
         </Col>
         <Col

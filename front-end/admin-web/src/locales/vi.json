@@ -80,7 +80,7 @@
     "productCategory": {
         "addProductCategory": "Thêm danh mục",
         "manageCategory": "Quản lý danh mục sản phẩm",
-        "titleInfo": "Thông tin chung" ,
+        "titleInfo": "Thông tin chung",
         "labelName": "Tên danh mục",
         "placeholderName": "Nhập tên danh mục",
         "validateName": "Vui lòng nhập tên danh mục",
@@ -125,18 +125,15 @@
         "male": "Nam",
         "female": "Nữ",
         "other": "Khác",
-      
         "namePlaceholder": "Nhập tên khách hàng",
         "emailPlaceholder": "Nhập email ",
         "phonePlaceholder": "Nhập số điện thoai",
         "addressPlaceholder": "Nhập địa chỉ",
         "birthdayPlaceholder": "dd/mm/yyyy",
-      
         "nameValidation": "Vui lòng nhập tên khách hàng",
         "phoneValidation": "Vui lòng nhập số điện thoại ",
         "emailValidation": "Vui lòng nhập email",
         "emailInvalidEmail": "Email không hợp lệ",
-        
         "messageDoNotExist": "Khách hàng không tồn tại",
         "phoneExisted": "Số điện thoại đã tồn tại",
         "emailIsExisted": "Email đã tồn tại"
@@ -178,7 +175,7 @@
         "confirmCancel": "Xác nhận hủy",
         "confirmStop": "Xác nhận dừng",
         "confirmDeleteMessage": "Bạn có thực sự muốn xóa <span class='style-text-confirm-delete'>{{name}}</span> không?<br/>Thao tác này không thể khôi phục!"
-    },    
+    },
     "file": {
         "media": "MEDIA",
         "title": "Thư viện ảnh",
@@ -213,7 +210,6 @@
         "mustBeBetweenThreeAndFifteenCharacters": "phải từ 3 đến 15 ký tự",
         "mustBeBetweenOneAndHundredCharacters": "phải từ 1 đến 100 ký tự",
         "allowNumberOnly": "Chỉ cho phép nhập số",
-      
         "SEOConfiguration": "Cấu hình SEO",
         "SEOTitle": "Tiêu đề SEO ",
         "SEOTitlePlaceholder": "Nhập tiêu đề SEO",
@@ -258,18 +254,17 @@
         "permissionDenied": "Xin lỗi! Nhưng bạn không có quyền truy cập vào trang này.",
         "logout": "Đăng xuất"
     },
-    "order": {
-    },
+    "order": {},
     "product": {
         "addProduct": "Thêm sản phẩm",
         "manageProduct": "Quản lý sản phẩm",
-        "titleInfo": "Thông tin chung" ,
+        "titleInfo": "Thông tin chung",
         "labelName": "Tên sản phẩm",
         "placeholderName": "Nhập tên sản phẩm",
         "validateName": "Vui lòng nhập tên sản phẩm",
         "labelDescription": "Mô tả sản phẩm",
         "placeholderDescription": "Vui lòng nhập mô tả sản phẩm",
-        "priceInfo": "Giá" ,
+        "priceInfo": "Giá",
         "addPrice": "Thêm giá",
         "labelPrice": "Giá",
         "placeholderPrice": "Nhập giá",
@@ -309,11 +304,9 @@
         "deletePromotionSuccess": "Xóa giảm giá thành công!",
         "promotionDeleteFail": "Xóa giảm giá không thành công!",
         "promotionStopFail": "Dừng giảm giá không thành công!",
-    
         "discountTotal": "Giảm giá trên tổng hóa đơn",
         "discountProduct": "Giảm giá cho sản phẩm",
         "discountProductCategory": "Giảm giá đối với danh mục sản phẩm",
-    
         "general": "Thông tin chung",
         "name": "Tên giảm giá",
         "PlaceholderName": "Nhập tên giảm giá",
@@ -339,16 +332,13 @@
         "endDate": "Ngày kết thúc",
         "placeholderDateTime": "DD-MM-YYYY",
         "termsAndConditions": "Điều khoản và Điều kiện",
-    
         "titleCondition": "Điều kiện giảm giá",
         "checkboxPurchaseAmount": "Số tiền mua tối thiểu trên hóa đơn",
         "pleaseEnterMinimum": "Vui lòng nhập số tiền tối thiểu trong hóa đơn",
-    
         "titleSummary": "Tóm tắt",
         "viewDetail": "Xem chi tiết",
         "totalDiscountOrder": "Tổng đơn hàng giảm giá",
         "totalDiscountAmount": "Tổng số tiền giảm giá",
-    
         "applicableType": "Loại khuyến mại",
         "valueType": "Loại giá trị giảm",
         "amount": "Số tiền",
@@ -386,19 +376,17 @@
         "title": "Quản lý nhân viên",
         "editingStaff": "Sửa Nhân Viên",
         "createStaff": "Tạo Nhân Viên",
-        "titleInfo": "Thông tin chung" ,
+        "titleInfo": "Thông tin chung",
         "staffAddedSuccessfully": "Nhân viên đã được thêm thành công",
         "staffAddedFailed": "Thêm mới nhân viên thất bại",
         "staffUpdatedSuccessfully": "Nhân viên đã được cập nhật thành công",
         "staffUpdatedFailed": "Cập nhật nhân viên thất bại",
-      
         "btnAddGroupPermission": "Thêm nhóm",
         "allGroupPermission": "Tất cả các nhóm",
         "titlePermission": "Quyền",
         "labelPermission": "Nhóm",
         "placeholderPermission": "Chọn nhóm",
         "validatePermission": "Vui lòng chọn nhóm",
-      
         "fullName": "Họ tên",
         "fullNamePlaceholder": "Nhập tên nhân viên",
         "fullNameValidateMessage": "Vui lòng nhập tên nhân viên",
@@ -444,26 +432,20 @@
         "noDataFound": "Không tìm thấy dữ liệu",
         "selectedItems": "Đã chọn {{selectedRowKeys}} mục",
         "showingRecordMessage": "Hiển thị <p class='record'>{{showingRecords}}</p> trên tổng <p class='record'>{{totalRecords}}</p> mục",
-    
         "allFilterTitle": "Tất cả",
-    
         "productCategoryFilterTitle": "Danh mục",
         "productCategoryFilterAll": "Tất cả danh mục",
         "productCategoryFilterPlaceholder": "Chọn danh mục",
-    
         "statusFilterTitle": "Trạng thái",
         "statusFilterAll": "Tất cả",
         "statusFilterActive": "Đang hoạt động",
         "statusFilterInactive": "Không hoạt động",
-    
         "permissionFilterTitle": "Nhóm quyền",
         "permissionFilterAll": "Tất cả nhóm quyền",
         "permissionFilterPlaceholder": "Chọn nhóm quyền",
-    
         "creatorFilterTitle": "Danh mục",
         "creatorFilterAll": "Tất cả danh mục",
         "creatorFilterPlaceholder": "Chọn danh mục",
-    
         "resetAllFilters": "Đặt lại tất cả các bộ lọc"
-    }             
+    }
 }
