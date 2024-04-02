@@ -22,6 +22,13 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             var response = await _mediator.Send(request);
             return SafeOk(response);
         }
+        [HttpGet]
+        [Route("get-blogs")]
+        public async Task<IActionResult> GetBlogsAsync([FromQuery] AdminGetBlogsRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return SafeOk(response);
+        }
         [HttpPost]
         [Route("create-new-blog")]
         public async Task<IActionResult> CreateNewBlogs([FromBody] AdminCreateBlogRequest request)

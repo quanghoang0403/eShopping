@@ -30,6 +30,9 @@ namespace eShopping.Infrastructure.Contexts
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AppConfig> AppConfigs { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<BlogInCategory> BlogInCategories { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -55,7 +58,13 @@ namespace eShopping.Infrastructure.Contexts
             builder.Entity<Account>().HasKey(x => x.Id);
 
             builder.Entity<AppConfig>().HasKey(x => x.Key);
-
+            builder.Entity<Blog>().HasKey(x => x.Id);
+            builder.Entity<Blog>().HasMany(x => x.BlogInCategories).WithOne(x => x.blog).HasForeignKey(x => x.blogId);
+            builder.Entity<BlogCategory>().HasKey(x => x.Id);
+            builder.Entity<BlogCategory>().HasMany(x => x.BlogInCategories).WithOne(x => x.category).HasForeignKey(x => x.categoryId);
+            builder.Entity<BlogInCategory>().HasKey(x => x.Id);
+            builder.Entity<BlogInCategory>().HasOne(x => x.blog).WithMany(x => x.BlogInCategories).HasForeignKey(x => x.blogId);
+            builder.Entity<BlogInCategory>().HasOne(x => x.category).WithMany(x => x.BlogInCategories).HasForeignKey(x => x.categoryId);
             builder.Entity<Cart>().HasKey(x => x.Id);
             //builder.Entity<Cart>().HasOne(x => x.Customer).WithMany(x => x.Carts).HasForeignKey(x => x.CustomerId);
             //builder.Entity<Cart>().HasOne(x => x.ProductPrice).WithMany(x => x.Carts).HasForeignKey(x => x.ProductPriceId);
@@ -215,6 +224,9 @@ namespace eShopping.Infrastructure.Contexts
             builder.Entity<Product>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<ProductInCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<ProductPrice>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<Blog>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<BlogInCategory>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<BlogCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Staff>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<StaffPermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
         }
