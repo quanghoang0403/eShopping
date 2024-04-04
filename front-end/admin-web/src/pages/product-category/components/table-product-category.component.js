@@ -4,7 +4,7 @@ import { EditButtonComponent } from 'components/edit-button/edit-button.componen
 import { FnbTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-// import productCategoryDataService from "data-services/product-category/product-category-data.service";
+import productCategoryDataService from "data-services/product-category/product-category-data.service";
 // import productDataService from "data-services/product/product-data.service";
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -63,11 +63,11 @@ export default function TableProductCategory () {
   }
 
   const fetchDataTableAsync = async (pageNumber, pageSize, keySearch) => {
-    // const response = await productCategoryDataService.getProductCategoriesAsync(pageNumber, pageSize, keySearch);
-    // const data = response?.productCategories.map((s) => mappingRecordToColumns(s));
-    // setDataSource(data);
-    // setTotalRecords(response.total);
-    // setCurrentPageNumber(response.pageNumber);
+    const response = await productCategoryDataService.getProductCategoriesAsync(pageNumber, pageSize, keySearch);
+    const data = response?.productCategories.map((s) => mappingRecordToColumns(s));
+    setDataSource(data);
+    setTotalRecords(response.total);
+    setCurrentPageNumber(response.pageNumber);
   }
 
   const reload = async () => {
@@ -91,23 +91,23 @@ export default function TableProductCategory () {
   }
 
   const onRemoveItem = async (id) => {
-    // try {
-    //   const res = await productCategoryDataService.deleteProductCategoryByIdAsync(id);
-    //   if (res) {
-    //     message.success(pageData.productCategoryDeleteSuccess);
+    try {
+      const res = await productCategoryDataService.deleteProductCategoryByIdAsync(id);
+      if (res) {
+        message.success(pageData.productCategoryDeleteSuccess);
 
-    //     // Recount selected items after delete
-    //     const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== id);
-    //     if (newSelectedRowKeys) {
-    //       setSelectedRowKeys(newSelectedRowKeys);
-    //     }
-    //   } else {
-    //     message.error(pageData.productCategoryDeleteFail);
-    //   }
-    //   await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, "");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+        // Recount selected items after delete
+        const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== id);
+        if (newSelectedRowKeys) {
+          setSelectedRowKeys(newSelectedRowKeys);
+        }
+      } else {
+        message.error(pageData.productCategoryDeleteFail);
+      }
+      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, "");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const onHandleSelectedProductCategory = async (productCategory, keySearch) => {
