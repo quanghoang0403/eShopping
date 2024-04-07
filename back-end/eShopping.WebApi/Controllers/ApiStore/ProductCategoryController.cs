@@ -2,7 +2,6 @@
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiStore
@@ -22,10 +21,10 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpGet]
-        [Route("get-product-category-by-id/{id}")]
-        public async Task<IActionResult> GetProductCategoryByIdAsync(Guid id)
+        [Route("get-product-category-by-url")]
+        public async Task<IActionResult> GetProductCategoryByUrlAsync([FromQuery] StoreGetProductCategoryByUrlRequest request)
         {
-            var response = await _mediator.Send(new StoreGetProductCategoryByIdRequest() { Id = id });
+            var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
         }
     }

@@ -11,6 +11,8 @@ namespace eShopping.Models.Products
 
         public int Priority { set; get; }
 
+        public string Thumbnail { set; get; }
+
         public List<string> Gallery { set; get; }
 
         public StoreProductCategoryModel ProductCategory { get; set; }

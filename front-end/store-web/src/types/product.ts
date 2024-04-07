@@ -52,3 +52,11 @@ interface IGetProductsRequest extends IBaseRequest {
 interface IGetProductsResponse extends IBaseResponse {
   products: IProduct[]
 }
+
+interface IGetProductByUrlResponse {
+  product: IProductDetail
+}
+
+interface IGetProductCategoryByUrlResponse {
+  product: IProductCategory
+}

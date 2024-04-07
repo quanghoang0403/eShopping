@@ -8,15 +8,15 @@ export default class ProductService {
     )
   }
 
-  static async getProductById(id: string): Promise<AxiosResponse<IProductDetail>> {
-    return await APIService.get(`/product/get-product-by-id?id=${id}`)
+  static async getProductByUrl(url: string): Promise<AxiosResponse<IGetProductByUrlResponse>> {
+    return await APIService.get(`/product/get-product-by-url?url=${url}`)
   }
 
   static async getAllProductCategories(): Promise<AxiosResponse<IProductCategory[]>> {
     return await APIService.get(`/productCategory/get-all-product-categories`)
   }
 
-  static async getProductCategoryById(id: string): Promise<AxiosResponse<IProductCategoryDetail>> {
-    return await APIService.get(`/productCategory/get-product-category-by-id?id=${id}`)
+  static async getProductCategoryByUrl(url: string): Promise<AxiosResponse<IGetProductCategoryByUrlResponse>> {
+    return await APIService.get(`/productCategory/get-product-category-by-url?url=${url}`)
   }
 }
