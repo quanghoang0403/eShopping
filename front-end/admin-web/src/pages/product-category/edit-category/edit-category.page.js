@@ -10,7 +10,7 @@ import { ExclamationIcon, PolygonIcon, TrashFill } from 'constants/icons.constan
 import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-// import productDataService from 'data-services/product/product-data.service'
+import productDataService from 'data-services/product/product-data.service'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch } from 'react-router-dom'
@@ -31,11 +31,11 @@ export default function EditProductCategoryPage (props) {
   const [title, setTitle] = useState('')
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-
+  const [dataSelectedProducts,setDataSelectedProducts] = useState([])
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
-    btnUpdate: t('button.update'),
+    btnUpdate: t('button.edit'),
     btnDelete: t('button.delete'),
     btnDiscard: t('button.discard'),
     generalInformation: {
@@ -80,10 +80,9 @@ export default function EditProductCategoryPage (props) {
   const onCompleted = () => {
     setIsChangeForm(false)
     setTimeout(() => {
-      history?.push('/category')
+      history?.push('/product-category')
     }, DELAYED_TIME)
   }
-
   const getEditData = () => {
     const { productCategoryId } = match?.params
     if (productCategoryId) {
@@ -243,26 +242,26 @@ export default function EditProductCategoryPage (props) {
   // #endregion
 
   const onSubmitForm = () => {
-    // form.validateFields().then((values) => {
-    //   const updateProductCategoryRequestModel = {
-    //     id: values.id,
-    //     name: values.name,
-    //     products: dataSelectedProducts,
-    //     priority: values.priority
-    //   }
+    form.validateFields().then((values) => {
+      const updateProductCategoryRequestModel = {
+        id: values.id,
+        name: values.name,
+        products: dataSelectedProducts || [],
+        priority: values.priority
+      }
 
-    //   productCategoryDataService
-    //     .updateProductCategoryAsync(updateProductCategoryRequestModel)
-    //     .then((response) => {
-    //       if (response) {
-    //         message.success(pageData.productCategoryUpdateSuccess)
-    //         onCompleted()
-    //       }
-    //     })
-    //     .catch((errs) => {
-    //       form.setFields(getValidationMessages(errs))
-    //     })
-    // })
+      productCategoryDataService
+        .updateProductCategoryAsync(updateProductCategoryRequestModel)
+        .then((response) => {
+          if (response) {
+            message.success(pageData.productCategoryUpdateSuccess)
+            onCompleted()
+          }
+        })
+        .catch((errs) => {
+          form.setFields(getValidationMessages(errs))
+        })
+    })
   }
 
   const onDiscard = () => {
@@ -279,13 +278,14 @@ export default function EditProductCategoryPage (props) {
   }
 
   const onRemoveItem = async () => {
-    // const res = await productCategoryDataService.deleteProductCategoryByIdAsync(productCategoryId)
-    // if (res) {
-    //   message.success(pageData.productCategoryDeleteSuccess)
-    //   props?.history.push('/category')
-    // } else {
-    //   message.error(pageData.productCategoryDeleteFail)
-    // }
+    const { productCategoryId } = match?.params
+    const res = await productCategoryDataService.deleteProductCategoryByIdAsync(productCategoryId)
+    if (res) {
+      message.success(pageData.productCategoryDeleteSuccess)
+      props?.history.push('/product-category')
+    } else {
+      message.error(pageData.productCategoryDeleteFail)
+    }
   }
 
   // Insert the name into the message
@@ -406,7 +406,7 @@ export default function EditProductCategoryPage (props) {
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>
-              <Row>{renderSelectedProduct()}</Row>
+              {/* <Row>{renderSelectedProduct()}</Row> */}
             </Card>
           </div>
         </Row>

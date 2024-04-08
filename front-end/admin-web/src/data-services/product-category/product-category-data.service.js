@@ -6,16 +6,20 @@ const createProductCategoryAsync = (data) => {
 const getProductCategoriesAsync = (pageNumber,pageSize,keySearch)=>{
     return http.get(`/${controller}/get-product-categories?PageNumber=${pageNumber}&KeySearch=${keySearch}&PageSize=${pageSize}`)
 }
-const deleteProductCategoryByIdAsync = (id)=>{
+const deleteProductCategoryByIdAsync = (id) => {
     return http.delete(`${controller}/delete-product-category-by-id/${id}`)
 }
-const getProductCategoryByIdAsync = (id)=>{
+const getProductCategoryByIdAsync = (id) => {
     return http.get(`${controller}/get-product-category-by-id/${id}`)
+}
+const updateProductCategoryAsync = (data) => {
+    return http.put(`${controller}/update-product-category`,data)
 }
 const productCategoryDataService = {
     createProductCategoryAsync,
     getProductCategoriesAsync,
     deleteProductCategoryByIdAsync,
-    getProductCategoryByIdAsync
+    getProductCategoryByIdAsync,
+    updateProductCategoryAsync
 }
 export default productCategoryDataService;
