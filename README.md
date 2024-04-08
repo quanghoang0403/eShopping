@@ -8,6 +8,7 @@
     + Unit of work pattern  
 - Database: SQL Server - Bearer Authentication 
 
+
 ### 1.2 EF
 - add-migration [Message]
 - update-database
