@@ -9,9 +9,13 @@ const getProductCategoriesAsync = (pageNumber,pageSize,keySearch)=>{
 const deleteProductCategoryByIdAsync = (id)=>{
     return http.delete(`${controller}/delete-product-category-by-id/${id}`)
 }
+const getProductCategoryByIdAsync = (id)=>{
+    return http.get(`${controller}/get-product-category-by-id/${id}`)
+}
 const productCategoryDataService = {
     createProductCategoryAsync,
     getProductCategoriesAsync,
-    deleteProductCategoryByIdAsync
+    deleteProductCategoryByIdAsync,
+    getProductCategoryByIdAsync
 }
 export default productCategoryDataService;

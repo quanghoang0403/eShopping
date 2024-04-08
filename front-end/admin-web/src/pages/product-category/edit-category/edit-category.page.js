@@ -9,7 +9,7 @@ import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon, PolygonIcon, TrashFill } from 'constants/icons.constants'
 import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-// import productCategoryDataService from 'data-services/product-category/product-category-data.service'
+import productCategoryDataService from 'data-services/product-category/product-category-data.service'
 // import productDataService from 'data-services/product/product-data.service'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -85,28 +85,28 @@ export default function EditProductCategoryPage (props) {
   }
 
   const getEditData = () => {
-    // const { productCategoryId } = match?.params
-    // if (productCategoryId) {
-    //   productCategoryDataService.getProductCategoryByIdAsync(productCategoryId).then((response) => {
-    //     if (response) {
-    //       const { productCategory } = response
-    //       /// Handle set data
-    //       if (productCategory.products) {
-    //         setDataSelectedProducts(productCategory.products)
-    //         setProductCategoryName(productCategory.name)
-    //       }
-    //       setTitle(productCategory.name)
-    //       setCurrentName(productCategory.name)
+    const { productCategoryId } = match?.params
+    if (productCategoryId) {
+      productCategoryDataService.getProductCategoryByIdAsync(productCategoryId).then((response) => {
+        if (response) {
+          const { productCategory } = response
+          /// Handle set data
+          if (productCategory.products) {
+            setDataSelectedProducts(productCategory.products)
+            setProductCategoryName(productCategory.name)
+          }
+          setTitle(productCategory.name)
+          setCurrentName(productCategory.name)
 
-    //       form.setFieldsValue({
-    //         id: productCategory.id,
-    //         name: productCategory.name,
-    //         priority: productCategory.priority,
-    //         productIds: productCategory.products?.map((x) => x.id)
-    //       })
-    //     }
-    //   })
-    // }
+          form.setFieldsValue({
+            id: productCategory.id,
+            name: productCategory.name,
+            priority: productCategory.priority,
+            productIds: productCategory.products?.map((x) => x.id)
+          })
+        }
+      })
+    }
   }
 
   const getProducts = () => {
