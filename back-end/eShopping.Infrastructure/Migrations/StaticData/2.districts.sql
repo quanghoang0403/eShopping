@@ -1,4 +1,4 @@
-﻿USE eshopping_db
+﻿USE eshoppingdb
 DELETE [dbo].[District]
 
 SET IDENTITY_INSERT [dbo].[District] ON 
@@ -708,7 +708,6 @@ INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES 
 INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES (697, N'Bảo Lạc', N'Huyện', 63, 22.9429885, 105.6823124)
 INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES (698, N'Bảo Lâm', N'Huyện', 63, 22.8556222, 105.4536718)
 INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES (699, N'Cao Bằng', N'Thị xã', 63, 22.6666369, 106.2639852)
-GO
 INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES (700, N'Hạ Lang', N'Huyện', 63, 22.7042438, 106.6998767)
 INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES (701, N'Hà Quảng', N'Huyện', 63, 22.9025402, 106.1345705)
 INSERT [dbo].[District] ([Id], [Name], [Prefix], [CityId], [Lat], [Lng]) VALUES (702, N'Hòa An', N'Huyện', 63, 22.7538704, 106.22868)

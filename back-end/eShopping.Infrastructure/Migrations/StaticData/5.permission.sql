@@ -1,4 +1,4 @@
-USE eshopping_db
+USE eshoppingdb
 --
 -- Dumping data for table `Permission`
 --
