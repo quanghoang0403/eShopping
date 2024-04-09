@@ -58,6 +58,36 @@ export default function EditProductCategoryPage (props) {
       validateMessage: t('productCategory.validatePriority'),
       tooltip: t('productCategory.tooltipPriority')
     },
+    content:{
+      title: t('productCategory.productCategoryContent'),
+      placeholder: t('productCategory.placeholderContent')
+    },
+    description:{
+      title: t('productCategory.categoryDescription'),
+      placeholder: t('productCategory.placeholderCategoryDescription')
+    },
+    SEOInformation:{
+      title: t('form.SEOConfiguration'),
+      keyword:{
+        label: t('form.SEOKeywords'),
+        placeholder: t('form.SEOKeywordsPlaceholder'),
+        tooltip: t('form.SEOKeywordsTooltip')
+      },
+      SEOtitle:{
+        label:t('form.SEOTitle'),
+        placeholder: t('form.SEOTitlePlaceholder'),
+        tooltip: t('form.SEOTitleTooltip'),
+        validateMessage: t('form.messageMatchSuggestSEOTitle'),
+        minlength: 50
+      },
+      description:{
+        label: t('form.SEODescription'),
+        placeholder: t('form.SEODescriptionPlaceholder'),
+        validateMessage: t('form.messageMatchSuggestSEODescription'),
+        minlength:150,
+        tooltip: t('form.SEODescriptionTooltip')
+      },
+    },
     productCategoryNameExisted: t('productCategory.productNameExisted'),
     productCategoryAddedSuccess: t('productCategory.productCategoryAddedSuccess'),
     productCategoryUpdateSuccess: t('productCategory.productCategoryUpdateSuccess'),
@@ -101,7 +131,12 @@ export default function EditProductCategoryPage (props) {
             id: productCategory.id,
             name: productCategory.name,
             priority: productCategory.priority,
-            productIds: productCategory.products?.map((x) => x.id)
+            productIds: productCategory.products?.map((x) => x.id),
+            keywordSEO:productCategory.keywordSEO,
+            titleSEO: productCategory.titleSEO,
+            descriptionSEO:productCategory.descriptionSEO,
+            description:productCategory.description,
+            content:productCategory.content
           })
         }
       })
@@ -246,8 +281,13 @@ export default function EditProductCategoryPage (props) {
       const updateProductCategoryRequestModel = {
         id: values.id,
         name: values.name,
-        products: dataSelectedProducts || [],
-        priority: values.priority
+        products: dataSelectedProducts ,
+        priority: values.priority,
+        content:values.content,
+        titleSEO: values.titleSEO,
+        descriptionSEO: values.descriptionSEO,
+        description: values.description,
+        keywordSEO: values.keywordSEO
       }
 
       productCategoryDataService
@@ -401,6 +441,132 @@ export default function EditProductCategoryPage (props) {
                       max={1000000}
                       formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              {/* content  */}
+              <Row gutter={[24, 24]}>
+                <Col xs={24} sm={24} md={24} lg={12} span={12}>
+                  <div className="d-flex">
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.content.title}
+                    </h3>
+                  </div>
+                  <Form.Item name={['content']}>
+                    <Input
+                        className="shop-input-with-count"
+                        showCount
+                        placeholder={pageData.content.placeholder}
+                      />
+                  </Form.Item>
+                </Col>
+              </Row>
+              {/* description */}
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <h3 className="shop-form-label mt-16">
+                    {pageData.description.title}
+                  </h3>
+                  <Form.Item
+                    name={['description']}
+                    className="item-name"
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.description.placeholder}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              {/* SEOConfiguration */}
+              <h2 className="shop-form-label mt-16">{pageData.SEOInformation.title}</h2>
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <div className='d-flex'>
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.SEOInformation.SEOtitle.label}
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
+                          <span className="ml-12 mt-16">
+                            <ExclamationIcon />
+                          </span>
+                      </Tooltip>
+                  </div>
+                  
+                  <Form.Item
+                    name={['titleSEO']}
+                    className="item-name"
+                    rules={[
+                      {
+                        min:pageData.SEOInformation.SEOtitle.minlength,
+                        message: pageData.SEOInformation.SEOtitle.validateMessage
+                      }
+                    ]}
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.SEOInformation.SEOtitle.placeholder}
+                      minLength={pageData.SEOInformation.SEOtitle.minlength}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <div className='d-flex'>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.SEOInformation.description.label}
+                    </h3>
+                    <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
+                            <span className="ml-12 mt-16">
+                              <ExclamationIcon />
+                            </span>
+                    </Tooltip>
+                  </div>
+                  <Form.Item
+                    name={['descriptionSEO']}
+                    className="item-name"
+                    rules={[
+                      {
+                        min:pageData.SEOInformation.description.minlength,
+                        message: pageData.SEOInformation.description.validateMessage
+                      }
+                    ]}
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.SEOInformation.description.placeholder}
+                      minLength={pageData.SEOInformation.description.minlength}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <div className='d-flex'>
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.SEOInformation.keyword.label}
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
+                          <span className="ml-12 mt-16">
+                            <ExclamationIcon />
+                          </span>
+                      </Tooltip>
+                  </div>
+                  
+                  <Form.Item
+                    name={['keywordSEO']}
+                    className="item-name"
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.SEOInformation.keyword.placeholder}
+                      
                     />
                   </Form.Item>
                 </Col>
