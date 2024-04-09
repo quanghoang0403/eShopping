@@ -21,8 +21,8 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpGet]
-        [Route("get-product-by-id")]
-        public async Task<IActionResult> GetProductById([FromQuery] StoreGetProductByIdRequest request)
+        [Route("get-product-by-url")]
+        public async Task<IActionResult> GetProductByUrl([FromQuery] StoreGetProductByUrlRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

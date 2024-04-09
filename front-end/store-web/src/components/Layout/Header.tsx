@@ -1,4 +1,4 @@
-import { IconButton, MobileNav, Navbar, Popover, PopoverContent, PopoverHandler, Typography } from '@material-tailwind/react'
+import { Collapse, IconButton, MobileNav, Navbar, Popover, PopoverContent, PopoverHandler, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
@@ -99,7 +99,7 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <MobileNav open={openNav}>{navList}</MobileNav>
+        <Collapse open={openNav}>{navList}</Collapse>
       </Navbar>
       <button
         className={cx(

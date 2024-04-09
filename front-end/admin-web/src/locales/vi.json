@@ -94,7 +94,11 @@
         "productCategoryAddedSuccess": "Danh mục đã được thêm thành công",
         "productCategoryUpdateSuccess": "Danh mục đã được sửa thành công",
         "productCategoryDeleteSuccess": "Xóa danh mục thành công",
-        "productCategoryDeleteFail": "Xóa danh mục thất bại"
+        "productCategoryDeleteFail": "Xóa danh mục thất bại",
+        "productCategoryContent" : "Nội dung danh mục",
+        "placeholderContent" : "Nhập nội dung danh mục",
+        "categoryDescription" : "Mô tả Danh mục",
+        "placeholderCategoryDescription" : "Nhập mô tả danh mục"
     },
     "common": {
         "active": "Đang hoạt động",

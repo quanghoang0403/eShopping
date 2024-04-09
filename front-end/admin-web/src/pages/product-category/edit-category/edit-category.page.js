@@ -9,8 +9,8 @@ import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon, PolygonIcon, TrashFill } from 'constants/icons.constants'
 import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-// import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-// import productDataService from 'data-services/product/product-data.service'
+import productCategoryDataService from 'data-services/product-category/product-category-data.service'
+import productDataService from 'data-services/product/product-data.service'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch } from 'react-router-dom'
@@ -31,11 +31,11 @@ export default function EditProductCategoryPage (props) {
   const [title, setTitle] = useState('')
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-
+  const [dataSelectedProducts,setDataSelectedProducts] = useState([])
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
-    btnUpdate: t('button.update'),
+    btnUpdate: t('button.edit'),
     btnDelete: t('button.delete'),
     btnDiscard: t('button.discard'),
     generalInformation: {
@@ -57,6 +57,36 @@ export default function EditProductCategoryPage (props) {
       placeholder: t('productCategory.placeholderPriority'),
       validateMessage: t('productCategory.validatePriority'),
       tooltip: t('productCategory.tooltipPriority')
+    },
+    content:{
+      title: t('productCategory.productCategoryContent'),
+      placeholder: t('productCategory.placeholderContent')
+    },
+    description:{
+      title: t('productCategory.categoryDescription'),
+      placeholder: t('productCategory.placeholderCategoryDescription')
+    },
+    SEOInformation:{
+      title: t('form.SEOConfiguration'),
+      keyword:{
+        label: t('form.SEOKeywords'),
+        placeholder: t('form.SEOKeywordsPlaceholder'),
+        tooltip: t('form.SEOKeywordsTooltip')
+      },
+      SEOtitle:{
+        label:t('form.SEOTitle'),
+        placeholder: t('form.SEOTitlePlaceholder'),
+        tooltip: t('form.SEOTitleTooltip'),
+        validateMessage: t('form.messageMatchSuggestSEOTitle'),
+        minlength: 50
+      },
+      description:{
+        label: t('form.SEODescription'),
+        placeholder: t('form.SEODescriptionPlaceholder'),
+        validateMessage: t('form.messageMatchSuggestSEODescription'),
+        minlength:150,
+        tooltip: t('form.SEODescriptionTooltip')
+      },
     },
     productCategoryNameExisted: t('productCategory.productNameExisted'),
     productCategoryAddedSuccess: t('productCategory.productCategoryAddedSuccess'),
@@ -80,33 +110,37 @@ export default function EditProductCategoryPage (props) {
   const onCompleted = () => {
     setIsChangeForm(false)
     setTimeout(() => {
-      history?.push('/category')
+      history?.push('/product-category')
     }, DELAYED_TIME)
   }
-
   const getEditData = () => {
-    // const { productCategoryId } = match?.params
-    // if (productCategoryId) {
-    //   productCategoryDataService.getProductCategoryByIdAsync(productCategoryId).then((response) => {
-    //     if (response) {
-    //       const { productCategory } = response
-    //       /// Handle set data
-    //       if (productCategory.products) {
-    //         setDataSelectedProducts(productCategory.products)
-    //         setProductCategoryName(productCategory.name)
-    //       }
-    //       setTitle(productCategory.name)
-    //       setCurrentName(productCategory.name)
+    const { productCategoryId } = match?.params
+    if (productCategoryId) {
+      productCategoryDataService.getProductCategoryByIdAsync(productCategoryId).then((response) => {
+        if (response) {
+          const { productCategory } = response
+          /// Handle set data
+          if (productCategory.products) {
+            setDataSelectedProducts(productCategory.products)
+            setProductCategoryName(productCategory.name)
+          }
+          setTitle(productCategory.name)
+          setCurrentName(productCategory.name)
 
-    //       form.setFieldsValue({
-    //         id: productCategory.id,
-    //         name: productCategory.name,
-    //         priority: productCategory.priority,
-    //         productIds: productCategory.products?.map((x) => x.id)
-    //       })
-    //     }
-    //   })
-    // }
+          form.setFieldsValue({
+            id: productCategory.id,
+            name: productCategory.name,
+            priority: productCategory.priority,
+            productIds: productCategory.products?.map((x) => x.id),
+            keywordSEO:productCategory.keywordSEO,
+            titleSEO: productCategory.titleSEO,
+            descriptionSEO:productCategory.descriptionSEO,
+            description:productCategory.description,
+            content:productCategory.content
+          })
+        }
+      })
+    }
   }
 
   const getProducts = () => {
@@ -243,26 +277,31 @@ export default function EditProductCategoryPage (props) {
   // #endregion
 
   const onSubmitForm = () => {
-    // form.validateFields().then((values) => {
-    //   const updateProductCategoryRequestModel = {
-    //     id: values.id,
-    //     name: values.name,
-    //     products: dataSelectedProducts,
-    //     priority: values.priority
-    //   }
+    form.validateFields().then((values) => {
+      const updateProductCategoryRequestModel = {
+        id: values.id,
+        name: values.name,
+        products: dataSelectedProducts ,
+        priority: values.priority,
+        content:values.content,
+        titleSEO: values.titleSEO,
+        descriptionSEO: values.descriptionSEO,
+        description: values.description,
+        keywordSEO: values.keywordSEO
+      }
 
-    //   productCategoryDataService
-    //     .updateProductCategoryAsync(updateProductCategoryRequestModel)
-    //     .then((response) => {
-    //       if (response) {
-    //         message.success(pageData.productCategoryUpdateSuccess)
-    //         onCompleted()
-    //       }
-    //     })
-    //     .catch((errs) => {
-    //       form.setFields(getValidationMessages(errs))
-    //     })
-    // })
+      productCategoryDataService
+        .updateProductCategoryAsync(updateProductCategoryRequestModel)
+        .then((response) => {
+          if (response) {
+            message.success(pageData.productCategoryUpdateSuccess)
+            onCompleted()
+          }
+        })
+        .catch((errs) => {
+          form.setFields(getValidationMessages(errs))
+        })
+    })
   }
 
   const onDiscard = () => {
@@ -279,13 +318,14 @@ export default function EditProductCategoryPage (props) {
   }
 
   const onRemoveItem = async () => {
-    // const res = await productCategoryDataService.deleteProductCategoryByIdAsync(productCategoryId)
-    // if (res) {
-    //   message.success(pageData.productCategoryDeleteSuccess)
-    //   props?.history.push('/category')
-    // } else {
-    //   message.error(pageData.productCategoryDeleteFail)
-    // }
+    const { productCategoryId } = match?.params
+    const res = await productCategoryDataService.deleteProductCategoryByIdAsync(productCategoryId)
+    if (res) {
+      message.success(pageData.productCategoryDeleteSuccess)
+      props?.history.push('/product-category')
+    } else {
+      message.error(pageData.productCategoryDeleteFail)
+    }
   }
 
   // Insert the name into the message
@@ -405,8 +445,134 @@ export default function EditProductCategoryPage (props) {
                   </Form.Item>
                 </Col>
               </Row>
+              {/* content  */}
+              <Row gutter={[24, 24]}>
+                <Col xs={24} sm={24} md={24} lg={12} span={12}>
+                  <div className="d-flex">
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.content.title}
+                    </h3>
+                  </div>
+                  <Form.Item name={['content']}>
+                    <Input
+                        className="shop-input-with-count"
+                        showCount
+                        placeholder={pageData.content.placeholder}
+                      />
+                  </Form.Item>
+                </Col>
+              </Row>
+              {/* description */}
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <h3 className="shop-form-label mt-16">
+                    {pageData.description.title}
+                  </h3>
+                  <Form.Item
+                    name={['description']}
+                    className="item-name"
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.description.placeholder}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              {/* SEOConfiguration */}
+              <h2 className="shop-form-label mt-16">{pageData.SEOInformation.title}</h2>
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <div className='d-flex'>
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.SEOInformation.SEOtitle.label}
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
+                          <span className="ml-12 mt-16">
+                            <ExclamationIcon />
+                          </span>
+                      </Tooltip>
+                  </div>
+                  
+                  <Form.Item
+                    name={['titleSEO']}
+                    className="item-name"
+                    rules={[
+                      {
+                        min:pageData.SEOInformation.SEOtitle.minlength,
+                        message: pageData.SEOInformation.SEOtitle.validateMessage
+                      }
+                    ]}
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.SEOInformation.SEOtitle.placeholder}
+                      minLength={pageData.SEOInformation.SEOtitle.minlength}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <div className='d-flex'>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.SEOInformation.description.label}
+                    </h3>
+                    <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
+                            <span className="ml-12 mt-16">
+                              <ExclamationIcon />
+                            </span>
+                    </Tooltip>
+                  </div>
+                  <Form.Item
+                    name={['descriptionSEO']}
+                    className="item-name"
+                    rules={[
+                      {
+                        min:pageData.SEOInformation.description.minlength,
+                        message: pageData.SEOInformation.description.validateMessage
+                      }
+                    ]}
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.SEOInformation.description.placeholder}
+                      minLength={pageData.SEOInformation.description.minlength}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[24, 24]}>
+                <Col span={24}>
+                  <div className='d-flex'>
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.SEOInformation.keyword.label}
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
+                          <span className="ml-12 mt-16">
+                            <ExclamationIcon />
+                          </span>
+                      </Tooltip>
+                  </div>
+                  
+                  <Form.Item
+                    name={['keywordSEO']}
+                    className="item-name"
+                  >
+                    <Input
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.SEOInformation.keyword.placeholder}
+                      
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
               <Row>{renderSelectProduct()}</Row>
-              <Row>{renderSelectedProduct()}</Row>
+              {/* <Row>{renderSelectedProduct()}</Row> */}
             </Card>
           </div>
         </Row>

@@ -4,6 +4,10 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    scrollbar-width: thin !important;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -18,6 +22,9 @@
 
   h3 {
     @apply text-3xl;
+  }
+
+  nav {
   }
 
   article {
@@ -36,10 +43,10 @@
   }
 }
 
-@layer components {}
+@layer components {
+}
 
 @layer utilities {
-
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -159,7 +166,7 @@
   }
 }
 
-#menu-toggle:checked+#menu {
+#menu-toggle:checked + #menu {
   display: block;
 }
 
