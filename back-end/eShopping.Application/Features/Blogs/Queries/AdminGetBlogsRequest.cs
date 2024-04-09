@@ -69,6 +69,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             }
             var allBlog = await blogs.
                 AsNoTracking()
+                .Where(b => b.Status.Equals(request.Status))
                 .Include(b => b.BlogInCategories)
                 .OrderBy(b => b.CreatedTime)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);
