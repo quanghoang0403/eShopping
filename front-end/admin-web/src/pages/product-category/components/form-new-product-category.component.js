@@ -11,7 +11,8 @@ import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useEffect, useState } from 'react'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
-import { getValidationMessages } from 'utils/helpers'
+import { getValidationMessages } from 'utils/helpers';
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import '../index.scss'
 
 export default function FormNewProductCategory (props) {
@@ -75,6 +76,7 @@ export default function FormNewProductCategory (props) {
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
         minlength:150,
+        maxLength:160,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -394,11 +396,12 @@ export default function FormNewProductCategory (props) {
                     name={['description']}
                     className="item-name"
                   >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      placeholder={pageData.description.placeholder}
-                    />
+                   <FnbTextArea
+                        showCount
+                        autoSize={{ minRows: 2, maxRows: 6 }}
+                        id="product-category-description"
+                        placeholder={pageData.description.placeholder}
+                      ></FnbTextArea>
                   </Form.Item>
                 </Col>
               </Row>
@@ -458,12 +461,13 @@ export default function FormNewProductCategory (props) {
                       }
                     ]}
                   >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      placeholder={pageData.SEOInformation.description.placeholder}
-                      minLength={pageData.SEOInformation.description.minlength}
-                    />
+                    <FnbTextArea
+                        showCount
+                        maxLength={pageData.SEOInformation.description.maxLength}
+                        autoSize={{ minRows: 2, maxRows: 6 }}
+                        id="product-category-SEO-description"
+                        placeholder={pageData.SEOInformation.description.placeholder}
+                      ></FnbTextArea>
                   </Form.Item>
                 </Col>
               </Row>
