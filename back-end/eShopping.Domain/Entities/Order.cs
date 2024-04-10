@@ -27,6 +27,9 @@ namespace eShopping.Domain.Entities
         public string ShipName { set; get; }
 
         [MaxLength(500)]
+        public string ShipAddress { get; set; }
+
+        [MaxLength(500)]
         public string ShipFullAddress { get; set; }
 
         [MaxLength(50)]
@@ -34,6 +37,12 @@ namespace eShopping.Domain.Entities
 
         [MaxLength(10)]
         public string ShipPhoneNumber { set; get; }
+
+        public int? ShipCityId { get; set; }
+
+        public int? ShipDistrictId { get; set; }
+
+        public int? ShipWardId { get; set; }
 
         [MaxLength(255)]
         public string Note { get; set; }

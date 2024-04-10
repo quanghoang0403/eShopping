@@ -11,7 +11,7 @@ import { useAppMutation, useAppQuery } from '@/hooks/queryHook'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import AuthService from '@/services/auth.service'
 import { sessionActions } from '@/redux/features/sessionSlice'
-import CustomerInfo from '@/components/CustomerInfo'
+import CustomerInfo, { defaultCustomerInfo } from '@/components/CustomerInfo'
 import OrderService from '@/services/order.service'
 import WhiteCard from '@/components/WhiteCard'
 
@@ -42,13 +42,12 @@ export default function CartPage() {
   const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
 
-  const handleCheckout = useCallback(async (data: ICreateOrderRequest) => {
-    return OrderService.checkout(data)
-  }, [])
-
-  const mutation = useAppMutation(handleCheckout, async (res: ICreateOrderResponse) => {
-    // Handle after create
-  })
+  const mutation = useAppMutation(
+    async (data: ICreateOrderRequest) => OrderService.checkout(data),
+    async (res: ICreateOrderResponse) => {
+      // Handle after create
+    }
+  )
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
 
@@ -77,7 +76,7 @@ export default function CartPage() {
           </WhiteCard>
           <WhiteCard className="mt-6">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <CustomerInfo register={register} errors={errors} isShipping cityId={0} districtId={0} wardId={0} />
+              <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
             </form>
             <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
           </WhiteCard>

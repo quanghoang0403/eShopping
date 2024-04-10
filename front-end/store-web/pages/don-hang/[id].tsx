@@ -11,14 +11,23 @@ import { sessionActions } from '@/redux/features/sessionSlice'
 import Title from '@/components/Title'
 import WhiteCard from '@/components/WhiteCard'
 import Link from 'next/link'
+import CustomerInfo, { ICustomerInfo, defaultCustomerInfo } from '@/components/CustomerInfo'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useAppMutation } from '@/hooks/queryHook'
+import OrderService from '@/services/order.service'
 
 const order: IOrderDetail = {
   id: '1',
   code: '1',
   status: 6,
   shipPhoneNumber: '0946290739',
-  shipName: 'Hoang Dinh',
-  shipFullAddress: '465 Nguyễn Văn Cừ',
+  shipName: 'Nguyễn Thị Thi',
+  shipAddress: '465 Nguyễn Văn Cừ',
+  shipEmail: 'quanghoang0403@gmail.com',
+  shipFullAddress: '465 Nguyễn Văn Cừ Tp. Buôn Ma Thuột, Đăk Lăk',
+  cityId: 1,
+  districtId: 3,
+  wardId: 0,
   createdTime: 'Now',
   statusName: 'Completed',
   totalQuantity: 3,
@@ -53,8 +62,32 @@ const order: IOrderDetail = {
   ],
 }
 
+const customerInfo: ICustomerInfo = {
+  name: order.shipName,
+  phoneNumber: order.shipPhoneNumber,
+  email: order.shipEmail,
+  address: order.shipAddress,
+  note: order.note,
+  cityId: order.cityId ?? 0,
+  districtId: order.districtId ?? 0,
+  wardId: order.wardId ?? 0,
+}
+
 export default function OrderPage() {
-  const dispatch = useAppDispatch()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
+
+  const mutation = useAppMutation(
+    async (data: IUpdateOrderRequest) => OrderService.updateOrder(data),
+    async (res: boolean) => {
+      // Handle after update
+    }
+  )
+
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
   return (
     <>
       <SEO title="Paris Long Tee" />
@@ -100,50 +133,34 @@ export default function OrderPage() {
           </section>
           <section className="mt-6 md:mt-0 md:w-1/2 h-full">
             <WhiteCard>
-              <div>
-                <label>
-                  <b>Trạng thái đơn hàng: </b> {order.statusName}
-                </label>
-              </div>
-              <div className="flex flex-col md:flex-row gap-3 mt-2">
-                <div className="md:w-1/2">
+              <div className="mb-2 flex justify-between gap-3">
+                <div>
                   <label>
-                    <b>Mã đơn hàng: </b> {order.code}
+                    <b>Mã đơn hàng: </b> #{order.code}
                   </label>
                 </div>
-                <div className="md:w-1/2">
-                  <label>
-                    <b>Tên: </b>
-                    {order.shipName}
-                  </label>
+                <div>
+                  <div>
+                    <label className="px-2 py-1 rounded-full bg-green-700 text-white">{order.statusName}</label>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row gap-3 mt-2">
-                <div className="md:w-1/2">
-                  <label>
-                    <b>SĐT: </b> {order.shipPhoneNumber}
-                  </label>
-                </div>
-                <div className="md:w-1/2">
-                  <label>
-                    <b>Email: </b> {order.shipName}
-                  </label>
-                </div>
+              <div className="mb-2 flex justify-between">
+                <b>Tổng tiền</b>
+                <p className="text-gray-700">{formatCurrency(order.totalPrice)}</p>
               </div>
-              <div className="mt-2">
-                <label>
-                  <b>Địa chỉ giao hàng: </b>
-                  {order.shipFullAddress}
-                </label>
+              <div className="mb-2 flex justify-between">
+                <b>Shipping</b>
+                <p className="text-gray-700">{formatCurrency(order.deliveryFee)}</p>
               </div>
-              {order.note && (
-                <div className="mt-2">
-                  <label>
-                    <b>Ghi chú: </b>
-                    {order.note}
-                  </label>
-                </div>
-              )}
+              <div className="flex justify-between">
+                <p className="text-lg font-bold text-gray-900">ĐÃ THANH TOÁN</p>
+                <p className="mb-1 text-lg font-bold text-gray-900">{formatCurrency(order.totalAmount)}</p>
+              </div>
+              <hr className="my-4" />
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <CustomerInfo register={register} errors={errors} isShipping customer={customerInfo} />
+              </form>
               {order.reason && (
                 <div className="mt-2">
                   <label>
@@ -152,20 +169,7 @@ export default function OrderPage() {
                   </label>
                 </div>
               )}
-              <hr className="my-4" />
-              <div className="mb-2 flex justify-between">
-                <p className="text-gray-700">Tổng tiền</p>
-                <p className="text-gray-700">{formatCurrency(order.totalPrice)}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-gray-700">Shipping</p>
-                <p className="text-gray-700">{formatCurrency(order.deliveryFee)}</p>
-              </div>
-              <hr className="my-4" />
-              <div className="flex justify-between">
-                <p className="text-lg font-bold text-gray-900">ĐÃ THANH TOÁN</p>
-                <p className="mb-1 text-lg font-bold text-gray-900">{formatCurrency(order.totalAmount)}</p>
-              </div>
+              <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Cập nhật</button>
             </WhiteCard>
           </section>
         </div>

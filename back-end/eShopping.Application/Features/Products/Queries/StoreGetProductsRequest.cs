@@ -86,7 +86,7 @@ namespace eShopping.Application.Features.Products.Queries
 
                 if (request.IsDiscounted == true)
                 {
-                    products = products.Where(g => g.IsDiscounted == true).Include(x => x.ProductPrices).Where(x => x.ProductPrices.Any(p => p.EndDate <= DateTime.UtcNow));
+                    products = products.Where(g => g.IsDiscounted == true);
                 }
 
                 products = products.Include(p => p.ProductPrices.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime));

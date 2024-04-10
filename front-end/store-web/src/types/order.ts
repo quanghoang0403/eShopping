@@ -66,9 +66,13 @@ interface IOrderDetail {
   status: EnumOrderStatus
   statusName: string
   shipName: string
+  shipAddress: string
   shipFullAddress: string
   shipEmail?: string
   shipPhoneNumber: string
+  cityId?: number
+  districtId?: number
+  wardId?: number
   note?: string
   reason?: string
   deliveryFee: number

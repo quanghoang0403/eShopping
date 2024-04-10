@@ -18,7 +18,7 @@ namespace eShopping.Application.Mappings
             #region DTO => DAL 
             CreateMap<City, CityModel>();
             CreateMap<District, DistrictModel>();
-            CreateMap<Ward, WardModel>();
+            CreateMap<Ward, WardModel>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.Prefix} {src.Name}"));
 
             CreateMap<Image, AdminImageModel>();
 

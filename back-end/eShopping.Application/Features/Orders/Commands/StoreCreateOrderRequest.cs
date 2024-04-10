@@ -67,7 +67,6 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
             var accountId = loggedUser.AccountId.Value;
             var customerId = loggedUser.Id.Value;
             var prices = await _unitOfWork.ProductPrices.Where(x => request.CartItem.Any(cart => cart.ProductPriceId == x.Id)).Include(x => x.Product)
-                                                .AsNoTracking()
                                                 .ToListAsync();
             var cartItemRes = _mapper.Map<List<StoreProductPriceModel>>(prices); ;
             if (prices.Count() != request.CartItem.Count())
@@ -119,16 +118,20 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
                     ShipName = request.ShipName,
                     ShipEmail = request.ShipEmail,
                     ShipPhoneNumber = request.ShipPhoneNumber,
+                    ShipAddress = request.ShipAddress,
                     ShipFullAddress = request.ShipAddress + ward + district + city,
+                    ShipCityId = request.ShipCityId,
+                    ShipDistrictId = request.ShipDistrictId,
+                    ShipWardId = request.ShipWardId,
                     Note = request.Note,
                     CreatedTime = DateTime.Now,
                     CreatedUser = accountId,
                 });
 
-                // Add order detail
                 var orderItems = new List<OrderItem>();
                 foreach (var item in request.CartItem)
                 {
+                    // Add order detail
                     var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
                     if (price == null ||
                         price.QuantityLeft < item.Quantity ||
@@ -163,6 +166,10 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
                             CreatedUser = accountId,
                         });
                     }
+
+                    // Update quantity
+                    price.QuantityLeft -= item.Quantity;
+                    price.QuantitySold += item.Quantity;
                 }
 
                 // Add order history
@@ -175,6 +182,7 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
                     CreatedUser = accountId,
                 });
 
+                await _unitOfWork.SaveChangesAsync();
                 await createTransaction.CommitAsync(cancellationToken);
 
                 return new StoreCreateOrderResponse()

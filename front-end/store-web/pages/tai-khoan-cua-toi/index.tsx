@@ -4,7 +4,7 @@ import { IconButton, Tab, TabPanel, Tabs, TabsBody, TabsHeader } from '@material
 import Title from '@/components/Title'
 import { useAppMutation, useAppQuery } from '@/hooks/queryHook'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import CustomerInfo from '@/components/CustomerInfo'
+import CustomerInfo, { defaultCustomerInfo } from '@/components/CustomerInfo'
 import { FaUser } from 'react-icons/fa'
 import { IoSettingsSharp } from 'react-icons/io5'
 import { FaCartShopping } from 'react-icons/fa6'
@@ -140,7 +140,7 @@ export default function MyAccountPage() {
             <TabPanel value="2">
               <WhiteCard>
                 <form onSubmit={handleSubmitUpdateProfile(onSubmitUpdateProfile)}>
-                  <CustomerInfo register={registerUpdateProfile} errors={errorsUpdateProfile} isShipping cityId={0} districtId={0} wardId={0} />
+                  <CustomerInfo register={registerUpdateProfile} errors={errorsUpdateProfile} isShipping customer={defaultCustomerInfo} />
                 </form>
                 <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Cập nhật thông tin</button>
               </WhiteCard>
