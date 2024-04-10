@@ -32,7 +32,7 @@ stages:
       inputs:
         projectpath: $(InfrastructureProjectPath)
         databasecontexts: $(DbContext)
-        startupprojectpath: $(WebApiProjectPath)
+        startupprojectpath: $(InfrastructureProjectPath)
         targetfolder: $(build.artifactstagingdirectory)
         installdependencies: true
     - task: PublishBuildArtifacts@1
