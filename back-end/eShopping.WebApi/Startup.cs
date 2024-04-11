@@ -10,7 +10,6 @@ using eShopping.Infrastructure.Repositories;
 using eShopping.Interfaces;
 using eShopping.Interfaces.Repositories;
 using eShopping.MemoryCaching;
-using eShopping.RedisCaching;
 using eShopping.Services;
 using eShopping.Services.User;
 using eShopping.Storage;
@@ -127,15 +126,15 @@ namespace eShopping.WebApi
 
             #region Add Redis Cache service
 
-            var redisConnectionString = Configuration.GetValue<string>("RedisSettings:Connection");
-            if (string.IsNullOrEmpty(redisConnectionString))
-            {
-                throw new ArgumentNullException(nameof(redisConnectionString));
-            }
-            services.AddSingleton<IRedisConnectionFactory>(
-                provider => new RedisConnectionFactory(redisConnectionString)
-            );
-            services.AddScoped<IRedisCacheService, RedisCacheService>();
+            //var redisConnectionString = Configuration.GetValue<string>("RedisSettings:Connection");
+            //if (string.IsNullOrEmpty(redisConnectionString))
+            //{
+            //    throw new ArgumentNullException(nameof(redisConnectionString));
+            //}
+            //services.AddSingleton<IRedisConnectionFactory>(
+            //    provider => new RedisConnectionFactory(redisConnectionString)
+            //);
+            //services.AddScoped<IRedisCacheService, RedisCacheService>();
 
             #endregion Add Redis Cache service
         }

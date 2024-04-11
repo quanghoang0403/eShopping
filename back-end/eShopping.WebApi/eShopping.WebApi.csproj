@@ -10,12 +10,6 @@
     <None Remove="wwwroot\logos\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="appsettings.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.2.0" />
@@ -76,4 +70,7 @@
   <ProjectExtensions>
     <VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio>
   </ProjectExtensions>
+  <ItemGroup>
+    <Content Include="appsettings.Production.json" />
+  </ItemGroup>
 </Project>
