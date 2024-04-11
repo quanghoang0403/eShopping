@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001"
+      "applicationUrl": "http://localhost:5001"
     },
     "eShopping.WebApi Dev": {
       "commandName": "Project",
@@ -18,7 +18,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001"
+      "applicationUrl": "http://localhost:5001"
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
