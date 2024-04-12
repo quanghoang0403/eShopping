@@ -4,9 +4,9 @@ variables:
 - name: BuildParameters.TestProjects
   value: '**/*[Tt]ests/*.csproj'
 - name: InfrastructureProjectPath
-  value: backend/eShopping.Infrastructure/eShopping.Infrastructure.csproj
+  value: back-end/eShopping.Infrastructure/eShopping.Infrastructure.csproj
 - name: WebApiProjectPath
-  value: backend/eShopping.WebApi/eShopping.WebApi.csproj
+  value: back-end/eShopping.WebApi/eShopping.WebApi.csproj
 - name: DbContext
   value: eShoppingDbContext
 - name: VmName
@@ -15,6 +15,7 @@ variables:
 name: $(date:yyyyMMdd)$(rev:.r)
  
 stages:
+
 - stage: Stage_DB
   displayName: Build DB
   jobs:
@@ -26,24 +27,26 @@ stages:
     - checkout: self
       fetchDepth: 1
     - task: UseDotNet@2
-      displayName: Use .Net Sdk
+      displayName: 'Install .NET Core 7.0 SDK'
+      inputs:
+        version: 7.0.x
     - task: pekspro.pekspro-efcore-migration-script-generator.efcore-migration-script-generator.efcore-migration-script-generator-task@1
       displayName: Generate Migration Scripts
       inputs:
         projectpath: $(InfrastructureProjectPath)
         databasecontexts: $(DbContext)
-        startupprojectpath: $(InfrastructureProjectPath)
+        startupprojectpath: $(WebApiProjectPath)
         targetfolder: $(build.artifactstagingdirectory)
+        eftoolversion: '7'
         installdependencies: true
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact
-
 - stage: Stage_API
-  displayName: Build Web API
+  displayName: Build API
   dependsOn: []
   jobs:
   - job: Job_1
-    displayName: Build Web API
+    displayName: Build API
     pool:
       vmImage: $(VmName)
     steps:
