@@ -40,7 +40,6 @@ namespace eShopping.Application.Mappings
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account.PhoneNumber));
             CreateMap<OrderItem, AdminOrderItemModel>();
 
-            CreateMap<PermissionGroup, AdminPermissionGroupDetailModel>();
             CreateMap<PermissionGroup, AdminPermissionGroupModel>();
             CreateMap<Permission, AdminPermissionModel>();
 

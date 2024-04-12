@@ -34,7 +34,7 @@ namespace eShopping.Application.Features.Staffs.Commands
 
         public DateTime? Birthday { get; set; }
 
-        public List<Guid> PermissionGroupIds { get; set; }
+        public List<Guid> PermissionIds { get; set; }
     }
 
     public class AdminCreateStaffRequestHandler : IRequestHandler<AdminCreateStaffRequest, bool>
@@ -102,13 +102,13 @@ namespace eShopping.Application.Features.Staffs.Commands
                 await _unitOfWork.Staffs.AddAsync(newStaff);
 
                 // Create permission for the current staff.
-                List<StaffPermissionGroup> permissionGroups = new List<StaffPermissionGroup>();
-                foreach (var permissionId in request.PermissionGroupIds)
+                List<StaffPermission> permissionGroups = new List<StaffPermission>();
+                foreach (var permissionId in request.PermissionIds)
                 {
-                    StaffPermissionGroup permissionGroup = new()
+                    StaffPermission permissionGroup = new()
                     {
                         StaffId = newStaff.Id,
-                        PermissionGroupId = permissionId,
+                        PermissionId = permissionId,
                         CreatedUser = accountId,
                         LastSavedUser = accountId,
                         LastSavedTime = DateTime.UtcNow
@@ -117,7 +117,7 @@ namespace eShopping.Application.Features.Staffs.Commands
                 }
 
                 // Add permission list for the current staff.
-                await _unitOfWork.StaffPermissionGroup.AddRangeAsync(permissionGroups);
+                await _unitOfWork.StaffPermission.AddRangeAsync(permissionGroups);
                 await _unitOfWork.SaveChangesAsync();
 
                 // Complete this transaction, data will be saved.

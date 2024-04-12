@@ -72,8 +72,8 @@ namespace eShopping.Infrastructure.Repositories
         private IStaffRepository _staffRepository;
         public IStaffRepository Staffs { get { return _staffRepository ??= new StaffRepository(_dbContext); } }
 
-        private IStaffPermissionGroupRepository _staffPermissionGroupRepository;
-        public IStaffPermissionGroupRepository StaffPermissionGroup { get { return _staffPermissionGroupRepository ??= new StaffPermissionGroupRepository(_dbContext); } }
+        private IStaffPermissionRepository _staffPermissionGroupRepository;
+        public IStaffPermissionRepository StaffPermission { get { return _staffPermissionGroupRepository ??= new StaffPermissionRepository(_dbContext); } }
 
         private IWardRepository _wardRepository;
         public IWardRepository Wards { get { return _wardRepository ??= new WardRepository(_dbContext); } }

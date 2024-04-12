@@ -21,7 +21,5 @@ namespace eShopping.Domain.Entities
         public int? Priority { get; set; }
 
         public virtual ICollection<Permission> Permissions { get; set; }
-
-        public virtual ICollection<Staff> Staffs { get; set; }
     }
 }

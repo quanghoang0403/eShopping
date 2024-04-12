@@ -42,9 +42,9 @@ namespace eShopping.Infrastructure.Repositories
         {
             var staff = dbSet.Where(s => s.Id == staffId)
                             .Include(s => s.Account)
-                            .Include(s => s.StaffPermissionGroups)
+                            .Include(s => s.StaffPermissions)
+                            .ThenInclude(p => p.Permission)
                             .ThenInclude(p => p.PermissionGroup)
-                            .ThenInclude(p => p.Permissions)
                             .FirstOrDefaultAsync();
             return staff;
         }

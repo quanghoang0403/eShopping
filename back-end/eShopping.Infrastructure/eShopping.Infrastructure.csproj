@@ -21,6 +21,9 @@
     <None Update="Migrations\Functions\UDF_StripHTML.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Migrations\Scripts\2024-04-12-refactor-permission.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Migrations\StaticData\foody-platform-and-store-foody-playform.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

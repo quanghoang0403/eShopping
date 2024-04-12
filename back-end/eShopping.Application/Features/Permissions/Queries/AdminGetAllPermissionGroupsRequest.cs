@@ -47,6 +47,7 @@ namespace eShopping.Application.Features.Settings.Queries
 
             var permissionGroups = await _unitOfWork.PermissionGroups
                             .GetAll()
+                            .Include(p => p.Permissions)
                             .AsNoTracking()
                             .ProjectTo<AdminPermissionGroupModel>(_mapperConfiguration)
                             .ToListAsync(cancellationToken: cancellationToken);

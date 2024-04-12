@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace eShopping.Models.Permissions
 {
@@ -10,8 +11,6 @@ namespace eShopping.Models.Permissions
 
         public string Description { get; set; }
 
-        public string CreatedByStaffName { get; set; }
-
-        public int NumberOfMember { get; set; }
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
     }
 }

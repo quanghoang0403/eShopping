@@ -48,7 +48,7 @@ namespace eShopping.Infrastructure.Contexts
         public DbSet<ProductInCategory> ProductInCategories { get; set; }
         public DbSet<ProductPrice> ProductPrices { get; set; }
         public DbSet<Staff> Staffs { get; set; }
-        public DbSet<StaffPermissionGroup> StaffGroupPermissionBranches { get; set; }
+        public DbSet<StaffPermission> StaffPermissionsBranches { get; set; }
         public DbSet<Ward> Wards { get; set; }
 
 
@@ -110,8 +110,8 @@ namespace eShopping.Infrastructure.Contexts
 
             builder.Entity<Staff>().HasKey(x => x.Id);
 
-            builder.Entity<StaffPermissionGroup>().HasKey(x => x.Id);
-            builder.Entity<StaffPermissionGroup>().HasOne(x => x.Staff).WithMany(x => x.StaffPermissionGroups).HasForeignKey(x => x.StaffId);
+            builder.Entity<StaffPermission>().HasKey(x => x.Id);
+            builder.Entity<StaffPermission>().HasOne(x => x.Staff).WithMany(x => x.StaffPermissions).HasForeignKey(x => x.StaffId);
 
             builder.Entity<Ward>().HasKey(x => x.Id);
             //builder.Entity<Ward>().HasMany(x => x.Customers).WithOne(x => x.Ward).HasForeignKey(x => x.Ward);
@@ -228,7 +228,7 @@ namespace eShopping.Infrastructure.Contexts
             builder.Entity<BlogInCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<BlogCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Staff>().HasQueryFilter(m => !m.IsDeleted);
-            builder.Entity<StaffPermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<StaffPermission>().HasQueryFilter(m => !m.IsDeleted);
         }
     }
 }

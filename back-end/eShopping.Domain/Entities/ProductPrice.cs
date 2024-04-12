@@ -26,6 +26,10 @@ namespace eShopping.Domain.Entities
 
         public float? PercentNumber { get; set; }
 
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
         public int QuantityLeft { get; set; }
 
         public int QuantitySold { get; set; }

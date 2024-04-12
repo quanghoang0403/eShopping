@@ -1,5 +1,6 @@
 ﻿using eShopping.Domain.Base;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,8 @@ namespace eShopping.Domain.Entities
         public string Description { get; set; }
 
         public virtual PermissionGroup PermissionGroup { get; set; }
+
+        public virtual ICollection<Staff> Staffs { get; set; }
 
 
     }

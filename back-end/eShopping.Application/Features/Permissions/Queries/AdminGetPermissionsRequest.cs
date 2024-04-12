@@ -1,4 +1,5 @@
 using AutoMapper;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Permissions;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace eShopping.Application.Features.Settings.Queries
 {
     /// <summary>
-    ///  Get permissions from all store branches
+    ///  Get permissions
     /// </summary>
     public class AdminGetPermissionsRequest : IRequest<AdminGetPermissionsResponse>
     {
@@ -21,8 +22,6 @@ namespace eShopping.Application.Features.Settings.Queries
     public class AdminGetPermissionsResponse
     {
         public IEnumerable<AdminPermissionModel> Permissions { get; set; }
-
-        public IEnumerable<AdminPermissionGroupModel> PermissionGroups { get; set; }
 
     }
 
@@ -49,29 +48,23 @@ namespace eShopping.Application.Features.Settings.Queries
         {
             var loggedUser = _userProvider.GetLoggedUserModelFromJwt(request.Token);
 
-            var permisionGroup = _unitOfWork
-                .StaffPermissionGroup
+            var permissions = _unitOfWork
+                .StaffPermission
                 .GetAll()
                 .AsNoTracking()
                 .Where(s => s.StaffId == loggedUser.Id.Value)
-                .Include(s => s.PermissionGroup)
-                .Select(s => s.PermissionGroup)
+                .Include(s => s.Permission)
+                .Select(s => s.Permission)
                 .ToList();
 
-            var permissionIds = permisionGroup.Select(gpid => gpid.Id);
-            var permissions = _unitOfWork.PermissionGroups
-                .Where(g => permissionIds.Contains(g.Id))
-                .AsNoTracking()
-                .Include(g => g.Permissions)
-                .SelectMany(g => g.Permissions)
-                .ToList();
-
-            var permissionGroupsResponse = _mapper.Map<List<AdminPermissionGroupModel>>(permisionGroup);
+            if (permissions.Any(p => p.Id == EnumPermission.ADMIN.ToGuid()))
+            {
+                permissions = _unitOfWork.Permissions.GetAll().AsNoTracking().ToList();
+            }
             var permissionsResponse = _mapper.Map<List<AdminPermissionModel>>(permissions);
             return new AdminGetPermissionsResponse()
             {
                 Permissions = permissionsResponse,
-                PermissionGroups = permissionGroupsResponse
             };
         }
     }
