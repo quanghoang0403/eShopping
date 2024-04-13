@@ -20,15 +20,13 @@ namespace eShopping.Models.Products
 
         public float? PercentNumber { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
-
         public int QuantityLeft { get; set; }
 
         public int QuantitySold { get; set; }
+        
+        public DateTime StartDate { get; set; }
 
-        public int Priority { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public string Thumbnail { get; set; }
     }

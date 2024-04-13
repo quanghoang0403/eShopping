@@ -7,8 +7,8 @@ import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useTranslation } from 'react-i18next'
-// import productCategoryDataService from "data-services/product-category/product-category-data.service";
-// import productDataService from "data-services/product/product-data.service";
+import productCategoryDataService from "data-services/product-category/product-category-data.service";
+import productDataService from "data-services/product/product-data.service";
 
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
@@ -163,20 +163,20 @@ export default function TableProduct (props) {
   }
 
   const handleDeleteItem = async (productId) => {
-    // var res = await productDataService.deleteProductByIdAsync(productId);
-    // if (res) {
-    //   message.success(pageData.productDeleteSuccess);
+    var res = await productDataService.deleteProductByIdAsync(productId);
+    if (res) {
+      message.success(pageData.productDeleteSuccess);
 
-    //   // Recount selected items after delete
-    //   const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== productId);
-    //   if (newSelectedRowKeys) {
-    //     setSelectedRowKeys(newSelectedRowKeys);
-    //   }
-    //   handleFilterProduct(dataFilter, 1, tableSettings.pageSize, keySearch);
-    // } else {
-    //   message.error(pageData.productDeleteFail);
-    // }
-    // setIsModalVisible(false);
+      // Recount selected items after delete
+      const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== productId);
+      if (newSelectedRowKeys) {
+        setSelectedRowKeys(newSelectedRowKeys);
+      }
+      handleFilterProduct(dataFilter, 1, tableSettings.pageSize, keySearch);
+    } else {
+      message.error(pageData.productDeleteFail);
+    }
+    setIsModalVisible(false);
   }
 
   const onEditItem = (productId) => {
@@ -325,31 +325,31 @@ export default function TableProduct (props) {
     if (!event?.defaultPrevented) {
       setShowPopover(true)
     }
-    // var resCategory = await productCategoryDataService.getAllProductCategoriesAsync();
-    // if (resCategory) {
-    //   const allCategoryOption = {
-    //     id: "",
-    //     name: "Tất cả",
-    //   };
-    //   const categoryOptions = [allCategoryOption, ...resCategory.allProductCategories];
-    //   setProductCategories(categoryOptions);
-    // }
+    var resCategory = await productCategoryDataService.getAllProductCategoriesAsync();
+    if (resCategory) {
+      const allCategoryOption = {
+        id: "",
+        name: "Tất cả",
+      };
+      const categoryOptions = [allCategoryOption, ...resCategory.allProductCategories];
+      setProductCategories(categoryOptions);
+    }
   }
 
   const handleFilterProduct = async (data, pageNumber, pageSize, keySearch) => {
-    // const response = await productDataService.getProductsByFilterAsync(
-    //   pageNumber,
-    //   pageSize,
-    //   keySearch,
-    //   data?.productCategoryId ?? "",
-    //   data?.statusId ?? "",
-    // );
+    const response = await productDataService.getProductsByFilterAsync(
+      pageNumber,
+      pageSize,
+      keySearch,
+      data?.productCategoryId ?? "",
+      data?.statusId ?? "",
+    );
 
-    // const products = response?.products.map((s) => mappingRecordToColumns(s));
-    // setDataSource(products);
-    // setTotalRecords(response.total);
-    // setCurrentPageNumber(response.pageNumber);
-    // setCountFilter(data?.count);
+    const products = response?.products.map((s) => mappingRecordToColumns(s));
+    setDataSource(products);
+    setTotalRecords(response.total);
+    setCurrentPageNumber(response.pageNumber);
+    setCountFilter(data?.count);
   }
 
   const onSelectedRowKeysChange = (selectedRowKeys, selectedRows) => {
