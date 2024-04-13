@@ -23,7 +23,7 @@ import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ProductStatus } from 'constants/product-status.constants'
 import { currency } from 'constants/string.constants'
-// import productDataService from "data-services/product/product-data.service";
+import productDataService from "data-services/product/product-data.service";
 import cloneDeep from 'lodash/cloneDeep'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -68,52 +68,55 @@ export default function EditProductPage (props) {
     btnSave: t('button.save'),
     btnAddNew: t('button.add'),
     btnDiscard: t('button.discard'),
+    upload:{
+      title:t('common.uploadTitle')
+    },
     generalInformation: {
-      title: t('product:titleInfo'),
+      title: t('product.titleInfo'),
       name: {
-        label: t('product:labelName'),
-        placeholder: t('product:placeholderName'),
+        label: t('product.labelName'),
+        placeholder: t('product.placeholderName'),
         required: true,
         maxLength: 100,
-        validateMessage: t('product:validateName')
+        validateMessage: t('product.validateName')
       },
       description: {
-        label: t('product:labelDescription'),
-        placeholder: t('product:placeholderDescription'),
+        label: t('product.labelDescription'),
+        placeholder: t('product.placeholderDescription'),
         required: false,
         maxLength: 255
       }
     },
     pricing: {
-      title: t('product:priceInfo'),
-      addPrice: t('product:addPrice'),
+      title: t('product.priceInfo'),
+      addPrice: t('product.addPrice'),
       price: {
-        label: t('product:labelPrice'),
-        placeholder: t('product:placeholderPrice'),
+        label: t('product.labelPrice'),
+        placeholder: t('product.placeholderPrice'),
         required: true,
         max: 999999999,
         min: 0,
         format: '^[0-9]*$',
-        validateMessage: t('product:validatePrice')
+        validateMessage: t('product.validatePrice')
       },
       priceName: {
-        label: t('product:labelPriceName'),
-        placeholder: t('product:placeholderPriceName'),
+        label: t('product.labelPriceName'),
+        placeholder: t('product.placeholderPriceName'),
         required: true,
         maxLength: 100,
-        validateMessage: t('product:validatePriceName')
+        validateMessage: t('product.validatePriceName')
       }
     },
     productCategory: {
-      label: t('product:labelCategory'),
-      placeholder: t('product:placeholderCategory')
+      label: t('product.labelCategory'),
+      placeholder: t('product.placeholderCategory')
     },
-    productNameExisted: t('product:productNameExisted'),
-    productEditedSuccess: t('product:productEditedSuccess'),
-    productDeleteSuccess: t('product:productDeleteSuccess'),
-    productDeleteFail: t('product:productDeleteFail'),
-    productActivatedSuccess: t('product:productActivatedSuccess'),
-    productDeactivatedSuccess: t('product:productDeactivatedSuccess'),
+    productNameExisted: t('product.productNameExisted'),
+    productEditedSuccess: t('product.productEditedSuccess'),
+    productDeleteSuccess: t('product.productDeleteSuccess'),
+    productDeleteFail: t('product.productDeleteFail'),
+    productActivatedSuccess: t('product.productActivatedSuccess'),
+    productDeactivatedSuccess: t('product.productDeactivatedSuccess'),
     file: {
       uploadImage: t('file.uploadImage'),
       title: t('file.title'),
@@ -133,49 +136,49 @@ export default function EditProductPage (props) {
     },
     active: t('common.active'),
     inactive: t('common.inactive'),
-    activate: t('product:activate'),
-    deactivate: t('product:deactivate')
+    activate: t('product.activate'),
+    deactivate: t('product.deactivate')
   }
 
   const getInitData = async () => {
-    // productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
-    //   setTitleName(data?.product?.name);
-    //   setStatusId(data?.product?.statusId);
-    //   if (data?.product?.statusId === ProductStatus.Activate) {
-    //     setActivate(pageData.activate);
-    //   } else {
-    //     setActivate(pageData.deactivate);
-    //   }
-    //   setListAllProductCategory(data?.product?.allProductCategories);
-    //   const pricesData = [];
-    //   if (data?.product?.productPrices.length > 0) {
-    //     data?.product?.productPrices.map((price, index) => {
-    //       pricesData.push({
-    //         position: index,
-    //         id: price?.id,
-    //         name: price?.priceName,
-    //         price: price?.priceValue,
-    //       });
-    //     });
-    //     setPrices(pricesData);
-    //   }
-    //   const initData = {
-    //     product: {
-    //       description: data?.product?.description,
-    //       name: data?.product?.name,
-    //       productCategoryId: data?.product?.productCategoryId,
-    //       price: data?.product?.productPrices.length === 1 ? data?.product?.productPrices[0].priceValue : null,
-    //       prices: pricesData,
-    //     },
-    //   };
+    productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
+      setTitleName(data?.product?.name);
+      setStatusId(data?.product?.statusId);
+      if (data?.product?.statusId === ProductStatus.Activate) {
+        setActivate(pageData.activate);
+      } else {
+        setActivate(pageData.deactivate);
+      }
+      setListAllProductCategory(data?.product?.allProductCategories);
+      const pricesData = [];
+      if (data?.product?.productPrices.length > 0) {
+        data?.product?.productPrices.map((price, index) => {
+          pricesData.push({
+            position: index,
+            id: price?.id,
+            name: price?.priceName,
+            price: price?.priceValue,
+          });
+        });
+        setPrices(pricesData);
+      }
+      const initData = {
+        product: {
+          description: data?.product?.description,
+          name: data?.product?.name,
+          productCategoryId: data?.product?.productCategoryId,
+          price: data?.product?.productPrices.length === 1 ? data?.product?.productPrices[0].priceValue : null,
+          prices: pricesData,
+        },
+      };
 
-    //   /// Update image
-    //   if (shopImageSelectRef && shopImageSelectRef.current) {
-    //     shopImageSelectRef.current.setImageUrl(data?.product?.thumbnail);
-    //     setSelectedImage(data?.product?.thumbnail);
-    //   }
-    //   form.setFieldsValue(initData);
-    // });
+      /// Update image
+      if (shopImageSelectRef && shopImageSelectRef.current) {
+        shopImageSelectRef.current.setImageUrl(data?.product?.thumbnail);
+        setSelectedImage(data?.product?.thumbnail);
+      }
+      form.setFieldsValue(initData);
+    });
   }
 
   const editProduct = () => {
@@ -191,29 +194,29 @@ export default function EditProductPage (props) {
           productId: match?.params?.id
         }
         if (editProductRequestModel.prices > 0) {
-          // try {
-          //   productDataService
-          //     .updateProductAsync(editProductRequestModel)
-          //     .then((res) => {
-          //       if (res) {
-          //         message.success(pageData.productEditedSuccess);
-          //         onCompleted();
-          //       }
-          //     })
-          //     .catch((errs) => {
-          //       form.setFields(getValidationMessagesWithParentField(errs, "product"));
-          //     });
-          // } catch (errors) {
-          //   // build error message
-          //   const errorData = getApiError(errors);
-          //   // const errMessage = t(errorData?.message, {
-          //   //   comboName: errorData?.comboName,
-          //   //   productName: errorData?.productName,
-          //   // });
+          try {
+            productDataService
+              .updateProductAsync(editProductRequestModel)
+              .then((res) => {
+                if (res) {
+                  message.success(pageData.productEditedSuccess);
+                  onCompleted();
+                }
+              })
+              .catch((errs) => {
+                form.setFields(getValidationMessagesWithParentField(errs, "product"));
+              });
+          } catch (errors) {
+            // build error message
+            const errorData = getApiError(errors);
+            // const errMessage = t(errorData?.message, {
+            //   comboName: errorData?.comboName,
+            //   productName: errorData?.productName,
+            // });
 
-          //   message.error(errorData);
-          //   getInitData();
-          // }
+            message.error(errorData);
+            getInitData();
+          }
         }
       })
       .catch((errors) => {
@@ -673,11 +676,11 @@ export default function EditProductPage (props) {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.upload.title}</h4>
-                    <FnbImageSelectComponent
+                    {/* <FnbImageSelectComponent
                       ref={shopImageSelectRef}
                       customTextNonImageClass={'create-edit-product-text-non-image'}
                       customNonImageClass={'create-edit-product-non-image'}
-                    />
+                    /> */}
                   </Card>
                 </Col>
               </Row>
