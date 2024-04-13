@@ -14,7 +14,7 @@ export default function ProductPage (props) {
       <Row className="shop-row-page-header">
         <Col xs={24} sm={24} xl={12}>
           <Space className="page-title">
-            <PageTitle content={t('product:manageProduct')} />
+            <PageTitle content={t('product.manageProduct')} />
           </Space>
         </Col>
         <Col xs={24} sm={24} xl={12} className="button-box product-filter-box page-action-group">

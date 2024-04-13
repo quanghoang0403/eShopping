@@ -98,7 +98,7 @@
         "productCategoryContent" : "Nội dung danh mục",
         "placeholderContent" : "Nhập nội dung danh mục",
         "categoryDescription" : "Mô tả Danh mục",
-        "placeholderCategoryDescription" : "Nhập mô tả danh mục"
+        "placeholderCategoryDescription" : "Nhập mô tả danh mục" 
     },
     "common": {
         "active": "Đang hoạt động",
@@ -107,7 +107,8 @@
         "okText": "Xác nhận rời",
         "generalInformation": "Thông tin chung",
         "allProduct": "Tất cả sản phẩm",
-        "allCategories": "Tất cả danh mục sản phẩm"
+        "allCategories": "Tất cả danh mục sản phẩm",
+        "uploadTitle":"Thêm hình ảnh"
     },
     "customer": {
         "title": "Quản lý khách hàng",
@@ -273,6 +274,18 @@
         "validateName": "Vui lòng nhập tên sản phẩm",
         "labelDescription": "Mô tả sản phẩm",
         "placeholderDescription": "Vui lòng nhập mô tả sản phẩm",
+        "labelQuantitySold" : "Số lượng sản phẩm đã bán",
+        "labelQuantityLeft" : "Số lượng sản phẩm còn lại",
+        "placeholderQuantitySold" : "Nhập số lượng đã bán",
+        "placeholderQuantityLeft" : "Nhập số lượng còn lại",
+        "labelPriceOriginal" : "Giá gốc",
+        "placeholderPriceOriginal" : "Nhập giá gốc",
+        "labelDiscountCheck":"Ưu đãi",
+        "validateDiscountPercentage":"Giá trị cho phép từ 0 đến 100",
+        "labelPriceDiscount":"Giá khuyến mại",
+        "placeholderPriceDiscount":"Nhập giá khuyến mại",
+        "labelPriceDiscountPercentage":"Phần trăm khuyến mại",
+        "placeholderPriceDiscountPercentage":"Nhập phần trăm khuyến mại",
         "priceInfo": "Giá" ,
         "addPrice": "Thêm giá",
         "labelPrice": "Giá",
@@ -292,7 +305,9 @@
         "productDeactivatedSuccess": "Sản phẩm đã được ngừng bán thành công",
         "activate": "Bán ngay",
         "deactivate": "Ngừng bán",
-        "deleteProductMessage": "Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>{{name}}</span>.<br/>Thao tác này không thể khôi phục!"
+        "deleteProductMessage": "Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>{{name}}</span>.<br/>Thao tác này không thể khôi phục!",
+        "startDate":"Ngày bắt đầu",
+        "endDate":"Ngày kết thúc"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
