@@ -1,5 +1,6 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 export enum INPUT_TYPES {
   TEXT = 'TEXT',
@@ -21,39 +22,51 @@ export type InputCustomProps = {
   placeholder?: string
   hideLabel?: boolean
   value?: string
+  password?: boolean
 }
 type IProps = InputCustomProps
 
 export const CustomInputText: React.FC<IProps> = (props) => {
-  const { name, label, register, patternValidate, hideLabel, value } = props
+  const { name, label, register, patternValidate, hideLabel, value, password } = props
+  const [showPassword, setShowPassword] = useState(false)
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
 
   return (
     <>
       {label && !hideLabel && (
-        <label htmlFor={name} className="block text-base font-medium text-gray-700 mb-2">
+        <label htmlFor={name} className="block text-base font-medium text-gray-700">
           {label}
         </label>
       )}
-      {register && patternValidate ? (
-        <input
-          type={'text'}
-          id={name}
-          className="px-3 py-2 w-full rounded-md shadow border border-gray-400 focus:outline-none focus:ring focus:border-blue-500"
-          {...register(name, {
-            ...patternValidate,
-          })}
-          name={name}
-          defaultValue={value || ''}
-        />
-      ) : (
-        <input
-          type={'text'}
-          id={name}
-          className="px-3 py-2 mt-2 w-full border rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-          name={name}
-          defaultValue={value || ''}
-        />
-      )}
+      <div className="relative">
+        {register && patternValidate ? (
+          <input
+            type={password && showPassword ? 'password' : 'text'}
+            id={name}
+            className="mt-2 px-3 py-2 w-full rounded-md shadow border border-gray-400 focus:outline-none focus:ring focus:border-blue-500"
+            {...register(name, {
+              ...patternValidate,
+            })}
+            name={name}
+            defaultValue={value || ''}
+          />
+        ) : (
+          <input
+            type={password && showPassword ? 'password' : 'text'}
+            id={name}
+            className="mt-2 px-3 py-2 mt-2 w-full border rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+            name={name}
+            defaultValue={value || ''}
+          />
+        )}
+        {password && (
+          <button type="button" className="absolute my-3 right-3 transform translate-y-1/2" onClick={togglePasswordVisibility}>
+            {showPassword ? <FiEyeOff className="text-gray-500" /> : <FiEye className="text-gray-500" />}
+          </button>
+        )}
+      </div>
     </>
   )
 }

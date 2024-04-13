@@ -22,8 +22,12 @@ namespace eShopping.Domain.Entities
 
         public EnumOrderStatus Status { get; set; }
 
+
         [MaxLength(50)]
         public string ShipName { set; get; }
+
+        [MaxLength(500)]
+        public string ShipAddress { get; set; }
 
         [MaxLength(500)]
         public string ShipFullAddress { get; set; }
@@ -33,6 +37,12 @@ namespace eShopping.Domain.Entities
 
         [MaxLength(10)]
         public string ShipPhoneNumber { set; get; }
+
+        public int? ShipCityId { get; set; }
+
+        public int? ShipDistrictId { get; set; }
+
+        public int? ShipWardId { get; set; }
 
         [MaxLength(255)]
         public string Note { get; set; }
@@ -44,12 +54,6 @@ namespace eShopping.Domain.Entities
 
         [Precision(18, 2)]
         public decimal TotalPriceOrigin { get { return OrderItems.Sum(x => x.TotalPriceOrigin); } }
-
-        [Precision(18, 2)]
-        public decimal TotalPriceValue { get { return OrderItems.Sum(x => x.TotalPriceValue); } }
-
-        [Precision(18, 2)]
-        public decimal TotalPriceDiscount { get { return OrderItems.Sum(x => x.TotalPriceDiscount); } }
 
         [Precision(18, 2)]
         public decimal TotalPrice { get { return OrderItems.Sum(x => x.TotalPrice); } }

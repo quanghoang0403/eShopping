@@ -18,7 +18,7 @@ namespace eShopping.Application.Mappings
             #region DTO => DAL 
             CreateMap<City, CityModel>();
             CreateMap<District, DistrictModel>();
-            CreateMap<Ward, WardModel>();
+            CreateMap<Ward, WardModel>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.Prefix} {src.Name}"));
 
             CreateMap<Image, AdminImageModel>();
 
@@ -28,6 +28,7 @@ namespace eShopping.Application.Mappings
             CreateMap<Order, StoreOrderDetailModel>();
             CreateMap<OrderItem, AdminOrderItemModel>();
             CreateMap<OrderItem, StoreOrderItemModel>();
+            CreateMap<OrderItem, StoreOrderModel.OrderItemDto>();
 
             CreateMap<Customer, AdminOrderModel.CustomerDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -39,7 +40,6 @@ namespace eShopping.Application.Mappings
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account.PhoneNumber));
             CreateMap<OrderItem, AdminOrderItemModel>();
 
-            CreateMap<PermissionGroup, AdminPermissionGroupDetailModel>();
             CreateMap<PermissionGroup, AdminPermissionGroupModel>();
             CreateMap<Permission, AdminPermissionModel>();
 

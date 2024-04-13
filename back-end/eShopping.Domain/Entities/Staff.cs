@@ -12,7 +12,7 @@ namespace eShopping.Domain.Entities
 
         public virtual Account Account { get; set; }
 
-        public virtual ICollection<StaffPermissionGroup> StaffPermissionGroups { get; set; }
+        public virtual ICollection<StaffPermission> StaffPermissions { get; set; }
 
     }
 }

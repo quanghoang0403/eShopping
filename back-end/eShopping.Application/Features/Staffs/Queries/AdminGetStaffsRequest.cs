@@ -58,9 +58,8 @@ namespace eShopping.Application.Features.Staffs.Queries
                                    .GetAll()
                                    .AsNoTracking()
                                    .Include(s => s.Account)
-                                   .Include(s => s.StaffPermissionGroups)
-                                   .ThenInclude(gpb => gpb.PermissionGroup)
-                                   .ThenInclude(gp => gp.Permissions)
+                                   .Include(s => s.StaffPermissions)
+                                   .ThenInclude(gpb => gpb.Permission)
                                    .OrderByDescending(p => p.CreatedTime)
                                    .ToPaginationAsync(request.PageNumber, request.PageSize);
             }
@@ -72,9 +71,8 @@ namespace eShopping.Application.Features.Staffs.Queries
                                    .AsNoTracking()
                                    .Include(s => s.Account)
                                    .Where(s => s.Account.FullName.ToLower().Contains(keySearch) || s.Account.PhoneNumber.ToLower().Contains(keySearch))
-                                   .Include(s => s.StaffPermissionGroups)
-                                   .ThenInclude(gpb => gpb.PermissionGroup)
-                                   .ThenInclude(gp => gp.Permissions)
+                                   .Include(s => s.StaffPermissions)
+                                   .ThenInclude(gpb => gpb.Permission)
                                    .OrderByDescending(p => p.CreatedTime)
                                    .ToPaginationAsync(request.PageNumber, request.PageSize);
             }
@@ -92,19 +90,19 @@ namespace eShopping.Application.Features.Staffs.Queries
         {
             var staffsResponse = new List<AdminStaffModel>();
             var staffIds = staffs.Select(s => s.Id);
-            var staffGroupPermission = await _unitOfWork.StaffPermissionGroup.GetStaffGroupPermissionByStaffIds(staffIds);
+            var staffGroupPermission = await _unitOfWork.StaffPermission.GetStaffPermissionsByStaffIds(staffIds);
             staffs.ForEach(staff =>
             {
                 var index = staffs.IndexOf(staff) + ((request.PageNumber - 1) * request.PageSize) + 1;
                 var staffGroupPermissionsByStaff = staffGroupPermission.Where(i => i.StaffId == staff.Id);
-                var groups = staffGroupPermissionsByStaff.Select(s => s.PermissionGroup).AsQueryable().DistinctBy(g => g.Id);
-                var perrmissionGroups = _mapper.Map<IEnumerable<AdminPermissionGroupModel>>(groups);
+                var permissions = staffGroupPermissionsByStaff.Select(s => s.Permission);
+                var perrmissionModels = _mapper.Map<IEnumerable<AdminPermissionModel>>(permissions);
 
                 var staffModel = new AdminStaffModel()
                 {
                     Id = staff.Id,
                     No = index,
-                    PermissionGroups = perrmissionGroups,
+                    Permissions = perrmissionModels,
                     Email = staff.Account.Email,
                     Thumbnail = staff.Account.Thumbnail,
                     FullName = staff.Account.FullName,

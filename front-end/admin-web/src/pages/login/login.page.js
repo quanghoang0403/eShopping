@@ -74,7 +74,7 @@ const LoginPage = (props) => {
         }
         setupWorkspace(token, auth)
       })
-      .catch(() => {})
+      .catch(() => { })
   }
 
   const getUserInfo = (token) => {
@@ -95,7 +95,7 @@ const LoginPage = (props) => {
     /// get permissions
     permissionDataService.getPermissionsAsync(token).then((res) => {
       const { permissions, permissionGroups } = res
-      if (permissions.length > 0 && permissionGroups.length > 0) {
+      if (permissions.length > 0) {
         message.success(pageData.loginSuccess)
         dispatch(setPermissionGroup(permissionGroups))
         setUserAuth(auth, token, permissions)

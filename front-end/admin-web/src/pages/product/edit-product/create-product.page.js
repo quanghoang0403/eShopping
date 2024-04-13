@@ -39,7 +39,7 @@ import { FnbDatePicker } from 'components/shop-date-picker/shop-data-picker';
 import moment from 'moment';
 const { Text } = Typography
 
-export default function CreateProductPage () {
+export default function CreateProductPage() {
   const history = useHistory()
 
   const [blockNavigation, setBlockNavigation] = useState(false)
@@ -176,7 +176,7 @@ export default function CreateProductPage () {
       uploadImage: t('file.uploadImage'),
       title: t('file.title'),
       textNonImage: t('file.textNonImage'),
-      addFromUrl: t('file.addFromUrl'),
+      // addFromUrl: t('file.addFromUrl'),
       bestDisplayImage: t('file.bestDisplayImage')
     },
     leaveDialog: {
@@ -868,9 +868,9 @@ export default function CreateProductPage () {
                               onChange={onChangeImage}
                             />
                           </Form.Item>
-                          <a className="upload-image-url" hidden={image !== null}>
+                          {/* <a className="upload-image-url" hidden={image !== null}>
                             {pageData.file.addFromUrl}
-                          </a>
+                          </a> */}
                         </div>
                       </Col>
                       <Col
@@ -891,7 +891,7 @@ export default function CreateProductPage () {
 
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
-                  <br/>
+                  <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
                     <Form.Item name={['product', 'productCategoryIds']}>

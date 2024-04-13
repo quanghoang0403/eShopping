@@ -2,29 +2,29 @@ import { AxiosResponse } from 'axios'
 import APIService from './base'
 
 export default class OrderService {
-  static getOrders(request: IGetOrdersRequest): Promise<AxiosResponse<IGetOrdersResponse>> {
-    return APIService.get(
+  static async getOrders(request: IGetOrdersRequest): Promise<AxiosResponse<IGetOrdersResponse>> {
+    return await APIService.get(
       `/order/get-orders?pageNumber=${request.pageNumber}&pageSize=${request.pageSize}&keySearch=${request.keySearch}&startDate=${request.startDate}&endDate=${request.endDate}`
     )
   }
 
-  static getOrderById(id: string): Promise<AxiosResponse<IOrderDetail>> {
-    return APIService.get(`/order/get-order-by-id?id=${id}`)
+  static async getOrderById(id: string): Promise<AxiosResponse<IOrderDetail>> {
+    return await APIService.get(`/order/get-order-by-id?id=${id}`)
   }
 
-  static updateOrder(request: IUpdateOrderRequest): Promise<AxiosResponse> {
-    return APIService.put(`/order/update-order`, request)
+  static async updateOrder(request: IUpdateOrderRequest): Promise<AxiosResponse> {
+    return await APIService.put(`/order/update-order`, request)
   }
 
-  static cancelOrder(id: string): Promise<AxiosResponse> {
-    return APIService.put(`/order/cancel-order?id=${id}`)
+  static async cancelOrder(id: string): Promise<AxiosResponse> {
+    return await APIService.put(`/order/cancel-order?id=${id}`)
   }
 
-  static getOrderHistoryByOrderId(id: string): Promise<AxiosResponse<IOrderHistory[]>> {
-    return APIService.get(`/order/get-order-history-by-order-id?id=${id}`)
+  static async getOrderHistoryByOrderId(id: string): Promise<AxiosResponse<IOrderHistory[]>> {
+    return await APIService.get(`/order/get-order-history-by-order-id?id=${id}`)
   }
 
-  static checkout(request: ICreateOrderRequest): Promise<AxiosResponse<{ id: string }>> {
-    return APIService.post(`/order/checkout`, request)
+  static async checkout(request: ICreateOrderRequest): Promise<AxiosResponse<{ id: string }>> {
+    return await APIService.post(`/order/checkout`, request)
   }
 }

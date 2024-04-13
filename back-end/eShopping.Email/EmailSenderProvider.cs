@@ -1,10 +1,7 @@
 ﻿using ElasticEmail.Model;
 using eShopping.Domain.Settings;
 using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace eShopping.Email
@@ -89,51 +86,6 @@ namespace eShopping.Email
             return result;
         }
 
-
-        /// <summary>
-        /// Description: this method is used to send .
-        /// </summary>
-        /// <summary>
-        /// This method is used to send emails using the SendGrid email provider.
-        /// </summary>
-        /// <param name="receiverList">The receiver, for example: receiver@domain.com</param>
-        /// <param name="subject">The email subject</param>
-        /// <param name="htmlContent">The HTML body content.</param>
-        /// <returns>If the value is true, the email has been sent to the provider.</returns>
-        private async Task<bool> UseTheSendGridProvider(
-            List<string> receiverList,
-            string subject,
-            string htmlContent
-        )
-        {
-            var sender = _appSettings.SendGrid.Email;
-            var apiKey = _appSettings.SendGrid.ApiKey;
-            bool result = false;
-            try
-            {
-                var client = new SendGridClient(apiKey);
-                var from = new EmailAddress(sender);
-                var receiverEmailAddressList = receiverList
-                    .Select(aReceiver => new EmailAddress(aReceiver))
-                    .ToList();
-
-                var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, receiverEmailAddressList, subject, htmlContent, htmlContent);
-
-                // If you want to track email, please uncomment this code.
-                // Link to refer: https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-                //msg.SetClickTracking(false, false);
-                //msg.SetOpenTracking(false);
-                //msg.SetGoogleAnalytics(false);
-                //msg.SetSubscriptionTracking(false);
-
-                var providerResult = await client.SendEmailAsync(msg);
-
-                result = providerResult.IsSuccessStatusCode;
-            }
-            catch { }
-
-            return result;
-        }
 
         /// <summary>
         /// This method is used to send emails using the Elastic email provider.

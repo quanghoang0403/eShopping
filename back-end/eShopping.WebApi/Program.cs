@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
-using System.Reflection;
 
 namespace eShopping.WebApi
 {
@@ -23,14 +22,14 @@ namespace eShopping.WebApi
 
             host.ConfigureAppConfiguration((hostContext, config) =>
             {
-
-                config.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                var env = hostContext.HostingEnvironment;
+                config.SetBasePath(Directory.GetCurrentDirectory());
 
                 /// Default
                 config.AddJsonFile("appsettings.json", optional: true, false);
 
-                /// Appsettings on local env
-                config.AddJsonFile("appsettings.Development.json", optional: true, false);
+                /// Dynamically load the environment-specific appsettings file
+                config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
                 config.AddEnvironmentVariables();
             });

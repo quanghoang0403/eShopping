@@ -47,13 +47,13 @@ namespace eShopping.Application.Features.Staffs.Queries
             // Get the staff by the id.
             var staff = await _unitOfWork.Staffs.GetStaffByIdAsync(request.Id);
             ThrowError.Against(staff == null, "Cannot find staff information");
-            var perrmissionGroups = _mapper.Map<IEnumerable<AdminPermissionGroupModel>>(staff.StaffPermissionGroups.Select(x => x.PermissionGroup));
+            var perrmissions = _mapper.Map<IEnumerable<AdminPermissionModel>>(staff.StaffPermissions.Select(x => x.Permission));
 
             var staffDetailModel = new AdminStaffDetailModel()
             {
                 Id = staff.Id,
                 Code = staff.Account.Code,
-                PermissionGroups = perrmissionGroups,
+                Permissions = perrmissions,
                 Email = staff.Account.Email,
                 Thumbnail = staff.Account.Thumbnail,
                 FullName = staff.Account.FullName,

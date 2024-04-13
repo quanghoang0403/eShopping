@@ -22,7 +22,7 @@ import { convertSeoUrl } from 'utils/helpers'
 import './create-blog.page.scss'
 const { Text } = Typography
 
-export default function CreateBlogPage () {
+export default function CreateBlogPage() {
   const [t] = useTranslation()
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
@@ -106,7 +106,7 @@ export default function CreateBlogPage () {
       bannerTitle: t('blog.bannerTitle'),
       textNonImage: t('file.textNonImage'),
       uploadImage: t('file.uploadImage'),
-      addFromUrl: t('file.addFromUrl'),
+      // addFromUrl: t('file.addFromUrl'),
       bestDisplayImage: t('blog.bestDisplayImage')
     },
     leaveDialog: {
@@ -174,7 +174,7 @@ export default function CreateBlogPage () {
         //   message.error(pageData.fail)
         // }
       })
-      .catch((errors) => {})
+      .catch((errors) => { })
   }
 
   const onChangeImage = (file) => {
@@ -446,20 +446,17 @@ export default function CreateBlogPage () {
                       </Tooltip>
                     </h4>
                     <div className="create-blog-overview">
-                      <span style={{ fontSize: '18px' }}>{`<meta name="title" property="title" content="${
-                        !SEOTitle ? 'SEO on Title' : SEOTitle
-                      }">`}</span>
+                      <span style={{ fontSize: '18px' }}>{`<meta name="title" property="title" content="${!SEOTitle ? 'SEO on Title' : SEOTitle
+                        }">`}</span>
                       <br />
                       <span style={{ fontSize: '18px' }}>
-                        {`<meta name="description" property="description" content="${
-                          !SEODescription ? 'SEO on Description' : SEODescription
-                        }">`}
+                        {`<meta name="description" property="description" content="${!SEODescription ? 'SEO on Description' : SEODescription
+                          }">`}
                       </span>
                       <br />
                       <span style={{ fontSize: '18px' }}>
-                        {`<meta name="keywords" property="keywords" content="${
-                          tags.length > 0 ? tags.map((x) => x.name).join(',') : 'SEO on Keywords'
-                        }">`}
+                        {`<meta name="keywords" property="keywords" content="${tags.length > 0 ? tags.map((x) => x.name).join(',') : 'SEO on Keywords'
+                          }">`}
                       </span>
                     </div>
                     <h4 className="shop-form-label">
@@ -603,9 +600,9 @@ export default function CreateBlogPage () {
                               onChange={onChangeImage}
                             />
                           </Form.Item>
-                          <a className="upload-image-url" hidden={image !== null}>
+                          {/* <a className="upload-image-url" hidden={image !== null}>
                             {pageData.media.addFromUrl}
-                          </a>
+                          </a> */}
                         </div>
                       </Col>
                       <Col span={24} className="text-non-image" hidden={image !== null}>

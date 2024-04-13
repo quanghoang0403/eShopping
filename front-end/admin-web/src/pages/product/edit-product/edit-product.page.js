@@ -36,7 +36,7 @@ import {
 import DeleteProductComponent from '../components/delete-product.component'
 import './edit-product.scss'
 import { useTranslation } from 'react-i18next'
-export default function EditProductPage (props) {
+export default function EditProductPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
   const shopImageSelectRef = React.useRef()
@@ -121,7 +121,7 @@ export default function EditProductPage (props) {
       uploadImage: t('file.uploadImage'),
       title: t('file.title'),
       textNonImage: t('file.textNonImage'),
-      addFromUrl: t('file.addFromUrl'),
+      // addFromUrl: t('file.addFromUrl'),
       bestDisplayImage: t('file.bestDisplayImage')
     },
     leaveDialog: {
@@ -687,7 +687,7 @@ export default function EditProductPage (props) {
 
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
-                  <br/>
+                  <br />
                   <Card className={'w-100 mt-1 shop-card h-auto'}>
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
                     <Form.Item name={['product', 'productCategoryId']}>

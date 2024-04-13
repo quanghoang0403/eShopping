@@ -10,7 +10,7 @@ namespace eShopping.Models.Staffs
 
         public int No { get; set; }
 
-        public IEnumerable<AdminPermissionGroupModel> PermissionGroups { get; set; }
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
 
         public string Email { get; set; }
 

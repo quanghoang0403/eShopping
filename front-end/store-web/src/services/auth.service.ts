@@ -11,10 +11,10 @@ export default class AuthService {
   }
 
   static signIn(body: ISignInRequest): Promise<AxiosResponse<ISignInResponse>> {
-    return APIService.post('authenticate/authenticate', body)
+    return APIService.post('/authenticate/authenticate', body)
   }
 
   static forgotPassword(body: IForgotPasswordRequest): Promise<AxiosResponse<{ token: string }>> {
-    return APIService.post('authenticate/forgot-password', body)
+    return APIService.post('/authenticate/forgot-password', body)
   }
 }

@@ -3,44 +3,43 @@ using eShopping.Common.Exceptions;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductCategoryByIdRequest : IRequest<StoreGetProductCategoryByIdResponse>
+    public class StoreGetProductCategoryByUrlRequest : IRequest<StoreGetProductCategoryByUrlResponse>
     {
-        public Guid Id { get; set; }
+        public string Url { get; set; }
     }
 
-    public class StoreGetProductCategoryByIdResponse
+    public class StoreGetProductCategoryByUrlResponse
     {
         public StoreProductCategoryDetailModel ProductCategory { get; set; }
     }
 
-    public class StoreGetProductCategoryByIdRequestHandler : IRequestHandler<StoreGetProductCategoryByIdRequest, StoreGetProductCategoryByIdResponse>
+    public class StoreGetProductCategoryByUrlRequestHandler : IRequestHandler<StoreGetProductCategoryByUrlRequest, StoreGetProductCategoryByUrlResponse>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public StoreGetProductCategoryByIdRequestHandler(IUserProvider userProvider, IUnitOfWork unitOfWork, IMapper mapper)
+        public StoreGetProductCategoryByUrlRequestHandler(IUserProvider userProvider, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _userProvider = userProvider;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<StoreGetProductCategoryByIdResponse> Handle(StoreGetProductCategoryByIdRequest request, CancellationToken cancellationToken)
+        public async Task<StoreGetProductCategoryByUrlResponse> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id);
+            var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(request.Url);
             ThrowError.Against(productCategoryData == null, "Cannot find product category information");
 
             var productCategory = _mapper.Map<StoreProductCategoryDetailModel>(productCategoryData);
-            return new StoreGetProductCategoryByIdResponse
+            return new StoreGetProductCategoryByUrlResponse
             {
                 ProductCategory = productCategory
             };

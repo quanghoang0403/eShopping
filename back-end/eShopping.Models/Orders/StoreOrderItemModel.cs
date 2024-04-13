@@ -17,6 +17,8 @@ namespace eShopping.Models.Orders
 
         public int Quantity { get; set; }
 
+        public float? PercentNumber { get; set; }
+
         public string Thumbnail { get; set; }
 
         public string PriceName { get; set; }

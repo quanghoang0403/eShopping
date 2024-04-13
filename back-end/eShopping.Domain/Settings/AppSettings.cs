@@ -2,22 +2,24 @@
 {
     public class AppSettings
     {
-        public AwsS3Settings AwsS3Settings { get; set; }
-
-        public string UseEmailProvider { get; set; }
-
-        public EmailSettings SendGrid { get; set; }
+        public AzureStorageSettings AzureStorageSettings { get; set; }
 
         public EmailSettings Elastic { get; set; }
     }
 
-    public class AwsS3Settings
+    public class AzureStorageSettings
     {
-        public string Endpoint { get; set; }
-        public string AccessKey { get; set; }
-        public string SecretKey { get; set; }
-        public string BucketName { get; set; }
-        public string Folder { get; set; }
+        public string DefaultEndpointsProtocol { get; set; }
+
+        public string AccountName { get; set; }
+
+        public string AccountKey { get; set; }
+
+        public string EndpointSuffix { get; set; }
+
+        public string ImageContainer { get; set; }
+
+        public string BlobUri => $"{DefaultEndpointsProtocol}://{AccountName}.blob.{EndpointSuffix}/{ImageContainer}";
     }
 
     public class EmailSettings

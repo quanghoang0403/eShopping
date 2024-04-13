@@ -1,6 +1,6 @@
 ﻿namespace eShopping.MemoryCaching
 {
-    public interface IeShoppingMemoryCaching
+    public interface IMemoryCaching
     {
     }
 }

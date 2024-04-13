@@ -529,6 +529,16 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("ShipAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("ShipCityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShipDistrictId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ShipEmail")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -544,6 +554,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<string>("ShipPhoneNumber")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("ShipWardId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -625,6 +638,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float?>("PercentNumber")
+                        .HasColumnType("real");
+
                     b.Property<decimal?>("PriceDiscount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -654,6 +670,9 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1025,7 +1044,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PermissionGroupId")
+                    b.Property<Guid?>("PermissionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1034,12 +1053,12 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PermissionGroupId");
+                    b.HasIndex("PermissionId");
 
                     b.ToTable("Staff");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermissionGroup", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1060,7 +1079,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PermissionGroupId")
+                    b.Property<Guid>("PermissionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StaffId")
@@ -1070,11 +1089,11 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PermissionGroupId");
+                    b.HasIndex("PermissionId");
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("StaffPermissionGroup");
+                    b.ToTable("StaffPermission");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Ward", b =>
@@ -1119,7 +1138,7 @@ namespace eShopping.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("eShopping.Domain.Entities.BlogCategory", "category")
-                        .WithMany("InCategories")
+                        .WithMany("BlogInCategories")
                         .HasForeignKey("categoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1282,28 +1301,28 @@ namespace eShopping.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eShopping.Domain.Entities.PermissionGroup", null)
+                    b.HasOne("eShopping.Domain.Entities.Permission", null)
                         .WithMany("Staffs")
-                        .HasForeignKey("PermissionGroupId");
+                        .HasForeignKey("PermissionId");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermissionGroup", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermission", b =>
                 {
-                    b.HasOne("eShopping.Domain.Entities.PermissionGroup", "PermissionGroup")
+                    b.HasOne("eShopping.Domain.Entities.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("PermissionGroupId")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("eShopping.Domain.Entities.Staff", "Staff")
-                        .WithMany("StaffPermissionGroups")
+                        .WithMany("StaffPermissions")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PermissionGroup");
+                    b.Navigation("Permission");
 
                     b.Navigation("Staff");
                 });
@@ -1320,7 +1339,7 @@ namespace eShopping.Infrastructure.Migrations
 
             modelBuilder.Entity("eShopping.Domain.Entities.BlogCategory", b =>
                 {
-                    b.Navigation("InCategories");
+                    b.Navigation("BlogInCategories");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.City", b =>
@@ -1347,11 +1366,14 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("OrderItems");
                 });
 
+            modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>
+                {
+                    b.Navigation("Staffs");
+                });
+
             modelBuilder.Entity("eShopping.Domain.Entities.PermissionGroup", b =>
                 {
                     b.Navigation("Permissions");
-
-                    b.Navigation("Staffs");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Product", b =>
@@ -1377,7 +1399,7 @@ namespace eShopping.Infrastructure.Migrations
 
             modelBuilder.Entity("eShopping.Domain.Entities.Staff", b =>
                 {
-                    b.Navigation("StaffPermissionGroups");
+                    b.Navigation("StaffPermissions");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Ward", b =>

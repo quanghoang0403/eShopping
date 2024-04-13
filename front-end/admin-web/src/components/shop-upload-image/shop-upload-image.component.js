@@ -1,6 +1,6 @@
 import { Col, message, Row } from 'antd'
 import { EditFillImage, EyeOpenImageIcon, TrashFillImage } from 'constants/icons.constants'
-// import fileDataService from "data-services/file/file-data.service";
+import fileDataService from "data-services/file/file-data.service";
 import moment from 'moment'
 import React, { useState } from 'react'
 import ImageUploading from 'react-images-uploading'
@@ -28,7 +28,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   const [randomId, setRandomId] = useState(Math.random())
 
   useImperativeHandle(ref, () => ({
-    setImage (url) {
+    setImage(url) {
       if (url) {
         const imageList = [
           {
@@ -57,18 +57,18 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
         fileName: fileNameNormalize(buildFileName)
       }
       const requestFormData = jsonToFormData(requestData)
-      // fileDataService.uploadFileAsync(requestFormData).then((res) => {
-      //   if (res.success === true) {
-      //     imageList[0].data_url = res.data;
-      //     setImages(imageList);
-      //     if (onChange) {
-      //       onChange({
-      //         fileName: buildFileName,
-      //         url: res.data,
-      //       });
-      //     }
-      //   }
-      // });
+      fileDataService.uploadFileAsync(requestFormData).then((res) => {
+        if (res.link !== '') {
+          imageList[0].data_url = res.link;
+          setImages(imageList);
+          if (onChange) {
+            onChange({
+              fileName: buildFileName,
+              url: res.link,
+            });
+          }
+        }
+      });
     } else {
       if (onChange) {
         setImages(imageList)

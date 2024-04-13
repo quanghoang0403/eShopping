@@ -82,6 +82,11 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
             order.ShipName = request.ShipName;
             order.ShipEmail = request.ShipEmail;
             order.ShipPhoneNumber = request.ShipPhoneNumber;
+            order.ShipAddress = request.ShipAddress;
+            order.ShipFullAddress = request.ShipAddress + ward + district + city;
+            order.ShipCityId = request.ShipCityId;
+            order.ShipDistrictId = request.ShipDistrictId;
+            order.ShipWardId = request.ShipWardId;
             order.ShipFullAddress = request.ShipAddress + ward + district + city;
             order.Note = request.Note;
             order.LastSavedTime = DateTime.UtcNow;

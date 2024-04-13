@@ -21,6 +21,9 @@
     <None Update="Migrations\Functions\UDF_StripHTML.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Migrations\Scripts\2024-04-12-refactor-permission.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Migrations\StaticData\foody-platform-and-store-foody-playform.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -104,5 +107,9 @@
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 </Project>

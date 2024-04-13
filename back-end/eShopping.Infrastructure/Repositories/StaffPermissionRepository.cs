@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace eShopping.Infrastructure.Repositories
 {
-    public class StaffPermissionGroupRepository : GenericRepository<StaffPermissionGroup>, IStaffPermissionGroupRepository
+    public class StaffPermissionRepository : GenericRepository<StaffPermission>, IStaffPermissionRepository
     {
-        public StaffPermissionGroupRepository(eShoppingDbContext dbContext) : base(dbContext) { }
+        public StaffPermissionRepository(eShoppingDbContext dbContext) : base(dbContext) { }
 
-        public Task<List<StaffPermissionGroup>> GetStaffGroupPermissionByStaffId(Guid staffId)
+        public Task<List<StaffPermission>> GetStaffPermissionsByStaffId(Guid staffId)
         {
             var staffGroupPermission = dbSet
                 .Where(s => s.StaffId == staffId)
-                .Include(s => s.PermissionGroup)
-                .ThenInclude(g => g.Permissions)
+                .Include(s => s.Permission)
+                .ThenInclude(g => g.PermissionGroup)
                 .AsNoTracking()
                 .ToListAsync();
             return staffGroupPermission;
         }
 
-        public Task<List<StaffPermissionGroup>> GetStaffGroupPermissionByStaffIds(IEnumerable<Guid> staffIds)
+        public Task<List<StaffPermission>> GetStaffPermissionsByStaffIds(IEnumerable<Guid> staffIds)
         {
             var staffGroupPermission = dbSet
                 .Where(s => staffIds.Any(sid => sid == s.StaffId))
-                .Include(s => s.PermissionGroup)
-                .ThenInclude(g => g.Permissions)
+                .Include(s => s.Permission)
+                .ThenInclude(g => g.PermissionGroup)
                 .AsNoTracking()
                 .ToListAsync();
             return staffGroupPermission;

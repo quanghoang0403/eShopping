@@ -10,7 +10,7 @@ namespace eShopping.Models.Staffs
     {
         public Guid Id { get; set; }
 
-        public IEnumerable<AdminPermissionGroupModel> PermissionGroups { get; set; }
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
 
         public int Code { get; set; }
 

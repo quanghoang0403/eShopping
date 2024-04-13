@@ -45,7 +45,7 @@ namespace eShopping.Interfaces
 
         IStaffRepository Staffs { get; }
 
-        IStaffPermissionGroupRepository StaffPermissionGroup { get; }
+        IStaffPermissionRepository StaffPermission { get; }
 
         IWardRepository Wards { get; }
         IBlogRepository Blogs { get; }

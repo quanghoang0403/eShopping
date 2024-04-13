@@ -39,29 +39,22 @@ namespace eShopping.Services.User
                 else
                 {
                     // Get all permission assigned to user and check
-                    var permisionGroupIds = _unitOfWork
-                        .StaffPermissionGroup
+                    var permissionIds = _unitOfWork
+                        .StaffPermission
                         .GetAll()
                         .AsNoTracking()
                         .Where(s => s.StaffId == userId)
-                        .Include(s => s.PermissionGroup)
-                        .Select(g => g.PermissionGroupId)
-                        .Distinct();
+                        .Include(s => s.Permission)
+                        .Select(g => g.Permission.Id)
+                        .ToList();
 
                     //If user has ADMIN role. No need to check anymore
-                    if (permisionGroupIds.ToList().Contains(EnumPermissionGroup.Admin.ToGuid()))
+                    if (permissionIds.Contains(EnumPermission.ADMIN.ToGuid()))
                     {
                         return true;
                     }
 
-                    var hasPerminssion = _unitOfWork
-                        .PermissionGroups
-                        .Find(g => permisionGroupIds.Any(gpid => gpid == g.Id))
-                        .AsNoTracking()
-                        .Include(g => g.Permissions)
-                        .Select(g => g.Permissions)
-                        .AsEnumerable()
-                        .Any(listP => listP.Any(permission => requirementPermission.Any(x => x.ToGuid() == permission.Id)));
+                    var hasPerminssion = permissionIds.Any(permissionId => requirementPermission.Any(x => x.ToGuid() == permissionId));
                     return hasPerminssion;
                 }
             }

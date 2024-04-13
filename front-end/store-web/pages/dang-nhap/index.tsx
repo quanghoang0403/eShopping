@@ -62,21 +62,15 @@ export default function SignInPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-base font-medium text-gray-700">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                {...register('password', { required: 'Vui lòng điền mật khẩu' })}
-                type={showPassword ? 'text' : 'password'}
-                className="px-3 py-2 mt-2 w-full border rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-              />
-              <button type="button" className="absolute my-3 right-3 transform translate-y-1/2" onClick={togglePasswordVisibility}>
-                {showPassword ? <FiEyeOff className="text-gray-500" /> : <FiEye className="text-gray-500" />}
-              </button>
-            </div>
-
-            <ErrorForm errors={errors} name="password" />
+            <Input
+              inputType={INPUT_TYPES.TEXT}
+              label="Password"
+              register={register}
+              patternValidate={{ required: true }}
+              name="password"
+              errors={errors}
+              password
+            />
           </div>
           <div>
             <button

@@ -14,6 +14,7 @@ namespace eShopping.Models.Orders
 
         public DateTime CreatedTime { get; set; }
 
+
         public string ShipFullAddress { get; set; }
 
         public string StatusName { get { return Status.GetName(); } }
@@ -28,5 +29,16 @@ namespace eShopping.Models.Orders
 
         [Precision(18, 2)]
         public decimal TotalAmount { get; set; }
+
+        public OrderItemDto OrderItems { get; set; }
+
+        public class OrderItemDto
+        {
+            public int Quantity { get; set; }
+
+            public int PriceName { get; set; }
+
+            public string Thumbnail { get; set; }
+        }
     }
 }

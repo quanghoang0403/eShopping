@@ -70,4 +70,7 @@
   <ProjectExtensions>
     <VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio>
   </ProjectExtensions>
+  <ItemGroup>
+    <Content Include="appsettings.Production.json" />
+  </ItemGroup>
 </Project>

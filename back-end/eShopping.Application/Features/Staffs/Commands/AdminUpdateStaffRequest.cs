@@ -30,7 +30,7 @@ namespace eShopping.Application.Features.Staffs.Commands
 
         public DateTime? Birthday { get; set; }
 
-        public List<Guid> PermissionGroupIds { get; set; }
+        public List<Guid> PermissionIds { get; set; }
     }
 
     public class AdminUpdateStaffRequestHandler : IRequestHandler<AdminUpdateStaffRequest, bool>
@@ -71,29 +71,29 @@ namespace eShopping.Application.Features.Staffs.Commands
 
             #region Handle update permissions
             // all permissions before update
-            var allStaffPermissions = await _unitOfWork.StaffPermissionGroup.GetStaffGroupPermissionByStaffId(request.StaffId);
+            var allStaffPermissions = await _unitOfWork.StaffPermission.GetStaffPermissionsByStaffId(request.StaffId);
 
             // update permissions
-            if (request.PermissionGroupIds.Any())
+            if (request.PermissionIds.Any())
             {
                 // remove unused permissions
-                var unusedStaffPermissions = allStaffPermissions.Where(x => !request.PermissionGroupIds.Any(pn => pn == x.Id));
-                _unitOfWork.StaffPermissionGroup.RemoveRange(unusedStaffPermissions);
+                var unusedStaffPermissions = allStaffPermissions.Where(x => !request.PermissionIds.Any(pn => pn == x.PermissionId));
+                _unitOfWork.StaffPermission.RemoveRange(unusedStaffPermissions);
 
                 // add new permissions
-                var newStaffPermissionIds = request.PermissionGroupIds.Where(p => !allStaffPermissions.Any(x => x.Id == p));
-                var newStaffPermissionsToDB = new List<StaffPermissionGroup>();
+                var newStaffPermissionIds = request.PermissionIds.Where(p => !allStaffPermissions.Any(x => x.PermissionId == p));
+                var newStaffPermissionsToDB = new List<StaffPermission>();
                 foreach (var permissionId in newStaffPermissionIds)
                 {
-                    var newProductPrice = new StaffPermissionGroup()
+                    var newProductPrice = new StaffPermission()
                     {
                         StaffId = request.StaffId,
-                        PermissionGroupId = permissionId,
+                        PermissionId = permissionId,
                         CreatedUser = loggedUser.AccountId.Value,
                         CreatedTime = DateTime.UtcNow
                     };
                     newStaffPermissionsToDB.Add(newProductPrice);
-                    await _unitOfWork.StaffPermissionGroup.AddRangeAsync(newStaffPermissionsToDB);
+                    await _unitOfWork.StaffPermission.AddRangeAsync(newStaffPermissionsToDB);
                 }
             }
             #endregion

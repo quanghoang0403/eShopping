@@ -28,6 +28,7 @@ namespace eShopping.Services
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
                 {
                     sqlOptions.AddRowNumberSupport();
+                    sqlOptions.EnableRetryOnFailure();
                 });
                 //options.EnableSensitiveDataLogging();
             });
@@ -76,9 +77,10 @@ namespace eShopping.Services
         public static IServiceCollection AddIdentityInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // Register settings
-            services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
+            //services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
             services.Configure<JWTSettings>(configuration.GetSection(nameof(JWTSettings)));
-            services.Configure<SendGridMailSettings>(configuration.GetSection(nameof(SendGridMailSettings)));
+            services.Configure<DomainFE>(configuration.GetSection(nameof(DomainFE)));
+            //services.Configure<SendGridMailSettings>(configuration.GetSection(nameof(SendGridMailSettings)));
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
 
             var jwtSettings = configuration.GetSection(nameof(JWTSettings)).Get<JWTSettings>();
