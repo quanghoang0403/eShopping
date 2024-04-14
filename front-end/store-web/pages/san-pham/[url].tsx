@@ -74,15 +74,18 @@ export default function ProductPage({ productDetail }: IProps) {
     },
   ]
   const gallery: string[] = [
-    '/imgs/productDetail4/1.jpg',
-    '/imgs/productDetail4/2.jpg',
-    '/imgs/productDetail4/3.jpg',
-    '/imgs/productDetail4/4.jpg',
-    '/imgs/productDetail4/5.jpg',
-    '/imgs/productDetail4/6.jpg',
-    '/imgs/productDetail4/7.jpg',
-    '/imgs/productDetail4/8.jpg',
-    '/imgs/productDetail4/9.jpg',
+    '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
+    '/imgs/productHighlight/Striped Shirt.jpg',
+    '/imgs/productHighlight/Paris Tee.jpg',
+    '/imgs/productHighlight/Paris Long Tee.jpg',
+    '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
+    '/imgs/productHighlight/Striped Shirt.jpg',
+    '/imgs/productHighlight/Paris Tee.jpg',
+    '/imgs/productHighlight/Paris Long Tee.jpg',
   ]
   console.log(productDetail)
   const [activePrice, setActivePrice] = useState<IProductPrice>(productDetail?.productPrices[0])
