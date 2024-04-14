@@ -7,7 +7,7 @@ import TableProduct from './components/table-product.component'
 import './index.scss'
 import { useTranslation } from 'react-i18next'
 
-export default function ProductPage (props) {
+export default function ProductPage(props) {
   const { t } = useTranslation()
   return (
     <div>
@@ -35,7 +35,7 @@ export default function ProductPage (props) {
         </Col>
       </Row>
       <div className="clearfix"></div>
-      <Card className="shop-card cart-with-no-border">
+      <Card className="shop-card">
         <TableProduct />
       </Card>
     </div>
