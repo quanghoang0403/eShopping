@@ -73,6 +73,17 @@ export default function ProductPage({ productDetail }: IProps) {
       priceValue: 120000,
     },
   ]
+  const gallery: string[] = [
+    '/imgs/productDetail4/1.jpg',
+    '/imgs/productDetail4/2.jpg',
+    '/imgs/productDetail4/3.jpg',
+    '/imgs/productDetail4/4.jpg',
+    '/imgs/productDetail4/5.jpg',
+    '/imgs/productDetail4/6.jpg',
+    '/imgs/productDetail4/7.jpg',
+    '/imgs/productDetail4/8.jpg',
+    '/imgs/productDetail4/9.jpg',
+  ]
   console.log(productDetail)
   const [activePrice, setActivePrice] = useState<IProductPrice>(productDetail?.productPrices[0])
   const dispatch = useAppDispatch()
@@ -100,7 +111,7 @@ export default function ProductPage({ productDetail }: IProps) {
         <div className="container lg:py-24 mx-auto">
           <div className="container mx-auto flex flex-wrap lg:px-0 px-3">
             <div className="lg:w-3/5 w-full relative">
-              <ProductGallery images={productDetail.gallery} />
+              <ProductGallery images={gallery} />
               {activePrice.percentNumber && (
                 <span className="shadow absolute top-5 right-5 px-2 py-1 text-base md:text-lg rounded-lg text-gray-900 bg-white">
                   {activePrice.percentNumber}%
