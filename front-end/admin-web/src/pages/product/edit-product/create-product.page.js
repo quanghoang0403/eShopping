@@ -603,8 +603,6 @@ export default function CreateProductPage() {
                                             // disabledDate={disabledDate}
                                             format={DateFormat.DD_MM_YYYY}
                                             onChange={(date) => {
-                                              // setStartDate(date);
-
                                               // // Clear end date after select start date if endate < startdate only
                                               // const formValues = form.getFieldsValue();
                                               // if (formValues.prices?.endDate != null && formValues.prices?.endDate < date) {
@@ -638,8 +636,6 @@ export default function CreateProductPage() {
                                             format={DateFormat.DD_MM_YYYY}
                                             disabled={price.startDate ? false : true}
                                             onChange={(date) => {
-                                              // setStartDate(date);
-
                                               // // Clear end date after select start date if endate < startdate only
                                               // const formValues = form.getFieldsValue();
                                               // if (formValues.prices?.endDate != null && formValues.prices?.endDate < date) {
