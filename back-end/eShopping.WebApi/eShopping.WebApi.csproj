@@ -62,6 +62,7 @@
     <Otherwise>
       <ItemGroup>
         <None Include="appsettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+        <None Include="appsettings.Production.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
         <None Include="appsettings.Development.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
         <Content Remove="appsettings.*.json;appsettings.json" />
       </ItemGroup>
@@ -70,7 +71,4 @@
   <ProjectExtensions>
     <VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio>
   </ProjectExtensions>
-  <ItemGroup>
-    <Content Include="appsettings.Production.json" />
-  </ItemGroup>
 </Project>
