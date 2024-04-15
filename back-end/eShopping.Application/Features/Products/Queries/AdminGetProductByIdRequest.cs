@@ -61,9 +61,13 @@ namespace eShopping.Application.Features.Products.Queries
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             ThrowError.Against(ProductData == null, "Cannot find product detail information");
-            var images = _unitOfWork.Images.GetAllImagesByObjectId(ProductData.Id, EnumImageTypeObject.Product);
+            var images = await _unitOfWork.Images.GetAllImagesByObjectId(ProductData.Id, EnumImageTypeObject.Product);
             var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(ProductData.Id).ProjectTo<AdminProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
-            ProductData.Images = _mapper.Map<List<AdminImageModel>>(images);
+            if (images.Count > 0)
+            {
+                ProductData.Images = _mapper.Map<List<AdminImageModel>>(images);
+            }
+
             ProductData.ProductCategories = category;
 
             return new AdminGetProductByIdResponse

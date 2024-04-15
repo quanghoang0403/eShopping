@@ -55,7 +55,7 @@ export default function DeleteProductComponent (props) {
             <Button className="mr-2" onClick={() => handleCancel()}>
               {pageData.ignore}
             </Button>
-            <Button danger onClick={() => onDelete(preventDeleteProduct?.productId)}>
+            <Button danger onClick={() => onDelete(preventDeleteProduct?.id)}>
               {pageData.delete}
             </Button>
           </Row>

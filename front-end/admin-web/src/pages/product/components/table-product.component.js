@@ -48,8 +48,8 @@ export default function TableProduct (props) {
     btnIgnore: t('button.ignore'),
     btnDelete: t('button.delete'),
     confirmDelete: t('dialog.confirmDelete'),
-    productDeleteSuccess: t('product:productDeleteSuccess'),
-    productDeleteFail: t('product:productDeleteFail'),
+    productDeleteSuccess: t('product.productDeleteSuccess'),
+    productDeleteFail: t('product.productDeleteFail'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table.no'),
@@ -143,18 +143,29 @@ export default function TableProduct (props) {
 
   const onDeleteItem = (productId, productName) => {
     // productDataService.getAllOrderNotCompletedByProductIdAsync(productId).then((res) => {
-    //   const { preventDeleteProduct } = res;
-    //   // Set property for object
-    //   Object.assign(preventDeleteProduct, { productName: productName });
-
-    //   setPreventDeleteProduct(preventDeleteProduct);
-    //   if (!preventDeleteProduct?.isPreventDelete) {
-    //     setTitleModal(pageData.confirmDelete);
-    //   } else {
-    //     setTitleModal(pageData.notificationTitle);
+    //   if(res){
+    //     const { preventDeleteProduct } = res;
+    //     // Set property for object
+    //     Object.assign(preventDeleteProduct, { productName: productName });
+  
+    //     setPreventDeleteProduct(preventDeleteProduct);
+    //     if (!preventDeleteProduct?.isPreventDelete) {
+    //       setTitleModal(pageData.confirmDelete);
+    //     } else {
+    //       setTitleModal(pageData.notificationTitle);
+    //     }
+    //     setIsModalVisible(true);
     //   }
-    //   setIsModalVisible(true);
+      
     // });
+    productDataService.getProductByIdAsync(productId).then(res=>{
+      const {product} = res
+      setPreventDeleteProduct(product)
+    }).catch(err=>{
+      console.log(err)
+    })
+    setTitleModal(pageData.confirmDelete);
+    setIsModalVisible(true);
   }
 
   const onCloseModal = () => {
@@ -166,9 +177,8 @@ export default function TableProduct (props) {
     var res = await productDataService.deleteProductByIdAsync(productId);
     if (res) {
       message.success(pageData.productDeleteSuccess);
-
       // Recount selected items after delete
-      const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== productId);
+      const newSelectedRowKeys = selectedRowKeys?.filter((x) => dataSource.find(d=>d.index === x).id !== productId);
       if (newSelectedRowKeys) {
         setSelectedRowKeys(newSelectedRowKeys);
       }
