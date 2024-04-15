@@ -56,7 +56,9 @@ export default function CreateProductPage() {
     priceDiscount: 0,
     quantitySold: 0,
     quantityLeft: 0,
-    percentNumber: 0
+    percentNumber: 0,
+    startDate:moment(),
+    endDate:null
   }])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
@@ -209,9 +211,9 @@ export default function CreateProductPage() {
     return current && current < moment().startOf("day");
   };
 
-  const disabledDateByStartDate = (current) => {
+  const disabledDateByStartDate = (current,price) => {
     // Can not select days before today and today
-    return current && current < startDate;
+    return current && current < price.startDate;
   };
 
   const scrollToElement = (id) => {
@@ -311,7 +313,7 @@ export default function CreateProductPage() {
       quantitySold: 0,
       quantityLeft: 0,
       percentNumber: 0,
-      startDate: null,
+      startDate: moment(),
       endDate: null
     }
     const listPrice = [...(product.prices ?? prices), newPrice]
@@ -588,7 +590,7 @@ export default function CreateProductPage() {
                                     <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices", "startDate"]}
+                                          name={['product', "prices",price.position,  "startDate"]}
                                           rules={[
                                             {
                                               required: true,
@@ -602,25 +604,27 @@ export default function CreateProductPage() {
                                             className="shop-date-picker w-100"
                                             // disabledDate={disabledDate}
                                             format={DateFormat.DD_MM_YYYY}
-                                            onChange={(date) => {
-                                              // // Clear end date after select start date if endate < startdate only
-                                              // const formValues = form.getFieldsValue();
-                                              // if (formValues.prices?.endDate != null && formValues.prices?.endDate < date) {
-                                              //   form.setFieldsValue({
-                                              //     ...formValues,
-                                              //     prices: {
-                                              //       endDate: null,
-                                              //       endTime: null,
-                                              //     },
-                                              //   });
-                                              // }
+                                            disabledDate={disabledDate}
+                                            onChange={(date) => {                      
+                                              price.startDate = date
+                                              // Clear end date after select start date if endate < startdate only
+                                              const formValues = form.getFieldsValue();
+                                              const {product} = formValues
+                                              product.prices[index].startDate = date
+                                              if (product.prices[index]?.endDate != null && product.prices[index]?.endDate.isBefore(date)) {
+                                                product.prices[index].endDate = null
+                                                product.prices[index].endTime = null
+                                                
+                                              }
+                                              form.setFieldsValue(formValues);
+                                              console.log(product)
                                             }}
                                           />
                                         </Form.Item>
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices", "endDate"]}
+                                          name={['product', "prices",price.position, "endDate"]}
                                           rules={[
                                             {
                                               required: true,
@@ -632,21 +636,14 @@ export default function CreateProductPage() {
                                             suffixIcon={<CalendarNewIconBold />}
                                             placeholder={'Ngày kết thúc'}
                                             className="shop-date-picker w-100"
-                                            disabledDate={disabledDateByStartDate}
+                                            disabledDate={e=>disabledDateByStartDate(e,price)}
                                             format={DateFormat.DD_MM_YYYY}
                                             disabled={price.startDate ? false : true}
                                             onChange={(date) => {
-                                              // // Clear end date after select start date if endate < startdate only
-                                              // const formValues = form.getFieldsValue();
-                                              // if (formValues.prices?.endDate != null && formValues.prices?.endDate < date) {
-                                              //   form.setFieldsValue({
-                                              //     ...formValues,
-                                              //     prices: {
-                                              //       endDate: null,
-                                              //       endTime: null,
-                                              //     },
-                                              //   });
-                                              // }
+                                              const formValues = form.getFieldsValue();
+                                              const {product} = formValues
+                                              product.prices[index].endDate = date
+                                              form.setFieldsValue(formValues)
                                             }}
                                           />
                                         </Form.Item>
@@ -766,7 +763,8 @@ export default function CreateProductPage() {
               [0]: {
                 priceName: 'Default',
                 quantitySold: 0,
-                position: 0
+                position: 0,
+                startDate:moment()
               }
             }
           }
