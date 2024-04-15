@@ -73,6 +73,20 @@ export default function ProductPage({ productDetail }: IProps) {
       priceValue: 120000,
     },
   ]
+  const gallery: string[] = [
+    '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
+    '/imgs/productHighlight/Striped Shirt.jpg',
+    '/imgs/productHighlight/Paris Tee.jpg',
+    '/imgs/productHighlight/Paris Long Tee.jpg',
+    '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
+    '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
+    '/imgs/productHighlight/Striped Shirt.jpg',
+    '/imgs/productHighlight/Paris Tee.jpg',
+    '/imgs/productHighlight/Paris Long Tee.jpg',
+  ]
   console.log(productDetail)
   const [activePrice, setActivePrice] = useState<IProductPrice>(productDetail?.productPrices[0])
   const dispatch = useAppDispatch()
@@ -100,7 +114,7 @@ export default function ProductPage({ productDetail }: IProps) {
         <div className="container lg:py-24 mx-auto">
           <div className="container mx-auto flex flex-wrap lg:px-0 px-3">
             <div className="lg:w-3/5 w-full relative">
-              <ProductGallery images={productDetail.gallery} />
+              <ProductGallery images={gallery} />
               {activePrice.percentNumber && (
                 <span className="shadow absolute top-5 right-5 px-2 py-1 text-base md:text-lg rounded-lg text-gray-900 bg-white">
                   {activePrice.percentNumber}%

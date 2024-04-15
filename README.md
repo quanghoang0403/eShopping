@@ -37,7 +37,6 @@
 ### 3.1 Visual Studio
 - Code clean up (Format Document, Remove unnecessary Imports or usings, Sort Imports or usings, Apply file header preferences, Apply new() preferences)
 - Spell Check: https://marketplace.visualstudio.com/items?itemName=EWoodruff.VisualStudioSpellCheckerVS2022andLater
-
 ### 3.2 Visual Code
 - Spell Check: https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
 - Prettier & Eslint format code
