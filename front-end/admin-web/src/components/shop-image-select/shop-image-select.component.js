@@ -48,7 +48,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }, [])
 
   const setImageUrl = (url) => {
-    if (shopUploadRef && shopbUploadRef.current && url) {
+    if (shopUploadRef && shopUploadRef.current && url) {
       shopUploadRef.current.setImage(url)
       setSelectedImage(url)
     }
@@ -84,8 +84,8 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
               buttonText={pageData.uploadImage}
               onChange={onClickUploadImage}
               maxFileSize={maxFileSize}
-              messageTooBigSize={messageTooBigSize}
-              messageErrorFormat={messageErrorFormat}
+              messageTooBigSize={pageData.imageSizeTooBig}
+              messageErrorFormat={errorMessage}
               acceptType={acceptType}
               isDisabled={isDisabled}
               onError={isShowMessageError ? onShowErrorMessage : undefined}

@@ -289,7 +289,8 @@ export default function EditProductPage(props) {
           ...values.product,
           images: [],
           productPrices:values.product.prices,
-          Id:match?.params?.id
+          Id:match?.params?.id,
+          thumbnail:imageUrl
         }
         console.log(editProductRequestModel)
         if (!editProductRequestModel.prices.some(price=>price.priceValue < 0)) {
@@ -1039,11 +1040,11 @@ const pricetoPercentage = (num,index)=>{
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.upload.title}</h4>
-                    {/* <FnbImageSelectComponent
+                    <FnbImageSelectComponent
                       ref={shopImageSelectRef}
                       customTextNonImageClass={'create-edit-product-text-non-image'}
                       customNonImageClass={'create-edit-product-non-image'}
-                    /> */}
+                    />
                   </Card>
                 </Col>
               </Row>

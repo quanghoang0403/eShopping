@@ -74,7 +74,10 @@ export default function TableProduct (props) {
           return (
             <Row className="table-img-box">
               <div>
-                <Thumbnail src={getThumbnailUrl(record?.thumbnail, 'mobile')} />
+                <Thumbnail 
+                // src={getThumbnailUrl(record?.thumbnail, 'mobile')} 
+                src={record?.thumbnail}
+                />
               </div>
               <div className="product-name">
                 <Link to={`/product/detail/${record?.id}`}>{value}</Link>

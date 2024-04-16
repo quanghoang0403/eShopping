@@ -245,6 +245,7 @@ export default function CreateProductPage() {
           ...values.product,
           imagePaths: [],
           productPrices: values.product.prices,
+          thumbnail:values.product.media.url
         }
         console.log(createProductRequestModel)
         if (!createProductRequestModel.prices.some(price => price.priceValue < 0 && price.priceOriginal < 0)) {
