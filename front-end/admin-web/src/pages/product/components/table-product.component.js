@@ -48,8 +48,8 @@ export default function TableProduct (props) {
     btnIgnore: t('button.ignore'),
     btnDelete: t('button.delete'),
     confirmDelete: t('dialog.confirmDelete'),
-    productDeleteSuccess: t('product:productDeleteSuccess'),
-    productDeleteFail: t('product:productDeleteFail'),
+    productDeleteSuccess: t('product.productDeleteSuccess'),
+    productDeleteFail: t('product.productDeleteFail'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table.no'),
@@ -74,7 +74,10 @@ export default function TableProduct (props) {
           return (
             <Row className="table-img-box">
               <div>
-                <Thumbnail src={getThumbnailUrl(record?.thumbnail, 'mobile')} />
+                <Thumbnail 
+                // src={getThumbnailUrl(record?.thumbnail, 'mobile')} 
+                src={record?.thumbnail}
+                />
               </div>
               <div className="product-name">
                 <Link to={`/product/detail/${record?.id}`}>{value}</Link>
@@ -100,8 +103,7 @@ export default function TableProduct (props) {
         className: 'grid-status-column',
         width: '10%',
         render: (_, record) => {
-          const isActive = record?.status?.id === 1
-          return <BadgeStatus isActive={isActive} />
+          return <BadgeStatus isActive={record?.status} />
         }
       },
       {
@@ -143,18 +145,29 @@ export default function TableProduct (props) {
 
   const onDeleteItem = (productId, productName) => {
     // productDataService.getAllOrderNotCompletedByProductIdAsync(productId).then((res) => {
-    //   const { preventDeleteProduct } = res;
-    //   // Set property for object
-    //   Object.assign(preventDeleteProduct, { productName: productName });
-
-    //   setPreventDeleteProduct(preventDeleteProduct);
-    //   if (!preventDeleteProduct?.isPreventDelete) {
-    //     setTitleModal(pageData.confirmDelete);
-    //   } else {
-    //     setTitleModal(pageData.notificationTitle);
+    //   if(res){
+    //     const { preventDeleteProduct } = res;
+    //     // Set property for object
+    //     Object.assign(preventDeleteProduct, { productName: productName });
+  
+    //     setPreventDeleteProduct(preventDeleteProduct);
+    //     if (!preventDeleteProduct?.isPreventDelete) {
+    //       setTitleModal(pageData.confirmDelete);
+    //     } else {
+    //       setTitleModal(pageData.notificationTitle);
+    //     }
+    //     setIsModalVisible(true);
     //   }
-    //   setIsModalVisible(true);
+      
     // });
+    productDataService.getProductByIdAsync(productId).then(res=>{
+      const {product} = res
+      setPreventDeleteProduct(product)
+    }).catch(err=>{
+      console.log(err)
+    })
+    setTitleModal(pageData.confirmDelete);
+    setIsModalVisible(true);
   }
 
   const onCloseModal = () => {
@@ -166,9 +179,8 @@ export default function TableProduct (props) {
     var res = await productDataService.deleteProductByIdAsync(productId);
     if (res) {
       message.success(pageData.productDeleteSuccess);
-
       // Recount selected items after delete
-      const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== productId);
+      const newSelectedRowKeys = selectedRowKeys?.filter((x) => dataSource.find(d=>d.index === x).id !== productId);
       if (newSelectedRowKeys) {
         setSelectedRowKeys(newSelectedRowKeys);
       }
@@ -190,7 +202,7 @@ export default function TableProduct (props) {
       if (productFilter && productFilter.count > 0) {
         const data = {
           productCategoryId: productFilter.productCategoryId,
-          statusId: productFilter.statusId,
+          status: productFilter.isActive,
           count: productFilter.count
         }
         setDataFilter(data)
@@ -317,7 +329,7 @@ export default function TableProduct (props) {
                 ))}
         </>
       ),
-      status: item?.status
+      status: item?.isActive
     }
   }
 
@@ -342,7 +354,7 @@ export default function TableProduct (props) {
       pageSize,
       keySearch,
       data?.productCategoryId ?? "",
-      data?.statusId ?? "",
+      data?.status ?? "",
     );
 
     const products = response?.products.map((s) => mappingRecordToColumns(s));

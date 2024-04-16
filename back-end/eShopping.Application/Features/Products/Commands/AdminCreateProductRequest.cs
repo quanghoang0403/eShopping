@@ -112,16 +112,16 @@ namespace eShopping.Application.Features.Products.Commands
                 await _unitOfWork.Images.AddRangeAsync(productImages);
 
                 // Add option
-                List<ProductPrice> productPrices = new();
-                foreach (var option in request.ProductPrices)
-                {
-                    var optionToAdd = _mapper.Map<ProductPrice>(option);
-                    optionToAdd.ProductId = product.Id;
-                    optionToAdd.CreatedUser = accountId;
-                    optionToAdd.CreatedTime = DateTime.UtcNow;
-                    productPrices.Add(optionToAdd);
-                }
-                await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
+                //List<ProductPrice> productPrices = new();
+                //foreach (var option in request.ProductPrices)
+                //{
+                //    var optionToAdd = _mapper.Map<ProductPrice>(option);
+                //    optionToAdd.ProductId = product.Id;
+                //    optionToAdd.CreatedUser = accountId;
+                //    optionToAdd.CreatedTime = DateTime.UtcNow;
+                //    productPrices.Add(optionToAdd);
+                //}
+                //await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
                 // Complete this transaction, data will be saved.
                 await createTransaction.CommitAsync(cancellationToken);
 

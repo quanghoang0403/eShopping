@@ -49,8 +49,7 @@ namespace eShopping.Infrastructure.Repositories
             using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
             try
             {
-                var productEdit = await GetProductByIdAsync(request.Id);
-                _dbContext.Attach(productEdit); // enable edit mode for product record
+                var productEdit = request;
 
                 #region Update product category
                 var productProductCategoryIds = _dbContext.ProductInCategories.Where(x => x.ProductId == request.Id).Select(x => x.Id);
@@ -106,6 +105,8 @@ namespace eShopping.Infrastructure.Repositories
                             ProductId = productEdit.Id,
                             QuantityLeft = option.QuantityLeft,
                             QuantitySold = option.QuantitySold,
+                            StartDate = option.StartDate,
+                            EndDate = option.EndDate
                         };
                         newProductPricesToDB.Add(newProductPrice);
                         await _dbContext.ProductPrices.AddRangeAsync(newProductPricesToDB, cancellationToken);
@@ -119,6 +120,11 @@ namespace eShopping.Infrastructure.Repositories
                         productPrice.Priority = newProductPrice.Priority;
                         productPrice.PriceName = newProductPrice.PriceName;
                         productPrice.PriceValue = newProductPrice.PriceValue;
+                        productPrice.PriceOriginal = newProductPrice.PriceOriginal;
+                        productPrice.PriceDiscount = newProductPrice.PriceDiscount;
+                        productPrice.PercentNumber = newProductPrice.PercentNumber;
+                        productPrice.StartDate = newProductPrice.StartDate;
+                        productPrice.EndDate = newProductPrice.EndDate;
                     }
                     _dbContext.ProductPrices.UpdateRange(reusedProductPrices);
                 }
@@ -127,7 +133,7 @@ namespace eShopping.Infrastructure.Repositories
                 #region Handle update product image
 
                 #endregion
-
+                _dbContext.Entry(productEdit).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
 

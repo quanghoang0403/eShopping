@@ -16,7 +16,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public Task<ProductCategory> GetProductCategoryDetailByIdAsync(Guid categoryId)
         {
-            var category = dbSet.FirstOrDefaultAsync(p => p.Id == categoryId);
+            var category = dbSet.Include(c => c.ProductInCategories).ThenInclude(pic => pic.Product).FirstOrDefaultAsync(p => p.Id == categoryId);
 
             return category;
         }

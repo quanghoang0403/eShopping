@@ -1,12 +1,12 @@
 import { Button, Col, Form, Image, Row, Typography } from 'antd'
-// import productImageDefault from "assets/images/product-img-default.png";
+import { images } from 'constants/images.constants'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import PageTitle from 'components/page-title'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ProductStatus } from 'constants/product-status.constants'
-// import productDataService from "data-services/product/product-data.service";
+import productDataService from "data-services/product/product-data.service";
 import { useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { formatCurrency, formatNumber, getCurrency } from 'utils/helpers'
 import DeleteProductComponent from '../components/delete-product.component'
 import './index.scss'
@@ -15,7 +15,7 @@ const { Text } = Typography
 
 export default function ProductDetailPage (props) {
   const history = useHistory()
-
+  const match = useRouteMatch()
   const [product, setProduct] = useState({})
   const [activate, setActivate] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -26,32 +26,32 @@ export default function ProductDetailPage (props) {
     btnEdit: t('button.edit'),
     btnLeave: t('button.leave'),
     generalInformation: {
-      title: t('product:titleInfo'),
+      title: t('product.titleInfo'),
       name: {
-        label: t('product:labelName')
+        label: t('product.labelName')
       },
       description: {
-        label: t('product:labelDescription')
+        label: t('product.labelDescription')
       }
     },
     pricing: {
-      title: t('product:priceInfo'),
-      price: t('product:labelPrice')
+      title: t('product.priceInfo'),
+      price: t('product.labelPrice')
     },
     productCategory: {
-      label: t('product:labelCategory')
+      label: t('product.labelCategory')
     },
-    media: t('file.Media'),
+    media: t('file.media'),
     confirmDelete: t('dialog.confirmDelete'),
     notificationTitle: t('dialog.notificationTitle'),
-    productDeleteSuccess: t('product:productDeleteSuccess'),
-    productDeleteFail: t('product:productDeleteFail'),
-    productActivatedSuccess: t('product:productActivatedSuccess'),
-    productDeactivatedSuccess: t('product:productDeactivatedSuccess'),
+    productDeleteSuccess: t('product.productDeleteSuccess'),
+    productDeleteFail: t('product.productDeleteFail'),
+    productActivatedSuccess: t('product.productActivatedSuccess'),
+    productDeactivatedSuccess: t('product.productDeactivatedSuccess'),
     active: t('common.active'),
     inactive: t('common.inactive'),
-    activate: t('product:activate'),
-    deactivate: t('product:deactivate')
+    activate: t('product.activate'),
+    deactivate: t('product.deactivate')
   }
 
   useEffect(async () => {
@@ -59,14 +59,14 @@ export default function ProductDetailPage (props) {
   }, [])
 
   const getInitData = async () => {
-    // let response = await productDataService.getProductDetailByIdAsync(match?.params?.id);
-    // setProduct(response.product);
+    let response = await productDataService.getProductByIdAsync(match?.params?.id);
+    setProduct(response.product);
 
-    // if (response?.product?.statusId === ProductStatus.Activate) {
-    //   setActivate(pageData.activate);
-    // } else {
-    //   setActivate(pageData.deactivate);
-    // }
+    if (response?.product?.statusId === ProductStatus.Activate) {
+      setActivate(pageData.activate);
+    } else {
+      setActivate(pageData.deactivate);
+    }
   }
 
   const onChangeStatus = async () => {
@@ -100,14 +100,14 @@ export default function ProductDetailPage (props) {
     // });
   }
   const handleDeleteItem = async (productId) => {
-    // var res = await productDataService.deleteProductByIdAsync(productId);
-    // if (res) {
-    //   message.success(pageData.productDeleteSuccess);
-    // } else {
-    //   message.error(pageData.productDeleteFail);
-    // }
-    // setIsModalVisible(false);
-    // window.location.href = "/product";
+    var res = await productDataService.deleteProductByIdAsync(productId);
+    if (res) {
+      message.success(pageData.productDeleteSuccess);
+    } else {
+      message.error(pageData.productDeleteFail);
+    }
+    setIsModalVisible(false);
+    window.location.href = "/product";
   }
 
   const onEditItem = () => {
@@ -297,7 +297,7 @@ export default function ProductDetailPage (props) {
             <div className="form-image padding-t-l-b">
               <Text className="text-title media">{pageData.media}</Text>
               <div className="content-img">
-                {/* <Image width={176} src={product?.thumbnail ?? "error"} fallback={productImageDefault} /> */}
+                <Image width={176} src={product?.thumbnail ?? "error"} fallback={images.productDefault} />
               </div>
             </div>
           </div>

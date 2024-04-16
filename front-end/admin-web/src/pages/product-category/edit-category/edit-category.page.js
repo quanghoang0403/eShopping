@@ -153,9 +153,9 @@ export default function EditProductCategoryPage (props) {
 
   const onSelectProduct = (ids) => {
     const productIds = ids
-    const productList = []
+    const productList = [...dataSelectedProducts]
     productIds.forEach((productId, index) => {
-      const product = products.find((p) => p.id === productId)
+      const product = products.find((p) => p.id === productId && !productList.find(p=>p.id === productId))
       if (product) {
         const newProduct = { ...product, position: index + 1 }
         productList.push(newProduct)
@@ -184,7 +184,7 @@ export default function EditProductCategoryPage (props) {
       <>
         <Col span={24}>
           <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
-          <Form.Item name="productIds">
+          <Form.Item name="products">
             <FnbSelectMultipleProduct
               showSearch
               allowClear
@@ -192,12 +192,12 @@ export default function EditProductCategoryPage (props) {
               onChange={(value) => onSelectProduct(value)}
               className="w-100"
               listHeight={480}
-              option={products?.map((item) => ({
+              option={products?.filter(p=>!dataSelectedProducts.find(sp=>sp.id === p.id) && p).map((item) => ({
                 id: item.id,
                 name: item.name,
                 thumbnail: item?.thumbnail
               }))}
-            ></FnbSelectMultipleProduct>
+            />
           </Form.Item>
         </Col>
       </>
@@ -572,7 +572,7 @@ export default function EditProductCategoryPage (props) {
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>
-              {/* <Row>{renderSelectedProduct()}</Row> */}
+              <Row>{renderSelectedProduct()}</Row>
             </Card>
           </div>
         </Row>

@@ -9,8 +9,15 @@ import {
   message,
   Row,
   Tabs,
-  Typography
+  Typography,
+  Tooltip,
+  DatePicker,
+  Checkbox
 } from 'antd'
+import { CalendarNewIconBold } from 'constants/icons.constants';
+import { DateFormat } from "constants/string.constants";
+import { ExclamationIcon } from 'constants/icons.constants';
+import { roundNumber } from 'utils/helpers';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
@@ -18,7 +25,7 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import PageTitle from 'components/page-title'
-import { DELAYED_TIME, inputNumberRange1To999999999 } from 'constants/default.constants'
+import { DELAYED_TIME, inputNumberRange1To999999999, inputNumberRange0To100 } from 'constants/default.constants'
 import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ProductStatus } from 'constants/product-status.constants'
@@ -36,6 +43,8 @@ import {
 import DeleteProductComponent from '../components/delete-product.component'
 import './edit-product.scss'
 import { useTranslation } from 'react-i18next'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
+import moment from 'moment';
 export default function EditProductPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
@@ -54,6 +63,7 @@ export default function EditProductPage(props) {
   const [titleModal, setTitleModal] = useState('')
   const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
   const [statusId, setStatusId] = useState(null)
+  const [discountChecked,isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500)
 
   useEffect(() => {
@@ -87,6 +97,29 @@ export default function EditProductPage(props) {
         maxLength: 255
       }
     },
+    SEOInformation:{
+      title: t('form.SEOConfiguration'),
+      keyword:{
+        label: t('form.SEOKeywords'),
+        placeholder: t('form.SEOKeywordsPlaceholder'),
+        tooltip: t('form.SEOKeywordsTooltip')
+      },
+      SEOtitle:{
+        label:t('form.SEOTitle'),
+        placeholder: t('form.SEOTitlePlaceholder'),
+        tooltip: t('form.SEOTitleTooltip'),
+        validateMessage: t('form.messageMatchSuggestSEOTitle'),
+        minlength: 50
+      },
+      description:{
+        label: t('form.SEODescription'),
+        placeholder: t('form.SEODescriptionPlaceholder'),
+        validateMessage: t('form.messageMatchSuggestSEODescription'),
+        minlength:150,
+        maxLength:160,
+        tooltip: t('form.SEODescriptionTooltip')
+      },
+    },
     pricing: {
       title: t('product.priceInfo'),
       addPrice: t('product.addPrice'),
@@ -99,12 +132,55 @@ export default function EditProductPage(props) {
         format: '^[0-9]*$',
         validateMessage: t('product.validatePrice')
       },
+      priceOriginal: {
+        label: t('product.labelPriceOriginal'),
+        placeholder: t('product.placeholderPriceOriginal'),
+        required: true,
+        max: 999999999,
+        min: 0,
+        format: '^[0-9]*$',
+        validateMessage: t('product.validatePrice')
+      },
+      discount:{
+        numeric:{
+          label:t('product.labelPriceDiscount'),
+          placeholder:t('product.placeholderPriceDiscount')
+        },
+        percentage:{
+          label:t('product.labelPriceDiscountPercentage'),
+          placeholder:t('product.placeholderPriceDiscountPercentage'),
+          max: 100,
+          min: 0,
+          format: '^[0-9]*$',
+          validateMessage:t('product.validateDiscountPercentage')
+        }
+      },
+      quantity:{
+        sold: {
+          label:t('product.labelQuantitySold'),
+          placeholder:t('product.placeholderQuantitySold'),
+        },
+        remaining:{
+          label: t('product.labelQuantityLeft'),
+          placeholder: t('product.placeholderQuantityLeft')
+        }
+      },
       priceName: {
         label: t('product.labelPriceName'),
         placeholder: t('product.placeholderPriceName'),
         required: true,
         maxLength: 100,
         validateMessage: t('product.validatePriceName')
+      },
+      priceDate:{
+        startDate:{
+          placeholder:t('t.product.placeholderStartDate'),
+          validateMessage:t('product.validateStartDate')
+        },
+        endDate:{
+          placeholder:t('product.placeholderEndDate'),
+          validateMessage:t('product.validateEndDate')
+        }
       }
     },
     productCategory: {
@@ -139,36 +215,57 @@ export default function EditProductPage(props) {
     activate: t('product.activate'),
     deactivate: t('product.deactivate')
   }
+  const disabledDate = (current) => {
+    // Can not select days before today
+    return current && current < moment().startOf("day");
+  };
 
+  const disabledDateByStartDate = (current,price) => {
+    // Can not select days before today and today
+    return current && current < price.startDate;
+  };
   const getInitData = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
       setTitleName(data?.product?.name);
-      setStatusId(data?.product?.statusId);
-      if (data?.product?.statusId === ProductStatus.Activate) {
-        setActivate(pageData.activate);
-      } else {
+      setStatusId(data?.product?.status);
+      if (data?.product?.status === ProductStatus.Activate) {
         setActivate(pageData.deactivate);
+      } else {
+        setActivate(pageData.activate);
       }
-      setListAllProductCategory(data?.product?.allProductCategories);
+      setListAllProductCategory(data?.product?.productCategories);
       const pricesData = [];
       if (data?.product?.productPrices.length > 0) {
+        let discountBoxCheck = Array.from({length:data?.product?.productPrices.length},value=>false)
         data?.product?.productPrices.map((price, index) => {
           pricesData.push({
             position: index,
             id: price?.id,
-            name: price?.priceName,
-            price: price?.priceValue,
+            priceName: price?.priceName,
+            priceValue: price?.priceValue,
+            priceOriginal:price?.priceOriginal,
+            priceDiscount:price.priceDiscount ?? 0,
+            percentNumber:price?.percentNumber ?? 0,
+            quantityLeft:price?.quantityLeft,
+            quantitySold: price?.quantitySold,
+            startDate:moment(price?.startDate) ,
+            endDate:moment(price?.endDate)
           });
+          discountBoxCheck[index] = (price?.priceDiscount || price?.percentNumber) ? true : false
         });
+        isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
       const initData = {
         product: {
           description: data?.product?.description,
           name: data?.product?.name,
-          productCategoryId: data?.product?.productCategoryId,
+          productCategoryIds: data?.product?.productCategories.map(pc=>pc.id),
           price: data?.product?.productPrices.length === 1 ? data?.product?.productPrices[0].priceValue : null,
           prices: pricesData,
+          titleSEO : data?.product.titleSEO,
+          descriptionSEO:data?.product?.descriptionSEO,
+          keywordSEO:data?.product?.keywordSEO
         },
       };
 
@@ -190,10 +287,13 @@ export default function EditProductPage(props) {
       .then(async (values) => {
         const editProductRequestModel = {
           ...values.product,
-          image: imageUrl,
-          productId: match?.params?.id
+          images: [],
+          productPrices:values.product.prices,
+          Id:match?.params?.id,
+          thumbnail:imageUrl
         }
-        if (editProductRequestModel.prices > 0) {
+        console.log(editProductRequestModel)
+        if (!editProductRequestModel.prices.some(price=>price.priceValue < 0)) {
           try {
             productDataService
               .updateProductAsync(editProductRequestModel)
@@ -233,15 +333,15 @@ export default function EditProductPage(props) {
   }
 
   const onChangeStatus = async () => {
-    // var res = await productDataService.changeStatusAsync(match?.params?.id);
-    // if (res) {
-    //   if (statusId === ProductStatus.Deactivate) {
-    //     message.success(pageData.productActivatedSuccess);
-    //   } else {
-    //     message.success(pageData.productDeactivatedSuccess);
-    //   }
-    //   getInitData();
-    // }
+    var res = await productDataService.changeStatusAsync(match?.params?.id);
+    if (res) {
+      if (statusId === ProductStatus.Deactivate) {
+        message.success(pageData.productActivatedSuccess);
+      } else {
+        message.success(pageData.productDeactivatedSuccess);
+      }
+      getInitData();
+    }
   }
 
   const onClickAddPrice = () => {
@@ -250,9 +350,9 @@ export default function EditProductPage(props) {
 
     const newPrice = {
       position: prices.length || 0,
-      id: randomGuid(),
       name: '',
-      price: ''
+      price: '',
+      startDate:moment()
     }
     if (prices.length === 1) {
       prices[0].price = product.price || 0
@@ -312,7 +412,22 @@ export default function EditProductPage(props) {
     product.prices = listPrice
     form.setFieldsValue(formValue)
   }
-
+const pricetoPercentage = (num,index)=>{
+    return roundNumber(prices[index].priceValue === 0 ? 0 : num * 100 / prices[index].priceValue)
+  }
+  const percentageToPrice = (num,index)=>{
+    return roundNumber(prices[index].priceValue * num / 100)
+  }
+  const onDiscountChange = (numeric = 0, percentage= 0,index)=>{
+    if(numeric !== 0){
+      const percent = pricetoPercentage(numeric,index)
+      form.setFieldValue(['product', 'prices', index, 'percentNumber'],percent)
+    }
+    else if(percentage !==0){
+      const num = percentageToPrice(percentage,index)
+      form.setFieldValue(['product', 'prices', index, 'priceDiscount'],num)
+    }
+  }
   const renderPrices = () => {
     const addPriceButton = (
       <Button
@@ -326,48 +441,6 @@ export default function EditProductPage(props) {
       </Button>
     )
 
-    const singlePrice = (
-      <>
-        <Row>
-          <Col span={24}>
-            <h4 className="shop-form-label mt-24">{pageData.pricing.priceName.label}</h4>
-            <Form.Item
-              name={['product', 'price']}
-              rules={[
-                {
-                  required: true,
-                  message: pageData.pricing.price.validateMessage
-                },
-                {
-                  pattern: new RegExp(inputNumberRange1To999999999.range),
-                  message: pageData.pricing.price.validateMessage
-                }
-              ]}
-            >
-              <InputNumber
-                className="w-100 shop-input-number"
-                placeholder={pageData.pricing.price.placeholder}
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency.vnd}
-                precision={0}
-                id="product-price"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <div className="ml-2">
-              {addPriceButton}
-            </div>
-          </Col>
-        </Row>
-      </>
-    )
 
     const multiplePrices = (
       <>
@@ -377,11 +450,7 @@ export default function EditProductPage(props) {
               <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
                 <div
                   id="dragDropPrices"
-                  style={
-                    prices.length >= 6
-                      ? { height: 640, overflowY: 'scroll' }
-                      : { minHeight: isMobileSize ? prices.length * 202 : prices.length * 127 }
-                  }
+                  style={prices.length >= 3 ? { height: 640, overflowY: 'scroll' } : { minHeight: prices.length * 127 }}
                 >
                   <div style={{ minHeight: prices.length * 127 }}>
                     {prices.map((price, index) => {
@@ -400,31 +469,26 @@ export default function EditProductPage(props) {
                                 <div className="m-4 title-center position-text">{position + '.'}</div>
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
-                                    <Row gutter={[16, 16]}>
-                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                    <Row gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'position']}
-                                          hidden={true}
+                                          hidden={true}                   
                                         >
-                                          <Input />
+                                          <Input/>
                                         </Form.Item>
                                         <Form.Item name={['product', 'prices', price.position, 'id']} hidden={true}>
-                                          <Input />
+                                          <Input/>
                                         </Form.Item>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'isPriceBelongsCombo']}
-                                          hidden={true}
-                                        >
-                                          <Input />
-                                        </Form.Item>
-                                        <Form.Item
-                                          name={['product', 'prices', price.position, 'name']}
+                                          name={['product', 'prices', price.position, 'priceName']}
                                           rules={[
                                             {
                                               required: true,
                                               message: pageData.pricing.priceName.validateMessage
                                             }
                                           ]}
+                                          value={price.priceName}
                                         >
                                           <Input
                                             className="shop-input"
@@ -434,14 +498,10 @@ export default function EditProductPage(props) {
                                           />
                                         </Form.Item>
                                       </Col>
-                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'price']}
+                                          name={['product', 'prices', price.position, 'quantityLeft']}
                                           rules={[
-                                            {
-                                              required: true,
-                                              message: pageData.pricing.price.validateMessage
-                                            },
                                             {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
                                               message: pageData.pricing.price.validateMessage
@@ -450,20 +510,240 @@ export default function EditProductPage(props) {
                                         >
                                           <InputNumber
                                             className="shop-input-number w-100"
-                                            placeholder={pageData.pricing.price.placeholder}
+                                            placeholder={pageData.pricing.quantity.remaining.placeholder}
                                             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                            addonAfter={currency.vnd}
-                                            precision={0}
+                                            // addonAfter={currency.vnd}
+                                            // precision={0}
                                             onKeyPress={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
                                             }}
-                                            id={`product-prices-${price.position}-price`}
+                                            id={`product-prices-${price.position}-quantity-left`}
                                           />
                                         </Form.Item>
                                       </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <Form.Item
+                                          name={['product', 'prices', price.position, 'quantitySold']}
+                                          rules={[
+                                            {
+                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              message: pageData.pricing.price.validateMessage
+                                            }
+                                          ]}
+                                        >
+                                          <InputNumber
+                                            className="shop-input-number w-100"
+                                            placeholder={pageData.pricing.quantity.sold.placeholder}
+                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                            onKeyPress={(event) => {
+                                              if (!/[0-9]/.test(event.key)) {
+                                                event.preventDefault()
+                                              }
+                                            }}
+                                            id={`product-prices-${price.position}-quantity-sold`}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                    </Row>
+                                    <Row className='mt-5' gutter={[8,16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                          <Form.Item
+                                            name={['product', 'prices', price.position, 'priceValue']}
+                                            rules={[
+                                              {
+                                                required: true,
+                                                message: pageData.pricing.price.validateMessage
+                                              },
+                                              {
+                                                pattern: new RegExp(inputNumberRange1To999999999.range),
+                                                message: pageData.pricing.price.validateMessage
+                                              }
+                                            ]}
+                                          >
+                                            <InputNumber
+                                              onChange={value=>setPrices(p=>p.map((pr,i)=>i==index?{...pr,priceValue:value}:pr))}
+                                              className="shop-input-number w-100"
+                                              placeholder={pageData.pricing.price.placeholder}
+                                              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                              addonAfter={currency.vnd}
+                                              precision={0}
+                                              onKeyPress={(event) => {
+                                                if (!/[0-9]/.test(event.key)) {
+                                                  event.preventDefault()
+                                                }
+                                              }}
+                                              id={`product-prices-${price.position}-price`}
+                                            />
+                                          </Form.Item>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                          <Form.Item
+                                            name={['product', 'prices', price.position, 'priceOriginal']}
+                                            rules={[
+                                              {
+                                                required: true,
+                                                message: pageData.pricing.price.validateMessage
+                                              },
+                                              {
+                                                pattern: new RegExp(inputNumberRange1To999999999.range),
+                                                message: pageData.pricing.price.validateMessage
+                                              }
+                                            ]}
+                                          >
+                                            <InputNumber
+                                              className="shop-input-number w-100"
+                                              placeholder={pageData.pricing.priceOriginal.placeholder}
+                                              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                              addonAfter={currency.vnd}
+                                              precision={0}
+                                              onKeyPress={(event) => {
+                                                if (!/[0-9]/.test(event.key)) {
+                                                  event.preventDefault()
+                                                }
+                                              }}
+                                              id={`product-prices-${price.position}-price-original`}
+                                            />
+                                          </Form.Item>
+                                        </Col>
+                                        <Checkbox
+                                        checked={discountChecked[index]}
+                                        onChange={e=>isDisCountChecked(clist=>[...clist.slice(0,index),e.target.checked,...clist.slice(index+1)])}>
+                                          {pageData.pricing.discountCheck}
+                                        </Checkbox>
+                                    </Row>
+                                    <Row className={`mt-5 ${discountChecked[index] ? "" :"d-none"}`} gutter={[8,16]}>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                            <Form.Item
+                                              name={['product', 'prices', price.position, 'priceDiscount']}
+                                              rules={[
+                                                {
+                                                  pattern: new RegExp(inputNumberRange1To999999999.range),
+                                                  message: pageData.pricing.price.validateMessage
+                                                }
+                                              ]}
+                                            >
+                                              <InputNumber
+                                                onChange={value=>onDiscountChange(value,0,index)}
+                                                className="shop-input-number w-100"
+                                                placeholder={pageData.pricing.discount.numeric.placeholder}
+                                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                                // addonAfter={currency.vnd}
+                                                // precision={0}
+                                                onKeyPress={(event) => {
+                                                  if (!/[0-9]/.test(event.key)) {
+                                                    event.preventDefault()
+                                                  }
+                                                }}
+                                                id={`product-prices-${price.position}-price-discount-numeric`}
+                                              />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={24} lg={12}>
+                                            <Form.Item
+                                              name={['product', 'prices', price.position, 'percentNumber']}
+                                              rules={[
+                                                {
+                                                  pattern: new RegExp(inputNumberRange0To100.range),
+                                                  message: pageData.pricing.discount.percentage.validateMessage
+                                                }
+                                              ]}
+                                            >
+                                              <InputNumber
+                                                onChange={value=>onDiscountChange(0,value,index)}
+                                                className="shop-input-number w-100"
+                                                placeholder={pageData.pricing.discount.percentage.placeholder}
+                                                formatter={(value) => `${value}%`}
+                                                parser={(value) => value?.replace('%', '')}
+                                                min={0}
+                                                max={100}
+                                                onKeyPress={(event) => {
+                                                  if (!/[0-9]/.test(event.key)) {
+                                                    event.preventDefault()
+                                                  }
+                                                }}
+                                                id={`product-prices-${price.position}-price-discount-percentage`}
+                                              />
+                                            </Form.Item>
+                                        </Col> 
+                                    </Row>
+                                    <Row gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <Form.Item
+                                          name={['product', "prices",price.position,  "startDate"]}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message: pageData.pricing.priceDate.startDate.validateMessage,
+                                            },
+                                          ]}
+                                        >
+                                          <DatePicker
+                                            suffixIcon={<CalendarNewIconBold />}
+                                            placeholder={pageData.pricing.priceDate.startDate.placeholder}
+                                            className="shop-date-picker w-100"
+                                            format={DateFormat.DD_MM_YYYY}
+                                            disabledDate={disabledDate}
+                                            onChange={(date) => {                      
+                                              price.startDate = date
+                                              // Clear end date after select start date if endate < startdate only
+                                              const formValues = form.getFieldsValue();
+                                              const {product} = formValues
+                                              product.prices[index].startDate = date
+                                              if (product.prices[index]?.endDate != null && product.prices[index]?.endDate.isBefore(date)) {
+                                                product.prices[index].endDate = null
+                                                product.prices[index].endTime = null
+                                                
+                                              }
+                                              form.setFieldsValue(formValues);
+                                              console.log(product)
+                                            }}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <Form.Item
+                                          name={['product', "prices",price.position, "endDate"]}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message:  pageData.pricing.priceDate.endDate.validateMessage,
+                                            },
+                                          ]}
+                                        >
+                                          <DatePicker
+                                            suffixIcon={<CalendarNewIconBold />}
+                                            placeholder={pageData.pricing.priceDate.endDate.placeholder}
+                                            className="shop-date-picker w-100"
+                                            disabledDate={e=>disabledDateByStartDate(e,price)}
+                                            format={DateFormat.DD_MM_YYYY}
+                                            disabled={price.startDate ? false : true}
+                                            onChange={(date) => {
+                                              const formValues = form.getFieldsValue();
+                                              const {product} = formValues
+                                              product.prices[index].endDate = date
+                                              form.setFieldsValue(formValues)
+                                            }}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                    </Row>
+                                    <Row className='mt-5' gutter={[8,16]}>
+                                      <Form.Item
+                                      name={['product', 'prices', price.position, 'StartDate']}
+                                      hidden={true}
+                                      > <Input/></Form.Item>
+                                      <Form.Item
+                                      name={['product', 'prices', price.position, 'EndDate']}
+                                      hidden={true}
+                                      > <Input/></Form.Item>
+                                   
                                     </Row>
                                   </Col>
                                   <Col span={isMobileSize ? 5 : 2} className="icon-delete-price">
@@ -497,8 +777,8 @@ export default function EditProductPage(props) {
 
     return (
       <>
-        {prices.length === 1 && singlePrice}
-        {prices.length > 1 && multiplePrices}
+        
+        { multiplePrices}
       </>
     )
   }
@@ -658,6 +938,90 @@ export default function EditProductPage(props) {
                 </Row>
               </Card>
               <br />
+              <Card className="w-100 mt-1 shop-card h-auto">
+                <Row>
+                  <Col span={24}>
+                    <h4 className="title-group">{pageData.SEOInformation.title}</h4>
+                      <div className='d-flex'>
+                        <h4 className="shop-form-label mt-16">{pageData.SEOInformation.SEOtitle.label}</h4>
+                        <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
+                              <span className="ml-12 mt-16">
+                                <ExclamationIcon />
+                              </span>
+                        </Tooltip>
+                      </div>
+                      <Form.Item
+                      name={['product','titleSEO']}
+                      className="item-name"
+                      rules={[
+                        {
+                          min:pageData.SEOInformation.SEOtitle.minlength,
+                          message: pageData.SEOInformation.SEOtitle.validateMessage
+                        }
+                      ]}
+                    >
+                      <Input
+                        className="shop-input-with-count"
+                        showCount
+                        placeholder={pageData.SEOInformation.SEOtitle.placeholder}
+                        minLength={pageData.SEOInformation.SEOtitle.minlength}
+                      />
+                    </Form.Item>
+
+                      <div className='d-flex'>
+                        <h3 className="shop-form-label mt-16">
+                          {pageData.SEOInformation.description.label}
+                        </h3>
+                        <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
+                                <span className="ml-12 mt-16">
+                                  <ExclamationIcon />
+                                </span>
+                        </Tooltip>
+                      </div>
+                      <Form.Item
+                      name={['product','descriptionSEO']}
+                      className="item-name"
+                      rules={[
+                        {
+                          min:pageData.SEOInformation.description.minlength,
+                          message: pageData.SEOInformation.description.validateMessage
+                        }
+                      ]}
+                    >
+                      <FnbTextArea
+                          showCount
+                          maxLength={pageData.SEOInformation.description.maxLength}
+                          autoSize={{ minRows: 2, maxRows: 6 }}
+                          id="product-category-SEO-description"
+                          placeholder={pageData.SEOInformation.description.placeholder}
+                        ></FnbTextArea>
+                    </Form.Item>
+
+                      <div className='d-flex'>
+                        <h3 className="shop-form-label mt-16">
+                          {pageData.SEOInformation.keyword.label}
+                        </h3>
+                        <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
+                            <span className="ml-12 mt-16">
+                              <ExclamationIcon />
+                            </span>
+                        </Tooltip>
+                    </div>
+                    
+                    <Form.Item
+                      name={['product','keywordSEO']}
+                      className="item-name"
+                    >
+                      <Input
+                        className="shop-input-with-count"
+                        showCount
+                        placeholder={pageData.SEOInformation.keyword.placeholder}
+                        
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Card>
             </Col>
 
             <Col span={24} className="price-product">
@@ -676,11 +1040,11 @@ export default function EditProductPage(props) {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.upload.title}</h4>
-                    {/* <FnbImageSelectComponent
+                    <FnbImageSelectComponent
                       ref={shopImageSelectRef}
                       customTextNonImageClass={'create-edit-product-text-non-image'}
                       customNonImageClass={'create-edit-product-non-image'}
-                    /> */}
+                    />
                   </Card>
                 </Col>
               </Row>
@@ -690,14 +1054,14 @@ export default function EditProductPage(props) {
                   <br />
                   <Card className={'w-100 mt-1 shop-card h-auto'}>
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item name={['product', 'productCategoryId']}>
-                      <FnbSelectSingle
-                        placeholder={pageData.productCategory.placeholder}
-                        showSearch
-                        option={listAllProductCategory?.map((b) => ({
-                          id: b.id,
-                          name: b.name
-                        }))}
+                    <Form.Item name={['product', 'productCategoryIds']}>
+                    <FnbSelectMultiple
+                      placeholder={pageData.productCategory.placeholder}
+                      showSearch
+                      option={listAllProductCategory?.map((b) => ({
+                        id: b.id,
+                        name: b.name
+                      }))}
                       />
                     </Form.Item>
                     <br />

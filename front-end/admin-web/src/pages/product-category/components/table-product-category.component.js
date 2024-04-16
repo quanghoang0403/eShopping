@@ -87,7 +87,7 @@ export default function TableProductCategory () {
   }
 
   const onEditItem = (item) => {
-    return history.push(`/category/edit/${item?.id}`)
+    return history.push(`/product-category/edit/${item?.id}`)
   }
 
   const onRemoveItem = async (id) => {
