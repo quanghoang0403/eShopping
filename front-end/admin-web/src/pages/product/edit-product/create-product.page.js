@@ -40,6 +40,7 @@ import { FnbDatePicker } from 'components/shop-date-picker/shop-data-picker';
 import moment from 'moment';
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import { DateFormat } from "constants/string.constants";
+import FnbFroalaEditor from "components/shop-froala-editor";
 
 const { Text } = Typography
 
@@ -66,6 +67,7 @@ export default function CreateProductPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [discountChecked, isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
+  const [productContent, setProductContent] = useState("");
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -245,7 +247,8 @@ export default function CreateProductPage() {
           ...values.product,
           imagePaths: [],
           productPrices: values.product.prices,
-          thumbnail:values.product.media.url
+          thumbnail: values.product.media.url,
+          content: productContent,
         }
         console.log(createProductRequestModel)
         if (!createProductRequestModel.prices.some(price => price.priceValue < 0 && price.priceOriginal < 0)) {
@@ -824,8 +827,18 @@ export default function CreateProductPage() {
                         maxLength={pageData.generalInformation.description.maxLength}
                         autoSize={{ minRows: 2, maxRows: 6 }}
                         id="product-description"
-                      ></FnbTextArea>
+                      />
                     </Form.Item>
+
+                    <h4 className="shop-form-label">Nội dung giới thiệu sản phẩm</h4>
+                    <FnbFroalaEditor
+                      //value={productContent}
+                      onChange={(value) => {
+                        if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
+                        setProductContent(value);
+                      }}
+                      charCounterMax={-1}
+                    />
                   </Col>
                 </Row>
               </Card>
