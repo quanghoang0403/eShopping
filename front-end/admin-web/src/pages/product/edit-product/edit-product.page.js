@@ -11,9 +11,13 @@ import {
   Tabs,
   Typography,
   Tooltip,
+  DatePicker,
   Checkbox
 } from 'antd'
+import { CalendarNewIconBold } from 'constants/icons.constants';
+import { DateFormat } from "constants/string.constants";
 import { ExclamationIcon } from 'constants/icons.constants';
+import { roundNumber } from 'utils/helpers';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
@@ -40,6 +44,7 @@ import DeleteProductComponent from '../components/delete-product.component'
 import './edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
+import moment from 'moment';
 export default function EditProductPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
@@ -200,7 +205,15 @@ export default function EditProductPage(props) {
     activate: t('product.activate'),
     deactivate: t('product.deactivate')
   }
+  const disabledDate = (current) => {
+    // Can not select days before today
+    return current && current < moment().startOf("day");
+  };
 
+  const disabledDateByStartDate = (current,price) => {
+    // Can not select days before today and today
+    return current && current < price.startDate;
+  };
   const getInitData = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
       setTitleName(data?.product?.name);
@@ -224,7 +237,9 @@ export default function EditProductPage(props) {
             priceDiscount:price.priceDiscount ?? 0,
             percentNumber:price?.percentNumber ?? 0,
             quantityLeft:price?.quantityLeft,
-            quantitySold: price?.quantitySold
+            quantitySold: price?.quantitySold,
+            startDate:moment(price?.startDate) ,
+            endDate:moment(price?.endDate)
           });
           discountBoxCheck[index] = (price?.priceDiscount || price?.percentNumber) ? true : false
         });
@@ -235,7 +250,7 @@ export default function EditProductPage(props) {
         product: {
           description: data?.product?.description,
           name: data?.product?.name,
-          productCategoryId: data?.product?.productCategoryIds,
+          productCategoryIds: data?.product?.productCategories.map(pc=>pc.id),
           price: data?.product?.productPrices.length === 1 ? data?.product?.productPrices[0].priceValue : null,
           prices: pricesData,
           titleSEO : data?.product.titleSEO,
@@ -324,9 +339,9 @@ export default function EditProductPage(props) {
 
     const newPrice = {
       position: prices.length || 0,
-      id: randomGuid(),
       name: '',
-      price: ''
+      price: '',
+      startDate:moment()
     }
     if (prices.length === 1) {
       prices[0].price = product.price || 0
@@ -507,14 +522,12 @@ const pricetoPercentage = (num,index)=>{
                                               message: pageData.pricing.price.validateMessage
                                             }
                                           ]}
-                                          value={0}
                                         >
                                           <InputNumber
                                             className="shop-input-number w-100"
                                             placeholder={pageData.pricing.quantity.sold.placeholder}
                                             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                            defaultValue={0}
                                             onKeyPress={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
@@ -648,6 +661,67 @@ const pricetoPercentage = (num,index)=>{
                                               />
                                             </Form.Item>
                                         </Col> 
+                                    </Row>
+                                    <Row gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <Form.Item
+                                          name={['product', "prices",price.position,  "startDate"]}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message: 'Vui lòng nhập ngày bắt đầu',
+                                            },
+                                          ]}
+                                        >
+                                          <DatePicker
+                                            suffixIcon={<CalendarNewIconBold />}
+                                            placeholder={'Ngày bắt đầu'}
+                                            className="shop-date-picker w-100"
+                                            format={DateFormat.DD_MM_YYYY}
+                                            disabledDate={disabledDate}
+                                            onChange={(date) => {                      
+                                              price.startDate = date
+                                              // Clear end date after select start date if endate < startdate only
+                                              const formValues = form.getFieldsValue();
+                                              const {product} = formValues
+                                              product.prices[index].startDate = date
+                                              if (product.prices[index]?.endDate != null && product.prices[index]?.endDate.isBefore(date)) {
+                                                product.prices[index].endDate = null
+                                                product.prices[index].endTime = null
+                                                
+                                              }
+                                              form.setFieldsValue(formValues);
+                                              console.log(product)
+                                            }}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <Form.Item
+                                          name={['product', "prices",price.position, "endDate"]}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message: 'Vui lòng nhập ngày kết thúc',
+                                            },
+                                          ]}
+                                        >
+                                          <DatePicker
+                                            suffixIcon={<CalendarNewIconBold />}
+                                            placeholder={'Ngày kết thúc'}
+                                            className="shop-date-picker w-100"
+                                            disabledDate={e=>disabledDateByStartDate(e,price)}
+                                            format={DateFormat.DD_MM_YYYY}
+                                            disabled={price.startDate ? false : true}
+                                            onChange={(date) => {
+                                              const formValues = form.getFieldsValue();
+                                              const {product} = formValues
+                                              product.prices[index].endDate = date
+                                              form.setFieldsValue(formValues)
+                                            }}
+                                          />
+                                        </Form.Item>
+                                      </Col>
                                     </Row>
                                     <Row className='mt-5' gutter={[8,16]}>
                                       <Form.Item
