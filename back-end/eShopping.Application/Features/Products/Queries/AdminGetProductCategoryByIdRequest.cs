@@ -41,7 +41,6 @@ namespace eShopping.Application.Features.Products.Queries
             ThrowError.Against(productCategoryData == null, "Cannot find product category information");
 
             var productCategory = _mapper.Map<AdminProductCategoryDetailModel>(productCategoryData);
-            // if (productCategory.Products != null)
             if (productCategoryData.ProductInCategories != null)
             {
                 productCategory.Products = productCategoryData.ProductInCategories
