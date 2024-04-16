@@ -171,6 +171,16 @@ export default function EditProductPage(props) {
         required: true,
         maxLength: 100,
         validateMessage: t('product.validatePriceName')
+      },
+      priceDate:{
+        startDate:{
+          placeholder:t('t.product.placeholderStartDate'),
+          validateMessage:t('product.validateStartDate')
+        },
+        endDate:{
+          placeholder:t('product.placeholderEndDate'),
+          validateMessage:t('product.validateEndDate')
+        }
       }
     },
     productCategory: {
@@ -669,13 +679,13 @@ const pricetoPercentage = (num,index)=>{
                                           rules={[
                                             {
                                               required: true,
-                                              message: 'Vui lòng nhập ngày bắt đầu',
+                                              message: pageData.pricing.priceDate.startDate.validateMessage,
                                             },
                                           ]}
                                         >
                                           <DatePicker
                                             suffixIcon={<CalendarNewIconBold />}
-                                            placeholder={'Ngày bắt đầu'}
+                                            placeholder={pageData.pricing.priceDate.startDate.placeholder}
                                             className="shop-date-picker w-100"
                                             format={DateFormat.DD_MM_YYYY}
                                             disabledDate={disabledDate}
@@ -702,13 +712,13 @@ const pricetoPercentage = (num,index)=>{
                                           rules={[
                                             {
                                               required: true,
-                                              message: 'Vui lòng nhập ngày kết thúc',
+                                              message:  pageData.pricing.priceDate.endDate.validateMessage,
                                             },
                                           ]}
                                         >
                                           <DatePicker
                                             suffixIcon={<CalendarNewIconBold />}
-                                            placeholder={'Ngày kết thúc'}
+                                            placeholder={pageData.pricing.priceDate.endDate.placeholder}
                                             className="shop-date-picker w-100"
                                             disabledDate={e=>disabledDateByStartDate(e,price)}
                                             format={DateFormat.DD_MM_YYYY}

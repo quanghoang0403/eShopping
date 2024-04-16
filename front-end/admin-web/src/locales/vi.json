@@ -302,7 +302,11 @@
         "deactivate": "Ngừng bán",
         "deleteProductMessage": "Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>{{name}}</span>.<br/>Thao tác này không thể khôi phục!",
         "startDate":"Ngày bắt đầu",
-        "endDate":"Ngày kết thúc"
+        "endDate":"Ngày kết thúc",
+        "placeholderStartDate":"Ngày bắt đầu",
+        "placeholderEndDate":"Ngày kết thúc",
+        "validateStartDate":"Vui lòng nhập ngày bắt đầu",
+        "validateEndDate":"Vui lòng nhập ngày kết thúc"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
