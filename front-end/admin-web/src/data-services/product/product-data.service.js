@@ -18,12 +18,16 @@ const getProductByIdAsync = id =>{
 const updateProductAsync = data =>{
     return http.put(`/${controller}/update-product`,data)
 }
+const changeStatusAsync = id => {
+    return http.put(`/${controller}/change-status/${id}`)
+}
 const productDataService = {
     getAllProductsAsync,
     createProductAsync,
     getProductsByFilterAsync,
     deleteProductByIdAsync,
     getProductByIdAsync,
-    updateProductAsync
+    updateProductAsync,
+    changeStatusAsync
 }
 export default productDataService;

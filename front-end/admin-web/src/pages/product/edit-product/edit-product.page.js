@@ -227,11 +227,11 @@ export default function EditProductPage(props) {
   const getInitData = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
       setTitleName(data?.product?.name);
-      setStatusId(data?.product?.statusId);
-      if (data?.product?.statusId === ProductStatus.Activate) {
-        setActivate(pageData.activate);
-      } else {
+      setStatusId(data?.product?.status);
+      if (data?.product?.status === ProductStatus.Activate) {
         setActivate(pageData.deactivate);
+      } else {
+        setActivate(pageData.activate);
       }
       setListAllProductCategory(data?.product?.productCategories);
       const pricesData = [];
@@ -333,15 +333,15 @@ export default function EditProductPage(props) {
   }
 
   const onChangeStatus = async () => {
-    // var res = await productDataService.changeStatusAsync(match?.params?.id);
-    // if (res) {
-    //   if (statusId === ProductStatus.Deactivate) {
-    //     message.success(pageData.productActivatedSuccess);
-    //   } else {
-    //     message.success(pageData.productDeactivatedSuccess);
-    //   }
-    //   getInitData();
-    // }
+    var res = await productDataService.changeStatusAsync(match?.params?.id);
+    if (res) {
+      if (statusId === ProductStatus.Deactivate) {
+        message.success(pageData.productActivatedSuccess);
+      } else {
+        message.success(pageData.productDeactivatedSuccess);
+      }
+      getInitData();
+    }
   }
 
   const onClickAddPrice = () => {

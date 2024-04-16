@@ -103,8 +103,7 @@ export default function TableProduct (props) {
         className: 'grid-status-column',
         width: '10%',
         render: (_, record) => {
-          const isActive = record?.status?.id === 1
-          return <BadgeStatus isActive={isActive} />
+          return <BadgeStatus isActive={record?.status} />
         }
       },
       {
@@ -203,7 +202,7 @@ export default function TableProduct (props) {
       if (productFilter && productFilter.count > 0) {
         const data = {
           productCategoryId: productFilter.productCategoryId,
-          statusId: productFilter.statusId,
+          status: productFilter.isActive,
           count: productFilter.count
         }
         setDataFilter(data)
@@ -330,7 +329,7 @@ export default function TableProduct (props) {
                 ))}
         </>
       ),
-      status: item?.status
+      status: item?.isActive
     }
   }
 
@@ -355,7 +354,7 @@ export default function TableProduct (props) {
       pageSize,
       keySearch,
       data?.productCategoryId ?? "",
-      data?.statusId ?? "",
+      data?.status ?? "",
     );
 
     const products = response?.products.map((s) => mappingRecordToColumns(s));

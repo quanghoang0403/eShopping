@@ -85,7 +85,9 @@ namespace eShopping.Application.Features.Products.Queries
             var productListResponse = _mapper.Map<List<AdminProductDatatableModel>>(pagingResult);
             productListResponse.ForEach(p =>
             {
+                var status = pagingResult.Where(pg => pg.Id == p.Id).FirstOrDefault().Status;
                 p.No = productListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
+                p.IsActive = Convert.ToBoolean(status.ToInt());
             });
 
             var response = new AdminGetProductsResponse()
