@@ -51,6 +51,9 @@ namespace eShopping.Infrastructure.Repositories
         private IOrderItemRepository _orderDetailRepository;
         public IOrderItemRepository OrderItems { get { return _orderDetailRepository ??= new OrderItemRepository(_dbContext); } }
 
+        private IOrderPaymentTransactionRepository _orderPaymentTransactionRepository;
+        public IOrderPaymentTransactionRepository OrderPaymentTransactionRepositories { get { return _orderPaymentTransactionRepository ??= new OrderPaymentTransactionRepository(_dbContext); } }
+
         private IPermissionRepository _permissionRepository;
         public IPermissionRepository Permissions { get { return _permissionRepository ??= new PermissionRepository(_dbContext); } }
 

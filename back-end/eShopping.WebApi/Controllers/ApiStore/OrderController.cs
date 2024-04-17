@@ -1,8 +1,8 @@
 ﻿using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
-using GoFoodBeverage.Application.Features.Orders.Commands;
-using GoFoodBeverage.Application.Features.Orders.Queries;
+using eShopping.Application.Features.Orders.Commands;
+using eShopping.Application.Features.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

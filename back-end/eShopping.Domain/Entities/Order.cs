@@ -22,6 +22,10 @@ namespace eShopping.Domain.Entities
 
         public EnumOrderStatus Status { get; set; }
 
+        public EnumOrderPaymentStatus? OrderPaymentStatusId { get; set; }
+
+        public EnumPaymentMethod PaymentMethodId { get; set; }
+
 
         [MaxLength(50)]
         public string ShipName { set; get; }

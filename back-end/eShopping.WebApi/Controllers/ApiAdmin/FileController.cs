@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.WebApi.Controllers.v3_3
+namespace eShopping.WebApi.Controllers.v3_3
 {
     [Authorize]
     public class FileController : BaseApiAdminController

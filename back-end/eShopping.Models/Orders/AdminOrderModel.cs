@@ -17,6 +17,14 @@ namespace eShopping.Models.Orders
 
         public string StatusName { get { return Status.GetName(); } }
 
+        public EnumPaymentMethod PaymentMethodId { get; set; }
+
+        public string PaymentMethodName { get { return PaymentMethodId.GetName(); } }
+
+        public EnumOrderPaymentStatus OrderPaymentStatusId { get; set; }
+
+        public string OrderPaymentStatusName { get { return OrderPaymentStatusId.GetName(); } }
+
         public int TotalQuantity { get; set; }
 
         [Precision(18, 2)]
