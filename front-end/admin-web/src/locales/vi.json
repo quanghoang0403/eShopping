@@ -306,7 +306,12 @@
         "placeholderStartDate":"Ngày bắt đầu",
         "placeholderEndDate":"Ngày kết thúc",
         "validateStartDate":"Vui lòng nhập ngày bắt đầu",
-        "validateEndDate":"Vui lòng nhập ngày kết thúc"
+        "validateEndDate":"Vui lòng nhập ngày kết thúc",
+        "validatePriceNegative": "Giá tiền phải lớn hơn 0",
+        "validateProductCategory": "Vui lòng chọn danh mục cho sản phẩm",
+        "validateImage":"Vui lòng thêm hình ảnh cho sản phẩm",
+        "labelProductContent":"Nội dung giới thiệu sản phẩm",
+        "placeholderProductContent": "Nhập nội dung giới thiệu sản phẩm"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",

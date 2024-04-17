@@ -21,7 +21,7 @@ import { FnbSelectSingle } from 'components/shop-select-single/shop-select-singl
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
-import { DELAYED_TIME, inputNumberRange1To999999999, inputNumberRange0To100, tableSettings } from 'constants/default.constants'
+import { DELAYED_TIME, inputNumberRangeOneTo999999999, inputNumberRange0To100, inputNumberRange1To999999999, tableSettings } from 'constants/default.constants'
 import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { currency } from 'constants/string.constants'
@@ -81,6 +81,10 @@ export default function CreateProductPage() {
     btnSave: t('button.save'),
     btnAddNew: t('button.add'),
     btnDiscard: t('button.discard'),
+    content:{
+      label:t('product.labelProductContent'),
+      placeholder:t('product.placeholderProductContent')
+    },
     generalInformation: {
       title: t('product.titleInfo'),
       name: {
@@ -130,8 +134,8 @@ export default function CreateProductPage() {
         required: true,
         max: 999999999,
         min: 0,
-        format: '^[0-9]*$',
-        validateMessage: t('product.validatePrice')
+        format: '^[1-9]*$',
+        validateMessage: t('product.validatePriceNegative')
       },
       priceOriginal: {
         label: t('product.labelPriceOriginal'),
@@ -140,7 +144,7 @@ export default function CreateProductPage() {
         max: 999999999,
         min: 0,
         format: '^[0-9]*$',
-        validateMessage: t('product.validatePrice')
+        validateMessage: t('product.validatePriceNegative')
       },
       discount: {
         numeric: {
@@ -186,16 +190,18 @@ export default function CreateProductPage() {
     },
     productCategory: {
       label: t('product.labelCategory'),
-      placeholder: t('product.placeholderCategory')
+      placeholder: t('product.placeholderCategory'),
+      validateMessage:t('product.validateProductCategory')
     },
     productNameExisted: t('product.productNameExisted'),
     productAddedSuccess: t('product.productAddedSuccess'),
+    mediaNotExisted: t('product.validateImage'),
     file: {
       uploadImage: t('file.uploadImage'),
       title: t('file.title'),
       textNonImage: t('file.textNonImage'),
       // addFromUrl: t('file.addFromUrl'),
-      bestDisplayImage: t('file.bestDisplayImage')
+      bestDisplayImage: t('file.bestDisplayImage'),
     },
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
@@ -217,7 +223,24 @@ export default function CreateProductPage() {
       }
     }
   }
-
+  // when discount checkbox is unchecked set price discount and percent number to 0
+  useEffect(()=>{
+    discountChecked.forEach((c,index)=>{
+      if(!c){
+        form.setFieldValue(['product', 'prices', index, 'priceDiscount'], 0);
+        form.setFieldValue(['product', 'prices', index, 'percentNumber'], 0);
+        setPrices(prevPrices => {
+          const updatedPrices = [...prevPrices];
+          updatedPrices[index] = {
+            ...updatedPrices[index],
+            priceDiscount: 0,
+            percentNumber: 0
+          };
+          return updatedPrices;
+        });
+      }
+    })
+  },[discountChecked])
   const disabledDate = (current) => {
     // Can not select days before today
     return current && current < moment().startOf("day");
@@ -251,8 +274,7 @@ export default function CreateProductPage() {
           content: productContent,
         }
         console.log(createProductRequestModel)
-        if (!createProductRequestModel.prices.some(price => price.priceValue < 0 && price.priceOriginal < 0)) {
-          productDataService
+        productDataService
             .createProductAsync(createProductRequestModel)
             .then((res) => {
               if (res) {
@@ -264,8 +286,8 @@ export default function CreateProductPage() {
             .catch((errs) => {
               form.setFields(getValidationMessagesWithParentField(errs, "product"));
               console.error(errs)
-            });
-        }
+            })
+        
       })
       .catch((errors) => {
         if (errors?.errorFields?.length > 0) {
@@ -477,7 +499,7 @@ export default function CreateProductPage() {
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row gutter={[8, 16]}>
+                                    <Row className='mt-5' gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceOriginal']}
@@ -487,7 +509,7 @@ export default function CreateProductPage() {
                                               message: pageData.pricing.price.validateMessage
                                             },
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             }
                                           ]}
@@ -518,7 +540,7 @@ export default function CreateProductPage() {
                                               message: pageData.pricing.price.validateMessage
                                             },
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             }
                                           ]}
@@ -545,13 +567,13 @@ export default function CreateProductPage() {
                                         {pageData.pricing.discountCheck}
                                       </Checkbox>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                    <Row className={`mt-5 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceDiscount']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              pattern: new RegExp(inputNumberRange0To100.range),
                                               message: pageData.pricing.price.validateMessage
                                             }
                                           ]}
@@ -573,7 +595,7 @@ export default function CreateProductPage() {
                                           />
                                         </Form.Item>
                                       </Col>
-                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'percentNumber']}
                                           rules={[
@@ -601,7 +623,7 @@ export default function CreateProductPage() {
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', "prices",price.position,  "startDate"]}
@@ -639,12 +661,7 @@ export default function CreateProductPage() {
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', "prices",price.position, "endDate"]}
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message: pageData.pricing.priceDate.endDate.validateMessage,
-                                            },
-                                          ]}
+                                          rules={[ ]}
                                         >
                                           <DatePicker
                                             suffixIcon={<CalendarNewIconBold />}
@@ -830,13 +847,14 @@ export default function CreateProductPage() {
                       />
                     </Form.Item>
 
-                    <h4 className="shop-form-label">Nội dung giới thiệu sản phẩm</h4>
+                    <h4 className="shop-form-label">{pageData.content.label}</h4>
                     <FnbFroalaEditor
                       //value={productContent}
                       onChange={(value) => {
                         if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
                         setProductContent(value);
                       }}
+                      placeholder={pageData.content.placeholder}
                       charCounterMax={-1}
                     />
                   </Col>
@@ -948,7 +966,13 @@ export default function CreateProductPage() {
                     <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
-                          <Form.Item name={['product', 'media']}>
+                          <Form.Item 
+                          name={['product', 'media']}
+                          rules={[{
+                            required:true,
+                            message:pageData.mediaNotExisted
+                          }]}
+                          >
                             <FnbUploadImageComponent
                               buttonText={pageData.file.uploadImage}
                               onChange={onChangeImage}
@@ -980,7 +1004,13 @@ export default function CreateProductPage() {
                   <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item name={['product', 'productCategoryIds']}>
+                    <Form.Item 
+                    name={['product', 'productCategoryIds']}
+                    rules={[{
+                      required:true,
+                      message:pageData.productCategory.validateMessage
+                    }]}
+                    >
                       <FnbSelectMultiple
                         placeholder={pageData.productCategory.placeholder}
 

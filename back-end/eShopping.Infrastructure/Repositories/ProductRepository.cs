@@ -128,6 +128,14 @@ namespace eShopping.Infrastructure.Repositories
                     }
                     _dbContext.ProductPrices.UpdateRange(reusedProductPrices);
                 }
+                if (productEdit.ProductPrices.Any(p => p.PriceDiscount > 0 || p.PercentNumber > 0))
+                {
+                    productEdit.IsDiscounted = true;
+                }
+                else
+                {
+                    productEdit.IsDiscounted = false;
+                }
                 #endregion
 
                 #region Handle update product image

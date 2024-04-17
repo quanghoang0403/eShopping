@@ -77,6 +77,15 @@ namespace eShopping.Application.Features.Products.Commands
             product.CreatedTime = DateTime.UtcNow;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
+            if (request.ProductPrices.Any(pc => pc.PercentNumber > 0 || pc.PercentNumber > 0))
+            {
+                product.IsDiscounted = true;
+            }
+            else
+            {
+                product.IsDiscounted = false;
+            }
+
             // Create a new transaction to save data more securely, data will be restored if an error occurs.
             using var createTransaction = await _unitOfWork.BeginTransactionAsync();
             try
