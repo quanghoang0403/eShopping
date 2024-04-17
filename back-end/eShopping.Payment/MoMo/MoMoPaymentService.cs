@@ -317,22 +317,20 @@ namespace eShopping.Payment.MoMo
             string domain = $"{_momoSettings.DomainProduction}";
             string SecretKey = _momoSettings.SecretKey;
             string rawHash =
-                $"storeSlug={request.StoreSlug}&" +
                 $"amount={request.Amount}&" +
                 $"billId={request.BillId}&" +
                 $"extra={request.Extra}";
             var momoSecurity = new MoMoSecurity();
             string signature = momoSecurity.SignSHA256(rawHash, SecretKey);
-            var qrCodeContent = $"{domain}/pay/store/{request.StoreSlug}?a={request.Amount}&b={request.BillId}&extra={request.Extra}&s={signature}";
+            var qrCodeContent = $"{domain}/pay?a={request.Amount}&b={request.BillId}&extra={request.Extra}&s={signature}";
 
             if (string.IsNullOrWhiteSpace(request.Extra))
             {
                 rawHash =
-                $"storeSlug={request.StoreSlug}&" +
                 $"amount={request.Amount}&" +
                 $"billId={request.BillId}";
                 signature = momoSecurity.SignSHA256(rawHash, SecretKey);
-                qrCodeContent = $"{domain}/pay/store/{request.StoreSlug}?a={request.Amount}&b={request.BillId}&s={signature}";
+                qrCodeContent = $"{domain}/pay?a={request.Amount}&b={request.BillId}&s={signature}";
             }
 
             return Task.FromResult(qrCodeContent);

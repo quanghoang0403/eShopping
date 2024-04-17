@@ -1,5 +1,4 @@
-﻿USE eshoppingdb
---
+﻿--
 -- Dumping data for `Admin Staff`
 --
 DELETE [dbo].[Account]

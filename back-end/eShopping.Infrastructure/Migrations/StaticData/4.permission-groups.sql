@@ -1,4 +1,3 @@
-USE eshoppingdb
 --
 -- Dumping data for table `PermissionGroup`
 --

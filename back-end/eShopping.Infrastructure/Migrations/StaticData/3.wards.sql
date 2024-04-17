@@ -1,5 +1,4 @@
-﻿USE eshoppingdb
-DELETE [dbo].[Ward]
+﻿DELETE [dbo].[Ward]
 
 SET IDENTITY_INSERT [dbo].[Ward] ON 
 
