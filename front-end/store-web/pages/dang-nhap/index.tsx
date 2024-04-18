@@ -12,6 +12,7 @@ import { useAppMutation } from '@/hooks/queryHook'
 import Input from '@/components/Controller/Input'
 import SEO from '@/components/Layout/SEO'
 import { INPUT_TYPES } from '@/components/Controller/CustomInputText'
+import { trackPromise } from 'react-promise-tracker'
 
 export default function SignInPage() {
   const {
@@ -28,7 +29,7 @@ export default function SignInPage() {
   }
 
   const mutation = useAppMutation(
-    async (data: ISignInRequest) => AuthService.signIn(data),
+    async (data: ISignInRequest) => trackPromise(AuthService.signIn(data)),
     async (res: ISignInResponse) => {
       if (query?.email) {
         router.push('/')

@@ -31,13 +31,14 @@ export default function Selection(props: IProps) {
         {!defaultValue && <option disabled selected hidden value=""></option>}
         {!isEmpty &&
           options.map((option, index) => (
-            <option key={index} value={option.id}>
+            <option key={index} value={option.id} selected={option.id == defaultValue}>
               {option.name ?? option.id}
             </option>
           ))}
       </>
     )
   }
+  console.log('defaultValue: ', defaultValue)
   return (
     <>
       {label && (
