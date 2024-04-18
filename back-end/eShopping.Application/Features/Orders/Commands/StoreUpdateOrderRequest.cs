@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.Application.Features.Orders.Commands
+namespace eShopping.Application.Features.Orders.Commands
 {
     public class StoreUpdateOrderRequest : IRequest<bool>
     {

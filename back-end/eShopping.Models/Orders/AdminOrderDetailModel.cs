@@ -19,6 +19,14 @@ namespace eShopping.Models.Orders
 
         public string StatusName { get { return Status.GetName(); } }
 
+        public EnumPaymentMethod PaymentMethodId { get; set; }
+
+        public string PaymentMethodName { get { return PaymentMethodId.GetName(); } }
+
+        public EnumOrderPaymentStatus OrderPaymentStatusId { get; set; }
+
+        public string OrderPaymentStatusName { get { return OrderPaymentStatusId.GetName(); } }
+
         public string Reason { get; set; }
 
         public string ShipName { set; get; }

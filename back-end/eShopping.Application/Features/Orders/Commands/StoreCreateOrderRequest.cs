@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.Application.Features.Orders.Commands
+namespace eShopping.Application.Features.Orders.Commands
 {
     public class StoreCreateOrderRequest : IRequest<StoreCreateOrderResponse>
     {
@@ -45,6 +45,13 @@ namespace GoFoodBeverage.Application.Features.Orders.Commands
         public bool IsSuccess { get; set; }
 
         public Guid? OrderId { get; set; }
+
+        public EnumPaymentMethod PaymentMethod { get; set; }
+
+        /// <summary>
+        /// Dynamic response payment info data
+        /// </summary>
+        public object PaymentInfo { get; set; }
     }
 
     public class StoreCreateOrderRequestHandle : IRequestHandler<StoreCreateOrderRequest, StoreCreateOrderResponse>

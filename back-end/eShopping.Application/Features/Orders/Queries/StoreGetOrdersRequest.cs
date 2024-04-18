@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoFoodBeverage.Application.Features.Orders.Queries
+namespace eShopping.Application.Features.Orders.Queries
 {
     public class StoreGetOrdersRequest : IRequest<StoreGetOrdersResponse>
     {

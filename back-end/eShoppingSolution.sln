@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopping.Models", "eShoppi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopping.WebApi", "eShopping.WebApi\eShopping.WebApi.csproj", "{AD843DBF-85F7-4476-B8E9-D2EB70683D7E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShopping.Payment", "eShopping.Payment\eShopping.Payment.csproj", "{510C848D-61E5-4EDB-98E0-20137838A289}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +237,18 @@ Global
 		{AD843DBF-85F7-4476-B8E9-D2EB70683D7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD843DBF-85F7-4476-B8E9-D2EB70683D7E}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
 		{AD843DBF-85F7-4476-B8E9-D2EB70683D7E}.Staging|Any CPU.Build.0 = Staging|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Development|Any CPU.ActiveCfg = DevRelease|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Development|Any CPU.Build.0 = DevRelease|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.DevRelease|Any CPU.ActiveCfg = DevRelease|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.DevRelease|Any CPU.Build.0 = DevRelease|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Production|Any CPU.ActiveCfg = Production|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Production|Any CPU.Build.0 = Production|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{510C848D-61E5-4EDB-98E0-20137838A289}.Staging|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -257,6 +271,7 @@ Global
 		{88DC55AA-2C9F-496E-AFA5-79DFFC15D1BF} = {7566C998-1E8B-47C2-A284-4EED573CFCE8}
 		{03B6E4F6-CFE5-4AF5-84A0-389D048F105C} = {7566C998-1E8B-47C2-A284-4EED573CFCE8}
 		{AD843DBF-85F7-4476-B8E9-D2EB70683D7E} = {7566C998-1E8B-47C2-A284-4EED573CFCE8}
+		{510C848D-61E5-4EDB-98E0-20137838A289} = {4C8DD271-A2A4-450F-8F75-EAC15DB1CE36}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2524DEB4-C5AC-4FA9-ACC7-DBACB3695018}

@@ -31,6 +31,8 @@ namespace eShopping.Interfaces
 
         IOrderItemRepository OrderItems { get; }
 
+        IOrderPaymentTransactionRepository OrderPaymentTransactionRepositories { get; }
+
         IPermissionRepository Permissions { get; }
 
         IPermissionGroupRepository PermissionGroups { get; }
@@ -48,8 +50,11 @@ namespace eShopping.Interfaces
         IStaffPermissionRepository StaffPermission { get; }
 
         IWardRepository Wards { get; }
+
         IBlogRepository Blogs { get; }
+
         IBlogCategoryRepository BlogCategories { get; }
+
         IBlogInCategoryRepository BlogInCategories { get; }
     }
 }
