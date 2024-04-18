@@ -24,7 +24,7 @@ const FnbFroalaEditor = forwardRef((props, ref) => {
     placeholder
   } = props
 
-  const uploadUrl = `${env.REACT_APP_ROOT_DOMAIN}/api/file/upload-froala`
+  const uploadUrl = `${env.REACT_APP_ROOT_DOMAIN}/file/upload-froala`
   const fileSizeLimit = 10 * 1024 * 1024 // 10MB
   const [t] = useTranslation()
   // reference: https://froala.com/wysiwyg-editor/docs/options

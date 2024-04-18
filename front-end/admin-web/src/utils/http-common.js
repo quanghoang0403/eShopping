@@ -22,8 +22,12 @@ const http = axios.create({
   timeout: 30000
 })
 
+const showLoading = () => loadingIndicator.classList.add('loading-indicator')
+const hideLoading = () => loadingIndicator.classList.remove('loading-indicator')
+
 http.interceptors.request.use(
   async (config) => {
+    showLoading()
     if (config.withCredentials) {
       const token = _getToken()
       if (token) {
@@ -40,12 +44,14 @@ http.interceptors.request.use(
     return config
   },
   (error) => {
+    hideLoading()
     return Promise.reject(error)
   }
 )
 
 http.interceptors.response.use(
   async (response) => {
+    hideLoading()
     const { config } = response
     _httpLogging(response?.data)
 
@@ -60,6 +66,7 @@ http.interceptors.response.use(
     return response
   },
   (error) => {
+    hideLoading()
     _httpLogging(error?.response)
 
     const responseTokenExpired = error?.response?.headers['token-expired']
