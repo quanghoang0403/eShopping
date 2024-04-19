@@ -36,6 +36,8 @@
         public MoMoSettings MoMoSettings { get; set; }
 
         public VNPaySettings VNPaySettings { get; set; }
+
+        public VietQRSettings VietQRSettings { get; set; }
     }
 
     public class MoMoSettings
@@ -71,5 +73,14 @@
         public string VNPayVersion { get; set; }
         public string SecretKey { get; set; }
         public string TerminalId { get; set; }
+    }
+
+    public class VietQRSettings
+    {
+        public string BankCode { get; set; }
+
+        public string BankAccountNumber { get; set; }
+
+        public string BankAccountName { get; set; }
     }
 }

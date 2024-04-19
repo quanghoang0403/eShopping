@@ -8,9 +8,7 @@ namespace eShopping.Payment.VNPay.Model
 
         public string Title { get; set; }
 
-        public long Amount { get; set; }
-
-        public string OrderDesc { get; set; }
+        public decimal Amount { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

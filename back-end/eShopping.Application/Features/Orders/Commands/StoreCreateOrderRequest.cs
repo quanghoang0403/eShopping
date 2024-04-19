@@ -226,30 +226,6 @@ namespace eShopping.Application.Features.Orders.Commands
                         break;
 
                     case EnumPaymentMethod.BankTransfer:
-                        //var bankAccountInfo = await _paymentMethodService.GetBankTransferInfoAsync((Guid)loggedUser.StoreId, (Guid)request.BranchId);
-                        //if (bankAccountInfo != null)
-                        //{
-                        //    var orderTitle = $"Payment for order {storeWebCreateOrderResponse.OrderId}";
-                        //    var orderPaymentTransaction = new OrderPaymentTransaction()
-                        //    {
-                        //        IsSuccess = false,
-                        //        OrderId = order.Id,
-                        //        OrderInfo = orderTitle,
-                        //        CreatedUser = request.CustomerId,
-                        //        Amount = order.PriceAfterDiscount,
-                        //        PaymentMethodId = order.PaymentMethodId,
-                        //    };
-
-                        //    if (bankAccountInfo.IsVietnameseBank)
-                        //    {
-                        //        QuickLinkModel vietQrQuickLink = new(bankAccountInfo.BankCode, bankAccountInfo.BankAccountNumber);
-                        //        bankAccountInfo.QRCodeUrl = vietQrQuickLink.QrUrl;
-                        //    }
-
-                        //    orderPaymentTransaction.ResponseData = bankAccountInfo.ToJsonWithCamelCase();
-
-                        //    await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
-                        //}
                         break;
                 }
                 await _unitOfWork.SaveChangesAsync();
