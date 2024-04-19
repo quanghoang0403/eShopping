@@ -106,7 +106,10 @@ namespace eShopping.Infrastructure.Repositories
                             QuantityLeft = option.QuantityLeft,
                             QuantitySold = option.QuantitySold,
                             StartDate = option.StartDate,
-                            EndDate = option.EndDate
+                            EndDate = option.EndDate,
+                            PriceOriginal = option.PriceOriginal,
+                            PercentNumber = option.PercentNumber,
+                            PriceDiscount = option.PriceDiscount
                         };
                         newProductPricesToDB.Add(newProductPrice);
                         await _dbContext.ProductPrices.AddRangeAsync(newProductPricesToDB, cancellationToken);
@@ -127,6 +130,14 @@ namespace eShopping.Infrastructure.Repositories
                         productPrice.EndDate = newProductPrice.EndDate;
                     }
                     _dbContext.ProductPrices.UpdateRange(reusedProductPrices);
+                }
+                if (productEdit.ProductPrices.Any(p => p.PriceDiscount > 0 || p.PercentNumber > 0))
+                {
+                    productEdit.IsDiscounted = true;
+                }
+                else
+                {
+                    productEdit.IsDiscounted = false;
                 }
                 #endregion
 
