@@ -77,7 +77,7 @@ namespace eShopping.Application.Features.Products.Commands
             product.CreatedTime = DateTime.UtcNow;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
-            if (request.ProductPrices.Any(pc => pc.PercentNumber > 0 || pc.PercentNumber > 0))
+            if (request.ProductPrices.Any(pc => pc.PercentNumber > 0 || pc.PriceDiscount > 0))
             {
                 product.IsDiscounted = true;
             }
