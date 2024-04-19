@@ -7,11 +7,11 @@ import { compose } from 'redux'
 import { store } from 'store'
 import PrivateRoute from './components/private-route'
 import routes from './pages/routes'
-
+import { Spin } from 'antd';
 import './stylesheets/styles.scss'
 import './stylesheets/main.scss'
 
-function App (props) {
+function App(props) {
   const ref = React.useRef(null)
   useEffect(() => {
     if (props.loading) {
@@ -19,11 +19,15 @@ function App (props) {
     } else {
       ref.current.complete()
     }
+    console.log(props.loading)
   }, [props.loading])
 
   return (
     <Router>
       <LoadingBar color="#ff8c21" ref={ref} />
+      <div id="loadingIndicator">
+        <Spin size="large" />
+      </div>
       <Layout className="ant-layout ant-layout-has-sider" style={{ minHeight: '100vh' }}>
         <Switch>
           {routes.map((route) => {

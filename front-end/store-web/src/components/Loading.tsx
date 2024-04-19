@@ -1,12 +1,17 @@
+import { Spinner } from '@material-tailwind/react'
+
 export default function Loading() {
   return (
-    <div className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
-      {Array.from({ length: 6 }).map((_item, index) => (
-        <div key={index}>
-          <SkeletonImg />
-        </div>
-      ))}
+    <div className="full-screen-overlay">
+      <Spinner className="h-12 w-12" />
     </div>
+    // <div className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
+    //   {Array.from({ length: 6 }).map((_item, index) => (
+    //     <div key={index}>
+    //       <SkeletonImg />
+    //     </div>
+    //   ))}
+    // </div>
   )
 }
 

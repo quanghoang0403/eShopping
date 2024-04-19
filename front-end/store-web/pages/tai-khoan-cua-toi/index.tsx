@@ -141,8 +141,8 @@ export default function MyAccountPage() {
               <WhiteCard>
                 <form onSubmit={handleSubmitUpdateProfile(onSubmitUpdateProfile)}>
                   <CustomerInfo register={registerUpdateProfile} errors={errorsUpdateProfile} isShipping customer={defaultCustomerInfo} />
+                  <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Cập nhật thông tin</button>
                 </form>
-                <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Cập nhật thông tin</button>
               </WhiteCard>
             </TabPanel>
             <TabPanel value="3">
@@ -187,8 +187,8 @@ export default function MyAccountPage() {
                       errors={errorsUpdatePassword}
                     />
                   </div>
+                  <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Cập nhật mật khẩu</button>
                 </form>
-                <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Cập nhật mật khẩu</button>
               </WhiteCard>
             </TabPanel>
           </TabsBody>

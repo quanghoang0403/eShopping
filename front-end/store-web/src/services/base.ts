@@ -12,11 +12,11 @@ const _configRequest = async (request: any) => {
   }
   const token = cookie.get('token')
   if (token) {
-    const expired = tokenExpired(token)
-    if (expired === true) {
-      _redirectToLoginPage()
-      return
-    }
+    // const expired = tokenExpired(token)
+    // if (expired === true) {
+    //   _redirectToLoginPage()
+    //   return
+    // }
     request.headers.Authorization = `Bearer ${token}`
   } else {
     delete request.headers.Authorization

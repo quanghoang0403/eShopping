@@ -132,46 +132,19 @@ body > iframe#webpack-dev-server-client-overlay {
   text-transform: uppercase;
 }
 
-/*CSS only customize for theme*/
-.theme1-header-for-admin {
-  position: fixed;
-  top: 92px;
+#loadingIndicator {
+  display: none;
+}
+
+#loadingIndicator.loading-indicator {
+  position: fixed; /* Use fixed to cover the entire screen */
+  top: 0;
+  left: 0;
   width: 100%;
-  z-index: 999;
-  max-width: calc(100vw - 92px - 476px);
-}
-
-.theme1-original-header-for-admin {
-  padding-bottom: 122px;
-}
-
-.theme2-header {
-  position: fixed;
-  top: 92px;
-  width: 100%;
-  z-index: 999;
-  margin: 0 auto;
-}
-
-#themeBestSellingProduct {
-  max-width: calc(100vw - 92px - 476px);
-}
-
-#themeCheckoutCheckout .check_out_theme2_container {
-  padding: 20px 40px !important;
-  max-width: calc(100vw - 92px - 476px) !important;
-}
-
-@media (max-width: 565px) {
-  #themeCheckoutCheckout .check_out_theme2_container {
-    max-width: initial !important;
-  }
-}
-
-.theme-customize {
-  .theme-1 {
-    .content-component-wrapper {
-      padding-top: 0;
-    }
-  }
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  z-index: 1000; /* Ensure it sits on top of other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

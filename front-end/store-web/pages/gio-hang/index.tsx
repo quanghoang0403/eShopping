@@ -14,6 +14,7 @@ import { sessionActions } from '@/redux/features/sessionSlice'
 import CustomerInfo, { defaultCustomerInfo } from '@/components/CustomerInfo'
 import OrderService from '@/services/order.service'
 import WhiteCard from '@/components/WhiteCard'
+import { trackPromise } from 'react-promise-tracker'
 
 // export async function getServerSideProps() {
 //   const cities = await fetch('API_ENDPOINT_1')
@@ -43,13 +44,15 @@ export default function CartPage() {
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
 
   const mutation = useAppMutation(
+    //async (data: ICreateOrderRequest) => trackPromise(OrderService.checkout(data)),
     async (data: ICreateOrderRequest) => OrderService.checkout(data),
     async (res: ICreateOrderResponse) => {
       // Handle after create
     }
   )
 
-  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => console.log(data)
+  // const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
 
   const renderCart = () => {
     return (
@@ -77,8 +80,8 @@ export default function CartPage() {
           <WhiteCard className="mt-6">
             <form onSubmit={handleSubmit(onSubmit)}>
               <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
+              <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
             </form>
-            <button className="text-lg mt-6 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
           </WhiteCard>
         </section>
       </>

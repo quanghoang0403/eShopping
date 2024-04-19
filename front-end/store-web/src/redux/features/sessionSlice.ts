@@ -1,4 +1,4 @@
-import { notifyInfo } from '@/components/Notification'
+import { notifyInfo, notifySuccess } from '@/components/Notification'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import cookie from 'js-cookie'
 
@@ -39,6 +39,7 @@ const sessionSlice = createSlice({
       state.accountId = null
     },
     addProductToCart(state, action: PayloadAction<ICartItem>) {
+      notifySuccess('Đã thêm sản phẩm vào giỏ hàng')
       const { productId, productPriceId } = action.payload
       const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productPriceId === productPriceId)
 
@@ -57,6 +58,7 @@ const sessionSlice = createSlice({
       state.totalPrice = calculateTotalPrice(state.cartItems)
     },
     updateProductInCart(state, action: PayloadAction<{ productId: string; productPriceId: string; quantity: number }>) {
+      notifySuccess('Cập nhật sản phẩm thành công')
       const { productId, productPriceId, quantity } = action.payload
       const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productPriceId === productPriceId)
 
@@ -71,6 +73,7 @@ const sessionSlice = createSlice({
       state.totalPrice = calculateTotalPrice(state.cartItems)
     },
     removeProductFromCart(state, action: PayloadAction<{ productId: string; productPriceId: string }>) {
+      notifySuccess('Đã xoá sản phẩm khỏi giỏ hàng')
       const { productId, productPriceId } = action.payload
       state.cartItems = state.cartItems.filter((item) => !(item.productId === productId && item.productPriceId === productPriceId))
       state.totalQuantity = calculateTotalQuantity(state.cartItems)

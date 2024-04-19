@@ -87,7 +87,6 @@ export default function ProductPage({ productDetail }: IProps) {
     '/imgs/productHighlight/Paris Tee.jpg',
     '/imgs/productHighlight/Paris Long Tee.jpg',
   ]
-  console.log(productDetail)
   const [activePrice, setActivePrice] = useState<IProductPrice>(productDetail?.productPrices[0])
   const dispatch = useAppDispatch()
 

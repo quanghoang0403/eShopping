@@ -39,7 +39,6 @@ export default function SignUpPage() {
     } else {
       router.push(router.asPath)
     }
-    console.log(res)
   })
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
