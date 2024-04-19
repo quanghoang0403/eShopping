@@ -31,7 +31,7 @@ namespace eShopping.Interfaces
 
         IOrderItemRepository OrderItems { get; }
 
-        IOrderPaymentTransactionRepository OrderPaymentTransactionRepositories { get; }
+        IOrderPaymentTransactionRepository OrderPaymentTransactions { get; }
 
         IPermissionRepository Permissions { get; }
 

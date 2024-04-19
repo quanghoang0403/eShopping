@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eShopping.Application.Features.Payments.Commands;
 using eShopping.Common.Constants;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
@@ -6,6 +7,7 @@ using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
+using eShopping.Payment.VNPay.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -56,12 +58,14 @@ namespace eShopping.Application.Features.Orders.Commands
 
     public class StoreCreateOrderRequestHandle : IRequestHandler<StoreCreateOrderRequest, StoreCreateOrderResponse>
     {
+        private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
         private readonly IMapper _mapper;
 
-        public StoreCreateOrderRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider, IMapper mapper)
+        public StoreCreateOrderRequestHandle(IMediator mediator, IUnitOfWork unitOfWork, IUserProvider userProvider, IMapper mapper)
         {
+            _mediator = mediator;
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
             _mapper = mapper;
@@ -189,6 +193,65 @@ namespace eShopping.Application.Features.Orders.Commands
                     CreatedUser = accountId,
                 });
 
+                /// Create payment
+                switch (order.PaymentMethodId)
+                {
+                    case EnumPaymentMethod.MoMo:
+                        //var createMoMoQrPayment = new CreateMoMoPaymentRequest()
+                        //{
+                        //    OrderId = storeWebCreateOrderResponse.OrderId,
+                        //    OrderCode = storeWebCreateOrderResponse.OrderCode,
+                        //    Amount = Convert.ToInt32(order.TotalAmount).ToString(),
+                        //    StoreId = loggedUser.StoreId,
+                        //    BranchId = request.BranchId,
+                        //    AccountId = request.AccountId,
+                        //    Platform = EnumPlatform.StoreWebsite /// Store web request
+                        //};
+
+                        //var paymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
+                        //storeWebCreateOrderResponse.PaymentInfo = paymentInfo;
+                        break;
+
+                    case EnumPaymentMethod.VNPay:
+                        var createVnPay = new CreateVNPayPaymentRequest()
+                        {
+                            VNPayBankCode = VNPayBankCode.VNBANK,
+                            OrderId = order.Id,
+                            Amount = order.TotalAmount
+                        };
+                        var paymentInfo = await _mediator.Send(createVnPay, cancellationToken);
+                        break;
+
+                    case EnumPaymentMethod.Cash:
+                        break;
+
+                    case EnumPaymentMethod.BankTransfer:
+                        //var bankAccountInfo = await _paymentMethodService.GetBankTransferInfoAsync((Guid)loggedUser.StoreId, (Guid)request.BranchId);
+                        //if (bankAccountInfo != null)
+                        //{
+                        //    var orderTitle = $"Payment for order {storeWebCreateOrderResponse.OrderId}";
+                        //    var orderPaymentTransaction = new OrderPaymentTransaction()
+                        //    {
+                        //        IsSuccess = false,
+                        //        OrderId = order.Id,
+                        //        OrderInfo = orderTitle,
+                        //        CreatedUser = request.CustomerId,
+                        //        Amount = order.PriceAfterDiscount,
+                        //        PaymentMethodId = order.PaymentMethodId,
+                        //    };
+
+                        //    if (bankAccountInfo.IsVietnameseBank)
+                        //    {
+                        //        QuickLinkModel vietQrQuickLink = new(bankAccountInfo.BankCode, bankAccountInfo.BankAccountNumber);
+                        //        bankAccountInfo.QRCodeUrl = vietQrQuickLink.QrUrl;
+                        //    }
+
+                        //    orderPaymentTransaction.ResponseData = bankAccountInfo.ToJsonWithCamelCase();
+
+                        //    await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
+                        //}
+                        break;
+                }
                 await _unitOfWork.SaveChangesAsync();
                 await createTransaction.CommitAsync(cancellationToken);
 

@@ -18,7 +18,7 @@ namespace eShopping.Payment.MoMo
         /// <param name="config"></param>
         /// <param name="request"></param>
         /// <returns>CreateGetwayResponseModel</returns>
-        Task<CreateGetwayResponseModel> CreateGatewayTestingAsync(CreateGetwayRequestModel request);
+        Task<CreateMomoResponseModel> CreateGatewayTestingAsync(CreateGetwayRequestModel request);
 
         /// <summary>
         /// Create gateway
@@ -28,7 +28,7 @@ namespace eShopping.Payment.MoMo
         /// <param name="request"></param>
         /// <param name="requestType"></param>
         /// <returns></returns>
-        Task<CreateGetwayResponseModel> CreateGatewayAsync(CreateGetwayRequestModel request, string requestType);
+        Task<CreateMomoResponseModel> CreateGatewayAsync(CreateGetwayRequestModel request, string requestType);
 
         /// <summary>
         /// Thanh toan qua POS

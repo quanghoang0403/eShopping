@@ -1,6 +1,5 @@
 ﻿using eShopping.Payment.VNPay.Model;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Threading.Tasks;
 
 namespace eShopping.Payment.VNPay
@@ -14,40 +13,28 @@ namespace eShopping.Payment.VNPay
         /// Create VNPAY payment url
         /// Docs: https://sandbox.vnpayment.vn/apis/docs/thanh-toan-pay/pay.html#tao-url-thanh-toan
         /// </summary>
-        /// <param name="config"></param>
         /// <param name="order"></param>
         /// <param name="locale"></param>
         /// <param name="returnUrl"></param>
         /// <returns>string: payment url</returns>
-        Task<string> CreatePaymentUrlAsync(
-            VNPayConfigModel config,
-            VNPayOrderInfoModel order,
-            string locale,
-            string returnUrl,
-            Guid? orderId = null);
+        Task<string> CreatePaymentUrlAsync(VNPayOrderInfoModel order);
 
 
         /// <summary>
         /// Query payment status
         /// Docs: https://sandbox.vnpayment.vn/apis/docs/thanh-toan-pay/pay.html#truy-van-ket-qua-thanh-toan-PAY
         /// </summary>
-        /// <param name="config"></param>
         /// <param name="orderId"></param>
         /// <param name="orderInfo"></param>
         /// <param name="transDate"></param>
         /// <param name="createDate"></param>
         /// <returns></returns>
-        public Task<VNPayQueryPaymentStatusResponse> QueryAsync(VNPayConfigModel config,
-            string orderId,
-            string orderInfo,
-            string transDate,
-            string createDate);
+        public Task<VNPayQueryPaymentStatusResponse> QueryAsync(string orderId, string orderInfo, string transDate, string createDate);
 
         /// <summary>
         /// Refund
         /// Docs: https://sandbox.vnpayment.vn/apis/docs/thanh-toan-pay/pay.html#hoan-tien-thanh-toan-PAY
         /// </summary>
-        /// <param name="config"></param>
         /// <param name="orderId"></param>
         /// <param name="amount"></param>
         /// <param name="orderInfo"></param>
@@ -56,7 +43,7 @@ namespace eShopping.Payment.VNPay
         /// <param name="createBy"></param>
         /// <param name="createDate"></param>
         /// <returns></returns>
-        public Task<VNPayRefundResponseModel> RefundAsync(VNPayConfigModel config, VNPayRefundRequestModel vNPayRefundModel);
+        public Task<VNPayRefundResponseModel> RefundAsync(VNPayRefundRequestModel vNPayRefundModel);
 
         /// <summary>
         /// This method is used to verify the VNPAY signature.

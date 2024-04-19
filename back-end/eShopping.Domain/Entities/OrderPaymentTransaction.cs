@@ -24,8 +24,6 @@ namespace eShopping.Domain.Entities
         [Precision(18, 2)]
         public decimal Amount { get; set; }
 
-        public string ExtraData { get; set; }
-
         public string PaymentUrl { get; set; }
 
         public string ResponseData { get; set; }

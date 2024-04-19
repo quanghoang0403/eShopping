@@ -4,7 +4,7 @@ namespace eShopping.Payment.VNPay.Model
 {
     public class VNPayOrderInfoModel
     {
-        public long OrderId { get; set; }
+        public long PaymentTranId { get; set; }
 
         public string Title { get; set; }
 
@@ -14,16 +14,12 @@ namespace eShopping.Payment.VNPay.Model
 
         public DateTime CreatedDate { get; set; }
 
-        public string VnPayCreateDate { get; set; }
-
-        public string Status { get; set; }
-
-        public long PaymentTranId { get; set; }
-
         public string BankCode { get; set; }
 
-        public string PayStatus { get; set; }
-
         public string CurrencyCode { get; set; }
+
+        public string Locale { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

@@ -16,17 +16,14 @@ namespace eShopping.Payment.VNPay
     {
         private readonly AppSettings _appSettings;
         private readonly VNPaySettings _vnPaySettings;
-        // private readonly IDateTimeService _dateTimeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public VNPayService(
             IOptions<AppSettings> appSettings,
-            // IDateTimeService dateTimeService,
             IHttpContextAccessor httpContextAccessor)
         {
             _appSettings = appSettings.Value;
             _vnPaySettings = _appSettings.PaymentSettings.VNPaySettings;
-            // _dateTimeService = dateTimeService;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -38,29 +35,18 @@ namespace eShopping.Payment.VNPay
         /// <param name="order"></param>
         /// <param name="locale"></param>
         /// <returns>string: payment url</returns>
-        public Task<string> CreatePaymentUrlAsync(
-            VNPayConfigModel config,
-            VNPayOrderInfoModel order,
-            string locale,
-            string returnUrl,
-            Guid? orderId = null)
+        public Task<string> CreatePaymentUrlAsync(VNPayOrderInfoModel order)
         {
             /// VNPay configs
             string vnpEndPoint = _vnPaySettings.VNPayUrl;
-            string vnpTerminalId = config.TerminalId;
-            string vnpHashSecret = config.SecretKey;
+            string vnpTerminalId = _vnPaySettings.TerminalId;
+            string vnpHashSecret = _vnPaySettings.SecretKey;
 
             /// VNPay config validation
             if (string.IsNullOrEmpty(vnpTerminalId) || string.IsNullOrEmpty(vnpHashSecret))
             {
                 return Task.FromResult(string.Empty);
             }
-
-            /// Create order dumy data
-            order.OrderId = DateTime.Now.Ticks; /// Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
-            //order.Amount = 20000; /// Giả lập số tiền thanh toán hệ thống merchant gửi sang VNPAY 100,000 VND
-            order.Status = "0"; /// 0: Trạng thái thanh toán "chờ thanh toán" hoặc "Pending"
-            order.OrderDesc = "DES";
 
             /// Build URL for VNPAY
             var vnpay = new VNPayLibrary();
@@ -80,23 +66,23 @@ namespace eShopping.Payment.VNPay
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById(TimeZoneConstants.AsiaStandardTimeCode);
             var vnpayDateTime = TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, tzi);
             string dateTimeString = vnpayDateTime.VnPayFormatDate();
-            order.VnPayCreateDate = dateTimeString;
+
             vnpay.AddRequestData("vnp_CreateDate", dateTimeString);
-            returnUrl = String.Format(returnUrl, dateTimeString);
+            order.ReturnUrl = string.Format(order.ReturnUrl, dateTimeString);
 
             vnpay.AddRequestData("vnp_CurrCode", order.CurrencyCode);
 
             var ipAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
             vnpay.AddRequestData("vnp_IpAddr", ipAddress);
-            if (!locale.Equals("vn") || string.IsNullOrEmpty(locale))
+            if (!order.Locale.Equals("vn") || string.IsNullOrEmpty(order.Locale))
             {
-                locale = "en";
+                order.Locale = "en";
             }
-            vnpay.AddRequestData("vnp_Locale", locale);
+            vnpay.AddRequestData("vnp_Locale", order.Locale);
             vnpay.AddRequestData("vnp_OrderInfo", order.Title);
             vnpay.AddRequestData("vnp_OrderType", "other"); /// default value: other
-            vnpay.AddRequestData("vnp_ReturnUrl", returnUrl);
-            vnpay.AddRequestData("vnp_TxnRef", orderId.HasValue ? orderId.ToString() : order.OrderId.ToString());
+            vnpay.AddRequestData("vnp_ReturnUrl", order.ReturnUrl);
+            vnpay.AddRequestData("vnp_TxnRef", order.PaymentTranId.ToString());
 
             // Add Params of 2.1.0 Version
             //var paymentExpireDate = _dateTimeService.NowUtc.AddMinutes(15).ToString("yyyyMMddHHmmss");
@@ -145,7 +131,7 @@ namespace eShopping.Payment.VNPay
         /// <param name="config"></param>
         /// <param name="orderInfo"></param>
         /// <returns></returns>
-        public Task<VNPayQueryPaymentStatusResponse> QueryAsync(VNPayConfigModel config,
+        public Task<VNPayQueryPaymentStatusResponse> QueryAsync(
             string orderId,
             string orderInfo,
             string transDate,
@@ -153,8 +139,8 @@ namespace eShopping.Payment.VNPay
             )
         {
             var vnpayEndPoint = _vnPaySettings.BaseUrl;
-            var vnpHashSecret = config.SecretKey;
-            var vnpTmnCode = config.TerminalId;
+            var vnpHashSecret = _vnPaySettings.SecretKey;
+            var vnpTmnCode = _vnPaySettings.TerminalId;
 
             /// Build URL for VNPAY
             var vnpay = new VNPayLibrary();
@@ -204,11 +190,11 @@ namespace eShopping.Payment.VNPay
         /// <param name="createBy"></param>
         /// <param name="createDate"></param>
         /// <returns></returns>
-        public Task<VNPayRefundResponseModel> RefundAsync(VNPayConfigModel config, VNPayRefundRequestModel vnPayRefundModel)
+        public Task<VNPayRefundResponseModel> RefundAsync(VNPayRefundRequestModel vnPayRefundModel)
         {
             var vnpayEndPoint = _vnPaySettings.BaseUrl;
-            var vnpHashSecret = config.SecretKey;
-            var vnpTmnCode = config.TerminalId;
+            var vnpHashSecret = _vnPaySettings.SecretKey;
+            var vnpTmnCode = _vnPaySettings.TerminalId;
 
             var vnpay = new VNPayLibrary();
             vnpay.AddRequestData("vnp_RequestId", $"{vnPayRefundModel.RequestId}");

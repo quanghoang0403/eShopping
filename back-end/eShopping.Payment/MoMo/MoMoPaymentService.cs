@@ -31,7 +31,7 @@ namespace eShopping.Payment.MoMo
             _httpClient = httpClient;
         }
 
-        public Task<CreateGetwayResponseModel> CreateGatewayTestingAsync(CreateGetwayRequestModel request)
+        public Task<CreateMomoResponseModel> CreateGatewayTestingAsync(CreateGetwayRequestModel request)
         {
             string endpoint = $"{_momoSettings.DomainProduction}/v2/gateway/api/create";
 
@@ -83,11 +83,11 @@ namespace eShopping.Payment.MoMo
             };
 
             var responseFromMomo = MoMoPaymentRequest.SendPaymentRequest(endpoint, requestData.ToString());
-            var createGetwayResponseModel = JsonConvert.DeserializeObject<CreateGetwayResponseModel>(responseFromMomo.Data);
+            var createGetwayResponseModel = JsonConvert.DeserializeObject<CreateMomoResponseModel>(responseFromMomo.Data);
             return Task.FromResult(createGetwayResponseModel);
         }
 
-        public Task<CreateGetwayResponseModel> CreateGatewayAsync(CreateGetwayRequestModel request, string requestType)
+        public Task<CreateMomoResponseModel> CreateGatewayAsync(CreateGetwayRequestModel request, string requestType)
         {
             string endpoint = $"{_momoSettings.DomainProduction}/v2/gateway/api/create";
             /// Momo Configs
@@ -173,7 +173,7 @@ namespace eShopping.Payment.MoMo
             var responseFromMomo = MoMoPaymentRequest.SendPaymentRequest(endpoint, requestData.ToString());
             if (!responseFromMomo.Success)
             {
-                var result = new CreateGetwayResponseModel
+                var result = new CreateMomoResponseModel
                 {
                     Message = responseFromMomo.Message,
                     ResultCode = responseFromMomo.ResultCode,
@@ -182,7 +182,7 @@ namespace eShopping.Payment.MoMo
                 return Task.FromResult(result);
             }
 
-            var createGetwayResponseModel = JsonConvert.DeserializeObject<CreateGetwayResponseModel>(responseFromMomo.Data);
+            var createGetwayResponseModel = JsonConvert.DeserializeObject<CreateMomoResponseModel>(responseFromMomo.Data);
             return Task.FromResult(createGetwayResponseModel);
         }
         /// <summary>

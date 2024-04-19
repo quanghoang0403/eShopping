@@ -69,5 +69,7 @@
         /// VNPAY version
         /// </summary>
         public string VNPayVersion { get; set; }
+        public string SecretKey { get; set; }
+        public string TerminalId { get; set; }
     }
 }

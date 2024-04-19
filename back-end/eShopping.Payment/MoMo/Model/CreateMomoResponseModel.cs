@@ -1,6 +1,6 @@
 ﻿namespace eShopping.Payment.MoMo.Model
 {
-    public class CreateGetwayResponseModel
+    public class CreateMomoResponseModel
     {
         public string PartnerCode { get; set; }
 
