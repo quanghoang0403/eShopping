@@ -106,7 +106,10 @@ namespace eShopping.Infrastructure.Repositories
                             QuantityLeft = option.QuantityLeft,
                             QuantitySold = option.QuantitySold,
                             StartDate = option.StartDate,
-                            EndDate = option.EndDate
+                            EndDate = option.EndDate,
+                            PriceOriginal = option.PriceOriginal,
+                            PercentNumber = option.PercentNumber,
+                            PriceDiscount = option.PriceDiscount
                         };
                         newProductPricesToDB.Add(newProductPrice);
                         await _dbContext.ProductPrices.AddRangeAsync(newProductPricesToDB, cancellationToken);

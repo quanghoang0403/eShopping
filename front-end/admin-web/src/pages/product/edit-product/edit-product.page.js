@@ -12,7 +12,10 @@ import {
   Typography,
   Tooltip,
   DatePicker,
-  Checkbox
+  Checkbox,
+  Select,
+  Divider,
+  Space
 } from 'antd'
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import FnbFroalaEditor from 'components/shop-froala-editor';
@@ -46,6 +49,7 @@ import './edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import moment from 'moment';
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
 export default function EditProductPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
@@ -67,6 +71,8 @@ export default function EditProductPage(props) {
   const [discountChecked,isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500)
   const [productContent,setProductContent] = useState('')
+  const [keywordSEOs,setKeywordSEOList] = useState([]);
+  const [keywordSEO,setKeywordSEO] = useState({})
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -107,7 +113,8 @@ export default function EditProductPage(props) {
       keyword:{
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
-        tooltip: t('form.SEOKeywordsTooltip')
+        tooltip: t('form.SEOKeywordsTooltip'),
+        btnAdd:t('form.AddSEOKeywords')
       },
       SEOtitle:{
         label:t('form.SEOTitle'),
@@ -262,10 +269,12 @@ export default function EditProductPage(props) {
             endDate:moment(price?.endDate) || null
           });
           discountBoxCheck[index] = (price?.priceDiscount || price?.percentNumber) ? true : false
+         
         });
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
+      setKeywordSEOList(list => data?.product?.keywordSEO.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
       const initData = {
         product: {
           description: data?.product?.description,
@@ -275,7 +284,7 @@ export default function EditProductPage(props) {
           prices: pricesData,
           titleSEO : data?.product.titleSEO,
           descriptionSEO:data?.product?.descriptionSEO,
-          keywordSEO:data?.product?.keywordSEO
+          keywordSEO: data?.product?.keywordSEO.split(',')
         },
       };
 
@@ -302,7 +311,8 @@ export default function EditProductPage(props) {
           Id:match?.params?.id,
           thumbnail:imageUrl,
           status:statusId,
-          content:productContent
+          content:productContent,
+          keywordSEO:values.product.keywordSEO.join(',')
         }
         console.log(editProductRequestModel)
         if (editProductRequestModel.thumbnail !== '') {
@@ -366,9 +376,15 @@ export default function EditProductPage(props) {
 
     const newPrice = {
       position: prices.length || 0,
-      name: '',
-      price: '',
-      startDate:moment()
+      priceName: '',
+      priceValue: 0,
+      priceOriginal:0,
+      priceDiscount:0,
+      percentNumber:0,
+      quantityLeft:0,
+      quantitySold: 0,
+      startDate:moment(),
+      endDate:null
     }
     if (prices.length === 1) {
       prices[0].price = product.price || 0
@@ -836,7 +852,11 @@ const pricetoPercentage = (num,index)=>{
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
-
+  const addSEOKeywords = (e)=>{
+    e.preventDefault();
+    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({...keywordSEO,id:'',name:''});
+  }
   return (
     <>
       <Row className="shop-row-page-header">
@@ -1041,11 +1061,32 @@ const pricetoPercentage = (num,index)=>{
                       name={['product','keywordSEO']}
                       className="item-name"
                     >
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
+                      <FnbSelectMultiple
                         placeholder={pageData.SEOInformation.keyword.placeholder}
-                        
+                        option={keywordSEOs}
+                        dropdownRender={
+                          (menu) => (
+                            <>
+                              {menu}
+                              <Divider style={{ margin: '8px 0' }} />
+                              <Space style={{ padding: '0 8px 4px' }}>
+                                <Input
+                                    className="shop-input m-0 py-0"
+                                    placeholder={pageData.SEOInformation.keyword.placeholder}
+                                    value={keywordSEO.name || ''}
+                                    maxLength={3}
+                                    onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
+                                    onKeyDown={(e) => e.stopPropagation()}
+                                    showCount
+                                />
+                                <ShopAddNewButton 
+                                text={pageData.SEOInformation.keyword.btnAdd}
+                                onClick={addSEOKeywords}
+                                ></ShopAddNewButton>
+                              </Space>
+                            </>
+                          )
+                        }
                       />
                     </Form.Item>
                   </Col>

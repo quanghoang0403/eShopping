@@ -276,12 +276,13 @@
         "labelPriceOriginal" : "Giá gốc",
         "placeholderPriceOriginal" : "Nhập giá gốc",
         "labelDiscountCheck":"Ưu đãi",
+        "noDiscountLabel":"Không có ưu đãi",
         "validateDiscountPercentage":"Giá trị cho phép từ 0 đến 100",
         "labelPriceDiscount":"Giá khuyến mại",
         "placeholderPriceDiscount":"Nhập giá khuyến mại",
         "labelPriceDiscountPercentage":"Phần trăm khuyến mại",
         "placeholderPriceDiscountPercentage":"Nhập phần trăm khuyến mại",
-        "priceInfo": "Giá",
+        "priceInfo": "Giá bán",
         "addPrice": "Thêm giá",
         "labelPrice": "Giá",
         "placeholderPrice": "Nhập giá",
@@ -311,7 +312,8 @@
         "validateProductCategory": "Vui lòng chọn danh mục cho sản phẩm",
         "validateImage":"Vui lòng thêm hình ảnh cho sản phẩm",
         "labelProductContent":"Nội dung giới thiệu sản phẩm",
-        "placeholderProductContent": "Nhập nội dung giới thiệu sản phẩm"
+        "placeholderProductContent": "Nhập nội dung giới thiệu sản phẩm",
+        "discountDate": "Ngày khuyến mãi"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
