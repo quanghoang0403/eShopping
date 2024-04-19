@@ -128,6 +128,8 @@ namespace eShopping.Infrastructure.Repositories
                         productPrice.PercentNumber = newProductPrice.PercentNumber;
                         productPrice.StartDate = newProductPrice.StartDate;
                         productPrice.EndDate = newProductPrice.EndDate;
+                        productPrice.QuantityLeft = newProductPrice.QuantityLeft;
+                        productPrice.QuantitySold = newProductPrice.QuantitySold;
                     }
                     _dbContext.ProductPrices.UpdateRange(reusedProductPrices);
                 }

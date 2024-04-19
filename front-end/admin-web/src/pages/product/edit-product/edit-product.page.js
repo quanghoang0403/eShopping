@@ -274,7 +274,7 @@ export default function EditProductPage(props) {
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
-      setKeywordSEOList(list => data?.product?.keywordSEO.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
+      setKeywordSEOList(list => data?.product?.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
       const initData = {
         product: {
           description: data?.product?.description,
@@ -284,7 +284,7 @@ export default function EditProductPage(props) {
           prices: pricesData,
           titleSEO : data?.product.titleSEO,
           descriptionSEO:data?.product?.descriptionSEO,
-          keywordSEO: data?.product?.keywordSEO.split(',')
+          keywordSEO: data?.product?.keywordSEO?.split(',')
         },
       };
 
@@ -312,7 +312,7 @@ export default function EditProductPage(props) {
           thumbnail:imageUrl,
           status:statusId,
           content:productContent,
-          keywordSEO:values.product.keywordSEO.join(',')
+          keywordSEO:values.product.keywordSEO?.join(',')
         }
         console.log(editProductRequestModel)
         if (editProductRequestModel.thumbnail !== '') {
