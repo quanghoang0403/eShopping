@@ -1,4 +1,4 @@
-import { notifyInfo, notifySuccess } from '@/components/Notification'
+import { notifyInfo, notifySuccess } from '@/components/Common/Notification'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import cookie from 'js-cookie'
 

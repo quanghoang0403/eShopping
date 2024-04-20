@@ -1,8 +1,8 @@
 import Header from './Header'
 import Footer from './Footer'
-import Notification from '../Notification'
+import Notification from '../Common/Notification'
 import { usePromiseTracker } from 'react-promise-tracker'
-import Loading from '../Loading'
+import Loading from '../Common/Loading'
 interface ILayout {
   children: React.ReactNode
 }

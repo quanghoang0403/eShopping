@@ -8,7 +8,7 @@ import ProductGallery from '@/components/Product/ProductGallery'
 import { formatCurrency } from '@/utils/string.helper'
 import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
-import { notifyError } from '@/components/Notification'
+import { notifyError } from '@/components/Common/Notification'
 import ProductService from '@/services/product.service'
 
 interface IProps {

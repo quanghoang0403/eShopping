@@ -3,7 +3,7 @@ import SEO from '@/components/Layout/SEO'
 import BlogList from '@/components/Blog/BlogList'
 import Link from 'next/link'
 import BlogCategoryLabel from '@/components/Blog/BlogCategoryLabel'
-import Title from '@/components/Title'
+import Title from '@/components/Common/Title'
 
 const categories: IBlogCategory[] = [
   { id: '1', name: 'Thời trang công sở', urlSEO: 'cong-so', color: 1, description: 'Thời trang' },

@@ -5,9 +5,9 @@ import { cx } from '@/utils/common.helper'
 import { IconButton } from '@material-tailwind/react'
 import { useAppSelector, useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
-import Selection from './Controller/Selection'
+import Selection from '../Controller/Selection'
 import Link from 'next/link'
-import WhiteCard from './WhiteCard'
+import WhiteCard from '../Common/WhiteCard'
 
 interface IProps {
   isSmall?: boolean

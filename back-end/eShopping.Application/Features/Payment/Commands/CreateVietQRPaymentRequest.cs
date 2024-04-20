@@ -64,8 +64,8 @@ namespace eShopping.Application.Features.Payments.Commands
             // Return data to the client.
             var response = new CreateVietQRPaymentResponse()
             {
-                PaymentUrl = vietQrQuickLink.QrUrl;
-        };
+                PaymentUrl = vietQrQuickLink.QrUrl
+            };
 
             return response;
         }

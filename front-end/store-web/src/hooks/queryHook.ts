@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from 'react-query'
-import { notifyError } from '@/components/Notification'
+import { notifyError } from '@/components/Common/Notification'
 import { AxiosResponse } from 'axios'
 
 // Use throughout your app instead of plain `useMutation` and `useAppQuery`
