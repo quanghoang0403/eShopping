@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 import SidebarCart from './SidebarCart'
-import { cx } from '@/utils/common.helper'
+import { cx } from '@/utils/string.helper'
 import Image from 'next/image'
 
 export default function Header() {

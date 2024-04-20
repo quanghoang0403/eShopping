@@ -1,19 +1,10 @@
-export const upperFirst = (string) => {
+export const cx = (...classNames: any[]) => classNames.filter(Boolean).join(' ')
+
+export const upperFirst = (string: string) => {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : ''
 }
 
-// eslint-disable-next-line no-extend-native
-String.prototype.removeVietnamese = function () {
-  const newStr = this?.toString()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'D')
-
-  return newStr
-}
-
-export const replaceLastOccurrence = (str, find, replace) => {
+export const replaceLastOccurrence = (str: string, find: string, replace: string) => {
   const lastIndex = str?.lastIndexOf(find)
   if (lastIndex) {
     if (lastIndex === -1) {
@@ -31,7 +22,7 @@ export const replaceLastOccurrence = (str, find, replace) => {
  * @param {*} string
  * @output "I HAVE LEARNED SOMETHING NEW TODAY"
  */
-export const capitalizeUpperCaseWord = (words) => {
+export const capitalizeUpperCaseWord = (words: string) => {
   if (words) {
     return words.toUpperCase()
   }
@@ -44,7 +35,7 @@ export const capitalizeUpperCaseWord = (words) => {
  * @input "i have learned something new today"
  * @output "I Have Learned Something New Today"
  */
-export const capitalizeFirstLetterEachWord = (words) => {
+export const capitalizeFirstLetterEachWord = (words: string) => {
   if (words) {
     const separateWord = words.toLowerCase().split(' ')
     for (let i = 0; i < separateWord.length; i++) {
@@ -56,7 +47,7 @@ export const capitalizeFirstLetterEachWord = (words) => {
 }
 
 // Capitalized Case
-export const capitalize = (data) => {
+export const capitalize = (data: string) => {
   const result = data.toLowerCase()
   return result[0].toUpperCase() + result.slice(1)
 }
@@ -65,7 +56,7 @@ export const capitalize = (data) => {
   LOWERCASE FIRST LETTER OF STRING
   Example: "HELLO" => "hELLO"
 */
-export const lowercaseFirst = (str) => {
+export const lowercaseFirst = (str: string) => {
   return str[0].toLowerCase() + str.slice(1)
 }
 
@@ -78,7 +69,7 @@ export const getCurrency = () => {
   return 'đ'
 }
 
-export const getShortValue = (number) => {
+export const getShortValue = (number: number) => {
   if (!number || number === 0) {
     return '0'
   }
@@ -98,7 +89,7 @@ export const getShortValue = (number) => {
     .replace('.00', '')
 }
 
-export const getUnitNumberType = (number) => {
+export const getUnitNumberType = (number: number) => {
   if (number >= 1_000_000_000_000) return 4
   if (number >= 1_000_000_000) return 3
   if (number >= 1_000_000) return 2
@@ -106,42 +97,33 @@ export const getUnitNumberType = (number) => {
   return 0
 }
 
-export const formatTextNumber = (number) => {
+export const formatTextNumber = (number: number) => {
   if (isNaN(number) || number === null) {
     return '0'
   }
   return `${number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ''
 }
 
-export const formatNumber = (val, defaultNull = false) => {
+export const formatNumber = (val: number | string, defaultNull = false) => {
   if (!val) return defaultNull ? null : 0
   return `${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 
 /// Format Currency with code
-export const formatCurrency = (number) => {
-  const convertNumber = parseFloat(number)
-  if (convertNumber >= 0) {
+export const formatCurrency = (number: number) => {
+  if (number >= 0) {
     const currencyCode = `${getCurrency()}`
     return formatNumber(number) + currencyCode
   }
   return number
 }
 
-export const parserDecimalNumber = (val, defaultNull = false) => {
+export const parserDecimalNumber = (val: string, defaultNull = false) => {
   if (!val) return defaultNull ? null : 0
   return Number.parseFloat(val.replace(/\$\s?|(\,*)/g, '').replace(/(\,{1})/g, ',')).toFixed(2)
 }
 
-export const formatNumberDecimalOrInteger = (number) => {
-  if (isNaN(number) || number === null) {
-    return '0'
-  }
-  const convertNumber = isDecimalNumber(number) ? roundNumber(parseFloat(number), 2) : parseFloat(number)
-  return `${convertNumber}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ''
-}
-
-export const formatTextRemoveComma = (value) => {
+export const formatTextRemoveComma = (value: string) => {
   return value.replace(/\$\s?|(,*)/g, '')
 }
 
@@ -151,7 +133,7 @@ export const formatTextRemoveComma = (value) => {
   @number: number to round
   @precision: precision of round
 */
-export const roundNumber = (number, precision) => {
+export const roundNumber = (number: number, precision: number) => {
   if (precision === undefined || precision === null || precision < 1) {
     precision = 1
   } else {
@@ -167,7 +149,7 @@ export const roundNumber = (number, precision) => {
  * @input "hình- -ảnh"
  * @output "hinh-anh"
  */
-export const fileNameNormalize = (fileName) => {
+export const fileNameNormalize = (fileName: string) => {
   const parsed = fileName
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '') // Remove accents

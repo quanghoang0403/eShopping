@@ -16,6 +16,7 @@ import OrderService from '@/services/order.service'
 import WhiteCard from '@/components/Common/WhiteCard'
 import { trackPromise } from 'react-promise-tracker'
 import PaymentMethod from '@/components/Cart/PaymentMethod'
+import DialogPopup from '@/components/Common/DialogPopup'
 
 export default function CartPage() {
   const {
@@ -23,7 +24,7 @@ export default function CartPage() {
     register,
     formState: { errors },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
-
+  const [isShowDialogPayment, setIsShowDialogPayment] = useState(false)
   const dispatch = useAppDispatch()
   //const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
   const totalQuantity = 3
@@ -41,11 +42,9 @@ export default function CartPage() {
   const renderCart = () => {
     return (
       <>
-        <section className="md:w-2/3">
+        <section className="md:w-1/2">
           <CartList />
-        </section>
-        <section className="mt-6 md:mt-0 md:w-1/3 h-full">
-          <WhiteCard>
+          <WhiteCard className="mt-6">
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Tổng tiền</p>
               <p className="text-gray-700">{formatCurrency(totalPrice)}</p>
@@ -56,19 +55,35 @@ export default function CartPage() {
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
-              <p className="text-lg font-bold text-gray-900">THANH TOÁN</p>
+              <p className="text-lg font-bold text-gray-900">
+                THANH TOÁN <span className="text-sm text-gray-700 font-normal">{'(Đã bao gồm thuế VAT)'}</span>
+              </p>
               <p className="mb-1 text-lg font-bold text-gray-900">{formatCurrency(totalPrice + 20000)}</p>
             </div>
-            <p className="text-sm text-gray-700">Đã bao gồm thuế VAT</p>
           </WhiteCard>
-          <WhiteCard className="mt-6">
+        </section>
+        <section className="mt-6 md:mt-0 md:w-1/2 h-full">
+          <WhiteCard>
             <form onSubmit={handleSubmit(onSubmit)}>
               <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
               <PaymentMethod />
-              <button className="text-lg mt-4 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
+              <button
+                onClick={() => setIsShowDialogPayment(true)}
+                className="text-lg mt-4 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600"
+              >
+                Thanh toán
+              </button>
             </form>
           </WhiteCard>
         </section>
+        <DialogPopup
+          open={isShowDialogPayment}
+          title="Thanh toán qua QR"
+          content="da"
+          msgCancel="Huỷ"
+          msgConfirm="Xác nhận"
+          onHandle={() => setIsShowDialogPayment(false)}
+        />
       </>
     )
   }

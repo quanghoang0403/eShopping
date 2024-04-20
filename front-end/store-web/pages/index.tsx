@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import ProductList from '@/components/Product/ProductList'
 import { useTranslation } from 'react-i18next'
-import Banner from '@/components/Banner'
+import Banner from '@/components/Common/Banner'
 import Image from 'next/image'
 
 export default function HomePage() {
@@ -74,7 +74,7 @@ export default function HomePage() {
   const images3: string[] = ['/imgs/cuchoami/3.jpg']
   return (
     <>
-      <SEO title="Thời trang" description="Describe the home page" />
+      <SEO title={t('home.test')} description="Describe the home page" />
       <Banner images={images} />
       <ProductList title="Sản phẩm mới về" products={productHighlight} />
       <Image src="/imgs/cuchoami/3.jpg" width={1024} height={209} className="container w-full mx-auto" alt="" />

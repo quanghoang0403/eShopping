@@ -1,4 +1,4 @@
-import { cx } from '@/utils/common.helper'
+import { cx } from '@/utils/string.helper'
 
 interface IProps {
   title: string

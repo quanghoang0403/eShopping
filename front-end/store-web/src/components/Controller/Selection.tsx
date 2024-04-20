@@ -1,4 +1,4 @@
-import { cx } from '@/utils/common.helper'
+import { cx } from '@/utils/string.helper'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import ErrorForm from './ErrorForm'
 

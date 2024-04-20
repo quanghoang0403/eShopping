@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { cx } from '@/utils/common.helper'
+import { cx } from '@/utils/string.helper'
 
 interface IProps {
   images: string[]

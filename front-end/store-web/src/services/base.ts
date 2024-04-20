@@ -1,6 +1,5 @@
 import axios from 'axios'
 import qs from 'qs'
-import { tokenExpired } from '@/utils/common.helper'
 import cookie from 'js-cookie'
 const _redirectToLoginPage = () => {
   window.location.href = '/login'
