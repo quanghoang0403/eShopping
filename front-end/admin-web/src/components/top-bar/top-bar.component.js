@@ -6,14 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { store } from 'store'
 import { hasPermission } from 'utils/helpers'
-import logo from 'assets/images/logo.png'
 import './index.scss'
 import { useTranslation } from 'react-i18next'
 
 const { Header } = Layout
 const { SubMenu } = Menu
 
-function TopBar (props) {
+function TopBar(props) {
   const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props
   const [visible, setVisible] = useState(false)
   const [selectedKey, setSelectedKey] = useState('')
@@ -132,8 +131,8 @@ function TopBar (props) {
             </div>
             <div className="logo-box">
               <div className="header-information">
-                  <div className="header-name">{signedInUser?.fullName}</div>
-                  <div className="header-email">{signedInUser?.email}</div>
+                <div className="header-name">{signedInUser?.fullName}</div>
+                <div className="header-email">{signedInUser?.email}</div>
               </div>
               <div className="header-avatar">
                 <Avatar src={signedInUser?.thumbnail ?? null} className="avatar-popover">
