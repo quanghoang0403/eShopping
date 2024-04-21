@@ -9,8 +9,8 @@ import TooltipParagraph from 'components/shop-tooltip-paragraph/shop-tooltip-par
 import { FnbViewMoreComponent } from 'components/shop-view-more/shop-view-more'
 import FilterStaff from './filter-staff.component'
 import { useTranslation } from 'react-i18next'
-// import staffDataService from 'data-services/staff/staff-data.service'
-// import permissionDataService from 'data-services/permission/permission-data.service'
+import staffDataService from 'data-services/staff/staff-data.service'
+import permissionDataService from 'data-services/permission/permission-data.service'
 
 export default function TableStaff (props) {
   const { onEditStaff, screenKey } = props
@@ -42,8 +42,8 @@ export default function TableStaff (props) {
     },
     confirmDelete: t('dialog.confirmDelete'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
-    staffDeleteSuccess: t('staff:staffDeleteSuccess'),
-    staffDeleteFail: t('staff:staffDeleteFail')
+    staffDeleteSuccess: t('staff.staffDeleteSuccess'),
+    staffDeleteFail: t('staff.staffDeleteFail')
   }
   const tableSettings = {
     pageSize: 20,
@@ -164,19 +164,19 @@ export default function TableStaff (props) {
   }, [])
 
   const handleDeleteItem = async (id) => {
-    // const res = await staffDataService.deleteStaffByIdAsync(id)
-    // if (res) {
-    //   message.success(pageData.staffDeleteSuccess)
+    const res = await staffDataService.deleteStaffByIdAsync(id)
+    if (res) {
+      message.success(pageData.staffDeleteSuccess)
 
-    //   // Recount selected items after delete
-    //   const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== id)
-    //   if (newSelectedRowKeys) {
-    //     setSelectedRowKeys(newSelectedRowKeys)
-    //   }
-    // } else {
-    //   message.error(pageData.staffDeleteFail)
-    // }
-    // await fetchDatableAsync(1, tableSettings.pageSize, keySearch)
+      // Recount selected items after delete
+      const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== id)
+      if (newSelectedRowKeys) {
+        setSelectedRowKeys(newSelectedRowKeys)
+      }
+    } else {
+      message.error(pageData.staffDeleteFail)
+    }
+    await fetchDatableAsync(1, tableSettings.pageSize, keySearch)
   }
 
   // Insert the name into the message
@@ -204,16 +204,16 @@ export default function TableStaff (props) {
       }
     }
 
-    // const response = await staffDataService.getDataStaffManagementAsync(dataRequest)
-    // const data = response?.staffs.map((s) => mappingRecordToColumns(s))
-    // setDataSource(data)
-    // setTotalRecords(response.total)
-    // setCurrentPageNumber(response.pageNumber)
-    // let numberRecordCurrent = pageNumber * pageSize
-    // if (numberRecordCurrent > response.total) {
-    //   numberRecordCurrent = response.total
-    // }
-    // setNumberRecordCurrent(numberRecordCurrent)
+    const response = await staffDataService.getDataStaffManagementAsync(dataRequest)
+    const data = response?.staffs.map((s) => mappingRecordToColumns(s))
+    setDataSource(data)
+    setTotalRecords(response.total)
+    setCurrentPageNumber(response.pageNumber)
+    let numberRecordCurrent = pageNumber * pageSize
+    if (numberRecordCurrent > response.total) {
+      numberRecordCurrent = response.total
+    }
+    setNumberRecordCurrent(numberRecordCurrent)
   }
 
   const mappingRecordToColumns = (staff) => {
@@ -223,8 +223,8 @@ export default function TableStaff (props) {
       id: staff?.id,
       name: staff?.fullName,
       phone: staff?.phoneNumber,
-      groups: mappingGroups(staff?.groupPermissions),
-      groupsName: staff?.groupPermissions?.map((g) => g.name || '')
+      groups: mappingGroups(staff?.permissions),
+      groupsName: staff?.permissions?.map((g) => g.name || '')
     }
   }
 
@@ -233,15 +233,15 @@ export default function TableStaff (props) {
       setShowPopover(true)
     }
 
-    // const resPermission = await permissionDataService.getGroupPermissionManagementAsync()
-    // if (resPermission) {
-    //   const allPermissionOption = {
-    //     id: '',
-    //     name: t('staff:permission.filter.all')
-    //   }
-    //   const PermissionOptions = [allPermissionOption, ...resPermission.groupPermissions]
-    //   setPermissions(PermissionOptions)
-    // }
+    const resPermission = await permissionDataService.getAllPermissionAsync()
+    if (resPermission) {
+      const allPermissionOption = {
+        id: '',
+        name: t('staff.allGroupPermission')
+      }
+      const PermissionOptions = [allPermissionOption, ...resPermission.permissionGroups]
+      setPermissions(PermissionOptions)
+    }
   }
 
   const handleFilterProduct = async (data) => {

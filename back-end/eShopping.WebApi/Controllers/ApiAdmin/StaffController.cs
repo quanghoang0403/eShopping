@@ -7,6 +7,7 @@ using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiAdmin
@@ -39,9 +40,9 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-staff-by-id/{id}")]
         [HasPermission(EnumPermission.VIEW_STAFF)]
-        public async Task<IActionResult> GetStaffByIdAsync([FromRoute] AdminGetStaffByIdRequest request)
+        public async Task<IActionResult> GetStaffByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(request);
+            var response = await _mediator.Send(new AdminGetStaffByIdRequest { Id = id });
             return await SafeOkAsync(response);
         }
 
@@ -54,6 +55,15 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return await SafeOkAsync(response);
         }
 
+
+        [HttpPut]
+        [Route("self-update-staff")]
+        [HasPermission(EnumPermission.EDIT_STAFF)]
+        public async Task<IActionResult> SelfUpdateStaffAsync([FromBody] AdminSelfUpdateStaffRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
 
         [HttpPut]
         [Route("update-staff")]

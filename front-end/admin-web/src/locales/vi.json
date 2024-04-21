@@ -75,7 +75,10 @@
         "action": "Thao tác",
         "leave": "Quay lại",
         "sort": "Sắp xếp",
-        "ignore": "Bỏ qua"
+        "ignore": "Bỏ qua",
+        "createNewStaff": "Thêm nhân viên mới",
+        "updateStaff": "Chỉnh sửa thông tin nhân viên",
+        "resetData":"Đặt lại bộ lọc"
     },
     "productCategory": {
         "addProductCategory": "Thêm danh mục",
@@ -434,7 +437,30 @@
         "birthdayPlaceholder": "dd/mm/yyyy",
         "male": "Nam",
         "female": "Nữ",
-        "gender": "Giới tính"
+        "gender": "Giới tính",
+        "validateGender":"Vui lòng nhập giới tính",
+        "permissionEditProduct":"Chỉnh sửa sản phẩm",
+        "permissionViewProduct":"Theo dõi sản phẩm",
+        "permissionCreateProduct":"Tạo sản phẩm",
+        "permissionEditProductCategory":"Chỉnh sửa danh mục sản phẩm",
+        "permissionViewProductCategory":"Theo dõi danh mục sản phẩm",
+        "permissionCreateProductCategory":"Tạo danh mục sản phẩm",
+        "permissionCreateCustomer":"Tạo khách hàng mới",
+        "permissionEditCustomer":"Chỉnh sửa thông tin khách hàng",
+        "permissionViewCustomer":"Theo dõi khách hàng",
+        "permissionViewStaff":"Theo dõi nhân sự",
+        "permissionEditStaff":"Chỉnh sửa thông tin nhân sự",
+        "permissionCreateStaff":"Tạo nhân viên",
+        "permissionCreateOrder":"Tạo đơn hàng",
+        "permissionEditOrder":"Chỉnh sửa đơn hàng",
+        "permissionViewOrder":"Theo dõi đơn hàng",
+        "permissionViewBlog":"Xem bài viết",
+        "permissionEditBlog":"Chỉnh sửa bài viết",
+        "permissionCreateBlog":"Tạo bài viết",
+        "permissionStoreWeb":"Quản lý trang web cửa hàng",
+        "permissionAdmin":"Quản trị viên",
+        "staffDeleteSuccess":"Xóa nhân viên thành công",
+        "staffDeleteFail":"Xóa nhân viên thất bại"
     },
     "table": {
         "no": "STT",

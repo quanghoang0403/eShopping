@@ -21,7 +21,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public Task<Staff> GetStaffByIdAsync(Guid staffId)
         {
-            var staff = dbSet.Include(a => a.Account).FirstOrDefaultAsync(s => s.Id == staffId);
+            var staff = dbSet.Include(a => a.Account).Include(a => a.StaffPermissions).ThenInclude(p => p.Permission).FirstOrDefaultAsync(s => s.Id == staffId);
             return staff;
         }
 
