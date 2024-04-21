@@ -1,8 +1,8 @@
 import type { AppProps } from 'next/app'
 import SEO from '@/components/Layout/SEO'
 import MainLayout from '@/components/Layout'
-import { Provider } from 'react-redux'
-import { makeStore } from '@/redux/store'
+import { Provider, useStore } from 'react-redux'
+import { AppStore, RootState, wrapper } from '@/redux/store'
 import NProgress from 'nprogress'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -20,29 +20,54 @@ NProgress.configure({ showSpinner: true })
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
-const { store, persistor } = makeStore()
-export default function App({ Component, pageProps }: AppProps) {
+// const { store, persistor } = makeStore()
+function App({ Component, pageProps }: AppProps) {
   const queryClient = React.useRef(new QueryClient())
-
-  return (
-    <>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <QueryClientProvider client={queryClient.current}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <I18nextProvider i18n={i18n}>
-                <MainLayout>
-                  <SEO />
-                  <Component {...pageProps} />
-                </MainLayout>
-                <ReactQueryDevtools initialIsOpen={false} />
-              </I18nextProvider>
-            </Hydrate>
-          </QueryClientProvider>
-        </PersistGate>
-      </Provider>
-    </>
+  const store: any = useStore()
+  return process.browser ? (
+    <PersistGate persistor={store.__persistor}>
+      <QueryClientProvider client={queryClient.current}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <I18nextProvider i18n={i18n}>
+            <MainLayout>
+              <SEO />
+              <Component {...pageProps} />
+            </MainLayout>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </I18nextProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </PersistGate>
+  ) : (
+    <QueryClientProvider client={queryClient.current}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <I18nextProvider i18n={i18n}>
+          <MainLayout>
+            <SEO />
+            <Component {...pageProps} />
+          </MainLayout>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </I18nextProvider>
+      </Hydrate>
+    </QueryClientProvider>
   )
+  // return (
+  //     {/* <Provider store={store}> */}
+  //     <PersistGate loading={<div>Loading</div>} persistor={persistor}>
+  //       <QueryClientProvider client={queryClient.current}>
+  //         {/* <Hydrate state={pageProps.dehydratedState}> */}
+  //         <I18nextProvider i18n={i18n}>
+  //           <MainLayout>
+  //             <SEO />
+  //             <Component {...pageProps} />
+  //           </MainLayout>
+  //           <ReactQueryDevtools initialIsOpen={false} />
+  //         </I18nextProvider>
+  //         {/* </Hydrate> */}
+  //       </QueryClientProvider>
+  //     </PersistGate>
+  //     {/* </Provider> */}
+  // )
   // const { store, persistor } = makeStore()
   // if (typeof window !== 'undefined') {
   //   console.log('object is window')
@@ -88,3 +113,5 @@ export default function App({ Component, pageProps }: AppProps) {
   //   </>
   //)
 }
+
+export default wrapper.withRedux(App)

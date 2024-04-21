@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import ProductList from '@/components/Product/ProductList'

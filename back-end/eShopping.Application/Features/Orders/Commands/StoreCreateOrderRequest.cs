@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using eShopping.Application.Features.Payments.Commands;
 using eShopping.Common.Constants;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
@@ -7,7 +6,6 @@ using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
-using eShopping.Payment.VNPay.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -213,13 +211,13 @@ namespace eShopping.Application.Features.Orders.Commands
                         break;
 
                     case EnumPaymentMethod.VNPay:
-                        var createVnPay = new CreateVNPayPaymentRequest()
-                        {
-                            VNPayBankCode = VNPayBankCode.VNBANK,
-                            OrderId = order.Id,
-                            Amount = order.TotalAmount
-                        };
-                        var paymentInfo = await _mediator.Send(createVnPay, cancellationToken);
+                        //var createVnPay = new CreateVNPayPaymentRequest()
+                        //{
+                        //    VNPayBankCode = VNPayBankCode.VNBANK,
+                        //    OrderId = order.Id,
+                        //    Amount = order.TotalAmount
+                        //};
+                        //var paymentInfo = await _mediator.Send(createVnPay, cancellationToken);
                         break;
 
                     case EnumPaymentMethod.Cash:
