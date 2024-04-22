@@ -82,16 +82,16 @@ namespace eShopping.Infrastructure.Repositories
 
         public bool CheckAccountByPhone(string phone, Guid accountId)
         {
-            var account = dbSet.FirstOrDefault(c => c.PhoneNumber == phone && c.Id == accountId);
-
-            return account == null;
+            var account = dbSet.FirstOrDefault(c => c.PhoneNumber == phone);
+            if (account == null) return false;
+            return account.Id != accountId;
         }
 
         public bool CheckAccountByEmail(string email, Guid accountId)
         {
-            var account = dbSet.FirstOrDefault(c => c.Email == email && c.Id == accountId);
-
-            return account == null;
+            var account = dbSet.FirstOrDefault(c => c.Email == email);
+            if (account == null) return false;
+            return account.Id != accountId;
         }
         public bool CheckAccountByEmail(string email)
         {
