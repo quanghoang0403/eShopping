@@ -36,7 +36,33 @@ function App({ Component, pageProps }: AppProps) {
   }
   const queryClient = React.useRef(new QueryClient())
   const store: any = useStore()
-  return process.browser ? <PersistGate persistor={store.__persistor}>{Main()}</PersistGate> : Main()
+  return process.browser ? (
+    <PersistGate persistor={store.__persistor}>
+      <QueryClientProvider client={queryClient.current}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <I18nextProvider i18n={i18n}>
+            <MainLayout>
+              <SEO />
+              <Component {...pageProps} />
+            </MainLayout>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </I18nextProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </PersistGate>
+  ) : (
+    <QueryClientProvider client={queryClient.current}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <I18nextProvider i18n={i18n}>
+          <MainLayout>
+            <SEO />
+            <Component {...pageProps} />
+          </MainLayout>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </I18nextProvider>
+      </Hydrate>
+    </QueryClientProvider>
+  )
 }
 
 export default wrapper.withRedux(App)

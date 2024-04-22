@@ -8,17 +8,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductCategoryByUrlRequest : IRequest<StoreGetProductCategoryByUrlResponse>
+    public class StoreGetProductCategoryByUrlRequest : IRequest<StoreProductCategoryDetailModel>
     {
         public string Url { get; set; }
     }
 
-    public class StoreGetProductCategoryByUrlResponse
-    {
-        public StoreProductCategoryDetailModel ProductCategory { get; set; }
-    }
-
-    public class StoreGetProductCategoryByUrlRequestHandler : IRequestHandler<StoreGetProductCategoryByUrlRequest, StoreGetProductCategoryByUrlResponse>
+    public class StoreGetProductCategoryByUrlRequestHandler : IRequestHandler<StoreGetProductCategoryByUrlRequest, StoreProductCategoryDetailModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -31,7 +26,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<StoreGetProductCategoryByUrlResponse> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
+        public async Task<StoreProductCategoryDetailModel> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -39,10 +34,7 @@ namespace eShopping.Application.Features.Products.Queries
             ThrowError.Against(productCategoryData == null, "Cannot find product category information");
 
             var productCategory = _mapper.Map<StoreProductCategoryDetailModel>(productCategoryData);
-            return new StoreGetProductCategoryByUrlResponse
-            {
-                ProductCategory = productCategory
-            };
+            return productCategory;
         }
     }
 }

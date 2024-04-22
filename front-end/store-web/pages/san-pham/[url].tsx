@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
 
   try {
     const res = await ProductService.getProductByUrl(slug as string)
-    const productDetail = res?.data?.product as IProductDetail
+    const productDetail = res?.data as IProductDetail
     return {
       props: { productDetail },
     }

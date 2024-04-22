@@ -27,4 +27,8 @@ export default class OrderService {
   static async checkout(request: ICreateOrderRequest): Promise<AxiosResponse<{ id: string }>> {
     return await APIService.post(`/order/checkout`, request)
   }
+
+  static async getPaymentMethods(): Promise<AxiosResponse<IPaymentMethod[]>> {
+    return await APIService.get(`/order/get-payment-methods`)
+  }
 }

@@ -8,6 +8,12 @@ enum EnumOrderStatus {
   Completed = 6,
 }
 
+interface IPaymentMethod {
+  id: number
+  name: string
+  icon: string
+}
+
 interface ICartItem {
   productId: string
   productName: string

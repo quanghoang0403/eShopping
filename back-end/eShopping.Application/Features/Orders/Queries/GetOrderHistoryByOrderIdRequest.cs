@@ -11,18 +11,13 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class GetOrderHistoryByOrderIdRequest : IRequest<GetOrderHistoryByOrderIdResponse>
+    public class GetOrderHistoryByOrderIdRequest : IRequest<IEnumerable<OrderHistoryModel>>
     {
         public Guid Id { get; set; }
 
     }
 
-    public class GetOrderHistoryByOrderIdResponse
-    {
-        public IEnumerable<OrderHistoryModel> DetailList { get; set; }
-    }
-
-    public class GetOrderHistoryByOrderIdRequestHandle : IRequestHandler<GetOrderHistoryByOrderIdRequest, GetOrderHistoryByOrderIdResponse>
+    public class GetOrderHistoryByOrderIdRequestHandle : IRequestHandler<GetOrderHistoryByOrderIdRequest, IEnumerable<OrderHistoryModel>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -32,7 +27,7 @@ namespace eShopping.Application.Features.Orders.Queries
             _userProvider = userProvider;
         }
 
-        public async Task<GetOrderHistoryByOrderIdResponse> Handle(GetOrderHistoryByOrderIdRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<OrderHistoryModel>> Handle(GetOrderHistoryByOrderIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -76,10 +71,7 @@ namespace eShopping.Application.Features.Orders.Queries
                 }
             }
 
-            var response = new GetOrderHistoryByOrderIdResponse()
-            {
-                DetailList = orderHistoryResponse.OrderByDescending(x => x.CreatedTime)
-            };
+            var response = orderHistoryResponse.OrderByDescending(x => x.CreatedTime);
             return response;
         }
 

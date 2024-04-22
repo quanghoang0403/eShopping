@@ -9,16 +9,11 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Customers.Queries
 {
-    public class GetCustomerByIdRequest : IRequest<GetCustomerByIdResponse>
+    public class GetCustomerByIdRequest : IRequest<CustomerDetailModel>
     {
     }
 
-    public class GetCustomerByIdResponse
-    {
-        public CustomerDetailModel Customer { get; set; }
-    }
-
-    public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, GetCustomerByIdResponse>
+    public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, CustomerDetailModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -38,7 +33,7 @@ namespace eShopping.Application.Features.Customers.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
+        public async Task<CustomerDetailModel> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var customer = await _unitOfWork.Customers.Find(x => x.Id == loggedUser.Id.Value).Include(x => x.Account).FirstOrDefaultAsync();
@@ -61,10 +56,7 @@ namespace eShopping.Application.Features.Customers.Queries
                 CityId = customer.CityId,
             };
 
-            return new GetCustomerByIdResponse
-            {
-                Customer = customerDetailModel
-            };
+            return customerDetailModel;
         }
     }
 }

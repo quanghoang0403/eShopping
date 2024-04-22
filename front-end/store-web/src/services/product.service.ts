@@ -8,7 +8,7 @@ export default class ProductService {
     )
   }
 
-  static async getProductByUrl(url: string): Promise<AxiosResponse<IGetProductByUrlResponse>> {
+  static async getProductByUrl(url: string): Promise<AxiosResponse<IProductDetail>> {
     return await APIService.get(`/product/get-product-by-url?url=${url}`)
   }
 
@@ -16,7 +16,7 @@ export default class ProductService {
     return await APIService.get(`/productCategory/get-all-product-categories`)
   }
 
-  static async getProductCategoryByUrl(url: string): Promise<AxiosResponse<IGetProductCategoryByUrlResponse>> {
+  static async getProductCategoryByUrl(url: string): Promise<AxiosResponse<IProductCategoryDetail>> {
     return await APIService.get(`/productCategory/get-product-category-by-url?url=${url}`)
   }
 }

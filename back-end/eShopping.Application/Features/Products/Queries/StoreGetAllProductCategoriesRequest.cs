@@ -10,16 +10,11 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetAllProductCategoriesRequest : IRequest<StoreGetAllProductCategoriesResponse>
+    public class StoreGetAllProductCategoriesRequest : IRequest<IEnumerable<StoreProductCategoryModel>>
     {
     }
 
-    public class StoreGetAllProductCategoriesResponse
-    {
-        public IEnumerable<StoreProductCategoryModel> AllProductCategories { get; set; }
-    }
-
-    public class StoreGetAllProductCategoriesRequestHandler : IRequestHandler<StoreGetAllProductCategoriesRequest, StoreGetAllProductCategoriesResponse>
+    public class StoreGetAllProductCategoriesRequestHandler : IRequestHandler<StoreGetAllProductCategoriesRequest, IEnumerable<StoreProductCategoryModel>>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -38,7 +33,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<StoreGetAllProductCategoriesResponse> Handle(StoreGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<StoreProductCategoryModel>> Handle(StoreGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -54,13 +49,7 @@ namespace eShopping.Application.Features.Products.Queries
                         IsShowOnHome = p.IsShowOnHome
                     })
                     .ToListAsync(cancellationToken: cancellationToken);
-
-            var response = new StoreGetAllProductCategoriesResponse()
-            {
-                AllProductCategories = allProductCategoriesInStore
-            };
-
-            return response;
+            return allProductCategoriesInStore;
         }
     }
 }

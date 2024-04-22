@@ -1,8 +1,8 @@
-﻿using eShopping.Common.Attributes.Permission;
+﻿using eShopping.Application.Features.Orders.Commands;
+using eShopping.Application.Features.Orders.Queries;
+using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
-using eShopping.Application.Features.Orders.Commands;
-using eShopping.Application.Features.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +67,15 @@ namespace eShopping.WebApi.Controllers.ApiStore
         [Route("checkout")]
         [HasPermission(EnumPermission.STORE_WEB)]
         public async Task<IActionResult> Checkout(StoreCreateOrderRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
+
+        [HttpGet]
+        [Route("get-payment-methods")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPaymentMethods([FromQuery] StoreGetPaymentMethodsRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

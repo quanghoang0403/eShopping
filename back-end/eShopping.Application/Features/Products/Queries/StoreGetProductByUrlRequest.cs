@@ -9,18 +9,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductByUrlRequest : IRequest<StoreGetProductByUrlResponse>
+    public class StoreGetProductByUrlRequest : IRequest<StoreProductDetailModel>
     {
         public string Url { get; set; }
     }
 
-    public class StoreGetProductByUrlResponse
-    {
-        public StoreProductDetailModel Product { get; set; }
-
-    }
-
-    public class StoreGetProductByUrlRequestHandler : IRequestHandler<StoreGetProductByUrlRequest, StoreGetProductByUrlResponse>
+    public class StoreGetProductByUrlRequestHandler : IRequestHandler<StoreGetProductByUrlRequest, StoreProductDetailModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDateTimeService _dateTimeService;
@@ -42,7 +36,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<StoreGetProductByUrlResponse> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
+        public async Task<StoreProductDetailModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
         {
             //var productData = await _unitOfWork.Products
             //    .Find(p => p.UrlSEO == request.Url)
@@ -123,10 +117,7 @@ namespace eShopping.Application.Features.Products.Queries
                 Description = "Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY.XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn.Everyday carry +1 seitan poutine tumeric.Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.",
             };
 
-            return new StoreGetProductByUrlResponse
-            {
-                Product = productData,
-            };
+            return productData;
         }
     }
 }

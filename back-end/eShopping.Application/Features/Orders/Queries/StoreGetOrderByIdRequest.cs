@@ -12,17 +12,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class StoreGetOrderByIdRequest : IRequest<StoreGetOrderByIdResponse>
+    public class StoreGetOrderByIdRequest : IRequest<StoreOrderDetailModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class StoreGetOrderByIdResponse
-    {
-        public StoreOrderDetailModel Order { get; set; }
-    }
-
-    public class StoreGetOrderByIdRequestHandler : IRequestHandler<StoreGetOrderByIdRequest, StoreGetOrderByIdResponse>
+    public class StoreGetOrderByIdRequestHandler : IRequestHandler<StoreGetOrderByIdRequest, StoreOrderDetailModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -42,7 +37,7 @@ namespace eShopping.Application.Features.Orders.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<StoreGetOrderByIdResponse> Handle(StoreGetOrderByIdRequest request, CancellationToken cancellationToken)
+        public async Task<StoreOrderDetailModel> Handle(StoreGetOrderByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -75,12 +70,7 @@ namespace eShopping.Application.Features.Orders.Queries
                 .Select(oh => oh.CancelReason)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            var response = new StoreGetOrderByIdResponse()
-            {
-                Order = order
-            };
-
-            return response;
+            return order;
         }
     }
 }

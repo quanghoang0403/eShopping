@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eShopping.Application.Features.Payments.Commands;
 using eShopping.Common.Constants;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
@@ -6,6 +7,7 @@ using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
+using eShopping.Payment.VNPay.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +21,8 @@ namespace eShopping.Application.Features.Orders.Commands
     public class StoreCreateOrderRequest : IRequest<StoreCreateOrderResponse>
     {
         public IEnumerable<StoreCartModel> CartItem { get; set; }
+
+        public EnumPaymentMethod PaymentMethodId { get; set; }
 
         public string ShipName { set; get; }
 
@@ -124,6 +128,7 @@ namespace eShopping.Application.Features.Orders.Commands
                     CustomerId = customerId,
                     Status = EnumOrderStatus.New,
                     DeliveryFee = DefaultConstants.DELIVERY_FEE,
+                    PaymentMethodId = request.PaymentMethodId,
                     ShipName = request.ShipName,
                     ShipEmail = request.ShipEmail,
                     ShipPhoneNumber = request.ShipPhoneNumber,
@@ -191,9 +196,31 @@ namespace eShopping.Application.Features.Orders.Commands
                     CreatedUser = accountId,
                 });
 
+                var res = new StoreCreateOrderResponse()
+                {
+                    IsSuccess = true,
+                    OrderId = order.Id
+                };
+
                 /// Create payment
+                var isValidMethod = DefaultConstants.ALLOW_PAYMENT_METHOD.Any(method => method == request.PaymentMethodId);
+                ThrowError.Against(isValidMethod, "Invalid payment method, please choose another method");
+
                 switch (order.PaymentMethodId)
                 {
+                    case EnumPaymentMethod.COD:
+                        var orderPaymentTransaction = new OrderPaymentTransaction()
+                        {
+                            IsSuccess = true,
+                            OrderId = order.Id,
+                            OrderInfo = "Ship COD",
+                            Amount = order.TotalAmount,
+                            PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
+                            CreatedUser = loggedUser.AccountId.Value,
+                            CreatedTime = DateTime.UtcNow,
+                        };
+                        await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
+                        break;
                     case EnumPaymentMethod.MoMo:
                         //var createMoMoQrPayment = new CreateMoMoPaymentRequest()
                         //{
@@ -205,35 +232,60 @@ namespace eShopping.Application.Features.Orders.Commands
                         //    AccountId = request.AccountId,
                         //    Platform = EnumPlatform.StoreWebsite /// Store web request
                         //};
-
                         //var paymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
                         //storeWebCreateOrderResponse.PaymentInfo = paymentInfo;
                         break;
-
-                    case EnumPaymentMethod.VNPay:
-                        //var createVnPay = new CreateVNPayPaymentRequest()
-                        //{
-                        //    VNPayBankCode = VNPayBankCode.VNBANK,
-                        //    OrderId = order.Id,
-                        //    Amount = order.TotalAmount
-                        //};
-                        //var paymentInfo = await _mediator.Send(createVnPay, cancellationToken);
+                    case EnumPaymentMethod.ZaloPay:
+                        // TO DO
                         break;
-
-                    case EnumPaymentMethod.Cash:
+                    case EnumPaymentMethod.ShopeePay:
+                        // TO DO
                         break;
-
-                    case EnumPaymentMethod.BankTransfer:
+                    case EnumPaymentMethod.BankTransferVietQR:
+                        var createVietQR = new CreateVietQRPaymentRequest()
+                        {
+                            OrderId = order.Id,
+                            Amount = order.TotalAmount,
+                            Description = $"{order.ShipName} {order.Id}"
+                        };
+                        res.PaymentInfo = await _mediator.Send(createVietQR, cancellationToken);
+                        break;
+                    case EnumPaymentMethod.VNPayQR:
+                        var createVnPay = new CreateVNPayPaymentRequest()
+                        {
+                            VNPayBankCode = VNPayBankCode.VNPAYQR,
+                            OrderId = order.Id,
+                            Amount = order.TotalAmount
+                        };
+                        res.PaymentInfo = await _mediator.Send(createVnPay, cancellationToken);
+                        break;
+                    case EnumPaymentMethod.PayOS:
+                        // TO DO
+                        break;
+                    case EnumPaymentMethod.ATM:
+                        var createATM = new CreateVNPayPaymentRequest()
+                        {
+                            VNPayBankCode = VNPayBankCode.VNBANK,
+                            OrderId = order.Id,
+                            Amount = order.TotalAmount
+                        };
+                        res.PaymentInfo = await _mediator.Send(createATM, cancellationToken);
+                        break;
+                    case EnumPaymentMethod.CreditDebitCard:
+                        var createCredit = new CreateVNPayPaymentRequest()
+                        {
+                            VNPayBankCode = VNPayBankCode.INTCARD,
+                            OrderId = order.Id,
+                            Amount = order.TotalAmount
+                        };
+                        res.PaymentInfo = await _mediator.Send(createCredit, cancellationToken);
                         break;
                 }
+
                 await _unitOfWork.SaveChangesAsync();
                 await createTransaction.CommitAsync(cancellationToken);
 
-                return new StoreCreateOrderResponse()
-                {
-                    IsSuccess = true,
-                    OrderId = order.Id
-                };
+                return res;
             }
         }
 

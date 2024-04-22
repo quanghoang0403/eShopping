@@ -10,6 +10,8 @@ using eShopping.Infrastructure.Repositories;
 using eShopping.Interfaces;
 using eShopping.Interfaces.Repositories;
 using eShopping.MemoryCaching;
+using eShopping.Payment.MoMo;
+using eShopping.Payment.VNPay;
 using eShopping.Services;
 using eShopping.Services.User;
 using eShopping.Storage;
@@ -82,6 +84,9 @@ namespace eShopping.WebApi
 
             services.AddScoped<IUserProvider, HttpUserProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IMoMoPaymentService, MoMoPaymentService>();
+            services.AddScoped<IVNPayService, VNPayService>();
 
             #region Register for Repositories
 

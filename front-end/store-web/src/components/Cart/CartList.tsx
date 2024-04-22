@@ -29,7 +29,7 @@ export default function CartList(props: IProps) {
   return (
     <>
       {cartItems?.length > 0 &&
-        cartItems.map((cart, index) => {
+        cartItems.map((cart: any, index: number) => {
           const link = `/san-pham/${cart.productUrl}`
           const options: IOption[] = [...Array(cart.quantityLeft)].map((_, index) => {
             return { id: index + 1 }
