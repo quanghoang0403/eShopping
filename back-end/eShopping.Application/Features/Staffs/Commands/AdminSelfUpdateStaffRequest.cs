@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Staffs.Commands
 {
-    public class AdminUpdateStaffRequest : IRequest<bool>
+
+    public class AdminSelfUpdateStaffRequest : IRequest<bool>
     {
         public Guid StaffId { get; set; }
 
@@ -31,12 +32,14 @@ namespace eShopping.Application.Features.Staffs.Commands
 
         public List<Guid> PermissionIds { get; set; }
     }
-    public class AdminUpdateStaffRequestHandler : IRequestHandler<AdminUpdateStaffRequest, bool>
+
+    public class AdminSelfUpdateStaffRequestHandler : IRequestHandler<AdminSelfUpdateStaffRequest, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
+        private readonly IMapper _mapper;
 
-        public AdminUpdateStaffRequestHandler(
+        public AdminSelfUpdateStaffRequestHandler(
             IUnitOfWork unitOfWork,
             IUserProvider userProvider,
             IMapper mapper
@@ -44,14 +47,15 @@ namespace eShopping.Application.Features.Staffs.Commands
         {
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
+            _mapper = mapper;
         }
-        public async Task<bool> Handle(AdminUpdateStaffRequest request, CancellationToken cancellationToken)
+
+        public async Task<bool> Handle(AdminSelfUpdateStaffRequest request, CancellationToken cancellationToken)
         {
             // Get the current user information from the user token.
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            Staff staff = await _unitOfWork.Staffs.GetStaffByIdAsync(request.StaffId);
-            Account account = staff.Account;
+            Account account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(loggedUser.AccountId ?? Guid.Empty);
             ThrowError.Against(account == null, "Account is not exist or was inactive");
 
             CheckUniqueAndValidation(request, account.Id);
@@ -66,36 +70,39 @@ namespace eShopping.Application.Features.Staffs.Commands
             account.LastSavedTime = DateTime.UtcNow;
 
             #region Handle update permissions
+            // all permissions before update
+            var allStaffPermissions = await _unitOfWork.StaffPermission.GetStaffPermissionsByStaffId(request.StaffId);
 
             // update permissions
-
-            // remove unused permissions
-            var unusedStaffPermissions = staff.StaffPermissions.Where(x => !request.PermissionIds.Any(pn => pn == x.PermissionId));
-            _unitOfWork.StaffPermission.RemoveRange(unusedStaffPermissions);
-
-            // add new permissions
-            var newStaffPermissionIds = request.PermissionIds.Where(p => !staff.StaffPermissions.Any(x => x.PermissionId == p));
-            var newStaffPermissionsToDB = new List<StaffPermission>();
-            foreach (var permissionId in newStaffPermissionIds)
+            if (request.PermissionIds.Any())
             {
-                var newProductPrice = new StaffPermission()
+                // remove unused permissions
+                var unusedStaffPermissions = allStaffPermissions.Where(x => !request.PermissionIds.Any(pn => pn == x.PermissionId));
+                _unitOfWork.StaffPermission.RemoveRange(unusedStaffPermissions);
+
+                // add new permissions
+                var newStaffPermissionIds = request.PermissionIds.Where(p => !allStaffPermissions.Any(x => x.PermissionId == p));
+                var newStaffPermissionsToDB = new List<StaffPermission>();
+                foreach (var permissionId in newStaffPermissionIds)
                 {
-                    StaffId = request.StaffId,
-                    PermissionId = permissionId,
-                    CreatedUser = loggedUser.AccountId.Value,
-                    CreatedTime = DateTime.UtcNow
-                };
-                newStaffPermissionsToDB.Add(newProductPrice);
-
+                    var newProductPrice = new StaffPermission()
+                    {
+                        StaffId = request.StaffId,
+                        PermissionId = permissionId,
+                        CreatedUser = loggedUser.AccountId.Value,
+                        CreatedTime = DateTime.UtcNow
+                    };
+                    newStaffPermissionsToDB.Add(newProductPrice);
+                    await _unitOfWork.StaffPermission.AddRangeAsync(newStaffPermissionsToDB);
+                }
             }
-            await _unitOfWork.StaffPermission.AddRangeAsync(newStaffPermissionsToDB);
-
             #endregion
 
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
-        private void CheckUniqueAndValidation(AdminUpdateStaffRequest request, Guid accountId)
+
+        private void CheckUniqueAndValidation(AdminSelfUpdateStaffRequest request, Guid aid)
         {
             ThrowError.Against(string.IsNullOrEmpty(request.FullName), new JObject()
             {
@@ -107,7 +114,7 @@ namespace eShopping.Application.Features.Staffs.Commands
                 { $"{nameof(request.PhoneNumber)}",  "Please enter phone"},
             });
 
-            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim(), accountId);
+            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim(), aid);
             ThrowError.Against(phoneExisted == true, new JObject()
             {
                 { $"{nameof(request.PhoneNumber)}",  "Phone number is existed"},
@@ -115,7 +122,7 @@ namespace eShopping.Application.Features.Staffs.Commands
 
             if (!string.IsNullOrWhiteSpace(request.Email))
             {
-                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim(), accountId);
+                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim(), aid);
                 ThrowError.Against(emailExisted == true, new JObject()
                 {
                     { $"{nameof(request.Email)}",  "Email is existed"},

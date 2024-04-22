@@ -18,7 +18,7 @@ export default function StaffPage (props) {
   }
 
   const pageData = {
-    title: t('staff:title'),
+    title: t('staff.title'),
     btnAddNew: t('button.addNew')
   }
 
