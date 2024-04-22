@@ -1,4 +1,4 @@
-import { Card, Col, Form, Image, Input, InputNumber, message, Row, Tooltip } from 'antd'
+import { Card, Col, Form, Image, Input, InputNumber, message, Row, Tooltip, Space, Divider } from 'antd'
 import { arrayMoveImmutable } from 'array-move'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
@@ -14,6 +14,7 @@ import { sortableContainer, sortableElement, sortableHandle } from 'react-sortab
 import { getValidationMessages } from 'utils/helpers';
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import '../index.scss'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 
 export default function FormNewProductCategory (props) {
   const { t, onCompleted, productCategoryDataService, productDataService } = props
@@ -62,7 +63,8 @@ export default function FormNewProductCategory (props) {
       keyword:{
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
-        tooltip: t('form.SEOKeywordsTooltip')
+        tooltip: t('form.SEOKeywordsTooltip'),
+        btnAdd:t('form.AddSEOKeywords')
       },
       SEOtitle:{
         label:t('form.SEOTitle'),
@@ -236,7 +238,7 @@ export default function FormNewProductCategory (props) {
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
-        keywordSEO: values.keywordSEO
+        keywordSEO: values.keywordSEO?.join(',') || null
       }
       productCategoryDataService
         .createProductCategoryAsync(createProductCategoryRequestModel)
@@ -271,7 +273,13 @@ export default function FormNewProductCategory (props) {
       onCompleted()
     }, DELAYED_TIME)
   }
-
+  const [keywordSEOs,setKeywordSEOList] = useState([]);
+  const [keywordSEO,setKeywordSEO] = useState({})
+  const addSEOKeywords = (e)=>{
+    e.preventDefault();
+    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({...keywordSEO,id:'',name:''});
+  }
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
@@ -485,16 +493,42 @@ export default function FormNewProductCategory (props) {
                   </div>
                   
                   <Form.Item
-                    name={['keywordSEO']}
-                    className="item-name"
-                  >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      placeholder={pageData.SEOInformation.keyword.placeholder}
-                      
-                    />
-                  </Form.Item>
+                      name={['keywordSEO']}
+                      className="item-name"
+                    >
+                      <FnbSelectMultiple
+                        placeholder={pageData.SEOInformation.keyword.placeholder}
+                        option={keywordSEOs}
+                        dropdownRender={
+                          (menu) => (
+                            <>
+                              {menu}
+                              <Divider style={{ margin: '8px 0' }} />
+                              <Row className='w-100'justify={'space-between'}>
+                                <Col span={14} className='mx-3'>
+                                  <Input
+                                      className="shop-input-non-shadow m-0 py-0 border-0 shadow-none"
+                                      placeholder={pageData.SEOInformation.keyword.placeholder}
+                                      value={keywordSEO.name || ''}
+                                      maxLength={3}
+                                      onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
+                                      onKeyDown={(e) => e.stopPropagation()}
+                                      showCount
+                                  />
+                                </Col>
+                                <Col span={5} className='mx-3'>
+                                  <ShopAddNewButton 
+                                  text={pageData.SEOInformation.keyword.btnAdd}
+                                  onClick={addSEOKeywords}
+                                  ></ShopAddNewButton>
+                                </Col>
+                                
+                              </Row>
+                            </>
+                          )
+                        }
+                      />
+                    </Form.Item>
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>

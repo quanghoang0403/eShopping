@@ -372,7 +372,7 @@ h3 {
 }
 
 /// Input
-.shop-input {
+@mixin shop-input-mixin {
   height: 60px;
   font-size: 18px;
   background: #ffffff;
@@ -409,7 +409,13 @@ h3 {
     padding: 5px;
   }
 }
-
+.shop-input{
+  @include shop-input-mixin()
+}
+.shop-input-non-shadow{
+  @include shop-input-mixin();
+  box-shadow:none;
+}
 .shop-input:hover {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border: none;

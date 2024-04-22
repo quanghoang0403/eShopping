@@ -88,6 +88,7 @@ namespace eShopping.Application.Features.Products.Commands
                 /// Save new product - product category to sub-table
                 if (request.Products != null && request.Products.Any())
                 {
+                    newProductCategory.ProductInCategories = new List<ProductInCategory>();
                     request.Products.ForEach(product =>
                     {
                         var index = request.Products.IndexOf(product);
