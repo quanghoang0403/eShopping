@@ -68,6 +68,8 @@ export const inputNumberRange1To999999999DotAllow = {
 
 export const INPUT_PHONE_NUMBER_REGEX = /^[0-9]{9,12}\s*?$/
 
+export const PHONE_NUMBER_REGEX = /(03[2-9]|05[2689]|07[06-9]|08[1-9]|09[0-49])+([0-9]{7})\b/
+
 export const MAXIMUM_FILE_SIZE = 20 * 1024 * 1024 // 20 MB => bytes
 
 export const MAXIMUM_FILE_SIZE_DISPLAY = 20 // 20 MB
