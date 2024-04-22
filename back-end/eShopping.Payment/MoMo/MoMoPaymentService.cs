@@ -31,7 +31,7 @@ namespace eShopping.Payment.MoMo
             _httpClient = httpClient;
         }
 
-        public Task<CreateMomoResponseModel> CreateGatewayTestingAsync(CreateGetwayRequestModel request)
+        public Task<CreateMomoResponseModel> CreateGatewayTestingAsync(CreateMomoRequestModel request)
         {
             string endpoint = $"{_momoSettings.DomainProduction}/v2/gateway/api/create";
 
@@ -87,7 +87,7 @@ namespace eShopping.Payment.MoMo
             return Task.FromResult(createGetwayResponseModel);
         }
 
-        public Task<CreateMomoResponseModel> CreateGatewayAsync(CreateGetwayRequestModel request, string requestType)
+        public Task<CreateMomoResponseModel> CreateGatewayAsync(CreateMomoRequestModel request)
         {
             string endpoint = $"{_momoSettings.DomainProduction}/v2/gateway/api/create";
             /// Momo Configs
@@ -104,6 +104,7 @@ namespace eShopping.Payment.MoMo
             string partnerClientId = request.PartnerClientId;
             string redirectUrl = request.RedirectUrl;
             string ipnUrl = request.IpnUrl;
+            string requestType = request.RequestType;
             var language = request.Language ?? "vi";
 
             string rawHash = $"accessKey={accessKey}&" +
@@ -402,7 +403,7 @@ namespace eShopping.Payment.MoMo
             var site = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
             var nameEmail = loggedUser.Email.Split("+")[0];
             var emainDomain = loggedUser.Email.Split("@")[1];
-            var requestGateway = new CreateGetwayRequestModel()
+            var requestGateway = new CreateMomoRequestModel()
             {
                 RequestId = Guid.NewGuid().ToString(),
                 Amount = "0",

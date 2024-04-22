@@ -222,18 +222,13 @@ namespace eShopping.Application.Features.Orders.Commands
                         await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
                         break;
                     case EnumPaymentMethod.MoMo:
-                        //var createMoMoQrPayment = new CreateMoMoPaymentRequest()
-                        //{
-                        //    OrderId = storeWebCreateOrderResponse.OrderId,
-                        //    OrderCode = storeWebCreateOrderResponse.OrderCode,
-                        //    Amount = Convert.ToInt32(order.TotalAmount).ToString(),
-                        //    StoreId = loggedUser.StoreId,
-                        //    BranchId = request.BranchId,
-                        //    AccountId = request.AccountId,
-                        //    Platform = EnumPlatform.StoreWebsite /// Store web request
-                        //};
-                        //var paymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
-                        //storeWebCreateOrderResponse.PaymentInfo = paymentInfo;
+                        var createMoMoQrPayment = new CreateMoMoPaymentRequest()
+                        {
+                            OrderId = order.Id,
+                            OrderCode = order.Code.ToString(),
+                            Amount = Convert.ToInt32(order.TotalAmount).ToString(),
+                        };
+                        res.PaymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
                         break;
                     case EnumPaymentMethod.ZaloPay:
                         // TO DO
@@ -260,13 +255,21 @@ namespace eShopping.Application.Features.Orders.Commands
                         res.PaymentInfo = await _mediator.Send(createVnPay, cancellationToken);
                         break;
                     case EnumPaymentMethod.PayOS:
-                        // TO DO
+                        var createPayOS = new CreatePayOSPaymentRequest()
+                        {
+                            OrderId = order.Id,
+                            Amount = Convert.ToInt32(order.TotalAmount),
+                            OrderCode = order.Code,
+                            OrderItems = order.OrderItems,
+                        };
+                        res.PaymentInfo = await _mediator.Send(createPayOS, cancellationToken);
                         break;
                     case EnumPaymentMethod.ATM:
                         var createATM = new CreateVNPayPaymentRequest()
                         {
                             VNPayBankCode = VNPayBankCode.VNBANK,
                             OrderId = order.Id,
+                            OrderCode = order.Code,
                             Amount = order.TotalAmount
                         };
                         res.PaymentInfo = await _mediator.Send(createATM, cancellationToken);

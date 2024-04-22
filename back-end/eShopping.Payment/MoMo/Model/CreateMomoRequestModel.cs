@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace eShopping.Payment.MoMo.Model
+﻿namespace eShopping.Payment.MoMo.Model
 {
-    public class CreateGetwayRequestModel
+    public class CreateMomoRequestModel
     {
         /// <summary>
         /// Request ID, unique for each request, MoMo's partner uses the requestId field for idempotency control
@@ -57,5 +51,7 @@ namespace eShopping.Payment.MoMo.Model
         /// The language of the returned message (vi or en)
         /// </summary>
         public string Language { get; set; }
+
+        public string RequestType { get; set; }
     }
 }

@@ -38,6 +38,8 @@
         public VNPaySettings VNPaySettings { get; set; }
 
         public VietQRSettings VietQRSettings { get; set; }
+
+        public PayOSSettings PayOSSettings { get; set; }
     }
 
     public class MoMoSettings
@@ -82,5 +84,14 @@
         public string BankAccountNumber { get; set; }
 
         public string BankAccountName { get; set; }
+    }
+
+    public class PayOSSettings
+    {
+        public string ClientId { get; set; }
+
+        public string ApiKey { get; set; }
+
+        public string Checksum { get; set; }
     }
 }

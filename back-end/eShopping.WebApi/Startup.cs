@@ -11,6 +11,7 @@ using eShopping.Interfaces;
 using eShopping.Interfaces.Repositories;
 using eShopping.MemoryCaching;
 using eShopping.Payment.MoMo;
+using eShopping.Payment.PayOS;
 using eShopping.Payment.VNPay;
 using eShopping.Services;
 using eShopping.Services.User;
@@ -85,6 +86,7 @@ namespace eShopping.WebApi
             services.AddScoped<IUserProvider, HttpUserProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<IPayOSService, PayOSService>();
             services.AddScoped<IMoMoPaymentService, MoMoPaymentService>();
             services.AddScoped<IVNPayService, VNPayService>();
 

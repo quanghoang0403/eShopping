@@ -18,6 +18,8 @@ namespace eShopping.Application.Features.Payments.Commands
         public decimal Amount { get; set; }
 
         public Guid OrderId { get; set; }
+
+        public int OrderCode { get; set; }
     }
 
     public class CreateVNPayPaymentResponse
@@ -43,14 +45,14 @@ namespace eShopping.Application.Features.Payments.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var orderInfo = new VNPayOrderInfoModel()
             {
-                PaymentTranId = DateTime.Now.Ticks,
-                Title = $"Payment for order {request.OrderId}",
+                PaymentTranId = request.OrderCode,
+                Title = $"Order {request.OrderId} - {request.OrderCode}",
                 Amount = request.Amount,
                 CreatedDate = DateTime.UtcNow,
                 BankCode = request.VNPayBankCode,
                 CurrencyCode = SystemConstants.CurrencyCode,
-                Locale = SystemConstants.LocaleDefault,
-                ReturnUrl = SystemConstants.VnPayRedirectUrl
+                Locale = SystemConstants.VnPayRedirectUrl,
+                ReturnUrl = SystemConstants.VnPayIpnUrl
             };
 
             // Call the VNPay's service.
