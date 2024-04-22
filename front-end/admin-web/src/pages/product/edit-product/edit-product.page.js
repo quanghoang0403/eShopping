@@ -312,7 +312,7 @@ export default function EditProductPage(props) {
           thumbnail:imageUrl,
           status:statusId,
           content:productContent,
-          keywordSEO:values.product.keywordSEO?.join(',')
+          keywordSEO:values.product.keywordSEO?.join(',') || null
         }
         console.log(editProductRequestModel)
         if (editProductRequestModel.thumbnail !== '') {
