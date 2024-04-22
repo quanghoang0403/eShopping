@@ -955,7 +955,7 @@ export default function CreateProductPage() {
                               <Divider style={{ margin: '8px 0' }} />
                               <Space style={{ padding: '0 8px 4px' }}>
                                 <Input
-                                    className="shop-input m-0 py-0"
+                                    className="shop-input-non-shadow m-0 py-0"
                                     placeholder={pageData.SEOInformation.keyword.placeholder}
                                     value={keywordSEO.name || ''}
                                     maxLength={3}
