@@ -87,7 +87,9 @@ namespace eShopping.Application.Features.Staffs.Commands
                     Birthday = request.Birthday,
                     Gender = request.Gender,
                     LastSavedUser = accountId,
-                    LastSavedTime = DateTime.UtcNow
+                    LastSavedTime = DateTime.UtcNow,
+                    PhoneNumber = request.PhoneNumber,
+                    Thumbnail = request.Thumbnail
                 };
                 // await _unitOfWork.Accounts.AddAsync(newStaffAccount);
 

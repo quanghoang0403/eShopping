@@ -52,8 +52,10 @@ namespace eShopping.Interfaces.Repositories
 
         Task<Account> GetAccountActivatedByIdAsync(Guid id);
 
+        bool CheckAccountByPhone(string phone, Guid accountID);
         bool CheckAccountByPhone(string phone);
 
+        bool CheckAccountByEmail(string email, Guid accountId);
         bool CheckAccountByEmail(string email);
 
     }

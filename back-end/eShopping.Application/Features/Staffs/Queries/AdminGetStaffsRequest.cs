@@ -6,6 +6,7 @@ using eShopping.Models.Permissions;
 using eShopping.Models.Staffs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,6 +21,7 @@ namespace eShopping.Application.Features.Staffs.Queries
         public int PageSize { get; set; }
 
         public string KeySearch { get; set; }
+        public Guid PermissionId { get; set; }
     }
 
     public class AdminGetStaffsResponse
@@ -76,8 +78,12 @@ namespace eShopping.Application.Features.Staffs.Queries
                                    .OrderByDescending(p => p.CreatedTime)
                                    .ToPaginationAsync(request.PageNumber, request.PageSize);
             }
-
             var staffsResponse = await GetStaffModelAsync(staffs.Result.ToList(), request);
+            if (request.PermissionId != Guid.Empty)
+            {
+                staffsResponse = staffsResponse.Where(s => s.Permissions.Any(p => p.PermissionGroupId == request.PermissionId)).ToList();
+            }
+
             return new AdminGetStaffsResponse()
             {
                 Staffs = staffsResponse,

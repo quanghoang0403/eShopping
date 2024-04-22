@@ -39,7 +39,7 @@ export default function FilterStaff (props) {
   const onApplyFilter = () => {
     const formValue = form.getFieldsValue()
     formValue.count = countFilterControl(formValue)
-
+    console.log(formValue)
     props.fetchDataProducts(formValue)
   }
 
