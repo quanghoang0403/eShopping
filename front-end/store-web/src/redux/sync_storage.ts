@@ -1,6 +1,7 @@
 import { persistReducer } from 'redux-persist'
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 
+export const COOKIE_NAME = 'cuchoami_cookie'
 const createNoopStorage = () => {
   return {
     getItem(_key: string) {
