@@ -8,26 +8,29 @@ import { EditButtonComponent } from "components/edit-button/edit-button.componen
 import { useSelector } from "react-redux";
 import { tableSettings } from "constants/default.constants";
 import BlogCategoryDataService from "data-services/blog/blog-category-data.service";
+import { executeAfter } from "utils/helpers";
+
 export default function TableBlogCategory(){
     const [t] = useTranslation();
     const permissions = useSelector((state) => state?.session?.permissions)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
     const [dataSource,setDataSource] = useState([]);
-    useEffect(()=>{
-        const getInitData = async()=>{
-            const data={
-                pageNumber:currentPageNumber,
-                pageSize:tableSettings.pageSize
-            }
-            const res = await BlogCategoryDataService.getBlogCategoriesAsync(data)
-            if(res){
-                setDataSource(res?.blogCategories)
-            }
-            else{
-                message.error(pageData.fetchFail)
-            }
+    const fetchTableData = async(keySearch = '')=>{
+        const data={
+            pageNumber:currentPageNumber,
+            pageSize:tableSettings.pageSize,
+            keySearch:keySearch
         }
-        getInitData();
+        const res = await BlogCategoryDataService.getBlogCategoriesAsync(data)
+        if(res){
+            setDataSource(res?.blogCategories)
+        }
+        else{
+            message.error(pageData.fetchFail)
+        }
+    }
+    useEffect(()=>{
+        fetchTableData();
     },[])
     const pageData = {
         table: {
@@ -52,7 +55,20 @@ export default function TableBlogCategory(){
         lastUpdated: t('table.lastUpdated'),
         priority: t('table.priority'),
         searchPlaceholder: t('table.searchPlaceholder'),
+        blogCategoryDeleteSuccess:t('blogCategory.blogCategoryDeletedSuccess'),
+        blogCategoryDeleteFail:t('blogCategory.blogCategoryDeletedFailed')
     };
+    const onRemoveItem = async (id,categoryName)=>{
+        try{
+            const res = await BlogCategoryDataService.deleteBlogCategoryAsync(id)
+            if(res){
+                message.success(formatDeleteMessage(pageData.blogCategoryDeleteSuccess,categoryName));
+                await fetchTableData();     
+            }
+        }catch(err){
+            message.error(formatDeleteMessage(pageData.blogCategoryDeleteSuccess,categoryName))
+        }
+    }
     const getColumns = ()=>{
         const columns = [
             {
@@ -97,14 +113,12 @@ export default function TableBlogCategory(){
         
                       {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN) && (
                         <DeleteConfirmComponent
-                          title={pageData.confirmDelete}
-                          content={formatDeleteMessage(record?.name)}
-                          okText={pageData.btnDelete}
-                          cancelText={pageData.btnIgnore}
-                          permission={PermissionKeys.ADMIN}
-                        //   onOk={() => onRemoveItem(record?.id)}
-                        //   productCategoryId={record?.id}
-                        //   productCategoryName={record?.name}
+                            title={pageData.confirmDelete}
+                            content={formatDeleteMessage(pageData.confirmDeleteMessage,record?.name)}
+                            okText={pageData.btnDelete}
+                            cancelText={pageData.btnIgnore}
+                            permission={PermissionKeys.ADMIN}
+                            onOk={() => onRemoveItem(record?.id,record?.name)}
                         />
                       )}
                     </>
@@ -114,8 +128,8 @@ export default function TableBlogCategory(){
         ].filter(item=>!item.hidden)
         return columns
     }
-    const formatDeleteMessage = (name) => {
-        const mess = t(pageData.confirmDeleteMessage, { name })
+    const formatDeleteMessage = (text,name) => {
+        const mess = t(text, { name })
         return mess
       }
     return (
