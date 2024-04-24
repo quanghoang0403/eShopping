@@ -38,7 +38,6 @@ export default function Selection(props: IProps) {
       </>
     )
   }
-  console.log('defaultValue: ', defaultValue)
   return (
     <>
       {label && (

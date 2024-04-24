@@ -41,6 +41,7 @@ namespace eShopping.Infrastructure.Contexts
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderHistory> OrderHistories { get; set; }
+        public DbSet<OrderPaymentTransaction> OrderPaymentTransactions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<PermissionGroup> PermissionGroups { get; set; }
         public DbSet<Product> Products { get; set; }

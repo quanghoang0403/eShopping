@@ -15,5 +15,7 @@ namespace eShopping.Common.Constants
         public const string PayOSRedirectUrl = "https://www.cuchoami.store/vnpay";
 
         public const string CurrencyCode = "VND";
+
+        public const string Locale = "vi";
     }
 }

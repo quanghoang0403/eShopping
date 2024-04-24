@@ -16,6 +16,8 @@ namespace eShopping.Application.Features.Payments.Commands
     {
         public Guid OrderId { get; set; }
 
+        public int OrderCode { get; set; }
+
         public string Description { get; set; }
 
         public decimal Amount { get; set; }
@@ -44,7 +46,7 @@ namespace eShopping.Application.Features.Payments.Commands
         public async Task<CreateVietQRPaymentResponse> Handle(CreateVietQRPaymentRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var orderTitle = $"Payment for order {request.OrderId}";
+            var orderTitle = $"VietQR Order {request.OrderCode}";
 
             QuickLinkModel vietQrQuickLink = new(_vietQRSettings.BankCode,
                                                  _vietQRSettings.BankAccountNumber,
@@ -56,6 +58,7 @@ namespace eShopping.Application.Features.Payments.Commands
             {
                 IsSuccess = false,
                 OrderId = request.OrderId,
+                TransId = request.OrderCode,
                 OrderInfo = orderTitle,
                 Amount = request.Amount,
                 PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,

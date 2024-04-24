@@ -20,8 +20,8 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         [HttpPost]
         [Route("create-product")]
-        [HasPermission(EnumPermission.CREATE_PRODUCT)]
-        public async Task<IActionResult> CreateProductManagementAsync([FromBody] AdminCreateProductRequest request)
+        //[HasPermission(EnumPermission.CREATE_PRODUCT)]
+        public async Task<IActionResult> CreateProductAsync([FromBody] AdminCreateProductRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);
@@ -30,7 +30,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpPut]
         [Route("update-product")]
         [HasPermission(EnumPermission.EDIT_PRODUCT)]
-        public async Task<IActionResult> EditProductCategoryAsync([FromBody] AdminUpdateProductRequest request)
+        public async Task<IActionResult> UpdateProductAsync([FromBody] AdminUpdateProductRequest request)
         {
             var response = await _mediator.Send(request);
             return await SafeOkAsync(response);

@@ -2,9 +2,17 @@
 import OrderService from '@/services/order.service'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import ErrorForm from '../Controller/ErrorForm'
 
-export default function PaymentMethod() {
+interface IProps {
+  register: UseFormRegister<FieldValues>
+  errors: FieldErrors<FieldValues>
+}
+
+export default function PaymentMethod(props: IProps) {
+  const { register, errors } = props
   const [paymentOptions, setPaymentOptions] = useState<IPaymentMethod[]>()
   const { t } = useTranslation()
   useEffect(() => {
@@ -31,12 +39,18 @@ export default function PaymentMethod() {
           paymentOptions.map((option) => (
             <div key={option.id} className="mb-2">
               <label className="inline-flex items-center cursor-pointer">
-                <input type="radio" className="form-radio h-5 w-5 text-indigo-600 cursor-pointer" name="paymentMethodId" value={option.id} />
-                <Image width={24} height={24} src={option.icon} className="ml-3" alt="TRANSFER_VA" />
+                <input
+                  type="radio"
+                  className="form-radio h-5 w-5 text-indigo-600 cursor-pointer"
+                  {...register('PaymentMethodId', { required: true })}
+                  value={option.id}
+                />
+                <Image width={24} height={24} src={option.icon} className="ml-3" alt={t(option.name)} />
                 <span className="ml-2 inline flex items-center">{t(option.name)}</span>
               </label>
             </div>
           ))}
+        {errors && <ErrorForm name="paymentMethodId" label="Phương thức thanh toán" errors={errors} />}
       </div>
     </>
   )

@@ -53,7 +53,7 @@ namespace eShopping.Application.Features.Payments.Commands
                 OrderId = request.OrderId,
                 OrderCode = request.OrderCode,
                 Amount = request.Amount,
-                Description = $"Order {request.OrderId} - {request.OrderCode}",
+                Description = $"PayOS Order {request.OrderCode}",
                 Items = items,
                 ReturnUrl = SystemConstants.PayOSIpnUrl,
                 CancelUrl = SystemConstants.PayOSRedirectUrl

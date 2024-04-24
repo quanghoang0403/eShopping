@@ -45,13 +45,13 @@ namespace eShopping.Application.Features.Payments.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var orderInfo = new VNPayOrderInfoModel()
             {
-                PaymentTranId = request.OrderCode,
-                Title = $"Order {request.OrderId} - {request.OrderCode}",
+                OrderCode = request.OrderCode,
+                Title = $"VnPayQR Order {request.OrderCode}",
                 Amount = request.Amount,
                 CreatedDate = DateTime.UtcNow,
                 BankCode = request.VNPayBankCode,
                 CurrencyCode = SystemConstants.CurrencyCode,
-                Locale = SystemConstants.VnPayRedirectUrl,
+                Locale = SystemConstants.Locale,
                 ReturnUrl = SystemConstants.VnPayIpnUrl
             };
 
@@ -65,7 +65,7 @@ namespace eShopping.Application.Features.Payments.Commands
                 OrderInfo = orderInfo.Title,
                 Amount = request.Amount,
                 OrderId = request.OrderId,
-                TransId = orderInfo.PaymentTranId,
+                TransId = request.OrderCode,
                 PaymentMethodId = EnumPaymentMethod.VNPayQR,
                 PaymentUrl = paymentUrl,
                 TransactionType = EnumTransactionType.Payment,

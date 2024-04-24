@@ -98,7 +98,7 @@
             EnumPaymentMethod.ShopeePay => "/svgs/payment/airpay.svg",
             EnumPaymentMethod.BankTransferVietQR => "/svgs/payment/transfer_va.svg",
             EnumPaymentMethod.VNPayQR => "/svgs/payment/vn_pay.svg",
-            EnumPaymentMethod.PayOS => "/svgs/payment/vn_pay.svg",
+            EnumPaymentMethod.PayOS => "/svgs/payment/payos.svg",
             EnumPaymentMethod.ATM => "/svgs/payment/atm.svg",
             EnumPaymentMethod.CreditDebitCard => "/svgs/payment/credit_card.svg",
             _ => string.Empty

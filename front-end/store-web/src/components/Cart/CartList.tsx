@@ -34,7 +34,6 @@ export default function CartList(props: IProps) {
           const options: IOption[] = [...Array(cart.quantityLeft)].map((_, index) => {
             return { id: index + 1 }
           })
-          console.log(cart.quantity)
           return (
             <WhiteCard key={index} className={cx('justify-between sm:flex sm:justify-start', isSmall ? 'mb-2 p-2' : 'mb-6')}>
               <Link href={link} className="relative">

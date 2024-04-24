@@ -22,9 +22,9 @@ namespace eShopping.Common.Constants
         public static readonly List<EnumPaymentMethod> ALLOW_PAYMENT_METHOD = new()
         {
             EnumPaymentMethod.COD,
-            EnumPaymentMethod.MoMo,
-            EnumPaymentMethod.ZaloPay,
-            EnumPaymentMethod.ShopeePay,
+            //EnumPaymentMethod.MoMo,
+            //EnumPaymentMethod.ZaloPay,
+            //EnumPaymentMethod.ShopeePay,
             EnumPaymentMethod.BankTransferVietQR,
             EnumPaymentMethod.VNPayQR,
             EnumPaymentMethod.PayOS,

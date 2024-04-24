@@ -18,7 +18,7 @@ namespace eShopping.Application.Features.Payments.Commands
     {
         public string Amount { get; set; }
 
-        public string OrderCode { get; set; }
+        public int OrderCode { get; set; }
 
         public Guid OrderId { get; set; }
     }
@@ -50,14 +50,13 @@ namespace eShopping.Application.Features.Payments.Commands
 
             Guid accountId = loggedUser.AccountId.Value;
             string email = loggedUser.Email;
-            var orderInfo = $"Order {request.OrderId} - {request.OrderCode} amount: {request.Amount}";
 
             var orderPaymentTransaction = new OrderPaymentTransaction()
             {
                 OrderId = request.OrderId,
                 PaymentMethodId = EnumPaymentMethod.MoMo,
-                TransId = 0,
-                OrderInfo = orderInfo,
+                TransId = request.OrderCode,
+                OrderInfo = $"Momo Order {request.OrderCode} amount: {request.Amount}",
                 Amount = decimal.Parse(request.Amount),
                 IsSuccess = false,
                 CreatedUser = accountId
@@ -69,12 +68,12 @@ namespace eShopping.Application.Features.Payments.Commands
             {
                 RequestId = orderPaymentTransaction.Id.ToString(),
                 Amount = request.Amount,
-                OrderId = orderPaymentTransaction.Id.ToString(),
-                OrderInfo = orderInfo,
+                OrderCode = request.OrderCode.ToString(),
+                OrderInfo = orderPaymentTransaction.OrderInfo,
                 RedirectUrl = SystemConstants.MomoRedirectUrl,
                 IpnUrl = SystemConstants.MomoIpnUrl,
                 PartnerClientId = email,
-                ExtraData = orderInfo,
+                ExtraData = orderPaymentTransaction.OrderInfo,
                 Language = "vi"
             };
 

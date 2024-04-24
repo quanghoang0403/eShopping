@@ -2,15 +2,15 @@
     "home": {
         "test": "Tiếng Việt"
     },
-    "paymentMethod": {
-        "cod": "/svgs/payment/cash.svg",
-        "momo": "/svgs/payment/momo.svg",
-        "zaloPay": "/svgs/payment/zalo_pay.svg",
-        "shopeePay": "/svgs/payment/airpay.svg",
-        "bankTransfer": "/svgs/payment/transfer_va.svg",
-        "vnPay": "/svgs/payment/vn_pay.svg",
-        "payOS": "/svgs/payment/payos.svg",
-        "atm": "/svgs/payment/atm.svg",
-        "creditDebitCard": "/svgs/payment/credit_card.svg"
+    "payment": {
+        "cod": "Thanh toán khi nhận hàng",
+        "momo": "Ví MoMo",
+        "zaloPay": "Ví ZaloPay",
+        "shopeePay": "Ví ShopeePay",
+        "bankTransfer": "QR Chuyển khoản",
+        "vnPay": "Thanh toán VNPay-QR",
+        "payOS": "Thanh toán PayOS-QR",
+        "atm": "Thẻ ATM nội địa",
+        "creditDebitCard": "Thẻ Visa/Mastercard"
     }
 }

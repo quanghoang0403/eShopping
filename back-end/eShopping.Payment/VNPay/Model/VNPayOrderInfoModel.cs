@@ -4,7 +4,7 @@ namespace eShopping.Payment.VNPay.Model
 {
     public class VNPayOrderInfoModel
     {
-        public long PaymentTranId { get; set; }
+        public long OrderCode { get; set; }
 
         public string Title { get; set; }
 

@@ -20,7 +20,7 @@ namespace eShopping.Application.Features.Orders.Commands
 {
     public class StoreCreateOrderRequest : IRequest<StoreCreateOrderResponse>
     {
-        public IEnumerable<StoreCartModel> CartItem { get; set; }
+        public IEnumerable<StoreCartModel> CartItems { get; set; }
 
         public EnumPaymentMethod PaymentMethodId { get; set; }
 
@@ -50,7 +50,7 @@ namespace eShopping.Application.Features.Orders.Commands
 
         public Guid? OrderId { get; set; }
 
-        public EnumPaymentMethod PaymentMethod { get; set; }
+        public EnumPaymentMethod PaymentMethodId { get; set; }
 
         /// <summary>
         /// Dynamic response payment info data
@@ -79,10 +79,14 @@ namespace eShopping.Application.Features.Orders.Commands
             RequestValidation(request);
             var accountId = loggedUser.AccountId.Value;
             var customerId = loggedUser.Id.Value;
-            var prices = await _unitOfWork.ProductPrices.Where(x => request.CartItem.Any(cart => cart.ProductPriceId == x.Id)).Include(x => x.Product)
-                                                .ToListAsync();
+            var prices = await _unitOfWork.ProductPrices
+                .Where(x => request.CartItems.Select(cart => cart.ProductPriceId).Contains(x.Id))
+                .Include(x => x.Product).ToListAsync(); ;
+            //var prices = await _unitOfWork.ProductPrices.GetAll().Include(x => x.Product)
+            //                                    .Where(x => request.CartItems.Any(cart => cart.ProductPriceId == x.Id))
+            //                                    .ToListAsync();
             var cartItemRes = _mapper.Map<List<StoreProductPriceModel>>(prices); ;
-            if (prices.Count() != request.CartItem.Count())
+            if (prices.Count() != request.CartItems.Count())
             {
                 return new StoreCreateOrderResponse()
                 {
@@ -143,7 +147,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 });
 
                 var orderItems = new List<OrderItem>();
-                foreach (var item in request.CartItem)
+                foreach (var item in request.CartItems)
                 {
                     // Add order detail
                     var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
@@ -199,13 +203,14 @@ namespace eShopping.Application.Features.Orders.Commands
                 var res = new StoreCreateOrderResponse()
                 {
                     IsSuccess = true,
+                    PaymentMethodId = request.PaymentMethodId,
                     OrderId = order.Id
                 };
 
                 /// Create payment
                 var isValidMethod = DefaultConstants.ALLOW_PAYMENT_METHOD.Any(method => method == request.PaymentMethodId);
-                ThrowError.Against(isValidMethod, "Invalid payment method, please choose another method");
-
+                ThrowError.Against(!isValidMethod, "Invalid payment method, please choose another method");
+                var totalAmount = orderItems.Sum(x => x.TotalPrice) + order.DeliveryFee;
                 switch (order.PaymentMethodId)
                 {
                     case EnumPaymentMethod.COD:
@@ -214,7 +219,7 @@ namespace eShopping.Application.Features.Orders.Commands
                             IsSuccess = true,
                             OrderId = order.Id,
                             OrderInfo = "Ship COD",
-                            Amount = order.TotalAmount,
+                            Amount = totalAmount,
                             PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
                             CreatedUser = loggedUser.AccountId.Value,
                             CreatedTime = DateTime.UtcNow,
@@ -225,8 +230,8 @@ namespace eShopping.Application.Features.Orders.Commands
                         var createMoMoQrPayment = new CreateMoMoPaymentRequest()
                         {
                             OrderId = order.Id,
-                            OrderCode = order.Code.ToString(),
-                            Amount = Convert.ToInt32(order.TotalAmount).ToString(),
+                            OrderCode = order.Code,
+                            Amount = Convert.ToInt32(totalAmount).ToString(),
                         };
                         res.PaymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
                         break;
@@ -240,7 +245,7 @@ namespace eShopping.Application.Features.Orders.Commands
                         var createVietQR = new CreateVietQRPaymentRequest()
                         {
                             OrderId = order.Id,
-                            Amount = order.TotalAmount,
+                            Amount = totalAmount,
                             Description = $"{order.ShipName} {order.Id}"
                         };
                         res.PaymentInfo = await _mediator.Send(createVietQR, cancellationToken);
@@ -250,7 +255,8 @@ namespace eShopping.Application.Features.Orders.Commands
                         {
                             VNPayBankCode = VNPayBankCode.VNPAYQR,
                             OrderId = order.Id,
-                            Amount = order.TotalAmount
+                            OrderCode = order.Code,
+                            Amount = totalAmount
                         };
                         res.PaymentInfo = await _mediator.Send(createVnPay, cancellationToken);
                         break;
@@ -258,9 +264,9 @@ namespace eShopping.Application.Features.Orders.Commands
                         var createPayOS = new CreatePayOSPaymentRequest()
                         {
                             OrderId = order.Id,
-                            Amount = Convert.ToInt32(order.TotalAmount),
+                            Amount = Convert.ToInt32(totalAmount),
                             OrderCode = order.Code,
-                            OrderItems = order.OrderItems,
+                            OrderItems = orderItems,
                         };
                         res.PaymentInfo = await _mediator.Send(createPayOS, cancellationToken);
                         break;
@@ -270,7 +276,7 @@ namespace eShopping.Application.Features.Orders.Commands
                             VNPayBankCode = VNPayBankCode.VNBANK,
                             OrderId = order.Id,
                             OrderCode = order.Code,
-                            Amount = order.TotalAmount
+                            Amount = totalAmount
                         };
                         res.PaymentInfo = await _mediator.Send(createATM, cancellationToken);
                         break;
@@ -279,7 +285,8 @@ namespace eShopping.Application.Features.Orders.Commands
                         {
                             VNPayBankCode = VNPayBankCode.INTCARD,
                             OrderId = order.Id,
-                            Amount = order.TotalAmount
+                            OrderCode = order.Code,
+                            Amount = totalAmount
                         };
                         res.PaymentInfo = await _mediator.Send(createCredit, cancellationToken);
                         break;
@@ -297,8 +304,8 @@ namespace eShopping.Application.Features.Orders.Commands
             ThrowError.Against(string.IsNullOrEmpty(request.ShipName), "Please enter product ship name");
             ThrowError.Against(string.IsNullOrEmpty(request.ShipAddress), "Please enter product ship address");
             ThrowError.Against(string.IsNullOrEmpty(request.ShipPhoneNumber), "Please enter product ship phone");
-            ThrowError.Against(request.CartItem == null || !request.CartItem.Any(), "Can not find product");
-            ThrowError.Against(request.CartItem.Any(cart => cart.Quantity <= 0 || cart.ProductPriceId == Guid.Empty), "Can not find product");
+            ThrowError.Against(request.CartItems == null || !request.CartItems.Any(), "Can not find product");
+            ThrowError.Against(request.CartItems.Any(cart => cart.Quantity <= 0 || cart.ProductPriceId == Guid.Empty), "Can not find product");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using eShopping.Common.Extensions;
+﻿using eShopping.Common.Constants;
+using eShopping.Common.Extensions;
 using eShopping.Common.Models.User;
 using eShopping.Domain.Settings;
 using eShopping.Payment.MoMo.Enums;
@@ -44,12 +45,12 @@ namespace eShopping.Payment.MoMo
             string requestId = request.RequestId;
             string amount = request.Amount;
             string extraData = request.ExtraData;
-            string orderId = request.OrderId;
+            string orderId = request.OrderCode;
             string orderInfo = request.OrderInfo;
             string partnerClientId = request.PartnerClientId;
             string redirectUrl = request.RedirectUrl;
             string ipnUrl = request.IpnUrl;
-            var language = request.Language ?? "vi";
+            var language = request.Language ?? SystemConstants.Locale;
 
             string rawHash = $"accessKey={accessKey}&" +
                 $"amount={amount}&" +
@@ -99,13 +100,13 @@ namespace eShopping.Payment.MoMo
             string requestId = request.RequestId;
             string amount = request.Amount;
             string extraData = request.ExtraData;
-            string orderId = request.OrderId;
+            string orderId = request.OrderCode;
             string orderInfo = request.OrderInfo;
             string partnerClientId = request.PartnerClientId;
             string redirectUrl = request.RedirectUrl;
             string ipnUrl = request.IpnUrl;
             string requestType = request.RequestType;
-            var language = request.Language ?? "vi";
+            var language = request.Language ?? SystemConstants.Locale;
 
             string rawHash = $"accessKey={accessKey}&" +
                 $"amount={amount}&" +
@@ -304,7 +305,7 @@ namespace eShopping.Payment.MoMo
                 { "requestId", requestId },
                 { "orderId", orderId },
                 { "amount", amount },
-                { "lang", "vi" },
+                { "lang", SystemConstants.Locale },
                 { "signature", signature },
             };
 
@@ -377,7 +378,7 @@ namespace eShopping.Payment.MoMo
                 { "requestId", requestId },
                 { "amount", amount },
                 { "transId", transId },
-                { "lang", "vi" },
+                { "lang", SystemConstants.Locale },
                 { "description", description },
                 { "signature", signature },
             };
@@ -408,7 +409,7 @@ namespace eShopping.Payment.MoMo
                 RequestId = Guid.NewGuid().ToString(),
                 Amount = "0",
                 ExtraData = "",
-                OrderId = Guid.NewGuid().ToString(),
+                OrderCode = Guid.NewGuid().ToString(),
                 OrderInfo = $"CreateGateway{request.PartnerCode}",
                 PartnerClientId = $"{nameEmail}@{emainDomain}",
                 RedirectUrl = site,

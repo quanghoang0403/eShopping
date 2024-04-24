@@ -17,6 +17,8 @@ import WhiteCard from '@/components/Common/WhiteCard'
 import { trackPromise } from 'react-promise-tracker'
 import PaymentMethod from '@/components/Cart/PaymentMethod'
 import DialogPopup from '@/components/Common/DialogPopup'
+import { notifyError } from '@/components/Common/Notification'
+import { useRouter } from 'next/router'
 
 export default function CartPage() {
   const {
@@ -24,21 +26,50 @@ export default function CartPage() {
     register,
     formState: { errors },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
+  const router = useRouter()
   const [isShowDialogPayment, setIsShowDialogPayment] = useState(false)
+  const [contentDialog, setContentDialog] = useState(<></>)
   const dispatch = useAppDispatch()
-  //const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
-  const totalQuantity = 3
+  const cartItems = useAppSelector((state) => state.session.cartItems)
+  const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
+  //const totalQuantity = 3
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
 
   const mutation = useAppMutation(
     async (data: ICreateOrderRequest) => trackPromise(OrderService.checkout(data)),
     // async (data: ICreateOrderRequest) => OrderService.checkout(data),
     async (res: ICreateOrderResponse) => {
-      // Handle after create
+      if (res.isSuccess) {
+        switch (res.paymentMethodId) {
+          case 0: {
+            break
+          }
+          case 4: {
+            setContentDialog(<Image className="mx-auto" alt="" src={res.paymentInfo.paymentUrl} width={450} height={582} />)
+            setIsShowDialogPayment(true)
+            break
+          }
+          case 5:
+          case 6:
+          case 7:
+          case 8: {
+            router.push(res.paymentInfo.paymentUrl)
+            break
+          }
+          default: {
+            break
+          }
+        }
+      } else {
+        notifyError('Tạo đơn hàng thất bại, vui lòng thử lại hoặc liên hệ tổng đài để hỗ trợ')
+      }
     }
   )
 
-  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    const payload = { ...data, CartItems: cartItems }
+    mutation.mutate(payload)
+  }
   const renderCart = () => {
     return (
       <>
@@ -66,22 +97,17 @@ export default function CartPage() {
           <WhiteCard>
             <form onSubmit={handleSubmit(onSubmit)}>
               <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
-              <PaymentMethod />
-              <button
-                onClick={() => setIsShowDialogPayment(true)}
-                className="text-lg mt-4 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600"
-              >
-                Thanh toán
-              </button>
+              <PaymentMethod register={register} errors={errors} />
+              <button className="text-lg mt-4 w-full rounded-md bg-blue-500 py-2 font-medium text-white hover:bg-blue-600">Thanh toán</button>
             </form>
           </WhiteCard>
         </section>
         <DialogPopup
           open={isShowDialogPayment}
           title="Thanh toán qua QR"
-          content="da"
-          msgCancel="Huỷ"
-          msgConfirm="Xác nhận"
+          content={contentDialog}
+          msgCancel="Hủy"
+          msgConfirm="Đã Chuyển khoản"
           onHandle={() => setIsShowDialogPayment(false)}
         />
       </>

@@ -5,7 +5,7 @@ const { use } = require('react')
 module.exports = withFonts({
   transpilePackages: [],
   reactStrictMode: true,
-  // images: {
-  //   domains: ['images.unsplash.com', 'tailwindui.com','lh3.googleusercontent.com'],
-  // },
+  images: {
+    domains: ['img.vietqr.io'],
+  },
 })

@@ -12,17 +12,17 @@ namespace eShopping.Payment.VietQR.Models
 
         public string BankAccountNumber { get; set; }
 
-        public string BankAccountName { get;set; }
+        public string BankAccountName { get; set; }
 
-        public string Description { get;set; }
+        public string Description { get; set; }
 
-        public decimal Amount { get;set; }
+        public decimal Amount { get; set; }
 
         public string QrUrl
         {
             get
             {
-                string qrUrl = $"{StringConstants.VIETQR_QUICK_LINK_ENDPOINT}/{BankCode}-{BankAccountNumber}-{QRTemplate.QR_ONLY}{StringConstants.VIETQR_DEFAULT_IMAGE_FORMAT}";
+                string qrUrl = $"{StringConstants.VIETQR_QUICK_LINK_ENDPOINT}/{BankCode}-{BankAccountNumber}-{QRTemplate.PRINT}{StringConstants.VIETQR_DEFAULT_IMAGE_FORMAT}";
                 string queryString = GetQueryString(new QuickLinkQueryModel()
                 {
                     AccountName = BankAccountName,

@@ -23,7 +23,7 @@
         /// Partner Transaction ID
         /// Regex: ^[0-9a-zA-Z] ([-_.]*[0 - 9a - zA - Z]+)*$
         /// </summary>
-        public string OrderId { get; set; }
+        public string OrderCode { get; set; }
 
         /// <summary>
         /// Order info from merchant

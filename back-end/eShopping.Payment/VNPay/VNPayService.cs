@@ -82,7 +82,7 @@ namespace eShopping.Payment.VNPay
             vnpay.AddRequestData("vnp_OrderInfo", order.Title);
             vnpay.AddRequestData("vnp_OrderType", "other"); /// default value: other
             vnpay.AddRequestData("vnp_ReturnUrl", order.ReturnUrl);
-            vnpay.AddRequestData("vnp_TxnRef", order.PaymentTranId.ToString());
+            vnpay.AddRequestData("vnp_TxnRef", order.OrderCode.ToString());
 
             // Add Params of 2.1.0 Version
             //var paymentExpireDate = _dateTimeService.NowUtc.AddMinutes(15).ToString("yyyyMMddHHmmss");

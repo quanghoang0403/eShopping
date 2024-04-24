@@ -8,6 +8,18 @@ enum EnumOrderStatus {
   Completed = 6,
 }
 
+enum EnumPaymentMethod {
+  COD = 0,
+  MoMo = 1,
+  ZaloPay = 2,
+  ShopeePay = 3,
+  BankTransferVietQR = 4,
+  VNPayQR = 5,
+  PayOS = 6,
+  ATM = 7,
+  CreditDebitCard = 8,
+}
+
 interface IPaymentMethod {
   id: number
   name: string
@@ -128,6 +140,8 @@ interface ICreateOrderRequest {
 
 interface ICreateOrderResponse {
   isSuccess: boolean
+  paymentMethodId: EnumPaymentMethod
   orderId?: string
   orderItem?: IProductPrice[]
+  paymentInfo?: any
 }

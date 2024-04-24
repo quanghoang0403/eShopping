@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using eShopping.Common.Exceptions;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -38,30 +42,12 @@ namespace eShopping.Application.Features.Products.Queries
 
         public async Task<StoreProductDetailModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
         {
-            //var productData = await _unitOfWork.Products
-            //    .Find(p => p.UrlSEO == request.Url)
-            //    .AsNoTracking()
-            //    .Include(x => x.ProductPrices)
-            //    .Include(x => x.Images)
-            //    .Include(p => p.ProductInCategories)
-            //    .ProjectTo<StoreProductDetailModel>(_mapperConfiguration)
-            //    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
-            //ThrowError.Against(productData == null, "Cannot find product detail information");
-            //var images = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
-            //var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(productData.Id).FirstOrDefaultAsync();
-            //productData.ProductCategory = new StoreProductCategoryModel()
-            //{
-            //    Id = category.Id,
-            //    Name = category.Name,
-            //    UrlSEO = category.UrlSEO,
-            //};
-            //productData.Gallery = images.Select(x => x.ImagePath).ToList();
+            request.Url = "string";
             List<StoreProductPriceModel> productPrices = new()
             {
                 new StoreProductPriceModel()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
                     PriceName = "Large",
                     PercentNumber = -20,
                     PriceDiscount = 300000,
@@ -70,7 +56,7 @@ namespace eShopping.Application.Features.Products.Queries
                 },
                 new StoreProductPriceModel()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
                     PriceName = "Medium",
                     PercentNumber = -30,
                     PriceDiscount = 200000,
@@ -79,7 +65,7 @@ namespace eShopping.Application.Features.Products.Queries
                 },
                 new StoreProductPriceModel()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
                     PriceName = "Small",
                     PriceDiscount = 200000,
                     PriceValue = 200000,
@@ -104,18 +90,42 @@ namespace eShopping.Application.Features.Products.Queries
                 Name = "name",
                 UrlSEO = "ao",
             };
-            var productData = new StoreProductDetailModel()
-            {
-                Id = Guid.NewGuid(),
-                Code = 1,
-                Name = "The Catcher in the Rye 2",
-                Thumbnail = "/imgs/productDetail4/1.jpg",
-                UrlSEO = request.Url,
-                Gallery = gallery,
-                ProductCategory = productCategory,
-                ProductPrices = productPrices,
-                Description = "Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY.XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn.Everyday carry +1 seitan poutine tumeric.Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.",
-            };
+
+            var productData = await _unitOfWork.Products
+                .Find(p => p.UrlSEO == request.Url)
+                .AsNoTracking()
+                .Include(x => x.ProductPrices)
+                .Include(x => x.Images)
+                .Include(p => p.ProductInCategories)
+                .ProjectTo<StoreProductDetailModel>(_mapperConfiguration)
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+            ThrowError.Against(productData == null, "Cannot find product detail information");
+            var images = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
+            //var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(productData.Id).FirstOrDefaultAsync();
+            //productData.ProductCategory = new StoreProductCategoryModel()
+            //{
+            //    Id = category.Id,
+            //    Name = category.Name,
+            //    UrlSEO = category.UrlSEO,
+            //};
+            productData.ProductCategory = productCategory;
+            productData.Gallery = gallery;
+            productData.Thumbnail = "/imgs/productDetail4/1.jpg";
+            //productData.Gallery = images.Select(x => x.ImagePath).ToList();
+
+            //var productData = new StoreProductDetailModel()
+            //{
+            //    Id = new Guid("01F0AD52-F74A-472F-76C3-08DC6376AAC6"),
+            //    Code = 1,
+            //    Name = "The Catcher in the Rye 2",
+            //    Thumbnail = "/imgs/productDetail4/1.jpg",
+            //    UrlSEO = request.Url,
+            //    Gallery = gallery,
+            //    ProductCategory = productCategory,
+            //    ProductPrices = productPrices,
+            //    Description = "Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY.XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn.Everyday carry +1 seitan poutine tumeric.Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.",
+            //};
 
             return productData;
         }

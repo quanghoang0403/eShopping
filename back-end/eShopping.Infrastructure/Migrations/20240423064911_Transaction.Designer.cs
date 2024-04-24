@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopping.Infrastructure.Contexts;
 
@@ -11,9 +12,11 @@ using eShopping.Infrastructure.Contexts;
 namespace eShopping.Infrastructure.Migrations
 {
     [DbContext(typeof(eShoppingDbContext))]
-    partial class eShoppingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240423064911_Transaction")]
+    partial class Transaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -691,63 +694,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.HasIndex("ProductPriceId");
 
                     b.ToTable("OrderItem");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.OrderPaymentTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSuccess")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastSavedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastSavedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("OrderInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResponseData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("TransId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("TransactionType")
-                        .HasColumnType("int")
-                        .HasComment("Return value: PAYMENT or REFUND");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("OrderPaymentTransaction");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>

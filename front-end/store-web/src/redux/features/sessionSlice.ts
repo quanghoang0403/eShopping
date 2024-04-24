@@ -90,7 +90,6 @@ const sessionSlice = createSlice({
 function calculateTotalQuantity(cartItems: ICartItem[]): number {
   let sum = 0
   cartItems.forEach((item) => (sum += item.quantity))
-  console.log(sum)
   return +sum
 }
 

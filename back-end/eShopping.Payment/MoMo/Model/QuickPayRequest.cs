@@ -1,4 +1,6 @@
-﻿namespace eShopping.Payment.MoMo.Model
+﻿using eShopping.Common.Constants;
+
+namespace eShopping.Payment.MoMo.Model
 {
     public class QuickPayRequest
     {
@@ -67,7 +69,7 @@
         /// <summary>
         /// Language of returned message (vi or en)
         /// </summary>
-        public string Lang { get; set; } = "vi";
+        public string Lang { get; set; } = SystemConstants.Locale;
         /// <summary>
         /// Signature to confirm information. Secure transaction in Hmac_SHA256  algorithm with format, a String sort all key name of data field from a-z:
         /// accessKey=$accessKey&amount=$amount&extraData=$extraData
