@@ -32,6 +32,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         }
         [HttpGet]
+        [Route("get-blog-categories")]
+        public async Task<IActionResult> GetBlogCategoriesAsync([FromQuery] AdminGetBlogCategoriesRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return SafeOk(response);
+
+        }
+        [HttpGet]
         [Route("get-blog-category-by-id/{id}")]
         public async Task<IActionResult> GetBlogCategoryById(Guid id)
         {
