@@ -49,8 +49,7 @@ namespace eShopping.Payment.VNPay
         /// This method is used to verify the VNPAY signature.
         /// </summary>
         /// <param name="inputHash">The value from the URL parameter vnp_SecureHash.</param>
-        /// <param name="secretKey">The value from the URL parameter vnp_HashSecret.</param>
         /// <returns></returns>
-        bool ValidateSignature(IQueryCollection vnpayData, string inputHash, string secretKey);
+        bool ValidateSignature(IQueryCollection vnpayData, string inputHash);
     }
 }

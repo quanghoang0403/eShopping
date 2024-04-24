@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import CartList from '../Cart/CartList'
-import { SizeScreen } from '@/constants/size-screen.constants'
+import { SizeScreenConstants } from '@/constants/size-screen.constants'
 import useWindowDimensions from '@/utils/check-screen.helper'
 import { useAppSelector } from '@/hooks/reduxHook'
 
@@ -20,7 +20,7 @@ export default function SidebarCart(props: IProps) {
   const checkScreen = useWindowDimensions()
   const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
-  const isMobile = checkScreen == SizeScreen.IS_MOBILE
+  const isMobile = checkScreen == SizeScreenConstants.IS_MOBILE
   const openDrawer = () => {
     setIsDrawerOpen(true)
     // if (!isMobile) {

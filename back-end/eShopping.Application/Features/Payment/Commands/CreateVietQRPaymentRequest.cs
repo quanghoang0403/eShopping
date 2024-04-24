@@ -46,8 +46,6 @@ namespace eShopping.Application.Features.Payments.Commands
         public async Task<CreateVietQRPaymentResponse> Handle(CreateVietQRPaymentRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var orderTitle = $"VietQR Order {request.OrderCode}";
-
             QuickLinkModel vietQrQuickLink = new(_vietQRSettings.BankCode,
                                                  _vietQRSettings.BankAccountNumber,
                                                  _vietQRSettings.BankAccountName,
@@ -57,14 +55,15 @@ namespace eShopping.Application.Features.Payments.Commands
             var orderPaymentTransaction = new OrderPaymentTransaction()
             {
                 IsSuccess = false,
+                Amount = request.Amount,
                 OrderId = request.OrderId,
                 TransId = request.OrderCode,
-                OrderInfo = orderTitle,
-                Amount = request.Amount,
-                PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
+                TransactionType = EnumTransactionType.Payment,
                 CreatedUser = loggedUser.AccountId.Value,
                 CreatedTime = DateTime.UtcNow,
-                ResponseData = vietQrQuickLink.ToJsonWithCamelCase()
+                OrderInfo = $"VietQR Order {request.OrderCode}",
+                PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
+                PaymentUrl = vietQrQuickLink.ToJsonWithCamelCase()
             };
 
             await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);

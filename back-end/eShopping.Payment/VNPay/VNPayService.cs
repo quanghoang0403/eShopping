@@ -56,7 +56,7 @@ namespace eShopping.Payment.VNPay
 
             /// Payment amount. Amount does not carry decimal separators, thousandths, currency characters. To send a payment amount of 100,000 VND (one hundred thousand VND), merchant needs to multiply 100 times (decimal), then send to VNPAY: 100 000 00
             /// Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 100 000 00
-            vnpay.AddRequestData("vnp_Amount", (order.Amount * 100).ToString());
+            vnpay.AddRequestData("vnp_Amount", (Convert.ToInt64(order.Amount) * 100).ToString());
             if (!string.IsNullOrEmpty(order.BankCode))
             {
                 vnpay.AddRequestData("vnp_BankCode", order.BankCode);
@@ -85,8 +85,8 @@ namespace eShopping.Payment.VNPay
             vnpay.AddRequestData("vnp_TxnRef", order.OrderCode.ToString());
 
             // Add Params of 2.1.0 Version
-            //var paymentExpireDate = _dateTimeService.NowUtc.AddMinutes(15).ToString("yyyyMMddHHmmss");
-            //vnpay.AddRequestData("vnp_ExpireDate", paymentExpireDate);
+            var paymentExpireDate = vnpayDateTime.AddMinutes(15).ToString("yyyyMMddHHmmss");
+            vnpay.AddRequestData("vnp_ExpireDate", paymentExpireDate);
 
             #region Bill and Invoice
 
@@ -239,10 +239,9 @@ namespace eShopping.Payment.VNPay
         /// <summary>
         /// This method is used to verify the VNPAY signature.
         /// </summary>
-        /// <param name="inputHash">The value from the URL parameter vnp_SecureHash.</param>
-        /// <param name="secretKey">The value from the URL parameter vnp_HashSecret.</param>
+        /// <param name="inputHash">The value from the URL parameter vnp_SecureHash.</param
         /// <returns></returns>
-        public bool ValidateSignature(IQueryCollection vnpayData, string inputHash, string secretKey)
+        public bool ValidateSignature(IQueryCollection vnpayData, string inputHash)
         {
             var vnpay = new VNPayLibrary();
 
@@ -254,7 +253,7 @@ namespace eShopping.Payment.VNPay
                 }
             }
 
-            return vnpay.ValidateSignature(inputHash, secretKey);
+            return vnpay.ValidateSignature(inputHash, _vnPaySettings.SecretKey);
         }
     }
 }

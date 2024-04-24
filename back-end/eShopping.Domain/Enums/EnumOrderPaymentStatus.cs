@@ -22,6 +22,12 @@ namespace eShopping.Domain.Enums
         /// The order payment status is Waiting for refund
         /// </summary>
         WaitingForRefund = 3,
+
+
+        /// <summary>
+        /// The order payment transfer successfully and waiting for confirm
+        /// </summary>
+        WaitingForConfirm = 4,
     }
 
     public static class EnumOrderPaymentStatusExtensions

@@ -20,6 +20,8 @@ namespace eShopping.Application.Features.Payments.Commands
         public Guid OrderId { get; set; }
 
         public int OrderCode { get; set; }
+
+        public EnumPaymentMethod PaymentMethodId { get; set; }
     }
 
     public class CreateVNPayPaymentResponse
@@ -51,7 +53,6 @@ namespace eShopping.Application.Features.Payments.Commands
                 CreatedDate = DateTime.UtcNow,
                 BankCode = request.VNPayBankCode,
                 CurrencyCode = SystemConstants.CurrencyCode,
-                Locale = SystemConstants.Locale,
                 ReturnUrl = SystemConstants.VnPayIpnUrl
             };
 
@@ -62,15 +63,15 @@ namespace eShopping.Application.Features.Payments.Commands
             var orderPaymentTransaction = new OrderPaymentTransaction()
             {
                 IsSuccess = false,
-                OrderInfo = orderInfo.Title,
                 Amount = request.Amount,
                 OrderId = request.OrderId,
                 TransId = request.OrderCode,
-                PaymentMethodId = EnumPaymentMethod.VNPayQR,
-                PaymentUrl = paymentUrl,
                 TransactionType = EnumTransactionType.Payment,
                 CreatedUser = loggedUser.AccountId.Value,
                 CreatedTime = orderInfo.CreatedDate,
+                OrderInfo = orderInfo.Title,
+                PaymentMethodId = request.PaymentMethodId,
+                PaymentUrl = paymentUrl,
             };
 
             // Save payment transaction.

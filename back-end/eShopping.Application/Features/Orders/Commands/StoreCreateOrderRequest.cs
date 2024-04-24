@@ -50,6 +50,8 @@ namespace eShopping.Application.Features.Orders.Commands
 
         public Guid? OrderId { get; set; }
 
+        public int? OrderCode { get; set; }
+
         public EnumPaymentMethod PaymentMethodId { get; set; }
 
         /// <summary>
@@ -131,6 +133,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 {
                     CustomerId = customerId,
                     Status = EnumOrderStatus.New,
+                    OrderPaymentStatusId = EnumOrderPaymentStatus.Unpaid,
                     DeliveryFee = DefaultConstants.DELIVERY_FEE,
                     PaymentMethodId = request.PaymentMethodId,
                     ShipName = request.ShipName,
@@ -204,7 +207,8 @@ namespace eShopping.Application.Features.Orders.Commands
                 {
                     IsSuccess = true,
                     PaymentMethodId = request.PaymentMethodId,
-                    OrderId = order.Id
+                    OrderId = order.Id,
+                    OrderCode = order.Code
                 };
 
                 /// Create payment
@@ -236,10 +240,10 @@ namespace eShopping.Application.Features.Orders.Commands
                         res.PaymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
                         break;
                     case EnumPaymentMethod.ZaloPay:
-                        // TO DO
+                        // TODO
                         break;
                     case EnumPaymentMethod.ShopeePay:
-                        // TO DO
+                        // TODO
                         break;
                     case EnumPaymentMethod.BankTransferVietQR:
                         var createVietQR = new CreateVietQRPaymentRequest()
@@ -256,7 +260,8 @@ namespace eShopping.Application.Features.Orders.Commands
                             VNPayBankCode = VNPayBankCode.VNPAYQR,
                             OrderId = order.Id,
                             OrderCode = order.Code,
-                            Amount = totalAmount
+                            Amount = totalAmount,
+                            PaymentMethodId = order.PaymentMethodId
                         };
                         res.PaymentInfo = await _mediator.Send(createVnPay, cancellationToken);
                         break;
@@ -276,7 +281,8 @@ namespace eShopping.Application.Features.Orders.Commands
                             VNPayBankCode = VNPayBankCode.VNBANK,
                             OrderId = order.Id,
                             OrderCode = order.Code,
-                            Amount = totalAmount
+                            Amount = totalAmount,
+                            PaymentMethodId = order.PaymentMethodId
                         };
                         res.PaymentInfo = await _mediator.Send(createATM, cancellationToken);
                         break;
@@ -286,7 +292,8 @@ namespace eShopping.Application.Features.Orders.Commands
                             VNPayBankCode = VNPayBankCode.INTCARD,
                             OrderId = order.Id,
                             OrderCode = order.Code,
-                            Amount = totalAmount
+                            Amount = totalAmount,
+                            PaymentMethodId = order.PaymentMethodId
                         };
                         res.PaymentInfo = await _mediator.Send(createCredit, cancellationToken);
                         break;

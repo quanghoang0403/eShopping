@@ -142,6 +142,7 @@ interface ICreateOrderResponse {
   isSuccess: boolean
   paymentMethodId: EnumPaymentMethod
   orderId?: string
+  orderCode?: number
   orderItem?: IProductPrice[]
   paymentInfo?: any
 }

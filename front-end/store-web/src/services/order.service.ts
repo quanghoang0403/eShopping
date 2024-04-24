@@ -31,4 +31,8 @@ export default class OrderService {
   static async getPaymentMethods(): Promise<AxiosResponse<IPaymentMethod[]>> {
     return await APIService.get(`/order/get-payment-methods`)
   }
+
+  static async transferConfirm(request: { orderCode: number }): Promise<AxiosResponse<boolean>> {
+    return await APIService.post(`/payment/transfer-confirm`, request)
+  }
 }

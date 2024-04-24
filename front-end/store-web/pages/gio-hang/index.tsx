@@ -1,15 +1,12 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
-import { IconButton } from '@material-tailwind/react'
 import CartList from '@/components/Cart/CartList'
 import Title from '@/components/Common/Title'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import Input from '@/components/Controller/Input'
 import { useAppMutation, useAppQuery } from '@/hooks/queryHook'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import AuthService from '@/services/auth.service'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import CustomerInfo, { defaultCustomerInfo } from '@/components/Common/CustomerInfo'
 import OrderService from '@/services/order.service'
@@ -28,31 +25,34 @@ export default function CartPage() {
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
   const router = useRouter()
   const [isShowDialogPayment, setIsShowDialogPayment] = useState(false)
+  const [orderResponse, setOrderResponse] = useState<ICreateOrderResponse>()
   const [contentDialog, setContentDialog] = useState(<></>)
   const dispatch = useAppDispatch()
   const cartItems = useAppSelector((state) => state.session.cartItems)
   const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
-  //const totalQuantity = 3
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
 
   const mutation = useAppMutation(
     async (data: ICreateOrderRequest) => trackPromise(OrderService.checkout(data)),
-    // async (data: ICreateOrderRequest) => OrderService.checkout(data),
     async (res: ICreateOrderResponse) => {
       if (res.isSuccess) {
+        setOrderResponse(res)
         switch (res.paymentMethodId) {
           case 0: {
+            // COD
             break
           }
           case 4: {
+            // QR Code
             setContentDialog(<Image className="mx-auto" alt="" src={res.paymentInfo.paymentUrl} width={450} height={582} />)
             setIsShowDialogPayment(true)
             break
           }
-          case 5:
-          case 6:
-          case 7:
+          case 5: // VnPay
+          case 6: // PayOS
+          case 7: // ATM
           case 8: {
+            // Card
             router.push(res.paymentInfo.paymentUrl)
             break
           }
@@ -60,11 +60,30 @@ export default function CartPage() {
             break
           }
         }
+        dispatch(sessionActions.resetCart())
       } else {
         notifyError('Tạo đơn hàng thất bại, vui lòng thử lại hoặc liên hệ tổng đài để hỗ trợ')
       }
     }
   )
+
+  const redirectToOrderDetail = () => {
+    router.push(`/don-hang/${orderResponse?.orderId}`)
+  }
+
+  const confirmTransfer = () => {
+    const transferConfirm = async () => {
+      if (orderResponse?.orderCode) {
+        const res = await OrderService.transferConfirm({ orderCode: orderResponse?.orderCode })
+        if (res.data) {
+          redirectToOrderDetail()
+        }
+      } else {
+        notifyError('Không tìm thấy đơn hàng, vui lòng thanh toán lại hoặc liên hệ tổng đài')
+      }
+    }
+    void transferConfirm()
+  }
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     const payload = { ...data, CartItems: cartItems }
@@ -108,6 +127,8 @@ export default function CartPage() {
           content={contentDialog}
           msgCancel="Hủy"
           msgConfirm="Đã Chuyển khoản"
+          onCancel={() => redirectToOrderDetail()}
+          onConfirm={() => confirmTransfer()}
           onHandle={() => setIsShowDialogPayment(false)}
         />
       </>

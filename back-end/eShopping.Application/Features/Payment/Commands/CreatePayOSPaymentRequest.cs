@@ -66,15 +66,15 @@ namespace eShopping.Application.Features.Payments.Commands
             var orderPaymentTransaction = new OrderPaymentTransaction()
             {
                 IsSuccess = false,
-                OrderInfo = requestPayment.Description,
                 Amount = request.Amount,
                 OrderId = request.OrderId,
                 TransId = request.OrderCode,
-                PaymentMethodId = EnumPaymentMethod.PayOS,
-                PaymentUrl = result.checkoutUrl,
                 TransactionType = EnumTransactionType.Payment,
                 CreatedUser = loggedUser.AccountId.Value,
                 CreatedTime = DateTime.UtcNow,
+                OrderInfo = requestPayment.Description,
+                PaymentMethodId = EnumPaymentMethod.PayOS,
+                PaymentUrl = result.checkoutUrl,
             };
 
             // Save payment transaction.

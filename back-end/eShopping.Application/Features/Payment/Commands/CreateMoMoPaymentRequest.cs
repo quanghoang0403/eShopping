@@ -47,39 +47,39 @@ namespace eShopping.Application.Features.Payments.Commands
         public async Task<CreateMomoResponseModel> Handle(CreateMoMoPaymentRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-
-            Guid accountId = loggedUser.AccountId.Value;
-            string email = loggedUser.Email;
-
-            var orderPaymentTransaction = new OrderPaymentTransaction()
-            {
-                OrderId = request.OrderId,
-                PaymentMethodId = EnumPaymentMethod.MoMo,
-                TransId = request.OrderCode,
-                OrderInfo = $"Momo Order {request.OrderCode} amount: {request.Amount}",
-                Amount = decimal.Parse(request.Amount),
-                IsSuccess = false,
-                CreatedUser = accountId
-            };
-            await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
-
+            var info = $"Momo Order {request.OrderCode} amount: {request.Amount}";
             //Handle Payment Request
             var paymentRequest = new CreateMomoRequestModel()
             {
-                RequestId = orderPaymentTransaction.Id.ToString(),
+                RequestId = request.OrderCode.ToString(),
                 Amount = request.Amount,
                 OrderCode = request.OrderCode.ToString(),
-                OrderInfo = orderPaymentTransaction.OrderInfo,
+                OrderInfo = info,
                 RedirectUrl = SystemConstants.MomoRedirectUrl,
                 IpnUrl = SystemConstants.MomoIpnUrl,
-                PartnerClientId = email,
-                ExtraData = orderPaymentTransaction.OrderInfo,
-                Language = "vi"
+                PartnerClientId = loggedUser.Email,
+                ExtraData = info,
+                Language = SystemConstants.Locale
             };
 
             try
             {
                 var response = await _momoPaymentService.CreateGatewayAsync(paymentRequest);
+
+                var orderPaymentTransaction = new OrderPaymentTransaction()
+                {
+                    IsSuccess = false,
+                    Amount = decimal.Parse(request.Amount),
+                    OrderId = request.OrderId,
+                    TransId = request.OrderCode,
+                    TransactionType = EnumTransactionType.Payment,
+                    CreatedUser = loggedUser.AccountId.Value,
+                    CreatedTime = DateTime.UtcNow,
+                    OrderInfo = paymentRequest.OrderInfo,
+                    PaymentMethodId = EnumPaymentMethod.MoMo,
+                    PaymentUrl = response.QrCodeUrl
+                };
+                await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
                 return response;
             }
             catch (Exception e)
@@ -89,7 +89,6 @@ namespace eShopping.Application.Features.Payments.Commands
                 throw;
             }
         }
-
 
         public static string Base64Encode(string plainText)
         {
