@@ -33,7 +33,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             ThrowError.Against(blogCategory == null, "Couldn't found blog category");
             blogCategory.IsDeleted = true;
             blogCategory.LastSavedUser = loggedUser.AccountId.Value;
-            blogCategory.LastSavedTime = DateTime.UtcNow;
+            blogCategory.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

@@ -89,7 +89,7 @@ namespace eShopping.Application.Features.Orders.Commands
             order.ShipWardId = request.ShipWardId;
             order.ShipFullAddress = request.ShipAddress + ward + district + city;
             order.Note = request.Note;
-            order.LastSavedTime = DateTime.UtcNow;
+            order.LastSavedTime = DateTime.Now;
             order.LastSavedUser = accountId;
             return true;
         }

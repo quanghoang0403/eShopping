@@ -107,7 +107,7 @@ namespace eShopping.Application.Features.Products.Commands
 
                 var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
                 modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
-                modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
+                modifiedProductCategory.LastSavedTime = DateTime.Now;
                 modifiedProductCategory.UrlSEO = StringHelpers.UrlEncode(modifiedProductCategory.Name);
                 
                 await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);

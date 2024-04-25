@@ -79,7 +79,7 @@ namespace eShopping.Application.Features.Products.Commands
                 var newProductCategory = _mapper.Map<ProductCategory>(request);
                 var accountId = loggedUser.AccountId.Value;
                 newProductCategory.CreatedUser = accountId;
-                newProductCategory.CreatedTime = DateTime.UtcNow;
+                newProductCategory.CreatedTime = DateTime.Now;
                 newProductCategory.UrlSEO = StringHelpers.UrlEncode(newProductCategory.Name);
                 var productIds = request.Products.Select(p => p.Id);
                 var productInCategories = _unitOfWork.ProductInCategories.Find(p => productIds.Any(pid => pid == p.ProductId));

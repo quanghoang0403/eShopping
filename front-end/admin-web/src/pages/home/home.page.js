@@ -20,7 +20,7 @@ import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
 import './index.scss'
 import { images } from 'constants/images.constants'
 
-export default function HomePage (props) {
+export default function HomePage(props) {
   const { orderDataService } = props
   const [t] = useTranslation()
   const dispatch = useDispatch()
@@ -67,25 +67,17 @@ export default function HomePage (props) {
   const [dataChart, setDataChart] = useState()
 
   useEffect(() => {
-    const isTokenExpired = checkTokenExpired()
-    if (isTokenExpired) {
-      dispatch(resetSession())
-      props.history.push('/login')
-    } else {
+    const token = getStorage(localStorageKeys.TOKEN)
+    if (token) {
       getOrderInfoByFilter(selectedDate, typeOptionDate)
       getStatisticalData(selectedDate, typeOptionDate)
       onConditionCompare(OptionDateTime.today)
+    } else {
+      console.log('resetSession')
+      dispatch(resetSession())
+      props.history.push('/login')
     }
   }, [])
-
-  const checkTokenExpired = () => {
-    let isTokenExpired = true
-    const token = getStorage(localStorageKeys.TOKEN)
-    if (token || token !== null) {
-      isTokenExpired = tokenExpired(token)
-    }
-    return isTokenExpired
-  }
 
   const getStatisticalData = (date, typeOptionDate) => {
     const req = {
@@ -230,82 +222,82 @@ export default function HomePage (props) {
         render: (value, record) => {
           return isTabletOrMobile
             ? (
-            <Row className="table-selling-product-row">
-              <div className="table-selling-product-row-title">
-                <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
-                <div className="table-selling-product-thumbnail">
-                  <Thumbnail src={record?.thumbnail} imageDefault={images.productDefault} />
+              <Row className="table-selling-product-row">
+                <div className="table-selling-product-row-title">
+                  <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
+                  <div className="table-selling-product-thumbnail">
+                    <Thumbnail src={record?.thumbnail} imageDefault={images.productDefault} />
+                  </div>
+                  <div className="table-selling-product-name">
+                    <Row>
+                      <Col span={24} className="table-selling-product-text-product-name">
+                        <Link to={`/product/detail/${record?.productId}`} target="_blank">
+                          <FnbParagraph>{value}</FnbParagraph>
+                        </Link>
+                      </Col>
+                    </Row>
+                    <Row style={record?.priceName && { marginTop: '4px' }}>
+                      <Col span={24} className="table-selling-product-text-no" style={{ fontSize: '14px' }}>
+                        {record?.priceName}
+                      </Col>
+                    </Row>
+                  </div>
                 </div>
-                <div className="table-selling-product-name">
-                  <Row>
-                    <Col span={24} className="table-selling-product-text-product-name">
-                      <Link to={`/product/detail/${record?.productId}`} target="_blank">
-                        <FnbParagraph>{value}</FnbParagraph>
-                      </Link>
-                    </Col>
-                  </Row>
-                  <Row style={record?.priceName && { marginTop: '4px' }}>
-                    <Col span={24} className="table-selling-product-text-no" style={{ fontSize: '14px' }}>
-                      {record?.priceName}
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-              <div className="table-selling-product-row-description">
-                <Row>
-                  <Col
-                    span={24}
-                    className="table-selling-product-text-product-name table-selling-product-text-no-font-size"
-                  >
-                    {`${record?.quantity} ${pageData.parts}`}
-                  </Col>
-                </Row>
-                <Row className="table-selling-product-text-no table-selling-product-quantity-style">
-                  <Col span={24}>{`${formatTextNumber(record?.totalCost)} ${currency}`}</Col>
-                </Row>
-              </div>
-            </Row>
-              )
-            : (
-            <Row className="table-selling-product-row">
-              <div className="table-selling-product-row-title">
-                <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
-                <div className="table-selling-product-thumbnail">
-                  <Thumbnail src={record?.thumbnail} imageDefault={productImageDefault} />
-                </div>
-                <Col span={10} className="table-selling-product-no">
+                <div className="table-selling-product-row-description">
                   <Row>
                     <Col
                       span={24}
-                      className="table-selling-product-text-product-name table-selling-product-name-overflow"
+                      className="table-selling-product-text-product-name table-selling-product-text-no-font-size"
                     >
-                      <Link to={`/product/detail/${record?.productId}`} target="_blank">
-                        <FnbParagraph>{value}</FnbParagraph>
-                      </Link>
+                      {`${record?.quantity} ${pageData.parts}`}
                     </Col>
                   </Row>
-                  <Row style={record?.priceName && { marginTop: '4px' }}>
-                    <Col span={24} className="table-selling-product-text-no table-selling-product-text-no-font-size">
-                      {record?.priceName}
-                    </Col>
+                  <Row className="table-selling-product-text-no table-selling-product-quantity-style">
+                    <Col span={24}>{`${formatTextNumber(record?.totalCost)} ${currency}`}</Col>
                   </Row>
-                </Col>
-              </div>
-              <div className="table-selling-product-row-description">
-                <Row>
-                  <Col
-                    span={24}
-                    className="table-selling-product-text-product-name table-selling-product-text-no-font-size"
-                  >
-                    {`${record?.quantity} ${pageData.parts}`}
+                </div>
+              </Row>
+            )
+            : (
+              <Row className="table-selling-product-row">
+                <div className="table-selling-product-row-title">
+                  <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
+                  <div className="table-selling-product-thumbnail">
+                    <Thumbnail src={record?.thumbnail} imageDefault={productImageDefault} />
+                  </div>
+                  <Col span={10} className="table-selling-product-no">
+                    <Row>
+                      <Col
+                        span={24}
+                        className="table-selling-product-text-product-name table-selling-product-name-overflow"
+                      >
+                        <Link to={`/product/detail/${record?.productId}`} target="_blank">
+                          <FnbParagraph>{value}</FnbParagraph>
+                        </Link>
+                      </Col>
+                    </Row>
+                    <Row style={record?.priceName && { marginTop: '4px' }}>
+                      <Col span={24} className="table-selling-product-text-no table-selling-product-text-no-font-size">
+                        {record?.priceName}
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-                <Row className="table-selling-product-text-no table-selling-product-quantity-style">
-                  <Col span={24}>{`${formatTextNumber(record?.totalCost)} ${currency}`}</Col>
-                </Row>
-              </div>
-            </Row>
-              )
+                </div>
+                <div className="table-selling-product-row-description">
+                  <Row>
+                    <Col
+                      span={24}
+                      className="table-selling-product-text-product-name table-selling-product-text-no-font-size"
+                    >
+                      {`${record?.quantity} ${pageData.parts}`}
+                    </Col>
+                  </Row>
+                  <Row className="table-selling-product-text-no table-selling-product-quantity-style">
+                    <Col span={24}>{`${formatTextNumber(record?.totalCost)} ${currency}`}</Col>
+                  </Row>
+                </div>
+              </Row>
+            )
         }
       }
     ]
@@ -321,44 +313,44 @@ export default function HomePage (props) {
         render: (value, record) => {
           return isTabletOrMobile
             ? (
-            <div className="table-customer-row">
+              <div className="table-customer-row">
+                <Row>
+                  <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
+                  <div className="table-selling-product-thumbnail">
+                    <Thumbnail src={record?.thumbnail} />
+                  </div>
+                  <div className="table-selling-product-no table-selling-product-name-mobile">
+                    <Row>
+                      <Col span={24} className="table-selling-product-text-product-name">
+                        <Link to={`/customer/detail/${record?.id}`} target="_blank">
+                          <FnbParagraph>{value}</FnbParagraph>
+                        </Link>
+                      </Col>
+                    </Row>
+                  </div>
+                </Row>
+              </div>
+            )
+            : (
               <Row>
                 <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
                 <div className="table-selling-product-thumbnail">
                   <Thumbnail src={record?.thumbnail} />
                 </div>
-                <div className="table-selling-product-no table-selling-product-name-mobile">
+                <Col span={10} className="table-selling-product-no">
                   <Row>
-                    <Col span={24} className="table-selling-product-text-product-name">
+                    <Col
+                      span={24}
+                      className="table-selling-product-text-product-name home-page table-selling-product-name-overflow"
+                    >
                       <Link to={`/customer/detail/${record?.id}`} target="_blank">
                         <FnbParagraph>{value}</FnbParagraph>
                       </Link>
                     </Col>
                   </Row>
-                </div>
+                </Col>
               </Row>
-            </div>
-              )
-            : (
-            <Row>
-              <div className="table-selling-product-text-no table-selling-product-no">{record?.no}</div>
-              <div className="table-selling-product-thumbnail">
-                <Thumbnail src={record?.thumbnail} />
-              </div>
-              <Col span={10} className="table-selling-product-no">
-                <Row>
-                  <Col
-                    span={24}
-                    className="table-selling-product-text-product-name home-page table-selling-product-name-overflow"
-                  >
-                    <Link to={`/customer/detail/${record?.id}`} target="_blank">
-                      <FnbParagraph>{value}</FnbParagraph>
-                    </Link>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-              )
+            )
         }
       },
       {
@@ -368,21 +360,21 @@ export default function HomePage (props) {
         render: (value) => {
           return isTabletOrMobile
             ? (
-            <>
-              <div className="table-selling-product-item-mobile table-customer-row table-customer-item-mobile-margin">
+              <>
+                <div className="table-selling-product-item-mobile table-customer-row table-customer-item-mobile-margin">
+                  <Row className="table-selling-product-text-no table-selling-product-text-no-font-size">
+                    <Col span={24}>{`${formatTextNumber(value)} ${getCurrencyWithSymbol()}`}</Col>
+                  </Row>
+                </div>
+              </>
+            )
+            : (
+              <>
                 <Row className="table-selling-product-text-no table-selling-product-text-no-font-size">
                   <Col span={24}>{`${formatTextNumber(value)} ${getCurrencyWithSymbol()}`}</Col>
                 </Row>
-              </div>
-            </>
-              )
-            : (
-            <>
-              <Row className="table-selling-product-text-no table-selling-product-text-no-font-size">
-                <Col span={24}>{`${formatTextNumber(value)} ${getCurrencyWithSymbol()}`}</Col>
-              </Row>
-            </>
-              )
+              </>
+            )
         }
       }
     ]

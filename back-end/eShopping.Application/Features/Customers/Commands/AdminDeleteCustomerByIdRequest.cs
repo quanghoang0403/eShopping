@@ -38,12 +38,12 @@ namespace eShopping.Application.Features.Customers.Commands
             ThrowError.Against(customer == null, "Customer is not found");
             customer.IsDeleted = true;
             customer.LastSavedUser = loggedUser.AccountId.Value;
-            customer.LastSavedTime = DateTime.UtcNow;
+            customer.LastSavedTime = DateTime.Now;
 
             var customerAccount = await _unitOfWork.Accounts.GetIdentifierAsync(customer.AccountId);
             customerAccount.IsDeleted = true;
             customerAccount.LastSavedUser = loggedUser.AccountId.Value;
-            customerAccount.LastSavedTime = DateTime.UtcNow;
+            customerAccount.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

@@ -1,7 +1,7 @@
 import { Button, Form, Image, Input, message, Row, Select } from 'antd'
 import 'antd/dist/antd.css'
-import jwt_decode from 'jwt-decode'
-import { useEffect, useRef, useState } from 'react'
+import { jwtDecode } from 'jwt-decode'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   EyeIcon,
@@ -10,14 +10,11 @@ import {
   UserNameIcon
 } from 'constants/icons.constants'
 import {
-  resetSession,
-  setAuth,
-  setPermissionGroup,
+  setCurrentUser,
   setPermissions,
-  setToken
 } from 'store/modules/session/session.actions'
 import { getParamsFromUrl, tokenExpired } from 'utils/helpers'
-import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
+import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'
 import { claimTypesConstants } from '../../constants/claim-types.constants'
 import loginDataService from '../../data-services/login/login-data.service'
 import permissionDataService from 'data-services/permission/permission-data.service'
@@ -53,32 +50,37 @@ const LoginPage = (props) => {
         userName: username
       })
     }
-    handleRedirectWithToken()
   }, [])
-
-  const setUserAuth = (auth, token, permissions) => {
-    dispatch(setAuth(auth))
-    dispatch(setToken(token))
-    dispatch(setPermissions(permissions))
-  }
 
   const onFinish = (values) => {
     loginDataService
       .authenticate(values)
       .then((res) => {
-        const { token, thumbnail } = res
-        const user = getUserInfo(token)
-        const auth = {
-          ...user,
-          thumbnail
-        }
-        setupWorkspace(token, auth)
+        const { token, refreshToken } = res
+        setupWorkspace(token)
+        setStorage(localStorageKeys.TOKEN, token)
+        setStorage(localStorageKeys.REFRESH_TOKEN, refreshToken)
       })
       .catch(() => { })
   }
 
+  const setupWorkspace = (token) => {
+    permissionDataService.getPermissionsAsync(token).then((res) => {
+      const { permissions } = res
+      if (permissions.length > 0) {
+        message.success(pageData.loginSuccess)
+        const currentUser = getUserInfo(token)
+        dispatch(setPermissions(permissions))
+        dispatch(setCurrentUser(currentUser))
+        props.history.push('/')
+      } else {
+        message.error(pageData.permissionDenied)
+      }
+    })
+  }
+
   const getUserInfo = (token) => {
-    const claims = jwt_decode(token)
+    const claims = jwtDecode(token)
     const user = {
       userId: claims[claimTypesConstants.id],
       accountId: claims[claimTypesConstants.accountId],
@@ -90,39 +92,6 @@ const LoginPage = (props) => {
     return user
   }
 
-  const setupWorkspace = (token, userInfo) => {
-    const auth = { token, user: userInfo }
-    /// get permissions
-    permissionDataService.getPermissionsAsync(token).then((res) => {
-      const { permissions, permissionGroups } = res
-      if (permissions.length > 0) {
-        message.success(pageData.loginSuccess)
-        dispatch(setPermissionGroup(permissionGroups))
-        setUserAuth(auth, token, permissions)
-        props.history.push('/')
-      } else {
-        message.error(pageData.permissionDenied)
-      }
-    })
-  }
-
-  const checkTokenExpired = () => {
-    let isTokenExpired = true
-    const token = getStorage(localStorageKeys.TOKEN)
-    if (token || token !== null) {
-      isTokenExpired = tokenExpired(token)
-    }
-    return isTokenExpired
-  }
-
-  const handleRedirectWithToken = () => {
-    const isTokenExpired = checkTokenExpired()
-    if (isTokenExpired) {
-      dispatch(resetSession())
-    } else {
-      props.history.push('/')
-    }
-  }
 
   return (
     <div className="c-authenticator">

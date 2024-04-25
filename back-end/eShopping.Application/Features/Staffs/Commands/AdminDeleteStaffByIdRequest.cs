@@ -35,12 +35,12 @@ namespace eShopping.Application.Features.Staffs.Commands
             ThrowError.Against(staff == null, "Staff is not found");
             staff.IsDeleted = true;
             staff.LastSavedUser = loggedUser.AccountId.Value;
-            staff.LastSavedTime = DateTime.UtcNow;
+            staff.LastSavedTime = DateTime.Now;
 
             var staffAccount = await _unitOfWork.Accounts.GetIdentifierAsync(staff.AccountId);
             staffAccount.IsDeleted = true;
             staffAccount.LastSavedUser = loggedUser.AccountId.Value;
-            staffAccount.LastSavedTime = DateTime.UtcNow;
+            staffAccount.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

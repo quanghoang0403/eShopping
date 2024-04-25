@@ -82,7 +82,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                     return false;
                 }
 
-                DateTime lastTime = DateTime.UtcNow;
+                DateTime lastTime = DateTime.Now;
                 //Handle update order and payment status
                 bool paymentHasBeenCompleted = request.ResultCode == MomoResponseCode.Success ? true : false;
                 order.OrderPaymentStatusId = paymentHasBeenCompleted ? EnumOrderPaymentStatus.Paid : EnumOrderPaymentStatus.Unpaid;
@@ -100,7 +100,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 var orderHistoryAddModel = new Domain.Entities.OrderHistory
                 {
                     OrderId = order.Id,
-                    CreatedTime = DateTime.UtcNow,
+                    CreatedTime = DateTime.Now,
                     ActionType = paymentHasBeenCompleted ? EnumOrderActionType.PAID_SUCCESSFULLY : EnumOrderActionType.PAID_FAILED
                 };
                 _unitOfWork.OrderHistories.Add(orderHistoryAddModel);

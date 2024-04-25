@@ -6,7 +6,7 @@ import SideMenu from './side-menu.component'
 
 const mapStateToProps = (state) => {
   return {
-    signedInUser: state.session?.auth?.user
+    signedInUser: state.session?.currentUser
   }
 }
 

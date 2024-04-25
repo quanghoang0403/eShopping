@@ -71,7 +71,7 @@ namespace eShopping.Application.Features.Payments.Commands
                 TransId = request.OrderCode,
                 TransactionType = EnumTransactionType.Payment,
                 CreatedUser = loggedUser.AccountId.Value,
-                CreatedTime = DateTime.UtcNow,
+                CreatedTime = DateTime.Now,
                 OrderInfo = requestPayment.Description,
                 PaymentMethodId = EnumPaymentMethod.PayOS,
                 PaymentUrl = result.checkoutUrl,

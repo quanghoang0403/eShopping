@@ -79,7 +79,8 @@ namespace eShopping.Services
                 _jwtSettings.Issuer,
                 _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes),
+                expires: DateTime.Now.AddSeconds(30),
+                //expires: DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes),
                 signingCredentials: signingCredentials);
 
             // 4. Return Token from method
@@ -90,10 +91,10 @@ namespace eShopping.Services
         public async Task<string> GenerateRefreshToken(Guid accountId)
         {
             var refreshToken = await _unitOfWork.RefreshTokens.GetRefreshToken(accountId);
-            if (refreshToken != null && refreshToken.ExpiredDate >= DateTime.UtcNow)
+            if (refreshToken != null && refreshToken.ExpiredDate >= DateTime.Now)
             {
-                refreshToken.CreatedDate = DateTime.UtcNow;
-                refreshToken.ExpiredDate = DateTime.UtcNow.AddDays(30);
+                refreshToken.CreatedDate = DateTime.Now;
+                refreshToken.ExpiredDate = DateTime.Now.AddDays(30);
                 refreshToken.Token = Guid.NewGuid().ToString();
                 await _unitOfWork.RefreshTokens.UpdateAsync(refreshToken);
             }
@@ -104,8 +105,8 @@ namespace eShopping.Services
                     AccountId = accountId,
                     Token = Guid.NewGuid().ToString(),
                     IsInvoked = false,
-                    CreatedDate = DateTime.UtcNow,
-                    ExpiredDate = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationInDays)
+                    CreatedDate = DateTime.Now,
+                    ExpiredDate = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpirationInDays)
                 };
                 refreshToken = await _unitOfWork.RefreshTokens.AddAsync(refreshToken);
             }

@@ -64,7 +64,7 @@ namespace eShopping.Application.Features.Blogs.Commands
 
             var modifiedBlog = _mapper.Map<Blog>(request);
             modifiedBlog.LastSavedUser = loggedUser.AccountId.Value;
-            modifiedBlog.LastSavedTime = DateTime.UtcNow;
+            modifiedBlog.LastSavedTime = DateTime.Now;
             modifiedBlog.UrlSEO = StringHelpers.UrlEncode(modifiedBlog.Name);
             var result = await _unitOfWork.Blogs.UpdateBlogAsync(modifiedBlog, request.BlogCategoryId, cancellationToken);
             ThrowError.Against(result == null, "Error updating Blog");

@@ -145,7 +145,7 @@ namespace eShopping.Application.Features.Orders.Commands
                     ShipDistrictId = request.ShipDistrictId,
                     ShipWardId = request.ShipWardId,
                     Note = request.Note,
-                    CreatedTime = DateTime.UtcNow,
+                    CreatedTime = DateTime.Now,
                     CreatedUser = accountId,
                 });
 
@@ -183,7 +183,7 @@ namespace eShopping.Application.Features.Orders.Commands
                             PriceValue = price.PriceValue,
                             Quantity = item.Quantity,
                             Thumbnail = item.Thumbnail,
-                            CreatedTime = DateTime.UtcNow,
+                            CreatedTime = DateTime.Now,
                             CreatedUser = accountId,
                         });
                     }
@@ -199,7 +199,7 @@ namespace eShopping.Application.Features.Orders.Commands
                     OrderId = order.Id,
                     ActionType = EnumOrderActionType.CREATE_ORDER,
                     Note = request.Note,
-                    CreatedTime = DateTime.UtcNow,
+                    CreatedTime = DateTime.Now,
                     CreatedUser = accountId,
                 });
 
@@ -226,7 +226,7 @@ namespace eShopping.Application.Features.Orders.Commands
                             Amount = totalAmount,
                             PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
                             CreatedUser = loggedUser.AccountId.Value,
-                            CreatedTime = DateTime.UtcNow,
+                            CreatedTime = DateTime.Now,
                         };
                         await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
                         break;

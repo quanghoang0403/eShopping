@@ -53,7 +53,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             var newBlog = _mapper.Map<Blog>(request);
             var accountId = loggedUser.AccountId.Value;
             newBlog.CreatedUser = accountId;
-            newBlog.CreatedTime = DateTime.UtcNow;
+            newBlog.CreatedTime = DateTime.Now;
             newBlog.UrlSEO = StringHelpers.UrlEncode(newBlog.Name);
             try
             {

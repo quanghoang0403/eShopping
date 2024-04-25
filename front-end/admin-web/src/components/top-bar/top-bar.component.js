@@ -69,7 +69,7 @@ function TopBar(props) {
 
   const renderMenusItems = () => {
     const { session } = store.getState()
-    const { user } = session?.auth
+    const user = session?.currentUser
 
     const html = menuItems.map((item) => {
       if (item.child && item.child.length > 0) {

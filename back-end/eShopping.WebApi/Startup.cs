@@ -79,8 +79,6 @@ namespace eShopping.WebApi
 
             // Email configurations.
             services.AddScoped<IEmailSenderProvider, EmailSenderProvider>();
-
-            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IJWTService, JWTService>();
 
             services.AddScoped<IUserProvider, HttpUserProvider>();

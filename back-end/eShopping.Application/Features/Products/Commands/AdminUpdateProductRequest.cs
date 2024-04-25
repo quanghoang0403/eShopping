@@ -83,7 +83,7 @@ namespace eShopping.Application.Features.Products.Commands
             // Handle update product
             var updateProductModel = _mapper.Map<Product>(request);
             updateProductModel.LastSavedUser = loggedUser.AccountId.Value;
-            updateProductModel.LastSavedTime = DateTime.UtcNow;
+            updateProductModel.LastSavedTime = DateTime.Now;
             updateProductModel.UrlSEO = StringHelpers.UrlEncode(updateProductModel.Name);
 
             var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel, request.ProductCategoryIds);

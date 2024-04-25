@@ -1,10 +1,8 @@
 import { message } from 'antd'
 import axios from 'axios'
-import { resetSession } from 'store/modules/session/session.actions'
 import { env, ENVIRONMENT } from '../env'
-import { store } from '../store'
 import { tokenExpired } from './helpers'
-import { getStorage, localStorageKeys } from './localStorage.helpers'
+import { getStorage, setStorage, resetStorage, localStorageKeys } from './localStorage.helpers'
 import i18n from 'utils/i18n'
 
 const { t } = i18n
@@ -25,6 +23,28 @@ const http = axios.create({
 const showLoading = () => loadingIndicator.classList.add('loading-indicator')
 const hideLoading = () => loadingIndicator.classList.remove('loading-indicator')
 
+const refreshToken = async () => {
+  const refreshToken = _getRefreshToken()
+  const token = _getToken()
+  if (refreshToken && token) {
+    try {
+      const response = await axios.post(`${env.REACT_APP_ROOT_DOMAIN}/authenticate/refresh-token`, { token, refreshToken })
+      if (response.data) {
+        setStorage(localStorageKeys.TOKEN, response.data.token)
+        setStorage(localStorageKeys.REFRESH_TOKEN, response.data.refreshToken)
+      }
+      else {
+        _redirectToLoginPage()
+      }
+    } catch (error) {
+      _redirectToLoginPage()
+      console.error(error)
+    }
+  }
+  _redirectToLoginPage()
+}
+
+
 http.interceptors.request.use(
   async (config) => {
     showLoading()
@@ -33,14 +53,12 @@ http.interceptors.request.use(
       if (token) {
         const expired = tokenExpired(token)
         if (expired === true) {
-          _redirectToLoginPage()
-          return
+          await refreshToken()
+          token = cookie.get('token')
         }
-
         config.headers.Authorization = `Bearer ${token}`
       }
     }
-
     return config
   },
   (error) => {
@@ -157,9 +175,14 @@ const _getToken = () => {
   return token
 }
 
+const _getRefreshToken = () => {
+  const token = getStorage(localStorageKeys.REFRESH_TOKEN)
+  return token
+}
+
 /// Clear session and redirect to login page
 const _redirectToLoginPage = () => {
-  // store.dispatch(resetSession());
+  resetStorage()
   window.location.href = '/login'
 }
 

@@ -85,7 +85,7 @@ namespace eShopping.Application.Middlewares
                 new ErrorModel
                 {
                     Error = "An error occurred.",
-                    ErrorTime = DateTime.UtcNow,
+                    ErrorTime = DateTime.Now,
                     Message = htmlEncode ? HttpUtility.HtmlEncode(message) : message,
                     StackTrace = stackTrace,
                     Errors = errors,

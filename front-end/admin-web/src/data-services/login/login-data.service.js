@@ -10,12 +10,7 @@ const authenticate = (data) => {
   return http.post(`/${controller}/authenticate`, data, config)
 }
 
-const refreshTokenAndPermissionsAsync = (data) => {
-  return http.post(`/${controller}/refresh-token-and-permissions`, data)
-}
-
 const loginDataService = {
-  authenticate,
-  refreshTokenAndPermissionsAsync
+  authenticate
 }
 export default loginDataService

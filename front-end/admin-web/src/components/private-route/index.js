@@ -11,7 +11,7 @@ import SideMenu from '../side-menu'
 import TopBar from '../top-bar/index'
 
 const { Content } = Layout
-export default function PrivateRoute (props) {
+export default function PrivateRoute(props) {
   const history = useHistory()
   const dispatch = useDispatch()
   const {
@@ -31,13 +31,13 @@ export default function PrivateRoute (props) {
 
   useEffect(() => {
     const { permission } = route
-    const isTokenExpired = checkTokenExpired()
-    // Navigate to RESTRICTED Page whether user has not permission
-    if (!isTokenExpired) {
+    const token = getStorage(localStorageKeys.TOKEN)
+    if (token) {
       if (permission && !hasPermission(permission)) {
         history.push('/page-not-permitted')
       }
     } else {
+      console.log('resetSession')
       dispatch(resetSession())
       history.push('/login')
     }
@@ -46,15 +46,6 @@ export default function PrivateRoute (props) {
     const menuItems = routes.filter((route) => route.isMenu === true)
     setMenuItems(menuItems)
   }, [])
-
-  const checkTokenExpired = () => {
-    let isTokenExpired = true
-    const token = getStorage(localStorageKeys.TOKEN)
-    if (token || token !== null) {
-      isTokenExpired = tokenExpired(token)
-    }
-    return isTokenExpired
-  }
 
   return (
     <>

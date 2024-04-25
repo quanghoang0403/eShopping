@@ -63,7 +63,7 @@ namespace eShopping.Application.Features.Staffs.Commands
             account.Email = request.Email;
             account.Birthday = request.Birthday;
             account.LastSavedUser = loggedUser.AccountId.Value;
-            account.LastSavedTime = DateTime.UtcNow;
+            account.LastSavedTime = DateTime.Now;
 
             #region Handle update permissions
 
@@ -83,7 +83,7 @@ namespace eShopping.Application.Features.Staffs.Commands
                     StaffId = request.StaffId,
                     PermissionId = permissionId,
                     CreatedUser = loggedUser.AccountId.Value,
-                    CreatedTime = DateTime.UtcNow
+                    CreatedTime = DateTime.Now
                 };
                 newStaffPermissionsToDB.Add(newProductPrice);
 

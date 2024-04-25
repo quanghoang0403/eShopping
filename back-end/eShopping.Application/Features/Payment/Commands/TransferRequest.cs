@@ -40,7 +40,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
 
             ThrowError.Against(order == null || orderTransaction == null, "Not found order");
 
-            DateTime lastTime = DateTime.UtcNow;
+            DateTime lastTime = DateTime.Now;
             order.OrderPaymentStatusId = EnumOrderPaymentStatus.WaitingForConfirm;
             order.LastSavedTime = lastTime;
             await _unitOfWork.Orders.UpdateAsync(order);

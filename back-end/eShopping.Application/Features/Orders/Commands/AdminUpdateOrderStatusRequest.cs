@@ -38,7 +38,7 @@ namespace eShopping.Application.Features.Orders.Commands
             {
                 order.Status = request.Status;
                 order.LastSavedUser = accountId;
-                order.LastSavedTime = DateTime.UtcNow;
+                order.LastSavedTime = DateTime.Now;
             }
 
             // Add order history
@@ -47,7 +47,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 OrderId = order.Id,
                 ActionType = EnumOrderActionType.CANCEL,
                 Note = request.Note,
-                CreatedTime = DateTime.UtcNow,
+                CreatedTime = DateTime.Now,
                 CreatedUser = accountId,
             });
 

@@ -39,7 +39,7 @@ namespace eShopping.Application.Features.Products.Commands
 
             productCategory.IsDeleted = true;
             productCategory.LastSavedUser = loggedUser.AccountId.Value;
-            productCategory.LastSavedTime = DateTime.UtcNow;
+            productCategory.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

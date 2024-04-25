@@ -28,20 +28,17 @@ namespace eShopping.Application.Features.Products.Queries
     public class AdminGetProductByIdRequestHandler : IRequestHandler<AdminGetProductByIdRequest, AdminGetProductByIdResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDateTimeService _dateTimeService;
         private readonly IUserProvider _userProvider;
         private readonly MapperConfiguration _mapperConfiguration;
         private readonly IMapper _mapper;
 
         public AdminGetProductByIdRequestHandler(
             IUnitOfWork unitOfWork,
-            IDateTimeService dateTimeService,
             IUserProvider userProvider,
             MapperConfiguration mapperConfiguration,
             IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _dateTimeService = dateTimeService;
             _userProvider = userProvider;
             _mapperConfiguration = mapperConfiguration;
             _mapper = mapper;

@@ -37,7 +37,7 @@ namespace eShopping.Application.Features.Users.Commands
             var account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(request.Id);
             account.IsActivated = false;
             account.LastSavedUser = loggedUser.AccountId.Value;
-            account.LastSavedTime = DateTime.UtcNow;
+            account.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
 
             return true;

@@ -1,7 +1,7 @@
 export const localStorageKeys = {
   TOKEN: 'TOKEN',
+  REFRESH_TOKEN: 'REFRESH_TOKEN',
   PERMISSIONS: 'PERMISSIONS',
-  PERMISSION_GROUP: 'PERMISSION_GROUP',
   PRODUCT_FILTER: 'PRODUCT_FILTER'
 }
 
@@ -12,3 +12,11 @@ export const getStorage = (key) => {
 export const setStorage = (key, value) => {
   localStorage.setItem(key, value)
 }
+
+export const resetStorage = () => {
+  localStorage.removeItem(localStorageKeys.TOKEN)
+  localStorage.removeItem(localStorageKeys.REFRESH_TOKEN)
+  localStorage.removeItem(localStorageKeys.PERMISSIONS)
+  localStorage.removeItem('persist:root')
+}
+

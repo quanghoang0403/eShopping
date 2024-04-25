@@ -63,7 +63,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                 var newBlogCategory = _mapper.Map<BlogCategory>(request);
                 var accountId = loggedUser.AccountId.Value;
                 newBlogCategory.CreatedUser = accountId;
-                newBlogCategory.CreatedTime = DateTime.UtcNow;
+                newBlogCategory.CreatedTime = DateTime.Now;
                 newBlogCategory.UrlSEO = newBlogCategory.Name.UrlEncode();
                 var blogIds = request.Blogs.Select(b => b.Id);
                 var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId));

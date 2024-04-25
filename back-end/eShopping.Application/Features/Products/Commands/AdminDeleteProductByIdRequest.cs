@@ -38,7 +38,7 @@ namespace eShopping.Application.Features.Products.Commands
 
             product.IsDeleted = true;
             product.LastSavedUser = loggedUser.AccountId.Value;
-            product.LastSavedTime = DateTime.UtcNow;
+            product.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

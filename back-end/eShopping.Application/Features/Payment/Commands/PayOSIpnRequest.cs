@@ -88,7 +88,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                     return res;
                 }
 
-                DateTime lastTime = DateTime.UtcNow;
+                DateTime lastTime = DateTime.Now;
                 //Handle update order and payment status
                 bool paymentHasBeenCompleted = request.code == "00" ? true : false;
                 order.OrderPaymentStatusId = paymentHasBeenCompleted ? EnumOrderPaymentStatus.Paid : EnumOrderPaymentStatus.Unpaid;
@@ -107,7 +107,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 {
                     OrderId = order.Id,
                     Note = urlForDebugging,
-                    CreatedTime = DateTime.UtcNow,
+                    CreatedTime = DateTime.Now,
                     ActionType = paymentHasBeenCompleted ? EnumOrderActionType.PAID_SUCCESSFULLY : EnumOrderActionType.PAID_FAILED
                 };
 

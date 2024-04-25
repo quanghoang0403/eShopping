@@ -74,7 +74,7 @@ namespace eShopping.Application.Features.Products.Commands
             var accountId = loggedUser.AccountId.Value;
             product.Status = EnumStatus.Active;
             product.CreatedUser = accountId;
-            product.CreatedTime = DateTime.UtcNow;
+            product.CreatedTime = DateTime.Now;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
             if (request.ProductPrices.Any(pc => pc.PercentNumber > 0 || pc.PriceDiscount > 0))
@@ -114,7 +114,7 @@ namespace eShopping.Application.Features.Products.Commands
                         ObjectId = product.Id,
                         ImagePath = path,
                         CreatedUser = accountId,
-                        CreatedTime = DateTime.UtcNow
+                        CreatedTime = DateTime.Now
                     };
                     productImages.Add(image);
                 }
@@ -127,7 +127,7 @@ namespace eShopping.Application.Features.Products.Commands
                 //    var optionToAdd = _mapper.Map<ProductPrice>(option);
                 //    optionToAdd.ProductId = product.Id;
                 //    optionToAdd.CreatedUser = accountId;
-                //    optionToAdd.CreatedTime = DateTime.UtcNow;
+                //    optionToAdd.CreatedTime = DateTime.Now;
                 //    productPrices.Add(optionToAdd);
                 //}
                 //await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);

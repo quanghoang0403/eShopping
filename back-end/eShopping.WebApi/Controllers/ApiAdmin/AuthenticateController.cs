@@ -22,7 +22,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         [HttpPost]
         [Route("refresh-token")]
-        public async Task<IActionResult> RefreshTokenAsync([FromHeader] RefreshTokenRequest request)
+        public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequest request)
         {
             var response = await _mediator.Send(request);
             return SafeOk(response);

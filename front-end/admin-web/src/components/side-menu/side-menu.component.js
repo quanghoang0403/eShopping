@@ -6,13 +6,13 @@ import { Link, withRouter } from 'react-router-dom'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { compose } from 'redux'
 import { store } from 'store'
-import { hasPermission, sortChildRoute } from 'utils/helpers'
+import { hasPermission } from 'utils/helpers'
 import { useTranslation } from 'react-i18next'
 import './index.scss'
 const { Sider } = Layout
 const { SubMenu } = Menu
 
-function SideMenu (props) {
+function SideMenu(props) {
   const { signedInUser, signOut, menuItems, route, isChild, parentKey } = props
   const [collapsed, setCollapsed] = useState(false)
   const [selectedKey, setSelectedKey] = useState('')
@@ -43,7 +43,7 @@ function SideMenu (props) {
 
   const onFocusFirstItem = (childs) => {
     if (childs?.length > 0) {
-      childs = sortChildRoute(childs).sort((a, b) => {
+      childs = childs.sort((a, b) => {
         return a.position - b.position
       })
       for (const child of childs) {
@@ -64,7 +64,7 @@ function SideMenu (props) {
 
   const renderMenusItems = () => {
     const { session } = store.getState()
-    const { user } = session?.auth
+    const user = session?.currentUser
 
     const currentMenuItems = menuItems
 
@@ -182,8 +182,8 @@ function SideMenu (props) {
             </Avatar>
           </div>
           <div className="header-information">
-              <div className="header-name">{signedInUser?.fullName}</div>
-              <div className="header-email">{signedInUser?.email}</div>
+            <div className="header-name">{signedInUser?.fullName}</div>
+            <div className="header-email">{signedInUser?.email}</div>
           </div>
         </div>
       </div>

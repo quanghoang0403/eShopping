@@ -31,7 +31,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             ThrowError.Against(blog == null, "No Blog is found");
             blog.IsDeleted = true;
             blog.LastSavedUser = loggedUser.AccountId.Value;
-            blog.LastSavedTime = DateTime.UtcNow;
+            blog.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

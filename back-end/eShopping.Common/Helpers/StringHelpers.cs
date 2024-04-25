@@ -159,7 +159,7 @@ namespace eShopping.Common.Helpers
         {
             const string prefix = "BE";
             const int totalNumberOfCharactersToSplit = 9;
-            string randomCode = $"{DateTime.UtcNow.Ticks}";
+            string randomCode = $"{DateTime.Now.Ticks}";
             // For example: 637773999255854918 there are 18 characters in this string.
             // The value will be 255854918.
             randomCode = $"{prefix}{randomCode.Substring(randomCode.Length - totalNumberOfCharactersToSplit, totalNumberOfCharactersToSplit)}";

@@ -484,7 +484,7 @@ namespace eShopping.Email
             try
             {
                 url = Api.ApiUri + url;
-                string boundary = DateTime.UtcNow.Ticks.ToString("x");
+                string boundary = DateTime.Now.Ticks.ToString("x");
                 byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);

@@ -50,7 +50,7 @@ namespace eShopping.Application.Features.Users.Commands
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             var refreshToken = await _unitOfWork.RefreshTokens.GetRefreshToken(account.Id);
-            ThrowError.Against(refreshToken.ExpiredDate < DateTime.UtcNow, "Refresh token is expired");
+            ThrowError.Against(refreshToken.ExpiredDate < DateTime.Now, "Refresh token is expired");
             ThrowError.Against(refreshToken.Token != request.RefreshToken, "Refresh token is not valid");
             ThrowError.Against(refreshToken.IsInvoked == true, "Refresh token is invoked");
 

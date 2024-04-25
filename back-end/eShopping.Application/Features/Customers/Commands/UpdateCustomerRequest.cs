@@ -72,7 +72,7 @@ namespace eShopping.Application.Features.Customers.Commands
                     account.Birthday = request.Birthday;
                     account.Gender = request.Gender;
                     account.LastSavedUser = accountId;
-                    account.LastSavedTime = DateTime.UtcNow;
+                    account.LastSavedTime = DateTime.Now;
                     //await _unitOfWork.Accounts.UpdateAsync(account);
 
                     customer.Address = request.Address;
@@ -80,7 +80,7 @@ namespace eShopping.Application.Features.Customers.Commands
                     customer.DistrictId = request.DistrictId;
                     customer.CityId = request.CityId;
                     customer.LastSavedUser = accountId;
-                    customer.LastSavedTime = DateTime.UtcNow;
+                    customer.LastSavedTime = DateTime.Now;
                     //await _unitOfWork.Customers.UpdateAsync(newCustomer);
 
                     await _unitOfWork.SaveChangesAsync();

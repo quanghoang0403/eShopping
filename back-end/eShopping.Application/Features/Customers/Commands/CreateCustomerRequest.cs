@@ -86,7 +86,7 @@ namespace eShopping.Application.Features.Customers.Commands
                     Birthday = request.Birthday,
                     Gender = request.Gender,
                     LastSavedUser = accountId,
-                    LastSavedTime = DateTime.UtcNow
+                    LastSavedTime = DateTime.Now
                 };
                 // await _unitOfWork.Accounts.AddAsync(newAccount);
 
@@ -99,7 +99,7 @@ namespace eShopping.Application.Features.Customers.Commands
                     Account = newAccount,
                     // AccountId = newAccount.Id,
                     LastSavedUser = accountId,
-                    LastSavedTime = DateTime.UtcNow
+                    LastSavedTime = DateTime.Now
                 };
 
                 await _unitOfWork.Customers.AddAsync(newCustomer);

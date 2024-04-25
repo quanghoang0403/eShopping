@@ -6,7 +6,7 @@ import TopBar from './top-bar.component'
 
 const mapStateToProps = (state) => {
   return {
-    signedInUser: state.session?.auth?.user
+    signedInUser: state.session?.currentUser
   }
 }
 

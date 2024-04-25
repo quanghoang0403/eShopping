@@ -88,7 +88,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                 }
                 var modifiedBlogCategory = _mapper.Map<BlogCategory>(request);
                 modifiedBlogCategory.LastSavedUser = loggedUser.AccountId.Value;
-                modifiedBlogCategory.LastSavedTime = DateTime.UtcNow;
+                modifiedBlogCategory.LastSavedTime = DateTime.Now;
                 modifiedBlogCategory.UrlSEO = StringHelpers.UrlEncode(modifiedBlogCategory.Name);
 
                 await _unitOfWork.BlogCategories.UpdateAsync(modifiedBlogCategory);

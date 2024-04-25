@@ -50,7 +50,7 @@ namespace eShopping.Application.Features.Payments.Commands
                 OrderCode = request.OrderCode,
                 Title = $"VnPayQR Order {request.OrderCode}",
                 Amount = request.Amount,
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTime.Now,
                 BankCode = request.VNPayBankCode,
                 CurrencyCode = SystemConstants.CurrencyCode,
                 ReturnUrl = SystemConstants.VnPayIpnUrl

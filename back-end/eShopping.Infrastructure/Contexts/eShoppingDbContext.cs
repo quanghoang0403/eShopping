@@ -173,21 +173,21 @@ namespace eShopping.Infrastructure.Contexts
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedTime = DateTime.UtcNow;
-                        entry.Entity.LastSavedTime = DateTime.UtcNow;
+                        entry.Entity.CreatedTime = DateTime.Now;
+                        entry.Entity.LastSavedTime = DateTime.Now;
                         entry.Entity.CreatedUser = accountId;
                         entry.Entity.LastSavedUser = accountId;
                         entry.CurrentValues["IsDeleted"] = false;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.LastSavedTime = DateTime.UtcNow;
+                        entry.Entity.LastSavedTime = DateTime.Now;
                         entry.Entity.LastSavedUser = accountId;
                         break;
 
                     case EntityState.Deleted:
                         entry.State = EntityState.Modified;
-                        entry.Entity.LastSavedTime = DateTime.UtcNow;
+                        entry.Entity.LastSavedTime = DateTime.Now;
                         entry.Entity.LastSavedUser = accountId;
                         entry.CurrentValues["IsDeleted"] = true;
                         break;

@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { createBrowserHistory } from 'history'
-import jwt_decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import moment from 'moment'
 import CurrencyFormat from 'react-currency-format'
 import { store } from 'store'
@@ -415,13 +415,23 @@ export const fileNameNormalize = (fileName) => {
 }
 
 export const tokenExpired = (token) => {
-  const decoded = jwt_decode(token)
-  const utcTime = moment.unix(decoded.exp)
-  const tokenExpireDate = new Date(utcTime.format('M/DD/YYYY hh:mm:ss A UTC'))
-  const currentDate = Date.now()
-  const tokenExpired = moment(currentDate).isAfter(tokenExpireDate) ?? false
-
-  return tokenExpired
+  // const decoded = jwt_decode(token)
+  // const utcTime = moment.unix(decoded.exp)
+  // const tokenExpireDate = new Date(utcTime.format('M/DD/YYYY hh:mm:ss A UTC'))
+  // const currentDate = Date.now()
+  // const tokenExpired = moment(currentDate).isAfter(tokenExpireDate) ?? false
+  //   return tokenExpired
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token)
+      const currentTime = Date.now() / 1000
+      if (decodedToken.exp) return decodedToken.exp < currentTime
+    } catch (error) {
+      console.error('Error decoding token:', error)
+      return true
+    }
+  }
+  return true
 }
 
 export const getPermission = (permissionId) => {
@@ -442,55 +452,11 @@ export const getPermission = (permissionId) => {
   return index !== -1 ? allPermissions[index] : null
 }
 
-export const getPermissionGroup = (...permissions) => {
-  const { session } = store.getState()
-  let allPermissions = session?.permissionGroup ?? []
-  if (allPermissions.length === 0) {
-    const storagePermissions = getStorage(localStorageKeys.PERMISSION_GROUP)
-    const decodeData = decryptWithAES(storagePermissions)
-    if (decodeData) {
-      const _permissions = JSON.parse(decodeData)
-      allPermissions = _permissions
-    }
-  }
-  const results = []
-  for (let i = 0; i < permissions.length; i++) {
-    const element = permissions[i]
-    const permission = getPermission(element)
-    const permissionGroupId = permission?.permissionGroupId
-    if (permissionGroupId) {
-      const index = allPermissions.findIndex((x) => x.permissionGroupId === permissionGroupId)
-      if (index !== -1) {
-        results.push(allPermissions[index])
-      }
-    }
-  }
-
-  return results
-}
 
 export const shortString = (text, length) => {
   if (text === '' || text === null || text === undefined || length < 1) return ''
   if (text.length < length) return text
   return text.substring(0, length) + '...'
-}
-
-export const sortChildRoute = (routes) => {
-  let numberIndex = 0
-  for (let i = 0; i < routes.length; i++) {
-    const element = routes[i]
-    if (element.isMenu === true && hasPermission(element.permission)) {
-      const permissionGroup = getPermissionGroup(element.permission)
-      if (permissionGroup.every((x) => x.isFullPermission === true)) {
-        routes[i].position = 0
-      } else {
-        routes[i].position = numberIndex + 1
-      }
-      numberIndex++
-    }
-  }
-
-  return routes
 }
 
 let lockedAt = 0
@@ -575,7 +541,7 @@ export const formatOnlyDate = (moment) => {
  * @param {*} decimals
  * @returns
  */
-export function formatBytes (bytes, decimals = 2) {
+export function formatBytes(bytes, decimals = 2) {
   if (!+bytes) return '0 Bytes'
 
   const k = 1024
@@ -723,7 +689,7 @@ export const checkOnKeyPressValidation = (event, id, min, max, precision) => {
     if (min !== null && text * 1.0 < min) {
       return false
     }
-  } catch {}
+  } catch { }
 
   return true
 }
