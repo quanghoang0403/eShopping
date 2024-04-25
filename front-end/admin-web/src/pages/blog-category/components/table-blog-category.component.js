@@ -9,12 +9,14 @@ import { useSelector } from "react-redux";
 import { tableSettings } from "constants/default.constants";
 import BlogCategoryDataService from "data-services/blog/blog-category-data.service";
 import { executeAfter } from "utils/helpers";
+import { useHistory } from "react-router-dom";
 
 export default function TableBlogCategory(){
     const [t] = useTranslation();
     const permissions = useSelector((state) => state?.session?.permissions)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
     const [dataSource,setDataSource] = useState([]);
+    const history = useHistory()
     const fetchTableData = async(keySearch = '')=>{
         const data={
             pageNumber:currentPageNumber,
@@ -69,6 +71,9 @@ export default function TableBlogCategory(){
             message.error(formatDeleteMessage(pageData.blogCategoryDeleteSuccess,categoryName))
         }
     }
+    const onEditItem = (record)=>{
+        history.push(`/blog-category/edit/${record?.id}`)
+    }
     const getColumns = ()=>{
         const columns = [
             {
@@ -106,7 +111,7 @@ export default function TableBlogCategory(){
                       {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN) && (
                         <EditButtonComponent
                           className="mr-3"
-                        //   onClick={() => onEditItem(record)}
+                          onClick={() => onEditItem(record)}
                           permission={PermissionKeys.ADMIN}
                         />
                       )}
