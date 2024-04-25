@@ -24,7 +24,7 @@ namespace eShopping.Application.Features.Users.Commands
     {
         public string Token { get; set; }
 
-        public string Thumbnail { get; set; }
+        public string RefreshToken { get; set; }
 
     }
 
@@ -89,8 +89,9 @@ namespace eShopping.Application.Features.Users.Commands
 
             AuthenticateResponse response = new()
             {
-                Thumbnail = account.Thumbnail,
-                Token = _jwtService.GenerateAccessToken(user)
+                Token = _jwtService.GenerateAccessToken(user),
+                RefreshToken = "",
+                //RefreshToken = await _jwtService.GenerateRefreshToken(account.Id),
             };
 
             return response;

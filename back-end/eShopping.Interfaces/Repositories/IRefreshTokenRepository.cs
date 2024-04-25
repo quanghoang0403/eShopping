@@ -2,7 +2,7 @@
 
 namespace eShopping.Interfaces.Repositories
 {
-    public interface IAppConfigRepository : IGenericRepository<AppConfig>
+    public interface IRefreshTokenRepository : IGenericRepository<RefreshToken>
     {
     }
 }

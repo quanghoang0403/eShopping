@@ -9,5 +9,7 @@ namespace eShopping.Payment.PayOS
         Task<CreatePaymentResult> CreatePayment(CreatePaymentRequest request);
 
         Task<PaymentLinkInformation> GetPaymentLinkInfomation(int orderCode);
+
+        bool VerifySignature(WebhookData data, string signature);
     }
 }

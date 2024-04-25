@@ -3,6 +3,8 @@ using eShopping.Payment.PayOS.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Net.payOS.Types;
+using Net.payOS.Utils;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 namespace eShopping.Payment.PayOS
@@ -34,8 +36,13 @@ namespace eShopping.Payment.PayOS
         public async Task<PaymentLinkInformation> GetPaymentLinkInfomation(int orderId)
         {
             PaymentLinkInformation paymentLinkInformation = await _payOS.getPaymentLinkInfomation(orderId);
-
             return paymentLinkInformation;
+        }
+
+        public bool VerifySignature(WebhookData data, string signature)
+        {
+            var isValid = signature == SignatureControl.CreateSignatureFromObj(JObject.FromObject(data), _payOSSettings.Checksum);
+            return isValid;
         }
     }
 }

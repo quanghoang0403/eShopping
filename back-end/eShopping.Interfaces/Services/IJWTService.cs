@@ -1,5 +1,6 @@
 using eShopping.Common.Models.User;
-using System.IdentityModel.Tokens.Jwt;
+using System;
+using System.Threading.Tasks;
 
 namespace eShopping.Interfaces
 {
@@ -7,6 +8,8 @@ namespace eShopping.Interfaces
     {
         string GenerateAccessToken(LoggedUserModel user);
 
-        JwtSecurityToken ValidateToken(string token);
+        Task<string> GenerateRefreshToken(Guid accountId);
+
+        bool ValidateToken(string token);
     }
 }

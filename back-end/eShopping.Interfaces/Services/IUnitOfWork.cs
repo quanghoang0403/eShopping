@@ -13,7 +13,7 @@ namespace eShopping.Interfaces
 
         IAccountRepository Accounts { get; }
 
-        IAppConfigRepository AppConfigs { get; }
+        IRefreshTokenRepository RefreshTokens { get; }
 
         ICartRepository Carts { get; }
 

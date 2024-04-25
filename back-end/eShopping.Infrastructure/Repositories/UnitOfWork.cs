@@ -24,8 +24,8 @@ namespace eShopping.Infrastructure.Repositories
         private IAccountRepository _accountRepository;
         public IAccountRepository Accounts { get { return _accountRepository ??= new AccountRepository(_dbContext); } }
 
-        private IAppConfigRepository _appConfigRepository;
-        public IAppConfigRepository AppConfigs { get { return _appConfigRepository ??= new AppConfigRepository(_dbContext); } }
+        private IRefreshTokenRepository _refreshTokenRepository;
+        public IRefreshTokenRepository RefreshTokens { get { return _refreshTokenRepository ??= new RefreshTokenRepository(_dbContext); } }
 
         private ICityRepository _cityRepository;
         public ICityRepository Cities { get { return _cityRepository ??= new CityRepository(_dbContext); } }

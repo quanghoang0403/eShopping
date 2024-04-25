@@ -60,6 +60,7 @@ namespace eShopping.Application.Providers
             var accountId = jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.ACCOUNT_ID);
             var fullName = jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.FULL_NAME);
             var email = jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.EMAIL);
+            var phoneNumber = jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == ClaimTypesConstants.PHONE_NUMBER);
 
             if (id == null)
             {
@@ -71,7 +72,8 @@ namespace eShopping.Application.Providers
                 Id = id.Value.ToGuid(),
                 AccountId = accountId.Value.ToGuid(),
                 FullName = fullName?.Value,
-                Email = email?.Value
+                Email = email?.Value,
+                PhoneNumber = phoneNumber?.Value,
             };
 
             return loggedUser;

@@ -1,5 +1,6 @@
 ﻿using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.Payment.PayOS;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -27,14 +28,18 @@ namespace eShopping.POS.Application.Features.Payments.Commands
     {
         private readonly IUnitOfWork _unitOfWork;
         public readonly IHttpContextAccessor _httpContext;
+        private readonly IPayOSService _payOSService;
+
 
         public PayOSIpnRequestHandler(
             IUnitOfWork unitOfWork,
-            IHttpContextAccessor httpContext
+            IHttpContextAccessor httpContext,
+            IPayOSService payOSService
         )
         {
             _unitOfWork = unitOfWork;
             _httpContext = httpContext;
+            _payOSService = payOSService;
         }
 
         /// <summary>
@@ -66,7 +71,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
             if (order != null)
             {
                 IQueryCollection queryList = _httpContext.HttpContext.Request.Query;
-                bool signatureIsValid = true;
+                bool signatureIsValid = _payOSService.VerifySignature(request.data, request.signature);
 
                 if (!signatureIsValid)
                 {

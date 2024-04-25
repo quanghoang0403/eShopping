@@ -15,9 +15,9 @@ namespace eShopping.Application.Features.Orders.Queries
 {
     public class StoreGetOrdersRequest : IRequest<StoreGetOrdersResponse>
     {
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public int PageNumber { get; set; }
 
@@ -54,18 +54,24 @@ namespace eShopping.Application.Features.Orders.Queries
         public async Task<StoreGetOrdersResponse> Handle(StoreGetOrdersRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            DateTime startDate = DatetimeHelpers.GetStartOfDay(request.StartDate);
-            DateTime endDate = DatetimeHelpers.GetStartOfDay(request.EndDate);
 
-            var listOrderCurrent = _unitOfWork.Orders.GetAll().AsNoTracking().Where(o => o.CustomerId == loggedUser.Id.Value && o.CreatedTime >= startDate && o.CreatedTime <= endDate);
+            var listOrderCurrent = _unitOfWork.Orders.GetAll().AsNoTracking().Where(o => o.CustomerId == loggedUser.Id.Value);
             string keySearch = request?.KeySearch?.Trim().ToLower();
-
+            if (request.StartDate != null)
+            {
+                DateTime startDate = DatetimeHelpers.GetStartOfDay((DateTime)request.StartDate);
+                listOrderCurrent = listOrderCurrent.Where(o => o.CreatedTime >= startDate);
+            }
+            if (request.EndDate != null)
+            {
+                DateTime endDate = DatetimeHelpers.GetStartOfDay((DateTime)request.EndDate);
+                listOrderCurrent = listOrderCurrent.Where(o => o.CreatedTime < endDate);
+            }
             if (!string.IsNullOrEmpty(keySearch))
             {
                 if (int.TryParse(keySearch, out _))
                 {
-                    listOrderCurrent = listOrderCurrent
-                        .Where(o => o.Code.ToString().Contains(keySearch));
+                    listOrderCurrent = listOrderCurrent.Where(o => o.Code.ToString().Contains(keySearch));
                 }
             }
             var listOrderOrdered = listOrderCurrent.OrderByDescending(o => o.CreatedTime);

@@ -8,11 +8,7 @@ namespace eShopping.Common.Models.User
 
         public Guid? AccountId { get; set; }
 
-        public string Address { get; set; }
-
         public string Thumbnail { get; set; }
-
-        public string StaffThumbnail { get; set; }
 
         public string AccountType { get; set; }
 
@@ -23,9 +19,5 @@ namespace eShopping.Common.Models.User
         public string Password { get; set; }
 
         public string PhoneNumber { get; set; }
-
-        public bool NeverExpires { get; set; }
-
-        public DateTime LoginDateTime { get; set; }
     }
 }

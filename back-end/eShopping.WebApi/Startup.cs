@@ -93,7 +93,7 @@ namespace eShopping.WebApi
             #region Register for Repositories
 
             services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IAppConfigRepository, AppConfigRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();

@@ -29,7 +29,7 @@ namespace eShopping.Infrastructure.Contexts
         }
 
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<AppConfig> AppConfigs { get; set; }
+        public DbSet<RefreshToken> AppConfigs { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<BlogInCategory> BlogInCategories { get; set; }
@@ -57,8 +57,6 @@ namespace eShopping.Infrastructure.Contexts
         {
             OverrideQueryFilter(builder);
             builder.Entity<Account>().HasKey(x => x.Id);
-
-            builder.Entity<AppConfig>().HasKey(x => x.Key);
             builder.Entity<Blog>().HasKey(x => x.Id);
             builder.Entity<Blog>().HasMany(x => x.BlogInCategories).WithOne(x => x.blog).HasForeignKey(x => x.blogId);
             builder.Entity<BlogCategory>().HasKey(x => x.Id);
