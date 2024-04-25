@@ -80,7 +80,9 @@
         "addBlogCategorySuccess":"Thêm danh mục thành công",
         "addBlogCategoryFail" :"Tạo danh mục thất bại",
         "blogCategoryDeletedSuccess": "Danh mục {{name}} đã được xóa thành công!",
-        "blogCategoryDeletedFailed": "Danh mục {{name}} đã được xóa không thành công!"
+        "blogCategoryDeletedFailed": "Danh mục {{name}} đã được xóa không thành công!",
+        "categoryUpdateSuccess": "Danh mục đã được sửa thành công",
+        "categoryUpdateFail":"Sửa danh mục thất bại"
     },
     "button": {
         "add": "Thêm",
