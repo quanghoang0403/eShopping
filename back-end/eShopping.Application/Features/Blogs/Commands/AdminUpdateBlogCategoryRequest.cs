@@ -64,7 +64,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             var blogCategory = await _unitOfWork.BlogCategories.Where(bc => bc.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(blogCategory == null, "No blog category is found");
             var blogCategoryNameExisted = await _unitOfWork.BlogCategories
-                .Where(bc => bc.Id == request.Id && bc.Name.ToLower().Trim().Equals(request.Name.Trim().ToLower())).AsNoTracking().FirstOrDefaultAsync();
+                .Where(bc => bc.Id != request.Id && bc.Name.ToLower().Trim().Equals(request.Name.Trim().ToLower())).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(blogCategoryNameExisted != null, "Blog category name has already existed");
             using var createTransaction = await _unitOfWork.BeginTransactionAsync();
             try
