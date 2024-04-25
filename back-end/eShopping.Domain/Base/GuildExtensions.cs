@@ -12,7 +12,7 @@ namespace eShopping.Domain.Base
         {
             byte[] guidArray = source.ToByteArray();
             DateTime baseDate = new DateTime(1900, 1, 1);
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             TimeSpan days = new TimeSpan(now.Ticks - baseDate.Ticks);
             TimeSpan msecs = now.TimeOfDay;
             byte[] daysArray = BitConverter.GetBytes(days.Days);

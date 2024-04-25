@@ -19,6 +19,7 @@ interface IForgotPasswordRequest {
 
 interface ISignInResponse {
   token: string
+  refreshToken: string
   customerId: string
   accountId: string
 }

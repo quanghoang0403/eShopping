@@ -5,6 +5,6 @@ namespace eShopping.Services
 {
     public class DateTimeService : IDateTimeService
     {
-        public DateTime NowUtc => DateTime.UtcNow;
+        public DateTime.UtcNowUtc => DateTime.UtcNow;
     }
 }

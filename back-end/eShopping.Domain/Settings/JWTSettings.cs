@@ -8,7 +8,7 @@ namespace eShopping.Domain.Settings
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public long AccessTokenExpirationInMinutes { get; set; }
-        public long RefreshTokenExpirationInMinutes { get; set; }
+        public long RefreshTokenExpirationInDays { get; set; }
         public byte[] SecretBytes => Encoding.UTF8.GetBytes(Key);
     }
 }

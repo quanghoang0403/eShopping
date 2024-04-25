@@ -90,8 +90,7 @@ namespace eShopping.Application.Features.Users.Commands
             AuthenticateResponse response = new()
             {
                 Token = _jwtService.GenerateAccessToken(user),
-                RefreshToken = "",
-                //RefreshToken = await _jwtService.GenerateRefreshToken(account.Id),
+                RefreshToken = await _jwtService.GenerateRefreshToken(account.Id)
             };
 
             return response;

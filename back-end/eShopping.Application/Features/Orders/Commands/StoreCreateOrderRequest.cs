@@ -145,7 +145,7 @@ namespace eShopping.Application.Features.Orders.Commands
                     ShipDistrictId = request.ShipDistrictId,
                     ShipWardId = request.ShipWardId,
                     Note = request.Note,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
                     CreatedUser = accountId,
                 });
 
@@ -183,7 +183,7 @@ namespace eShopping.Application.Features.Orders.Commands
                             PriceValue = price.PriceValue,
                             Quantity = item.Quantity,
                             Thumbnail = item.Thumbnail,
-                            CreatedTime = DateTime.Now,
+                            CreatedTime = DateTime.UtcNow,
                             CreatedUser = accountId,
                         });
                     }
@@ -199,7 +199,7 @@ namespace eShopping.Application.Features.Orders.Commands
                     OrderId = order.Id,
                     ActionType = EnumOrderActionType.CREATE_ORDER,
                     Note = request.Note,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
                     CreatedUser = accountId,
                 });
 

@@ -21,6 +21,6 @@ namespace eShopping.EventBus.Events
         public Guid Id { get; private set; } = Guid.NewGuid();
 
         [JsonInclude]
-        public DateTime CreatedAt { get; private set; } = DateTime.Now;
+        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     }
 }

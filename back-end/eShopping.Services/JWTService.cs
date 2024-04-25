@@ -3,13 +3,11 @@ using eShopping.Common.Models.User;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Settings;
 using eShopping.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -81,8 +79,7 @@ namespace eShopping.Services
                 _jwtSettings.Issuer,
                 _jwtSettings.Audience,
                 claims: claims,
-                //expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes),
-                expires: DateTime.UtcNow.AddSeconds(30),
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes),
                 signingCredentials: signingCredentials);
 
             // 4. Return Token from method
@@ -92,7 +89,7 @@ namespace eShopping.Services
 
         public async Task<string> GenerateRefreshToken(Guid accountId)
         {
-            var refreshToken = await _unitOfWork.RefreshTokens.GetAll().Where(token => token.AccountId == accountId).FirstOrDefaultAsync();
+            var refreshToken = await _unitOfWork.RefreshTokens.GetRefreshToken(accountId);
             if (refreshToken != null && refreshToken.ExpiredDate >= DateTime.UtcNow)
             {
                 refreshToken.CreatedDate = DateTime.UtcNow;
@@ -108,7 +105,7 @@ namespace eShopping.Services
                     Token = Guid.NewGuid().ToString(),
                     IsInvoked = false,
                     CreatedDate = DateTime.UtcNow,
-                    ExpiredDate = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes)
+                    ExpiredDate = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationInDays)
                 };
                 refreshToken = await _unitOfWork.RefreshTokens.AddAsync(refreshToken);
             }
@@ -135,19 +132,15 @@ namespace eShopping.Services
                     IssuerSigningKey = securityKey,
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    //ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
-
-                var jwtToken = (JwtSecurityToken)validatedToken;
                 return true;
             }
             catch (Exception)
             {
-                // TODO refresh token
                 return false;
             }
-
         }
-
     }
 }

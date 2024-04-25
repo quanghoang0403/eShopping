@@ -3,34 +3,36 @@ using eShopping.Common.Extensions;
 using eShopping.Common.Models.User;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
-using eShopping.Models.Permissions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Users.Commands
 {
-    public class RefreshTokenAndPermissionsRequest : IRequest<RefreshTokenAndPermissionsResponse>
-    {
-    }
-
-    public class RefreshTokenAndPermissionsResponse
+    public class RefreshTokenRequest : IRequest<RefreshTokenResponse>
     {
         public string Token { get; set; }
 
-        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
+        public string RefreshToken { get; set; }
     }
 
-    public class RefreshTokenAndPermissionsRequestHandler : IRequestHandler<RefreshTokenAndPermissionsRequest, RefreshTokenAndPermissionsResponse>
+    public class RefreshTokenResponse
+    {
+        public string Token { get; set; }
+
+        public string RefreshToken { get; set; }
+    }
+
+    public class RefreshTokenRequestHandler : IRequestHandler<RefreshTokenRequest, RefreshTokenResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJWTService _jwtService;
         private readonly IUserProvider _userProvider;
         private readonly IMediator _mediator;
 
-        public RefreshTokenAndPermissionsRequestHandler(IUnitOfWork unitOfWork, IJWTService jwtService, IUserProvider userProvider, IMediator mediator)
+        public RefreshTokenRequestHandler(IUnitOfWork unitOfWork, IJWTService jwtService, IUserProvider userProvider, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _jwtService = jwtService;
@@ -38,23 +40,25 @@ namespace eShopping.Application.Features.Users.Commands
             _mediator = mediator;
         }
 
-        public async Task<RefreshTokenAndPermissionsResponse> Handle(RefreshTokenAndPermissionsRequest request, CancellationToken cancellationToken)
+        public async Task<RefreshTokenResponse> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
+            var loggedUser = _userProvider.GetLoggedUserModelFromJwt(request.Token);
             ThrowError.Against(!loggedUser.AccountId.HasValue, "Cannot find account information");
 
             var account = await _unitOfWork.Accounts
                 .Find(a => a.Id == loggedUser.AccountId)
-                .Include(a => a.AccountType)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+            var refreshToken = await _unitOfWork.RefreshTokens.GetRefreshToken(account.Id);
+            ThrowError.Against(refreshToken.ExpiredDate < DateTime.UtcNow, "Refresh token is expired");
+            ThrowError.Against(refreshToken.Token != request.RefreshToken, "Refresh token is not valid");
+            ThrowError.Against(refreshToken.IsInvoked == true, "Refresh token is invoked");
 
             var user = new LoggedUserModel();
             Staff staff = await _unitOfWork.Staffs
                     .Find(s => s.AccountId == account.Id)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
-            ThrowError.Against(staff == null, "login.errorLogin");
 
             if (staff == null)
             {
@@ -79,17 +83,12 @@ namespace eShopping.Application.Features.Users.Commands
             user.Thumbnail = account.Thumbnail;
 
             var accessToken = _jwtService.GenerateAccessToken(user);
+            var newRefreshToken = await _jwtService.GenerateRefreshToken(account.Id);
 
-            //var permissions = new GetPermissionsRequest()
-            //{
-            //    Token = accessToken
-            //};
-            //var permissionsResult = await _mediator.Send(permissions, cancellationToken);
-
-            return new RefreshTokenAndPermissionsResponse()
+            return new RefreshTokenResponse()
             {
                 Token = accessToken,
-                //Permissions = permissionsResult.Permissions
+                RefreshToken = newRefreshToken
             };
         }
     }

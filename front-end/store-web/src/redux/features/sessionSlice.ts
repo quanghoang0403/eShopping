@@ -28,6 +28,9 @@ const sessionSlice = createSlice({
       cookie.set('token', action.payload.token, {
         sameSite: 'lax',
       })
+      cookie.set('refreshToken', action.payload.refreshToken, {
+        sameSite: 'lax',
+      })
       state.isLoggedIn = true
       state.customerId = action.payload.customerId
       state.accountId = action.payload.accountId

@@ -47,7 +47,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 OrderId = order.Id,
                 ActionType = EnumOrderActionType.CANCEL,
                 Note = request.Note,
-                CreatedTime = DateTime.Now,
+                CreatedTime = DateTime.UtcNow,
                 CreatedUser = accountId,
             });
 

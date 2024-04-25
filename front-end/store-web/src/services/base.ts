@@ -1,21 +1,43 @@
 import axios from 'axios'
 import qs from 'qs'
 import cookie from 'js-cookie'
+import { tokenExpired } from '@/utils/common.helper'
+
 const _redirectToLoginPage = () => {
   window.location.href = '/login'
+}
+
+const refreshToken = async () => {
+  const refreshToken = cookie.get('refreshToken')
+  const token = cookie.get('token')
+  if (refreshToken && token) {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/authenticate/refresh-token`, { token, refreshToken })
+      if (response.data) {
+        cookie.set('token', response.data.token, {
+          sameSite: 'lax',
+        })
+        cookie.set('refreshToken', response.data.refreshToken, {
+          sameSite: 'lax',
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
 
 const _configRequest = async (request: any) => {
   if (!request.params) {
     request.params = {}
   }
-  const token = cookie.get('token')
+  let token = cookie.get('token')
   if (token) {
-    // const expired = tokenExpired(token)
-    // if (expired === true) {
-    //   _redirectToLoginPage()
-    //   return
-    // }
+    const expired = tokenExpired(token)
+    if (expired === true) {
+      await refreshToken()
+      token = cookie.get('token')
+    }
     request.headers.Authorization = `Bearer ${token}`
   } else {
     delete request.headers.Authorization

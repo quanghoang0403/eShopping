@@ -21,8 +21,8 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpPost]
-        [Route("refresh-token-and-permissions")]
-        public async Task<IActionResult> RefreshTokenAndPermissionsAsync([FromHeader] RefreshTokenAndPermissionsRequest request)
+        [Route("refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequest request)
         {
             var response = await _mediator.Send(request);
             return SafeOk(response);
