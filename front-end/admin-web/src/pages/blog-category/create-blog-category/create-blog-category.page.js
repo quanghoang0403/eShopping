@@ -82,7 +82,7 @@ export default function CreateBlogCategory(){
               placeholder: t('form.SEODescriptionPlaceholder'),
               validateMessage: t('form.messageMatchSuggestSEODescription'),
               minlength: 150,
-              maxLength: 160,
+              maxLength: 250,
               tooltip: t('form.SEODescriptionTooltip')
             },
         }
