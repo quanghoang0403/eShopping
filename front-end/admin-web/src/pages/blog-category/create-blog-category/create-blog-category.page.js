@@ -32,6 +32,11 @@ export default function CreateBlogCategory(){
         createFail:t('blogCategory.addBlogCategoryFail'),
         btnSave:t('button.save'),
         btnCancel:t('button.cancel'),
+        description:{
+            title: t('blogCategory.labelDescription'),
+            placeholder: t('blogCategory.placeholderDescription'),
+            maxLength:200
+        },
         leaveDialog: {
             confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
             confirmLeaveContent: t('dialog.confirmLeaveContent'),
@@ -125,7 +130,7 @@ export default function CreateBlogCategory(){
             const blogCategoryModel = {
                 ...values,
                 blogs:values.blogs.reduce((acc,blogId)=>acc.concat({id:blogId,position:values.blogs.indexOf(blogId)}),[]),
-                keywordSEO:values.keywordSEOs?.join(',') || null
+                keywordSEO:values.keywordSEO?.join(',') || null
             }
             console.log(blogCategoryModel)
             const res = await BlogCategoryDataService.createBlogCategoryAsync(blogCategoryModel)
@@ -246,6 +251,22 @@ export default function CreateBlogCategory(){
                                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                         />
+                                    </Form.Item>
+
+                                    <h4 className="shop-form-label mt-16">
+                                        {pageData.description.title}
+                                    </h4>
+                                    <Form.Item
+                                        name={['description']}
+                                        className="item-name"
+                                    >
+                                    <FnbTextArea
+                                            showCount
+                                            autoSize={{ minRows: 2, maxRows: 6 }}
+                                            id="blog-category-description"
+                                            placeholder={pageData.description.placeholder}
+                                            maxLength={pageData.description.maxLength}
+                                        ></FnbTextArea>
                                     </Form.Item>
 
                                     <h4 className="shop-form-label">
