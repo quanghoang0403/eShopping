@@ -10,9 +10,17 @@ const getBlogCategoriesAsync = (data)=>{
 const deleteBlogCategoryAsync = id=>{
     return http.delete(`/${controller}/delete-blog-category-by-id/${id}`)
 }
+const getBlogCategoryByIdAsync = id=>{
+    return http.get(`/${controller}/get-blog-category-by-id/${id}`)
+}
+const editBlogCategoryAsync = data=>{
+    return http.put(`/${controller}/update-blog-category`,data)
+}
 const BlogCategoryDataService = {
     createBlogCategoryAsync,
     getBlogCategoriesAsync,
-    deleteBlogCategoryAsync
+    deleteBlogCategoryAsync,
+    getBlogCategoryByIdAsync,
+    editBlogCategoryAsync
 } 
 export default BlogCategoryDataService

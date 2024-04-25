@@ -3,6 +3,7 @@ import BlogCategory from "./blog-category.page";
 import { Blog } from "constants/icons.constants";
 import { PermissionKeys } from "constants/permission-key.constants";
 import CreateBlogCategory from "./create-blog-category/create-blog-category.page";
+import EditBlogCategory from "./edit-blog-category/edit-blog-category.page";
 
 const {t} = i18n
 const route = [
@@ -29,6 +30,18 @@ const route = [
         auth: true,
         permission: PermissionKeys.ADMIN,
         component: CreateBlogCategory,
+        child: []
+      },
+      {
+        key: 'app.blog.blog-category-edit',
+        focus: 'app.blog-category',
+        position: 10,
+        path: '/blog-category/edit/:blogCategoryId',
+        isMenu: false,
+        exact: true,
+        auth: true,
+        permission: PermissionKeys.ADMIN,
+        component: EditBlogCategory,
         child: []
       }
 ]
