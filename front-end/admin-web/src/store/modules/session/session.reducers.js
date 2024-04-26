@@ -1,9 +1,8 @@
 import Moment from 'moment'
 import { localStorageKeys, setStorageToken } from 'utils/localStorage.helpers'
-import { encryptWithAES } from 'utils/securityHelpers'
 import actionTypes from './session.types'
 import { jwtDecode } from 'jwt-decode'
-import { claimTypesConstants } from '../../constants/claim-types.constants'
+import { claimTypesConstants } from 'constants/claim-types.constants'
 
 const sessionInitialState = {
   currentUser: {},

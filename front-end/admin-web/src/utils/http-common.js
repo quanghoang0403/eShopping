@@ -30,21 +30,16 @@ const refreshToken = async () => {
     try {
       const response = await axios.post(`${env.REACT_APP_ROOT_DOMAIN}/authenticate/refresh-token`, { token, refreshToken })
       if (response.data) {
-        if (permissions.length == 0) {
-          message.error(pageData.permissionDenied)
-        } else {
+        if (response.data?.permissions?.length > 0) {
           setStorageToken(response.data)
+        } else {
+          message.error("Permission Denied")
         }
       }
-      else {
-        _redirectToLoginPage()
-      }
     } catch (error) {
-      _redirectToLoginPage()
       console.error(error)
     }
   }
-  _redirectToLoginPage()
 }
 
 http.interceptors.request.use(

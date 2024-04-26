@@ -1,6 +1,5 @@
 import { Button, Form, Image, Input, message, Row, Select } from 'antd'
 import 'antd/dist/antd.css'
-import { jwtDecode } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
@@ -11,13 +10,9 @@ import {
 } from 'constants/icons.constants'
 import {
   setCurrentUser,
-  setPermissions,
 } from 'store/modules/session/session.actions'
-import { getParamsFromUrl, tokenExpired } from 'utils/helpers'
-import { setStorageToken } from 'utils/localStorage.helpers'
-import { claimTypesConstants } from '../../constants/claim-types.constants'
+import { getParamsFromUrl } from 'utils/helpers'
 import loginDataService from '../../data-services/login/login-data.service'
-import permissionDataService from 'data-services/permission/permission-data.service'
 import '../../stylesheets/authenticator.scss'
 import logo from 'assets/images/logo.png'
 import { useTranslation } from 'react-i18next'
