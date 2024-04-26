@@ -77,6 +77,7 @@
         "placeholderDescription":"Nhập mô tả danh mục",
         "addBlog":"Thêm bài viết",
         "placeholderAddBlog":"Thêm bài viết",
+        "addBlogFail":"Thêm bài viết thất bại",
         "addBlogCategorySuccess":"Thêm danh mục thành công",
         "addBlogCategoryFail" :"Tạo danh mục thất bại",
         "blogCategoryDeletedSuccess": "Danh mục {{name}} đã được xóa thành công!",
