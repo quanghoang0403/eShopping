@@ -55,6 +55,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return SafeOk(response);
 
         }
+        [HttpPut]
+        [Route("update-blog-list")]
+        public async Task<IActionResult> UpdateBlogList([FromBody] AdminUpdateBlogByBlogCategoryRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return SafeOk(response);
+
+        }
         [HttpDelete]
         [Route("delete-blog-category-by-id/{id}")]
         public async Task<IActionResult> DeleteBlogCategoryById(Guid id)
