@@ -2,7 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 import { env, ENVIRONMENT } from '../env'
 import { tokenExpired } from './helpers'
-import { getStorage, setStorage, resetStorage, localStorageKeys } from './localStorage.helpers'
+import { getStorage, setStorageToken, resetStorage, localStorageKeys } from './localStorage.helpers'
 import i18n from 'utils/i18n'
 
 const { t } = i18n
@@ -30,8 +30,11 @@ const refreshToken = async () => {
     try {
       const response = await axios.post(`${env.REACT_APP_ROOT_DOMAIN}/authenticate/refresh-token`, { token, refreshToken })
       if (response.data) {
-        setStorage(localStorageKeys.TOKEN, response.data.token)
-        setStorage(localStorageKeys.REFRESH_TOKEN, response.data.refreshToken)
+        if (permissions.length == 0) {
+          message.error(pageData.permissionDenied)
+        } else {
+          setStorageToken(response.data)
+        }
       }
       else {
         _redirectToLoginPage()
@@ -43,7 +46,6 @@ const refreshToken = async () => {
   }
   _redirectToLoginPage()
 }
-
 
 http.interceptors.request.use(
   async (config) => {

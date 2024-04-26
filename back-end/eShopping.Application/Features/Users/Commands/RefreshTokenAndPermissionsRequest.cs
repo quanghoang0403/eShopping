@@ -1,11 +1,14 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Application.Features.Settings.Queries;
+using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models.User;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
+using eShopping.Models.Permissions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,6 +26,8 @@ namespace eShopping.Application.Features.Users.Commands
         public string Token { get; set; }
 
         public string RefreshToken { get; set; }
+
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
     }
 
     public class RefreshTokenRequestHandler : IRequestHandler<RefreshTokenRequest, RefreshTokenResponse>
@@ -84,11 +89,13 @@ namespace eShopping.Application.Features.Users.Commands
 
             var accessToken = _jwtService.GenerateAccessToken(user);
             var newRefreshToken = await _jwtService.GenerateRefreshToken(account.Id);
+            var permissions = await _mediator.Send(new AdminGetPermissionsRequest() { Token = accessToken }, cancellationToken);
 
             return new RefreshTokenResponse()
             {
                 Token = accessToken,
-                RefreshToken = newRefreshToken
+                RefreshToken = newRefreshToken,
+                Permissions = permissions.Permissions
             };
         }
     }

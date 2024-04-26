@@ -1,11 +1,7 @@
 import actionTypes from './session.types'
 
-export function setPermissions(permissions) {
-  return { type: actionTypes.SET_PERMISSIONS, permissions }
-}
-
-export function setCurrentUser(user) {
-  return { type: actionTypes.SET_CURRENT_USER, user }
+export function setCurrentUser(data) {
+  return { type: actionTypes.SET_CURRENT_USER, payload: data }
 }
 
 export function resetSession() {

@@ -1,12 +1,15 @@
 using AutoMapper;
+using eShopping.Application.Features.Settings.Queries;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models.User;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
+using eShopping.Models.Permissions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +29,7 @@ namespace eShopping.Application.Features.Users.Commands
 
         public string RefreshToken { get; set; }
 
+        public IEnumerable<AdminPermissionModel> Permissions { get; set; }
     }
 
 
@@ -33,11 +37,13 @@ namespace eShopping.Application.Features.Users.Commands
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJWTService _jwtService;
+        private readonly IMediator _mediator;
 
-        public Handler(IUnitOfWork unitOfWork, IJWTService jwtService, IMapper mapper)
+        public Handler(IUnitOfWork unitOfWork, IJWTService jwtService, IMapper mapper, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _jwtService = jwtService;
+            _mediator = mediator;
         }
 
         public async Task<AuthenticateResponse> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
@@ -87,10 +93,14 @@ namespace eShopping.Application.Features.Users.Commands
             user.PhoneNumber = account.PhoneNumber;
             user.Thumbnail = account.Thumbnail;
 
+            var token = _jwtService.GenerateAccessToken(user);
+            var refreshToken = await _jwtService.GenerateRefreshToken(account.Id);
+            var permissions = await _mediator.Send(new AdminGetPermissionsRequest() { Token = token }, cancellationToken);
             AuthenticateResponse response = new()
             {
-                Token = _jwtService.GenerateAccessToken(user),
-                RefreshToken = await _jwtService.GenerateRefreshToken(account.Id)
+                Token = token,
+                RefreshToken = refreshToken,
+                Permissions = permissions?.Permissions
             };
 
             return response;

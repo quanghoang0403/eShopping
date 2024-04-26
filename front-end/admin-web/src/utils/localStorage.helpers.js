@@ -13,10 +13,22 @@ export const setStorage = (key, value) => {
   localStorage.setItem(key, value)
 }
 
+export const removeStorage = (key) => {
+  localStorage.removeItem(key)
+}
+
 export const resetStorage = () => {
-  localStorage.removeItem(localStorageKeys.TOKEN)
-  localStorage.removeItem(localStorageKeys.REFRESH_TOKEN)
-  localStorage.removeItem(localStorageKeys.PERMISSIONS)
-  localStorage.removeItem('persist:root')
+  removeStorage(localStorageKeys.TOKEN)
+  removeStorage(localStorageKeys.REFRESH_TOKEN)
+  removeStorage(localStorageKeys.PERMISSIONS)
+  removeStorage('persist:root')
+}
+
+export const setStorageToken = (data) => {
+  const jsonPermissions = JSON.stringify(data.permissions)
+  const encodeData = encryptWithAES(jsonPermissions)
+  setStorage(localStorageKeys.PERMISSIONS, encodeData)
+  setStorage(localStorageKeys.TOKEN, data.token)
+  setStorage(localStorageKeys.REFRESH_TOKEN, data.refreshToken)
 }
 

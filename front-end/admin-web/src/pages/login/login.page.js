@@ -14,7 +14,7 @@ import {
   setPermissions,
 } from 'store/modules/session/session.actions'
 import { getParamsFromUrl, tokenExpired } from 'utils/helpers'
-import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'
+import { setStorageToken } from 'utils/localStorage.helpers'
 import { claimTypesConstants } from '../../constants/claim-types.constants'
 import loginDataService from '../../data-services/login/login-data.service'
 import permissionDataService from 'data-services/permission/permission-data.service'
@@ -56,42 +56,15 @@ const LoginPage = (props) => {
     loginDataService
       .authenticate(values)
       .then((res) => {
-        const { token, refreshToken } = res
-        setupWorkspace(token)
-        setStorage(localStorageKeys.TOKEN, token)
-        setStorage(localStorageKeys.REFRESH_TOKEN, refreshToken)
+        if (res.permissions.length > 0) {
+          dispatch(setCurrentUser(res))
+          props.history.push('/')
+        } else {
+          message.error(pageData.permissionDenied)
+        }
       })
       .catch(() => { })
   }
-
-  const setupWorkspace = (token) => {
-    permissionDataService.getPermissionsAsync(token).then((res) => {
-      const { permissions } = res
-      if (permissions.length > 0) {
-        message.success(pageData.loginSuccess)
-        const currentUser = getUserInfo(token)
-        dispatch(setPermissions(permissions))
-        dispatch(setCurrentUser(currentUser))
-        props.history.push('/')
-      } else {
-        message.error(pageData.permissionDenied)
-      }
-    })
-  }
-
-  const getUserInfo = (token) => {
-    const claims = jwtDecode(token)
-    const user = {
-      userId: claims[claimTypesConstants.id],
-      accountId: claims[claimTypesConstants.accountId],
-      fullName: claims[claimTypesConstants.fullName],
-      email: claims[claimTypesConstants.email],
-      accountType: claims[claimTypesConstants.accountType],
-      thumbnail: claims[claimTypesConstants.thumbnail]
-    }
-    return user
-  }
-
 
   return (
     <div className="c-authenticator">
