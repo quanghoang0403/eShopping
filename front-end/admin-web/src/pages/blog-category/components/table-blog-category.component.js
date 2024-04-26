@@ -8,14 +8,18 @@ import { EditButtonComponent } from "components/edit-button/edit-button.componen
 import { useSelector } from "react-redux";
 import { tableSettings } from "constants/default.constants";
 import BlogCategoryDataService from "data-services/blog/blog-category-data.service";
-import { executeAfter } from "utils/helpers";
 import { useHistory } from "react-router-dom";
+import TableBlog from "./blog-in-category.modal";
+import BlogDataService from "data-services/blog/blog-data.service";
 
 export default function TableBlogCategory(){
     const [t] = useTranslation();
     const permissions = useSelector((state) => state?.session?.permissions)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
     const [dataSource,setDataSource] = useState([]);
+    const [blogCategory,setBlogCategory] = useState(null)
+    const [blogs,setBlogs] = useState([])
+    const [isOpenModal,setIsOpenModal] = useState(false)
     const history = useHistory()
     const fetchTableData = async(keySearch = '')=>{
         const data={
@@ -31,8 +35,20 @@ export default function TableBlogCategory(){
             message.error(pageData.fetchFail)
         }
     }
+    const onOpenModal =(record)=>{
+        setIsOpenModal(true)
+        setBlogCategory(record)
+    }
+    const getBlogs = async()=>{
+        const blogs = await BlogDataService.getAllBlogsAsync()
+        const allBlog = blogs.allBlogs
+        if(allBlog){
+            setBlogs(allBlog)
+        }
+    }
     useEffect(()=>{
         fetchTableData();
+        getBlogs();
     },[])
     const pageData = {
         table: {
@@ -44,6 +60,8 @@ export default function TableBlogCategory(){
             action: t('table.action'),
             fetchFail:t('table.noDataFound')
         },
+        updateSuccess:t('blogCategory.categoryUpdateSuccess'),
+        updateFail:t('blogCategory.categoryUpdateFail'),
         confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
         btnDelete: t('button.delete'),
         btnIgnore: t('button.ignore'),
@@ -58,7 +76,8 @@ export default function TableBlogCategory(){
         priority: t('table.priority'),
         searchPlaceholder: t('table.searchPlaceholder'),
         blogCategoryDeleteSuccess:t('blogCategory.blogCategoryDeletedSuccess'),
-        blogCategoryDeleteFail:t('blogCategory.blogCategoryDeletedFailed')
+        blogCategoryDeleteFail:t('blogCategory.blogCategoryDeletedFailed'),
+        addBlogFail:t('blogCategory.addBlogFail')
     };
     const onRemoveItem = async (id,categoryName)=>{
         try{
@@ -98,7 +117,10 @@ export default function TableBlogCategory(){
                 key:'numberOfBlogs',
                 title: pageData.blog,
                 dataIndex: 'numberOfBlogs',
-                width:'10%'
+                width:'10%',
+                render:(text,record)=>{
+                    return <a onClick={()=>onOpenModal(record)}>{text}</a>
+                }
             },
             {
                 title: pageData.table.action,
@@ -137,6 +159,47 @@ export default function TableBlogCategory(){
         const mess = t(text, { name })
         return mess
       }
+    const onHandleRemoveModalBlog = (id)=>{
+        const tempCategory = {...blogCategory,blogs:blogCategory.blogs.filter(b=>b.id !== id)}
+        setBlogCategory(tempCategory)
+    }
+    const onSelectModalBlog = (name)=>{
+        const blog = blogs?.find(b=>b.name === name)
+        if(blog){
+            const tempCategory = {...blogCategory,blogs:[...blogCategory.blogs,blog]}
+            setBlogCategory(tempCategory)
+        }
+        else{
+            message.error(pageData.addBlogFail)
+        }
+    
+    }
+    const reload = async()=>{
+        await fetchTableData();
+    }
+    const onCloseModal = ()=>{
+        setBlogCategory(null)
+        setIsOpenModal(false)
+    }
+    const onSubmitModal = async()=>{
+        const updateModel={
+            blogCategoryId:blogCategory?.id,
+            blogIds:blogCategory?.blogs?.map(b=>b.id) || []
+        }
+        try{
+            const res = await BlogCategoryDataService.updateBlogListAsync(updateModel)
+            if(res){
+                message.success(pageData.updateSuccess)
+                await reload()
+                onCloseModal()
+            }
+        }catch(err){
+            message.error(pageData.updateFail)
+            message.error(err)
+        }
+        
+        
+    }
     return (
         <Form className="mt-5">
             <Card className="w-100 shop-card-full">
@@ -153,6 +216,15 @@ export default function TableBlogCategory(){
                             //     onChange: onSelectedRowKeysChange,
                             //     columnWidth: 40
                             // }}
+                        />
+                        <TableBlog 
+                            isOpen={isOpenModal}
+                            onCancel={onCloseModal}
+                            record={blogCategory}
+                            blogs={blogs}
+                            onHandleRemoveItem={onHandleRemoveModalBlog}
+                            onSelectBlog={onSelectModalBlog}
+                            onSubmitModal={onSubmitModal}
                         />
                     </Col>
                 </Row>
