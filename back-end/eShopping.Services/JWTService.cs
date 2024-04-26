@@ -79,8 +79,8 @@ namespace eShopping.Services
                 _jwtSettings.Issuer,
                 _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(30),
-                //expires: DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes),
+                //expires: DateTime.Now.AddSeconds(30),
+                expires: DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpirationInMinutes),
                 signingCredentials: signingCredentials);
 
             // 4. Return Token from method
