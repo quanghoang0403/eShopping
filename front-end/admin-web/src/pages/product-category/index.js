@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import CategoryPage from './category.page'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-// import productDataService from 'data-services/product/product-data.service'
+import productDataService from 'data-services/product/product-data.service'
 
 const mapDispatchToProps = () => {
   return {
-    // productDataService,
+    productDataService,
     productCategoryDataService
   }
 }

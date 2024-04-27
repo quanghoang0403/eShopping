@@ -18,12 +18,16 @@ const updateProductCategoryAsync = (data) => {
 const getAllProductCategoriesAsync = ()=>{
     return http.get(`/${controller}/get-all-product-categories`)
 }
+const updateProductByCategoryAsync = data=>{
+    return http.put(`${controller}/update-product-list`,data)
+}
 const productCategoryDataService = {
     createProductCategoryAsync,
     getProductCategoriesAsync,
     deleteProductCategoryByIdAsync,
     getProductCategoryByIdAsync,
     updateProductCategoryAsync,
-    getAllProductCategoriesAsync
+    getAllProductCategoriesAsync,
+    updateProductByCategoryAsync
 }
 export default productCategoryDataService;

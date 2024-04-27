@@ -36,7 +36,7 @@ const TableProduct = ({
     productCategoryDeleteSuccess: t('productCategory.productCategoryDeleteSuccess'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
-      no: t('table..no'),
+      no: t('table.no'),
       name: t('table.name'),
       action: t('table.action')
     }

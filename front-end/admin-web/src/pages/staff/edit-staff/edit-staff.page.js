@@ -4,7 +4,7 @@ import ActionButtonGroup from 'components/action-button-group/action-button-grou
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import PageTitle from 'components/page-title'
-import { DELAYED_TIME } from 'constants/default.constants'
+import { DELAYED_TIME, PHONE_NUMBER_REGEX } from 'constants/default.constants'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
@@ -58,7 +58,7 @@ export function EditStaff (props) {
         placeholder: t('staff.phonePlaceholder'),
         required: true,
         maxLength: 10,
-        format: '^[0-9]*$',
+        format: PHONE_NUMBER_REGEX,
         validateMessage: t('staff.phoneValidateMessage'),
         invalidMessage: t('staff.phoneInvalidMessage'),
         existValidateMessage: t('staff.phoneExisted')
@@ -198,7 +198,7 @@ export function EditStaff (props) {
     const response = await permissionDataService.getAllPermissionAsync();
     if (response) {
       const { permissionGroups } = response
-      setGroupPermissions(permissionGroups)
+      setGroupPermissions(permissionGroups.slice(0,-1))
     }
     const { id } = props?.match?.params || {}
     loadDataToEditStaff(id, response)
@@ -356,15 +356,13 @@ export function EditStaff (props) {
     // })
     return (
       <Row>
-        
-        <Col className="select-all" >
+        {/* <Col className="select-all" >
             <Checkbox checked={groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length} onChange={(event) => onSelectAllGroups(event)}>
                 {pageData.permission.allGroup}
             </Checkbox>
-        </Col>
-        
+        </Col> */}
         <Card 
-            className='mt-5 w-100'
+            className='w-100'
             tabList={groupPermissions?.reduce((acc,cur,index)=>{
               return acc.concat({key:index,tab:cur.name})
             },[])}
@@ -375,7 +373,10 @@ export function EditStaff (props) {
                   groupPermissions[activeTabKey]?.permissions?.map((p,index)=>{
                     return (
                     <Col key={index} span={24}>
-                      <Checkbox checked={permissionIds.includes(p.id)} onChange={e=>onChangePermission(e,index)}>
+                      <Checkbox
+                      checked={activeTabKey == 0 ? groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length ? true : false : permissionIds.includes(p.id)} 
+                      onChange={e=> activeTabKey == 0? onSelectAllGroups(e) : onChangePermission(e,index)}
+                      >
                         {pageData.permission.allpermission[activeTabKey][index]}
                       </Checkbox>
                     </Col>       

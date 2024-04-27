@@ -1,4 +1,4 @@
-import { Card, Col, Form, Image, Input, InputNumber, message, Row, Space, Tooltip } from 'antd'
+import { Card, Col, Form, Image, Input, InputNumber, message, Row, Space, Tooltip, Divider } from 'antd'
 import { arrayMoveImmutable } from 'array-move'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
@@ -16,8 +16,8 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
 import { getValidationMessages } from 'utils/helpers'
-
 import '../index.scss'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 
 export default function EditProductCategoryPage (props) {
   const [t] = useTranslation()
@@ -32,6 +32,8 @@ export default function EditProductCategoryPage (props) {
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [dataSelectedProducts,setDataSelectedProducts] = useState([])
+  const [keywordSEOs,setKeywordSEOList] = useState([]);
+  const [keywordSEO,setKeywordSEO] = useState({})
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -71,7 +73,8 @@ export default function EditProductCategoryPage (props) {
       keyword:{
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
-        tooltip: t('form.SEOKeywordsTooltip')
+        tooltip: t('form.SEOKeywordsTooltip'),
+        btnAdd:t('form.AddSEOKeywords')
       },
       SEOtitle:{
         label:t('form.SEOTitle'),
@@ -132,12 +135,13 @@ export default function EditProductCategoryPage (props) {
             name: productCategory.name,
             priority: productCategory.priority,
             productIds: productCategory.products?.map((x) => x.id),
-            keywordSEO:productCategory.keywordSEO,
+            keywordSEO:productCategory.keywordSEO?.split(','),
             titleSEO: productCategory.titleSEO,
             descriptionSEO:productCategory.descriptionSEO,
             description:productCategory.description,
             content:productCategory.content
           })
+          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
         }
       })
     }
@@ -287,7 +291,7 @@ export default function EditProductCategoryPage (props) {
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
-        keywordSEO: values.keywordSEO
+        keywordSEO:values.keywordSEO?.join(',') || null
       }
 
       productCategoryDataService
@@ -333,7 +337,11 @@ export default function EditProductCategoryPage (props) {
     const mess = t(pageData.leaveDialog.confirmDeleteMessage, { name })
     return mess
   }
-
+  const addSEOKeywords = (e)=>{
+    e.preventDefault();
+    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({...keywordSEO,id:'',name:''});
+  }
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
@@ -559,16 +567,37 @@ export default function EditProductCategoryPage (props) {
                   </div>
                   
                   <Form.Item
-                    name={['keywordSEO']}
-                    className="item-name"
-                  >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      placeholder={pageData.SEOInformation.keyword.placeholder}
-                      
-                    />
-                  </Form.Item>
+                      name={['keywordSEO']}
+                      className="item-name"
+                    >
+                      <FnbSelectMultiple
+                        placeholder={pageData.SEOInformation.keyword.placeholder}
+                        option={keywordSEOs}
+                        dropdownRender={
+                          (menu) => (
+                            <>
+                              {menu}
+                              <Divider style={{ margin: '8px 0' }} />
+                              <Space style={{ padding: '0 8px 4px' }}>
+                                <Input
+                                    className="shop-input-non-shadow m-0 py-0"
+                                    placeholder={pageData.SEOInformation.keyword.placeholder}
+                                    value={keywordSEO.name || ''}
+                                    maxLength={3}
+                                    onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
+                                    onKeyDown={(e) => e.stopPropagation()}
+                                    showCount
+                                />
+                                <ShopAddNewButton 
+                                text={pageData.SEOInformation.keyword.btnAdd}
+                                onClick={addSEOKeywords}
+                                ></ShopAddNewButton>
+                              </Space>
+                            </>
+                          )
+                        }
+                      />
+                    </Form.Item>
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>

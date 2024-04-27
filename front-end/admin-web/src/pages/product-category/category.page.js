@@ -9,7 +9,7 @@ import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-bu
 import './index.scss'
 
 export default function CategoryPage (props) {
-  const { productCategoryDataService } = props
+  const { productCategoryDataService,productDataService } = props
   const [showAddNewProductCategoryForm, setShowAddNewProductCategoryForm] = useState(false)
   const { t } = useTranslation()
   const pageData = {
@@ -49,7 +49,7 @@ export default function CategoryPage (props) {
             t={t}
             onCompleted={() => setShowAddNewProductCategoryForm(false)}
             productCategoryDataService={productCategoryDataService}
-            // productDataService={productDataService}
+            productDataService={productDataService}
           />
         </>
           )

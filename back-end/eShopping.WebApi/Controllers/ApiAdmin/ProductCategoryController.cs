@@ -36,6 +36,15 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return await SafeOkAsync(response);
         }
 
+        [HttpPut]
+        [Route("update-product-list")]
+        [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
+        public async Task<IActionResult> UpdateProductListyAsync([FromBody] AdminUpdateProductByProductCategoryRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
+
         [HttpDelete]
         [Route("delete-product-category-by-id/{id}")]
         [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
