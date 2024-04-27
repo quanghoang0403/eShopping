@@ -23,6 +23,7 @@ import {
 import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.helpers'
 import DeleteProductComponent from './delete-product.component'
 import FilterProduct from './filter-product.component'
+import { guidIdEmptyValue } from 'constants/string.constants'
 
 export default function TableProduct(props) {
   const history = useHistory()
@@ -202,7 +203,7 @@ export default function TableProduct(props) {
       if (productFilter && productFilter.count > 0) {
         const data = {
           productCategoryId: productFilter.productCategoryId,
-          status: productFilter.isActive,
+          status: productFilter.statusId,
           count: productFilter.count
         }
         setDataFilter(data)
@@ -353,8 +354,8 @@ export default function TableProduct(props) {
       pageNumber,
       pageSize,
       keySearch,
-      data?.productCategoryId ?? "",
-      data?.status ?? "",
+      data?.productCategoryId ?? guidIdEmptyValue,
+      data?.statusId ?? 0,
     );
 
     const products = response?.products.map((s) => mappingRecordToColumns(s));

@@ -7,7 +7,7 @@ const createProductAsync = data=>{
     return http.post(`/${controller}/create-product`,data)
 }
 const getProductsByFilterAsync = (pageNumber,pageSize,keySearch,productCategoryId,statusId)=>{
-    return http.get(`/${controller}/get-products?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}`)
+    return http.get(`/${controller}/get-products?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}&ProductCategoryId=${productCategoryId}&Status=${statusId}`)
 }
 const deleteProductByIdAsync = id => {
     return http.delete(`/${controller}/delete-product-by-id/${id}`);
