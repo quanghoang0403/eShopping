@@ -11,7 +11,8 @@ import {
   Tooltip,
   Checkbox,
   DatePicker,
-  TimePicker,
+  Divider,
+  Space
 } from 'antd';
 import { ExclamationIcon } from 'constants/icons.constants';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
@@ -41,6 +42,7 @@ import moment from 'moment';
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import { DateFormat } from "constants/string.constants";
 import FnbFroalaEditor from "components/shop-froala-editor";
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
 
 const { Text } = Typography
 
@@ -68,6 +70,8 @@ export default function CreateProductPage() {
   const [discountChecked, isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
   const [productContent, setProductContent] = useState("");
+  const [keywordSEOs,setKeywordSEOList] = useState([]);
+  const [keywordSEO,setKeywordSEO] = useState({})
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -106,7 +110,8 @@ export default function CreateProductPage() {
       keyword: {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
-        tooltip: t('form.SEOKeywordsTooltip')
+        tooltip: t('form.SEOKeywordsTooltip'),
+        btnAdd:t('form.AddSEOKeywords')
       },
       SEOtitle: {
         label: t('form.SEOTitle'),
@@ -272,6 +277,7 @@ export default function CreateProductPage() {
           productPrices: values.product.prices,
           thumbnail: values.product.media.url,
           content: productContent,
+          keywordSEO:values.product.keywordSEO?.join(',') || null
         }
         console.log(createProductRequestModel)
         productDataService
@@ -746,7 +752,11 @@ export default function CreateProductPage() {
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
-
+  const addSEOKeywords = (e)=>{
+    e.preventDefault();
+    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({...keywordSEO,id:'',name:''});
+  }
   return (
     <>
       <Row className="shop-row-page-header">
@@ -932,14 +942,35 @@ export default function CreateProductPage() {
                     </div>
 
                     <Form.Item
-                      name={['product', 'keywordSEO']}
+                      name={['product','keywordSEO']}
                       className="item-name"
                     >
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
+                      <FnbSelectMultiple
                         placeholder={pageData.SEOInformation.keyword.placeholder}
-
+                        option={keywordSEOs}
+                        dropdownRender={
+                          (menu) => (
+                            <>
+                              {menu}
+                              <Divider style={{ margin: '8px 0' }} />
+                              <Space style={{ padding: '0 8px 4px' }}>
+                                <Input
+                                    className="shop-input-non-shadow m-0 py-0"
+                                    placeholder={pageData.SEOInformation.keyword.placeholder}
+                                    value={keywordSEO.name || ''}
+                                    maxLength={3}
+                                    onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
+                                    onKeyDown={(e) => e.stopPropagation()}
+                                    showCount
+                                />
+                                <ShopAddNewButton 
+                                text={pageData.SEOInformation.keyword.btnAdd}
+                                onClick={addSEOKeywords}
+                                ></ShopAddNewButton>
+                              </Space>
+                            </>
+                          )
+                        }
                       />
                     </Form.Item>
                   </Col>

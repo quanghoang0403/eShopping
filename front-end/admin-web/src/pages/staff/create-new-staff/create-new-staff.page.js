@@ -3,7 +3,7 @@ import { Button, Card, Checkbox, Col, DatePicker, Form, Input, Layout, message, 
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import PageTitle from 'components/page-title'
-import { DELAYED_TIME, EmptyId } from 'constants/default.constants'
+import { DELAYED_TIME, EmptyId, PHONE_NUMBER_REGEX } from 'constants/default.constants'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
@@ -56,7 +56,7 @@ export function CreateNewStaff (props) {
         placeholder: t('staff.phonePlaceholder'),
         required: true,
         maxLength: 10,
-        format: '^[0-9]*$',
+        format: PHONE_NUMBER_REGEX,
         validateMessage: t('staff.phoneValidateMessage'),
         invalidMessage: t('staff.phoneInvalidMessage'),
         existValidateMessage: t('staff.phoneExisted')
@@ -149,7 +149,7 @@ export function CreateNewStaff (props) {
       const response = await permissionDataService.getAllPermissionAsync();
       if (response) {
         const { permissionGroups } = response
-        setGroupPermissions(permissionGroups)
+        setGroupPermissions(permissionGroups.slice(0,-1))
       }
     }
     fetchPrepareCreateNewStaffData()
@@ -341,13 +341,13 @@ export function CreateNewStaff (props) {
 
     return (
       <Row>
-        
+{/*         
         <Col className="select-all" >
             <Checkbox checked={groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length} onChange={(event) => onSelectAllGroups(event)}>
                 {pageData.permission.allGroup}
             </Checkbox>
         </Col>
-        
+         */}
         <Card 
             style={{
               width: '100%',
@@ -362,7 +362,10 @@ export function CreateNewStaff (props) {
                   groupPermissions[activeTabKey]?.permissions?.map((p,index)=>{
                     return (
                     <Col key={index} span={24}>
-                      <Checkbox checked={permissionIds.includes(p.id)} onChange={e=>onChangePermission(e,index)}>
+                      <Checkbox 
+                      checked={activeTabKey == 0 ? groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length ? true : false : permissionIds.includes(p.id)} 
+                      onChange={e=> activeTabKey == 0? onSelectAllGroups(e) : onChangePermission(e,index)}
+                      >
                         {pageData.permission.allpermission[activeTabKey][index]}
                       </Checkbox>
                     </Col>       
@@ -629,11 +632,8 @@ export function CreateNewStaff (props) {
         <Content className="mt-3">
           <Card className="shop-box group-permission custom-box">
             <Row className="group-header-box">
-              <Col className="items-in-group-header-box" xs={24} sm={24} lg={24}>
+              <Col className="items-in-group-header-box mt-4" xs={24} sm={24} lg={24}>
                 <span>{pageData.permission.title}</span>
-                <Button className="mt-4" icon={<PlusSquareOutlined />} >
-                  {pageData.permission.addStaffPermission}
-                </Button>
               </Col>
             </Row>
             {renderGroupPermissionAndBranch()}

@@ -5,7 +5,7 @@ import { FnbTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import productCategoryDataService from "data-services/product-category/product-category-data.service";
-// import productDataService from "data-services/product/product-data.service";
+import productDataService from "data-services/product/product-data.service";
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -111,31 +111,31 @@ export default function TableProductCategory() {
   }
 
   const onHandleSelectedProductCategory = async (productCategory, keySearch) => {
-    // try {
-    //   const responseData = await productDataService.getProductsByCategoryIdAsync(productCategory?.id, keySearch);
+    try {
+      const responseData = await productDataService.getProductsByCategoryIdAsync(productCategory?.id, keySearch);
 
-    //   if (responseData) {
-    //     const records = responseData?.productsByCategoryId?.map((item) => {
-    //       return {
-    //         key: item?.productId,
-    //         productId: item?.productId,
-    //         name: item?.name ?? "N/A",
-    //         thumbnail: item?.thumbnail,
-    //       };
-    //     });
-    //     setShowProductsModal(true);
-    //     setSelectedProductCategory(productCategory);
+      if (responseData) {
+        const records = responseData?.products?.map((item) => {
+          return {
+            key: item?.id,
+            productId: item?.id,
+            name: item?.name ?? "N/A",
+            thumbnail: item?.thumbnail,
+          };
+        });
+        setShowProductsModal(true);
+        setSelectedProductCategory(productCategory);
 
-    //     setDataModal(records);
-    //     await getProducts(records);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+        setDataModal(records);
+        await getProducts(records);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handelRemoveProductModal = (productId) => {
-    const addDataItemProduct = allProducts.filter((item) => item?.productId === productId)
+    const addDataItemProduct = allProducts.filter((item) => item?.id === productId)
     setProducts(products.concat(addDataItemProduct))
 
     const newData = dataModal.filter((item) => item?.productId !== productId)
@@ -150,30 +150,22 @@ export default function TableProductCategory() {
   }
 
   const onSubmitModal = async () => {
-    // try {
-    //   const data = dataModal.map((item) => {
-    //     return {
-    //       productId: item?.productId,
-    //       name: item?.name,
-    //       thumbnail: "",
-    //       unitName: "",
-    //       index: item?.index,
-    //     };
-    //   });
-    //   const putData = {
-    //     productCategoryId: selectedProductCategory?.id,
-    //     productByCategoryIdModel: [],
-    //   };
-    //   putData["productByCategoryIdModel"] = data;
-    //   const res = await productDataService.updateProductByCategoryAsync(putData);
-    //   if (res) {
-    //     message.success(pageData.productCategoryUpdateSuccess);
-    //     await reload();
-    //     onCloseModal();
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const data = dataModal.map((item) => item?.productId);
+      const putData = {
+        productCategoryId: selectedProductCategory?.id,
+        productByCategoryIds: [],
+      };
+      putData["productByCategoryIds"] = data;
+      const res = await productCategoryDataService.updateProductByCategoryAsync(putData);
+      if (res) {
+        message.success(pageData.productCategoryUpdateSuccess);
+        await reload();
+        onCloseModal();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const tableConfigs = {
@@ -272,27 +264,27 @@ export default function TableProductCategory() {
   }
 
   const getProducts = async (records) => {
-    // try {
-    //   var res = await productDataService.getAllProductIncludedProductUnitAsync();
-    //   if (res) {
-    //     const productsToAddModel = res.productsToAddModel;
-    //     setAllProducts(productsToAddModel);
-    //     var productIds = records.map(function (item) {
-    //       return item["productId"];
-    //     });
-    //     const result = productsToAddModel.filter((item) => !productIds.includes(item?.productId));
-    //     setProducts(result);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      var res = await productDataService.getAllProductsAsync();
+      if (res) {
+        const productsToAddModel = res.products;
+        setAllProducts(productsToAddModel);
+        var productIds = records.map(function (item) {
+          return item["productId"];
+        });
+        const result = productsToAddModel.filter((item) => !productIds.includes(item?.id));
+        setProducts(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const onSelectedProduct = (productName) => {
     const selectedProducts = products.find((item) => item?.name === productName)
     const productItem = {
-      key: selectedProducts?.productId,
-      productId: selectedProducts?.productId,
+      key: selectedProducts?.id,
+      productId: selectedProducts?.id,
       name: selectedProducts?.name,
       thumbnail: selectedProducts?.thumbnail
     }

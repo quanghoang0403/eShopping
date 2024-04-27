@@ -14,7 +14,7 @@ namespace eShopping.Models.Blog
         public string Name { get; set; }
 
         public int Priority { get; set; }
-        public int NumberOfProduct
+        public int NumberOfBlogs
         {
             get
             {

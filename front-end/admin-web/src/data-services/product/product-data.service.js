@@ -21,6 +21,9 @@ const updateProductAsync = data =>{
 const changeStatusAsync = id => {
     return http.put(`/${controller}/change-status/${id}`)
 }
+const getProductsByCategoryIdAsync = (id,keySearch)=>{
+    return http.get(`/${controller}/get-products?ProductCategoryId=${id}&KeySearch=${keySearch}`)
+}
 const productDataService = {
     getAllProductsAsync,
     createProductAsync,
@@ -28,6 +31,7 @@ const productDataService = {
     deleteProductByIdAsync,
     getProductByIdAsync,
     updateProductAsync,
-    changeStatusAsync
+    changeStatusAsync,
+    getProductsByCategoryIdAsync
 }
 export default productDataService;
