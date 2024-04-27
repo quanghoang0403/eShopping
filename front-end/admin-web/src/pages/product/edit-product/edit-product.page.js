@@ -506,7 +506,7 @@ export default function EditProductPage(props) {
                     {prices.map((price, index) => {
                       const position = (price.position || 0) + 1
                       return (
-                        <Draggable key={price.id} draggableId={price.id} index={index}>
+                        <Draggable key={price.id} draggableId={position.toString()} index={index}>
                           {(provided) => (
                             <Row
                               className={'mb-4 pointer price-item'}
