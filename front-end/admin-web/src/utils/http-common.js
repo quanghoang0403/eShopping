@@ -46,12 +46,12 @@ http.interceptors.request.use(
   async (config) => {
     showLoading()
     if (config.withCredentials) {
-      const token = _getToken()
+      let token = _getToken()
       if (token) {
         const expired = tokenExpired(token)
         if (expired === true) {
           await refreshToken()
-          token = cookie.get('token')
+          token = _getToken()
         }
         config.headers.Authorization = `Bearer ${token}`
       }
