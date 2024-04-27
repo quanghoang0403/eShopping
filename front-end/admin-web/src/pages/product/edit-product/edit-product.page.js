@@ -68,11 +68,11 @@ export default function EditProductPage(props) {
   const [titleModal, setTitleModal] = useState('')
   const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
   const [statusId, setStatusId] = useState(null)
-  const [discountChecked,isDisCountChecked] = useState([false]);
+  const [discountChecked, isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500)
-  const [productContent,setProductContent] = useState('')
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
+  const [productContent, setProductContent] = useState('')
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -85,8 +85,9 @@ export default function EditProductPage(props) {
     btnSave: t('button.save'),
     btnAddNew: t('button.add'),
     btnDiscard: t('button.discard'),
-    upload:{
-      title:t('common.uploadTitle')
+    btnDelete: t('button.delete'),
+    upload: {
+      title: t('common.uploadTitle')
     },
     generalInformation: {
       title: t('product.titleInfo'),
@@ -104,32 +105,32 @@ export default function EditProductPage(props) {
         maxLength: 200
       }
     },
-    content:{
-      label:t('product.labelProductContent'),
-      placeholder:t('product.placeholderProductContent')
+    content: {
+      label: t('product.labelProductContent'),
+      placeholder: t('product.placeholderProductContent')
     },
-    SEOInformation:{
+    SEOInformation: {
       title: t('form.SEOConfiguration'),
-      keyword:{
+      keyword: {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       },
-      SEOtitle:{
-        label:t('form.SEOTitle'),
+      SEOtitle: {
+        label: t('form.SEOTitle'),
         placeholder: t('form.SEOTitlePlaceholder'),
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
         minlength: 50,
         maxLength: 100
       },
-      description:{
+      description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
-        minlength:150,
-        maxLength:200,
+        minlength: 150,
+        maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -155,26 +156,26 @@ export default function EditProductPage(props) {
         format: '^[1-9]*$',
         validateMessage: t('product.validatePriceNegative')
       },
-      discount:{
-        numeric:{
-          label:t('product.labelPriceDiscount'),
-          placeholder:t('product.placeholderPriceDiscount')
+      discount: {
+        numeric: {
+          label: t('product.labelPriceDiscount'),
+          placeholder: t('product.placeholderPriceDiscount')
         },
-        percentage:{
-          label:t('product.labelPriceDiscountPercentage'),
-          placeholder:t('product.placeholderPriceDiscountPercentage'),
+        percentage: {
+          label: t('product.labelPriceDiscountPercentage'),
+          placeholder: t('product.placeholderPriceDiscountPercentage'),
           max: 100,
           min: 0,
           format: '^[0-9]*$',
-          validateMessage:t('product.validateDiscountPercentage')
+          validateMessage: t('product.validateDiscountPercentage')
         }
       },
-      quantity:{
+      quantity: {
         sold: {
-          label:t('product.labelQuantitySold'),
-          placeholder:t('product.placeholderQuantitySold'),
+          label: t('product.labelQuantitySold'),
+          placeholder: t('product.placeholderQuantitySold'),
         },
-        remaining:{
+        remaining: {
           label: t('product.labelQuantityLeft'),
           placeholder: t('product.placeholderQuantityLeft')
         }
@@ -186,21 +187,21 @@ export default function EditProductPage(props) {
         maxLength: 100,
         validateMessage: t('product.validatePriceName')
       },
-      priceDate:{
-        startDate:{
-          placeholder:t('t.product.placeholderStartDate'),
-          validateMessage:t('product.validateStartDate')
+      priceDate: {
+        startDate: {
+          placeholder: t('t.product.placeholderStartDate'),
+          validateMessage: t('product.validateStartDate')
         },
-        endDate:{
-          placeholder:t('product.placeholderEndDate'),
-          validateMessage:t('product.validateEndDate')
+        endDate: {
+          placeholder: t('product.placeholderEndDate'),
+          validateMessage: t('product.validateEndDate')
         }
       }
     },
     productCategory: {
       label: t('product.labelCategory'),
       placeholder: t('product.placeholderCategory'),
-      validateMessage:t('product.validateProductCategory')
+      validateMessage: t('product.validateProductCategory')
     },
     productNameExisted: t('product.productNameExisted'),
     productEditedSuccess: t('product.productEditedSuccess'),
@@ -236,7 +237,7 @@ export default function EditProductPage(props) {
     return current && current < moment().startOf("day");
   };
 
-  const disabledDateByStartDate = (current,price) => {
+  const disabledDateByStartDate = (current, price) => {
     // Can not select days before today and today
     return current && current < price.startDate;
   };
@@ -253,37 +254,37 @@ export default function EditProductPage(props) {
       setListAllProductCategory(data?.product?.productCategories);
       const pricesData = [];
       if (data?.product?.productPrices.length > 0) {
-        let discountBoxCheck = Array.from({length:data?.product?.productPrices.length},value=>false)
+        let discountBoxCheck = Array.from({ length: data?.product?.productPrices.length }, value => false)
         data?.product?.productPrices.map((price, index) => {
           pricesData.push({
             position: index,
             id: price?.id,
             priceName: price?.priceName,
             priceValue: price?.priceValue,
-            priceOriginal:price?.priceOriginal,
-            priceDiscount:price.priceDiscount ?? 0,
-            percentNumber:price?.percentNumber ?? 0,
-            quantityLeft:price?.quantityLeft,
+            priceOriginal: price?.priceOriginal,
+            priceDiscount: price.priceDiscount ?? 0,
+            percentNumber: price?.percentNumber ?? 0,
+            quantityLeft: price?.quantityLeft,
             quantitySold: price?.quantitySold,
-            startDate:moment(price?.startDate) || moment(),
-            endDate:moment(price?.endDate) || null
+            startDate: moment(price?.startDate) || moment(),
+            endDate: moment(price?.endDate) || null
           });
           discountBoxCheck[index] = (price?.priceDiscount || price?.percentNumber) ? true : false
-         
+
         });
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
-      setKeywordSEOList(list => data?.product?.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
+      setKeywordSEOList(list => data?.product?.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, name: curr }), []) || [])
       const initData = {
         product: {
           description: data?.product?.description,
           name: data?.product?.name,
-          productCategoryIds: data?.product?.productCategories.map(pc=>pc.id),
+          productCategoryIds: data?.product?.productCategories.map(pc => pc.id),
           price: data?.product?.productPrices.length === 1 ? data?.product?.productPrices[0].priceValue : null,
           prices: pricesData,
-          titleSEO : data?.product.titleSEO,
-          descriptionSEO:data?.product?.descriptionSEO,
+          titleSEO: data?.product.titleSEO,
+          descriptionSEO: data?.product?.descriptionSEO,
           keywordSEO: data?.product?.keywordSEO?.split(',')
         },
       };
@@ -307,12 +308,12 @@ export default function EditProductPage(props) {
         const editProductRequestModel = {
           ...values.product,
           images: [],
-          productPrices:values.product.prices,
-          Id:match?.params?.id,
-          thumbnail:imageUrl,
-          status:statusId,
-          content:productContent,
-          keywordSEO:values.product.keywordSEO?.join(',')
+          productPrices: values.product.prices,
+          Id: match?.params?.id,
+          thumbnail: imageUrl,
+          status: statusId,
+          content: productContent,
+          keywordSEO: values.product.keywordSEO?.join(',')
         }
         console.log(editProductRequestModel)
         if (editProductRequestModel.thumbnail !== '') {
@@ -340,7 +341,7 @@ export default function EditProductPage(props) {
             getInitData();
           }
         }
-        else{
+        else {
           message.error(pageData.mediaNotExisted)
         }
       })
@@ -378,13 +379,13 @@ export default function EditProductPage(props) {
       position: prices.length || 0,
       priceName: '',
       priceValue: 0,
-      priceOriginal:0,
-      priceDiscount:0,
-      percentNumber:0,
-      quantityLeft:0,
+      priceOriginal: 0,
+      priceDiscount: 0,
+      percentNumber: 0,
+      quantityLeft: 0,
       quantitySold: 0,
-      startDate:moment(),
-      endDate:null
+      startDate: moment(),
+      endDate: null
     }
     if (prices.length === 1) {
       prices[0].price = product.price || 0
@@ -444,40 +445,40 @@ export default function EditProductPage(props) {
     product.prices = listPrice
     form.setFieldsValue(formValue)
   }
-const pricetoPercentage = (num,index)=>{
+  const pricetoPercentage = (num, index) => {
     return 100 - roundNumber(prices[index].priceValue === 0 ? 0 : num * 100 / prices[index].priceValue)
   }
-  const percentageToPrice = (num,index)=>{
+  const percentageToPrice = (num, index) => {
     return prices[index].priceValue - roundNumber(prices[index].priceValue * num / 100)
   }
-  const onDiscountChange = (numeric = 0, percentage= 0,index)=>{
-    if(numeric !== 0){
-      const percent = pricetoPercentage(numeric,index)
-      form.setFieldValue(['product', 'prices', index, 'percentNumber'],percent)
+  const onDiscountChange = (numeric = 0, percentage = 0, index) => {
+    if (numeric !== 0) {
+      const percent = pricetoPercentage(numeric, index)
+      form.setFieldValue(['product', 'prices', index, 'percentNumber'], percent)
     }
-    else if(percentage !==0){
-      const num = percentageToPrice(percentage,index)
-      form.setFieldValue(['product', 'prices', index, 'priceDiscount'],num)
+    else if (percentage !== 0) {
+      const num = percentageToPrice(percentage, index)
+      form.setFieldValue(['product', 'prices', index, 'priceDiscount'], num)
     }
   }
   // when discount checkbox is unchecked set price discount and percent number to 0
-  useEffect(()=>{
-    discountChecked.forEach((c,index)=>{
-      if(!c){
+  useEffect(() => {
+    discountChecked.forEach((c, index) => {
+      if (!c) {
         form.setFieldValue(['product', 'prices', index, 'priceDiscount'], 0);
-      form.setFieldValue(['product', 'prices', index, 'percentNumber'], 0);
-      setPrices(prevPrices => {
-        const updatedPrices = [...prevPrices];
-        updatedPrices[index] = {
-          ...updatedPrices[index],
-          priceDiscount: 0,
-          percentNumber: 0
-        };
-        return updatedPrices;
-      });
+        form.setFieldValue(['product', 'prices', index, 'percentNumber'], 0);
+        setPrices(prevPrices => {
+          const updatedPrices = [...prevPrices];
+          updatedPrices[index] = {
+            ...updatedPrices[index],
+            priceDiscount: 0,
+            percentNumber: 0
+          };
+          return updatedPrices;
+        });
       }
     })
-  },[discountChecked])
+  }, [discountChecked])
 
   const renderPrices = () => {
     const addPriceButton = (
@@ -522,12 +523,12 @@ const pricetoPercentage = (num,index)=>{
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'position']}
-                                          hidden={true}                   
+                                          hidden={true}
                                         >
-                                          <Input/>
+                                          <Input />
                                         </Form.Item>
                                         <Form.Item name={['product', 'prices', price.position, 'id']} hidden={true}>
-                                          <Input/>
+                                          <Input />
                                         </Form.Item>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceName']}
@@ -598,134 +599,134 @@ const pricetoPercentage = (num,index)=>{
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row className='mt-4' gutter={[8,16]}>
-                                      <Col xs={24} sm={24} md={24} lg={8}>
-                                            <Form.Item
-                                              name={['product', 'prices', price.position, 'priceOriginal']}
-                                              rules={[
-                                                {
-                                                  required: true,
-                                                  message: pageData.pricing.price.validateMessage
-                                                },
-                                                {
-                                                  pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                                                  message: pageData.pricing.price.validateMessage
-                                                }
-                                              ]}
-                                            >
-                                              <InputNumber
-                                                className="shop-input-number w-100"
-                                                placeholder={pageData.pricing.priceOriginal.placeholder}
-                                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                                addonAfter={currency.vnd}
-                                                precision={0}
-                                                onKeyPress={(event) => {
-                                                  if (!/[0-9]/.test(event.key)) {
-                                                    event.preventDefault()
-                                                  }
-                                                }}
-                                                id={`product-prices-${price.position}-price-original`}
-                                              />
-                                            </Form.Item>
-                                          </Col>
-                                      <Col xs={24} sm={24} md={24} lg={8}>
-                                          <Form.Item
-                                            name={['product', 'prices', price.position, 'priceValue']}
-                                            rules={[
-                                              {
-                                                required: true,
-                                                message: pageData.pricing.price.validateMessage
-                                              },
-                                              {
-                                                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                                                message: pageData.pricing.price.validateMessage
-                                              }
-                                            ]}
-                                          >
-                                            <InputNumber
-                                              onChange={value=>setPrices(p=>p.map((pr,i)=>i==index?{...pr,priceValue:value}:pr))}
-                                              className="shop-input-number w-100"
-                                              placeholder={pageData.pricing.price.placeholder}
-                                              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                              addonAfter={currency.vnd}
-                                              precision={0}
-                                              onKeyPress={(event) => {
-                                                if (!/[0-9]/.test(event.key)) {
-                                                  event.preventDefault()
-                                                }
-                                              }}
-                                              id={`product-prices-${price.position}-price`}
-                                            />
-                                          </Form.Item>
-                                        </Col>
-                                        <Checkbox className='mx-auto my-3'
-                                        checked={discountChecked[index]}
-                                        onChange={e=> isDisCountChecked(clist=>[...clist.slice(0,index),e.target.checked,...clist.slice(index+1)])}>
-                                          {pageData.pricing.discountCheck}
-                                        </Checkbox>
-                                    </Row>
-                                    <Row className={`mt-4 ${discountChecked[index] ? "" :"d-none"}`} gutter={[8,16]}>
-                                      <Col xs={24} sm={24} md={24} lg={8}>
-                                            <Form.Item
-                                              name={['product', 'prices', price.position, 'priceDiscount']}
-                                              rules={[
-                                                {
-                                                  pattern: new RegExp(inputNumberRange1To999999999.range),
-                                                  message: pageData.pricing.price.validateMessage
-                                                }
-                                              ]}
-                                            >
-                                              <InputNumber
-                                                onChange={value=>onDiscountChange(value,0,index)}
-                                                className="shop-input-number w-100"
-                                                placeholder={pageData.pricing.discount.numeric.placeholder}
-                                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                                // addonAfter={currency.vnd}
-                                                // precision={0}
-                                                onKeyPress={(event) => {
-                                                  if (!/[0-9]/.test(event.key)) {
-                                                    event.preventDefault()
-                                                  }
-                                                }}
-                                                id={`product-prices-${price.position}-price-discount-numeric`}
-                                              />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                            <Form.Item
-                                              name={['product', 'prices', price.position, 'percentNumber']}
-                                              rules={[
-                                                {
-                                                  pattern: new RegExp(inputNumberRange0To100.range),
-                                                  message: pageData.pricing.discount.percentage.validateMessage
-                                                }
-                                              ]}
-                                            >
-                                              <InputNumber
-                                                onChange={value=>onDiscountChange(0,value,index)}
-                                                className="shop-input-number w-100"
-                                                placeholder={pageData.pricing.discount.percentage.placeholder}
-                                                formatter={(value) => `${value}%`}
-                                                parser={(value) => value?.replace('%', '')}
-                                                min={0}
-                                                max={100}
-                                                onKeyPress={(event) => {
-                                                  if (!/[0-9]/.test(event.key)) {
-                                                    event.preventDefault()
-                                                  }
-                                                }}
-                                                id={`product-prices-${price.position}-price-discount-percentage`}
-                                              />
-                                            </Form.Item>
-                                        </Col> 
-                                    </Row>
-                                    <Row className={`${discountChecked[index] ? "" :"d-none"}`} gutter={[8, 16]}>
+                                    <Row className='mt-4' gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices",price.position,  "startDate"]}
+                                          name={['product', 'prices', price.position, 'priceOriginal']}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message: pageData.pricing.price.validateMessage
+                                            },
+                                            {
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                              message: pageData.pricing.price.validateMessage
+                                            }
+                                          ]}
+                                        >
+                                          <InputNumber
+                                            className="shop-input-number w-100"
+                                            placeholder={pageData.pricing.priceOriginal.placeholder}
+                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                            addonAfter={currency.vnd}
+                                            precision={0}
+                                            onKeyPress={(event) => {
+                                              if (!/[0-9]/.test(event.key)) {
+                                                event.preventDefault()
+                                              }
+                                            }}
+                                            id={`product-prices-${price.position}-price-original`}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <Form.Item
+                                          name={['product', 'prices', price.position, 'priceValue']}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message: pageData.pricing.price.validateMessage
+                                            },
+                                            {
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                              message: pageData.pricing.price.validateMessage
+                                            }
+                                          ]}
+                                        >
+                                          <InputNumber
+                                            onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
+                                            className="shop-input-number w-100"
+                                            placeholder={pageData.pricing.price.placeholder}
+                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                            addonAfter={currency.vnd}
+                                            precision={0}
+                                            onKeyPress={(event) => {
+                                              if (!/[0-9]/.test(event.key)) {
+                                                event.preventDefault()
+                                              }
+                                            }}
+                                            id={`product-prices-${price.position}-price`}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                      <Checkbox className='mx-auto my-3'
+                                        checked={discountChecked[index]}
+                                        onChange={e => isDisCountChecked(clist => [...clist.slice(0, index), e.target.checked, ...clist.slice(index + 1)])}>
+                                        {pageData.pricing.discountCheck}
+                                      </Checkbox>
+                                    </Row>
+                                    <Row className={`mt-4 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <Form.Item
+                                          name={['product', 'prices', price.position, 'priceDiscount']}
+                                          rules={[
+                                            {
+                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              message: pageData.pricing.price.validateMessage
+                                            }
+                                          ]}
+                                        >
+                                          <InputNumber
+                                            onChange={value => onDiscountChange(value, 0, index)}
+                                            className="shop-input-number w-100"
+                                            placeholder={pageData.pricing.discount.numeric.placeholder}
+                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                            // addonAfter={currency.vnd}
+                                            // precision={0}
+                                            onKeyPress={(event) => {
+                                              if (!/[0-9]/.test(event.key)) {
+                                                event.preventDefault()
+                                              }
+                                            }}
+                                            id={`product-prices-${price.position}-price-discount-numeric`}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <Form.Item
+                                          name={['product', 'prices', price.position, 'percentNumber']}
+                                          rules={[
+                                            {
+                                              pattern: new RegExp(inputNumberRange0To100.range),
+                                              message: pageData.pricing.discount.percentage.validateMessage
+                                            }
+                                          ]}
+                                        >
+                                          <InputNumber
+                                            onChange={value => onDiscountChange(0, value, index)}
+                                            className="shop-input-number w-100"
+                                            placeholder={pageData.pricing.discount.percentage.placeholder}
+                                            formatter={(value) => `${value}%`}
+                                            parser={(value) => value?.replace('%', '')}
+                                            min={0}
+                                            max={100}
+                                            onKeyPress={(event) => {
+                                              if (!/[0-9]/.test(event.key)) {
+                                                event.preventDefault()
+                                              }
+                                            }}
+                                            id={`product-prices-${price.position}-price-discount-percentage`}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                    </Row>
+                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <Form.Item
+                                          name={['product', "prices", price.position, "startDate"]}
                                           rules={[
                                             {
                                               required: true,
@@ -739,16 +740,16 @@ const pricetoPercentage = (num,index)=>{
                                             className="shop-date-picker w-100"
                                             format={DateFormat.DD_MM_YYYY}
                                             disabledDate={disabledDate}
-                                            onChange={(date) => {                      
+                                            onChange={(date) => {
                                               price.startDate = date
                                               // Clear end date after select start date if endate < startdate only
                                               const formValues = form.getFieldsValue();
-                                              const {product} = formValues
+                                              const { product } = formValues
                                               product.prices[index].startDate = date
                                               if (product.prices[index]?.endDate != null && product.prices[index]?.endDate.isBefore(date)) {
                                                 product.prices[index].endDate = null
                                                 product.prices[index].endTime = null
-                                                
+
                                               }
                                               form.setFieldsValue(formValues);
                                               console.log(product)
@@ -758,19 +759,19 @@ const pricetoPercentage = (num,index)=>{
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices",price.position, "endDate"]}
+                                          name={['product', "prices", price.position, "endDate"]}
                                           rules={[]}
                                         >
                                           <DatePicker
                                             suffixIcon={<CalendarNewIconBold />}
                                             placeholder={pageData.pricing.priceDate.endDate.placeholder}
                                             className="shop-date-picker w-100"
-                                            disabledDate={e=>disabledDateByStartDate(e,price)}
+                                            disabledDate={e => disabledDateByStartDate(e, price)}
                                             format={DateFormat.DD_MM_YYYY}
                                             disabled={price.startDate ? false : true}
                                             onChange={(date) => {
                                               const formValues = form.getFieldsValue();
-                                              const {product} = formValues
+                                              const { product } = formValues
                                               product.prices[index].endDate = date
                                               form.setFieldsValue(formValues)
                                             }}
@@ -810,8 +811,8 @@ const pricetoPercentage = (num,index)=>{
 
     return (
       <>
-        
-        { multiplePrices}
+
+        {multiplePrices}
       </>
     )
   }
@@ -852,10 +853,10 @@ const pricetoPercentage = (num,index)=>{
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({...keywordSEO,id:'',name:''});
+    setKeywordSEOList(list => !list.find(kws => kws.id === keywordSEO.id) ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ ...keywordSEO, id: '', name: '' });
   }
   return (
     <>
@@ -912,7 +913,7 @@ const pricetoPercentage = (num,index)=>{
                     {activate}
                   </a>
                 ),
-                permission: PermissionKeys.ACTIVATE_PRODUCT
+                permission: PermissionKeys.EDIT_PRODUCT
               },
               {
                 action: (
@@ -920,7 +921,7 @@ const pricetoPercentage = (num,index)=>{
                     {pageData.btnDelete}
                   </a>
                 ),
-                permission: PermissionKeys.DELETE_PRODUCT
+                permission: PermissionKeys.EDIT_PRODUCT
               }
             ]}
           />
@@ -973,15 +974,15 @@ const pricetoPercentage = (num,index)=>{
                     </Form.Item>
                   </Col>
                   <h4 className="shop-form-label">{pageData.content.label}</h4>
-                    <FnbFroalaEditor
-                      value={productContent}
-                      onChange={(value) => {
-                        if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
-                        setProductContent(value);
-                      }}
-                      placeholder={pageData.content.placeholder}
-                      charCounterMax={-1}
-                    />
+                  <FnbFroalaEditor
+                    value={productContent}
+                    onChange={(value) => {
+                      if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
+                      setProductContent(value);
+                    }}
+                    placeholder={pageData.content.placeholder}
+                    charCounterMax={-1}
+                  />
                 </Row>
               </Card>
               <br />
@@ -989,21 +990,21 @@ const pricetoPercentage = (num,index)=>{
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.SEOInformation.title}</h4>
-                      <div className='d-flex'>
-                        <h4 className="shop-form-label mt-16">{pageData.SEOInformation.SEOtitle.label}</h4>
-                        <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
-                              <span className="ml-12 mt-16">
-                                <ExclamationIcon />
-                              </span>
-                        </Tooltip>
-                      </div>
-                      <Form.Item
-                      name={['product','titleSEO']}
+                    <div className='d-flex'>
+                      <h4 className="shop-form-label mt-16">{pageData.SEOInformation.SEOtitle.label}</h4>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
+                        <span className="ml-12 mt-16">
+                          <ExclamationIcon />
+                        </span>
+                      </Tooltip>
+                    </div>
+                    <Form.Item
+                      name={['product', 'titleSEO']}
                       className="item-name"
                       rules={[
                         {
-                          min:pageData.SEOInformation.SEOtitle.minlength,
-                          max:pageData.SEOInformation.SEOtitle.maxLength,
+                          min: pageData.SEOInformation.SEOtitle.minlength,
+                          max: pageData.SEOInformation.SEOtitle.maxLength,
                           message: pageData.SEOInformation.SEOtitle.validateMessage
                         }
                       ]}
@@ -1017,48 +1018,47 @@ const pricetoPercentage = (num,index)=>{
                       />
                     </Form.Item>
 
-                      <div className='d-flex'>
-                        <h3 className="shop-form-label mt-16">
-                          {pageData.SEOInformation.description.label}
-                        </h3>
-                        <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
-                                <span className="ml-12 mt-16">
-                                  <ExclamationIcon />
-                                </span>
-                        </Tooltip>
-                      </div>
-                      <Form.Item
-                      name={['product','descriptionSEO']}
+                    <div className='d-flex'>
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.SEOInformation.description.label}
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
+                        <span className="ml-12 mt-16">
+                          <ExclamationIcon />
+                        </span>
+                      </Tooltip>
+                    </div>
+                    <Form.Item
+                      name={['product', 'descriptionSEO']}
                       className="item-name"
                       rules={[
                         {
-                          min:pageData.SEOInformation.description.minlength,
+                          min: pageData.SEOInformation.description.minlength,
                           message: pageData.SEOInformation.description.validateMessage
                         }
                       ]}
                     >
                       <FnbTextArea
-                          showCount
-                          maxLength={pageData.SEOInformation.description.maxLength}
-                          autoSize={{ minRows: 2, maxRows: 6 }}
-                          id="product-category-SEO-description"
-                          placeholder={pageData.SEOInformation.description.placeholder}
-                        ></FnbTextArea>
+                        showCount
+                        maxLength={pageData.SEOInformation.description.maxLength}
+                        autoSize={{ minRows: 2, maxRows: 6 }}
+                        id="product-category-SEO-description"
+                        placeholder={pageData.SEOInformation.description.placeholder}
+                      ></FnbTextArea>
                     </Form.Item>
 
-                      <div className='d-flex'>
-                        <h3 className="shop-form-label mt-16">
-                          {pageData.SEOInformation.keyword.label}
-                        </h3>
-                        <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
-                            <span className="ml-12 mt-16">
-                              <ExclamationIcon />
-                            </span>
-                        </Tooltip>
+                    <div className='d-flex'>
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.SEOInformation.keyword.label}
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
+                        <span className="ml-12 mt-16">
+                          <ExclamationIcon />
+                        </span>
+                      </Tooltip>
                     </div>
-                    
                     <Form.Item
-                      name={['product','keywordSEO']}
+                      name={['product', 'keywordSEO']}
                       className="item-name"
                     >
                       <FnbSelectMultiple
@@ -1071,17 +1071,17 @@ const pricetoPercentage = (num,index)=>{
                               <Divider style={{ margin: '8px 0' }} />
                               <Space style={{ padding: '0 8px 4px' }}>
                                 <Input
-                                    className="shop-input m-0 py-0"
-                                    placeholder={pageData.SEOInformation.keyword.placeholder}
-                                    value={keywordSEO.name || ''}
-                                    maxLength={3}
-                                    onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
-                                    onKeyDown={(e) => e.stopPropagation()}
-                                    showCount
+                                  className="shop-input m-0 py-0"
+                                  placeholder={pageData.SEOInformation.keyword.placeholder}
+                                  value={keywordSEO.name || ''}
+                                  maxLength={3}
+                                  onChange={e => setKeywordSEO({ ...keywordSEO, id: e.target.value, name: e.target.value })}
+                                  onKeyDown={(e) => e.stopPropagation()}
+                                  showCount
                                 />
-                                <ShopAddNewButton 
-                                text={pageData.SEOInformation.keyword.btnAdd}
-                                onClick={addSEOKeywords}
+                                <ShopAddNewButton
+                                  text={pageData.SEOInformation.keyword.btnAdd}
+                                  onClick={addSEOKeywords}
                                 ></ShopAddNewButton>
                               </Space>
                             </>
@@ -1124,20 +1124,20 @@ const pricetoPercentage = (num,index)=>{
                   <br />
                   <Card className={'w-100 mt-1 shop-card h-auto'}>
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item 
-                    name={['product', 'productCategoryIds']}
-                    rules={[{
-                      required:true,
-                      message:pageData.productCategory.validateMessage
-                    }]}
+                    <Form.Item
+                      name={['product', 'productCategoryIds']}
+                      rules={[{
+                        required: true,
+                        message: pageData.productCategory.validateMessage
+                      }]}
                     >
-                    <FnbSelectMultiple
-                      placeholder={pageData.productCategory.placeholder}
-                      showSearch
-                      option={listAllProductCategory?.map((b) => ({
-                        id: b.id,
-                        name: b.name
-                      }))}
+                      <FnbSelectMultiple
+                        placeholder={pageData.productCategory.placeholder}
+                        showSearch
+                        option={listAllProductCategory?.map((b) => ({
+                          id: b.id,
+                          name: b.name
+                        }))}
                       />
                     </Form.Item>
                     <br />

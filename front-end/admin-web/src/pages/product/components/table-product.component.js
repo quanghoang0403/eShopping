@@ -24,7 +24,7 @@ import { getStorage, localStorageKeys, setStorage } from 'utils/localStorage.hel
 import DeleteProductComponent from './delete-product.component'
 import FilterProduct from './filter-product.component'
 
-export default function TableProduct (props) {
+export default function TableProduct(props) {
   const history = useHistory()
   const { t } = useTranslation()
   const [dataSource, setDataSource] = useState([])
@@ -74,9 +74,9 @@ export default function TableProduct (props) {
           return (
             <Row className="table-img-box">
               <div>
-                <Thumbnail 
-                // src={getThumbnailUrl(record?.thumbnail, 'mobile')} 
-                src={record?.thumbnail}
+                <Thumbnail
+                  // src={getThumbnailUrl(record?.thumbnail, 'mobile')} 
+                  src={record?.thumbnail}
                 />
               </div>
               <div className="product-name">
@@ -118,7 +118,7 @@ export default function TableProduct (props) {
                 onClick={() => onEditItem(record?.id)}
                 permission={PermissionKeys.EDIT_PRODUCT}
               />
-              {hasPermission(PermissionKeys.DELETE_PRODUCT) && (
+              {hasPermission(PermissionKeys.EDIT_PRODUCT) && (
                 <Space wrap>
                   <div className="shop-table-action-icon">
                     <Tooltip placement="top" title={pageData.btnDelete} color="#50429B">
@@ -149,7 +149,7 @@ export default function TableProduct (props) {
     //     const { preventDeleteProduct } = res;
     //     // Set property for object
     //     Object.assign(preventDeleteProduct, { productName: productName });
-  
+
     //     setPreventDeleteProduct(preventDeleteProduct);
     //     if (!preventDeleteProduct?.isPreventDelete) {
     //       setTitleModal(pageData.confirmDelete);
@@ -158,12 +158,12 @@ export default function TableProduct (props) {
     //     }
     //     setIsModalVisible(true);
     //   }
-      
+
     // });
-    productDataService.getProductByIdAsync(productId).then(res=>{
-      const {product} = res
+    productDataService.getProductByIdAsync(productId).then(res => {
+      const { product } = res
       setPreventDeleteProduct(product)
-    }).catch(err=>{
+    }).catch(err => {
       console.log(err)
     })
     setTitleModal(pageData.confirmDelete);
@@ -180,7 +180,7 @@ export default function TableProduct (props) {
     if (res) {
       message.success(pageData.productDeleteSuccess);
       // Recount selected items after delete
-      const newSelectedRowKeys = selectedRowKeys?.filter((x) => dataSource.find(d=>d.index === x).id !== productId);
+      const newSelectedRowKeys = selectedRowKeys?.filter((x) => dataSource.find(d => d.index === x).id !== productId);
       if (newSelectedRowKeys) {
         setSelectedRowKeys(newSelectedRowKeys);
       }
@@ -244,27 +244,27 @@ export default function TableProduct (props) {
             <Row className="product-price-box">
               {onPopover
                 ? (
-                <>
-                  <Col offset={4} span={6} className="mt-1">
-                    <span className="float-left">{p?.priceName}</span>
-                  </Col>
-                  <Col offset={4} span={6} className="mt-1">
-                    <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
-                  </Col>
-                </>
-                  )
+                  <>
+                    <Col offset={4} span={6} className="mt-1">
+                      <span className="float-left">{p?.priceName}</span>
+                    </Col>
+                    <Col offset={4} span={6} className="mt-1">
+                      <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
+                    </Col>
+                  </>
+                )
                 : (
-                <>
-                  <Col span={12} className="price-box-inline">
-                    <span className="float-left mt-1" title={p?.priceName}>
-                      {p?.priceName}
-                    </span>
-                  </Col>
-                  <Col span={12} className="mt-1">
-                    <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
-                  </Col>
-                </>
-                  )}
+                  <>
+                    <Col span={12} className="price-box-inline">
+                      <span className="float-left mt-1" title={p?.priceName}>
+                        {p?.priceName}
+                      </span>
+                    </Col>
+                    <Col span={12} className="mt-1">
+                      <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
+                    </Col>
+                  </>
+                )}
             </Row>
           </>
         )
@@ -305,28 +305,28 @@ export default function TableProduct (props) {
           {item?.productPrices &&
             (item?.productPrices?.length > maxNumberToShowPrice
               ? (
-              <div>
-                {renderPopoverItems(item?.productPrices, maxNumberToShowPrice)}
-                <Popover
-                  onVisibleChange={(isShow) => onVisibleChange(isShow, item)}
-                  content={
-                    <PopoverContentComponent title={`Prices (${item?.productPrices?.length})`}>
-                      {renderPopoverItems(item?.productPrices, null, true)}
-                    </PopoverContentComponent>
-                  }
-                  trigger="click"
-                >
-                  <div className="btn-show-more-container">
-                    <button id={`btn-show-more-${item.id}`} className="btn-show-more">
-                      <EllipsisOutlined />
-                    </button>
-                  </div>
-                </Popover>
-              </div>
-                )
+                <div>
+                  {renderPopoverItems(item?.productPrices, maxNumberToShowPrice)}
+                  <Popover
+                    onVisibleChange={(isShow) => onVisibleChange(isShow, item)}
+                    content={
+                      <PopoverContentComponent title={`Prices (${item?.productPrices?.length})`}>
+                        {renderPopoverItems(item?.productPrices, null, true)}
+                      </PopoverContentComponent>
+                    }
+                    trigger="click"
+                  >
+                    <div className="btn-show-more-container">
+                      <button id={`btn-show-more-${item.id}`} className="btn-show-more">
+                        <EllipsisOutlined />
+                      </button>
+                    </div>
+                  </Popover>
+                </div>
+              )
               : (
-              <>{renderPopoverItems(item?.productPrices)}</>
-                ))}
+                <>{renderPopoverItems(item?.productPrices)}</>
+              ))}
         </>
       ),
       status: item?.isActive
@@ -408,7 +408,7 @@ export default function TableProduct (props) {
           total={totalRecords}
           onChangePage={tableSettings.onChangePage}
           editPermission={PermissionKeys.EDIT_PRODUCT}
-          deletePermission={PermissionKeys.DELETE_PRODUCT}
+          deletePermission={PermissionKeys.EDIT_PRODUCT}
           rowSelection={{
             type: 'checkbox',
             selectedRowKeys,

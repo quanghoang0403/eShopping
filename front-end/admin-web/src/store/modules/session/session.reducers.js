@@ -1,5 +1,5 @@
 import Moment from 'moment'
-import { localStorageKeys, setStorageToken } from 'utils/localStorage.helpers'
+import { clearStorage, setStorageToken } from 'utils/localStorage.helpers'
 import actionTypes from './session.types'
 import { jwtDecode } from 'jwt-decode'
 import { claimTypesConstants } from 'constants/claim-types.constants'
@@ -29,10 +29,8 @@ const sessionReducer = (state = sessionInitialState, action) => {
       }
 
     case actionTypes.RESET_SESSION:
-      localStorage.removeItem(localStorageKeys.TOKEN)
-      localStorage.removeItem(localStorageKeys.REFRESH_TOKEN)
-      localStorage.removeItem(localStorageKeys.PERMISSIONS)
-      localStorage.removeItem('persist:root')
+      clearStorage()
+      window.location.replace('/login')
       return {
         ...sessionInitialState,
         lastUpdated: Moment.utc().format('x')

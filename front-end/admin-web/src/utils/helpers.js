@@ -161,25 +161,23 @@ export const executeAfter = (ms, callback) => {
 }
 
 // Get permission from store
-export const getPermissions = () => {
-  const { session } = store.getState()
-  return session?.permissions ?? []
+export const getAllPermissions = () => {
+  let allPermissions = []
+  const storagePermissions = getStorage(localStorageKeys.PERMISSIONS)
+  const decodeData = decryptWithAES(storagePermissions)
+  if (decodeData) {
+    const permissions = JSON.parse(decodeData)
+    allPermissions = permissions
+  }
+  return allPermissions
 }
 
 /// Check permission
 export const hasPermission = (permissionId) => {
   if (permissionId === 'public') return true
+  let allPermissions = getAllPermissions()
 
-  const { session } = store.getState()
-  let allPermissions = session?.permissions ?? []
-  if (allPermissions.length === 0) {
-    const storagePermissions = getStorage(localStorageKeys.PERMISSIONS)
-    const decodeData = decryptWithAES(storagePermissions)
-    if (decodeData) {
-      const permissions = JSON.parse(decodeData)
-      allPermissions = permissions
-    }
-  }
+  if (allPermissions.length == 0) return false
 
   if (allPermissions.find(x => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN).toString().toUpperCase()) return true
 
@@ -436,19 +434,8 @@ export const tokenExpired = (token) => {
 
 export const getPermission = (permissionId) => {
   if (permissionId === 'public') return true
-  const { session } = store.getState()
-  let allPermissions = session?.permissions ?? []
-  if (allPermissions.length === 0) {
-    const storagePermissions = getStorage(localStorageKeys.PERMISSIONS)
-    const decodeData = decryptWithAES(storagePermissions)
-    if (decodeData) {
-      const permissions = JSON.parse(decodeData)
-      allPermissions = permissions
-    }
-  }
-
+  let allPermissions = getAllPermissions()
   const index = allPermissions.findIndex((x) => x.id === permissionId)
-
   return index !== -1 ? allPermissions[index] : null
 }
 

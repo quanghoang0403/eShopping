@@ -19,11 +19,12 @@ export const removeStorage = (key) => {
   localStorage.removeItem(key)
 }
 
-export const resetStorage = () => {
-  removeStorage(localStorageKeys.TOKEN)
-  removeStorage(localStorageKeys.REFRESH_TOKEN)
-  removeStorage(localStorageKeys.PERMISSIONS)
-  removeStorage('persist:root')
+export const clearStorage = () => {
+  localStorage.clear()
+  // removeStorage(localStorageKeys.TOKEN)
+  // removeStorage(localStorageKeys.REFRESH_TOKEN)
+  // removeStorage(localStorageKeys.PERMISSIONS)
+  // removeStorage('persist:root')
 }
 
 export const setStorageToken = (data) => {

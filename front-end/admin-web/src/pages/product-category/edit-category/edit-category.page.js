@@ -19,7 +19,7 @@ import { getValidationMessages } from 'utils/helpers'
 
 import '../index.scss'
 
-export default function EditProductCategoryPage (props) {
+export default function EditProductCategoryPage(props) {
   const [t] = useTranslation()
   const history = useHistory()
   const match = useRouteMatch()
@@ -31,7 +31,7 @@ export default function EditProductCategoryPage (props) {
   const [title, setTitle] = useState('')
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  const [dataSelectedProducts,setDataSelectedProducts] = useState([])
+  const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -58,33 +58,33 @@ export default function EditProductCategoryPage (props) {
       validateMessage: t('productCategory.validatePriority'),
       tooltip: t('productCategory.tooltipPriority')
     },
-    content:{
+    content: {
       title: t('productCategory.productCategoryContent'),
       placeholder: t('productCategory.placeholderContent')
     },
-    description:{
+    description: {
       title: t('productCategory.categoryDescription'),
       placeholder: t('productCategory.placeholderCategoryDescription')
     },
-    SEOInformation:{
+    SEOInformation: {
       title: t('form.SEOConfiguration'),
-      keyword:{
+      keyword: {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip')
       },
-      SEOtitle:{
-        label:t('form.SEOTitle'),
+      SEOtitle: {
+        label: t('form.SEOTitle'),
         placeholder: t('form.SEOTitlePlaceholder'),
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
         minlength: 50
       },
-      description:{
+      description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
-        minlength:150,
+        minlength: 150,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -132,11 +132,11 @@ export default function EditProductCategoryPage (props) {
             name: productCategory.name,
             priority: productCategory.priority,
             productIds: productCategory.products?.map((x) => x.id),
-            keywordSEO:productCategory.keywordSEO,
+            keywordSEO: productCategory.keywordSEO,
             titleSEO: productCategory.titleSEO,
-            descriptionSEO:productCategory.descriptionSEO,
-            description:productCategory.description,
-            content:productCategory.content
+            descriptionSEO: productCategory.descriptionSEO,
+            description: productCategory.description,
+            content: productCategory.content
           })
         }
       })
@@ -155,7 +155,7 @@ export default function EditProductCategoryPage (props) {
     const productIds = ids
     const productList = [...dataSelectedProducts]
     productIds.forEach((productId, index) => {
-      const product = products.find((p) => p.id === productId && !productList.find(p=>p.id === productId))
+      const product = products.find((p) => p.id === productId && !productList.find(p => p.id === productId))
       if (product) {
         const newProduct = { ...product, position: index + 1 }
         productList.push(newProduct)
@@ -192,7 +192,7 @@ export default function EditProductCategoryPage (props) {
               onChange={(value) => onSelectProduct(value)}
               className="w-100"
               listHeight={480}
-              option={products?.filter(p=>!dataSelectedProducts.find(sp=>sp.id === p.id) && p).map((item) => ({
+              option={products?.filter(p => !dataSelectedProducts.find(sp => sp.id === p.id) && p).map((item) => ({
                 id: item.id,
                 name: item.name,
                 thumbnail: item?.thumbnail
@@ -281,9 +281,9 @@ export default function EditProductCategoryPage (props) {
       const updateProductCategoryRequestModel = {
         id: values.id,
         name: values.name,
-        products: dataSelectedProducts ,
+        products: dataSelectedProducts,
         priority: values.priority,
-        content:values.content,
+        content: values.content,
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
@@ -455,10 +455,10 @@ export default function EditProductCategoryPage (props) {
                   </div>
                   <Form.Item name={['content']}>
                     <Input
-                        className="shop-input-with-count"
-                        showCount
-                        placeholder={pageData.content.placeholder}
-                      />
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.content.placeholder}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -481,26 +481,26 @@ export default function EditProductCategoryPage (props) {
                 </Col>
               </Row>
               {/* SEOConfiguration */}
-              <h2 className="shop-form-label mt-16">{pageData.SEOInformation.title}</h2>
+              <h2 className="label-information mt-16">{pageData.SEOInformation.title}</h2>
               <Row gutter={[24, 24]}>
                 <Col span={24}>
                   <div className='d-flex'>
-                      <h3 className="shop-form-label mt-16">
-                        {pageData.SEOInformation.SEOtitle.label}
-                      </h3>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
-                          <span className="ml-12 mt-16">
-                            <ExclamationIcon />
-                          </span>
-                      </Tooltip>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.SEOInformation.SEOtitle.label}
+                    </h3>
+                    <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
+                      <span className="ml-12 mt-16">
+                        <ExclamationIcon />
+                      </span>
+                    </Tooltip>
                   </div>
-                  
+
                   <Form.Item
                     name={['titleSEO']}
                     className="item-name"
                     rules={[
                       {
-                        min:pageData.SEOInformation.SEOtitle.minlength,
+                        min: pageData.SEOInformation.SEOtitle.minlength,
                         message: pageData.SEOInformation.SEOtitle.validateMessage
                       }
                     ]}
@@ -521,9 +521,9 @@ export default function EditProductCategoryPage (props) {
                       {pageData.SEOInformation.description.label}
                     </h3>
                     <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
-                            <span className="ml-12 mt-16">
-                              <ExclamationIcon />
-                            </span>
+                      <span className="ml-12 mt-16">
+                        <ExclamationIcon />
+                      </span>
                     </Tooltip>
                   </div>
                   <Form.Item
@@ -531,7 +531,7 @@ export default function EditProductCategoryPage (props) {
                     className="item-name"
                     rules={[
                       {
-                        min:pageData.SEOInformation.description.minlength,
+                        min: pageData.SEOInformation.description.minlength,
                         message: pageData.SEOInformation.description.validateMessage
                       }
                     ]}
@@ -548,16 +548,16 @@ export default function EditProductCategoryPage (props) {
               <Row gutter={[24, 24]}>
                 <Col span={24}>
                   <div className='d-flex'>
-                      <h3 className="shop-form-label mt-16">
-                        {pageData.SEOInformation.keyword.label}
-                      </h3>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
-                          <span className="ml-12 mt-16">
-                            <ExclamationIcon />
-                          </span>
-                      </Tooltip>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.SEOInformation.keyword.label}
+                    </h3>
+                    <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
+                      <span className="ml-12 mt-16">
+                        <ExclamationIcon />
+                      </span>
+                    </Tooltip>
                   </div>
-                  
+
                   <Form.Item
                     name={['keywordSEO']}
                     className="item-name"
@@ -566,7 +566,7 @@ export default function EditProductCategoryPage (props) {
                       className="shop-input-with-count"
                       showCount
                       placeholder={pageData.SEOInformation.keyword.placeholder}
-                      
+
                     />
                   </Form.Item>
                 </Col>

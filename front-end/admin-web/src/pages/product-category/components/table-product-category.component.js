@@ -10,16 +10,16 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { executeAfter } from 'utils/helpers'
+import { executeAfter, getAllPermissions } from 'utils/helpers'
 import TableProduct from './products-in-category.modal'
 
-export default function TableProductCategory () {
+export default function TableProductCategory() {
   const history = useHistory()
   const [t] = useTranslation()
   const [dataSource, setDataSource] = useState([])
   const [currentPageNumber, setCurrentPageNumber] = useState(1)
   const [totalRecords, setTotalRecords] = useState(0)
-  const permissions = useSelector((state) => state?.session?.permissions)
+  const permissions = getAllPermissions()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 

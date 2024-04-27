@@ -2,7 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 import { env, ENVIRONMENT } from '../env'
 import { tokenExpired } from './helpers'
-import { getStorage, setStorageToken, resetStorage, localStorageKeys } from './localStorage.helpers'
+import { getStorage, setStorageToken, clearStorage, localStorageKeys } from './localStorage.helpers'
 import i18n from 'utils/i18n'
 
 const { t } = i18n
@@ -179,7 +179,7 @@ const _getRefreshToken = () => {
 
 /// Clear session and redirect to login page
 const _redirectToLoginPage = () => {
-  resetStorage()
+  clearStorage()
   window.location.href = '/login'
 }
 

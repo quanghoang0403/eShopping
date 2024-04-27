@@ -15,7 +15,7 @@ import { getValidationMessages } from 'utils/helpers';
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import '../index.scss'
 
-export default function FormNewProductCategory (props) {
+export default function FormNewProductCategory(props) {
   const { t, onCompleted, productCategoryDataService, productDataService } = props
   const [products, setProducts] = useState([])
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
@@ -49,34 +49,34 @@ export default function FormNewProductCategory (props) {
       validateMessage: t('productCategory.validatePriority'),
       tooltip: t('productCategory.tooltipPriority')
     },
-    content:{
+    content: {
       title: t('productCategory.productCategoryContent'),
       placeholder: t('productCategory.placeholderContent')
     },
-    description:{
+    description: {
       title: t('productCategory.categoryDescription'),
       placeholder: t('productCategory.placeholderCategoryDescription')
     },
-    SEOInformation:{
+    SEOInformation: {
       title: t('form.SEOConfiguration'),
-      keyword:{
+      keyword: {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip')
       },
-      SEOtitle:{
-        label:t('form.SEOTitle'),
+      SEOtitle: {
+        label: t('form.SEOTitle'),
         placeholder: t('form.SEOTitlePlaceholder'),
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
         minlength: 50
       },
-      description:{
+      description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
-        minlength:150,
-        maxLength:160,
+        minlength: 150,
+        maxLength: 160,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -96,6 +96,7 @@ export default function FormNewProductCategory (props) {
   const getProducts = async () => {
     const res = await productDataService.getAllProductsAsync()
     if (res) {
+      console.log(res);
       setProducts(res.products)
     }
   }
@@ -129,6 +130,7 @@ export default function FormNewProductCategory (props) {
   }
 
   const renderSelectProduct = () => {
+    console.log(products);
     return (
       <>
         <Col span={24}>
@@ -232,7 +234,7 @@ export default function FormNewProductCategory (props) {
         name: values.name,
         products: dataSelectedProducts,
         priority: values.priority,
-        content:values.content,
+        content: values.content,
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
@@ -379,10 +381,10 @@ export default function FormNewProductCategory (props) {
                   </div>
                   <Form.Item name={['content']}>
                     <Input
-                        className="shop-input-with-count"
-                        showCount
-                        placeholder={pageData.content.placeholder}
-                      />
+                      className="shop-input-with-count"
+                      showCount
+                      placeholder={pageData.content.placeholder}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -396,12 +398,12 @@ export default function FormNewProductCategory (props) {
                     name={['description']}
                     className="item-name"
                   >
-                   <FnbTextArea
-                        showCount
-                        autoSize={{ minRows: 2, maxRows: 6 }}
-                        id="product-category-description"
-                        placeholder={pageData.description.placeholder}
-                      ></FnbTextArea>
+                    <FnbTextArea
+                      showCount
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                      id="product-category-description"
+                      placeholder={pageData.description.placeholder}
+                    ></FnbTextArea>
                   </Form.Item>
                 </Col>
               </Row>
@@ -410,22 +412,22 @@ export default function FormNewProductCategory (props) {
               <Row gutter={[24, 24]}>
                 <Col span={24}>
                   <div className='d-flex'>
-                      <h3 className="shop-form-label mt-16">
-                        {pageData.SEOInformation.SEOtitle.label}
-                      </h3>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
-                          <span className="ml-12 mt-16">
-                            <ExclamationIcon />
-                          </span>
-                      </Tooltip>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.SEOInformation.SEOtitle.label}
+                    </h3>
+                    <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
+                      <span className="ml-12 mt-16">
+                        <ExclamationIcon />
+                      </span>
+                    </Tooltip>
                   </div>
-                  
+
                   <Form.Item
                     name={['titleSEO']}
                     className="item-name"
                     rules={[
                       {
-                        min:pageData.SEOInformation.SEOtitle.minlength,
+                        min: pageData.SEOInformation.SEOtitle.minlength,
                         message: pageData.SEOInformation.SEOtitle.validateMessage
                       }
                     ]}
@@ -446,9 +448,9 @@ export default function FormNewProductCategory (props) {
                       {pageData.SEOInformation.description.label}
                     </h3>
                     <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
-                            <span className="ml-12 mt-16">
-                              <ExclamationIcon />
-                            </span>
+                      <span className="ml-12 mt-16">
+                        <ExclamationIcon />
+                      </span>
                     </Tooltip>
                   </div>
                   <Form.Item
@@ -456,34 +458,34 @@ export default function FormNewProductCategory (props) {
                     className="item-name"
                     rules={[
                       {
-                        min:pageData.SEOInformation.description.minlength,
+                        min: pageData.SEOInformation.description.minlength,
                         message: pageData.SEOInformation.description.validateMessage
                       }
                     ]}
                   >
                     <FnbTextArea
-                        showCount
-                        maxLength={pageData.SEOInformation.description.maxLength}
-                        autoSize={{ minRows: 2, maxRows: 6 }}
-                        id="product-category-SEO-description"
-                        placeholder={pageData.SEOInformation.description.placeholder}
-                      ></FnbTextArea>
+                      showCount
+                      maxLength={pageData.SEOInformation.description.maxLength}
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                      id="product-category-SEO-description"
+                      placeholder={pageData.SEOInformation.description.placeholder}
+                    ></FnbTextArea>
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[24, 24]}>
                 <Col span={24}>
                   <div className='d-flex'>
-                      <h3 className="shop-form-label mt-16">
-                        {pageData.SEOInformation.keyword.label}
-                      </h3>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
-                          <span className="ml-12 mt-16">
-                            <ExclamationIcon />
-                          </span>
-                      </Tooltip>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.SEOInformation.keyword.label}
+                    </h3>
+                    <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
+                      <span className="ml-12 mt-16">
+                        <ExclamationIcon />
+                      </span>
+                    </Tooltip>
                   </div>
-                  
+
                   <Form.Item
                     name={['keywordSEO']}
                     className="item-name"
@@ -492,7 +494,7 @@ export default function FormNewProductCategory (props) {
                       className="shop-input-with-count"
                       showCount
                       placeholder={pageData.SEOInformation.keyword.placeholder}
-                      
+
                     />
                   </Form.Item>
                 </Col>

@@ -8,16 +8,20 @@ import { compose } from 'redux'
 import { store } from 'store'
 import { hasPermission } from 'utils/helpers'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { resetSession } from 'store/modules/session/session.actions'
+
 import './index.scss'
 const { Sider } = Layout
 const { SubMenu } = Menu
 
 function SideMenu(props) {
-  const { signedInUser, signOut, menuItems, route, isChild, parentKey } = props
+  const { signedInUser, menuItems, route, isChild, parentKey } = props
   const [collapsed, setCollapsed] = useState(false)
   const [selectedKey, setSelectedKey] = useState('')
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
   const history = useHistory()
+  const dispatch = useDispatch()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -53,13 +57,6 @@ function SideMenu(props) {
         }
       }
     }
-  }
-
-  const logOut = () => {
-    const request = { UserId: signedInUser?.userId }
-    signOut(request).then(() => {
-      window.location.replace('/login')
-    })
   }
 
   const renderMenusItems = () => {
@@ -126,6 +123,7 @@ function SideMenu(props) {
   }
 
   const handleClickSettingNavigate = () => {
+    console.log('handleClickSettingNavigate')
     const header = document.getElementById('header')
     if (header.classList.contains('expand-header')) {
       header.classList.remove('expand-header')
@@ -149,7 +147,7 @@ function SideMenu(props) {
 
   const CustomTrigger = () => (
     <div className="trigger-footer">
-      <div onClick={() => logOut()} className="logout">
+      <div onClick={() => dispatch(resetSession())} className="logout">
         <span className="icon-logout">
           <LogoutIcon width={28} height={28} />
         </span>

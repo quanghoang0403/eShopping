@@ -8,8 +8,8 @@ import { PermissionKeys } from 'constants/permission-key.constants'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import './index.scss'
 
-export default function CategoryPage (props) {
-  const { productCategoryDataService } = props
+export default function CategoryPage(props) {
+  const { productDataService, productCategoryDataService } = props
   const [showAddNewProductCategoryForm, setShowAddNewProductCategoryForm] = useState(false)
   const { t } = useTranslation()
   const pageData = {
@@ -19,7 +19,7 @@ export default function CategoryPage (props) {
     }
   }
 
-  useEffect(() => {})
+  useEffect(() => { })
 
   return (
     <>
@@ -44,20 +44,20 @@ export default function CategoryPage (props) {
       <div className="clearfix"></div>
       {showAddNewProductCategoryForm
         ? (
-        <>
-          <FormNewProductCategory
-            t={t}
-            onCompleted={() => setShowAddNewProductCategoryForm(false)}
-            productCategoryDataService={productCategoryDataService}
-            // productDataService={productDataService}
-          />
-        </>
-          )
+          <>
+            <FormNewProductCategory
+              t={t}
+              onCompleted={() => setShowAddNewProductCategoryForm(false)}
+              productCategoryDataService={productCategoryDataService}
+              productDataService={productDataService}
+            />
+          </>
+        )
         : (
-        <Card className="shop-card-full">
-          <TableProductCategory />
-        </Card>
-          )}
+          <Card className="shop-card-full">
+            <TableProductCategory />
+          </Card>
+        )}
     </>
   )
 }

@@ -55,13 +55,17 @@
   z-index: 1;
 }
 
-.menu ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light > li.ant-menu-submenu.ant-menu-submenu-inline {
+.menu
+  ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light
+  > li.ant-menu-submenu.ant-menu-submenu-inline {
   margin: 24px 12px !important;
   width: auto !important;
 }
 
 //Home
-.menu ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light > li.ant-menu-item {
+.menu
+  ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light
+  > li.ant-menu-item {
   width: auto !important;
 }
 
@@ -91,7 +95,7 @@
   color: #50429b;
   font-size: 20px;
   margin: 24px;
-
+  cursor: pointer;
   .icon-logout {
     svg > path {
       fill: #50429b;

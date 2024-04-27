@@ -13,11 +13,12 @@ const { Header } = Layout
 const { SubMenu } = Menu
 
 function TopBar(props) {
-  const { signedInUser, signOut, history, menuItems, route, isChild, parentKey } = props
+  const { signedInUser, history, menuItems, route, isChild, parentKey } = props
   const [visible, setVisible] = useState(false)
   const [selectedKey, setSelectedKey] = useState('')
   const [currentSubMenuKeys, setCurrentSubMenuKeys] = useState([])
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (route.focus) {
@@ -52,13 +53,6 @@ function TopBar(props) {
       return names[0][0]
     }
     return names
-  }
-
-  const logOut = () => {
-    const request = { UserId: signedInUser?.userId }
-    signOut(request).then(() => {
-      window.location.replace('/login')
-    })
   }
 
   /* Side Menu */
@@ -155,7 +149,7 @@ function TopBar(props) {
           </Menu>
         </div>
         <div className="trigger-footer-mobile">
-          <div onClick={() => logOut()} className="logout-mobile">
+          <div onClick={() => dispatch(resetSession())} className="logout-mobile">
             <span className="icon-logout">
               <LogoutIcon width={28} height={28} />
             </span>

@@ -11,7 +11,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { executeAfter } from 'utils/helpers'
 import '../index.scss'
 
-export default function TableCustomer (props) {
+export default function TableCustomer(props) {
   const [t] = useTranslation()
   const [dataSource, setDataSource] = useState([])
   const [currentPageNumber, setCurrentPageNumber] = useState(1)
@@ -95,7 +95,7 @@ export default function TableCustomer (props) {
                 content={formatDeleteMessage(record?.name)}
                 okText={pageData.btnDelete}
                 cancelText={pageData.btnIgnore}
-                permission={PermissionKeys.DELETE_CUSTOMER}
+                permission={PermissionKeys.EDIT_CUSTOMER}
                 onOk={() => handleDeleteItem(record.id)}
               />
             }

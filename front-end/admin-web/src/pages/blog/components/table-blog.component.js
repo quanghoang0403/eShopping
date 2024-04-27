@@ -197,7 +197,7 @@ export const TableBlog = () => {
         dataIndex: 'action',
         align: 'center',
         width: '10%',
-        hidden: !hasPermission(PermissionKeys.EDIT_BLOG) && !hasPermission(PermissionKeys.DELETE_BLOG),
+        hidden: !hasPermission(PermissionKeys.EDIT_BLOG) && !hasPermission(PermissionKeys.EDIT_BLOG),
         render: (_, record) => {
           return (
             <div className="action-column">
@@ -208,13 +208,13 @@ export const TableBlog = () => {
                   permission={PermissionKeys.EDIT_BLOG}
                 />
               )}
-              {hasPermission(PermissionKeys.DELETE_BLOG) && (
+              {hasPermission(PermissionKeys.EDIT_BLOG) && (
                 <DeleteConfirmComponent
                   title={pageData.confirmDelete}
                   content={formatConfirmDeleteMessage(pageData.blogConfirmDeleteMessage, record?.title)}
                   okText={pageData.btnDelete}
                   cancelText={pageData.btnIgnore}
-                  permission={PermissionKeys.DELETE_BLOG}
+                  permission={PermissionKeys.EDIT_BLOG}
                   onOk={() => onDeleteItem(record?.id, record?.title)}
                 />
               )}
@@ -277,13 +277,13 @@ export const TableBlog = () => {
   const filterComponent = () => {
     return showPopover && dataFilter && dataFilter.blogAuthors && dataFilter.blogCatetories
       ? (
-      <FilterBlogPopover
-        dataFilter={dataFilter}
-        onChangeFilter={(data) => {
-          handleFilterBlog(data)
-        }}
-      />
-        )
+        <FilterBlogPopover
+          dataFilter={dataFilter}
+          onChangeFilter={(data) => {
+            handleFilterBlog(data)
+          }}
+        />
+      )
       : null
   }
 
