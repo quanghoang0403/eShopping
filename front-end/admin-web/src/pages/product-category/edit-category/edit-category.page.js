@@ -17,7 +17,8 @@ import { useHistory, useRouteMatch } from 'react-router-dom'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
 import { getValidationMessages } from 'utils/helpers'
 import '../index.scss'
-import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 
 export default function EditProductCategoryPage(props) {
   const [t] = useTranslation()
@@ -34,6 +35,7 @@ export default function EditProductCategoryPage(props) {
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const [keywordSEOs,setKeywordSEOList] = useState([]);
   const [keywordSEO,setKeywordSEO] = useState({})
+  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -66,7 +68,8 @@ export default function EditProductCategoryPage(props) {
     },
     description: {
       title: t('productCategory.categoryDescription'),
-      placeholder: t('productCategory.placeholderCategoryDescription')
+      placeholder: t('productCategory.placeholderCategoryDescription'),
+      maxLength:250
     },
     SEOInformation: {
       title: t('form.SEOConfiguration'),
@@ -81,13 +84,15 @@ export default function EditProductCategoryPage(props) {
         placeholder: t('form.SEOTitlePlaceholder'),
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
-        minlength: 50
+        minlength: 50,
+        maxLength:100
       },
       description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
         minlength: 150,
+        maxLength:200,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -141,7 +146,7 @@ export default function EditProductCategoryPage(props) {
             description: productCategory.description,
             content: productCategory.content
           })
-          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
+          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,value:curr,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}),[]) || [])
         }
       })
     }
@@ -291,7 +296,7 @@ export default function EditProductCategoryPage(props) {
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
-        keywordSEO:values.keywordSEO?.join(',') || null
+        keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
       }
 
       productCategoryDataService
@@ -339,8 +344,11 @@ export default function EditProductCategoryPage(props) {
   }
   const addSEOKeywords = (e)=>{
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({...keywordSEO,id:'',name:''});
+    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id && keywordSEO.value!=='')?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({});
+  }
+  const removeSEOKeyword = (keyword)=>{
+    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
   }
   return (
     <>
@@ -420,42 +428,40 @@ export default function EditProductCategoryPage(props) {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={12} span={12}>
-                  <div className="d-flex">
-                    <h3 className="shop-form-label mt-16">
-                      {pageData.priority.title}
-                      <span className="text-danger">*</span>
-                    </h3>
-                    <Tooltip placement="topLeft" title={pageData.priority.tooltip}>
-                      <span className="ml-12 mt-16">
-                        <ExclamationIcon />
-                      </span>
-                    </Tooltip>
-                  </div>
-                  <Form.Item
-                    name={['priority']}
-                    rules={[
-                      {
-                        required: true,
-                        message: pageData.priority.validateMessage
-                      }
-                    ]}
-                  >
-                    <InputNumber
-                      placeholder={pageData.priority.placeholder}
-                      className="shop-input-number w-100"
-                      min={1}
-                      max={1000000}
-                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                      parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
               {/* content  */}
               <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={12} span={12}>
+                <Col xs={24} sm={24} md={24} lg={12} >
+                    <div className="d-flex">
+                      <h3 className="shop-form-label mt-16">
+                        {pageData.priority.title}
+                        <span className="text-danger">*</span>
+                      </h3>
+                      <Tooltip placement="topLeft" title={pageData.priority.tooltip}>
+                        <span className="ml-12 mt-16">
+                          <ExclamationIcon />
+                        </span>
+                      </Tooltip>
+                    </div>
+                    <Form.Item
+                      name={['priority']}
+                      rules={[
+                        {
+                          required: true,
+                          message: pageData.priority.validateMessage
+                        }
+                      ]}
+                    >
+                      <InputNumber
+                        placeholder={pageData.priority.placeholder}
+                        className="shop-input-number w-100"
+                        min={1}
+                        max={1000000}
+                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                      />
+                    </Form.Item>
+                  </Col>
+                <Col xs={24} sm={24} md={24} lg={12} >
                   <div className="d-flex">
                     <h3 className="shop-form-label mt-16">
                       {pageData.content.title}
@@ -480,11 +486,13 @@ export default function EditProductCategoryPage(props) {
                     name={['description']}
                     className="item-name"
                   >
-                    <Input
-                      className="shop-input-with-count"
+                    <FnbTextArea
                       showCount
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                      id="product-category-description"
                       placeholder={pageData.description.placeholder}
-                    />
+                      maxLength={pageData.description.maxLength}
+                    ></FnbTextArea>
                   </Form.Item>
                 </Col>
               </Row>
@@ -518,6 +526,7 @@ export default function EditProductCategoryPage(props) {
                       showCount
                       placeholder={pageData.SEOInformation.SEOtitle.placeholder}
                       minLength={pageData.SEOInformation.SEOtitle.minlength}
+                      maxLength={pageData.SEOInformation.SEOtitle.maxLength}
                     />
                   </Form.Item>
                 </Col>
@@ -549,6 +558,7 @@ export default function EditProductCategoryPage(props) {
                       showCount
                       placeholder={pageData.SEOInformation.description.placeholder}
                       minLength={pageData.SEOInformation.description.minlength}
+                      maxLength={pageData.SEOInformation.description.maxLength}
                     />
                   </Form.Item>
                 </Col>
@@ -566,17 +576,37 @@ export default function EditProductCategoryPage(props) {
                     </Tooltip>
                   </div>
 
-                  <Form.Item
-                    name={['keywordSEO']}
-                    className="item-name"
-                  >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      placeholder={pageData.SEOInformation.keyword.placeholder}
-                      
-                    />
-                  </Form.Item>
+                  <div>
+                    {
+                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                    }
+                    
+                    <div className='d-flex mt-3'>
+                        <Input
+                          className="shop-input-with-count" 
+                          showCount
+                          value={keywordSEO?.value || ''}
+                          placeholder={pageData.SEOInformation.keyword.placeholder}
+                          onChange={e=>{
+                            if(e.target.value !== ''){
+                              setKeywordSEO({
+                                id:e.target.value,
+                                value:e.target.value,
+                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              })
+                              setIsKewwordSEOChange(true)
+                            }
+                          }}
+                        />
+                        <ShopAddNewButton
+                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
+                          disabled={!isKeywordSEOChange}
+                          text={pageData.SEOInformation.keyword.btnAdd}
+                          className={'mx-4'}
+                          onClick={addSEOKeywords}
+                        />
+                      </div>
+                  </div>
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>
