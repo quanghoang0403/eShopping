@@ -11,15 +11,17 @@ import BlogCategoryDataService from "data-services/blog/blog-category-data.servi
 import { useHistory } from "react-router-dom";
 import TableBlog from "./blog-in-category.modal";
 import BlogDataService from "data-services/blog/blog-data.service";
+import { executeAfter, getAllPermissions } from "utils/helpers";
 
 export default function TableBlogCategory(){
     const [t] = useTranslation();
-    const permissions = useSelector((state) => state?.session?.permissions)
+    const permissions = getAllPermissions();
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
     const [dataSource,setDataSource] = useState([]);
     const [blogCategory,setBlogCategory] = useState(null)
     const [blogs,setBlogs] = useState([])
     const [isOpenModal,setIsOpenModal] = useState(false)
+    const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const history = useHistory()
     const fetchTableData = async(keySearch = '')=>{
         const data={
@@ -92,6 +94,13 @@ export default function TableBlogCategory(){
     }
     const onEditItem = (record)=>{
         history.push(`/blog-category/edit/${record?.id}`)
+    }
+    const tableConfigs = {
+        onSearch: async (keySearch) => {
+            executeAfter(500, async () => {
+              await fetchTableData(keySearch)
+            })
+        }
     }
     const getColumns = ()=>{
         const columns = [
@@ -181,6 +190,9 @@ export default function TableBlogCategory(){
         setBlogCategory(null)
         setIsOpenModal(false)
     }
+    const onSelectedRowKeysChange = (selectedRowKeys) => {
+        setSelectedRowKeys(selectedRowKeys)
+      }
     const onSubmitModal = async()=>{
         const updateModel={
             blogCategoryId:blogCategory?.id,
@@ -210,12 +222,16 @@ export default function TableBlogCategory(){
                             editPermission={PermissionKeys.ADMIN}
                             deletePermission={PermissionKeys.ADMIN}
                             dataSource={dataSource}
-                            // rowSelection={{
-                            //     type: 'checkbox',
-                            //     selectedRowKeys,
-                            //     onChange: onSelectedRowKeysChange,
-                            //     columnWidth: 40
-                            // }}
+                            rowSelection={{
+                                type: 'checkbox',
+                                selectedRowKeys,
+                                onChange: onSelectedRowKeysChange,
+                                columnWidth: 40
+                            }}
+                            search={{
+                                placeholder: pageData.table.searchPlaceholder,
+                                onChange: tableConfigs.onSearch
+                            }}
                         />
                         <TableBlog 
                             isOpen={isOpenModal}
