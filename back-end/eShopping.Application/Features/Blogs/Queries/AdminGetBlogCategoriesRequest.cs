@@ -59,7 +59,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             if (!string.IsNullOrEmpty(request.KeySearch))
             {
                 string keysearch = request.KeySearch.Trim().ToLower();
-                allBlogCategoriesResponse = allBlogCategoriesResponse.Where(bc => bc.Name == keysearch).ToList();
+                allBlogCategoriesResponse = allBlogCategoriesResponse.Where(bc => bc.Name.Contains(keysearch)).ToList();
             }
             allBlogCategoriesResponse.ForEach(b =>
             {
