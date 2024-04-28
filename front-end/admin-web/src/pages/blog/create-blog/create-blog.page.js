@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Input, Row, Tooltip, Typography, message } from 'antd'
+import { Button, Card, Col, Form, Input, Row, Tooltip, Typography, message, Divider, Space, InputNumber } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
@@ -13,13 +13,17 @@ import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon, IconBtnAdd, WarningIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
-// import blogDataService from 'data-services/blog/blog-data.service'
+import blogDataService from 'data-services/blog/blog-data.service'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { convertSeoUrl } from 'utils/helpers'
 import './create-blog.page.scss'
+import moment from 'moment'
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
+import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 const { Text } = Typography
 
 export default function CreateBlogPage() {
@@ -48,9 +52,12 @@ export default function CreateBlogPage() {
   const reduxState = useSelector((state) => state)
   const state = useSelector((state) => state)
   const userFullName = state?.session?.currentUser?.fullName
-  const createdTimeDefault = new Date().format(DateFormat.DD_MM_YYYY)
+  const createdTimeDefault = moment().format(DateFormat.DD_MM_YYYY)
   const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false)
   const [isShowWarningSEODescription, setIsShowWarningSEODescription] = useState(false)
+  const [keywordSEOs,setKeywordSEOList] = useState([]);
+  const [keywordSEO,setKeywordSEO] = useState({})
+  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
 
   useEffect(() => {
     getInitData()
@@ -58,11 +65,18 @@ export default function CreateBlogPage() {
 
   const [form] = Form.useForm()
   const pageData = {
+    priority: {
+      title: t('productCategory.titlePriority'),
+      placeholder: t('productCategory.placeholderPriority'),
+      validateMessage: t('productCategory.validatePriority'),
+      tooltip: t('productCategory.tooltipPriority')
+    },
     title: t('blog.pageTitle'),
     btnCancel: t('button.cancel'),
     btnSave: t('button.create'),
     btnAddNew: t('button.addNew'),
     btnDiscard: t('button.discard'),
+    fail:t('blog.blogCreateFail'),
     generalInformation: {
       title: t('common.generalInformation'),
       name: {
@@ -99,7 +113,13 @@ export default function CreateBlogPage() {
       SEOOverviewTooltip: t('form.SEOOverviewTooltip'),
       SEOTitleTooltip: t('form.SEOTitleTooltip'),
       SEODescriptionTooltip: t('form.SEODescriptionTooltip'),
-      SEOKeywordsTooltip: t('form.SEOKeywordsTooltip')
+      SEOKeywordsTooltip: t('form.SEOKeywordsTooltip'),
+      keyword: {
+        label: t('form.SEOKeywords'),
+        placeholder: t('form.SEOKeywordsPlaceholder'),
+        tooltip: t('form.SEOKeywordsTooltip'),
+        btnAdd:t('form.AddSEOKeywords')
+      },
     },
     media: {
       title: t('blog.media'),
@@ -125,7 +145,6 @@ export default function CreateBlogPage() {
 
   useEffect(() => {
     getInitData()
-    getBlogTags()
   }, [])
 
   // validate form again if clicked submit form and change language
@@ -135,17 +154,10 @@ export default function CreateBlogPage() {
   }
 
   const getCategories = async () => {
-    // const resCategory = await blogDataService.getBlogCategoryAsync()
-    // if (resCategory) {
-    //   setCategories(resCategory.blogCategories)
-    // }
-  }
-
-  const getBlogTags = async () => {
-    // const resBlogTag = await blogDataService.getBlogTagAsync()
-    // if (resBlogTag) {
-    //   setTagDataTemp(resBlogTag.blogTags)
-    // }
+    const resCategory = await BlogCategoryDataService.getAllBlogCategoryAsync()
+    if (resCategory) {
+      setCategories(resCategory.blogCategories)
+    }
   }
 
   const onSubmitForm = () => {
@@ -160,23 +172,36 @@ export default function CreateBlogPage() {
         const request = {
           ...values,
           content: blogContent,
-          bannerImageUrl: image?.url,
-          blogTags: tags,
-          SEOTitle,
-          SEODescription,
-          description: blogContent.replace(/<.*?>/gm, '').slice(0, 200)
+          thumbnail: image?.url,
+          description: blogContent.replace(/<.*?>/gm, '').slice(0, 200),
+          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
         }
-        // const res = await blogDataService.createBlogAsync(request)
-        // if (res?.isSuccess) {
-        //   message.success(pageData.createBlogSuccess)
-        //   onCompleted()
-        // } else {
-        //   message.error(pageData.fail)
-        // }
+        const res = await blogDataService.createBlogAsync(request)
+        if (res) {
+          message.success(pageData.createBlogSuccess)
+          onCompleted()
+        } else {
+          message.error(pageData.fail)
+        }
       })
-      .catch((errors) => { })
+      .catch((errors) => { 
+        if (errors?.errorFields?.length > 0) {
+          const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
+          scrollToElement(elementId)
+        }
+        message.error(errors)
+      })
   }
-
+  const scrollToElement = (id) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'start'
+      })
+    }
+  }
   const onChangeImage = (file) => {
     setImage(file)
   }
@@ -207,49 +232,20 @@ export default function CreateBlogPage() {
     setDisableCreateButton(false)
   }
 
-  const onAddNewCategory = async () => {
-    if (!newCategoryName) {
-      setShowCategoryNameValidateMessage(true)
-      setIsCategoryNameExisted(false)
-    }
-    // const res = await blogDataService.createBlogCategoryAsync({
-    //   name: newCategoryName
-    // })
-    // if (res.isSuccess) {
-    //   /// Handle add new unit
-    //   const newItem = {
-    //     id: res.id,
-    //     name: res.name
-    //   }
-    //   setCategories([newItem, ...categories])
-    //   form.setFieldsValue({
-    //     blogCategoryId: res.id
-    //   })
-    //   setNewCategoryName(null)
-    //   setIsCategoryNameExisted(false)
-    // } else {
-    //   setIsCategoryNameExisted(true)
-    // }
-  }
-
-  // Enter Category name and check existed
-  const onNameChange = (event) => {
-    if (categories.filter((u) => u.name.trim() === event.target.value.trim()).length > 0) {
-      setIsCategoryNameExisted(true)
-    } else {
-      setIsCategoryNameExisted(false)
-    }
-    setShowCategoryNameValidateMessage(false)
-    setNewCategoryName(event.target.value)
-  }
-
   const onChangeOption = (id) => {
     const formValue = form.getFieldsValue()
 
     formValue.blogCategoryId = id
     form.setFieldsValue(formValue)
   }
-
+  const addSEOKeywords = (e)=>{
+    e.preventDefault();
+    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id && keywordSEO.value!=='')?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({});
+  }
+  const removeSEOKeyword = (keyword)=>{
+    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  }
   return (
     <>
       <Row className="shop-row-page-header">
@@ -271,7 +267,7 @@ export default function CreateBlogPage() {
                     className="btn-add-product"
                     onClick={onSubmitForm}
                   >
-                    {pageData.btnSave}
+                    {pageData.btnAddNew}
                   </Button>
                 ),
                 permission: PermissionKeys.CREATE_BLOG
@@ -311,7 +307,7 @@ export default function CreateBlogPage() {
                       <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={'title'}
+                      name={'name'}
                       rules={[
                         {
                           required: pageData.generalInformation.name.required,
@@ -331,11 +327,41 @@ export default function CreateBlogPage() {
                       />
                     </Form.Item>
 
+                    <div className="d-flex">
+                      <h4 className="shop-form-label mt-16">
+                        {pageData.priority.title}
+                        <span className="text-danger">*</span>
+                      </h4>
+                      <Tooltip placement="topLeft" title={pageData.priority.tooltip}>
+                        <span className="ml-12 mt-16">
+                          <ExclamationIcon />
+                        </span>
+                      </Tooltip>
+                  </div>
+                  <Form.Item
+                    name={['priority']}
+                    rules={[
+                      {
+                        required: true,
+                        message: pageData.priority.validateMessage
+                      }
+                    ]}
+                  >
+                    <InputNumber
+                      placeholder={pageData.priority.placeholder}
+                      className="shop-input-number w-100"
+                      min={1}
+                      max={1000000}
+                      formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                    />
+                  </Form.Item>
+
                     <h4 className="shop-form-label">
                       {pageData.generalInformation.category.label} <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={'blogCategoryId'}
+                      name={'blogCategoryIds'}
                       rules={[
                         {
                           required: pageData.generalInformation.category.required,
@@ -343,58 +369,17 @@ export default function CreateBlogPage() {
                         }
                       ]}
                     >
-                      <FnbSelectSingle
+                      <FnbSelectMultiple
                         onChange={onChangeOption}
                         className="unit-selector"
                         placeholder={pageData.generalInformation.category.placeholder}
                         allowClear
                         noTranslateOptionName
-                        dropdownRender={(menu) => (
-                          <>
-                            <Row gutter={[16, 16]}>
-                              <Col xs={24} sm={24} md={24} lg={14}>
-                                <Input
-                                  className="shop-input unit-dropdown-input"
-                                  allowClear="true"
-                                  maxLength={100}
-                                  onChange={(e) => {
-                                    onNameChange(e)
-                                  }}
-                                  value={newCategoryName}
-                                  id="blogCategory-input"
-                                />
-                                <TextDanger
-                                  className="text-error-add-unit"
-                                  visible={showCategoryNameValidateMessage}
-                                  text={pageData.generalInformation.category.blogCategoryNameValidateMessage}
-                                />
-                                <TextDanger
-                                  className="text-error-add-unit"
-                                  visible={isCategoryNameExisted}
-                                  text={pageData.generalInformation.category.blogCategoryExisted}
-                                />
-                              </Col>
-                              <Col xs={24} sm={24} md={24} lg={10}>
-                                <ShopAddNewButton
-                                  onClick={() => onAddNewCategory()}
-                                  className="mt-16 ml-24 mw-0"
-                                  type="primary"
-                                  text={pageData.btnAddNew}
-                                ></ShopAddNewButton>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col span={24}>
-                                <div className={showCategoryNameValidateMessage ? 'mt-10' : 'mt-32'}>{menu}</div>
-                              </Col>
-                            </Row>
-                          </>
-                        )}
                         option={categories?.map((item) => ({
                           id: item.id,
                           name: item.name
                         }))}
-                      ></FnbSelectSingle>
+                      />
                     </Form.Item>
 
                     <h4 className="shop-form-label">
@@ -455,7 +440,7 @@ export default function CreateBlogPage() {
                       </span>
                       <br />
                       <span style={{ fontSize: '18px' }}>
-                        {`<meta name="keywords" property="keywords" content="${tags.length > 0 ? tags.map((x) => x.name).join(',') : 'SEO on Keywords'
+                        {`<meta name="keywords" property="keywords" content="${keywordSEOs.length > 0 ? keywordSEOs.map((x) => x.value).join(',') : 'SEO on Keywords'
                           }">`}
                       </span>
                     </div>
@@ -479,7 +464,7 @@ export default function CreateBlogPage() {
                         </span>
                       </Tooltip>
                     </h4>
-                    <Form.Item name={'SEOTitle'}>
+                    <Form.Item name={'titleSEO'}>
                       <Input
                         className="shop-input-with-count"
                         placeholder={pageData.SEO.SEOTitlePlaceholder}
@@ -523,7 +508,7 @@ export default function CreateBlogPage() {
                         </span>
                       </Tooltip>
                     </h4>
-                    <Form.Item name={'SEODescription'}>
+                    <Form.Item name={'descriptionSEO'}>
                       <Input
                         className="shop-input-with-count"
                         placeholder={pageData.SEO.SEODescriptionPlaceholder}
@@ -547,38 +532,47 @@ export default function CreateBlogPage() {
                       </div>
                     </Form.Item>
 
-                    <h4 className="shop-form-label">
-                      {pageData.SEO.SEOKeywords}
-                      <Tooltip
-                        placement="topLeft"
-                        title={() => {
-                          return (
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: pageData.SEO.SEOKeywordsTooltip
-                              }}
-                            ></span>
-                          )
-                        }}
-                        className=" material-edit-cost-per-unit-tool-tip"
-                      >
-                        <span>
-                          <ExclamationIcon />
-                        </span>
-                      </Tooltip>
-                    </h4>
-                    <Form.Item>
-                      <SelectBlogTagComponent
-                        tagDataTemp={tagDataTemp}
-                        tags={tags}
-                        setTags={setTags}
-                        setTagError={setTagError}
-                        setIsChangeForm={setIsChangeForm}
-                      />
-                      <span hidden={!tagError} className="customer-tag-error-message">
-                        {pageData.limitTagMessage}
-                      </span>
-                    </Form.Item>
+                      <div className='d-flex'>
+                        <h3 className="shop-form-label mt-16">
+                          {pageData.SEO.SEOKeywords}
+                        </h3>
+                        <Tooltip placement="topLeft" title={pageData.SEO.SEOKeywordsTooltip}>
+                          <span className="ml-12 mt-16">
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                      </div>
+                      <div>
+                      {
+                        keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                      }
+                      
+                      <div className='d-flex mt-3'>
+                          <Input
+                            className="shop-input-with-count" 
+                            showCount
+                            value={keywordSEO?.value || ''}
+                            placeholder={pageData.SEO.SEOKeywordsPlaceholder}
+                            onChange={e=>{
+                              if(e.target.value !== ''){
+                                setKeywordSEO({
+                                  id:e.target.value,
+                                  value:e.target.value,
+                                  colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                })
+                                setIsKewwordSEOChange(true)
+                              }
+                            }}
+                          />
+                          <ShopAddNewButton
+                            permission={PermissionKeys.CREATE_BLOG}
+                            disabled={!isKeywordSEOChange}
+                            text={pageData.SEO.keyword.btnAdd}
+                            className={'mx-4'}
+                            onClick={addSEOKeywords}
+                          />
+                        </div>
+                    </div>
                   </Col>
                 </Row>
               </Card>

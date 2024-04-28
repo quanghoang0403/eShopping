@@ -60,7 +60,8 @@
         "blogCategoryExisted": "Tên danh mục này đã tồn tại",
         "blogContent": "Nội dung bài viết",
         "blogContentPlaceholder": "Nhập nội dung bài viết...",
-        "blogContentValidateMessage": "Vui lòng viết nội dung cho bài viết"
+        "blogContentValidateMessage": "Vui lòng viết nội dung cho bài viết",
+        "blogCreateFail":"Tạo bài viết thất bại"
     },
     "blogCategory":{
         "title":"Quản lý danh mục bài viết",

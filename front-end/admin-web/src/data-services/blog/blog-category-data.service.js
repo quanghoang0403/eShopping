@@ -19,12 +19,16 @@ const editBlogCategoryAsync = data=>{
 const updateBlogListAsync = data =>{
     return http.put(`/${controller}/update-blog-list`,data)
 }
+const getAllBlogCategoryAsync = ()=>{
+    return http.get(`/${controller}/get-all-blog-category`)
+}
 const BlogCategoryDataService = {
     createBlogCategoryAsync,
     getBlogCategoriesAsync,
     deleteBlogCategoryAsync,
     getBlogCategoryByIdAsync,
     editBlogCategoryAsync,
-    updateBlogListAsync
+    updateBlogListAsync,
+    getAllBlogCategoryAsync
 } 
 export default BlogCategoryDataService
