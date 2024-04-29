@@ -178,9 +178,10 @@ export default function EditBlogCategory(){
     }
     const addSEOKeywords = (e)=>{
         e.preventDefault();
-        setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
-        setKeywordSEO({...keywordSEO,id:'',name:''});
-    }
+        setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
+        setKeywordSEO({id:'',value:''});
+        setIsKewwordSEOChange(false)
+      }
     const formatDeleteMessage = (text,name) => {
         const mess = t(text, { name })
         return mess
