@@ -174,7 +174,8 @@ export default function CreateBlogPage() {
           content: blogContent,
           thumbnail: image?.url,
           description: blogContent.replace(/<.*?>/gm, '').slice(0, 200),
-          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
+          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null,
+          author:userFullName || ''
         }
         const res = await blogDataService.createBlogAsync(request)
         if (res) {
