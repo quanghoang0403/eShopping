@@ -9,9 +9,13 @@ const getAllBlogsAsync = () =>{
 const getBlogManagementsAsync = (pageNumber, pageSize, keySearch)=>{
     return http.get(`/${controller}/get-blogs?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}`)
 }
+const deleteBlogByIdAsync = id=>{
+    return http.delete(`/${controller}/delete-blog-by-id/${id}`)
+}
 const BlogDataService = {
     createBlogAsync,
     getAllBlogsAsync,
-    getBlogManagementsAsync
+    getBlogManagementsAsync,
+    deleteBlogByIdAsync
 }
 export default BlogDataService
