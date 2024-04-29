@@ -13,6 +13,7 @@ namespace eShopping.Domain.Entities
         public int Priority { set; get; }
         public string Thumbnail { set; get; }
         public virtual IEnumerable<BlogInCategory> BlogInCategories { get; set; }
+        public string Author { get; set; }
 
     }
 }

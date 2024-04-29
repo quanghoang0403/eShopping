@@ -27,6 +27,7 @@ namespace eShopping.Application.Features.Blogs.Commands
 
         public string Description { get; set; }
         public string Thumbnail { get; set; }
+        public string Author { get; set; }
         public List<Guid> BlogCategoryIds { get; set; }
     }
     public class AdminCreateBlogRequestHandler : IRequestHandler<AdminCreateBlogRequest, bool>

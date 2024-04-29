@@ -33,6 +33,7 @@ namespace eShopping.Application.Features.Blogs.Commands
 
         public string Description { get; set; }
         public List<Guid> BlogCategoryId { get; set; }
+        public string Author { get; set; }
     }
     public class AdminUpdateBlogHandler : IRequestHandler<AdminUpdateBlogRequest, bool>
     {
