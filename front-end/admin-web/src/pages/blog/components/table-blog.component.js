@@ -5,13 +5,16 @@ import { FnbTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import { DateFormat } from 'constants/string.constants'
+import { DateFormat, guidIdEmptyValue } from 'constants/string.constants'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { formatDate, hasPermission } from 'utils/helpers'
 import '../blog.page.scss'
 import { FilterBlogPopover } from './filter-popover.component'
+import BlogDataService from 'data-services/blog/blog-data.service'
+import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
+import moment from 'moment'
 
 export const TableBlog = () => {
   const [t] = useTranslation()
@@ -22,7 +25,7 @@ export const TableBlog = () => {
     btnFilter: t('button.filter'),
 
     blogs: t('blog.blogs'),
-    category: t('table.category'),
+    category: t('table.productCategory'),
     creator: t('table.creator'),
     action: t('table.action'),
     no: t('table.no'),
@@ -48,21 +51,28 @@ export const TableBlog = () => {
   const [showPopover, setShowPopover] = useState(true)
   const [dataFilter, setDataFilter] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [blogCategories,setBlogCategories] = useState([])
 
   useEffect(() => {
     initDataTableBlogs(tableSettings.page, tableSettings.pageSize, keySearch)
   }, [])
 
   const initDataTableBlogs = (pageNumber, pageSize, keySearch) => {
-    /// get list blogs
-    // setIsLoading(true)
-    // blogDataService.getBlogManagementsAsync(pageNumber, pageSize, keySearch).then((res) => {
-    //   const blogs = mappingToDataTableBlogs(res.blogs)
-    //   setListBlog(blogs)
-    //   setTotalBlog(res.total)
-    //   setCurrentPageNumber(pageNumber)
-    //   setIsLoading(false)
-    // })
+    // get list blogs
+    setIsLoading(true)
+    BlogDataService.getBlogManagementsAsync(pageNumber, pageSize, keySearch).then((res) => {
+      const blogs = mappingToDataTableBlogs(res.blogs)
+      setListBlog(blogs)
+      setTotalBlog(res.total)
+      setCurrentPageNumber(pageNumber)
+      
+    })
+    BlogCategoryDataService.getAllBlogCategoryAsync().then(res=>{
+      if(res){
+        setBlogCategories(res?.blogCategories)
+      }
+    })
+    setIsLoading(false)
   }
 
   const onChangePage = (page, pageSize) => {
@@ -96,13 +106,13 @@ export const TableBlog = () => {
   }
 
   const onDeleteItem = async (blogId, blogName) => {
-    // const res = await blogDataService.deleteBlogByIdAsync(blogId)
-    // if (res) {
-    //   message.success(formatConfirmDeleteMessage(pageData.blogDeletedSuccess, blogName))
-    //   onChangePage(1, tableSettings.pageSize)
-    // } else {
-    //   message.error(formatConfirmDeleteMessage(pageData.blogDeletedFailed, blogName))
-    // }
+    const res = await BlogDataService.deleteBlogByIdAsync(blogId)
+    if (res) {
+      message.success(formatConfirmDeleteMessage(pageData.blogDeletedSuccess, blogName))
+      onChangePage(1, tableSettings.pageSize)
+    } else {
+      message.error(formatConfirmDeleteMessage(pageData.blogDeletedFailed, blogName))
+    }
   }
 
   const getColumns = () => {
@@ -117,7 +127,7 @@ export const TableBlog = () => {
       },
       {
         title: pageData.thumbnail,
-        dataIndex: 'bannerImageUrl',
+        dataIndex: 'thumbnail',
         width: '15%',
         render: (value) => {
           return (
@@ -125,7 +135,7 @@ export const TableBlog = () => {
               <Image
                 preview={false}
                 className="thumbnail"
-                width={160}
+                width={120}
                 height={110}
                 src={value ?? 'error'}
                 fallback={images.defaultImageBlog}
@@ -136,17 +146,17 @@ export const TableBlog = () => {
       },
       {
         title: pageData.title,
-        dataIndex: 'title',
+        dataIndex: 'name',
         width: '30%',
         render: (_, record) => {
           return (
             <div>
               <Tooltip
                 placement="top"
-                title={record.title.replace(/<.*?>/gm, '')}
+                title={record.name.replace(/<.*?>/gm, '')}
               >
                 <div className="titleBlog">
-                  <span>{record.title.replace(/<.*?>/gm, '')}</span>
+                  <span>{record.name.replace(/<.*?>/gm, '')}</span>
                 </div>
               </Tooltip>
               <div className="boxContent">
@@ -165,15 +175,15 @@ export const TableBlog = () => {
       },
       {
         title: pageData.category,
-        dataIndex: 'blogCategory',
+        dataIndex: 'blogCategoryId',
         width: '10%',
         render: (value) => {
-          return <div>{value === '' ? '-' : value}</div>
+          return <div>{value === guidIdEmptyValue ? '-' : blogCategories.find(b=>b.id === value)?.name}</div>
         }
       },
       {
         title: pageData.author,
-        dataIndex: 'creator',
+        dataIndex: 'author',
         width: '10%',
         render: (value) => {
           return <div>{value}</div>
@@ -186,8 +196,8 @@ export const TableBlog = () => {
         render: (_, record) => {
           return (
             <div className="lastSavedTime">
-              <span>{record.time}</span>
-              <span className="lastSavedTimeDate">{record.date}</span>
+              <span>{moment(record.lastSavedTime)?.format('HH:mm')}</span>
+              <span className="lastSavedTimeDate">{moment(record.lastSavedTime)?.format("DD-MM-YYYY")}</span>
             </div>
           )
         }
@@ -243,30 +253,42 @@ export const TableBlog = () => {
     if (!event?.defaultPrevented) {
       setShowPopover(true)
     }
-    // const dataFilter = await blogDataService.getBlogFilterAsync()
-    // setDataFilter(dataFilter)
+    const authors = []
+    const dataFilter = {
+      blogCategories:blogCategories.map(b=>{return {id:b.id,name:b.name}}),
+      blogAuthors:listBlog.map(b=>{
+        const author = {id:b.author,name:b.author}
+        if(!authors?.find(data=>data.id == author.id)){
+          authors.push(author)
+          return author
+        }
+        return null
+      }).filter(data=>data !== null)
+    }
+   
+    setDataFilter(dataFilter)
   }
 
   const searchKeyAndFilterBlogs = (pageNumber, pageSize, keySearch, filter) => {
-    // blogDataService
-    //   .getBlogManagementsAsync(pageNumber, pageSize, keySearch, filter?.categoryId || '', filter?.creatorId || '')
-    //   .then((res) => {
-    //     const blogs = mappingToDataTableBlogs(res.blogs)
-    //     setListBlog(blogs)
-    //     setTotalBlog(res.total)
-    //   })
+    BlogDataService
+      .getBlogManagementsAsync(pageNumber, pageSize, keySearch, filter?.categoryId || guidIdEmptyValue, filter?.creatorId || '')
+      .then((res) => {
+        const blogs = mappingToDataTableBlogs(res.blogs)
+        setListBlog(blogs)
+        setTotalBlog(res.total)
+      })
   }
 
   const handleFilterBlog = (data) => {
     setExportFilter(data)
-    // blogDataService
-    //   .getBlogManagementsAsync(tableSettings.page, tableSettings.pageSize, keySearch, data?.categoryId, data?.creatorId)
-    //   .then((res) => {
-    //     const blogs = mappingToDataTableBlogs(res.blogs)
-    //     setListBlog(blogs)
-    //     setTotalBlog(res.total)
-    //     setCountFilter(Object.values(data).filter((e) => e !== '').length)
-    //   })
+    BlogDataService
+      .getBlogManagementsAsync(tableSettings.page, tableSettings.pageSize, keySearch, data?.categoryId, data?.creatorId)
+      .then((res) => {
+        const blogs = mappingToDataTableBlogs(res.blogs)
+        setListBlog(blogs)
+        setTotalBlog(res.total)
+        setCountFilter(Object.values(data).filter((e) => e !== '').length)
+      })
   }
 
   const onClearFilter = (e) => {
@@ -275,7 +297,7 @@ export const TableBlog = () => {
   }
 
   const filterComponent = () => {
-    return showPopover && dataFilter && dataFilter.blogAuthors && dataFilter.blogCatetories
+    return showPopover && dataFilter
       ? (
         <FilterBlogPopover
           dataFilter={dataFilter}
@@ -284,7 +306,7 @@ export const TableBlog = () => {
           }}
         />
       )
-      : null
+      : "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
   }
 
   return (

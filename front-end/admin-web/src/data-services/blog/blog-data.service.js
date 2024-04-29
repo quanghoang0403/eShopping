@@ -1,3 +1,4 @@
+import { guidIdEmptyValue } from "constants/string.constants";
 import http from "utils/http-common";
 const controller = "blogs"
 const createBlogAsync = (data)=>{
@@ -6,8 +7,8 @@ const createBlogAsync = (data)=>{
 const getAllBlogsAsync = () =>{
     return http.get(`/${controller}/get-all-blogs`)
 }
-const getBlogManagementsAsync = (pageNumber, pageSize, keySearch)=>{
-    return http.get(`/${controller}/get-blogs?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}`)
+const getBlogManagementsAsync = (pageNumber, pageSize, keySearch, categoryId = guidIdEmptyValue, author='')=>{
+    return http.get(`/${controller}/get-blogs?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}&BlogCategoryId=${categoryId}&Author=${author}`)
 }
 const deleteBlogByIdAsync = id=>{
     return http.delete(`/${controller}/delete-blog-by-id/${id}`)
