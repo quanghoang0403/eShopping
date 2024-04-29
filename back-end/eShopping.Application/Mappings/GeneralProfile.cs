@@ -67,7 +67,9 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductPriceModel, ProductPrice>();
             CreateMap<Blog, AdminBlogModel>().ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime));
-            CreateMap<Blog, AdminBlogDetailModel>();
+            CreateMap<Blog, AdminBlogDetailModel>()
+                .ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime))
+                .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.CreatedTime));
             CreateMap<BlogCategory, AdminBlogCategoryModel>();
             CreateMap<AdminImageModel, Image>();
             CreateMap<BlogCategory, AdminBlogCategoryDetailModel>();
