@@ -1,5 +1,5 @@
 import { EllipsisOutlined } from '@ant-design/icons'
-import { Col, message, Popover, Row, Space, Tooltip } from 'antd'
+import { Checkbox, Col, message, Popover, Row, Space, Tooltip } from 'antd'
 import { BadgeStatus } from 'components/badge-status'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
 import { FnbTable } from 'components/shop-table/shop-table'
@@ -51,13 +51,15 @@ export default function TableProduct(props) {
     confirmDelete: t('dialog.confirmDelete'),
     productDeleteSuccess: t('product.productDeleteSuccess'),
     productDeleteFail: t('product.productDeleteFail'),
+    productEditSuccess:t('product.productEditedSuccess'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table.no'),
       name: t('table.name'),
       price: t('table.price'),
       status: t('table.status'),
-      action: t('table.action')
+      action: t('table.action'),
+      feature:t('table.feature')
     },
     notificationTitle: t('dialog.notificationTitle')
   }
@@ -70,7 +72,7 @@ export default function TableProduct(props) {
         key: 'name',
         className: 'grid-product-name-column',
         align: 'left',
-        width: '45%',
+        width: '35%',
         render: (value, record) => {
           return (
             <Row className="table-img-box">
@@ -93,7 +95,7 @@ export default function TableProduct(props) {
         key: 'price',
         align: 'left',
         className: 'grid-price-column',
-        width: '20%',
+        width: '25%',
         render: (value) => <div className="grid-price-column-text">{value}</div>
       },
       {
@@ -102,15 +104,26 @@ export default function TableProduct(props) {
         key: 'status',
         align: 'left',
         className: 'grid-status-column',
-        width: '10%',
+        width: '15%',
         render: (_, record) => {
           return <BadgeStatus isActive={record?.status} />
+        }
+      },
+      {
+        title:pageData.table.feature,
+        align:'center',
+        key:'isFeatured',
+        width:'15%',
+        dataIndex:'isFeatured',
+        render:(_,record)=>{
+          return <Checkbox checked={record?.isFeatured} onChange={(e)=>onChangeFeatureStatus(record?.id,e.target.checked)}/>
         }
       },
       {
         title: pageData.table.action,
         key: 'action',
         align: 'center',
+        width:'10%',
         render: (_, record) => {
           return (
             <div className="action-column action-column-center">
@@ -143,7 +156,21 @@ export default function TableProduct(props) {
       })
     }
   }
-
+  const onChangeFeatureStatus = async (id,status)=>{
+    const data = {
+      id:id,
+      isActivate:status
+    }
+    try{
+      const res = await productDataService.changeFeatureStatus(data)
+      if(res){
+        message.success(pageData.productEditSuccess)
+        await handleFilterProduct(dataFilter||{filter:true}, 1, tableSettings.pageSize, keySearch);
+      }
+    }catch(err){
+      message.error(err)
+    }
+  }
   const onDeleteItem = (productId, productName) => {
     // productDataService.getAllOrderNotCompletedByProductIdAsync(productId).then((res) => {
     //   if(res){
@@ -301,6 +328,7 @@ export default function TableProduct(props) {
       name: item?.name,
       thumbnail: item?.thumbnail,
       prices: item?.prices,
+      isFeatured:item?.isFeatured,
       price: (
         <>
           {item?.productPrices &&
