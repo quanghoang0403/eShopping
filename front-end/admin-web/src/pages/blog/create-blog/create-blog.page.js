@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { convertSeoUrl } from 'utils/helpers'
+import { convertSeoUrl, getValidationMessages } from 'utils/helpers'
 import './create-blog.page.scss'
 import moment from 'moment'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
@@ -181,16 +181,10 @@ export default function CreateBlogPage() {
         if (res) {
           message.success(pageData.createBlogSuccess)
           onCompleted()
-        } else {
-          message.error(pageData.fail)
         }
       })
       .catch((errors) => { 
-        if (errors?.errorFields?.length > 0) {
-          const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
-          scrollToElement(elementId)
-        }
-        message.error(errors)
+        form.setFields(getValidationMessages(errors));
       })
   }
   const scrollToElement = (id) => {
@@ -322,7 +316,7 @@ export default function CreateBlogPage() {
                         className="shop-input"
                         placeholder={pageData.generalInformation.name.placeholder}
                         maxLength={pageData.generalInformation.name.maxLength}
-                        id="product-name"
+                        id="blog-name"
                         onChange={(e) => setBlogName(e.target.value)}
                         allowClear
                         showCount

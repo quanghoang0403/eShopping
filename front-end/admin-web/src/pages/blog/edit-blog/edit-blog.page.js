@@ -21,7 +21,9 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import {
   convertSeoUrl,
-  formatNumber
+  formatNumber,
+  getValidationMessages,
+  getValidationMessagesWithParentField
 } from 'utils/helpers'
 import './edit-blog.page.scss'
 import BlogDataService from 'data-services/blog/blog-data.service'
@@ -228,12 +230,13 @@ export default function EditBlogPage (props) {
         if (res) {
           message.success(pageData.updateBlogSuccess)
           onCompleted()
-        } else {
-          message.error(res?.data?.message)
         }
       })
       .catch((errors) => { 
-        message.error(errors?.data?.message)
+       
+        form.setFields(getValidationMessages(errors));
+        message.error(element.message)
+        
       })
   }
   const scrollToElement = (id) => {

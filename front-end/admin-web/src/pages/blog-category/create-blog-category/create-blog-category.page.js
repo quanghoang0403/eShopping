@@ -14,6 +14,7 @@ import { DELAYED_TIME } from "constants/default.constants";
 import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
 import { useHistory } from "react-router";
 import BlogDataService from "data-services/blog/blog-data.service";
+import { getValidationMessages } from "utils/helpers";
 export default function CreateBlogCategory(){
     const [t] = useTranslation()
     const [form] = Form.useForm();
@@ -130,7 +131,7 @@ export default function CreateBlogCategory(){
         form.validateFields().then(async values=>{
             const blogCategoryModel = {
                 ...values,
-                blogs:values.blogs.reduce((acc,blogId)=>acc.concat({id:blogId,position:values.blogs.indexOf(blogId)}),[]),
+                blogs:values?.blogs?.reduce((acc,blogId)=>acc.concat({id:blogId,position:values.blogs.indexOf(blogId)}),[]) || [],
                 keywordSEO:values.keywordSEO?.join(',') || null
             }
             console.log(blogCategoryModel)
@@ -141,7 +142,8 @@ export default function CreateBlogCategory(){
             }
         })
         .catch((errors) => {
-            message.error(pageData.createFail)
+            form.setFields(getValidationMessages(errors));
+            console.error(errors)
         })
     }
     return(
@@ -203,7 +205,7 @@ export default function CreateBlogCategory(){
                                         <span className="text-danger mx-1">*</span>
                                     </h4>
                                     <Form.Item
-                                        name={'name'}
+                                        name={['name']}
                                         rules={[
                                             {
                                             required: pageData.generalInformation.name.required,
@@ -235,7 +237,7 @@ export default function CreateBlogCategory(){
                                     </div>
                                    
                                     <Form.Item
-                                        name={'priority'}
+                                        name={['priority']}
                                         rules={[
                                             {
                                             required: pageData.generalInformation.priority.required,
@@ -301,12 +303,6 @@ export default function CreateBlogCategory(){
                                 <Form.Item
                                 name={['titleSEO']}
                                 className="item-name"
-                                rules={[
-                                    {
-                                    min: pageData.SEOInformation.SEOtitle.minlength,
-                                    message: pageData.SEOInformation.SEOtitle.validateMessage
-                                    }
-                                ]}
                                 >
                                 <Input
                                     className="shop-input-with-count"
@@ -329,12 +325,6 @@ export default function CreateBlogCategory(){
                                 <Form.Item
                                 name={['descriptionSEO']}
                                 className="item-name"
-                                rules={[
-                                    {
-                                    min: pageData.SEOInformation.description.minlength,
-                                    message: pageData.SEOInformation.description.validateMessage
-                                    }
-                                ]}
                                 >
                                 <FnbTextArea
                                     showCount

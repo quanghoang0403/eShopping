@@ -5,6 +5,8 @@ using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +59,11 @@ namespace eShopping.Application.Features.Blogs.Commands
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             RequestValidation(request);
+            var existedBlogCategoryName = await _unitOfWork.BlogCategories.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
+            ThrowError.Against(existedBlogCategoryName != null, new JObject()
+            {
+                { $"{nameof(request.Name)}", "This blog category name name has already existed" },
+            });
             using var createTransaction = await _unitOfWork.BeginTransactionAsync();
             try
             {

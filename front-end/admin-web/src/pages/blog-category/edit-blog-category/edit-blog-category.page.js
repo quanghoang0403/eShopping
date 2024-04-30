@@ -14,7 +14,7 @@ import BlogDataService from "data-services/blog/blog-data.service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { executeAfter } from "utils/helpers";
+import { executeAfter, getValidationMessages } from "utils/helpers";
 
 export default function EditBlogCategory(){
     const [form] = Form.useForm()
@@ -129,6 +129,7 @@ export default function EditBlogCategory(){
         }
         catch(err){
             message.error(pageData.updateFail)
+            form.setFields(getValidationMessages(errors));
         }
     }
     const getInitData = ()=>{
