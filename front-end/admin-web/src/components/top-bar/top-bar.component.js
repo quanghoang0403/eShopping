@@ -8,6 +8,7 @@ import { store } from 'store'
 import { hasPermission } from 'utils/helpers'
 import './index.scss'
 import { useTranslation } from 'react-i18next'
+import { resetSession } from 'store/modules/session/session.actions'
 
 const { Header } = Layout
 const { SubMenu } = Menu

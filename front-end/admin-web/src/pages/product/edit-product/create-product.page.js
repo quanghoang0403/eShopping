@@ -61,8 +61,8 @@ export default function CreateProductPage() {
     quantitySold: 0,
     quantityLeft: 0,
     percentNumber: 0,
-    startDate:moment(),
-    endDate:null
+    startDate: moment(),
+    endDate: null
   }])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
@@ -71,8 +71,8 @@ export default function CreateProductPage() {
   const [discountChecked, isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
   const [productContent, setProductContent] = useState("");
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
   useEffect(() => {
     getInitData()
@@ -87,9 +87,9 @@ export default function CreateProductPage() {
     btnSave: t('button.save'),
     btnAddNew: t('button.add'),
     btnDiscard: t('button.discard'),
-    content:{
-      label:t('product.labelProductContent'),
-      placeholder:t('product.placeholderProductContent')
+    content: {
+      label: t('product.labelProductContent'),
+      placeholder: t('product.placeholderProductContent')
     },
     generalInformation: {
       title: t('product.titleInfo'),
@@ -113,7 +113,7 @@ export default function CreateProductPage() {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       },
       SEOtitle: {
         label: t('form.SEOTitle'),
@@ -185,23 +185,23 @@ export default function CreateProductPage() {
           placeholder: t('product.placeholderQuantityLeft')
         }
       },
-      priceDate:{
-        startDate:{
+      priceDate: {
+        startDate: {
           label:t('product.startDate'),
-          placeholder:t('t.product.placeholderStartDate'),
-          validateMessage:t('product.validateStartDate')
+          placeholder: t('t.product.placeholderStartDate'),
+          validateMessage: t('product.validateStartDate')
         },
-        endDate:{
+        endDate: {
           label:t('product.endDate'),
-          placeholder:t('product.placeholderEndDate'),
-          validateMessage:t('product.validateEndDate')
+          placeholder: t('product.placeholderEndDate'),
+          validateMessage: t('product.validateEndDate')
         }
       }
     },
     productCategory: {
       label: t('product.labelCategory'),
       placeholder: t('product.placeholderCategory'),
-      validateMessage:t('product.validateProductCategory')
+      validateMessage: t('product.validateProductCategory')
     },
     productNameExisted: t('product.productNameExisted'),
     productAddedSuccess: t('product.productAddedSuccess'),
@@ -234,9 +234,9 @@ export default function CreateProductPage() {
     }
   }
   // when discount checkbox is unchecked set price discount and percent number to 0
-  useEffect(()=>{
-    discountChecked.forEach((c,index)=>{
-      if(!c){
+  useEffect(() => {
+    discountChecked.forEach((c, index) => {
+      if (!c) {
         form.setFieldValue(['product', 'prices', index, 'priceDiscount'], 0);
         form.setFieldValue(['product', 'prices', index, 'percentNumber'], 0);
         setPrices(prevPrices => {
@@ -250,13 +250,13 @@ export default function CreateProductPage() {
         });
       }
     })
-  },[discountChecked])
+  }, [discountChecked])
   const disabledDate = (current) => {
     // Can not select days before today
     return current && current < moment().startOf("day");
   };
 
-  const disabledDateByStartDate = (current,price) => {
+  const disabledDateByStartDate = (current, price) => {
     // Can not select days before today and today
     return current && current < price.startDate;
   };
@@ -282,23 +282,23 @@ export default function CreateProductPage() {
           productPrices: values.product.prices,
           thumbnail: values.product.media.url,
           content: productContent,
-          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
+          keywordSEO: keywordSEOs.map(kw=>kw.value)?.join(',') || null
         }
         console.log(createProductRequestModel)
         productDataService
-            .createProductAsync(createProductRequestModel)
-            .then((res) => {
-              if (res) {
-                message.success(pageData.productAddedSuccess);
-                setIsChangeForm(false);
-                history.push("/product");
-              }
-            })
-            .catch((errs) => {
-              form.setFields(getValidationMessagesWithParentField(errs, "product"));
-              console.error(errs)
-            })
-        
+          .createProductAsync(createProductRequestModel)
+          .then((res) => {
+            if (res) {
+              message.success(pageData.productAddedSuccess);
+              setIsChangeForm(false);
+              history.push("/product");
+            }
+          })
+          .catch((errs) => {
+            form.setFields(getValidationMessagesWithParentField(errs, "product"));
+            console.error(errs)
+          })
+
       })
       .catch((errors) => {
         if (errors?.errorFields?.length > 0) {
@@ -415,7 +415,7 @@ export default function CreateProductPage() {
                     {prices.map((price, index) => {
                       const position = (price.position || 0) + 1
                       return (
-                        <Draggable key={price.id} draggableId={price.id} index={index}>
+                        <Draggable key={price.id} draggableId={position.toString()} index={index}>
                           {(provided) => (
                             <Row
                               className={'mb-4 pointer price-item'}
@@ -680,7 +680,7 @@ export default function CreateProductPage() {
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices",price.position,  "startDate"]}
+                                          name={['product', "prices", price.position, "startDate"]}
                                           rules={[
                                             {
                                               required: true,
@@ -695,16 +695,16 @@ export default function CreateProductPage() {
                                             // disabledDate={disabledDate}
                                             format={DateFormat.DD_MM_YYYY}
                                             disabledDate={disabledDate}
-                                            onChange={(date) => {                      
+                                            onChange={(date) => {
                                               price.startDate = date
                                               // Clear end date after select start date if endate < startdate only
                                               const formValues = form.getFieldsValue();
-                                              const {product} = formValues
+                                              const { product } = formValues
                                               product.prices[index].startDate = date
                                               if (product.prices[index]?.endDate != null && product.prices[index]?.endDate.isBefore(date)) {
                                                 product.prices[index].endDate = null
                                                 product.prices[index].endTime = null
-                                                
+
                                               }
                                               form.setFieldsValue(formValues);
                                               console.log(product)
@@ -714,19 +714,19 @@ export default function CreateProductPage() {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices",price.position, "endDate"]}
-                                          rules={[ ]}
+                                          name={['product', "prices", price.position, "endDate"]}
+                                          rules={[]}
                                         >
                                           <DatePicker
                                             suffixIcon={<CalendarNewIconBold />}
                                             placeholder={pageData.pricing.priceDate.endDate.placeholder}
                                             className="shop-date-picker w-100"
-                                            disabledDate={e=>disabledDateByStartDate(e,price)}
+                                            disabledDate={e => disabledDateByStartDate(e, price)}
                                             format={DateFormat.DD_MM_YYYY}
                                             disabled={price.startDate ? false : true}
                                             onChange={(date) => {
                                               const formValues = form.getFieldsValue();
-                                              const {product} = formValues
+                                              const { product } = formValues
                                               product.prices[index].endDate = date
                                               form.setFieldsValue(formValues)
                                             }}
@@ -800,7 +800,7 @@ export default function CreateProductPage() {
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
     setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
     setKeywordSEO({id:'',value:''});
@@ -857,7 +857,7 @@ export default function CreateProductPage() {
                 priceName: 'Default',
                 quantitySold: 0,
                 position: 0,
-                startDate:moment()
+                startDate: moment()
               }
             }
           }
@@ -1049,12 +1049,12 @@ export default function CreateProductPage() {
                     <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
-                          <Form.Item 
-                          name={['product', 'media']}
-                          rules={[{
-                            required:true,
-                            message:pageData.mediaNotExisted
-                          }]}
+                          <Form.Item
+                            name={['product', 'media']}
+                            rules={[{
+                              required: true,
+                              message: pageData.mediaNotExisted
+                            }]}
                           >
                             <FnbUploadImageComponent
                               buttonText={pageData.file.uploadImage}
@@ -1087,12 +1087,12 @@ export default function CreateProductPage() {
                   <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item 
-                    name={['product', 'productCategoryIds']}
-                    rules={[{
-                      required:true,
-                      message:pageData.productCategory.validateMessage
-                    }]}
+                    <Form.Item
+                      name={['product', 'productCategoryIds']}
+                      rules={[{
+                        required: true,
+                        message: pageData.productCategory.validateMessage
+                      }]}
                     >
                       <FnbSelectMultiple
                         placeholder={pageData.productCategory.placeholder}
