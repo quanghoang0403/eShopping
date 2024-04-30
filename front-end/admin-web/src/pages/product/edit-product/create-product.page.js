@@ -43,6 +43,7 @@ import { CalendarNewIconBold } from 'constants/icons.constants';
 import { DateFormat } from "constants/string.constants";
 import FnbFroalaEditor from "components/shop-froala-editor";
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 
 const { Text } = Typography
 
@@ -72,6 +73,7 @@ export default function CreateProductPage() {
   const [productContent, setProductContent] = useState("");
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -118,14 +120,15 @@ export default function CreateProductPage() {
         placeholder: t('form.SEOTitlePlaceholder'),
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
-        minlength: 50
+        minlength: 50,
+        maxLength:100
       },
       description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
         minlength: 150,
-        maxLength: 160,
+        maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -166,7 +169,7 @@ export default function CreateProductPage() {
         }
       },
       priceName: {
-        label: t('product:labelPriceName'),
+        label: t('product.labelPriceName'),
         placeholder: t('product.placeholderPriceName'),
         required: true,
         maxLength: 100,
@@ -184,10 +187,12 @@ export default function CreateProductPage() {
       },
       priceDate: {
         startDate: {
+          label:t('product.startDate'),
           placeholder: t('t.product.placeholderStartDate'),
           validateMessage: t('product.validateStartDate')
         },
         endDate: {
+          label:t('product.endDate'),
           placeholder: t('product.placeholderEndDate'),
           validateMessage: t('product.validateEndDate')
         }
@@ -277,7 +282,7 @@ export default function CreateProductPage() {
           productPrices: values.product.prices,
           thumbnail: values.product.media.url,
           content: productContent,
-          keywordSEO: values.product.keywordSEO?.join(',') || null
+          keywordSEO: keywordSEOs.map(kw=>kw.value)?.join(',') || null
         }
         console.log(createProductRequestModel)
         productDataService
@@ -424,6 +429,17 @@ export default function CreateProductPage() {
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[8, 16]}>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.priceName.label}</h3>
+                                      </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.quantity.remaining.label}</h3>
+                                      </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.quantity.sold.label}</h3>
+                                      </Col>
+                                    </Row>
+                                    <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'position']}
@@ -505,7 +521,19 @@ export default function CreateProductPage() {
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row className='mt-5' gutter={[8, 16]}>
+                                    <Row className='mt-3' gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceOriginal.label}
+                                        </h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.price.label}
+                                        </h3>
+                                      </Col>
+                                    </Row>
+                                    <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceOriginal']}
@@ -573,13 +601,21 @@ export default function CreateProductPage() {
                                         {pageData.pricing.discountCheck}
                                       </Checkbox>
                                     </Row>
-                                    <Row className={`mt-5 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`mt-4 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                            <h3>{pageData.pricing.discount.numeric.label}</h3>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={24} lg={12}>
+                                            <h3>{pageData.pricing.discount.percentage.label}</h3>
+                                        </Col>
+                                    </Row>
+                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceDiscount']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange0To100.range),
+                                              pattern: new RegExp(inputNumberRange1To999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             }
                                           ]}
@@ -628,6 +664,18 @@ export default function CreateProductPage() {
                                           />
                                         </Form.Item>
                                       </Col>
+                                    </Row>
+                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                          <h3>
+                                            {pageData.pricing.priceDate.startDate.label}
+                                          </h3>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                          <h3>
+                                            {pageData.pricing.priceDate.endDate.label}
+                                          </h3>
+                                        </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -754,8 +802,12 @@ export default function CreateProductPage() {
   }
   const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list => !list.find(kws => kws.id === keywordSEO.id) ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ ...keywordSEO, id: '', name: '' });
+    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({id:'',value:''});
+    setIsKewwordSEOChange(false)
+  }
+  const removeSEOKeyword = (keyword)=>{
+    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
   }
   return (
     <>
@@ -898,6 +950,7 @@ export default function CreateProductPage() {
                         showCount
                         placeholder={pageData.SEOInformation.SEOtitle.placeholder}
                         minLength={pageData.SEOInformation.SEOtitle.minlength}
+                        maxLength={pageData.SEOInformation.SEOtitle.maxLength}
                       />
                     </Form.Item>
 
@@ -941,38 +994,37 @@ export default function CreateProductPage() {
                       </Tooltip>
                     </div>
 
-                    <Form.Item
-                      name={['product', 'keywordSEO']}
-                      className="item-name"
-                    >
-                      <FnbSelectMultiple
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        option={keywordSEOs}
-                        dropdownRender={
-                          (menu) => (
-                            <>
-                              {menu}
-                              <Divider style={{ margin: '8px 0' }} />
-                              <Space style={{ padding: '0 8px 4px' }}>
-                                <Input
-                                  className="shop-input-non-shadow m-0 py-0"
-                                  placeholder={pageData.SEOInformation.keyword.placeholder}
-                                  value={keywordSEO.name || ''}
-                                  maxLength={3}
-                                  onChange={e => setKeywordSEO({ ...keywordSEO, id: e.target.value, name: e.target.value })}
-                                  onKeyDown={(e) => e.stopPropagation()}
-                                  showCount
-                                />
-                                <ShopAddNewButton
-                                  text={pageData.SEOInformation.keyword.btnAdd}
-                                  onClick={addSEOKeywords}
-                                ></ShopAddNewButton>
-                              </Space>
-                            </>
-                          )
-                        }
-                      />
-                    </Form.Item>
+                    <div>
+                    {
+                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                    }
+                    
+                    <div className='d-flex mt-3'>
+                        <Input
+                          className="shop-input-with-count" 
+                          showCount
+                          value={keywordSEO?.value || ''}
+                          placeholder={pageData.SEOInformation.keyword.placeholder}
+                          onChange={e=>{
+                            if(e.target.value !== ''){
+                              setKeywordSEO({
+                                id:e.target.value,
+                                value:e.target.value,
+                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              })
+                              setIsKewwordSEOChange(true)
+                            }
+                          }}
+                        />
+                        <ShopAddNewButton
+                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
+                          disabled={!isKeywordSEOChange}
+                          text={pageData.SEOInformation.keyword.btnAdd}
+                          className={'mx-4'}
+                          onClick={addSEOKeywords}
+                        />
+                      </div>
+                  </div>
                   </Col>
                 </Row>
               </Card>

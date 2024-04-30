@@ -454,6 +454,7 @@ export function EditStaff (props) {
   }
 
   function updateDateFields (event) {
+    setDisableSaveButton(false)
     const checkDate = moment(event.target.value, DateFormat.DD_MM_YYYY, true)
     if (checkDate.isValid() && checkDate <= moment()) {
       form.setFieldsValue({
@@ -561,13 +562,14 @@ export function EditStaff (props) {
                 <Form.Item
                   name={['staff', 'birthday']}
                   label={pageData.generalInformation.birthDay.label}
-                  onChange={(event) => updateDateFields(event)}
+                  
                 >
                   <DatePicker
                     className="w-100 shop-input"
                     format={DateFormat.DD_MM_YYYY}
                     placeholder={pageData.generalInformation.birthDay.placeholder}
                     disabledDate={disabledDate}
+                    onChange={(event) => updateDateFields(event)}
                   />
                 </Form.Item>
               </Col>

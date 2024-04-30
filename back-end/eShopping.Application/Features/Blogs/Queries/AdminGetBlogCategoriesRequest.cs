@@ -47,22 +47,20 @@ namespace eShopping.Application.Features.Blogs.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategory = _unitOfWork.BlogCategories.GetAll();
-            if (blogCategory != null)
-            {
-                if (!string.IsNullOrEmpty(request.KeySearch))
-                {
-                    string keysearch = request.KeySearch.Trim().ToLower();
-                    blogCategory = blogCategory.Where(bc => bc.Name == keysearch);
-                }
-            }
             var allBlogCategories = await blogCategory
                 .AsNoTracking()
                 .Include(b => b.BlogInCategories)
                 .ThenInclude(bl => bl.blog)
                 .OrderBy(b => b.CreatedTime)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);
+
             var pageResult = allBlogCategories.Result;
             var allBlogCategoriesResponse = _mapper.Map<List<AdminBlogCategoryModel>>(pageResult);
+            if (!string.IsNullOrEmpty(request.KeySearch))
+            {
+                string keysearch = request.KeySearch.Trim().ToLower();
+                allBlogCategoriesResponse = allBlogCategoriesResponse.Where(bc => bc.Name.Contains(keysearch)).ToList();
+            }
             allBlogCategoriesResponse.ForEach(b =>
             {
                 var blogInCategory = pageResult.Where(bic => b.Id == bic.Id).FirstOrDefault();

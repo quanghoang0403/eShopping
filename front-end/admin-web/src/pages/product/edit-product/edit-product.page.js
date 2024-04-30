@@ -50,6 +50,7 @@ import { useTranslation } from 'react-i18next'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import moment from 'moment';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 export default function EditProductPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
@@ -73,6 +74,7 @@ export default function EditProductPage(props) {
   const [productContent, setProductContent] = useState('')
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -189,10 +191,12 @@ export default function EditProductPage(props) {
       },
       priceDate: {
         startDate: {
+          label:t('product.startDate'),
           placeholder: t('t.product.placeholderStartDate'),
           validateMessage: t('product.validateStartDate')
         },
         endDate: {
+          label:t('product.endDate'),
           placeholder: t('product.placeholderEndDate'),
           validateMessage: t('product.validateEndDate')
         }
@@ -275,7 +279,7 @@ export default function EditProductPage(props) {
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
-      setKeywordSEOList(list => data?.product?.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, name: curr }), []) || [])
+      setKeywordSEOList(list => data?.product?.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,value:curr,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}),[]) || [])
       const initData = {
         product: {
           description: data?.product?.description,
@@ -285,7 +289,7 @@ export default function EditProductPage(props) {
           prices: pricesData,
           titleSEO: data?.product.titleSEO,
           descriptionSEO: data?.product?.descriptionSEO,
-          keywordSEO: data?.product?.keywordSEO?.split(',')
+         
         },
       };
 
@@ -313,7 +317,7 @@ export default function EditProductPage(props) {
           thumbnail: imageUrl,
           status: statusId,
           content: productContent,
-          keywordSEO: values.product.keywordSEO?.join(',') || null
+          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
         }
         console.log(editProductRequestModel)
         if (editProductRequestModel.thumbnail !== '') {
@@ -520,6 +524,17 @@ export default function EditProductPage(props) {
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[8, 16]}>
+                                        <Col span={8}>
+                                          <h3>{pageData.pricing.priceName.label}</h3>
+                                        </Col>
+                                        <Col span={8}>
+                                          <h3>{pageData.pricing.quantity.remaining.label}</h3>
+                                        </Col>
+                                        <Col span={8}>
+                                          <h3>{pageData.pricing.quantity.sold.label}</h3>
+                                        </Col>
+                                    </Row>
+                                    <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'position']}
@@ -599,7 +614,19 @@ export default function EditProductPage(props) {
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row className='mt-4' gutter={[8, 16]}>
+                                    <Row className='mt-3' gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceOriginal.label}
+                                        </h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.price.label}
+                                        </h3>
+                                      </Col>
+                                    </Row>
+                                    <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceOriginal']}
@@ -667,7 +694,15 @@ export default function EditProductPage(props) {
                                         {pageData.pricing.discountCheck}
                                       </Checkbox>
                                     </Row>
-                                    <Row className={`mt-4 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`mt-3 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                            <h3>{pageData.pricing.discount.numeric.label}</h3>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={24} lg={12}>
+                                            <h3>{pageData.pricing.discount.percentage.label}</h3>
+                                        </Col>
+                                    </Row>
+                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceDiscount']}
@@ -722,6 +757,18 @@ export default function EditProductPage(props) {
                                           />
                                         </Form.Item>
                                       </Col>
+                                    </Row>
+                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                          <h3>
+                                            {pageData.pricing.priceDate.startDate.label}
+                                          </h3>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={24} lg={8}>
+                                          <h3>
+                                            {pageData.pricing.priceDate.endDate.label}
+                                          </h3>
+                                        </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -853,10 +900,14 @@ export default function EditProductPage(props) {
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
-  const addSEOKeywords = (e) => {
+  const addSEOKeywords = (e)=>{
     e.preventDefault();
-    setKeywordSEOList(list => !list.find(kws => kws.id === keywordSEO.id) ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ ...keywordSEO, id: '', name: '' });
+    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({id:'',value:''});
+    setIsKewwordSEOChange(false)
+  }
+  const removeSEOKeyword = (keyword)=>{
+    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
   }
   return (
     <>
@@ -1057,38 +1108,37 @@ export default function EditProductPage(props) {
                         </span>
                       </Tooltip>
                     </div>
-                    <Form.Item
-                      name={['product', 'keywordSEO']}
-                      className="item-name"
-                    >
-                      <FnbSelectMultiple
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        option={keywordSEOs}
-                        dropdownRender={
-                          (menu) => (
-                            <>
-                              {menu}
-                              <Divider style={{ margin: '8px 0' }} />
-                              <Space style={{ padding: '0 8px 4px' }}>
-                                <Input
-                                  className="shop-input m-0 py-0"
-                                  placeholder={pageData.SEOInformation.keyword.placeholder}
-                                  value={keywordSEO.name || ''}
-                                  maxLength={3}
-                                  onChange={e => setKeywordSEO({ ...keywordSEO, id: e.target.value, name: e.target.value })}
-                                  onKeyDown={(e) => e.stopPropagation()}
-                                  showCount
-                                />
-                                <ShopAddNewButton
-                                  text={pageData.SEOInformation.keyword.btnAdd}
-                                  onClick={addSEOKeywords}
-                                ></ShopAddNewButton>
-                              </Space>
-                            </>
-                          )
-                        }
-                      />
-                    </Form.Item>
+                    <div>
+                    {
+                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                    }
+                    
+                    <div className='d-flex mt-3'>
+                        <Input
+                          className="shop-input-with-count" 
+                          showCount
+                          value={keywordSEO?.value || ''}
+                          placeholder={pageData.SEOInformation.keyword.placeholder}
+                          onChange={e=>{
+                            if(e.target.value !== ''){
+                              setKeywordSEO({
+                                id:e.target.value,
+                                value:e.target.value,
+                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              })
+                              setIsKewwordSEOChange(true)
+                            }
+                          }}
+                        />
+                        <ShopAddNewButton
+                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
+                          disabled={!isKeywordSEOChange}
+                          text={pageData.SEOInformation.keyword.btnAdd}
+                          className={'mx-4'}
+                          onClick={addSEOKeywords}
+                        />
+                      </div>
+                    </div>
                   </Col>
                 </Row>
               </Card>

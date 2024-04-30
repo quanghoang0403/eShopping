@@ -8,7 +8,8 @@ import { getStorage, localStorageKeys } from './localStorage.helpers'
 import { decryptWithAES } from './securityHelpers'
 import { PermissionKeys } from 'constants/permission-key.constants'
 export const browserHistory = createBrowserHistory()
-
+import i18n from "utils/i18n";
+const { t } = i18n;
 /// Format date
 export const formatDate = (date, format) => {
   if (format) {

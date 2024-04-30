@@ -11,10 +11,11 @@ import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useEffect, useState } from 'react'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
-import { getValidationMessages } from 'utils/helpers';
+import { getValidationMessages, randomGuid } from 'utils/helpers';
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import '../index.scss'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 
 export default function FormNewProductCategory(props) {
   const { t, onCompleted, productCategoryDataService, productDataService } = props
@@ -22,6 +23,7 @@ export default function FormNewProductCategory(props) {
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const [showConfirm, setShowConfirm] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
+  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
   const [form] = Form.useForm()
 
   const pageData = {
@@ -42,7 +44,7 @@ export default function FormNewProductCategory(props) {
     },
     product: {
       title: t('productCategory.titleProduct'),
-      placeholder: t('productCategory.placeholderProduct')
+      placeholder: t('productCategory.placeholderProduct'),
     },
     priority: {
       title: t('productCategory.titlePriority'),
@@ -56,7 +58,8 @@ export default function FormNewProductCategory(props) {
     },
     description: {
       title: t('productCategory.categoryDescription'),
-      placeholder: t('productCategory.placeholderCategoryDescription')
+      placeholder: t('productCategory.placeholderCategoryDescription'),
+      maxLength:250
     },
     SEOInformation: {
       title: t('form.SEOConfiguration'),
@@ -71,14 +74,15 @@ export default function FormNewProductCategory(props) {
         placeholder: t('form.SEOTitlePlaceholder'),
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
-        minlength: 50
+        minlength: 50,
+        maxLength:100
       },
       description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
         minlength: 150,
-        maxLength: 160,
+        maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
       },
     },
@@ -132,7 +136,6 @@ export default function FormNewProductCategory(props) {
   }
 
   const renderSelectProduct = () => {
-    console.log(products);
     return (
       <>
         <Col span={24}>
@@ -240,7 +243,7 @@ export default function FormNewProductCategory(props) {
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
-        keywordSEO: values.keywordSEO?.join(',') || null
+        keywordSEO: keywordSEOs.map(kw=>kw.value)?.join(',') || null
       }
       productCategoryDataService
         .createProductCategoryAsync(createProductCategoryRequestModel)
@@ -279,8 +282,12 @@ export default function FormNewProductCategory(props) {
   const [keywordSEO,setKeywordSEO] = useState({})
   const addSEOKeywords = (e)=>{
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kws=>kws.id === keywordSEO.id)?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({...keywordSEO,id:'',name:''});
+    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
+    setKeywordSEO({id:'',value:''});
+    setIsKewwordSEOChange(false)
+  }
+  const removeSEOKeyword = (keyword)=>{
+    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
   }
   return (
     <>
@@ -346,8 +353,10 @@ export default function FormNewProductCategory(props) {
                   </Form.Item>
                 </Col>
               </Row>
+
+              {/* content  */}
               <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={12} span={12}>
+              <Col xs={24} sm={24} md={24} lg={12} >
                   <div className="d-flex">
                     <h3 className="shop-form-label mt-16">
                       {pageData.priority.title}
@@ -378,10 +387,7 @@ export default function FormNewProductCategory(props) {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              {/* content  */}
-              <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={12} span={12}>
+                <Col xs={24} sm={24} md={24} lg={12} >
                   <div className="d-flex">
                     <h3 className="shop-form-label mt-16">
                       {pageData.content.title}
@@ -395,6 +401,7 @@ export default function FormNewProductCategory(props) {
                     />
                   </Form.Item>
                 </Col>
+                
               </Row>
               {/* description */}
               <Row gutter={[24, 24]}>
@@ -411,6 +418,7 @@ export default function FormNewProductCategory(props) {
                       autoSize={{ minRows: 2, maxRows: 6 }}
                       id="product-category-description"
                       placeholder={pageData.description.placeholder}
+                      maxLength={pageData.description.maxLength}
                     ></FnbTextArea>
                   </Form.Item>
                 </Col>
@@ -445,6 +453,7 @@ export default function FormNewProductCategory(props) {
                       showCount
                       placeholder={pageData.SEOInformation.SEOtitle.placeholder}
                       minLength={pageData.SEOInformation.SEOtitle.minlength}
+                      maxLength={pageData.SEOInformation.SEOtitle.maxLength}
                     />
                   </Form.Item>
                 </Col>
@@ -493,18 +502,38 @@ export default function FormNewProductCategory(props) {
                       </span>
                     </Tooltip>
                   </div>
-
-                  <Form.Item
-                    name={['keywordSEO']}
-                    className="item-name"
-                  >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      placeholder={pageData.SEOInformation.keyword.placeholder}
-
-                    />
-                  </Form.Item>
+                  <div>
+                    {
+                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                    }
+                    
+                    <div className='d-flex mt-3'>
+                        <Input
+                          className="shop-input-with-count" 
+                          showCount
+                          value={keywordSEO?.value || ''}
+                          placeholder={pageData.SEOInformation.keyword.placeholder}
+                          onChange={e=>{
+                            if(e.target.value !== ''){
+                              setKeywordSEO({
+                                id:randomGuid(),
+                                value:e.target.value,
+                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              })
+                              setIsKewwordSEOChange(true)
+                            }
+                          }}
+                        />
+                        <ShopAddNewButton
+                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
+                          disabled={!isKeywordSEOChange}
+                          text={pageData.SEOInformation.keyword.btnAdd}
+                          className={'mx-4'}
+                          onClick={addSEOKeywords}
+                        />
+                      </div>
+                  </div>
+                  
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>

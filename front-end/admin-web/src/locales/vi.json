@@ -60,7 +60,8 @@
         "blogCategoryExisted": "Tên danh mục này đã tồn tại",
         "blogContent": "Nội dung bài viết",
         "blogContentPlaceholder": "Nhập nội dung bài viết...",
-        "blogContentValidateMessage": "Vui lòng viết nội dung cho bài viết"
+        "blogContentValidateMessage": "Vui lòng viết nội dung cho bài viết",
+        "blogCreateFail":"Tạo bài viết thất bại"
     },
     "blogCategory":{
         "title":"Quản lý danh mục bài viết",
@@ -524,9 +525,11 @@
         "permissionFilterTitle": "Nhóm quyền",
         "permissionFilterAll": "Tất cả nhóm quyền",
         "permissionFilterPlaceholder": "Chọn nhóm quyền",
-        "creatorFilterTitle": "Danh mục",
+        "categoryFilterTitle": "Danh mục",
+        "creatorFilterTitle":"Tác giả",
         "creatorFilterAll": "Tất cả danh mục",
         "creatorFilterPlaceholder": "Chọn danh mục",
-        "resetAllFilters": "Đặt lại tất cả các bộ lọc"
+        "resetAllFilters": "Đặt lại tất cả các bộ lọc",
+        "author":"Tác giả"
     }
 }

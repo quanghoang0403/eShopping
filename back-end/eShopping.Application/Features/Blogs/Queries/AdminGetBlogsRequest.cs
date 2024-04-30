@@ -22,6 +22,7 @@ namespace eShopping.Application.Features.Blogs.Queries
         public string KeySearch { get; set; }
 
         public Guid? BlogCategoryId { get; set; }
+        public string? Author { get; set; }
 
         public EnumStatus Status { get; set; }
     }
@@ -53,7 +54,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             var blogs = _unitOfWork.Blogs.GetAll();
             if (blogs != null)
             {
-                if (request.BlogCategoryId != null)
+                if (request.BlogCategoryId != null && request.BlogCategoryId != Guid.Empty)
                 {
                     //filter blogs with request category id
                     var blogInCategoryIds = _unitOfWork.BlogInCategories.Find(b => b.categoryId == request.BlogCategoryId).Select(b => b.blogId);
@@ -65,6 +66,15 @@ namespace eShopping.Application.Features.Blogs.Queries
                     //filter blogs with request key search
                     string keySearch = request.KeySearch.Trim().ToLower();
                     blogs = blogs.Where(g => g.Name.ToLower().Contains(keySearch));
+                }
+                if (!string.IsNullOrEmpty(request.Author))
+                {
+                    var authors = request.Author.Split(',').Select(a => a.Trim().ToLower());
+
+                    // Filter blogs where any of the authors match
+                    blogs = blogs.Where(blog =>
+                        authors.Any(author => blog.Author.ToLower() == author)
+                    );
                 }
             }
             var allBlog = await blogs.

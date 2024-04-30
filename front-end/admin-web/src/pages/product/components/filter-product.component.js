@@ -43,9 +43,15 @@ export default function FilterProduct (props) {
   const onApplyFilter = () => {
     const formValue = form.getFieldsValue()
     formValue.count = countFilterControl(formValue)
+    const filterData = {
+      productCategoryId: formValue.productCategoryId,
+      count : formValue.count,
+      statusId: !formValue.statusId ? 0 : 1,
+      filter: formValue.statusId === '' || formValue.statusId === undefined  ? true : false
+    }
     setStorage(localStorageKeys.PRODUCT_FILTER, JSON.stringify(formValue))
-    props.fetchDataProducts(formValue, 1, pageSize, keySearch)
-    setDataFilter(formValue)
+    props.fetchDataProducts(filterData, 1, pageSize, keySearch)
+    setDataFilter(filterData)
     setResetFilter(!(formValue.count < 1))
   }
 
@@ -62,7 +68,7 @@ export default function FilterProduct (props) {
       onShowFilter(false)
     }
   }
-
+  
   return (
     <Form form={form} onFieldsChange={onApplyFilter} className="product-filter">
       <Card className="form-filter-popover">

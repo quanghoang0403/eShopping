@@ -12,5 +12,7 @@ namespace eShopping.Models.Blog
         public int Priority { get; set; }
         public string Description { get; set; }
         public string Thumbnail { get; set; }
+        public string Author { get; set; }
+        public DateTime? LastSavedTime { get; set; }
     }
 }

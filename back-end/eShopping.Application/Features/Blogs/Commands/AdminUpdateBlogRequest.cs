@@ -33,6 +33,8 @@ namespace eShopping.Application.Features.Blogs.Commands
 
         public string Description { get; set; }
         public List<Guid> BlogCategoryId { get; set; }
+        public string Author { get; set; }
+        public string Thumbnail { get; set; }
     }
     public class AdminUpdateBlogHandler : IRequestHandler<AdminUpdateBlogRequest, bool>
     {
@@ -56,7 +58,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             RequestValidation(request);
             var blog = await _unitOfWork.Blogs.Where(b => b.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(blog == null, "Cannot find specific blog");
-            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower()) && b.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
+            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower()) && b.Id != request.Id).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(existedBlogName != null, new JObject()
             {
                 { $"{nameof(request.Name)}", "This blog name has already existed" },
@@ -74,7 +76,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         }
         private static void RequestValidation(AdminUpdateBlogRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
+            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter blog name");
 
         }
     }

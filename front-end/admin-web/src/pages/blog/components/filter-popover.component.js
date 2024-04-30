@@ -7,7 +7,7 @@ import './filter-popover.scss'
 export const FilterBlogPopover = (props) => {
   const [t] = useTranslation()
   const { dataFilter, onChangeFilter } = props
-  const { blogCatetories, blogAuthors } = dataFilter
+  const { blogCategories, blogAuthors } = dataFilter
 
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
   const [selectedAuthorId, setSelectedAuthorId] = useState('')
@@ -51,7 +51,7 @@ export const FilterBlogPopover = (props) => {
             }}
             value={selectedCategoryId}
             defaultValue={defaultValue}
-            option={[{ id: '', name: pageData.filter.all }, ...blogCatetories]}
+            option={[{ id: '', name: pageData.filter.all }, ...blogCategories]}
           />
         </Col>
       </Row>
