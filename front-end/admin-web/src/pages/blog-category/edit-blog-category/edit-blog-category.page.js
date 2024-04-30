@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { executeAfter, getValidationMessages } from "utils/helpers";
-
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 export default function EditBlogCategory(){
     const [form] = Form.useForm()
     const match = useRouteMatch()
@@ -25,6 +25,7 @@ export default function EditBlogCategory(){
     const [confirmDeleteVisible,setConfirmDeleteVisible] = useState(false)
     const [keywordSEOs,setKeywordSEOList] = useState([]);
     const [keywordSEO,setKeywordSEO] = useState({})
+    const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
     const [blogs,setBlogs] = useState([])
     const [title,setTitle] = useState('')
     const history = useHistory()
@@ -113,7 +114,7 @@ export default function EditBlogCategory(){
             name: data.name,
             priority: data.priority,
             blogs: data.blogs?.map(b=>{return {id:b,position:data.blogs.indexOf(b)}}),
-            keywordSEO:data.keywordSEO?.join(',')||null,
+            keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null,
             titleSEO: data.titleSEO,
             descriptionSEO:data.descriptionSEO,
             description:data.description,
@@ -143,14 +144,13 @@ export default function EditBlogCategory(){
                         name: blogCategory.name,
                         priority: blogCategory.priority,
                         blogs: blogCategory.blogs?.map(b=>b.id),
-                        keywordSEO:blogCategory.keywordSEO?.split(',')||[],
                         titleSEO: blogCategory.titleSEO,
                         descriptionSEO:blogCategory.descriptionSEO,
                         description:blogCategory.description,
                         content:blogCategory.content
                     })
                     setTitle(blogCategory.name)
-                    setKeywordSEOList(blogCategory.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,name:curr}),[]) || [])
+                    setKeywordSEOList(blogCategory?.keywordSEO?.split(',').map(kw=>{return{id:kw,value:kw,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}})||[])
                 }
             }).catch(err=>{
                 message.error(err)
@@ -177,12 +177,17 @@ export default function EditBlogCategory(){
           history?.push('/blog-category')
         }, DELAYED_TIME)
     }
+
     const addSEOKeywords = (e)=>{
         e.preventDefault();
         setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
         setKeywordSEO({id:'',value:''});
         setIsKewwordSEOChange(false)
-      }
+    }
+
+    const removeSEOKeyword = (keyword)=>{
+        setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+    }
     const formatDeleteMessage = (text,name) => {
         const mess = t(text, { name })
         return mess
@@ -415,38 +420,37 @@ export default function EditBlogCategory(){
                                 </Tooltip>
                                 </div>
 
-                                <Form.Item
-                                name={['keywordSEO']}
-                                className="item-name"
-                                >
-                                <FnbSelectMultiple
-                                    placeholder={pageData.SEOInformation.keyword.placeholder}
-                                    option={keywordSEOs}
-                                    dropdownRender={
-                                    (menu) => (
-                                        <>
-                                        {menu}
-                                        <Divider style={{ margin: '8px 0' }} />
-                                        <Space style={{ padding: '0 8px 4px' }}>
-                                            <Input
-                                                className="shop-input-non-shadow m-0 py-0"
-                                                placeholder={pageData.SEOInformation.keyword.placeholder}
-                                                value={keywordSEO.name || ''}
-                                                maxLength={3}
-                                                onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
-                                                onKeyDown={(e) => e.stopPropagation()}
-                                                showCount
-                                            />
-                                            <ShopAddNewButton 
-                                            text={pageData.SEOInformation.keyword.btnAdd}
-                                            onClick={addSEOKeywords}
-                                            ></ShopAddNewButton>
-                                        </Space>
-                                        </>
-                                    )
+                               <div>
+                                    {
+                                        keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
                                     }
-                                />
-                                </Form.Item>
+                                    
+                                    <div className='d-flex mt-3'>
+                                        <Input
+                                            className="shop-input-with-count" 
+                                            showCount
+                                            value={keywordSEO?.value || ''}
+                                            placeholder={pageData.SEOInformation.keyword.placeholder}
+                                            onChange={e=>{
+                                            if(e.target.value !== ''){
+                                                setKeywordSEO({
+                                                id:e.target.value,
+                                                value:e.target.value,
+                                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                                })
+                                                setIsKewwordSEOChange(true)
+                                            }
+                                            }}
+                                        />
+                                        <ShopAddNewButton
+                                            permission={PermissionKeys.ADMIN}
+                                            disabled={!isKeywordSEOChange}
+                                            text={pageData.SEOInformation.keyword.btnAdd}
+                                            className={'mx-4'}
+                                            onClick={addSEOKeywords}
+                                        />
+                                    </div>
+                                </div>
                             </Col>
                             </Row>
                         </Card>

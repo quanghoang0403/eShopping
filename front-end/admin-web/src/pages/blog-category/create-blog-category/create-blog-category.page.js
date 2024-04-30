@@ -15,6 +15,7 @@ import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.com
 import { useHistory } from "react-router";
 import BlogDataService from "data-services/blog/blog-data.service";
 import { getValidationMessages } from "utils/helpers";
+import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 export default function CreateBlogCategory(){
     const [t] = useTranslation()
     const [form] = Form.useForm();
@@ -23,6 +24,7 @@ export default function CreateBlogCategory(){
     const [blockNavigation, setBlockNavigation] = useState(false)
     const [keywordSEOs,setKeywordSEOList] = useState([]);
     const [keywordSEO,setKeywordSEO] = useState({})
+    const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false);
     const [blogs,setBlogs] = useState([])
     const history = useHistory()
@@ -121,18 +123,13 @@ export default function CreateBlogCategory(){
         setIsChangeForm(true)
         setDisableCreateButton(false)
     }
-    const addSEOKeywords = (e)=>{
-        e.preventDefault();
-        setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-        setKeywordSEO({id:'',value:''});
-        setIsKewwordSEOChange(false)
-      }
+
     const onSubmitForm = ()=>{
         form.validateFields().then(async values=>{
             const blogCategoryModel = {
                 ...values,
                 blogs:values?.blogs?.reduce((acc,blogId)=>acc.concat({id:blogId,position:values.blogs.indexOf(blogId)}),[]) || [],
-                keywordSEO:values.keywordSEO?.join(',') || null
+                keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null,
             }
             console.log(blogCategoryModel)
             const res = await BlogCategoryDataService.createBlogCategoryAsync(blogCategoryModel)
@@ -142,9 +139,21 @@ export default function CreateBlogCategory(){
             }
         })
         .catch((errors) => {
-            form.setFields(getValidationMessages(errors));
             console.error(errors)
+            form.setFields(getValidationMessages(errors));
+            
         })
+    }
+
+    const addSEOKeywords = (e)=>{
+        e.preventDefault();
+        setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
+        setKeywordSEO({id:'',value:''});
+        setIsKewwordSEOChange(false)
+    }
+
+    const removeSEOKeyword = (keyword)=>{
+        setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
     }
     return(
         <>
@@ -346,38 +355,37 @@ export default function CreateBlogCategory(){
                                 </Tooltip>
                                 </div>
 
-                                <Form.Item
-                                name={['keywordSEO']}
-                                className="item-name"
-                                >
-                                <FnbSelectMultiple
-                                    placeholder={pageData.SEOInformation.keyword.placeholder}
-                                    option={keywordSEOs}
-                                    dropdownRender={
-                                    (menu) => (
-                                        <>
-                                        {menu}
-                                        <Divider style={{ margin: '8px 0' }} />
-                                        <Space style={{ padding: '0 8px 4px' }}>
-                                            <Input
-                                                className="shop-input-non-shadow m-0 py-0"
-                                                placeholder={pageData.SEOInformation.keyword.placeholder}
-                                                value={keywordSEO.name || ''}
-                                                maxLength={3}
-                                                onChange={e=>setKeywordSEO({...keywordSEO,id:e.target.value,name:e.target.value})}
-                                                onKeyDown={(e) => e.stopPropagation()}
-                                                showCount
-                                            />
-                                            <ShopAddNewButton 
-                                            text={pageData.SEOInformation.keyword.btnAdd}
-                                            onClick={addSEOKeywords}
-                                            ></ShopAddNewButton>
-                                        </Space>
-                                        </>
-                                    )
+                                <div>
+                                    {
+                                        keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
                                     }
-                                />
-                                </Form.Item>
+                                    
+                                    <div className='d-flex mt-3'>
+                                        <Input
+                                            className="shop-input-with-count" 
+                                            showCount
+                                            value={keywordSEO?.value || ''}
+                                            placeholder={pageData.SEOInformation.keyword.placeholder}
+                                            onChange={e=>{
+                                            if(e.target.value !== ''){
+                                                setKeywordSEO({
+                                                id:e.target.value,
+                                                value:e.target.value,
+                                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                                })
+                                                setIsKewwordSEOChange(true)
+                                            }
+                                            }}
+                                        />
+                                        <ShopAddNewButton
+                                            permission={PermissionKeys.ADMIN}
+                                            disabled={!isKeywordSEOChange}
+                                            text={pageData.SEOInformation.keyword.btnAdd}
+                                            className={'mx-4'}
+                                            onClick={addSEOKeywords}
+                                        />
+                                    </div>
+                                </div>
                             </Col>
                             </Row>
                         </Card>
