@@ -24,6 +24,7 @@ namespace eShopping.Application.Features.Products.Queries
         public Guid? ProductCategoryId { get; set; }
 
         public EnumStatus Status { get; set; }
+        public bool FilterAll { get; set; }
 
     }
 
@@ -74,8 +75,8 @@ namespace eShopping.Application.Features.Products.Queries
                     string keySearch = request.KeySearch.Trim().ToLower();
                     products = products.Where(g => g.Name.ToLower().Contains(keySearch));
                 }
-
-                products = products.Where(p => p.Status == request.Status);
+                if (!request.FilterAll)
+                    products = products.Where(p => p.Status == request.Status);
             }
 
             var allProductsInStore = await products

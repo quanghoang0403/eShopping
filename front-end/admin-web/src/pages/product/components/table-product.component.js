@@ -175,7 +175,6 @@ export default function TableProduct(props) {
     setIsModalVisible(false)
     setPreventDeleteProduct({})
   }
-
   const handleDeleteItem = async (productId) => {
     var res = await productDataService.deleteProductByIdAsync(productId);
     if (res) {
@@ -203,16 +202,17 @@ export default function TableProduct(props) {
       if (productFilter && productFilter.count > 0) {
         const data = {
           productCategoryId: productFilter.productCategoryId,
-          status: productFilter.statusId,
-          count: productFilter.count
+          status: !productFilter.statusId? 0 : 1,
+          count: productFilter.count,
+          filter: productFilter.statusId === '' ? true : false
         }
         setDataFilter(data)
         handleFilterProduct(data, currentPageNumber, tableSettings.pageSize, '')
       } else {
-        handleFilterProduct(null, currentPageNumber, tableSettings.pageSize, '')
+        handleFilterProduct({filter:true}, currentPageNumber, tableSettings.pageSize, '')
       }
     } else {
-      handleFilterProduct(null, currentPageNumber, tableSettings.pageSize, '')
+      handleFilterProduct({filter:true}, currentPageNumber, tableSettings.pageSize, '')
     }
   }, [])
 
@@ -356,6 +356,7 @@ export default function TableProduct(props) {
       keySearch,
       data?.productCategoryId ?? guidIdEmptyValue,
       data?.statusId ?? 0,
+      data?.filter
     );
 
     const products = response?.products.map((s) => mappingRecordToColumns(s));
@@ -377,8 +378,8 @@ export default function TableProduct(props) {
       setStorage(localStorageKeys.PRODUCT_FILTER, null)
       setCountFilter(0)
       setShowPopover(false)
-      handleFilterProduct(null, 1, tableSettings.pageSize, keySearch)
-      setDataFilter(null)
+      handleFilterProduct({filter:true}, 1, tableSettings.pageSize, keySearch)
+      setDataFilter({filter:true})
     }
   }
 
