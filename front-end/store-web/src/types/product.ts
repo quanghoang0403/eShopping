@@ -5,7 +5,9 @@ interface IProduct {
   thumbnail: string
   percentNumber?: number
   priceValue: number
-  priceDiscount?: number
+  priceDiscount?: number,
+  isFeatured:boolean,
+  isDiscounted:boolean
 }
 
 interface IProductDetail extends ISEO {

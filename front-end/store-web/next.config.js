@@ -6,6 +6,6 @@ module.exports = withFonts({
   transpilePackages: [],
   reactStrictMode: true,
   images: {
-    domains: ['img.vietqr.io'],
+    domains: ['img.vietqr.io','eshoppingblob.blob.core.windows.net'],
   },
 })

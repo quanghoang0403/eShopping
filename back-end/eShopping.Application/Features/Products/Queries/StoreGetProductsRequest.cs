@@ -58,7 +58,6 @@ namespace eShopping.Application.Features.Products.Queries
 
         public async Task<StoreGetProductsResponse> Handle(StoreGetProductsRequest request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var products = _unitOfWork.Products.GetAll();
 
             if (products != null)
@@ -116,6 +115,8 @@ namespace eShopping.Application.Features.Products.Queries
                     Name = product.Name,
                     Thumbnail = product.Thumbnail,
                     PriceValue = defaultPrice.PriceValue,
+                    IsFeatured = product.IsFeatured,
+                    IsDiscount = product.IsDiscounted,
                 };
                 if (defaultPrice.PriceDiscount > 0)
                 {
