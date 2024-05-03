@@ -5,15 +5,16 @@ interface IProduct {
   thumbnail: string
   percentNumber?: number
   priceValue: number
-  priceDiscount?: number,
-  isFeatured:boolean,
-  isDiscounted:boolean
+  priceDiscount?: number
+  isFeatured?: boolean
+  isDiscounted?: boolean
 }
 
 interface IProductDetail extends ISEO {
   code: number
   thumbnail: string
   isFeatured?: boolean
+  isDiscounted?: boolean
   gallery: string[]
   productCategory: IProductCategory
   productPrices: IProductPrice[]

@@ -5,15 +5,18 @@ export const localStorageKeys = {
 }
 
 export const getStorage = (key: string) => {
-  return localStorage.getItem(key)
+  if (typeof window !== 'undefined') return localStorage.getItem(key)
+  else return ''
 }
 
 export const setStorage = (key: string, value: string) => {
-  localStorage.setItem(key, value)
+  if (typeof window !== 'undefined') localStorage.setItem(key, value)
 }
 
 export const resetStorage = () => {
-  localStorage.removeItem(localStorageKeys.PRODUCT_FILTER)
-  localStorage.removeItem(localStorageKeys.TOKEN)
-  localStorage.removeItem(localStorageKeys.REFRESH_TOKEN)
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(localStorageKeys.PRODUCT_FILTER)
+    localStorage.removeItem(localStorageKeys.TOKEN)
+    localStorage.removeItem(localStorageKeys.REFRESH_TOKEN)
+  }
 }

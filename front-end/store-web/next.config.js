@@ -6,6 +6,17 @@ module.exports = withFonts({
   transpilePackages: [],
   reactStrictMode: true,
   images: {
-    domains: ['img.vietqr.io','eshoppingblob.blob.core.windows.net'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'img.vietqr.io',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'eshoppingblob.blob.core.windows.net',
+        pathname: '**',
+      },
+    ],
   },
 })

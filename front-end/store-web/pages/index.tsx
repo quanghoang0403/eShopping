@@ -8,8 +8,51 @@ import Image from 'next/image'
 import { GetServerSideProps } from 'next'
 import ProductService from '@/services/product.service'
 import { guidIdEmptyValue } from '@/utils/string.helper'
+import { PageSizeConstants } from '@/constants/default.constants'
 
-export default function HomePage({productHighlight,promoProduct}:IProps) {
+interface IProps {
+  discountedProduct: IProduct[]
+  featuredProduct: IProduct[]
+}
+
+export const getServerSideProps: GetServerSideProps<IProps> = async () => {
+  try {
+    const discountedRequest: IGetProductsRequest = {
+      isDiscounted: true,
+      //productCategoryId: guidIdEmptyValue,
+      keySearch: '',
+      pageNumber: 0,
+      pageSize: PageSizeConstants.Default,
+      sortType: 0,
+    }
+    const discountedRes = await ProductService.getProducts(discountedRequest)
+    const discountedProduct: IProduct[] = discountedRes?.data?.products
+
+    const featuredRequest: IGetProductsRequest = {
+      isDiscounted: true,
+      //productCategoryId: guidIdEmptyValue,
+      keySearch: '',
+      pageNumber: 0,
+      pageSize: PageSizeConstants.Default,
+      sortType: 0,
+    }
+    const featuredRes = await ProductService.getProducts(featuredRequest)
+    const featuredProduct: IProduct[] = featuredRes?.data?.products
+    return {
+      props: {
+        discountedProduct: discountedProduct,
+        featuredProduct: featuredProduct,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
+    return {
+      notFound: true,
+    }
+  }
+}
+
+export default function HomePage({ discountedProduct, featuredProduct }: IProps) {
   const { t } = useTranslation()
   const images: string[] = ['/imgs/sliders/3.jpeg', '/imgs/sliders/2.jpeg', '/imgs/sliders/1.jpeg']
   // const promoProduct: IProduct[] = [
@@ -80,38 +123,9 @@ export default function HomePage({productHighlight,promoProduct}:IProps) {
     <>
       <SEO title={t('home.test')} description="Describe the home page" />
       <Banner images={images} />
-      <ProductList title="Sản phẩm mới về" products={productHighlight} />
+      <ProductList title="Sản phẩm nổi bật" products={featuredProduct} />
       <Image src="/imgs/cuchoami/3.jpg" width={1024} height={209} className="container w-full mx-auto" alt="" />
-      <ProductList title="Sản phẩm kẻ sọc thời trang" products={promoProduct} />
+      <ProductList title="Sản phẩm khuyến mãi" products={discountedProduct} />
     </>
   )
-}
-interface IProps{
-  productHighlight: IProduct[],
-  promoProduct: IProduct[]
-}
-export const getServerSideProps : GetServerSideProps<IProps> = async()=>{
-
-  try{
-    const dataRequest : IGetProductsRequest = {
-      productCategoryId:guidIdEmptyValue,
-      keySearch:'',
-      pageNumber:0,
-      pageSize:12,
-      sortType:0
-    }
-    const res = await ProductService.getProducts(dataRequest)
-    const productData :IProduct[] = res?.data?.products
-    return{
-      props:{
-        productHighlight: productData.filter(p=>p.isFeatured),
-        promoProduct:productData.filter(p=>p.isDiscounted)
-      }
-    }
-  }catch(error){
-    console.error('Error fetching product:', error)
-    return {
-      notFound: true,
-    }
-  }
 }
