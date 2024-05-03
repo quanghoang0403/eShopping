@@ -19,18 +19,20 @@ export const getServerSideProps: GetServerSideProps<IProps> = async () => {
   try {
     const discountedRequest: IGetProductsRequest = {
       isDiscounted: true,
-      //productCategoryId: guidIdEmptyValue,
+      productCategoryId: guidIdEmptyValue,
       keySearch: '',
       pageNumber: 0,
       pageSize: PageSizeConstants.Default,
       sortType: 0,
+      isFeatured:false
     }
     const discountedRes = await ProductService.getProducts(discountedRequest)
     const discountedProduct: IProduct[] = discountedRes?.data?.products
 
     const featuredRequest: IGetProductsRequest = {
       isDiscounted: true,
-      //productCategoryId: guidIdEmptyValue,
+      isFeatured:false,
+      productCategoryId: guidIdEmptyValue,
       keySearch: '',
       pageNumber: 0,
       pageSize: PageSizeConstants.Default,

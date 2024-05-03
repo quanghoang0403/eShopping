@@ -62,7 +62,7 @@ namespace eShopping.Application.Features.Products.Queries
 
             if (products != null)
             {
-                if (request.ProductCategoryId != null)
+                if (request.ProductCategoryId != null && request.ProductCategoryId != Guid.Empty)
                 {
                     /// Find Products by Product categoryId
                     var productIdsInProductCategory = _unitOfWork.ProductInCategories
