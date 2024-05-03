@@ -49,18 +49,10 @@ const orderList: IOrder[] = [
     orderItems: [{ quantity: 2, priceName: 'Áo kẻ sọc đen', thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg' }],
   },
 ]
-interface IProps {
-  user: IUser
-}
 
-export const getServerSideProps: GetServerSideProps<IProps> = authMiddleware(async (context) => {
-  const user = context.user
-  return {
-    props: { user },
-  }
-})
+// export const getServerSideProps: GetServerSideProps<IProps> = authMiddleware(async (context) => {})
 
-export default function MyAccountPage({ user }: IProps) {
+export default function MyAccountPage() {
   const {
     handleSubmit: handleSubmitUpdateProfile,
     register: registerUpdateProfile,

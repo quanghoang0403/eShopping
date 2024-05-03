@@ -4,15 +4,6 @@ enum EnumGender {
   Other = 3,
 }
 
-interface IUser {
-  userId?: string
-  accountId?: string
-  fullName?: string
-  email?: string
-  accountType?: string
-  thumbnail?: string
-}
-
 interface ICustomer {
   id: string
   accountId: string
