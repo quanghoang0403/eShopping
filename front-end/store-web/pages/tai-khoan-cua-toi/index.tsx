@@ -15,6 +15,8 @@ import WhiteCard from '@/components/Common/WhiteCard'
 import Link from 'next/link'
 import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
+import authMiddleware from '@/middlewares/authMiddleware'
+import { GetServerSideProps } from 'next'
 
 const orderList: IOrder[] = [
   {
@@ -47,8 +49,18 @@ const orderList: IOrder[] = [
     orderItems: [{ quantity: 2, priceName: 'Áo kẻ sọc đen', thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg' }],
   },
 ]
+interface IProps {
+  user: IUser
+}
 
-export default function MyAccountPage() {
+export const getServerSideProps: GetServerSideProps<IProps> = authMiddleware(async (context) => {
+  const user = context.user
+  return {
+    props: { user },
+  }
+})
+
+export default function MyAccountPage({ user }: IProps) {
   const {
     handleSubmit: handleSubmitUpdateProfile,
     register: registerUpdateProfile,

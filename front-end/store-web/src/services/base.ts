@@ -2,30 +2,30 @@ import axios from 'axios'
 import qs from 'qs'
 import cookie from 'js-cookie'
 import { tokenExpired } from '@/utils/common.helper'
-import { getStorage, localStorageKeys, resetStorage, setStorage } from '@/utils/localStorage.helper'
+import { getCookie, localStorageKeys, resetSession, setCookie } from '@/utils/localStorage.helper'
 
 const _redirectToLoginPage = () => {
   window.location.href = '/login'
 }
 
 const refreshToken = async () => {
-  const token = getStorage(localStorageKeys.TOKEN)
-  const refreshToken = getStorage(localStorageKeys.REFRESH_TOKEN)
+  const token = getCookie(localStorageKeys.TOKEN)
+  const refreshToken = getCookie(localStorageKeys.REFRESH_TOKEN)
   if (refreshToken && token) {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/authenticate/refresh-token`, { token, refreshToken })
       if (response.data) {
-        setStorage(localStorageKeys.TOKEN, response.data.token)
-        setStorage(localStorageKeys.REFRESH_TOKEN, response.data.refreshToken)
+        setCookie(localStorageKeys.TOKEN, response.data.token)
+        setCookie(localStorageKeys.REFRESH_TOKEN, response.data.refreshToken)
       } else {
-        resetStorage()
+        resetSession()
       }
     } catch (error) {
-      resetStorage()
+      resetSession()
       console.error(error)
     }
   } else {
-    resetStorage()
+    resetSession()
   }
 }
 
@@ -33,12 +33,12 @@ const _configRequest = async (request: any) => {
   if (!request.params) {
     request.params = {}
   }
-  let token = getStorage(localStorageKeys.TOKEN)
+  let token = getCookie(localStorageKeys.TOKEN)
   if (token) {
     const expired = tokenExpired(token)
     if (expired === true) {
       await refreshToken()
-      token = getStorage(localStorageKeys.TOKEN)
+      token = getCookie(localStorageKeys.TOKEN)
     }
     request.headers.Authorization = `Bearer ${token}`
   } else {

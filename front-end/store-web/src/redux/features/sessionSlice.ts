@@ -1,5 +1,5 @@
 import { notifyInfo, notifySuccess } from '@/components/Common/Notification'
-import { localStorageKeys, resetStorage, setStorage } from '@/utils/localStorage.helper'
+import { localStorageKeys, resetSession, setCookie } from '@/utils/localStorage.helper'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import cookie from 'js-cookie'
 
@@ -26,14 +26,14 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     signInSuccess(state, action: PayloadAction<ISignInResponse>) {
-      setStorage(localStorageKeys.TOKEN, action.payload.token)
-      setStorage(localStorageKeys.REFRESH_TOKEN, action.payload.refreshToken)
+      setCookie(localStorageKeys.TOKEN, action.payload.token)
+      setCookie(localStorageKeys.REFRESH_TOKEN, action.payload.refreshToken)
       state.isLoggedIn = true
       state.customerId = action.payload.customerId
       state.accountId = action.payload.accountId
     },
     logout(state) {
-      resetStorage()
+      resetSession()
       state.cartItems = []
       state.totalQuantity = 0
       state.totalPrice = 0

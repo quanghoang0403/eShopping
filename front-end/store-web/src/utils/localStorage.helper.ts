@@ -1,19 +1,27 @@
+import cookie from 'js-cookie'
+
 export const localStorageKeys = {
   TOKEN: 'TOKEN',
   REFRESH_TOKEN: 'REFRESH_TOKEN',
   PRODUCT_FILTER: 'PRODUCT_FILTER',
 }
 
-export const getStorage = (key: string) => {
-  return localStorage.getItem(key)
+export const getCookie = (key: string) => {
+  if (typeof window !== 'undefined') cookie.get(key)
+  else return ''
 }
 
-export const setStorage = (key: string, value: string) => {
-  localStorage.setItem(key, value)
+export const setCookie = (key: string, value: string) => {
+  if (typeof window !== 'undefined') cookie.set(key, value)
 }
 
-export const resetStorage = () => {
-  localStorage.removeItem(localStorageKeys.PRODUCT_FILTER)
-  localStorage.removeItem(localStorageKeys.TOKEN)
-  localStorage.removeItem(localStorageKeys.REFRESH_TOKEN)
+export const removeCookie = (key: string) => {
+  if (typeof window !== 'undefined') cookie.remove(key)
+}
+
+export const resetSession = () => {
+  if (typeof window !== 'undefined') {
+    removeCookie(localStorageKeys.TOKEN)
+    removeCookie(localStorageKeys.REFRESH_TOKEN)
+  }
 }
