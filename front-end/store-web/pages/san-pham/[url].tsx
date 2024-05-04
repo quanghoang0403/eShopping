@@ -140,7 +140,7 @@ export default function ProductPage({ productDetail }: IProps) {
               <div className="flex">
                 <p className="title-font font-medium text-2xl text-gray-800 ">
                   <span className={activePrice.priceDiscount ? 'line-through pr-3' : ''}>{formatCurrency(activePrice.priceValue)}</span>
-                  {activePrice.priceDiscount && <span className="text-red-500">{formatCurrency(activePrice.priceDiscount)}</span>}
+                  {activePrice.priceDiscount? <span className="text-red-500">{formatCurrency(activePrice.priceDiscount)}</span>:''}
                 </p>
               </div>
               <button
