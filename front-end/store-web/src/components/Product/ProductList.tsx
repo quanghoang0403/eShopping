@@ -45,7 +45,7 @@ export default function ProductList(props: IProps) {
           products.map((product, index) => {
             return (
               <div key={index} className="w-1/2 p-1 md:w-1/3 xl:w-1/4 md:p-6 flex flex-col relative">
-                <Link href="/san-pham/1">
+                <Link href={`/san-pham/${product.urlSEO}`}>
                   <Image
                     className="hover:grow hover:shadow-lg aspect-square object-cover"
                     src={product.thumbnail}
