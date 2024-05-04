@@ -30,8 +30,8 @@ export const getServerSideProps: GetServerSideProps<IProps> = async () => {
     const discountedProduct: IProduct[] = discountedRes?.data?.products
 
     const featuredRequest: IGetProductsRequest = {
-      isDiscounted: true,
-      isFeatured:false,
+      isDiscounted: false,
+      isFeatured:true,
       productCategoryId: guidIdEmptyValue,
       keySearch: '',
       pageNumber: 0,
