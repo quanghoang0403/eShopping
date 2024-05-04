@@ -94,7 +94,14 @@ namespace eShopping.Application.Features.Products.Queries
                 .Include(p => p.ProductInCategories)
                 .ProjectTo<StoreProductDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
+            var productIncategory = await _unitOfWork.ProductInCategories.Where(p => p.ProductId == productData.Id).Include(p => p.ProductCategory).FirstOrDefaultAsync();
+            productData.ProductCategory = new StoreProductCategoryModel
+            {
+                Id = productIncategory.ProductCategory.Id,
+                Name = productIncategory.ProductCategory.Name,
+                UrlSEO = productIncategory.ProductCategory.UrlSEO,
+                IsShowOnHome = productIncategory.ProductCategory.IsShowOnHome
+            };
             ThrowError.Against(productData == null, "Cannot find product detail information");
             var images = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
             //var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(productData.Id).FirstOrDefaultAsync();

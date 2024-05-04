@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, GetStaticProps } from 'next'
@@ -10,9 +10,11 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import { notifyError } from '@/components/Common/Notification'
 import ProductService from '@/services/product.service'
+import { PageSizeConstants } from '@/constants/default.constants'
 
 interface IProps {
-  productDetail: IProductDetail
+  productDetail: IProductDetail,
+  productHighLight:IProduct[]
 }
 
 export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
@@ -22,8 +24,22 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   try {
     const res = await ProductService.getProductByUrl(slug as string)
     const productDetail = res?.data as IProductDetail
+    const productHighlightRequestModel : IGetProductsRequest ={
+      pageNumber:0,
+      pageSize:PageSizeConstants.Default,
+      keySearch:'',
+      productCategoryId : productDetail?.productCategory?.id as string,
+      sortType:0,
+      isFeatured:false,
+      isDiscounted:false
+    } 
+    const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
+    const productHighlight : IProduct[] = productHighlightRequest?.data?.products
     return {
-      props: { productDetail },
+      props: { 
+        productDetail:productDetail,
+        productHighLight:productHighlight
+       },
     }
   } catch (error) {
     console.error('Error fetching product:', error)
@@ -33,8 +49,8 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   }
 }
 
-export default function ProductPage({ productDetail }: IProps) {
-  const productHighlight: IProduct[] = [
+export default function ProductPage({ productDetail,productHighLight }: IProps) {
+  // const productHighlight: IProduct[] = [
     // {
     //   id: '1',
     //   code: 1,
@@ -72,7 +88,7 @@ export default function ProductPage({ productDetail }: IProps) {
     //   priceDiscount: 120000,
     //   priceValue: 120000,
     // },
-  ]
+  // ]
   const gallery: string[] = [
     '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
     '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
@@ -89,7 +105,9 @@ export default function ProductPage({ productDetail }: IProps) {
   ]
   const [activePrice, setActivePrice] = useState<IProductPrice>(productDetail?.productPrices[0])
   const dispatch = useAppDispatch()
-
+  useEffect(()=>{
+    setActivePrice(productDetail?.productPrices[0])
+  },[productDetail])
   const handleAddProduct = () => {
     const cartItem: ICartItem = {
       productId: productDetail.id,
@@ -156,7 +174,7 @@ export default function ProductPage({ productDetail }: IProps) {
               </button>
             </div>
           </div>
-          <ProductList title="Sản phẩm liên quan" products={productHighlight} />
+          <ProductList title="Sản phẩm liên quan" products={productHighLight?.filter(p=>p.id !== productDetail.id)} />
         </div>
       )}
     </>
