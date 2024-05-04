@@ -108,16 +108,18 @@ namespace eShopping.Application.Features.Products.Queries
             foreach (var product in pagingResult)
             {
                 var defaultPrice = product.ProductPrices.FirstOrDefault();
-                var productResponse = new StoreProductModel()
-                {
-                    Id = product.Id,
-                    Code = product.Code,
-                    Name = product.Name,
-                    Thumbnail = product.Thumbnail,
-                    PriceValue = defaultPrice.PriceValue,
-                    IsFeatured = product.IsFeatured,
-                    IsDiscount = product.IsDiscounted,
-                };
+                //var productResponse = new StoreProductModel()
+                //{
+                //    Id = product.Id,
+                //    Code = product.Code,
+                //    Name = product.Name,
+                //    Thumbnail = product.Thumbnail,
+                //    PriceValue = defaultPrice.PriceValue,
+                //    IsFeatured = product.IsFeatured,
+                //    IsDiscount = product.IsDiscounted,
+                //};
+                var productResponse = _mapper.Map<StoreProductModel>(product);
+                productResponse.PriceValue = defaultPrice.PriceValue;
                 if (defaultPrice.PriceDiscount > 0)
                 {
                     productResponse.PriceDiscount = defaultPrice.PriceDiscount;

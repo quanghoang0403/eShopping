@@ -6,8 +6,6 @@ using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,54 +37,54 @@ namespace eShopping.Application.Features.Products.Queries
 
         public async Task<StoreProductDetailModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
         {
-            request.Url = "string";
-            List<StoreProductPriceModel> productPrices = new()
-            {
-                new StoreProductPriceModel()
-                {
-                    Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
-                    PriceName = "Large",
-                    PercentNumber = -20,
-                    PriceDiscount = 300000,
-                    PriceValue = 400000,
-                    QuantityLeft = 3
-                },
-                new StoreProductPriceModel()
-                {
-                    Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
-                    PriceName = "Medium",
-                    PercentNumber = -30,
-                    PriceDiscount = 200000,
-                    PriceValue = 300000,
-                    QuantityLeft = 3
-                },
-                new StoreProductPriceModel()
-                {
-                    Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
-                    PriceName = "Small",
-                    PriceDiscount = 200000,
-                    PriceValue = 200000,
-                    QuantityLeft = 4
-                }
-            };
-            List<string> gallery = new()
-            {
-                "/imgs/productDetail4/1.jpg",
-                "/imgs/productDetail4/2.jpg",
-                "/imgs/productDetail4/3.jpg",
-                "/imgs/productDetail4/4.jpg",
-                "/imgs/productDetail4/5.jpg",
-                "/imgs/productDetail4/6.jpg",
-                "/imgs/productDetail4/7.jpg",
-                "/imgs/productDetail4/8.jpg",
-                "/imgs/productDetail4/9.jpg"
-            };
-            var productCategory = new StoreProductCategoryModel()
-            {
-                Id = Guid.NewGuid(),
-                Name = "name",
-                UrlSEO = "ao",
-            };
+            //request.Url = "string";
+            //List<StoreProductPriceModel> productPrices = new()
+            //{
+            //    new StoreProductPriceModel()
+            //    {
+            //        Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
+            //        PriceName = "Large",
+            //        PercentNumber = -20,
+            //        PriceDiscount = 300000,
+            //        PriceValue = 400000,
+            //        QuantityLeft = 3
+            //    },
+            //    new StoreProductPriceModel()
+            //    {
+            //        Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
+            //        PriceName = "Medium",
+            //        PercentNumber = -30,
+            //        PriceDiscount = 200000,
+            //        PriceValue = 300000,
+            //        QuantityLeft = 3
+            //    },
+            //    new StoreProductPriceModel()
+            //    {
+            //        Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
+            //        PriceName = "Small",
+            //        PriceDiscount = 200000,
+            //        PriceValue = 200000,
+            //        QuantityLeft = 4
+            //    }
+            //};
+            //List<string> gallery = new()
+            //{
+            //    "/imgs/productDetail4/1.jpg",
+            //    "/imgs/productDetail4/2.jpg",
+            //    "/imgs/productDetail4/3.jpg",
+            //    "/imgs/productDetail4/4.jpg",
+            //    "/imgs/productDetail4/5.jpg",
+            //    "/imgs/productDetail4/6.jpg",
+            //    "/imgs/productDetail4/7.jpg",
+            //    "/imgs/productDetail4/8.jpg",
+            //    "/imgs/productDetail4/9.jpg"
+            //};
+            //var productCategory = new StoreProductCategoryModel()
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Name = "name",
+            //    UrlSEO = "ao",
+            //};
 
             var productData = await _unitOfWork.Products
                 .Find(p => p.UrlSEO == request.Url)
@@ -106,9 +104,9 @@ namespace eShopping.Application.Features.Products.Queries
             //    Name = category.Name,
             //    UrlSEO = category.UrlSEO,
             //};
-            productData.ProductCategory = productCategory;
-            productData.Gallery = gallery;
-            productData.Thumbnail = "/imgs/productDetail4/1.jpg";
+            //productData.ProductCategory = productCategory;
+            //productData.Gallery = gallery;
+            //productData.Thumbnail = "/imgs/productDetail4/1.jpg";
             //productData.Gallery = images.Select(x => x.ImagePath).ToList();
 
             //var productData = new StoreProductDetailModel()
