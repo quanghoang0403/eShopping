@@ -1,7 +1,5 @@
-interface IProduct {
-  id: string
+interface IProduct extends ISEO {
   code: number
-  name: string
   thumbnail: string
   percentNumber?: number
   priceValue: number
