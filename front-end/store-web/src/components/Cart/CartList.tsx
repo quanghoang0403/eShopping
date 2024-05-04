@@ -44,11 +44,11 @@ export default function CartList(props: IProps) {
                   alt={cart.productName}
                   className={cx('rounded-lg h-fit', isSmall ? 'w-28' : 'w-full sm:w-40')}
                 />
-                {cart.percentNumber && (
+                {cart.percentNumber ? (
                   <span className="shadow absolute top-3 right-2 px-1 py-0.5 text-xs rounded-lg text-gray-900 bg-white font-semibold">
                     {cart.percentNumber}%
                   </span>
-                )}
+                ):''}
               </Link>
               <div className={cx('flex flex-col w-full', isSmall ? 'ml-2' : ' sm:ml-6')}>
                 <div className="flex flex-row justify-between">
@@ -85,13 +85,13 @@ export default function CartList(props: IProps) {
                     <div className="flex items-center space-x-4">
                       <p className="text-sm">
                         <span className={cart.priceDiscount ? 'line-through pr-2' : ''}>{formatCurrency(cart.priceValue)}</span>
-                        {cart.priceDiscount && <span className="text-red-500">{formatCurrency(cart.priceDiscount)}</span>}
+                        {cart.priceDiscount ? <span className="text-red-500">{formatCurrency(cart.priceDiscount)}</span>:''}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="mt-2 flex flex-row justify-end">
-                  <p className="text-sm font-bold">Tổng: {formatCurrency((cart.priceDiscount ?? cart.priceValue) * cart.quantity)}</p>
+                  <p className="text-sm font-bold">Tổng: {formatCurrency((cart.priceDiscount || cart.priceValue) * cart.quantity)}</p>
                 </div>
               </div>
             </WhiteCard>
