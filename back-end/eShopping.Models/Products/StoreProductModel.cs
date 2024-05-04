@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using eShopping.Domain.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace eShopping.Models.Products
 {
-    public class StoreProductModel
+    public class StoreProductModel : SEOEntity
     {
         public Guid Id { get; set; }
 
