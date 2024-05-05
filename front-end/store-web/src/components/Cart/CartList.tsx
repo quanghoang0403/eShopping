@@ -78,7 +78,7 @@ export default function CartList(props: IProps) {
                       name="quantity"
                       defaultValue={cart.quantity}
                       options={options}
-                      onChange={(value: any) => updateCartItem(cart.productId, cart.productPriceId, value)}
+                      onChange={(value: any) => updateCartItem(cart.productId, cart.productPriceId, parseInt(value))}
                     />
                   </div>
                   <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
