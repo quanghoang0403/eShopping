@@ -15,8 +15,8 @@ import WhiteCard from '@/components/Common/WhiteCard'
 import Link from 'next/link'
 import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
-import authMiddleware from '@/middlewares/authMiddleware'
 import { GetServerSideProps } from 'next'
+import type { NextPage } from 'next'
 
 const orderList: IOrder[] = [
   {
@@ -50,9 +50,7 @@ const orderList: IOrder[] = [
   },
 ]
 
-// export const getServerSideProps: GetServerSideProps<IProps> = authMiddleware(async (context) => {})
-
-export default function MyAccountPage() {
+const MyAccountPage: NextPage = () => {
   const {
     handleSubmit: handleSubmitUpdateProfile,
     register: registerUpdateProfile,
@@ -201,3 +199,5 @@ export default function MyAccountPage() {
     </>
   )
 }
+
+export default MyAccountPage

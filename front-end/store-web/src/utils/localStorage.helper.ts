@@ -1,6 +1,7 @@
 import cookie from 'js-cookie'
 
-export const localStorageKeys = {
+export const cookieKeys = {
+  COOKIE: 'Cookie',
   TOKEN: 'TOKEN',
   REFRESH_TOKEN: 'REFRESH_TOKEN',
   PRODUCT_FILTER: 'PRODUCT_FILTER',
@@ -21,7 +22,7 @@ export const removeCookie = (key: string) => {
 
 export const resetSession = () => {
   if (typeof window !== 'undefined') {
-    removeCookie(localStorageKeys.TOKEN)
-    removeCookie(localStorageKeys.REFRESH_TOKEN)
+    removeCookie(cookieKeys.TOKEN)
+    removeCookie(cookieKeys.REFRESH_TOKEN)
   }
 }
