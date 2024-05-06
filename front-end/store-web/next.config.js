@@ -8,4 +8,5 @@ module.exports = withFonts({
   images: {
     domains: ['img.vietqr.io'],
   },
+  output: 'standalone'
 })
