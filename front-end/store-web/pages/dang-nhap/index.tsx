@@ -22,7 +22,7 @@ export default function SignInPage() {
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const query = router.query
+  const { from } = router.query
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -31,12 +31,8 @@ export default function SignInPage() {
   const mutation = useAppMutation(
     async (data: ISignInRequest) => trackPromise(AuthService.signIn(data)),
     async (res: ISignInResponse) => {
-      if (query?.email) {
-        router.push('/')
-      } else {
-        router.push(router.asPath)
-      }
       dispatch(sessionActions.signInSuccess(res))
+      router.push(`/${from ?? ''}`)
     }
   )
 
