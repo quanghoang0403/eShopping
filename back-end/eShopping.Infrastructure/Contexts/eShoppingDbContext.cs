@@ -25,7 +25,7 @@ namespace eShopping.Infrastructure.Contexts
             IHttpContextAccessor httpContextAccessor) : base(prices)
         {
             _httpContextAccessor = httpContextAccessor;
-            Database.SetCommandTimeout(120);
+            Database.SetCommandTimeout(240);
         }
 
         public DbSet<Account> Accounts { get; set; }

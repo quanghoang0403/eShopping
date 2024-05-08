@@ -65,7 +65,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
 
         [HttpPost]
         [Route("checkout")]
-        //[HasPermission(EnumPermission.STORE_WEB)]
+        [HasPermission(EnumPermission.STORE_WEB)]
         public async Task<IActionResult> Checkout(StoreCreateOrderRequest request)
         {
             var response = await _mediator.Send(request);

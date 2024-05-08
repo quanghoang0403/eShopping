@@ -20,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         [HttpPost]
         [Route("create-product")]
-        //[HasPermission(EnumPermission.CREATE_PRODUCT)]
+        [HasPermission(EnumPermission.CREATE_PRODUCT)]
         public async Task<IActionResult> CreateProductAsync([FromBody] AdminCreateProductRequest request)
         {
             var response = await _mediator.Send(request);
