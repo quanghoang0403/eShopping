@@ -11,10 +11,9 @@ export const withUser: MiddlewareFactory = (next) => {
   return async (request: NextRequest, _next: NextFetchEvent) => {
     const pathname = request.nextUrl.pathname
     console.log('Middleware withUser processing')
-
     if (['/gio-hang', '/tai-khoan-cua-toi', '/don-hang']?.some((path) => pathname.startsWith(path))) {
       const token = request.cookies.get(cookieKeys.TOKEN)
-      const loginUrl = new URL(`/dang-nhap`, request.url)
+      const loginUrl = new URL(`/dang-nhap?from=${encodeURIComponent(pathname.replace('/', ''))}`, request.url)
       // if no token found, redirect to login page
       if (!token || token.value === '') {
         console.log('Token not found')
