@@ -99,7 +99,14 @@ export default function CustomerInfo(props: IProps) {
             label="Số điện thoại"
             name={isShipping ? 'ShipPhoneNumber' : 'PhoneNumber'}
             register={register}
-            patternValidate={{ required: true }}
+            patternValidate={{ 
+              required: true,
+              pattern:{
+                value:/(03[2-9]|05[2689]|07[06-9]|08[1-9]|09[0-49])+([0-9]{7})\b/,
+                message:"Số điện thoại không hợp lệ"
+
+              }
+             }}
             errors={errors}
           />
         </div>
