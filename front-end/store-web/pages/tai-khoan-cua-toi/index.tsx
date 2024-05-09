@@ -17,6 +17,10 @@ import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
 import { GetServerSideProps } from 'next'
 import type { NextPage } from 'next'
+import { CiLogout } from 'react-icons/ci'
+import { useAppDispatch } from '@/hooks/reduxHook'
+import { sessionActions } from '@/redux/features/sessionSlice'
+import { useRouter } from 'next/router'
 
 const orderList: IOrder[] = [
   {
@@ -62,16 +66,25 @@ const MyAccountPage: NextPage = () => {
     register: registerUpdatePassword,
     formState: { errors: errorsUpdatePassword },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
-
+  const dispatch = useAppDispatch()
+  const router = useRouter()
   const mutationUpdateProfile = useAppMutation(async (data: IUpdateCustomerRequest) => CustomerService.updateCustomer(data))
   const mutationUpdatePassword = useAppMutation(async (data: IUpdatePasswordRequest) => CustomerService.updatePassword(data))
   const onSubmitUpdateProfile: SubmitHandler<FieldValues> = (data: any) => mutationUpdateProfile.mutate(data)
   const onSubmitUpdatePassword: SubmitHandler<FieldValues> = (data: any) => mutationUpdatePassword.mutate(data)
+  const handleLogout = () => {
+    dispatch(sessionActions.logout())
+    router.push(`/dang-nhap`)
+  }
   return (
     <>
       <SEO title="Tài khoản của tôi" />
       <Title title="Tài khoản của tôi" />
-      <div className="max-w-screen-md mx-auto bg-gray-100 mx-auto">
+      <div className="max-w-screen-md bg-gray-100 mx-auto">
+        <div onClick={handleLogout} className="flex items-center gap-2 text-sm md:text-base cursor-pointer absolute">
+          Đăng xuất
+          <CiLogout />
+        </div>
         <Tabs value="1">
           <TabsHeader className="mx-4 mt-8 p-3 bg-gray-300">
             <Tab className="p-1 md:p-2 text-lg" value="1">

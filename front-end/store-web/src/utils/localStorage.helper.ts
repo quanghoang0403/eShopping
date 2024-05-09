@@ -8,11 +8,13 @@ export const cookieKeys = {
 }
 
 export const getCookie = (key: string) => {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${key}=`)
-  if (parts.length === 2) return parts.pop()?.split(';').shift()
-  // if (typeof window !== 'undefined') cookies.get(key)
-  // else return ''
+  if (typeof window !== 'undefined') {
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${key}=`)
+    if (parts.length === 2) return parts.pop()?.split(';').shift()
+    else return ''
+    //cookies.get(key)
+  } else return ''
 }
 
 export const setCookie = (key: string, value: string) => {
