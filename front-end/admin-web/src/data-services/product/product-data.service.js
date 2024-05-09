@@ -24,6 +24,10 @@ const changeStatusAsync = id => {
 const getProductsByCategoryIdAsync = (id,keySearch)=>{
     return http.get(`/${controller}/get-products?ProductCategoryId=${id}&KeySearch=${keySearch}`)
 }
+const changeFeatureStatus = data=>{
+    const {id,isActivate} = data
+    return http.put(`/${controller}/change-featured-status?Id=${id}&IsActivate=${isActivate}`)
+}
 const productDataService = {
     getAllProductsAsync,
     createProductAsync,
@@ -32,6 +36,7 @@ const productDataService = {
     getProductByIdAsync,
     updateProductAsync,
     changeStatusAsync,
-    getProductsByCategoryIdAsync
+    getProductsByCategoryIdAsync,
+    changeFeatureStatus
 }
 export default productDataService;

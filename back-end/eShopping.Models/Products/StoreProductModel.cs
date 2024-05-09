@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using eShopping.Domain.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace eShopping.Models.Products
 {
-    public class StoreProductModel
+    public class StoreProductModel : SEOEntity
     {
         public Guid Id { get; set; }
 
@@ -20,5 +21,7 @@ namespace eShopping.Models.Products
         public decimal? PriceDiscount { set; get; }
 
         public float? PercentNumber { set; get; }
+        public bool? IsFeatured { get; set; }
+        public bool? IsDiscount { get; set; }
     }
 }

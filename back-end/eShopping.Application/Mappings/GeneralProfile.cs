@@ -73,6 +73,7 @@ namespace eShopping.Application.Mappings
             CreateMap<BlogCategory, AdminBlogCategoryModel>();
             CreateMap<AdminImageModel, Image>();
             CreateMap<BlogCategory, AdminBlogCategoryDetailModel>();
+            CreateMap<Product, StoreProductModel>();
             #endregion
         }
     }

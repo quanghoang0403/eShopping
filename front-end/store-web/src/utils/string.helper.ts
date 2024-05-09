@@ -126,7 +126,7 @@ export const parserDecimalNumber = (val: string, defaultNull = false) => {
 export const formatTextRemoveComma = (value: string) => {
   return value.replace(/\$\s?|(,*)/g, '')
 }
-
+export const guidIdEmptyValue : string = '00000000-0000-0000-0000-000000000000'
 /*
   ROUND NUMBER
   Params:

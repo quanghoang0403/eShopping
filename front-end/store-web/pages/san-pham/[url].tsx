@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import SEO from '@/components/Layout/SEO'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, GetStaticProps } from 'next'
@@ -10,9 +10,11 @@ import { useAppDispatch } from '@/hooks/reduxHook'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import { notifyError } from '@/components/Common/Notification'
 import ProductService from '@/services/product.service'
+import { PageSizeConstants } from '@/constants/default.constants'
 
 interface IProps {
-  productDetail: IProductDetail
+  productDetail: IProductDetail,
+  productHighLight:IProduct[]
 }
 
 export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
@@ -22,8 +24,22 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   try {
     const res = await ProductService.getProductByUrl(slug as string)
     const productDetail = res?.data as IProductDetail
+    const productHighlightRequestModel : IGetProductsRequest ={
+      pageNumber:0,
+      pageSize:PageSizeConstants.Default,
+      keySearch:'',
+      productCategoryId : productDetail?.productCategory?.id as string,
+      sortType:0,
+      isFeatured:false,
+      isDiscounted:false
+    } 
+    const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
+    const productHighlight : IProduct[] = productHighlightRequest?.data?.products
     return {
-      props: { productDetail },
+      props: { 
+        productDetail:productDetail,
+        productHighLight:productHighlight
+       },
     }
   } catch (error) {
     console.error('Error fetching product:', error)
@@ -33,46 +49,46 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   }
 }
 
-export default function ProductPage({ productDetail }: IProps) {
-  const productHighlight: IProduct[] = [
-    {
-      id: '1',
-      code: 1,
-      name: 'Basic Tee With Long Sleeves Red',
-      thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
-      priceDiscount: 120000,
-      priceValue: 120000,
-    },
-    {
-      id: '2',
-      code: 1,
-      percentNumber: -10,
-      name: 'Classic Short Sleeves Shirt',
-      thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
-      priceDiscount: 120000,
-      priceValue: 130000,
-    },
-    { id: '3', code: 1, name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
-    { id: '4', code: 1, name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
-    { id: '5', code: 1, percentNumber: -30, name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 150000 },
-    { id: '6', code: 1, name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
-    {
-      id: '7',
-      code: 1,
-      name: 'Winter-Striped Tee Dress Black',
-      thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
-      priceDiscount: 120000,
-      priceValue: 120000,
-    },
-    {
-      id: '8',
-      code: 1,
-      name: 'Winter-Striped Tee Dress White',
-      thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
-      priceDiscount: 120000,
-      priceValue: 120000,
-    },
-  ]
+export default function ProductPage({ productDetail,productHighLight }: IProps) {
+  // const productHighlight: IProduct[] = [
+    // {
+    //   id: '1',
+    //   code: 1,
+    //   name: 'Basic Tee With Long Sleeves Red',
+    //   thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
+    //   priceDiscount: 120000,
+    //   priceValue: 120000,
+    // },
+    // {
+    //   id: '2',
+    //   code: 1,
+    //   percentNumber: -10,
+    //   name: 'Classic Short Sleeves Shirt',
+    //   thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
+    //   priceDiscount: 120000,
+    //   priceValue: 130000,
+    // },
+    // { id: '3', code: 1, name: 'Paris Long Tee', thumbnail: '/imgs/productHighlight/Paris Long Tee.jpg', priceDiscount: 120000, priceValue: 120000 },
+    // { id: '4', code: 1, name: 'Paris Shirt', thumbnail: '/imgs/productHighlight/Paris Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
+    // { id: '5', code: 1, percentNumber: -30, name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 150000 },
+    // { id: '6', code: 1, name: 'Striped Shirt', thumbnail: '/imgs/productHighlight/Striped Shirt.jpg', priceDiscount: 120000, priceValue: 120000 },
+    // {
+    //   id: '7',
+    //   code: 1,
+    //   name: 'Winter-Striped Tee Dress Black',
+    //   thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
+    //   priceDiscount: 120000,
+    //   priceValue: 120000,
+    // },
+    // {
+    //   id: '8',
+    //   code: 1,
+    //   name: 'Winter-Striped Tee Dress White',
+    //   thumbnail: '/imgs/productHighlight/Winter-Striped Tee Dress-white.jpg',
+    //   priceDiscount: 120000,
+    //   priceValue: 120000,
+    // },
+  // ]
   const gallery: string[] = [
     '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg',
     '/imgs/productHighlight/Winter-Striped Tee Dress-black.jpg',
@@ -89,7 +105,9 @@ export default function ProductPage({ productDetail }: IProps) {
   ]
   const [activePrice, setActivePrice] = useState<IProductPrice>(productDetail?.productPrices[0])
   const dispatch = useAppDispatch()
-
+  useEffect(()=>{
+    setActivePrice(productDetail?.productPrices[0])
+  },[productDetail])
   const handleAddProduct = () => {
     const cartItem: ICartItem = {
       productId: productDetail.id,
@@ -140,7 +158,7 @@ export default function ProductPage({ productDetail }: IProps) {
               <div className="flex">
                 <p className="title-font font-medium text-2xl text-gray-800 ">
                   <span className={activePrice.priceDiscount ? 'line-through pr-3' : ''}>{formatCurrency(activePrice.priceValue)}</span>
-                  {activePrice.priceDiscount && <span className="text-red-500">{formatCurrency(activePrice.priceDiscount)}</span>}
+                  {activePrice.priceDiscount? <span className="text-red-500">{formatCurrency(activePrice.priceDiscount)}</span>:''}
                 </p>
               </div>
               <button
@@ -156,7 +174,7 @@ export default function ProductPage({ productDetail }: IProps) {
               </button>
             </div>
           </div>
-          <ProductList title="Sản phẩm liên quan" products={productHighlight} />
+          <ProductList title="Sản phẩm liên quan" products={productHighLight?.filter(p=>p.id !== productDetail.id)} />
         </div>
       )}
     </>

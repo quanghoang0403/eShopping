@@ -530,6 +530,7 @@
         "creatorFilterAll": "Tất cả danh mục",
         "creatorFilterPlaceholder": "Chọn danh mục",
         "resetAllFilters": "Đặt lại tất cả các bộ lọc",
-        "author":"Tác giả"
+        "author":"Tác giả",
+        "feature":"NỔI BẬT"
     }
 }

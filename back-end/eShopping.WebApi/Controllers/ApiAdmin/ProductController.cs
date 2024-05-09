@@ -44,6 +44,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             var response = await _mediator.Send(new AdminChangeStatusRequest() { Id = id });
             return await SafeOkAsync(response);
         }
+        [HttpPut]
+        [Route("change-featured-status")]
+        [HasPermission(EnumPermission.EDIT_PRODUCT)]
+        public async Task<IActionResult> ChangeFeaturedStatusAsync([FromQuery] AdminChangeFeatureStatusRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return await SafeOkAsync(response);
+        }
 
         [HttpDelete]
         [Route("delete-product-by-id/{id}")]

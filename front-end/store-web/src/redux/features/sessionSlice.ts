@@ -98,7 +98,7 @@ function calculateTotalQuantity(cartItems: ICartItem[]): number {
 
 function calculateTotalPrice(cartItems: ICartItem[]): number {
   let sum = 0
-  cartItems.forEach((item) => (sum += item.quantity * (item.priceDiscount ?? item.priceValue)))
+  cartItems.forEach((item) => (sum += item.quantity * (item.priceDiscount || item.priceValue)))
   return sum
 }
 

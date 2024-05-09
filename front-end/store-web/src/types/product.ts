@@ -1,17 +1,18 @@
-interface IProduct {
-  id: string
+interface IProduct extends ISEO {
   code: number
-  name: string
   thumbnail: string
   percentNumber?: number
   priceValue: number
   priceDiscount?: number
+  isFeatured?: boolean
+  isDiscounted?: boolean
 }
 
 interface IProductDetail extends ISEO {
   code: number
   thumbnail: string
   isFeatured?: boolean
+  isDiscounted?: boolean
   gallery: string[]
   productCategory: IProductCategory
   productPrices: IProductPrice[]
