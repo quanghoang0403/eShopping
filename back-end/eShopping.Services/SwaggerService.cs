@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Swashbuckle.AspNetCore.SwaggerUI;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 
 namespace eShopping.Services
 {
@@ -18,10 +18,9 @@ namespace eShopping.Services
             services.AddSwaggerGen(c =>
             {
                 string applicationName = configuration.GetValue<string>("ApplicationName");
-                string environmentName = configuration.GetValue<string>("Environment");
                 string releaseVersion = configuration.GetValue<string>("ReleaseVersion");
 
-                c.SwaggerDoc(_version, new OpenApiInfo { Title = $"{ environmentName } - {applicationName} (version {releaseVersion})" , Version = _version });
+                c.SwaggerDoc(_version, new OpenApiInfo { Title = $"{applicationName} (version {releaseVersion})", Version = _version });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
