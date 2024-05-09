@@ -80,8 +80,8 @@ const MyAccountPage: NextPage = () => {
     <>
       <SEO title="Tài khoản của tôi" />
       <Title title="Tài khoản của tôi" />
-      <div className="max-w-screen-md bg-gray-100 mx-auto">
-        <div onClick={handleLogout} className="flex items-center gap-2 text-sm md:text-base cursor-pointer absolute">
+      <div className="max-w-screen-md bg-gray-100 mx-auto relative">
+        <div onClick={handleLogout} className="flex items-center gap-2 text-sm md:text-base cursor-pointer absolute right-5">
           Đăng xuất
           <CiLogout />
         </div>
