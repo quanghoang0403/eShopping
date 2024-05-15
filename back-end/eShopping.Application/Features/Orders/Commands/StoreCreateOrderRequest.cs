@@ -126,183 +126,186 @@ namespace eShopping.Application.Features.Orders.Commands
                         ward = wardData.Prefix.FormatAddress() + ' ' + wardData.Name;
                     }
                 }
-                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-
-                // Add order
-                var order = await _unitOfWork.Orders.AddAsync(new Order()
+                return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
                 {
-                    CustomerId = customerId,
-                    Status = EnumOrderStatus.New,
-                    OrderPaymentStatusId = EnumOrderPaymentStatus.Unpaid,
-                    DeliveryFee = DefaultConstants.DELIVERY_FEE,
-                    PaymentMethodId = request.PaymentMethodId,
-                    ShipName = request.ShipName,
-                    ShipEmail = request.ShipEmail,
-                    ShipPhoneNumber = request.ShipPhoneNumber,
-                    ShipAddress = request.ShipAddress,
-                    ShipFullAddress = request.ShipAddress + ward + district + city,
-                    ShipCityId = request.ShipCityId,
-                    ShipDistrictId = request.ShipDistrictId,
-                    ShipWardId = request.ShipWardId,
-                    Note = request.Note,
-                    CreatedTime = DateTime.Now,
-                    CreatedUser = accountId,
-                });
+                    using var createTransaction = await _unitOfWork.BeginTransactionAsync();
 
-                var orderItems = new List<OrderItem>();
-                foreach (var item in request.CartItems)
-                {
-                    // Add order detail
-                    var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
-                    if (price == null ||
-                        price.QuantityLeft < item.Quantity ||
-                        price.PriceDiscount != item.PriceDiscount ||
-                        price.PriceValue != item.PriceValue ||
-                        price.PercentNumber != item.PercentNumber)
+                    // Add order
+                    var order = await _unitOfWork.Orders.AddAsync(new Order()
                     {
-                        await createTransaction.RollbackAsync(cancellationToken);
-                        return new StoreCreateOrderResponse()
-                        {
-                            IsSuccess = false,
-                            OrderItem = cartItemRes
-                        };
-                    }
-                    else
+                        CustomerId = customerId,
+                        Status = EnumOrderStatus.New,
+                        OrderPaymentStatusId = EnumOrderPaymentStatus.Unpaid,
+                        DeliveryFee = DefaultConstants.DELIVERY_FEE,
+                        PaymentMethodId = request.PaymentMethodId,
+                        ShipName = request.ShipName,
+                        ShipEmail = request.ShipEmail,
+                        ShipPhoneNumber = request.ShipPhoneNumber,
+                        ShipAddress = request.ShipAddress,
+                        ShipFullAddress = request.ShipAddress + ward + district + city,
+                        ShipCityId = request.ShipCityId,
+                        ShipDistrictId = request.ShipDistrictId,
+                        ShipWardId = request.ShipWardId,
+                        Note = request.Note,
+                        CreatedTime = DateTime.Now,
+                        CreatedUser = accountId,
+                    });
+
+                    var orderItems = new List<OrderItem>();
+                    foreach (var item in request.CartItems)
                     {
-                        orderItems.Add(new OrderItem()
+                        // Add order detail
+                        var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
+                        if (price == null ||
+                            price.QuantityLeft < item.Quantity ||
+                            price.PriceDiscount != item.PriceDiscount ||
+                            price.PriceValue != item.PriceValue ||
+                            price.PercentNumber != item.PercentNumber)
                         {
-                            OrderId = order.Id,
-                            ProductId = item.ProductId,
-                            ProductName = item.ProductName,
-                            ProductUrl = price.Product.UrlSEO,
-                            ProductPriceId = item.ProductPriceId,
-                            PercentNumber = item.PercentNumber,
-                            PriceName = price.PriceName,
-                            PriceOrigin = price.PriceOriginal,
-                            PriceDiscount = price.PriceDiscount,
-                            PriceValue = price.PriceValue,
-                            Quantity = item.Quantity,
-                            Thumbnail = item.Thumbnail,
-                            CreatedTime = DateTime.Now,
-                            CreatedUser = accountId,
-                        });
+                            await createTransaction.RollbackAsync(cancellationToken);
+                            return new StoreCreateOrderResponse()
+                            {
+                                IsSuccess = false,
+                                OrderItem = cartItemRes
+                            };
+                        }
+                        else
+                        {
+                            orderItems.Add(new OrderItem()
+                            {
+                                OrderId = order.Id,
+                                ProductId = item.ProductId,
+                                ProductName = item.ProductName,
+                                ProductUrl = price.Product.UrlSEO,
+                                ProductPriceId = item.ProductPriceId,
+                                PercentNumber = item.PercentNumber,
+                                PriceName = price.PriceName,
+                                PriceOrigin = price.PriceOriginal,
+                                PriceDiscount = price.PriceDiscount,
+                                PriceValue = price.PriceValue,
+                                Quantity = item.Quantity,
+                                Thumbnail = item.Thumbnail,
+                                CreatedTime = DateTime.Now,
+                                CreatedUser = accountId,
+                            });
+                        }
+
+                        // Update quantity
+                        price.QuantityLeft -= item.Quantity;
+                        price.QuantitySold += item.Quantity;
                     }
 
-                    // Update quantity
-                    price.QuantityLeft -= item.Quantity;
-                    price.QuantitySold += item.Quantity;
-                }
+                    // Add order history
+                    var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
+                    {
+                        OrderId = order.Id,
+                        ActionType = EnumOrderActionType.CREATE_ORDER,
+                        Note = request.Note,
+                        CreatedTime = DateTime.Now,
+                        CreatedUser = accountId,
+                    });
 
-                // Add order history
-                var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
-                {
-                    OrderId = order.Id,
-                    ActionType = EnumOrderActionType.CREATE_ORDER,
-                    Note = request.Note,
-                    CreatedTime = DateTime.Now,
-                    CreatedUser = accountId,
+                    var res = new StoreCreateOrderResponse()
+                    {
+                        IsSuccess = true,
+                        PaymentMethodId = request.PaymentMethodId,
+                        OrderId = order.Id,
+                        OrderCode = order.Code
+                    };
+
+                    /// Create payment
+                    var isValidMethod = DefaultConstants.ALLOW_PAYMENT_METHOD.Any(method => method == request.PaymentMethodId);
+                    ThrowError.Against(!isValidMethod, "Invalid payment method, please choose another method");
+                    var totalAmount = orderItems.Sum(x => x.TotalPrice) + order.DeliveryFee;
+                    switch (order.PaymentMethodId)
+                    {
+                        case EnumPaymentMethod.COD:
+                            var orderPaymentTransaction = new OrderPaymentTransaction()
+                            {
+                                IsSuccess = true,
+                                OrderId = order.Id,
+                                OrderInfo = "Ship COD",
+                                Amount = totalAmount,
+                                PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
+                                CreatedUser = loggedUser.AccountId.Value,
+                                CreatedTime = DateTime.Now,
+                            };
+                            await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
+                            break;
+                        case EnumPaymentMethod.MoMo:
+                            var createMoMoQrPayment = new CreateMoMoPaymentRequest()
+                            {
+                                OrderId = order.Id,
+                                OrderCode = order.Code,
+                                Amount = Convert.ToInt32(totalAmount).ToString(),
+                            };
+                            res.PaymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
+                            break;
+                        case EnumPaymentMethod.ZaloPay:
+                            // TODO
+                            break;
+                        case EnumPaymentMethod.ShopeePay:
+                            // TODO
+                            break;
+                        case EnumPaymentMethod.BankTransferVietQR:
+                            var createVietQR = new CreateVietQRPaymentRequest()
+                            {
+                                OrderId = order.Id,
+                                Amount = totalAmount,
+                                Description = $"{order.ShipName} {order.Id}"
+                            };
+                            res.PaymentInfo = await _mediator.Send(createVietQR, cancellationToken);
+                            break;
+                        case EnumPaymentMethod.VNPayQR:
+                            var createVnPay = new CreateVNPayPaymentRequest()
+                            {
+                                VNPayBankCode = VNPayBankCode.VNPAYQR,
+                                OrderId = order.Id,
+                                OrderCode = order.Code,
+                                Amount = totalAmount,
+                                PaymentMethodId = order.PaymentMethodId
+                            };
+                            res.PaymentInfo = await _mediator.Send(createVnPay, cancellationToken);
+                            break;
+                        case EnumPaymentMethod.PayOS:
+                            var createPayOS = new CreatePayOSPaymentRequest()
+                            {
+                                OrderId = order.Id,
+                                Amount = Convert.ToInt32(totalAmount),
+                                OrderCode = order.Code,
+                                OrderItems = orderItems,
+                            };
+                            res.PaymentInfo = await _mediator.Send(createPayOS, cancellationToken);
+                            break;
+                        case EnumPaymentMethod.ATM:
+                            var createATM = new CreateVNPayPaymentRequest()
+                            {
+                                VNPayBankCode = VNPayBankCode.VNBANK,
+                                OrderId = order.Id,
+                                OrderCode = order.Code,
+                                Amount = totalAmount,
+                                PaymentMethodId = order.PaymentMethodId
+                            };
+                            res.PaymentInfo = await _mediator.Send(createATM, cancellationToken);
+                            break;
+                        case EnumPaymentMethod.CreditDebitCard:
+                            var createCredit = new CreateVNPayPaymentRequest()
+                            {
+                                VNPayBankCode = VNPayBankCode.INTCARD,
+                                OrderId = order.Id,
+                                OrderCode = order.Code,
+                                Amount = totalAmount,
+                                PaymentMethodId = order.PaymentMethodId
+                            };
+                            res.PaymentInfo = await _mediator.Send(createCredit, cancellationToken);
+                            break;
+                    }
+
+                    await _unitOfWork.SaveChangesAsync();
+                    await createTransaction.CommitAsync(cancellationToken);
+
+                    return res;
                 });
-
-                var res = new StoreCreateOrderResponse()
-                {
-                    IsSuccess = true,
-                    PaymentMethodId = request.PaymentMethodId,
-                    OrderId = order.Id,
-                    OrderCode = order.Code
-                };
-
-                /// Create payment
-                var isValidMethod = DefaultConstants.ALLOW_PAYMENT_METHOD.Any(method => method == request.PaymentMethodId);
-                ThrowError.Against(!isValidMethod, "Invalid payment method, please choose another method");
-                var totalAmount = orderItems.Sum(x => x.TotalPrice) + order.DeliveryFee;
-                switch (order.PaymentMethodId)
-                {
-                    case EnumPaymentMethod.COD:
-                        var orderPaymentTransaction = new OrderPaymentTransaction()
-                        {
-                            IsSuccess = true,
-                            OrderId = order.Id,
-                            OrderInfo = "Ship COD",
-                            Amount = totalAmount,
-                            PaymentMethodId = EnumPaymentMethod.BankTransferVietQR,
-                            CreatedUser = loggedUser.AccountId.Value,
-                            CreatedTime = DateTime.Now,
-                        };
-                        await _unitOfWork.OrderPaymentTransactions.AddAsync(orderPaymentTransaction);
-                        break;
-                    case EnumPaymentMethod.MoMo:
-                        var createMoMoQrPayment = new CreateMoMoPaymentRequest()
-                        {
-                            OrderId = order.Id,
-                            OrderCode = order.Code,
-                            Amount = Convert.ToInt32(totalAmount).ToString(),
-                        };
-                        res.PaymentInfo = await _mediator.Send(createMoMoQrPayment, cancellationToken);
-                        break;
-                    case EnumPaymentMethod.ZaloPay:
-                        // TODO
-                        break;
-                    case EnumPaymentMethod.ShopeePay:
-                        // TODO
-                        break;
-                    case EnumPaymentMethod.BankTransferVietQR:
-                        var createVietQR = new CreateVietQRPaymentRequest()
-                        {
-                            OrderId = order.Id,
-                            Amount = totalAmount,
-                            Description = $"{order.ShipName} {order.Id}"
-                        };
-                        res.PaymentInfo = await _mediator.Send(createVietQR, cancellationToken);
-                        break;
-                    case EnumPaymentMethod.VNPayQR:
-                        var createVnPay = new CreateVNPayPaymentRequest()
-                        {
-                            VNPayBankCode = VNPayBankCode.VNPAYQR,
-                            OrderId = order.Id,
-                            OrderCode = order.Code,
-                            Amount = totalAmount,
-                            PaymentMethodId = order.PaymentMethodId
-                        };
-                        res.PaymentInfo = await _mediator.Send(createVnPay, cancellationToken);
-                        break;
-                    case EnumPaymentMethod.PayOS:
-                        var createPayOS = new CreatePayOSPaymentRequest()
-                        {
-                            OrderId = order.Id,
-                            Amount = Convert.ToInt32(totalAmount),
-                            OrderCode = order.Code,
-                            OrderItems = orderItems,
-                        };
-                        res.PaymentInfo = await _mediator.Send(createPayOS, cancellationToken);
-                        break;
-                    case EnumPaymentMethod.ATM:
-                        var createATM = new CreateVNPayPaymentRequest()
-                        {
-                            VNPayBankCode = VNPayBankCode.VNBANK,
-                            OrderId = order.Id,
-                            OrderCode = order.Code,
-                            Amount = totalAmount,
-                            PaymentMethodId = order.PaymentMethodId
-                        };
-                        res.PaymentInfo = await _mediator.Send(createATM, cancellationToken);
-                        break;
-                    case EnumPaymentMethod.CreditDebitCard:
-                        var createCredit = new CreateVNPayPaymentRequest()
-                        {
-                            VNPayBankCode = VNPayBankCode.INTCARD,
-                            OrderId = order.Id,
-                            OrderCode = order.Code,
-                            Amount = totalAmount,
-                            PaymentMethodId = order.PaymentMethodId
-                        };
-                        res.PaymentInfo = await _mediator.Send(createCredit, cancellationToken);
-                        break;
-                }
-
-                await _unitOfWork.SaveChangesAsync();
-                await createTransaction.CommitAsync(cancellationToken);
-
-                return res;
             }
         }
 

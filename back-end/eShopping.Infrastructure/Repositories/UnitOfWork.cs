@@ -100,6 +100,11 @@ namespace eShopping.Infrastructure.Repositories
             return await _dbContext.Database.BeginTransactionAsync(cancellationToken);
         }
 
+        public IExecutionStrategy CreateExecutionStrategy()
+        {
+            return _dbContext.Database.CreateExecutionStrategy();
+        }
+
         public void Dispose()
         {
             _dbContext.Dispose();

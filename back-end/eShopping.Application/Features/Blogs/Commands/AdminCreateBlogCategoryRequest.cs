@@ -64,43 +64,46 @@ namespace eShopping.Application.Features.Blogs.Commands
             {
                 { $"{nameof(request.Name)}", "This blog category name name has already existed" },
             });
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var newBlogCategory = _mapper.Map<BlogCategory>(request);
-                var accountId = loggedUser.AccountId.Value;
-                newBlogCategory.CreatedUser = accountId;
-                newBlogCategory.CreatedTime = DateTime.Now;
-                newBlogCategory.UrlSEO = newBlogCategory.Name.UrlEncode();
-                var blogIds = request.Blogs.Select(b => b.Id);
-                var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId));
-                if (request.Blogs != null && request.Blogs.Any())
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    newBlogCategory.BlogInCategories = new List<BlogInCategory>();
-                    request.Blogs.ForEach(b =>
+                    var newBlogCategory = _mapper.Map<BlogCategory>(request);
+                    var accountId = loggedUser.AccountId.Value;
+                    newBlogCategory.CreatedUser = accountId;
+                    newBlogCategory.CreatedTime = DateTime.Now;
+                    newBlogCategory.UrlSEO = newBlogCategory.Name.UrlEncode();
+                    var blogIds = request.Blogs.Select(b => b.Id);
+                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId));
+                    if (request.Blogs != null && request.Blogs.Any())
                     {
-                        var blogCategory = new BlogInCategory()
+                        newBlogCategory.BlogInCategories = new List<BlogInCategory>();
+                        request.Blogs.ForEach(b =>
                         {
-                            blogId = b.Id,
-                            categoryId = newBlogCategory.Id
-                        };
+                            var blogCategory = new BlogInCategory()
+                            {
+                                blogId = b.Id,
+                                categoryId = newBlogCategory.Id
+                            };
 
-                        newBlogCategory.BlogInCategories.Add(blogCategory);
-                    });
+                            newBlogCategory.BlogInCategories.Add(blogCategory);
+                        });
+                    }
+                    _unitOfWork.BlogCategories.Add(newBlogCategory);
+                    await _unitOfWork.SaveChangesAsync();
+                    // Complete this transaction, data will be saved.
+                    await createTransaction.CommitAsync(cancellationToken);
+
                 }
-                _unitOfWork.BlogCategories.Add(newBlogCategory);
-                await _unitOfWork.SaveChangesAsync();
-                // Complete this transaction, data will be saved.
-                await createTransaction.CommitAsync(cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-                // Data will be restored.
-                await createTransaction.RollbackAsync(cancellationToken);
-                return false;
-            }
-            return true;
+                catch (Exception ex)
+                {
+                    // Data will be restored.
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return false;
+                }
+                return true;
+            });
         }
         private static void RequestValidation(AdminCreateBlogCategoryRequest request)
         {

@@ -66,44 +66,47 @@ namespace eShopping.Application.Features.Blogs.Commands
             var blogCategoryNameExisted = await _unitOfWork.BlogCategories
                 .Where(bc => bc.Id != request.Id && bc.Name.ToLower().Trim().Equals(request.Name.Trim().ToLower())).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(blogCategoryNameExisted != null, "Blog category name has already existed");
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var blogIds = request.Blogs.Select(b => b.Id);
-                var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId) || b.categoryId == blogCategory.Id);
-                _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
-                var newBlogInCategory = new List<BlogInCategory>();
-                if (request.Blogs != null && request.Blogs.Any())
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    request.Blogs.ForEach(b =>
+                    var blogIds = request.Blogs.Select(b => b.Id);
+                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId) || b.categoryId == blogCategory.Id);
+                    _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
+                    var newBlogInCategory = new List<BlogInCategory>();
+                    if (request.Blogs != null && request.Blogs.Any())
                     {
-                        var newBlog = new BlogInCategory
+                        request.Blogs.ForEach(b =>
                         {
-                            blogId = b.Id,
-                            categoryId = blogCategory.Id
-                        };
-                        newBlogInCategory.Add(newBlog);
-                    });
-                    _unitOfWork.BlogInCategories.AddRange(newBlogInCategory);
+                            var newBlog = new BlogInCategory
+                            {
+                                blogId = b.Id,
+                                categoryId = blogCategory.Id
+                            };
+                            newBlogInCategory.Add(newBlog);
+                        });
+                        _unitOfWork.BlogInCategories.AddRange(newBlogInCategory);
+                    }
+                    var modifiedBlogCategory = _mapper.Map<BlogCategory>(request);
+                    modifiedBlogCategory.LastSavedUser = loggedUser.AccountId.Value;
+                    modifiedBlogCategory.LastSavedTime = DateTime.Now;
+                    modifiedBlogCategory.UrlSEO = StringHelpers.UrlEncode(modifiedBlogCategory.Name);
+
+                    await _unitOfWork.BlogCategories.UpdateAsync(modifiedBlogCategory);
+                    await _unitOfWork.SaveChangesAsync();
+                    // Complete this transaction, data will be saved.
+                    await createTransaction.CommitAsync(cancellationToken);
+
                 }
-                var modifiedBlogCategory = _mapper.Map<BlogCategory>(request);
-                modifiedBlogCategory.LastSavedUser = loggedUser.AccountId.Value;
-                modifiedBlogCategory.LastSavedTime = DateTime.Now;
-                modifiedBlogCategory.UrlSEO = StringHelpers.UrlEncode(modifiedBlogCategory.Name);
-
-                await _unitOfWork.BlogCategories.UpdateAsync(modifiedBlogCategory);
-                await _unitOfWork.SaveChangesAsync();
-                // Complete this transaction, data will be saved.
-                await createTransaction.CommitAsync(cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-                // Data will be restored.
-                await createTransaction.RollbackAsync(cancellationToken);
-                return false;
-            }
-            return true;
+                catch (Exception ex)
+                {
+                    // Data will be restored.
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return false;
+                }
+                return true;
+            });
         }
     }
 }
