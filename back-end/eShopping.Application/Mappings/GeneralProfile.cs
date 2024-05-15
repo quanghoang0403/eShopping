@@ -22,7 +22,8 @@ namespace eShopping.Application.Mappings
 
             CreateMap<Image, AdminImageModel>();
 
-            CreateMap<Order, AdminOrderModel>();
+            CreateMap<Order, AdminOrderModel>()
+                .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.CreatedTime));
             CreateMap<Order, StoreOrderModel>();
             CreateMap<Order, AdminOrderDetailModel>();
             CreateMap<Order, StoreOrderDetailModel>();

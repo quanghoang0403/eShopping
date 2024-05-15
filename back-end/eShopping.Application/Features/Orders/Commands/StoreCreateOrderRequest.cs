@@ -128,26 +128,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 }
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
 
-                // Add order
-                var order = await _unitOfWork.Orders.AddAsync(new Order()
-                {
-                    CustomerId = customerId,
-                    Status = EnumOrderStatus.New,
-                    OrderPaymentStatusId = EnumOrderPaymentStatus.Unpaid,
-                    DeliveryFee = DefaultConstants.DELIVERY_FEE,
-                    PaymentMethodId = request.PaymentMethodId,
-                    ShipName = request.ShipName,
-                    ShipEmail = request.ShipEmail,
-                    ShipPhoneNumber = request.ShipPhoneNumber,
-                    ShipAddress = request.ShipAddress,
-                    ShipFullAddress = request.ShipAddress + ward + district + city,
-                    ShipCityId = request.ShipCityId,
-                    ShipDistrictId = request.ShipDistrictId,
-                    ShipWardId = request.ShipWardId,
-                    Note = request.Note,
-                    CreatedTime = DateTime.Now,
-                    CreatedUser = accountId,
-                });
+
 
                 var orderItems = new List<OrderItem>();
                 foreach (var item in request.CartItems)
@@ -171,7 +152,7 @@ namespace eShopping.Application.Features.Orders.Commands
                     {
                         orderItems.Add(new OrderItem()
                         {
-                            OrderId = order.Id,
+
                             ProductId = item.ProductId,
                             ProductName = item.ProductName,
                             ProductUrl = price.Product.UrlSEO,
@@ -193,6 +174,38 @@ namespace eShopping.Application.Features.Orders.Commands
                     price.QuantitySold += item.Quantity;
                 }
 
+
+
+
+                // Add order
+                var order = await _unitOfWork.Orders.AddAsync(new Order()
+                {
+                    CustomerId = customerId,
+                    Status = EnumOrderStatus.New,
+                    OrderPaymentStatusId = EnumOrderPaymentStatus.Unpaid,
+                    DeliveryFee = DefaultConstants.DELIVERY_FEE,
+                    PaymentMethodId = request.PaymentMethodId,
+                    ShipName = request.ShipName,
+                    ShipEmail = request.ShipEmail,
+                    ShipPhoneNumber = request.ShipPhoneNumber,
+                    ShipAddress = request.ShipAddress,
+                    ShipFullAddress = request.ShipAddress + ward + district + city,
+                    ShipCityId = request.ShipCityId,
+                    ShipDistrictId = request.ShipDistrictId,
+                    ShipWardId = request.ShipWardId,
+                    Note = request.Note,
+                    CreatedTime = DateTime.Now,
+                    CreatedUser = accountId,
+                    OrderItems = orderItems,
+
+                });
+                var res = new StoreCreateOrderResponse()
+                {
+                    IsSuccess = true,
+                    PaymentMethodId = request.PaymentMethodId,
+                    OrderId = order.Id,
+                    OrderCode = order.Code
+                };
                 // Add order history
                 var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
                 {
@@ -202,15 +215,6 @@ namespace eShopping.Application.Features.Orders.Commands
                     CreatedTime = DateTime.Now,
                     CreatedUser = accountId,
                 });
-
-                var res = new StoreCreateOrderResponse()
-                {
-                    IsSuccess = true,
-                    PaymentMethodId = request.PaymentMethodId,
-                    OrderId = order.Id,
-                    OrderCode = order.Code
-                };
-
                 /// Create payment
                 var isValidMethod = DefaultConstants.ALLOW_PAYMENT_METHOD.Any(method => method == request.PaymentMethodId);
                 ThrowError.Against(!isValidMethod, "Invalid payment method, please choose another method");
