@@ -36,43 +36,46 @@ namespace eShopping.Application.Features.Blogs.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategory = await _unitOfWork.BlogCategories.Where(bc => bc.Id == request.BlogCategoryId).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(blogCategory == null, "No blog category is found");
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var blogInCategory = _unitOfWork.BlogInCategories.Find(b => request.BlogIds.Any(bid => bid == b.blogId) || b.categoryId == blogCategory.Id);
-                _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
-                var newBlogInCategory = new List<BlogInCategory>();
-                if (request.BlogIds != null && request.BlogIds.Any())
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-
-                    foreach (var id in request.BlogIds)
+                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => request.BlogIds.Any(bid => bid == b.blogId) || b.categoryId == blogCategory.Id);
+                    _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
+                    var newBlogInCategory = new List<BlogInCategory>();
+                    if (request.BlogIds != null && request.BlogIds.Any())
                     {
-                        var newBlog = new BlogInCategory
+
+                        foreach (var id in request.BlogIds)
                         {
-                            blogId = id,
-                            categoryId = blogCategory.Id
-                        };
-                        newBlogInCategory.Add(newBlog);
+                            var newBlog = new BlogInCategory
+                            {
+                                blogId = id,
+                                categoryId = blogCategory.Id
+                            };
+                            newBlogInCategory.Add(newBlog);
+                        }
+
                     }
+                    _unitOfWork.BlogInCategories.AddRange(newBlogInCategory);
+                    blogCategory.LastSavedUser = loggedUser.AccountId.Value;
+                    blogCategory.LastSavedTime = DateTime.UtcNow;
+
+                    await _unitOfWork.BlogCategories.UpdateAsync(blogCategory);
+                    await _unitOfWork.SaveChangesAsync();
+                    // Complete this transaction, data will be saved.
+                    await createTransaction.CommitAsync(cancellationToken);
 
                 }
-                _unitOfWork.BlogInCategories.AddRange(newBlogInCategory);
-                blogCategory.LastSavedUser = loggedUser.AccountId.Value;
-                blogCategory.LastSavedTime = DateTime.UtcNow;
-
-                await _unitOfWork.BlogCategories.UpdateAsync(blogCategory);
-                await _unitOfWork.SaveChangesAsync();
-                // Complete this transaction, data will be saved.
-                await createTransaction.CommitAsync(cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-                // Data will be restored.
-                await createTransaction.RollbackAsync(cancellationToken);
-                return false;
-            }
-            return true;
+                catch (Exception ex)
+                {
+                    // Data will be restored.
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return false;
+                }
+                return true;
+            });
         }
     }
 }

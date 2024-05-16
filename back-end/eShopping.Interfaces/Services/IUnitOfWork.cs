@@ -11,6 +11,8 @@ namespace eShopping.Interfaces
 
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
 
+        IExecutionStrategy CreateExecutionStrategy();
+
         IAccountRepository Accounts { get; }
 
         IRefreshTokenRepository RefreshTokens { get; }

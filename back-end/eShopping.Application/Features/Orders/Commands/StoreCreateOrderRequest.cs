@@ -126,7 +126,9 @@ namespace eShopping.Application.Features.Orders.Commands
                         ward = wardData.Prefix.FormatAddress() + ' ' + wardData.Name;
                     }
                 }
-                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
+                {
+                    using var createTransaction = await _unitOfWork.BeginTransactionAsync();
 
 
 
@@ -169,10 +171,10 @@ namespace eShopping.Application.Features.Orders.Commands
                         });
                     }
 
-                    // Update quantity
-                    price.QuantityLeft -= item.Quantity;
-                    price.QuantitySold += item.Quantity;
-                }
+                        // Update quantity
+                        price.QuantityLeft -= item.Quantity;
+                        price.QuantitySold += item.Quantity;
+                    }
 
 
 
@@ -303,10 +305,11 @@ namespace eShopping.Application.Features.Orders.Commands
                         break;
                 }
 
-                await _unitOfWork.SaveChangesAsync();
-                await createTransaction.CommitAsync(cancellationToken);
+                    await _unitOfWork.SaveChangesAsync();
+                    await createTransaction.CommitAsync(cancellationToken);
 
-                return res;
+                    return res;
+                });
             }
         }
 

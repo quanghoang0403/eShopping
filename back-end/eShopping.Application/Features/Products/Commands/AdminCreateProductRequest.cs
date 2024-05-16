@@ -6,6 +6,7 @@ using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,63 +88,66 @@ namespace eShopping.Application.Features.Products.Commands
                 product.IsDiscounted = false;
             }
 
-            // Create a new transaction to save data more securely, data will be restored if an error occurs.
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                await _unitOfWork.Products.AddAsync(product);
-
-                // Add map category
-                List<ProductInCategory> productInCategories = new();
-                foreach (var id in request.ProductCategoryIds)
+                // Create a new transaction to save data more securely, data will be restored if an error occurs.
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    ProductInCategory map = new()
-                    {
-                        ProductCategoryId = id,
-                        ProductId = product.Id
-                    };
-                    productInCategories.Add(map);
-                }
-                await _unitOfWork.ProductInCategories.AddRangeAsync(productInCategories);
+                    await _unitOfWork.Products.AddAsync(product);
 
-                // Add image
-                List<Image> productImages = new();
-                foreach (var path in request.ImagePaths)
+                    // Add map category
+                    List<ProductInCategory> productInCategories = new();
+                    foreach (var id in request.ProductCategoryIds)
+                    {
+                        ProductInCategory map = new()
+                        {
+                            ProductCategoryId = id,
+                            ProductId = product.Id
+                        };
+                        productInCategories.Add(map);
+                    }
+                    await _unitOfWork.ProductInCategories.AddRangeAsync(productInCategories);
+
+                    // Add image
+                    List<Image> productImages = new();
+                    foreach (var path in request.ImagePaths)
+                    {
+                        Image image = new()
+                        {
+                            ObjectId = product.Id,
+                            ImagePath = path,
+                            CreatedUser = accountId,
+                            CreatedTime = DateTime.Now
+                        };
+                        productImages.Add(image);
+                    }
+                    await _unitOfWork.Images.AddRangeAsync(productImages);
+
+                    // Add option
+                    //List<ProductPrice> productPrices = new();
+                    //foreach (var option in request.ProductPrices)
+                    //{
+                    //    var optionToAdd = _mapper.Map<ProductPrice>(option);
+                    //    optionToAdd.ProductId = product.Id;
+                    //    optionToAdd.CreatedUser = accountId;
+                    //    optionToAdd.CreatedTime = DateTime.Now;
+                    //    productPrices.Add(optionToAdd);
+                    //}
+                    //await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
+                    // Complete this transaction, data will be saved.
+                    await createTransaction.CommitAsync(cancellationToken);
+
+                }
+                catch (Exception ex)
                 {
-                    Image image = new()
-                    {
-                        ObjectId = product.Id,
-                        ImagePath = path,
-                        CreatedUser = accountId,
-                        CreatedTime = DateTime.Now
-                    };
-                    productImages.Add(image);
+                    // Data will be restored.
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return false;
                 }
-                await _unitOfWork.Images.AddRangeAsync(productImages);
 
-                // Add option
-                //List<ProductPrice> productPrices = new();
-                //foreach (var option in request.ProductPrices)
-                //{
-                //    var optionToAdd = _mapper.Map<ProductPrice>(option);
-                //    optionToAdd.ProductId = product.Id;
-                //    optionToAdd.CreatedUser = accountId;
-                //    optionToAdd.CreatedTime = DateTime.Now;
-                //    productPrices.Add(optionToAdd);
-                //}
-                //await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
-                // Complete this transaction, data will be saved.
-                await createTransaction.CommitAsync(cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-                // Data will be restored.
-                await createTransaction.RollbackAsync(cancellationToken);
-                return false;
-            }
-
-            return true;
+                return true;
+            });
         }
 
         private static void RequestValidation(AdminCreateProductRequest request)

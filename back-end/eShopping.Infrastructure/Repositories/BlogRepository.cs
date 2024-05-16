@@ -25,43 +25,45 @@ namespace eShopping.Infrastructure.Repositories
 
         public async Task<Blog> UpdateBlogAsync(Blog request, List<Guid> blogcategoryId, CancellationToken cancellationToken = default)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-            try
+            return await _dbContext.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var blogOriginal = await GetBlogById(request.Id);
-                var blogmodified = request;
-                var blogCategoryId = _dbContext.BlogInCategories.Where(bc => bc.blogId == request.Id).Select(x => x.Id);
-                if (blogCategoryId.Any())
+                using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+                try
                 {
-                    var recordIds = string.Join(",", blogCategoryId.Select(id => $"'{id}'"));
-                    var sqlScript = $"DELETE FROM {nameof(BlogInCategory)} WHERE Id IN({recordIds})";
-                    await _dbContext.Database.ExecuteSqlRawAsync(sqlScript, cancellationToken: cancellationToken);
-                }
-                if (blogcategoryId.Any())
-                {
-                    var blogInCategory = new List<BlogInCategory>();
-                    foreach (var category in blogcategoryId)
+                    var blogOriginal = await GetBlogById(request.Id);
+                    var blogmodified = request;
+                    var blogCategoryId = _dbContext.BlogInCategories.Where(bc => bc.blogId == request.Id).Select(x => x.Id);
+                    if (blogCategoryId.Any())
                     {
-                        blogInCategory.Add(new BlogInCategory
-                        {
-                            blogId = request.Id,
-                            categoryId = category
-                        });
+                        var recordIds = string.Join(",", blogCategoryId.Select(id => $"'{id}'"));
+                        var sqlScript = $"DELETE FROM {nameof(BlogInCategory)} WHERE Id IN({recordIds})";
+                        await _dbContext.Database.ExecuteSqlRawAsync(sqlScript, cancellationToken: cancellationToken);
                     }
-                    await _dbContext.BlogInCategories.AddRangeAsync(blogInCategory, cancellationToken);
+                    if (blogcategoryId.Any())
+                    {
+                        var blogInCategory = new List<BlogInCategory>();
+                        foreach (var category in blogcategoryId)
+                        {
+                            blogInCategory.Add(new BlogInCategory
+                            {
+                                blogId = request.Id,
+                                categoryId = category
+                            });
+                        }
+                        await _dbContext.BlogInCategories.AddRangeAsync(blogInCategory, cancellationToken);
+                    }
+                    blogmodified.CreatedTime = blogOriginal.CreatedTime;
+                    _dbContext.Entry(blogmodified).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+                    return blogmodified;
                 }
-                blogmodified.CreatedTime = blogOriginal.CreatedTime;
-                _dbContext.Entry(blogmodified).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync(cancellationToken);
-                await transaction.CommitAsync(cancellationToken);
-                return blogmodified;
-            }
-            catch (Exception ex)
-            {
-                Serilog.Log.Error(ex.ToJsonWithCamelCase());
-                return null;
-            }
-
+                catch (Exception ex)
+                {
+                    Serilog.Log.Error(ex.ToJsonWithCamelCase());
+                    return null;
+                }
+            });
         }
     }
 }

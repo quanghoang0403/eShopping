@@ -8,6 +8,7 @@ using eShopping.Email;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
@@ -71,52 +72,55 @@ namespace eShopping.Application.Features.Customers.Commands
             CheckUniqueAndValidation(request);
 
             // Create a new transaction to save data more securely, data will be restored if an error occurs.
-            using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                // Generate the user's password.
-                var password = StringHelpers.GeneratePassword();
-                var newAccount = new Domain.Entities.Account()
+                using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    Email = request.Email,
-                    Password = (new PasswordHasher<Domain.Entities.Account>()).HashPassword(null, password),
-                    EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
-                    AccountType = EnumAccountType.Customer,
-                    FullName = request.FullName,
-                    Birthday = request.Birthday,
-                    Gender = request.Gender,
-                    LastSavedUser = accountId,
-                    LastSavedTime = DateTime.Now
-                };
-                // await _unitOfWork.Accounts.AddAsync(newAccount);
+                    // Generate the user's password.
+                    var password = StringHelpers.GeneratePassword();
+                    var newAccount = new Domain.Entities.Account()
+                    {
+                        Email = request.Email,
+                        Password = (new PasswordHasher<Domain.Entities.Account>()).HashPassword(null, password),
+                        EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
+                        AccountType = EnumAccountType.Customer,
+                        FullName = request.FullName,
+                        Birthday = request.Birthday,
+                        Gender = request.Gender,
+                        LastSavedUser = accountId,
+                        LastSavedTime = DateTime.Now
+                    };
+                    // await _unitOfWork.Accounts.AddAsync(newAccount);
 
-                var newCustomer = new Customer()
+                    var newCustomer = new Customer()
+                    {
+                        Address = request.Address,
+                        WardId = request.WardId,
+                        DistrictId = request.DistrictId,
+                        CityId = request.CityId,
+                        Account = newAccount,
+                        // AccountId = newAccount.Id,
+                        LastSavedUser = accountId,
+                        LastSavedTime = DateTime.Now
+                    };
+
+                    await _unitOfWork.Customers.AddAsync(newCustomer);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // Complete this transaction, data will be saved.
+                    await createStaffTransaction.CommitAsync(cancellationToken);
+                    await SendEmailPasswordAsync(request.FullName, request.Email, password);
+                }
+                catch
                 {
-                    Address = request.Address,
-                    WardId = request.WardId,
-                    DistrictId = request.DistrictId,
-                    CityId = request.CityId,
-                    Account = newAccount,
-                    // AccountId = newAccount.Id,
-                    LastSavedUser = accountId,
-                    LastSavedTime = DateTime.Now
-                };
+                    // Data will be restored.
+                    await createStaffTransaction.RollbackAsync(cancellationToken);
+                    return false;
+                }
 
-                await _unitOfWork.Customers.AddAsync(newCustomer);
-                await _unitOfWork.SaveChangesAsync();
-
-                // Complete this transaction, data will be saved.
-                await createStaffTransaction.CommitAsync(cancellationToken);
-                await SendEmailPasswordAsync(request.FullName, request.Email, password);
-            }
-            catch
-            {
-                // Data will be restored.
-                await createStaffTransaction.RollbackAsync(cancellationToken);
-                return false;
-            }
-
-            return true;
+                return true;
+            });
         }
 
         /// <summary>

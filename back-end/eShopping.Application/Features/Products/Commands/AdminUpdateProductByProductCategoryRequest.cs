@@ -36,48 +36,51 @@ namespace eShopping.Application.Features.Products.Commands
 
             var modifiedProductCategory = await _unitOfWork.ProductCategories.Where(c => c.Id == request.ProductCategoryId).AsNoTracking().FirstOrDefaultAsync();
             ThrowError.Against(modifiedProductCategory == null, "Cannot find product category by id " + request.ProductCategoryId);
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                /// Delete product - product category from sub-table
-                var productIds = request.ProductByCategoryIds.Select(p => p);
-                var currentProductInCategories = _unitOfWork.ProductInCategories
-                    .Find(p => p.ProductCategoryId == request.ProductCategoryId || productIds.Any(pid => pid == p.ProductId));
-                _unitOfWork.ProductInCategories.RemoveRange(currentProductInCategories);
-
-                var newProductInCategories = new List<ProductInCategory>();
-
-                if (request.ProductByCategoryIds != null && request.ProductByCategoryIds.Any())
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    /// Add new
-                    foreach (var id in request.ProductByCategoryIds)
+                    /// Delete product - product category from sub-table
+                    var productIds = request.ProductByCategoryIds.Select(p => p);
+                    var currentProductInCategories = _unitOfWork.ProductInCategories
+                        .Find(p => p.ProductCategoryId == request.ProductCategoryId || productIds.Any(pid => pid == p.ProductId));
+                    _unitOfWork.ProductInCategories.RemoveRange(currentProductInCategories);
+
+                    var newProductInCategories = new List<ProductInCategory>();
+
+                    if (request.ProductByCategoryIds != null && request.ProductByCategoryIds.Any())
                     {
-                        var newProduct = new ProductInCategory()
+                        /// Add new
+                        foreach (var id in request.ProductByCategoryIds)
                         {
-                            ProductCategoryId = request.ProductCategoryId,
-                            ProductId = id,
-                        };
-                        newProductInCategories.Add(newProduct);
+                            var newProduct = new ProductInCategory()
+                            {
+                                ProductCategoryId = request.ProductCategoryId,
+                                ProductId = id,
+                            };
+                            newProductInCategories.Add(newProduct);
+                        }
+
+                        _unitOfWork.ProductInCategories.AddRange(newProductInCategories);
                     }
+                    modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
+                    modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
 
-                    _unitOfWork.ProductInCategories.AddRange(newProductInCategories);
+                    await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
+                    await _unitOfWork.SaveChangesAsync();
+                    // Complete this transaction, data will be saved.
+                    await createTransaction.CommitAsync(cancellationToken);
+
                 }
-                modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
-                modifiedProductCategory.LastSavedTime = DateTime.UtcNow;
-
-                await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
-                await _unitOfWork.SaveChangesAsync();
-                // Complete this transaction, data will be saved.
-                await createTransaction.CommitAsync(cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-                // Data will be restored.
-                await createTransaction.RollbackAsync(cancellationToken);
-                return false;
-            }
-            return true;
+                catch (Exception ex)
+                {
+                    // Data will be restored.
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return false;
+                }
+                return true;
+            });
         }
     }
 }

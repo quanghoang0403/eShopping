@@ -8,6 +8,7 @@ using eShopping.Email;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
@@ -71,71 +72,74 @@ namespace eShopping.Application.Features.Staffs.Commands
 
             CheckUniqueAndValidation(request);
 
-            // Create a new transaction to save data more securely, data will be restored if an error occurs.
-            using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
-            try
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                // Generate the user's password.
-                var password = StringHelpers.GeneratePassword();
-                var newStaffAccount = new Account()
+                // Create a new transaction to save data more securely, data will be restored if an error occurs.
+                using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    Email = request.Email,
-                    Password = (new PasswordHasher<Account>()).HashPassword(null, password),
-                    EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
-                    AccountType = EnumAccountType.Staff,
-                    FullName = request.FullName,
-                    Birthday = request.Birthday,
-                    Gender = request.Gender,
-                    LastSavedUser = accountId,
-                    LastSavedTime = DateTime.Now,
-                    PhoneNumber = request.PhoneNumber,
-                    Thumbnail = request.Thumbnail
-                };
-                // await _unitOfWork.Accounts.AddAsync(newStaffAccount);
-
-
-                var newStaff = new Staff()
-                {
-                    // AccountId = newStaffAccount.Id,
-                    Account = newStaffAccount,
-                    LastSavedUser = accountId,
-                    LastSavedTime = DateTime.Now
-                };
-                await _unitOfWork.Staffs.AddAsync(newStaff);
-
-                // Create permission for the current staff.
-                List<StaffPermission> permissionGroups = new List<StaffPermission>();
-                foreach (var permissionId in request.PermissionIds)
-                {
-                    StaffPermission permissionGroup = new()
+                    // Generate the user's password.
+                    var password = StringHelpers.GeneratePassword();
+                    var newStaffAccount = new Account()
                     {
-                        StaffId = newStaff.Id,
-                        PermissionId = permissionId,
-                        CreatedUser = accountId,
+                        Email = request.Email,
+                        Password = (new PasswordHasher<Account>()).HashPassword(null, password),
+                        EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
+                        AccountType = EnumAccountType.Staff,
+                        FullName = request.FullName,
+                        Birthday = request.Birthday,
+                        Gender = request.Gender,
+                        LastSavedUser = accountId,
+                        LastSavedTime = DateTime.Now,
+                        PhoneNumber = request.PhoneNumber,
+                        Thumbnail = request.Thumbnail
+                    };
+                    // await _unitOfWork.Accounts.AddAsync(newStaffAccount);
+
+
+                    var newStaff = new Staff()
+                    {
+                        // AccountId = newStaffAccount.Id,
+                        Account = newStaffAccount,
                         LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
-                    permissionGroups.Add(permissionGroup);
+                    await _unitOfWork.Staffs.AddAsync(newStaff);
+
+                    // Create permission for the current staff.
+                    List<StaffPermission> permissionGroups = new();
+                    foreach (var permissionId in request.PermissionIds)
+                    {
+                        StaffPermission permissionGroup = new()
+                        {
+                            StaffId = newStaff.Id,
+                            PermissionId = permissionId,
+                            CreatedUser = accountId,
+                            LastSavedUser = accountId,
+                            LastSavedTime = DateTime.Now
+                        };
+                        permissionGroups.Add(permissionGroup);
+                    }
+
+                    // Add permission list for the current staff.
+                    await _unitOfWork.StaffPermission.AddRangeAsync(permissionGroups);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // Complete this transaction, data will be saved.
+                    await createStaffTransaction.CommitAsync(cancellationToken);
+                    await SendEmailPasswordAsync(request.FullName, request.Email, password);
+
+                }
+                catch
+                {
+                    // Data will be restored.
+                    await createStaffTransaction.RollbackAsync(cancellationToken);
+
+                    return false;
                 }
 
-                // Add permission list for the current staff.
-                await _unitOfWork.StaffPermission.AddRangeAsync(permissionGroups);
-                await _unitOfWork.SaveChangesAsync();
-
-                // Complete this transaction, data will be saved.
-                await createStaffTransaction.CommitAsync(cancellationToken);
-                await SendEmailPasswordAsync(request.FullName, request.Email, password);
-
-            }
-            catch
-            {
-                // Data will be restored.
-                await createStaffTransaction.RollbackAsync(cancellationToken);
-
-                return false;
-            }
-
-            return true;
+                return true;
+            });
         }
 
         /// <summary>
