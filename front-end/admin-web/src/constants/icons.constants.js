@@ -61,6 +61,7 @@ export { ReactComponent as UserNameIcon } from 'assets/icons/username.svg'
 export { ReactComponent as ViewMoreIcon } from 'assets/icons/view_more.svg'
 export { ReactComponent as WarningIcon } from 'assets/icons/warning.svg'
 export { ReactComponent as WalletIcon } from 'assets/icons/wallet.svg'
+export { ReactComponent as DeliveryGuy } from 'assets/icons-temp/delivery-icon.svg'
 export const ShipperIcon = (props) => {
   const { width = 24, height = 24 } = props
   return (

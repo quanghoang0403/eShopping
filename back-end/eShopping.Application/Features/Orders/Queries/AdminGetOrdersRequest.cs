@@ -61,22 +61,23 @@ namespace eShopping.Application.Features.Orders.Queries
             DateTime endDate = DatetimeHelpers.GetStartOfDay(request.EndDate);
 
             var listAllOrder = _unitOfWork.Orders.GetAll().AsNoTracking();
-            var listOrderCurrent = listAllOrder.Where(o => o.Status != EnumOrderStatus.New && o.CreatedTime >= startDate && o.CreatedTime <= endDate).AsNoTracking();
+
             string keySearch = request?.KeySearch?.Trim().ToLower();
 
             if (!string.IsNullOrEmpty(keySearch))
             {
                 if (int.TryParse(keySearch, out _))
                 {
-                    listOrderCurrent = listOrderCurrent
+                    listAllOrder = listAllOrder
                         .Where(o => o.Code.ToString().Contains(keySearch));
                 }
             }
-            var listOrderOrdered = listOrderCurrent.OrderByDescending(o => o.CreatedTime);
+            var listOrderOrdered = listAllOrder.OrderByDescending(o => o.CreatedTime);
             int pageNumber = request.PageNumber > 0 ? request.PageNumber : 1;
             int pageSize = request.PageSize > 0 ? request.PageSize : 20;
-            var listOrderByPaging = await listOrderOrdered.ToPaginationAsync(pageNumber, pageSize);
+            var listOrderByPaging = await listOrderOrdered.Include(o => o.OrderItems).ToPaginationAsync(pageNumber, pageSize);
             var listOrderModels = _mapper.Map<IEnumerable<AdminOrderModel>>(listOrderByPaging.Result);
+
             var response = new AdminGetOrdersResponse()
             {
                 Orders = listOrderModels,

@@ -10,32 +10,27 @@
         /// <summary>
         /// Order returned
         /// </summary>
-        Returned = 1,
+        Returned = 4,
 
         /// <summary>
         /// Order canceled
         /// </summary>
-        Canceled = 2,
+        Canceled = 5,
 
         /// <summary>
         /// Order confirmed
         /// </summary>
-        Confirmed = 3,
-
-        /// <summary>
-        /// Order on processing
-        /// </summary>
-        Processing = 4,
+        Confirmed = 1,
 
         /// <summary>
         /// Order on delivering
         /// </summary>
-        Delivering = 5,
+        Delivering = 2,
 
         /// <summary>
         /// Order completed
         /// </summary>
-        Completed = 6,
+        Completed = 3,
     }
 
     public static class EnumOrderStatusExtensions
@@ -46,7 +41,6 @@
             EnumOrderStatus.Returned => "Returned",
             EnumOrderStatus.Canceled => "Canceled",
             EnumOrderStatus.Confirmed => "Confirmed",
-            EnumOrderStatus.Processing => "Processing",
             EnumOrderStatus.Delivering => "Delivering",
             EnumOrderStatus.Completed => "Completed",
 
@@ -59,7 +53,6 @@
             EnumOrderStatus.Returned => "#858585",
             EnumOrderStatus.Canceled => "#FC0D1B",
             EnumOrderStatus.Confirmed => "#428BC1",
-            EnumOrderStatus.Processing => "#FF8C21",
             EnumOrderStatus.Delivering => "#50429B",
             EnumOrderStatus.Completed => "#33B530",
             _ => string.Empty
@@ -71,7 +64,6 @@
             EnumOrderStatus.Returned => "rgba(195, 189, 189, 0.1)",
             EnumOrderStatus.Canceled => "rgba(252, 13, 27, 0.1)",
             EnumOrderStatus.Confirmed => "rgba(66, 139, 193, 0.1)",
-            EnumOrderStatus.Processing => "rgba(255, 140, 33, 0.1)",
             EnumOrderStatus.Delivering => "rgba(80, 66, 155, 0.1)",
             EnumOrderStatus.Completed => "rgba(51, 181, 48, 0.1)",
             _ => string.Empty
@@ -83,7 +75,6 @@
             EnumOrderStatus.Returned => "order.detail.returned",
             EnumOrderStatus.Canceled => "order.detail.canceled",
             EnumOrderStatus.Confirmed => "order.detail.confirmed",
-            EnumOrderStatus.Processing => "order.detail.processing",
             EnumOrderStatus.Delivering => "order.detail.delivering",
             EnumOrderStatus.Completed => "order.detail.completed",
             _ => string.Empty

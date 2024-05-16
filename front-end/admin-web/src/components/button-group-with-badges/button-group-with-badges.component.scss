@@ -1,0 +1,74 @@
+@import '../../stylesheets/variable';
+.ant-segmented-item{
+    background: $color-light-white-purple;
+    width:150px;
+    font-size: medium;
+    color: white;
+    margin: 0 1px;
+}
+.ant-segmented-item-selected{
+    background-color: $color-ECF1F9;
+    border-radius: 10px;
+    color:$color-light-purple-2;
+    &:hover{
+        color:$color-light-purple-2;
+    }
+    .ant-segmented-item-label > *{
+        background: transparent;
+    }
+}
+.ant-badge-count{
+    box-shadow: none;
+}
+.ant-segmented{
+    background-color: transparent;
+}
+.ant-segmented:not(.ant-segmented-disabled):hover, .ant-segmented:not(.ant-segmented-disabled):focus {
+    background: none;
+}
+.ant-segmented-item-label{
+    padding: 0;
+    border-radius: 10px;
+}
+.new-order-color{
+    background-color: $color-F9CC66;
+    .ant-btn-primary {
+        background-color: $color-F9CC66;
+    }
+}
+.returned-order-color{
+    background-color: $color-light-red;
+    .ant-btn-primary {
+        background-color: $color-light-red;
+    }
+}
+.canceled-order-color{
+    background-color: $color-red;
+    .ant-btn-primary {
+        background-color: $color-red;
+    }
+}
+.to-confirm-order-color{
+    background-color: $color-FF8C21;
+    .ant-btn-primary {
+        background-color: $color-FF8C21;
+    }
+}
+.processing-order-color{
+    background-color: $color-FF8C21;
+    .ant-btn-primary {
+        background-color: $color-F9CC66;
+    }
+}
+.delivering-order-color{
+    background-color: $color-light-blue;
+    .ant-btn-primary {
+        background-color: $color-light-blue;
+    }
+}
+.completed-order-color{
+    background-color: $color-33B530;
+    .ant-btn-primary {
+        background-color: $color-33B530;
+    }
+}

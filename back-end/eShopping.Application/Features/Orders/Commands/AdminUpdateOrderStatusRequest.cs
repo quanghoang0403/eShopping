@@ -1,9 +1,11 @@
-﻿using eShopping.Domain.Entities;
+﻿using eShopping.Common.Exceptions;
+using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,10 +35,33 @@ namespace eShopping.Application.Features.Orders.Commands
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
-            var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).FirstOrDefaultAsync(cancellationToken);
+            var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).Include(o => o.OrderItems).FirstOrDefaultAsync(cancellationToken);
+            var prices = await _unitOfWork.ProductPrices
+                .Where(x => order.OrderItems.Select(cart => cart.ProductPriceId).Contains(x.Id)).ToListAsync();
+            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
             if (order != null)
             {
                 order.Status = request.Status;
+
+                foreach (var item in order.OrderItems)
+                {
+                    var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
+                    var orderItem = order.OrderItems.Where(i => i.ProductPriceId == price.Id).FirstOrDefault();
+                    if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
+                    {
+                        price.QuantityLeft += orderItem.Quantity;
+                        price.QuantitySold -= orderItem.Quantity;
+                    }
+                    else if (request.Status == EnumOrderStatus.Confirmed)
+                    {
+                        ThrowError.Against(price.QuantityLeft < orderItem.Quantity, "This product is out of stock");
+                        price.QuantityLeft -= orderItem.Quantity;
+                        price.QuantitySold += orderItem.Quantity;
+                    }
+                    price.LastSavedTime = DateTime.UtcNow;
+                    price.LastSavedUser = accountId;
+                }
+
                 order.LastSavedUser = accountId;
                 order.LastSavedTime = DateTime.Now;
             }
@@ -52,7 +77,7 @@ namespace eShopping.Application.Features.Orders.Commands
             });
 
             await _unitOfWork.SaveChangesAsync();
-
+            await createTransaction.CommitAsync(cancellationToken);
             return true;
         }
     }

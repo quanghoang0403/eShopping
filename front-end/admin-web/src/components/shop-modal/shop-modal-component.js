@@ -25,7 +25,7 @@ export function FnbModal ({
         closeIcon={closeIcon}
         width={width}
         className={`modal-component ${className}`}
-        visible={visible}
+        open={visible}
         title={title}
         cancelText={cancelText}
         onCancel={handleCancel}

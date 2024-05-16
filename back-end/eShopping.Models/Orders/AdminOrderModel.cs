@@ -44,11 +44,12 @@ namespace eShopping.Models.Orders
 
         [Precision(18, 2)]
         public decimal TotalAmount { get; set; }
+        public string ShipAddress { get; set; }
 
         public decimal Profit { get; set; }
 
         public CustomerDto Customer { get; set; }
-
+        public DateTime? CreatedTime { get; set; }
         public class CustomerDto
         {
             public Guid Id { get; set; }

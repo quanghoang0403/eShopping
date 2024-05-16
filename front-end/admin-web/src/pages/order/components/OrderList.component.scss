@@ -1,0 +1,59 @@
+@import '../../../stylesheets/variable.scss';
+.order-card{
+    .ant-card-meta-avatar{
+        border-radius: 50%;
+        background: $color-light-green;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 10px;
+        margin-right: 10px;
+    }
+    .ant-card{
+        background: $color-light-white-purple;
+        border-radius: 10px;
+    }
+    .order-content{
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+    .scheduled-time{
+        background-color: $color-light-green;
+        border-radius: 10px;
+        padding: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+    }
+    .ant-btn-default{
+        color: white;
+        width: 100%;
+        margin-top: 5px;
+    }
+    .flex-fill{
+        flex-basis: 150px;
+        text-align: end;
+    }
+    hr{
+        background-color: white;
+    }
+    p{
+        margin: 0;
+    }
+    .ant-btn-primary{
+        width: 100%;
+        text-transform: uppercase;
+        
+    }
+    .ant-btn-dangerous{
+        color: white;
+        margin: 5px 0;
+        border-color: #ff4d4f;
+        background: #ff4d4f;
+    }
+    .order-card-content{
+        background-color: white !important;
+    }
+}

@@ -1,34 +1,28 @@
 export const OrderStatus = {
   New: 0,
-  Returned: 1,
-  Canceled: 2,
-  ToConfirm: 3,
-  Processing: 4,
-  Delivering: 5,
-  Completed: 6,
-  Draft: 7
+  ToConfirm: 1,
+  Delivering: 2,
+  Completed: 3,
+  Returned: 4,
+  Canceled: 5
 }
 
 export const OrderStatusColor = {
   0: 'new-order-color',
-  1: 'returned-order-color',
-  2: 'canceled-order-color',
-  3: 'to-confirm-order-color',
-  4: 'processing-order-color',
-  5: 'delivering-order-color',
-  6: 'completed-order-color',
-  7: 'draft-order-color'
+  1: 'to-confirm-order-color',
+  2: 'delivering-order-color',
+  3: 'completed-order-color',
+  4: 'returned-order-color',
+  5: 'canceled-order-color'
 }
 
 export const orderStatusLocalization = {
   0: 'orderStatus.new',
-  1: 'orderStatus.returned',
-  2: 'orderStatus.canceled',
-  3: 'orderStatus.toConfirm',
-  4: 'orderStatus.processing',
-  5: 'orderStatus.delivering',
-  6: 'orderStatus.completed',
-  7: 'orderStatus.draft'
+  1: 'orderStatus.toConfirm',
+  2: 'orderStatus.delivering',
+  3: 'orderStatus.completed',
+  4: 'orderStatus.returned',
+  5: 'orderStatus.canceled'
 }
 
 export const EnumOrderActionType = {
@@ -41,4 +35,14 @@ export const EnumOrderActionType = {
   COMPLETE: 6,
   OLD_DATA: 7,
   THIRD_PARTIES: 8
+}
+export const OrderOptionDate={
+  Today : 0,
+  Yesterday : 1,
+  ThisWeek : 2,
+  LastWeek : 3,
+  ThisMonth : 4,
+  LastMonth : 5,
+  ThisYear : 6,
+  Customize : 7,
 }
