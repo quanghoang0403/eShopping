@@ -16,31 +16,31 @@ name: $(date:yyyyMMdd)$(rev:.r)
  
 stages:
 
-- stage: Stage_DB
-  displayName: Build DB
-  jobs:
-  - job: Job_1
-    displayName: Build DB
-    pool:
-      vmImage: $(VmName)
-    steps:
-    - checkout: self
-      fetchDepth: 1
-    - task: UseDotNet@2
-      displayName: 'Install .NET Core 7.0 SDK'
-      inputs:
-        version: 7.0.x
-    - task: pekspro.pekspro-efcore-migration-script-generator.efcore-migration-script-generator.efcore-migration-script-generator-task@1
-      displayName: Generate Migration Scripts
-      inputs:
-        projectpath: $(InfrastructureProjectPath)
-        databasecontexts: $(DbContext)
-        startupprojectpath: $(WebApiProjectPath)
-        targetfolder: $(build.artifactstagingdirectory)
-        eftoolversion: '7'
-        installdependencies: true
-    - task: PublishBuildArtifacts@1
-      displayName: Publish Artifact
+# - stage: Stage_DB
+#   displayName: Build DB
+#   jobs:
+#   - job: Job_1
+#     displayName: Build DB
+#     pool:
+#       vmImage: $(VmName)
+#     steps:
+#     - checkout: self
+#       fetchDepth: 1
+#     - task: UseDotNet@2
+#       displayName: 'Install .NET Core 7.0 SDK'
+#       inputs:
+#         version: 7.0.x
+#     - task: pekspro.pekspro-efcore-migration-script-generator.efcore-migration-script-generator.efcore-migration-script-generator-task@1
+#       displayName: Generate Migration Scripts
+#       inputs:
+#         projectpath: $(InfrastructureProjectPath)
+#         databasecontexts: $(DbContext)
+#         startupprojectpath: $(WebApiProjectPath)
+#         targetfolder: $(build.artifactstagingdirectory)
+#         eftoolversion: '7'
+#         installdependencies: true
+#     - task: PublishBuildArtifacts@1
+#       displayName: Publish Artifact
 - stage: Stage_API
   displayName: Build API
   dependsOn: []
