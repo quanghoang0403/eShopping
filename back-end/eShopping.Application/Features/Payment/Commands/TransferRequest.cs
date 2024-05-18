@@ -1,5 +1,5 @@
 ﻿using eShopping.Common.Exceptions;
-using eShopping.Common.Models.User;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;

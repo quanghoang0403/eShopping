@@ -1,4 +1,4 @@
-using eShopping.Common.Models.User;
+using eShopping.Common.Models;
 
 namespace eShopping.Interfaces
 {

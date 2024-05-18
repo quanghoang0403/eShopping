@@ -20,42 +20,42 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetAllBlogs([FromQuery] AdminGetAllBlogRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
         [HttpGet]
         [Route("get-blogs")]
         public async Task<IActionResult> GetBlogsAsync([FromQuery] AdminGetBlogsRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
         [HttpPost]
         [Route("create-new-blog")]
         public async Task<IActionResult> CreateNewBlogs([FromBody] AdminCreateBlogRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
         [HttpGet]
         [Route("get-blog-by-id/{id}")]
         public async Task<IActionResult> GetBlogById(Guid id)
         {
             var response = await _mediator.Send(new AdminGetBlogByIdRequest() { Id = id });
-            return SafeOk(response);
+            return Ok(response);
         }
         [HttpPut]
         [Route("update-blog")]
         public async Task<IActionResult> UpdateBlogAsync([FromBody] AdminUpdateBlogRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
         [HttpDelete]
         [Route("delete-blog-by-id/{id}")]
         public async Task<IActionResult> DeletBlogByIdAsync(Guid id)
         {
             var response = await _mediator.Send(new AdminDeleteBlogRequest() { Id = id });
-            return SafeOk(response);
+            return Ok(response);
         }
     }
 }

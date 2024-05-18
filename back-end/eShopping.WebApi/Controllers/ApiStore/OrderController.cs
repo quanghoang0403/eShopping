@@ -23,7 +23,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetOrdersAsync([FromQuery] StoreGetOrdersRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
 
@@ -33,7 +33,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetOrderByIdAsync([FromHeader] StoreGetOrderByIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -42,7 +42,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> UpdateOrderAsync(StoreUpdateOrderRequest command)
         {
             var response = await _mediator.Send(command);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -51,7 +51,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> CancelOrderStatusAsync(StoreCancelOrderRequest command)
         {
             var response = await _mediator.Send(command);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetOrderHistoryByOrderId([FromRoute] GetOrderHistoryByOrderIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -69,7 +69,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> Checkout(StoreCreateOrderRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -78,7 +78,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetPaymentMethods([FromQuery] StoreGetPaymentMethodsRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

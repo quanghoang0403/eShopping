@@ -20,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> CreateBlogCategory([FromBody] AdminCreateBlogCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
 
         }
         [HttpGet]
@@ -28,7 +28,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetAllBlogCategory([FromQuery] AdminGetAllBlogCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
 
         }
         [HttpGet]
@@ -36,7 +36,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetBlogCategoriesAsync([FromQuery] AdminGetBlogCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
 
         }
         [HttpGet]
@@ -44,7 +44,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetBlogCategoryById(Guid id)
         {
             var response = await _mediator.Send(new AdminGetBlogCategoryByIdRequest { Id = id });
-            return SafeOk(response);
+            return Ok(response);
 
         }
         [HttpPut]
@@ -52,7 +52,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateBlogCategory([FromBody] AdminUpdateBlogCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
 
         }
         [HttpPut]
@@ -60,7 +60,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateBlogList([FromBody] AdminUpdateBlogByBlogCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
 
         }
         [HttpDelete]
@@ -68,7 +68,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> DeleteBlogCategoryById(Guid id)
         {
             var response = await _mediator.Send(new AdminDeleteBlogCategoryRequest() { Id = id });
-            return SafeOk(response);
+            return Ok(response);
 
         }
     }

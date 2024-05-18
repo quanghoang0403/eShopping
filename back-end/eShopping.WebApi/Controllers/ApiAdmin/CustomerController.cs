@@ -23,7 +23,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetCustomersAsync([FromQuery] AdminGetCustomersRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetCustomerByIdAsync([FromQuery] GetCustomerByIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> CreateCustomerAsync([FromBody] CreateCustomerRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -50,7 +50,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateCustomerAsync([FromBody] UpdateCustomerRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -59,7 +59,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> DeleteCustomerByIdAsync([FromRoute] AdminDeleteCustomerByIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> CreateProductCategoryAsync([FromBody] AdminCreateProductCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -33,7 +33,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateProductCategoryAsync([FromBody] AdminUpdateProductCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -42,7 +42,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateProductListyAsync([FromBody] AdminUpdateProductByProductCategoryRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -51,7 +51,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> DeleteProductCategoryByIdAsync(Guid id)
         {
             var response = await _mediator.Send(new AdminDeleteProductCategoryByIdRequest() { Id = id });
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetProductCategoriesAsync([FromQuery] AdminGetProductCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -69,7 +69,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetAllProductCategory([FromQuery] AdminGetAllProductCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -78,7 +78,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetProductCategoryByIdAsync(Guid id)
         {
             var response = await _mediator.Send(new AdminGetProductCategoryByIdRequest() { Id = id });
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

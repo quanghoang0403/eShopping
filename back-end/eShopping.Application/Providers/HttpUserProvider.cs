@@ -1,7 +1,7 @@
 using eShopping.Common.Constants;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
-using eShopping.Common.Models.User;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

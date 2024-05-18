@@ -1,5 +1,5 @@
 ﻿using eShopping.Common.Constants;
-using eShopping.Common.Models.User;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Settings;
 using eShopping.Interfaces;
