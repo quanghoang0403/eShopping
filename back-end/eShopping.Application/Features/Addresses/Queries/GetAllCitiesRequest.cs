@@ -1,25 +1,20 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Addresses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Addresses.Queries
 {
-    public class GetAllCitiesRequest : IRequest<GetAllCitiesResponse>
+    public class GetAllCitiesRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class GetAllCitiesResponse
-    {
-        public IList<CityModel> Cities { get; set; }
-    }
-
-    public class GetAllCitiesRequestHandler : IRequestHandler<GetAllCitiesRequest, GetAllCitiesResponse>
+    public class GetAllCitiesRequestHandler : IRequestHandler<GetAllCitiesRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly MapperConfiguration _mapperConfiguration;
@@ -32,18 +27,14 @@ namespace eShopping.Application.Features.Addresses.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<GetAllCitiesResponse> Handle(GetAllCitiesRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(GetAllCitiesRequest request, CancellationToken cancellationToken)
         {
             var cities = await _unitOfWork.Cities
                 .GetCities()
                 .ProjectTo<CityModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken: cancellationToken);
 
-            var response = new GetAllCitiesResponse()
-            {
-                Cities = cities
-            };
-
+            var response = BaseResponseModel.ReturnData(cities);
             return response;
         }
     }

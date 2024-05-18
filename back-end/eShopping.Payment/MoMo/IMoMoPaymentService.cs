@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Models.User;
+﻿using eShopping.Common.Models;
 using eShopping.Payment.MoMo.Model;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;

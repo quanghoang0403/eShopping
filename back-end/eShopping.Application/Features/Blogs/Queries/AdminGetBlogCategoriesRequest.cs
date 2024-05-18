@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
@@ -9,26 +10,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Blogs.Queries
 {
-    public class AdminGetBlogCategoriesRequest : IRequest<AdminGetBlogCategoriesResponse>
+    public class AdminGetBlogCategoriesRequest : IRequest<BaseResponseModel>
     {
         public int PageNumber { get; set; }
 
         public int PageSize { get; set; }
 
         public string KeySearch { get; set; }
+
         public EnumColorCategory Color { get; set; }
     }
 
-    public class AdminGetBlogCategoriesResponse
-    {
-        public IEnumerable<AdminBlogCategoryModel> BlogCategories { get; set; }
-        public int PageNumber { get; set; }
-        public int Total { get; set; }
-    }
-    public class AdminGetBlogCategoriesRequestHandler : IRequestHandler<AdminGetBlogCategoriesRequest, AdminGetBlogCategoriesResponse>
+    public class AdminGetBlogCategoriesRequestHandler : IRequestHandler<AdminGetBlogCategoriesRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -43,7 +40,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<AdminGetBlogCategoriesResponse> Handle(AdminGetBlogCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetBlogCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategory = _unitOfWork.BlogCategories.GetAll();
@@ -68,14 +65,8 @@ namespace eShopping.Application.Features.Blogs.Queries
                 b.Blogs = _mapper.Map<List<AdminBlogModel>>(blogInCategory.BlogInCategories.Select(b => b.blog));
 
             });
-            var response = new AdminGetBlogCategoriesResponse()
-            {
-                PageNumber = request.PageNumber,
-                Total = allBlogCategories.Total,
-                BlogCategories = allBlogCategoriesResponse
-            };
-
-            return response;
+            var response = new PagingResult<AdminBlogCategoryModel>(allBlogCategoriesResponse, allBlogCategories.Paging);
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }

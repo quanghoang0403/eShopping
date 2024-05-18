@@ -21,7 +21,7 @@ namespace eShopping.WebApi.Controllers.v3_3
         public async Task<IActionResult> UploadAsync([FromForm] UploadFileRequest request)
         {
             var respsone = await _mediator.Send(request);
-            return SafeOk(respsone);
+            return Ok(respsone);
         }
 
 
@@ -31,7 +31,7 @@ namespace eShopping.WebApi.Controllers.v3_3
         public async Task<IActionResult> GetBase64Image([FromQuery] string url)
         {
             var respsone = await _mediator.Send(new GetBase64ImageRequest() { Url = url });
-            return SafeOk(respsone);
+            return Ok(respsone);
         }
 
         [HttpPost]
@@ -40,7 +40,7 @@ namespace eShopping.WebApi.Controllers.v3_3
         public async Task<IActionResult> UploadFroalaAsync([FromForm] UploadFileFroalaRequest request)
         {
             var respsone = await _mediator.Send(request);
-            return SafeOk(respsone);
+            return Ok(respsone);
         }
     }
 }

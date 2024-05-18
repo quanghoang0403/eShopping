@@ -1,6 +1,6 @@
 ﻿using eShopping.Common.Constants;
 using eShopping.Common.Extensions;
-using eShopping.Common.Models.User;
+using eShopping.Common.Models;
 using eShopping.Domain.Settings;
 using eShopping.Payment.MoMo.Enums;
 using eShopping.Payment.MoMo.Model;

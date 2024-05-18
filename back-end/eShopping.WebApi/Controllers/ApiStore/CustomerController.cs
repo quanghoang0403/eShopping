@@ -24,7 +24,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetCustomerByIdAsync([FromQuery] GetCustomerByIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -33,7 +33,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> CreateCustomerAsync([FromBody] CreateCustomerRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -42,7 +42,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> UpdateCustomerAsync([FromBody] UpdateCustomerRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request)
         {
             bool response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

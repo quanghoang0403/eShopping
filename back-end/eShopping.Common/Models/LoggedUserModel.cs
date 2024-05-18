@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace eShopping.Common.Models.User
+namespace eShopping.Common.Models
 {
     public class LoggedUserModel
     {

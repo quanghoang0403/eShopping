@@ -17,7 +17,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -25,7 +25,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
     }
 }

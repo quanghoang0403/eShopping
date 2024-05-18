@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Models.User;
+﻿using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Payment.MoMo.Enums;

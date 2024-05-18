@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Common.Models;
 using eShopping.Interfaces;
 using MediatR;
 using System;
@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminChangeFeatureStatusRequest : IRequest<bool>
+    public class AdminChangeFeatureStatusRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
         public bool IsActivate { get; set; }
     }
-    public class AdminChangeFeatureStatusRequestHandler : IRequestHandler<AdminChangeFeatureStatusRequest, bool>
+    public class AdminChangeFeatureStatusRequestHandler : IRequestHandler<AdminChangeFeatureStatusRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -26,16 +26,19 @@ namespace eShopping.Application.Features.Products.Commands
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
         }
-        public async Task<bool> Handle(AdminChangeFeatureStatusRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminChangeFeatureStatusRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var product = await _unitOfWork.Products.GetProductByIdAsync(request.Id);
-            ThrowError.Against(product == null, "Couldn't find product");
+
+            if (product == null)
+                return BaseResponseModel.ReturnError("Couldn't find product");
+
             product.IsFeatured = request.IsActivate;
             product.LastSavedUser = loggedUser.AccountId.Value;
             product.LastSavedTime = DateTime.Now;
             await _unitOfWork.Products.UpdateAsync(product);
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }

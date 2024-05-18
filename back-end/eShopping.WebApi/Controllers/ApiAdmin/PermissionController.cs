@@ -20,7 +20,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetPermissionsAsync([FromQuery] string token)
         {
             var response = await _mediator.Send(new AdminGetPermissionsRequest() { Token = token });
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -28,7 +28,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetAllPermissionGroupsAsync()
         {
             var response = await _mediator.Send(new AdminGetAllPermissionGroupsRequest());
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

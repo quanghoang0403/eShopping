@@ -17,7 +17,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetAllProductCategory([FromBody] StoreGetAllProductCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> GetProductCategoryByUrlAsync([FromQuery] StoreGetProductCategoryByUrlRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

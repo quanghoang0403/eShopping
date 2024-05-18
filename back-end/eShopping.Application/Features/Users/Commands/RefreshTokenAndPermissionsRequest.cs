@@ -1,7 +1,7 @@
 ﻿using eShopping.Application.Features.Settings.Queries;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
-using eShopping.Common.Models.User;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using eShopping.Models.Permissions;

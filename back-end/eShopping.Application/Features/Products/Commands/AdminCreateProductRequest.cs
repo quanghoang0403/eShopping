@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminCreateProductRequest : IRequest<bool>
+    public class AdminCreateProductRequest : IRequest<BaseResponseModel>
     {
         public string Name { get; set; }
 
@@ -43,7 +43,7 @@ namespace eShopping.Application.Features.Products.Commands
         public List<AdminProductPriceModel> ProductPrices { get; set; }
     }
 
-    public class AdminCreateMaterialRequestHandler : IRequestHandler<AdminCreateProductRequest, bool>
+    public class AdminCreateMaterialRequestHandler : IRequestHandler<AdminCreateProductRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
@@ -62,11 +62,31 @@ namespace eShopping.Application.Features.Products.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(AdminCreateProductRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminCreateProductRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            RequestValidation(request);
+            #region Validate
+
+            if (string.IsNullOrEmpty(request.Name))
+                return BaseResponseModel.ReturnError("Please enter product name");
+
+            if (request.ProductPrices == null || !request.ProductPrices.Any())
+                return BaseResponseModel.ReturnError("Please enter product price");
+
+            if (request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)))
+                return BaseResponseModel.ReturnError("Please enter price name");
+
+            if (request.ProductPrices.Any(p => p.PriceValue <= 0))
+                return BaseResponseModel.ReturnError("Please enter price value");
+
+            if (request.ProductPrices.Any(p => p.PriceOriginal <= 0))
+                return BaseResponseModel.ReturnError("Please enter price original");
+
+            if (request.ProductPrices.Any(p => p.PriceOriginal > p.PriceValue))
+                return BaseResponseModel.ReturnError("Price original must less than price value");
+
+            #endregion
 
             // Check valid image
             // TO DO
@@ -143,21 +163,11 @@ namespace eShopping.Application.Features.Products.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    BaseResponseModel.ReturnError(ex.Message, "Can not create Product");
                 }
 
-                return true;
+                return BaseResponseModel.ReturnData();
             });
-        }
-
-        private static void RequestValidation(AdminCreateProductRequest request)
-        {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
-            ThrowError.Against(request.ProductPrices == null || !request.ProductPrices.Any(), "Please enter product price");
-            ThrowError.Against(request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)), "Please enter product name");
-            ThrowError.Against(request.ProductPrices.Any(p => p.PriceValue <= 0), "Please enter product price");
-            ThrowError.Against(request.ProductPrices.Any(p => p.PriceOriginal <= 0), "Please enter product price");
-            ThrowError.Against(request.ProductPrices.Any(p => p.PriceOriginal > p.PriceValue), "PriceOriginal must less than PriceValue");
         }
     }
 }

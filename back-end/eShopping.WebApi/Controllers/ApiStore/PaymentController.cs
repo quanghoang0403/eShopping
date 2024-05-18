@@ -17,7 +17,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> VnPayIpn([FromQuery] VnPayIpnRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> PayOSIpn([FromQuery] PayOSIpnRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -33,7 +33,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> MomoIpn([FromBody] MomoIpnRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         public async Task<IActionResult> TransferConfirm([FromBody] TransferRequest request)
         {
             var response = await _mediator.Send(request);
-            return SafeOk(response);
+            return Ok(response);
         }
     }
 }

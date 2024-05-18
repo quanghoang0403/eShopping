@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Orders;
 using MediatR;
@@ -10,10 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class StoreGetOrdersRequest : IRequest<StoreGetOrdersResponse>
+    public class StoreGetOrdersRequest : IRequest<BaseResponseModel>
     {
         public DateTime? StartDate { get; set; }
 
@@ -26,16 +28,7 @@ namespace eShopping.Application.Features.Orders.Queries
         public string KeySearch { get; set; }
     }
 
-    public class StoreGetOrdersResponse
-    {
-        public IEnumerable<StoreOrderModel> Orders { get; set; }
-
-        public int PageSize { get; set; }
-
-        public int Total { get; set; }
-    }
-
-    public class StoreGetOrdersRequestHandler : IRequestHandler<StoreGetOrdersRequest, StoreGetOrdersResponse>
+    public class StoreGetOrdersRequestHandler : IRequestHandler<StoreGetOrdersRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -51,7 +44,7 @@ namespace eShopping.Application.Features.Orders.Queries
             _mapper = mapper;
         }
 
-        public async Task<StoreGetOrdersResponse> Handle(StoreGetOrdersRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetOrdersRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -79,13 +72,9 @@ namespace eShopping.Application.Features.Orders.Queries
             int pageSize = request.PageSize > 0 ? request.PageSize : 10;
             var listOrderByPaging = await listOrderOrdered.ToPaginationAsync(pageNumber, pageSize);
             var listOrderModels = _mapper.Map<IEnumerable<StoreOrderModel>>(listOrderByPaging.Result);
-            var response = new StoreGetOrdersResponse()
-            {
-                Orders = listOrderModels,
-                Total = listOrderByPaging.Total,
-                PageSize = pageSize
-            };
-            return response;
+            var response = new PagingResult<StoreOrderModel>(listOrderModels, listOrderByPaging.Paging);
+            return BaseResponseModel.ReturnData(response);
+
         }
     }
 }

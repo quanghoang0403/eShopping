@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
@@ -10,10 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductsRequest : IRequest<StoreGetProductsResponse>
+    public class StoreGetProductsRequest : IRequest<BaseResponseModel>
     {
         public int PageNumber { get; set; }
 
@@ -31,16 +33,7 @@ namespace eShopping.Application.Features.Products.Queries
 
     }
 
-    public class StoreGetProductsResponse
-    {
-        public IEnumerable<StoreProductModel> Products { get; set; }
-
-        public int PageNumber { get; set; }
-
-        public int Total { get; set; }
-    }
-
-    public class StoreGetProductsRequestHandler : IRequestHandler<StoreGetProductsRequest, StoreGetProductsResponse>
+    public class StoreGetProductsRequestHandler : IRequestHandler<StoreGetProductsRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -56,7 +49,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<StoreGetProductsResponse> Handle(StoreGetProductsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetProductsRequest request, CancellationToken cancellationToken)
         {
             var products = _unitOfWork.Products.GetAll();
 
@@ -128,14 +121,9 @@ namespace eShopping.Application.Features.Products.Queries
                 productListResponse.Add(productResponse);
             }
 
-            var response = new StoreGetProductsResponse()
-            {
-                PageNumber = request.PageNumber,
-                Total = allProducts.Total,
-                Products = productListResponse
-            };
+            var response = new PagingResult<StoreProductModel>(productListResponse, allProducts.Paging);
+            return BaseResponseModel.ReturnData(response);
 
-            return response;
         }
     }
 }

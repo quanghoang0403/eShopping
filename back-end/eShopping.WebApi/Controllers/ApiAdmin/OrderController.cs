@@ -23,7 +23,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetOrdersAsync([FromQuery] AdminGetOrdersRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
 
@@ -33,7 +33,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetOrderByIdAsync([FromHeader] AdminGetOrderByIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetOrderTopSellingAsync([FromQuery] AdminGetOrderTopSellingRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -51,7 +51,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateOrderStatusAsync(AdminUpdateOrderStatusRequest command)
         {
             var response = await _mediator.Send(command);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> GetOrderHistoryByOrderId([FromRoute] GetOrderHistoryByOrderIdRequest request)
         {
             var response = await _mediator.Send(request);
-            return await SafeOkAsync(response);
+            return Ok(response);
         }
     }
 }

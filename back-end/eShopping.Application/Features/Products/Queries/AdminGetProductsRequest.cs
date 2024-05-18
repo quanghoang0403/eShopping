@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
@@ -10,10 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class AdminGetProductsRequest : IRequest<AdminGetProductsResponse>
+    public class AdminGetProductsRequest : IRequest<BaseResponseModel>
     {
         public int PageNumber { get; set; }
 
@@ -24,20 +26,11 @@ namespace eShopping.Application.Features.Products.Queries
         public Guid? ProductCategoryId { get; set; }
 
         public EnumStatus Status { get; set; }
+
         public bool FilterAll { get; set; }
-
     }
 
-    public class AdminGetProductsResponse
-    {
-        public IEnumerable<AdminProductDatatableModel> Products { get; set; }
-
-        public int PageNumber { get; set; }
-
-        public int Total { get; set; }
-    }
-
-    public class AdminGetProductsRequestHandler : IRequestHandler<AdminGetProductsRequest, AdminGetProductsResponse>
+    public class AdminGetProductsRequestHandler : IRequestHandler<AdminGetProductsRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -53,7 +46,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetProductsResponse> Handle(AdminGetProductsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetProductsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var products = _unitOfWork.Products.GetAll();
@@ -93,14 +86,8 @@ namespace eShopping.Application.Features.Products.Queries
                 p.IsActive = Convert.ToBoolean(status.ToInt());
             });
 
-            var response = new AdminGetProductsResponse()
-            {
-                PageNumber = request.PageNumber,
-                Total = allProductsInStore.Total,
-                Products = productListResponse
-            };
-
-            return response;
+            var response = new PagingResult<AdminProductDatatableModel>(productListResponse, allProductsInStore.Paging);
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }
