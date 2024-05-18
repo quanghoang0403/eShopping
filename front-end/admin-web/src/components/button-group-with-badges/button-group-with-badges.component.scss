@@ -1,6 +1,6 @@
 @import '../../stylesheets/variable';
 .ant-segmented-item{
-    background: $color-light-white-purple;
+    background: $color-A5ABDE;
     width:150px;
     font-size: medium;
     color: white;
@@ -18,6 +18,7 @@
     }
 }
 .ant-badge-count{
+    background: $color-FC0D1B;
     box-shadow: none;
 }
 .ant-segmented{
@@ -30,45 +31,45 @@
     padding: 0;
     border-radius: 10px;
 }
-.new-order-color{
-    background-color: $color-F9CC66;
-    .ant-btn-primary {
-        background-color: $color-F9CC66;
-    }
-}
-.returned-order-color{
-    background-color: $color-light-red;
-    .ant-btn-primary {
-        background-color: $color-light-red;
-    }
-}
-.canceled-order-color{
-    background-color: $color-red;
-    .ant-btn-primary {
-        background-color: $color-red;
-    }
-}
-.to-confirm-order-color{
-    background-color: $color-FF8C21;
-    .ant-btn-primary {
-        background-color: $color-FF8C21;
-    }
-}
-.processing-order-color{
-    background-color: $color-FF8C21;
-    .ant-btn-primary {
-        background-color: $color-F9CC66;
-    }
-}
-.delivering-order-color{
-    background-color: $color-light-blue;
-    .ant-btn-primary {
-        background-color: $color-light-blue;
-    }
-}
-.completed-order-color{
-    background-color: $color-33B530;
-    .ant-btn-primary {
-        background-color: $color-33B530;
-    }
-}
+// .new-order-color{
+//     background-color: $color-F9CC66;
+//     .ant-btn-primary {
+//         background-color: $color-F9CC66;
+//     }
+// }
+// .returned-order-color{
+//     background-color: $color-light-red;
+//     .ant-btn-primary {
+//         background-color: $color-light-red;
+//     }
+// }
+// .canceled-order-color{
+//     background-color: $color-red;
+//     .ant-btn-primary {
+//         background-color: $color-red;
+//     }
+// }
+// .to-confirm-order-color{
+//     background-color: $color-FF8C21;
+//     .ant-btn-primary {
+//         background-color: $color-FF8C21;
+//     }
+// }
+// .processing-order-color{
+//     background-color: $color-FF8C21;
+//     .ant-btn-primary {
+//         background-color: $color-F9CC66;
+//     }
+// }
+// .delivering-order-color{
+//     background-color: $color-light-blue;
+//     .ant-btn-primary {
+//         background-color: $color-light-blue;
+//     }
+// }
+// .completed-order-color{
+//     background-color: $color-33B530;
+//     .ant-btn-primary {
+//         background-color: $color-33B530;
+//     }
+// }

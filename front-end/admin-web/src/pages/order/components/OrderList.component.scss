@@ -45,13 +45,13 @@
     .ant-btn-primary{
         width: 100%;
         text-transform: uppercase;
-        
+        background: $color-A5ABDE;
     }
     .ant-btn-dangerous{
         color: white;
         margin: 5px 0;
-        border-color: #ff4d4f;
-        background: #ff4d4f;
+        border-color: $color-FF8C21;
+        background: $color-FF8C21;
     }
     .order-card-content{
         background-color: white !important;
