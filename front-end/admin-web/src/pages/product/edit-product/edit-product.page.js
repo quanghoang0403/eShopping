@@ -147,7 +147,8 @@ export default function EditProductPage(props) {
         max: 999999999,
         min: 1,
         format: '^[1-9]*$',
-        validateMessage: t('product.validatePriceNegative')
+        validateMessage: t('product.validatePriceNegative'),
+        validateMessageValue:t('product.validateOriginalOverPrice')
       },
       priceOriginal: {
         label: t('product.labelPriceOriginal'),
@@ -156,12 +157,14 @@ export default function EditProductPage(props) {
         max: 999999999,
         min: 1,
         format: '^[1-9]*$',
-        validateMessage: t('product.validatePriceNegative')
+        validateMessage: t('product.validatePriceNegative'),
+        validateMessageValue:t('product.validateOriginalOverPrice')
       },
       discount: {
         numeric: {
           label: t('product.labelPriceDiscount'),
-          placeholder: t('product.placeholderPriceDiscount')
+          placeholder: t('product.placeholderPriceDiscount'),
+          validateMessage:t('product.validateDiscountOverPrice')
         },
         percentage: {
           label: t('product.labelPriceDiscountPercentage'),
@@ -179,7 +182,8 @@ export default function EditProductPage(props) {
         },
         remaining: {
           label: t('product.labelQuantityLeft'),
-          placeholder: t('product.placeholderQuantityLeft')
+          placeholder: t('product.placeholderQuantityLeft'),
+          validateMessage:t('product.validateQuantity')
         }
       },
       priceName: {
@@ -389,7 +393,7 @@ export default function EditProductPage(props) {
       quantityLeft: 0,
       quantitySold: 0,
       startDate: moment(),
-      endDate: null
+      endDate: moment().add(7,'days')
     }
     if (prices.length === 1) {
       prices[0].price = product.price || 0
@@ -408,11 +412,14 @@ export default function EditProductPage(props) {
   const onDeletePrice = (index) => {
     const formValue = form.getFieldsValue()
     const { product } = formValue
+    const discount = discountChecked
     if (product.prices.length > 0) {
       product.prices.splice(index, 1)
       product.selectedMaterials?.priceName?.splice(index, 1)
       product.prices.forEach((item, index) => (item.position = index))
+      discount.splice(index,1)
     }
+    isDisCountChecked(discount)
     setPrices(product.prices)
     if (product.prices.length === 1) {
       product.price = product.prices[0].price
@@ -523,7 +530,7 @@ export default function EditProductPage(props) {
                                 <div className="m-4 title-center position-text">{position + '.'}</div>
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
-                                    <Row gutter={[8, 16]}>
+                                    <Row gutter={[0, 16]}>
                                         <Col span={8}>
                                           <h3>{pageData.pricing.priceName.label}</h3>
                                         </Col>
@@ -568,8 +575,8 @@ export default function EditProductPage(props) {
                                           name={['product', 'prices', price.position, 'quantityLeft']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
-                                              message: pageData.pricing.price.validateMessage
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                              message: pageData.pricing.quantity.remaining.validateMessage
                                             }
                                           ]}
                                         >
@@ -638,7 +645,15 @@ export default function EditProductPage(props) {
                                             {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
-                                            }
+                                            },
+                                            ({getFieldValue})=>({
+                                              validator(_,value){
+                                                if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                  return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                                                }
+                                                return Promise.resolve()
+                                              }
+                                            })
                                           ]}
                                         >
                                           <InputNumber
@@ -668,7 +683,25 @@ export default function EditProductPage(props) {
                                             {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
-                                            }
+                                            },
+                                            ({getFieldValue})=>({
+                                              validator(_,value){
+                                                if(value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])){
+                                                  return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                                                }
+                                                return Promise.resolve()
+                                              }
+                                            }),
+                                            ({getFieldValue})=>(
+                                              {
+                                                validator(_,value){
+                                                  if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                    return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
+                                                  }
+                                                  return Promise.resolve();
+                                                }
+                                              }
+                                            )
                                           ]}
                                         >
                                           <InputNumber
@@ -708,9 +741,19 @@ export default function EditProductPage(props) {
                                           name={['product', 'prices', price.position, 'priceDiscount']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
-                                            }
+                                            },
+                                            ({getFieldValue})=>(
+                                              {
+                                                validator(_,value){
+                                                  if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                    return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
+                                                  }
+                                                  return Promise.resolve();
+                                                }
+                                              }
+                                            )
                                           ]}
                                         >
                                           <InputNumber
@@ -735,7 +778,7 @@ export default function EditProductPage(props) {
                                           name={['product', 'prices', price.position, 'percentNumber']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange0To100.range),
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.discount.percentage.validateMessage
                                             }
                                           ]}
@@ -982,6 +1025,7 @@ export default function EditProductPage(props) {
       <Form
         form={form}
         name="basic"
+        scrollToFirstError
         onFieldsChange={(e) => changeForm(e)}
         autoComplete="off"
       >

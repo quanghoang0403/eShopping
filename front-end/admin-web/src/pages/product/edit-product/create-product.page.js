@@ -62,7 +62,7 @@ export default function CreateProductPage() {
     quantityLeft: 0,
     percentNumber: 0,
     startDate: moment(),
-    endDate: null
+    endDate: moment().add(7,"days")
   }])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
@@ -143,7 +143,9 @@ export default function CreateProductPage() {
         max: 999999999,
         min: 0,
         format: '^[1-9]*$',
-        validateMessage: t('product.validatePriceNegative')
+        validateMessage: t('product.validatePriceNegative'),
+        validateMessageValue:t('product.validateOriginalOverPrice'),
+        validateMessageDiscount:t('product.validateDiscountOverPrice')
       },
       priceOriginal: {
         label: t('product.labelPriceOriginal'),
@@ -152,12 +154,14 @@ export default function CreateProductPage() {
         max: 999999999,
         min: 0,
         format: '^[0-9]*$',
-        validateMessage: t('product.validatePriceNegative')
+        validateMessage: t('product.validatePriceNegative'),
+        validateMessageValue:t('product.validateOriginalOverPrice')
       },
       discount: {
         numeric: {
           label: t('product.labelPriceDiscount'),
-          placeholder: t('product.placeholderPriceDiscount')
+          placeholder: t('product.placeholderPriceDiscount'),
+          validateMessage:t('product.validateDiscountOverPrice')
         },
         percentage: {
           label: t('product.labelPriceDiscountPercentage'),
@@ -182,7 +186,8 @@ export default function CreateProductPage() {
         },
         remaining: {
           label: t('product.labelQuantityLeft'),
-          placeholder: t('product.placeholderQuantityLeft')
+          placeholder: t('product.placeholderQuantityLeft'),
+          validateMessage:t('product.validateQuantity')
         }
       },
       priceDate: {
@@ -428,7 +433,7 @@ export default function CreateProductPage() {
                                 <div className="m-4 title-center position-text">{position + '.'}</div>
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
-                                    <Row gutter={[8, 16]}>
+                                    <Row gutter={[0, 16]}>
                                       <Col span={8}>
                                         <h3>{pageData.pricing.priceName.label}</h3>
                                       </Col>
@@ -473,9 +478,14 @@ export default function CreateProductPage() {
                                           name={['product', 'prices', price.position, 'quantityLeft']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
-                                              message: pageData.pricing.price.validateMessage
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                              message: pageData.pricing.quantity.remaining.validateMessage
+                                            },
+                                            {
+                                              required:true,
+                                              message:pageData.pricing.quantity.remaining.validateMessage
                                             }
+
                                           ]}
                                         >
                                           <InputNumber
@@ -545,7 +555,15 @@ export default function CreateProductPage() {
                                             {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
-                                            }
+                                            },
+                                            ({getFieldValue})=>({
+                                              validator(_,value){
+                                                if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                  return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                                                }
+                                                return Promise.resolve()
+                                              }
+                                            })
                                           ]}
                                         >
 
@@ -576,7 +594,25 @@ export default function CreateProductPage() {
                                             {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
-                                            }
+                                            },
+                                            ({getFieldValue})=>(
+                                              {
+                                                validator(_,value){
+                                                  if(value < getFieldValue(['product', 'prices', price.position, 'priceDiscount'])){
+                                                    return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
+                                                  }
+                                                  return Promise.resolve();
+                                                }
+                                              }
+                                            ),
+                                            ({getFieldValue})=>({
+                                              validator(_,value){
+                                                if(value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])){
+                                                  return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                                                }
+                                                return Promise.resolve()
+                                              }
+                                            })
                                           ]}
                                         >
                                           <InputNumber
@@ -615,9 +651,19 @@ export default function CreateProductPage() {
                                           name={['product', 'prices', price.position, 'priceDiscount']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange1To999999999.range),
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
-                                            }
+                                            },
+                                            ({getFieldValue})=>(
+                                              {
+                                                validator(_,value){
+                                                  if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                    return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
+                                                  }
+                                                  return Promise.resolve();
+                                                }
+                                              }
+                                            )
                                           ]}
                                         >
                                           <InputNumber
@@ -642,7 +688,7 @@ export default function CreateProductPage() {
                                           name={['product', 'prices', price.position, 'percentNumber']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRange0To100.range),
+                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.discount.percentage.validateMessage
                                             }
                                           ]}
@@ -677,7 +723,7 @@ export default function CreateProductPage() {
                                           </h3>
                                         </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? "mt-1" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', "prices", price.position, "startDate"]}
@@ -857,7 +903,12 @@ export default function CreateProductPage() {
                 priceName: 'Default',
                 quantitySold: 0,
                 position: 0,
-                startDate: moment()
+                priceValue:0,
+                priceOriginal:0,
+                priceDiscount:0,
+                percentNumber:0,
+                startDate: moment(),
+                endDate:moment().add(7,"days")
               }
             }
           }
