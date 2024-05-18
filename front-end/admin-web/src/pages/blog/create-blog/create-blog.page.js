@@ -24,6 +24,7 @@ import moment from 'moment'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 const { Text } = Typography
 
 export default function CreateBlogPage() {
@@ -259,7 +260,6 @@ export default function CreateBlogPage() {
                     type="primary"
                     htmlType="submit"
                     disabled={disableCreateButton}
-                    icon={<IconBtnAdd className="icon-btn-add-product" />}
                     className="btn-add-product"
                     onClick={onSubmitForm}
                   >
@@ -406,7 +406,7 @@ export default function CreateBlogPage() {
                 <Row>
                   <Col span={24}>
                     <h4 className="title-group">{pageData.SEO.title}</h4>
-                    <h4 className="shop-form-label mt-3">
+                    {/* <h4 className="shop-form-label mt-3">
                       {pageData.SEO.SEOPreview}
                       <Tooltip
                         placement="topLeft"
@@ -425,8 +425,8 @@ export default function CreateBlogPage() {
                           <ExclamationIcon />
                         </span>
                       </Tooltip>
-                    </h4>
-                    <div className="create-blog-overview">
+                    </h4> */}
+                    {/* <div className="create-blog-overview">
                       <span style={{ fontSize: '18px' }}>{`<meta name="title" property="title" content="${!SEOTitle ? 'SEO on Title' : SEOTitle
                         }">`}</span>
                       <br />
@@ -439,27 +439,31 @@ export default function CreateBlogPage() {
                         {`<meta name="keywords" property="keywords" content="${keywordSEOs.length > 0 ? keywordSEOs.map((x) => x.value).join(',') : 'SEO on Keywords'
                           }">`}
                       </span>
-                    </div>
-                    <h4 className="shop-form-label">
-                      {pageData.SEO.SEOTitle}
+                    </div> */}
+                    <div className='d-flex'>
+                      <h4 className="shop-form-label">
+                        {pageData.SEO.SEOTitle}
+                      
+                      </h4>
                       <Tooltip
-                        placement="topLeft"
-                        title={() => {
-                          return (
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: pageData.SEO.SEOTitleTooltip
-                              }}
-                            ></span>
-                          )
-                        }}
-                        className=" material-edit-cost-per-unit-tool-tip"
-                      >
-                        <span>
-                          <ExclamationIcon />
-                        </span>
-                      </Tooltip>
-                    </h4>
+                          placement="topLeft"
+                          title={() => {
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pageData.SEO.SEOTitleTooltip
+                                }}
+                              ></span>
+                            )
+                          }}
+                          className=" material-edit-cost-per-unit-tool-tip"
+                        >
+                          <span className='ml-1'>
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                    </div>
+                    
                     <Form.Item name={'titleSEO'}>
                       <Input
                         className="shop-input-with-count"
@@ -483,30 +487,32 @@ export default function CreateBlogPage() {
                         </div>
                       </div>
                     </Form.Item>
-
-                    <h4 className="shop-form-label">
-                      {pageData.SEO.SEODescription}
+                    <div className='d-flex'>
+                      <h4 className="shop-form-label d-flex justify-content-center align-items-center">
+                        {pageData.SEO.SEODescription}
+                      </h4>
                       <Tooltip
-                        placement="topLeft"
-                        title={() => {
-                          return (
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: pageData.SEO.SEODescriptionTooltip
-                              }}
-                            ></span>
-                          )
-                        }}
-                        className=" material-edit-cost-per-unit-tool-tip"
-                      >
-                        <span>
-                          <ExclamationIcon />
-                        </span>
-                      </Tooltip>
-                    </h4>
+                          placement="topLeft"
+                          title={() => {
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pageData.SEO.SEODescriptionTooltip
+                                }}
+                              ></span>
+                            )
+                          }}
+                          className=" material-edit-cost-per-unit-tool-tip"
+                        >
+                          <span className='ml-1'>
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                    </div>
+                   
                     <Form.Item name={'descriptionSEO'}>
-                      <Input
-                        className="shop-input-with-count"
+                      <FnbTextArea
+                        
                         placeholder={pageData.SEO.SEODescriptionPlaceholder}
                         maxLength={255}
                         onChange={(e) => {
@@ -533,7 +539,7 @@ export default function CreateBlogPage() {
                           {pageData.SEO.SEOKeywords}
                         </h3>
                         <Tooltip placement="topLeft" title={pageData.SEO.SEOKeywordsTooltip}>
-                          <span className="ml-12 mt-16">
+                          <span className="pt-3 ml-1">
                             <ExclamationIcon />
                           </span>
                         </Tooltip>
@@ -543,7 +549,7 @@ export default function CreateBlogPage() {
                         keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
                       }
                       
-                      <div className='d-flex mt-3'>
+                      <div className='d-flex mt-2'>
                           <Input
                             className="shop-input-with-count" 
                             showCount

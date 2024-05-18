@@ -359,7 +359,10 @@
         "validateImage":"Vui lòng thêm hình ảnh cho sản phẩm",
         "labelProductContent":"Nội dung giới thiệu sản phẩm",
         "placeholderProductContent": "Nhập nội dung giới thiệu sản phẩm",
-        "discountDate": "Ngày khuyến mãi"
+        "discountDate": "Ngày khuyến mãi",
+        "validateQuantity":"Giá trị phải lớn hơn 0",
+        "validateOriginalOverPrice":"Giá bán phải lớn hơn giá gốc",
+        "validateDiscountOverPrice":"Giá không hợp lệ"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
