@@ -33,10 +33,12 @@ export default function BlogCategory (){
                         }]}
                     />
                 </Col>
+                
+                <Col span={24}>
+                    <TableBlogCategory/>
+                </Col>
             </Row>
-            <Row>
-                <TableBlogCategory/>
-            </Row>
+           
         </>
     );
 }

@@ -213,11 +213,12 @@ export default function TableBlogCategory(){
         
     }
     return (
-        <Form className="mt-5">
+        <Form>
             <Card className="w-100 shop-card-full">
                 <Row className="total-cost-amount-row">
                     <Col span={24}>
                         <FnbTable
+                            className="mt-5"
                             columns={getColumns()}
                             editPermission={PermissionKeys.ADMIN}
                             deletePermission={PermissionKeys.ADMIN}
