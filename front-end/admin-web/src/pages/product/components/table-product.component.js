@@ -9,7 +9,6 @@ import { PermissionKeys } from 'constants/permission-key.constants'
 import { useTranslation } from 'react-i18next'
 import productCategoryDataService from "data-services/product-category/product-category-data.service";
 import productDataService from "data-services/product/product-data.service";
-
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {
@@ -277,7 +276,7 @@ export default function TableProduct(props) {
                       <span className="float-left">{p?.priceName}</span>
                     </Col>
                     <Col offset={4} span={6} className="mt-1">
-                      <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
+                      <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}{getCurrency()}</span>
                     </Col>
                   </>
                 )
@@ -289,7 +288,7 @@ export default function TableProduct(props) {
                       </span>
                     </Col>
                     <Col span={12} className="mt-1">
-                      <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}</span>
+                      <span className="float-right">{formatCurrencyWithoutSuffix(p?.priceValue)}{getCurrency()}</span>
                     </Col>
                   </>
                 )}
