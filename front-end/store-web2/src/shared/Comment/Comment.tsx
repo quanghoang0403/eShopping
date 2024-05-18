@@ -1,4 +1,4 @@
-import { _getPersonNameRd } from "@/contains/fakeData";
+import { _getPersonNameRd } from "@/constants/fakeData";
 import React from "react";
 import { FC } from "react";
 import Avatar from "@/shared/Avatar/Avatar";

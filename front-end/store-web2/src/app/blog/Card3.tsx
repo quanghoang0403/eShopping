@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import NcImage from "@/shared/NcImage/NcImage";
 import Badge from "@/shared/Badge/Badge";
-import { _getImgRd, _getTagNameRd, _getTitleRd } from "@/contains/fakeData";
+import { _getImgRd, _getTagNameRd, _getTitleRd } from "@/constants/fakeData";
 import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
 import Link from "next/link";
 

@@ -6,6 +6,16 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'img.vietqr.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'eshoppingblob.blob.core.windows.net',
+        pathname: '/**',
+      },
+      {
         protocol: "https",
         hostname: "images.pexels.com",
         port: "",

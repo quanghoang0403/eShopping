@@ -28,7 +28,16 @@ import NotifyAddTocart from "@/components/NotifyAddTocart";
 import Image from "next/image";
 import AccordionInfo from "@/components/AccordionInfo";
 
-const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+const LIST_IMAGES_DEMO = [
+  detail1JPG,
+  detail2JPG,
+  detail3JPG,
+  detail3JPG,
+  detail3JPG,
+  detail3JPG,
+  detail3JPG,
+  detail3JPG,
+];
 
 const ProductDetailPage = () => {
   const { sizes, variants, status, allOfSizes, image } = PRODUCTS[0];
@@ -381,7 +390,14 @@ const ProductDetailPage = () => {
               <LikeButton className="absolute right-3 top-3 " />
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
-              {[LIST_IMAGES_DEMO[1], LIST_IMAGES_DEMO[2]].map((item, index) => {
+              {[
+                LIST_IMAGES_DEMO[1],
+                LIST_IMAGES_DEMO[2],
+                LIST_IMAGES_DEMO[2],
+                LIST_IMAGES_DEMO[2],
+                LIST_IMAGES_DEMO[2],
+                LIST_IMAGES_DEMO[2],
+              ].map((item, index) => {
                 return (
                   <div
                     key={index}

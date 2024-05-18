@@ -1,4 +1,4 @@
-import { productImgs } from "@/contains/fakeData";
+import { productImgs } from "@/constants/fakeData";
 import productVariantImg2 from "@/images/products/v2.jpg";
 import productVariantImg3 from "@/images/products/v3.jpg";
 import productVariantImg4 from "@/images/products/v4.jpg";

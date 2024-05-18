@@ -4,7 +4,7 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Input from "@/shared/Input/Input";
 import Select from "@/shared/Select/Select";
 import Textarea from "@/shared/Textarea/Textarea";
-import { avatarImgs } from "@/contains/fakeData";
+import { avatarImgs } from "@/constants/fakeData";
 import Image from "next/image";
 
 const AccountPage = () => {

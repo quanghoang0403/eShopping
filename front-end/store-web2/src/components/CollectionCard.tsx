@@ -1,5 +1,5 @@
 import { StarIcon } from "@heroicons/react/24/solid";
-import { productImgs } from "@/contains/fakeData";
+import { productImgs } from "@/constants/fakeData";
 import React, { FC } from "react";
 import NcImage from "@/shared/NcImage/NcImage";
 import Prices from "./Prices";

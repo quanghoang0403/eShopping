@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import NcImage from "@/shared/NcImage/NcImage";
 import SocialsShare from "@/shared/SocialsShare/SocialsShare";
-import { imgHigtQualitys, _getTitleRd } from "@/contains/fakeData";
+import { imgHigtQualitys, _getTitleRd } from "@/constants/fakeData";
 import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
 import Link from "next/link";
 

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Avatar from "@/shared/Avatar/Avatar";
-import { _getPersonNameRd } from "@/contains/fakeData";
+import { _getPersonNameRd } from "@/constants/fakeData";
 import Link from "next/link";
 
 export interface PostCardMetaProps {

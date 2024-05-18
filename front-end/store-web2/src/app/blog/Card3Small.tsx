@@ -1,5 +1,5 @@
 import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
-import { _getImgRd, _getTitleRd } from "@/contains/fakeData";
+import { _getImgRd, _getTitleRd } from "@/constants/fakeData";
 import React, { FC } from "react";
 import NcImage from "@/shared/NcImage/NcImage";
 import Link from "next/link";

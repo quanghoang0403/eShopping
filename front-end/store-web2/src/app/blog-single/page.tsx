@@ -7,7 +7,7 @@ import Comment from "@/shared/Comment/Comment";
 import NcImage from "@/shared/NcImage/NcImage";
 import SocialsList from "@/shared/SocialsList/SocialsList";
 import Textarea from "@/shared/Textarea/Textarea";
-import { _getImgRd, _getPersonNameRd, _getTitleRd } from "@/contains/fakeData";
+import { _getImgRd, _getPersonNameRd, _getTitleRd } from "@/constants/fakeData";
 import Tag from "@/shared/Tag/Tag";
 import Image from "next/image";
 import Link from "next/link";

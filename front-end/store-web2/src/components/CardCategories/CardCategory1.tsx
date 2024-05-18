@@ -1,4 +1,4 @@
-import { _getImgRd, _getTagNameRd } from "@/contains/fakeData";
+import { _getImgRd, _getTagNameRd } from "@/constants/fakeData";
 import React, { FC } from "react";
 import NcImage from "@/shared/NcImage/NcImage";
 import Link from "next/link";
