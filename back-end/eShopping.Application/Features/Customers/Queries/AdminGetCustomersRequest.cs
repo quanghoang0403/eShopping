@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using eShopping.Models.Customers;
@@ -9,10 +10,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Customers.Queries
 {
-    public class AdminGetCustomersRequest : IRequest<AdminGetCustomersResponse>
+    public class AdminGetCustomersRequest : IRequest<BaseResponseModel>
     {
         public string KeySearch { get; set; }
 
@@ -21,16 +23,7 @@ namespace eShopping.Application.Features.Customers.Queries
         public int PageSize { get; set; }
     }
 
-    public class AdminGetCustomersResponse
-    {
-        public IEnumerable<AdminCustomerModel> Customers { get; set; }
-
-        public int PageNumber { get; set; }
-
-        public int Total { get; set; }
-    }
-
-    public class AdminGetCustomerByNameHandler : IRequestHandler<AdminGetCustomersRequest, AdminGetCustomersResponse>
+    public class AdminGetCustomerByNameHandler : IRequestHandler<AdminGetCustomersRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -47,38 +40,24 @@ namespace eShopping.Application.Features.Customers.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetCustomersResponse> Handle(AdminGetCustomersRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetCustomersRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var customers = new PagingExtensions.Pager<Customer>(new List<Customer>(), 0);
+            var query = _unitOfWork.Customers.GetAll().AsNoTracking();
             if (string.IsNullOrEmpty(request.KeySearch))
             {
-                customers = await _unitOfWork.Customers
-                                   .GetAll()
-                                   .AsNoTracking()
-                                   .Include(s => s.Account)
-                                   .OrderByDescending(p => p.CreatedTime)
-                                   .ToPaginationAsync(request.PageNumber, request.PageSize);
+                query = query.Include(s => s.Account);
             }
             else
             {
                 string keySearch = request.KeySearch.Trim().ToLower();
-                customers = await _unitOfWork.Customers
-                                   .GetAll()
-                                   .AsNoTracking()
-                                   .Include(s => s.Account)
-                                   .Where(s => s.Account.FullName.ToLower().Contains(keySearch) || s.Account.PhoneNumber.ToLower().Contains(keySearch))
-                                   .OrderByDescending(p => p.CreatedTime)
-                                   .ToPaginationAsync(request.PageNumber, request.PageSize);
+                query = query.Include(s => s.Account)
+                             .Where(s => s.Account.FullName.ToLower().Contains(keySearch) || s.Account.PhoneNumber.ToLower().Contains(keySearch));
             }
-
+            var customers = await query.OrderByDescending(p => p.CreatedTime).ToPaginationAsync(request.PageNumber, request.PageSize);
             var customersResponse = GetCustomerModelAsync(customers.Result.ToList(), request);
-            return new AdminGetCustomersResponse()
-            {
-                Customers = customersResponse,
-                PageNumber = request.PageNumber,
-                Total = customers.Total
-            };
+            var response = new PagingResult<AdminCustomerModel>(customersResponse, customers.Paging);
+            return BaseResponseModel.ReturnData(response);
         }
 
         private List<AdminCustomerModel> GetCustomerModelAsync(List<Customer> customers, AdminGetCustomersRequest request)

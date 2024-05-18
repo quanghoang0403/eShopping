@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
@@ -10,10 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Blogs.Queries
 {
-    public class AdminGetBlogsRequest : IRequest<AdminGetBlogsResponse>
+    public class AdminGetBlogsRequest : IRequest<BaseResponseModel>
     {
         public int PageNumber { get; set; }
 
@@ -27,13 +29,8 @@ namespace eShopping.Application.Features.Blogs.Queries
         public EnumStatus Status { get; set; }
     }
 
-    public class AdminGetBlogsResponse
-    {
-        public IEnumerable<AdminBlogModel> Blogs { get; set; }
-        public int PageNumber { get; set; }
-        public int Total { get; set; }
-    }
-    public class AdminGetBlogRequestHandler : IRequestHandler<AdminGetBlogsRequest, AdminGetBlogsResponse>
+
+    public class AdminGetBlogRequestHandler : IRequestHandler<AdminGetBlogsRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -48,7 +45,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<AdminGetBlogsResponse> Handle(AdminGetBlogsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetBlogsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogs = _unitOfWork.Blogs.GetAll();
@@ -92,14 +89,9 @@ namespace eShopping.Application.Features.Blogs.Queries
                 b.No = blogsResponse.IndexOf(b) + ((request.PageNumber - 1) * request.PageSize) + 1;
                 b.BlogCategoryId = categoryId.Select(c => c.categoryId).FirstOrDefault();
             });
-            var response = new AdminGetBlogsResponse()
-            {
-                PageNumber = request.PageNumber,
-                Total = allBlog.Total,
-                Blogs = blogsResponse
-            };
 
-            return response;
+            var response = new PagingResult<AdminBlogModel>(blogsResponse, allBlog.Paging);
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }

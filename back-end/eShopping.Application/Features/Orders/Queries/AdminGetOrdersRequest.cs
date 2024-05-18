@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Orders;
@@ -11,10 +12,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class AdminGetOrdersRequest : IRequest<AdminGetOrdersResponse>
+    public class AdminGetOrdersRequest : IRequest<BaseResponseModel>
     {
         public DateTime StartDate { get; set; }
 
@@ -29,16 +31,7 @@ namespace eShopping.Application.Features.Orders.Queries
         public string KeySearch { get; set; }
     }
 
-    public class AdminGetOrdersResponse
-    {
-        public IEnumerable<AdminOrderModel> Orders { get; set; }
-
-        public int PageSize { get; set; }
-
-        public int Total { get; set; }
-    }
-
-    public class AdminGetOrdersRequestHandler : IRequestHandler<AdminGetOrdersRequest, AdminGetOrdersResponse>
+    public class AdminGetOrdersRequestHandler : IRequestHandler<AdminGetOrdersRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -54,7 +47,7 @@ namespace eShopping.Application.Features.Orders.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetOrdersResponse> Handle(AdminGetOrdersRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetOrdersRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             DateTime startDate = DatetimeHelpers.GetStartOfDay(request.StartDate);
@@ -78,13 +71,8 @@ namespace eShopping.Application.Features.Orders.Queries
             var listOrderByPaging = await listOrderOrdered.Include(o => o.OrderItems).ToPaginationAsync(pageNumber, pageSize);
             var listOrderModels = _mapper.Map<IEnumerable<AdminOrderModel>>(listOrderByPaging.Result);
 
-            var response = new AdminGetOrdersResponse()
-            {
-                Orders = listOrderModels,
-                Total = listOrderByPaging.Total,
-                PageSize = pageSize
-            };
-            return response;
+            var response = new PagingResult<AdminOrderModel>(listOrderModels, listOrderByPaging.Paging);
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }

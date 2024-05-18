@@ -1,5 +1,6 @@
 using AutoMapper;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using eShopping.Models.Permissions;
@@ -11,10 +12,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.Staffs.Queries
 {
-    public class AdminGetStaffsRequest : IRequest<AdminGetStaffsResponse>
+    public class AdminGetStaffsRequest : IRequest<BaseResponseModel>
     {
         public int PageNumber { get; set; }
 
@@ -24,17 +26,7 @@ namespace eShopping.Application.Features.Staffs.Queries
         public Guid PermissionId { get; set; }
     }
 
-    public class AdminGetStaffsResponse
-    {
-        public IEnumerable<AdminStaffModel> Staffs { get; set; }
-
-        public int PageNumber { get; set; }
-
-        public int Total { get; set; }
-    }
-
-
-    public class AdminGetStaffsRequestHandler : IRequestHandler<AdminGetStaffsRequest, AdminGetStaffsResponse>
+    public class AdminGetStaffsRequestHandler : IRequestHandler<AdminGetStaffsRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -50,46 +42,31 @@ namespace eShopping.Application.Features.Staffs.Queries
             _userProvider = userProvider;
         }
 
-        public async Task<AdminGetStaffsResponse> Handle(AdminGetStaffsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetStaffsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var staffs = new PagingExtensions.Pager<Staff>(new List<Staff>(), 0);
+            var query = _unitOfWork.Staffs.GetAll().AsNoTracking();
             if (string.IsNullOrEmpty(request.KeySearch))
             {
-                staffs = await _unitOfWork.Staffs
-                                   .GetAll()
-                                   .AsNoTracking()
-                                   .Include(s => s.Account)
-                                   .Include(s => s.StaffPermissions)
-                                   .ThenInclude(gpb => gpb.Permission)
-                                   .OrderByDescending(p => p.CreatedTime)
-                                   .ToPaginationAsync(request.PageNumber, request.PageSize);
+                query = query.Include(s => s.Account);
             }
             else
             {
                 string keySearch = request.KeySearch.Trim().ToLower();
-                staffs = await _unitOfWork.Staffs
-                                   .GetAll()
-                                   .AsNoTracking()
-                                   .Include(s => s.Account)
-                                   .Where(s => s.Account.FullName.ToLower().Contains(keySearch) || s.Account.PhoneNumber.ToLower().Contains(keySearch))
-                                   .Include(s => s.StaffPermissions)
+                query = query.Include(s => s.Account).Where(s => s.Account.FullName.ToLower().Contains(keySearch) || s.Account.PhoneNumber.ToLower().Contains(keySearch));
+            }
+            var staffs = await query.Include(s => s.StaffPermissions)
                                    .ThenInclude(gpb => gpb.Permission)
                                    .OrderByDescending(p => p.CreatedTime)
                                    .ToPaginationAsync(request.PageNumber, request.PageSize);
-            }
             var staffsResponse = await GetStaffModelAsync(staffs.Result.ToList(), request);
             if (request.PermissionId != Guid.Empty)
             {
                 staffsResponse = staffsResponse.Where(s => s.Permissions.Any(p => p.PermissionGroupId == request.PermissionId)).ToList();
             }
 
-            return new AdminGetStaffsResponse()
-            {
-                Staffs = staffsResponse,
-                PageNumber = request.PageNumber,
-                Total = staffs.Total
-            };
+            var response = new PagingResult<AdminStaffModel>(staffsResponse, staffs.Paging);
+            return BaseResponseModel.ReturnData(response);
         }
 
         private async Task<List<AdminStaffModel>> GetStaffModelAsync(List<Staff> staffs, AdminGetStaffsRequest request)
