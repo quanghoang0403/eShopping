@@ -12,7 +12,7 @@ import Tag from "@/shared/Tag/Tag";
 import Image from "next/image";
 import Link from "next/link";
 
-const BlogSingle = () => {
+const BlogDetail = () => {
   const renderHeader = () => {
     return (
       <header className="container rounded-xl">
@@ -255,7 +255,7 @@ const BlogSingle = () => {
         key={index}
         className="relative aspect-w-3 aspect-h-4 rounded-3xl overflow-hidden group"
       >
-        <Link href={"/blog-single"} />
+        <Link href={"/blog-detail"} />
         <Image
           alt="Related"
           fill
@@ -280,7 +280,7 @@ const BlogSingle = () => {
             <span className="font-normal truncate">May 20, 2021</span>
           </div>
         </div>
-        <Link href={"/blog-single"} />
+        <Link href={"/blog-detail"} />
       </div>
     );
   };
@@ -319,4 +319,4 @@ const BlogSingle = () => {
   );
 };
 
-export default BlogSingle;
+export default BlogDetail;

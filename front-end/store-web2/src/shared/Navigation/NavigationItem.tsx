@@ -1,6 +1,6 @@
 "use client";
 
-import { Popover, Transition } from "@/app/headlessui";
+import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import CardCategory3 from "@/components/CardCategories/CardCategory3";
 import React, { FC, Fragment, useState } from "react";
@@ -10,7 +10,7 @@ import Link from "next/link";
 export interface NavItemType {
   id: string;
   name: string;
-  href: Route;
+  href?: Route;
   targetBlank?: boolean;
   children?: NavItemType[];
   type?: "dropdown" | "megaMenu" | "none";

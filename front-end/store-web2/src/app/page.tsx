@@ -16,67 +16,78 @@ import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import { PRODUCTS, SPORT_PRODUCTS } from "@/data/data";
 import SectionGridFeatureItems from "@/components/SectionGridFeatureItems";
 import SectionMagazine5 from "@/app/blog/SectionMagazine5";
+import SEO from "@/components/Layout/SEO";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Acme Dashboard 2",
+  description: "The official Next.js Course Dashboard, built with App Router.",
+  metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
+};
 
 function PageHome() {
   return (
-    <div className="nc-PageHome relative overflow-hidden">
-      <SectionHero2 />
+    <>
+      <SEO title={"Trang chủ"} description="Describe the home page" />
+      <div className="nc-PageHome relative overflow-hidden">
+        <SectionHero2 />
 
-      <div className="mt-24 lg:mt-32">
-        <DiscoverMoreSlider />
-      </div>
-
-      <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-        <SectionSliderProductCard
-          data={[
-            PRODUCTS[4],
-            SPORT_PRODUCTS[5],
-            PRODUCTS[7],
-            SPORT_PRODUCTS[1],
-            PRODUCTS[6],
-          ]}
-        />
-
-        <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
-          <SectionHowItWork />
-        </div>
-        <SectionPromo1 />
-
-        <div className="relative py-24 lg:py-32">
-          <BackgroundSection />
-          <SectionGridMoreExplore />
+        <div className="mt-24 lg:mt-32">
+          <DiscoverMoreSlider />
         </div>
 
-        <SectionSliderProductCard
-          heading="Best Sellers"
-          subHeading="Best selling of the month"
-        />
+        <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
+          <SectionSliderProductCard
+            data={[
+              PRODUCTS[4],
+              SPORT_PRODUCTS[5],
+              PRODUCTS[7],
+              SPORT_PRODUCTS[1],
+              PRODUCTS[6],
+            ]}
+          />
 
-        <SectionPromo2 />
+          <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
+            <SectionHowItWork />
+          </div>
+          <SectionPromo1 />
 
-        <SectionSliderLargeProduct cardStyle="style2" />
+          <div className="relative py-24 lg:py-32">
+            <BackgroundSection />
+            <SectionGridMoreExplore />
+          </div>
 
-        <SectionSliderCategories />
+          <SectionSliderProductCard
+            heading="Best Sellers"
+            subHeading="Best selling of the month"
+          />
 
-        <SectionPromo3 />
+          <SectionPromo2 />
 
-        <SectionGridFeatureItems />
+          <SectionSliderLargeProduct />
 
-        <div className="relative py-24 lg:py-32">
-          <BackgroundSection />
-          <div>
-            <Heading rightDescText="From the Ciseco blog">
-              The latest news
-            </Heading>
-            <SectionMagazine5 />
-            <div className="flex mt-16 justify-center">
-              <ButtonSecondary>Show all blog articles</ButtonSecondary>
+          <SectionSliderCategories />
+
+          <SectionPromo3 />
+
+          <SectionGridFeatureItems />
+
+          <div className="relative py-24 lg:py-32">
+            <BackgroundSection />
+            <div>
+              <Heading rightDescText="From the Ciseco blog">
+                The latest news
+              </Heading>
+              <SectionMagazine5 />
+              <div className="flex mt-16 justify-center">
+                <ButtonSecondary>Show all blog articles</ButtonSecondary>
+              </div>
             </div>
           </div>
+          <SectionClientSay />
         </div>
-        <SectionClientSay />
       </div>
-    </div>
+    </>
   );
 }
 

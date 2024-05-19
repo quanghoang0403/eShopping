@@ -2,5 +2,8 @@
 @import "./_theme_custom";
 //
 @import "./header";
-
 @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

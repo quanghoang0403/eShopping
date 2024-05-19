@@ -5,19 +5,16 @@ import Heading from "@/components/Heading/Heading";
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm";
 import CollectionCard from "./CollectionCard";
-import CollectionCard2 from "./CollectionCard2";
 import { DEMO_LARGE_PRODUCTS } from "./SectionSliderLargeProduct2";
 import Link from "next/link";
 
 export interface SectionSliderLargeProductProps {
   className?: string;
   itemClassName?: string;
-  cardStyle?: "style1" | "style2";
 }
 
 const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
   className = "",
-  cardStyle = "style2",
 }) => {
   const sliderRef = useRef(null);
 
@@ -58,9 +55,6 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
     };
   }, [sliderRef]);
 
-  const MyCollectionCard =
-    cardStyle === "style1" ? CollectionCard : CollectionCard2;
-
   return (
     <div className={`nc-SectionSliderLargeProduct ${className}`}>
       <div ref={sliderRef} className={`flow-root ${isShow ? "" : "invisible"}`}>
@@ -71,7 +65,7 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
           <ul className="glide__slides">
             {DEMO_LARGE_PRODUCTS.map((product, index) => (
               <li className={`glide__slide`} key={index}>
-                <MyCollectionCard
+                <CollectionCard
                   name={product.name}
                   price={product.price}
                   imgs={product.images}

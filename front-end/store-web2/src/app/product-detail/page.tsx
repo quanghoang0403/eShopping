@@ -25,17 +25,21 @@ import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import SectionPromo2 from "@/components/SectionPromo2";
 import ModalViewAllReviews from "./ModalViewAllReviews";
 import NotifyAddTocart from "@/components/NotifyAddTocart";
-import Image from "next/image";
 import AccordionInfo from "@/components/AccordionInfo";
+import Gallery from "@/components/Gallery/Gallery";
 
 const LIST_IMAGES_DEMO = [
   detail1JPG,
   detail2JPG,
   detail3JPG,
+  detail1JPG,
+  detail2JPG,
   detail3JPG,
+  detail1JPG,
+  detail2JPG,
   detail3JPG,
-  detail3JPG,
-  detail3JPG,
+  detail1JPG,
+  detail2JPG,
   detail3JPG,
 ];
 
@@ -47,7 +51,6 @@ const ProductDetailPage = () => {
   const [qualitySelected, setQualitySelected] = useState(1);
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] =
     useState(false);
-
   //
   const notifyAddTocart = () => {
     toast.custom(
@@ -164,47 +167,6 @@ const ProductDetailPage = () => {
         </div>
       </div>
     );
-  };
-
-  const renderStatus = () => {
-    if (!status) {
-      return null;
-    }
-    const CLASSES =
-      "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-    if (status === "New in") {
-      return (
-        <div className={CLASSES}>
-          <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
-        </div>
-      );
-    }
-    if (status === "50% Discount") {
-      return (
-        <div className={CLASSES}>
-          <IconDiscount className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
-        </div>
-      );
-    }
-    if (status === "Sold Out") {
-      return (
-        <div className={CLASSES}>
-          <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
-        </div>
-      );
-    }
-    if (status === "limited edition") {
-      return (
-        <div className={CLASSES}>
-          <ClockIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">{status}</span>
-        </div>
-      );
-    }
-    return null;
   };
 
   const renderSectionContent = () => {
@@ -376,43 +338,18 @@ const ProductDetailPage = () => {
           <div className="w-full lg:w-[55%] ">
             {/* HEADING */}
             <div className="relative">
-              <div className="aspect-w-16 aspect-h-16 relative">
-                <Image
+              <div className="relative">
+                <Gallery images={LIST_IMAGES_DEMO} status={status} />
+                {/* <Image
                   fill
                   sizes="(max-width: 640px) 100vw, 33vw"
                   src={LIST_IMAGES_DEMO[0]}
                   className="w-full rounded-2xl object-cover"
                   alt="product detail 1"
-                />
+                /> */}
               </div>
-              {renderStatus()}
               {/* META FAVORITES */}
               <LikeButton className="absolute right-3 top-3 " />
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
-              {[
-                LIST_IMAGES_DEMO[1],
-                LIST_IMAGES_DEMO[2],
-                LIST_IMAGES_DEMO[2],
-                LIST_IMAGES_DEMO[2],
-                LIST_IMAGES_DEMO[2],
-                LIST_IMAGES_DEMO[2],
-              ].map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="aspect-w-11 xl:aspect-w-10 2xl:aspect-w-11 aspect-h-16 relative"
-                  >
-                    <Image
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      fill
-                      src={item}
-                      className="w-full rounded-2xl object-cover"
-                      alt="product detail 1"
-                    />
-                  </div>
-                );
-              })}
             </div>
           </div>
 

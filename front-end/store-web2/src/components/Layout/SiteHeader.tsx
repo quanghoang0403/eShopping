@@ -3,19 +3,23 @@
 import React, { createRef, FC, useState } from "react";
 import Logo from "@/shared/Logo/Logo";
 import MenuBar from "@/shared/MenuBar/MenuBar";
-import AvatarDropdown from "./AvatarDropdown";
+import AvatarDropdown from "./Components/AvatarDropdown";
 import Navigation from "@/shared/Navigation/Navigation";
-import CartDropdown from "./CartDropdown";
+import CartDropdown from "./Components/CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { useThemeMode } from "@/hooks/useThemeMode";
+import { usePromiseTracker } from "react-promise-tracker";
+import Loading from "@/shared/Loading/Loading";
 
-export interface MainNav2LoggedProps {}
+export interface SiteHeaderProps {}
 
-const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
+export default function SiteHeader() {
   const inputRef = createRef<HTMLInputElement>();
   const [showSearchForm, setShowSearchForm] = useState(false);
   const router = useRouter();
-
+  const { promiseInProgress } = usePromiseTracker();
+  useThemeMode();
   const renderMagnifyingGlassIcon = () => {
     return (
       <svg
@@ -103,10 +107,11 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   };
 
   return (
-    <div className="nc-MainNav2Logged relative z-10 bg-white dark:bg-neutral-900 border-b border-slate-100 dark:border-slate-700">
-      <div className="container ">{renderContent()}</div>
+    <div className="sticky top-0 w-full z-40 ">
+      {promiseInProgress && <Loading />}
+      <div className="relative z-10 bg-white dark:bg-neutral-900 border-b border-slate-100 dark:border-slate-700">
+        <div className="container ">{renderContent()}</div>
+      </div>
     </div>
   );
-};
-
-export default MainNav2Logged;
+}

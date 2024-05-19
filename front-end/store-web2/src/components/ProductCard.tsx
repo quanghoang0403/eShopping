@@ -10,7 +10,7 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import BagIcon from "./BagIcon";
 import toast from "react-hot-toast";
-import { Transition } from "@/app/headlessui";
+import { Transition } from "@headlessui/react";
 import ModalQuickView from "./ModalQuickView";
 import ProductStatus from "./ProductStatus";
 import { useRouter } from "next/navigation";

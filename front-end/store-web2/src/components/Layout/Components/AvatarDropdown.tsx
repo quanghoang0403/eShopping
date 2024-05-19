@@ -1,6 +1,6 @@
 "use client";
 
-import { Popover, Transition } from "@/app/headlessui";
+import { Popover, Transition } from "@headlessui/react";
 import { avatarImgs } from "@/constants/fakeData";
 import { Fragment } from "react";
 import Avatar from "@/shared/Avatar/Avatar";

@@ -1,4 +1,4 @@
-import { Popover, Transition } from "@/app/headlessui";
+import { Popover, Transition } from "@headlessui/react";
 import Input from "@/shared/Input/Input";
 import React, { FC, Fragment } from "react";
 

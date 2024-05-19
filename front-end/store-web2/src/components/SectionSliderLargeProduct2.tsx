@@ -5,7 +5,6 @@ import Heading from "@/components/Heading/Heading";
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm";
 import CollectionCard from "./CollectionCard";
-import CollectionCard2 from "./CollectionCard2";
 import Nav from "@/shared/Nav/Nav";
 import NavItem2 from "./NavItem2";
 import Next from "@/shared/NextPrev/Next";
@@ -29,7 +28,6 @@ import Link from "next/link";
 export interface SectionSliderLargeProduct2Props {
   className?: string;
   itemClassName?: string;
-  cardStyle?: "style1" | "style2";
 }
 
 export const DEMO_LARGE_PRODUCTS = [
@@ -58,7 +56,6 @@ export const DEMO_LARGE_PRODUCTS = [
 
 const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
   className = "",
-  cardStyle = "style1",
 }) => {
   const [tabActive, setTabActive] = useState("Last 24 hours");
 
@@ -101,9 +98,6 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
       slider.destroy();
     };
   }, [sliderRef]);
-
-  const MyCollectionCard =
-    cardStyle === "style1" ? CollectionCard : CollectionCard2;
 
   return (
     <div className={`nc-SectionSliderLargeProduct2 ${className}`}>
@@ -178,7 +172,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
             {DEMO_LARGE_PRODUCTS.map((item, index) => {
               return (
                 <li key={index} className={`glide__slide`}>
-                  <MyCollectionCard imgs={item.images} />
+                  <CollectionCard imgs={item.images} />
                 </li>
               );
             })}

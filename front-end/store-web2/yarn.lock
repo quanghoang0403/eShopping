@@ -2591,6 +2591,11 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
+react-promise-tracker@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-promise-tracker/-/react-promise-tracker-2.1.1.tgz#d5343a020b1fd7b42382ac881d95810774391ee3"
+  integrity sha512-NM7FrJ4y5aRN3FIeVtmeF8leIDQIdYni9pleHTvuX6Kz5zsIHMYSNERmvzTxvPuzei0iNiNiudsXySP63TXA8A==
+
 react-query@^3.39.3:
   version "3.39.3"
   resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.39.3.tgz#4cea7127c6c26bdea2de5fb63e51044330b03f35"

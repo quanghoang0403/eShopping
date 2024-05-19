@@ -52,7 +52,7 @@ const widgetMenus: WidgetFooterMenu[] = [
   },
 ];
 
-const Footer: React.FC = () => {
+export default function SiteFooter() {
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
@@ -93,6 +93,4 @@ const Footer: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Footer;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Popover, Transition } from "@/app/headlessui";
+import { Popover, Transition } from "@headlessui/react";
 import Prices from "@/components/Prices";
 import { Product, PRODUCTS } from "@/data/data";
 import { Fragment } from "react";

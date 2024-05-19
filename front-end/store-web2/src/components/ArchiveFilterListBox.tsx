@@ -1,7 +1,7 @@
 "use client";
 import React, { FC } from "react";
 import { Fragment, useState } from "react";
-import { Listbox, Transition } from "@/app/headlessui";
+import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import ButtonDropdown from "./ButtonDropdown";
 

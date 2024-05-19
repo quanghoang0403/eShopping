@@ -15,7 +15,7 @@ const Card3Small: FC<Card3SmallProps> = ({ className = "h-full" }) => {
       data-nc-id="Card3Small"
     >
       <Link
-        href={"/blog-single"}
+        href={"/blog-detail"}
         className=" absolute inset-0"
         title={"title"}
       ></Link>
@@ -23,7 +23,7 @@ const Card3Small: FC<Card3SmallProps> = ({ className = "h-full" }) => {
         <PostCardMeta />
         <h2 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100">
           <Link
-            href={"/blog-single"}
+            href={"/blog-detail"}
             className=" line-clamp-2 capitalize"
             title={"title"}
           >
@@ -33,7 +33,7 @@ const Card3Small: FC<Card3SmallProps> = ({ className = "h-full" }) => {
       </div>
 
       <Link
-        href={`/blog-single`}
+        href={`/blog-detail`}
         title={"title"}
         className={`block sm:w-20 flex-shrink-0 relative rounded-lg overflow-hidden mb-5 sm:ml-4 sm:mb-0 group`}
       >

@@ -6,7 +6,7 @@ import Prices from "./Prices";
 import Link from "next/link";
 import { StaticImageData } from "next/image";
 
-export interface CollectionCard2Props {
+export interface CollectionCardProps {
   className?: string;
   imgs?: (string | StaticImageData)[];
   name?: string;
@@ -14,7 +14,7 @@ export interface CollectionCard2Props {
   description?: string;
 }
 
-const CollectionCard2: FC<CollectionCard2Props> = ({
+const CollectionCard: FC<CollectionCardProps> = ({
   className,
   imgs = [productImgs[9], productImgs[10], productImgs[11], productImgs[8]],
   name = "Product Name",
@@ -22,7 +22,7 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
   price,
 }) => {
   return (
-    <div className={`CollectionCard2 group relative ${className}`}>
+    <div className={`group relative ${className}`}>
       <div className="relative flex flex-col">
         <NcImage
           containerClassName="aspect-w-8 aspect-h-5 bg-neutral-100 rounded-2xl overflow-hidden"
@@ -74,9 +74,9 @@ const CollectionCard2: FC<CollectionCard2Props> = ({
         </div>
         <Prices className="mt-0.5 sm:mt-1 ml-4" price={price} />
       </div>
-      <Link href={"/product-detail-2"} className="absolute inset-0 "></Link>
+      <Link href={"/product-detail"} className="absolute inset-0 "></Link>
     </div>
   );
 };
 
-export default CollectionCard2;
+export default CollectionCard;

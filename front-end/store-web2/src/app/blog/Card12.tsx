@@ -13,7 +13,7 @@ const Card12: FC<Card12Props> = ({ className = "h-full" }) => {
   return (
     <div className={`nc-Card12 group relative flex flex-col ${className}`}>
       <Link
-        href={"/blog-single"}
+        href={"/blog-detail"}
         className="block flex-shrink-0 flex-grow relative w-full h-0 aspect-w-4 aspect-h-3 rounded-3xl overflow-hidden"
       >
         <NcImage
@@ -32,7 +32,7 @@ const Card12: FC<Card12Props> = ({ className = "h-full" }) => {
           className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors text-lg sm:text-2xl`}
         >
           <Link
-            href={"/blog-single"}
+            href={"/blog-detail"}
             className="line-clamp-2 capitalize"
             title={"title"}
           >

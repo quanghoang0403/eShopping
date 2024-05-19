@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Fragment, useState } from "react";
-import { Dialog, Popover, Transition } from "@/app/headlessui";
+import { Dialog, Popover, Transition } from "@headlessui/react";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonThird from "@/shared/Button/ButtonThird";
 import ButtonClose from "@/shared/ButtonClose/ButtonClose";

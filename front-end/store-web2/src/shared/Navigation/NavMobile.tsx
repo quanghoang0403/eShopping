@@ -3,9 +3,9 @@
 import React from "react";
 import ButtonClose from "@/shared/ButtonClose/ButtonClose";
 import Logo from "@/shared/Logo/Logo";
-import { Disclosure } from "@/app/headlessui";
+import { Disclosure } from "@headlessui/react";
 import { NavItemType } from "./NavigationItem";
-import { NAVIGATION_DEMO_2 } from "@/data/navigation";
+import { NAVIGATION_DEMO } from "@/data/navigation";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import SocialsList from "@/shared/SocialsList/SocialsList";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
@@ -18,7 +18,7 @@ export interface NavMobileProps {
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({
-  data = NAVIGATION_DEMO_2,
+  data = NAVIGATION_DEMO,
   onClickClose,
 }) => {
   const _renderMenuChild = (
