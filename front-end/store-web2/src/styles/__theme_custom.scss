@@ -43,6 +43,12 @@
 
 //
 
+.menu-item.menu-megamenu:hover {
+  > .sub-menu {
+    @apply visible;
+  }
+}
+
 .nc-will-change-top {
   will-change: top;
 }

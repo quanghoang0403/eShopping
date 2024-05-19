@@ -9,8 +9,6 @@ import CartDropdown from "./Components/CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useThemeMode } from "@/hooks/useThemeMode";
-import { usePromiseTracker } from "react-promise-tracker";
-import Loading from "@/shared/Loading/Loading";
 
 export interface SiteHeaderProps {}
 
@@ -18,7 +16,6 @@ export default function SiteHeader() {
   const inputRef = createRef<HTMLInputElement>();
   const [showSearchForm, setShowSearchForm] = useState(false);
   const router = useRouter();
-  const { promiseInProgress } = usePromiseTracker();
   useThemeMode();
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -108,7 +105,6 @@ export default function SiteHeader() {
 
   return (
     <div className="sticky top-0 w-full z-40 ">
-      {promiseInProgress && <Loading />}
       <div className="relative z-10 bg-white dark:bg-neutral-900 border-b border-slate-100 dark:border-slate-700">
         <div className="container ">{renderContent()}</div>
       </div>
