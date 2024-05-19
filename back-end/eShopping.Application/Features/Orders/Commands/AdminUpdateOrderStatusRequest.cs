@@ -1,4 +1,5 @@
 ﻿using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Commands
 {
-    public class AdminUpdateOrderStatusRequest : IRequest<bool>
+    public class AdminUpdateOrderStatusRequest : IRequest<BaseResponseModel>
     {
         public Guid OrderId { get; set; }
 
@@ -20,7 +21,7 @@ namespace eShopping.Application.Features.Orders.Commands
         public string Note { get; set; }
     }
 
-    public class AdminUpdateOrderStatusRequestHandle : IRequestHandler<AdminUpdateOrderStatusRequest, bool>
+    public class AdminUpdateOrderStatusRequestHandle : IRequestHandler<AdminUpdateOrderStatusRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -31,7 +32,7 @@ namespace eShopping.Application.Features.Orders.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminUpdateOrderStatusRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateOrderStatusRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
@@ -78,7 +79,7 @@ namespace eShopping.Application.Features.Orders.Commands
 
             await _unitOfWork.SaveChangesAsync();
             await createTransaction.CommitAsync(cancellationToken);
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }
