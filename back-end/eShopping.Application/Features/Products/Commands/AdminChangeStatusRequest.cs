@@ -1,4 +1,5 @@
-﻿using eShopping.Domain.Enums;
+﻿using eShopping.Common.Models;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
 using System;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminChangeStatusRequest : IRequest<bool>
+    public class AdminChangeStatusRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminChangeStatusRequestHandler : IRequestHandler<AdminChangeStatusRequest, bool>
+    public class AdminChangeStatusRequestHandler : IRequestHandler<AdminChangeStatusRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
@@ -29,7 +30,7 @@ namespace eShopping.Application.Features.Products.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminChangeStatusRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminChangeStatusRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -38,7 +39,7 @@ namespace eShopping.Application.Features.Products.Commands
             product.LastSavedUser = loggedUser.AccountId.Value;
             product.LastSavedTime = DateTime.Now;
             await _unitOfWork.Products.UpdateAsync(product);
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }
