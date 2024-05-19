@@ -50,7 +50,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
         [HasPermission(EnumPermission.STORE_WEB)]
         public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request)
         {
-            bool response = await _mediator.Send(request);
+            var response = await _mediator.Send(request);
             return Ok(response);
         }
     }
