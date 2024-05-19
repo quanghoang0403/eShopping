@@ -29,7 +29,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             var blog = await _unitOfWork.Blogs.Find(b => b.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
             if (blog == null)
             {
-                BaseResponseModel.ReturnError("No blog is found");
+                return BaseResponseModel.ReturnError("No blog is found");
             }
             blog.IsDeleted = true;
             blog.LastSavedUser = loggedUser.AccountId.Value;

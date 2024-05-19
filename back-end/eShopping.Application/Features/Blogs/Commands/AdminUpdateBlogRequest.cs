@@ -54,16 +54,19 @@ namespace eShopping.Application.Features.Blogs.Commands
         public async Task<BaseResponseModel> Handle(AdminUpdateBlogRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            RequestValidation(request);
+            if (RequestValidation(request) != null)
+            {
+                return RequestValidation(request);
+            }
             var blog = await _unitOfWork.Blogs.Where(b => b.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
             if (blog == null)
             {
-                BaseResponseModel.ReturnError("Cannot find specific blog");
+                return BaseResponseModel.ReturnError("Cannot find specific blog");
             }
             var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower()) && b.Id != request.Id).AsNoTracking().FirstOrDefaultAsync();
             if (existedBlogName != null)
             {
-                BaseResponseModel.ReturnError("This blog name has already existed");
+                return BaseResponseModel.ReturnError("This blog name has already existed");
             }
             var modifiedBlog = _mapper.Map<Blog>(request);
             modifiedBlog.LastSavedUser = loggedUser.AccountId.Value;
@@ -71,16 +74,17 @@ namespace eShopping.Application.Features.Blogs.Commands
             modifiedBlog.UrlSEO = StringHelpers.UrlEncode(modifiedBlog.Name);
             var result = await _unitOfWork.Blogs.UpdateBlogAsync(modifiedBlog, request.BlogCategoryId, cancellationToken);
             if (result == null)
-                BaseResponseModel.ReturnError("Error updating Blog");
+                return BaseResponseModel.ReturnError("Error updating Blog");
 
             return BaseResponseModel.ReturnData();
         }
-        private static void RequestValidation(AdminUpdateBlogRequest request)
+        private static BaseResponseModel RequestValidation(AdminUpdateBlogRequest request)
         {
             if (string.IsNullOrEmpty(request.Name))
             {
-                BaseResponseModel.ReturnError("Please enter blog name");
+                return BaseResponseModel.ReturnError("Please enter blog name");
             }
+            return null;
         }
     }
 }

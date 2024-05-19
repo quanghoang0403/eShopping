@@ -50,12 +50,15 @@ namespace eShopping.Application.Features.Blogs.Commands
         public async Task<BaseResponseModel> Handle(AdminCreateBlogRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            RequestValidation(request);
+            if (RequestValidation(request) != null)
+            {
+                return RequestValidation(request);
+            }
             var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).ToListAsync();
 
             if (existedBlogName != null)
             {
-                BaseResponseModel.ReturnError("This blog name has already existed");
+                return BaseResponseModel.ReturnError("This blog name has already existed");
             }
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
@@ -92,12 +95,13 @@ namespace eShopping.Application.Features.Blogs.Commands
                 return BaseResponseModel.ReturnData();
             });
         }
-        private static void RequestValidation(AdminCreateBlogRequest request)
+        private static BaseResponseModel RequestValidation(AdminCreateBlogRequest request)
         {
             if (string.IsNullOrEmpty(request.Name))
             {
-                BaseResponseModel.ReturnError("Please enter blog name");
+                return BaseResponseModel.ReturnError("Please enter blog name");
             }
+            return null;
         }
     }
 }

@@ -51,7 +51,7 @@ namespace eShopping.Application.Features.Blogs.Queries
 
             if (blog == null)
             {
-                BaseResponseModel.ReturnError("Cannot find blog information");
+                return BaseResponseModel.ReturnError("Cannot find blog information");
             }
             var blogCategory = await _unitOfWork.BlogCategories
                 .Where(bc => bc.BlogInCategories
