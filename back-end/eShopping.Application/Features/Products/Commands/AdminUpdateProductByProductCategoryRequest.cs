@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminUpdateProductByProductCategoryRequest : IRequest<bool>
+    public class AdminUpdateProductByProductCategoryRequest : IRequest<BaseResponseModel>
     {
         public Guid ProductCategoryId { get; set; }
         public IEnumerable<Guid> ProductByCategoryIds { get; set; }
     }
-    public class AdminUpdateProductByProductCategoryRequestHandler : IRequestHandler<AdminUpdateProductByProductCategoryRequest, bool>
+    public class AdminUpdateProductByProductCategoryRequestHandler : IRequestHandler<AdminUpdateProductByProductCategoryRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -30,12 +30,16 @@ namespace eShopping.Application.Features.Products.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminUpdateProductByProductCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateProductByProductCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var modifiedProductCategory = await _unitOfWork.ProductCategories.Where(c => c.Id == request.ProductCategoryId).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(modifiedProductCategory == null, "Cannot find product category by id " + request.ProductCategoryId);
+            if (modifiedProductCategory == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find product category by id " + request.ProductCategoryId);
+            }
+
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
@@ -77,9 +81,9 @@ namespace eShopping.Application.Features.Products.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
     }

@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Common.Models;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminDeleteProductCategoryByIdRequest : IRequest<bool>
+    public class AdminDeleteProductCategoryByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminDeleteProductCategoryRequestHandler : IRequestHandler<AdminDeleteProductCategoryByIdRequest, bool>
+    public class AdminDeleteProductCategoryRequestHandler : IRequestHandler<AdminDeleteProductCategoryByIdRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
@@ -29,19 +29,23 @@ namespace eShopping.Application.Features.Products.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminDeleteProductCategoryByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminDeleteProductCategoryByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var productCategory = await _unitOfWork.ProductCategories.Find(p => p.Id == request.Id)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-            ThrowError.Against(productCategory == null, "Product category is not found");
+
+            if (productCategory == null)
+            {
+                return BaseResponseModel.ReturnError("Product category is not found");
+            }
 
             productCategory.IsDeleted = true;
             productCategory.LastSavedUser = loggedUser.AccountId.Value;
             productCategory.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }
