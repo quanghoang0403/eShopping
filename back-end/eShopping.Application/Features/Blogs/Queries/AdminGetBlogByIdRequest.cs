@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
 using MediatR;
@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Queries
 {
-    public class AdminGetBlogByIdRequest : IRequest<AdminGetBlogByIdResponse>
+    public class AdminGetBlogByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminGetBlogByIdResponse
-    {
-        public AdminBlogDetailModel Blog { get; set; }
-    }
-    public class AdminGetBlogByIdRequestHandler : IRequestHandler<AdminGetBlogByIdRequest, AdminGetBlogByIdResponse>
+    //public class AdminGetBlogByIdResponse
+    //{
+    //    public AdminBlogDetailModel Blog { get; set; }
+    //}
+    public class AdminGetBlogByIdRequestHandler : IRequestHandler<AdminGetBlogByIdRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -39,7 +39,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             _mapperConfiguration = mapperConfiguration;
             _mapper = mapper;
         }
-        public async Task<AdminGetBlogByIdResponse> Handle(AdminGetBlogByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetBlogByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blog = await _unitOfWork.Blogs
@@ -48,17 +48,18 @@ namespace eShopping.Application.Features.Blogs.Queries
                 .Include(b => b.BlogInCategories)
                 .ProjectTo<AdminBlogDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken);
-            ThrowError.Against(blog == null, "Cannot find blog information");
+
+            if (blog == null)
+            {
+                BaseResponseModel.ReturnError("Cannot find blog information");
+            }
             var blogCategory = await _unitOfWork.BlogCategories
                 .Where(bc => bc.BlogInCategories
                 .Any(bic => bic.blogId == request.Id))
                 .ProjectTo<AdminBlogCategoryModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken);
             blog.BlogCategories = blogCategory;
-            return new AdminGetBlogByIdResponse
-            {
-                Blog = blog
-            };
+            return BaseResponseModel.ReturnData(blog);
         }
     }
 }
