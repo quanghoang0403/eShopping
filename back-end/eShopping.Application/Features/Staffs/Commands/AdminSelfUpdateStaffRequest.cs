@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 namespace eShopping.Application.Features.Staffs.Commands
 {
 
-    public class AdminSelfUpdateStaffRequest : IRequest<bool>
+    public class AdminSelfUpdateStaffRequest : IRequest<BaseResponseModel>
     {
         public Guid StaffId { get; set; }
 
@@ -33,7 +32,7 @@ namespace eShopping.Application.Features.Staffs.Commands
         public List<Guid> PermissionIds { get; set; }
     }
 
-    public class AdminSelfUpdateStaffRequestHandler : IRequestHandler<AdminSelfUpdateStaffRequest, bool>
+    public class AdminSelfUpdateStaffRequestHandler : IRequestHandler<AdminSelfUpdateStaffRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -50,15 +49,22 @@ namespace eShopping.Application.Features.Staffs.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(AdminSelfUpdateStaffRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminSelfUpdateStaffRequest request, CancellationToken cancellationToken)
         {
             // Get the current user information from the user token.
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             Account account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(loggedUser.AccountId ?? Guid.Empty);
-            ThrowError.Against(account == null, "Account is not exist or was inactive");
+            if (account == null)
+            {
+                BaseResponseModel.ReturnError("Account is not exist or was inactive");
+            }
 
-            CheckUniqueAndValidation(request, account.Id);
+
+            if (CheckUniqueAndValidation(request, account.Id) != null)
+            {
+                return CheckUniqueAndValidation(request, account.Id);
+            }
 
             account.FullName = request.FullName;
             account.PhoneNumber = request.PhoneNumber;
@@ -99,35 +105,35 @@ namespace eShopping.Application.Features.Staffs.Commands
             #endregion
 
             await _unitOfWork.SaveChangesAsync();
-            return true;
+            return BaseResponseModel.ReturnData();
         }
 
-        private void CheckUniqueAndValidation(AdminSelfUpdateStaffRequest request, Guid aid)
+        private BaseResponseModel CheckUniqueAndValidation(AdminSelfUpdateStaffRequest request, Guid aid)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.FullName), new JObject()
+            if (string.IsNullOrEmpty(request.FullName))
             {
-                { $"{nameof(request.FullName)}",   "Please enter fullName"},
-            });
+                return BaseResponseModel.ReturnError("Please enter fill name");
+            }
+            if (string.IsNullOrEmpty(request.PhoneNumber))
+            {
+                return BaseResponseModel.ReturnError("Phone number is existed");
+            }
 
-            ThrowError.Against(string.IsNullOrEmpty(request.PhoneNumber), new JObject()
+            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim());
+            if (phoneExisted)
             {
-                { $"{nameof(request.PhoneNumber)}",  "Please enter phone"},
-            });
-
-            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim(), aid);
-            ThrowError.Against(phoneExisted == true, new JObject()
-            {
-                { $"{nameof(request.PhoneNumber)}",  "Phone number is existed"},
-            });
+                return BaseResponseModel.ReturnError("Please enter fill name");
+            }
 
             if (!string.IsNullOrWhiteSpace(request.Email))
             {
-                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim(), aid);
-                ThrowError.Against(emailExisted == true, new JObject()
+                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim());
+                if (emailExisted)
                 {
-                    { $"{nameof(request.Email)}",  "Email is existed"},
-                });
+                    return BaseResponseModel.ReturnError("Email is existed");
+                }
             }
+            return null;
         }
     }
 }

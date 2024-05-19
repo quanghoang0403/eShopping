@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Permissions;
 using eShopping.Models.Staffs;
@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Staffs.Queries
 {
-    public class AdminGetStaffByIdRequest : IRequest<AdminGetStaffByIdResponse>
+    public class AdminGetStaffByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminGetStaffByIdResponse
-    {
-        public AdminStaffDetailModel Staff { get; set; }
-    }
+    //public class AdminGetStaffByIdResponse
+    //{
+    //    public AdminStaffDetailModel Staff { get; set; }
+    //}
 
-    public class AdminGetStaffByIdRequestHandler : IRequestHandler<AdminGetStaffByIdRequest, AdminGetStaffByIdResponse>
+    public class AdminGetStaffByIdRequestHandler : IRequestHandler<AdminGetStaffByIdRequest, BaseResponseModel>
     {
 
         private readonly IMapper _mapper;
@@ -42,11 +42,14 @@ namespace eShopping.Application.Features.Staffs.Queries
         /// <param name="request">Data has been defined in the model.</param>
         /// <param name="cancellationToken">The current thread.</param>
         /// <returns></returns>
-        public async Task<AdminGetStaffByIdResponse> Handle(AdminGetStaffByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetStaffByIdRequest request, CancellationToken cancellationToken)
         {
             // Get the staff by the id.
             var staff = await _unitOfWork.Staffs.GetStaffByIdAsync(request.Id);
-            ThrowError.Against(staff == null, "Cannot find staff information");
+            if (staff == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find staff information");
+            }
             var perrmissions = _mapper.Map<IEnumerable<AdminPermissionModel>>(staff.StaffPermissions.Select(x => x.Permission));
 
             var staffDetailModel = new AdminStaffDetailModel()
@@ -62,10 +65,7 @@ namespace eShopping.Application.Features.Staffs.Queries
                 Birthday = staff.Account.Birthday
             };
 
-            return new AdminGetStaffByIdResponse
-            {
-                Staff = staffDetailModel
-            };
+            return BaseResponseModel.ReturnData(staffDetailModel);
         }
     }
 }

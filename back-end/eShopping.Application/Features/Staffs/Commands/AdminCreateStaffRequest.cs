@@ -1,6 +1,6 @@
 ﻿using eShopping.Application.Providers.Email;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Domain.Settings;
@@ -10,7 +10,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -20,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Staffs.Commands
 {
-    public class AdminCreateStaffRequest : IRequest<bool>
+    public class AdminCreateStaffRequest : IRequest<BaseResponseModel>
     {
 
         public string FullName { get; set; }
@@ -38,7 +37,7 @@ namespace eShopping.Application.Features.Staffs.Commands
         public List<Guid> PermissionIds { get; set; }
     }
 
-    public class AdminCreateStaffRequestHandler : IRequestHandler<AdminCreateStaffRequest, bool>
+    public class AdminCreateStaffRequestHandler : IRequestHandler<AdminCreateStaffRequest, BaseResponseModel>
     {
         private readonly DomainFE _domainFE;
         private readonly IUnitOfWork _unitOfWork;
@@ -64,13 +63,16 @@ namespace eShopping.Application.Features.Staffs.Commands
         /// <param name="request">Data attached from the current request.</param>
         /// <param name="cancellationToken">The current thread.</param>
         /// <returns></returns>
-        public async Task<bool> Handle(AdminCreateStaffRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminCreateStaffRequest request, CancellationToken cancellationToken)
         {
             // Get the current user information from the user token.
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId;
 
-            CheckUniqueAndValidation(request);
+            if (CheckUniqueAndValidation(request) != null)
+            {
+                return CheckUniqueAndValidation(request);
+            }
 
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
@@ -130,15 +132,15 @@ namespace eShopping.Application.Features.Staffs.Commands
                     await SendEmailPasswordAsync(request.FullName, request.Email, password);
 
                 }
-                catch
+                catch (Exception ex)
                 {
                     // Data will be restored.
                     await createStaffTransaction.RollbackAsync(cancellationToken);
 
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
 
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
 
@@ -165,32 +167,32 @@ namespace eShopping.Application.Features.Staffs.Commands
         /// </summary>
         /// <param name="request">The request data.</param>
         /// <returns></returns>
-        private void CheckUniqueAndValidation(AdminCreateStaffRequest request)
+        private BaseResponseModel CheckUniqueAndValidation(AdminCreateStaffRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.FullName), new JObject()
+            if (string.IsNullOrEmpty(request.FullName))
             {
-                { $"{nameof(request.FullName)}",   "Please enter fullName"},
-            });
-
-            ThrowError.Against(string.IsNullOrEmpty(request.PhoneNumber), new JObject()
+                return BaseResponseModel.ReturnError("Please enter fill name");
+            }
+            if (string.IsNullOrEmpty(request.PhoneNumber))
             {
-                { $"{nameof(request.PhoneNumber)}",  "Please enter phone"},
-            });
+                return BaseResponseModel.ReturnError("Phone number is existed");
+            }
 
             var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim());
-            ThrowError.Against(phoneExisted == true, new JObject()
+            if (phoneExisted)
             {
-                { $"{nameof(request.PhoneNumber)}",  "Phone number is existed"},
-            });
+                return BaseResponseModel.ReturnError("Please enter fill name");
+            }
 
             if (!string.IsNullOrWhiteSpace(request.Email))
             {
                 var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim());
-                ThrowError.Against(emailExisted == true, new JObject()
+                if (emailExisted)
                 {
-                    { $"{nameof(request.Email)}",  "Email is existed"},
-                });
+                    return BaseResponseModel.ReturnError("Email is existed");
+                }
             }
+            return null;
         }
     }
 }

@@ -88,7 +88,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [Route("update-password")]
         public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request)
         {
-            bool response = await _mediator.Send(request);
+            var response = await _mediator.Send(request);
             return Ok(response);
         }
 
@@ -96,7 +96,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [Route("disable-account")]
         public async Task<IActionResult> DisableAccount([FromRoute] DisableAccountRequest request)
         {
-            bool response = await _mediator.Send(request);
+            var response = await _mediator.Send(request);
             return Ok(response);
         }
     }
