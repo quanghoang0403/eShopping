@@ -2,10 +2,10 @@
 
 import React, { FC, useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import LikeButton from '@/components/LikeButton'
+import LikeButton from '@/components/Product/LikeButton'
 import { StarIcon } from '@heroicons/react/24/solid'
 import BagIcon from '@/shared/Icon/BagIcon'
-import NcInputNumber from '@/components/NcInputNumber'
+import NcInputNumber from '@/shared/NcInputNumber/NcInputNumber'
 import { PRODUCTS } from '@/data/data'
 import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import DiscountIcon from '@/shared/Icon/DiscountIcon'
@@ -16,13 +16,13 @@ import detail1JPG from '@/images/products/detail1.jpg'
 import detail2JPG from '@/images/products/detail2.jpg'
 import detail3JPG from '@/images/products/detail3.jpg'
 import Policy from '@/components/Product/Policy'
-import ReviewItem from '@/components/Product/ReviewItem'
+import ReviewItem from '@/components/Product/Review/ReviewItem'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import SectionPromo2 from '@/components/SectionPromo2'
-import ModalViewAllReviews from '@/components/Modal/ModalViewAllReviews'
+import ModalViewAllReviews from '@/components/Product/Review/ModalViewAllReviews'
 import NotifyAddTocart from '@/components/Product/NotifyAddTocart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
-import Gallery from '@/components/Gallery/Gallery'
+import Gallery from '@/components/Product/Gallery/Gallery'
 import { GetServerSideProps, GetStaticProps } from 'next'
 import ProductService from '@/services/product.service'
 import { PageSizeConstants } from '@/constants/default.constants'
@@ -326,7 +326,7 @@ const ProductDetailPage = () => {
   return (
     <div className={`nc-ProductDetailPage `}>
       {/* MAIn */}
-      <main className="container mt-5 lg:mt-11">
+      <div className="container mt-5 lg:mt-11">
         <div className="lg:flex">
           {/* CONTENT */}
           <div className="w-full lg:w-[55%] ">
@@ -378,7 +378,7 @@ const ProductDetailPage = () => {
             <SectionPromo2 />
           </div>
         </div>
-      </main>
+      </div>
 
       {/* MODAL VIEW ALL REVIEW */}
       <ModalViewAllReviews show={isOpenModalViewAllReviews} onCloseModalViewAllReviews={() => setIsOpenModalViewAllReviews(false)} />

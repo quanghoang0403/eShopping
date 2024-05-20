@@ -47,7 +47,7 @@ const PageSearch = ({}) => {
       </div>
 
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
-        <main>
+        <div>
           {/* FILTER */}
           <HeaderFilterSearchPage />
 
@@ -63,7 +63,7 @@ const PageSearch = ({}) => {
             <Pagination />
             <ButtonPrimary loading>Show me more</ButtonPrimary>
           </div>
-        </main>
+        </div>
 
         {/* === SECTION 5 === */}
         <hr className="border-slate-200 dark:border-slate-700" />

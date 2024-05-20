@@ -3,7 +3,7 @@ import { StarIcon } from '@heroicons/react/24/solid'
 import SortOrderFilter from '@/components/SectionGridMoreExplore/SortOrderFilter'
 import React, { FC, Fragment } from 'react'
 import ButtonClose from '@/shared/ButtonClose/ButtonClose'
-import ReviewItem from '@/components/Product/ReviewItem'
+import ReviewItem from '@/components/Product/Review/ReviewItem'
 
 export interface ModalViewAllReviewsProps {
   show: boolean

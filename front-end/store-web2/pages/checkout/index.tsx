@@ -1,7 +1,7 @@
 'use client'
 
 import Label from '@/shared/Label/Label'
-import NcInputNumber from '@/components/NcInputNumber'
+import NcInputNumber from '@/shared/NcInputNumber/NcInputNumber'
 import Price from '@/shared/Price/Price'
 import { Product, PRODUCTS } from '@/data/data'
 import { useState } from 'react'
@@ -177,7 +177,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="nc-CheckoutPage">
-      <main className="container py-16 lg:pb-28 lg:pt-20 ">
+      <div className="container py-16 lg:pb-28 lg:pt-20 ">
         <div className="mb-16">
           <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">Checkout</h2>
           <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
@@ -259,7 +259,7 @@ const CheckoutPage = () => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

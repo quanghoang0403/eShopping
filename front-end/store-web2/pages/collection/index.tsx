@@ -21,7 +21,7 @@ const PageCollection = ({}) => {
           </div>
 
           <hr className="border-slate-200 dark:border-slate-700" />
-          <main>
+          <div>
             {/* TABS FILTER */}
             <TabFilters />
 
@@ -37,7 +37,7 @@ const PageCollection = ({}) => {
               <Pagination />
               <ButtonPrimary loading>Show me more</ButtonPrimary>
             </div>
-          </main>
+          </div>
         </div>
 
         {/* === SECTION 5 === */}

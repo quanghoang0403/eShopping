@@ -1,9 +1,9 @@
-import React from "react";
-import SectionAds from "@/components/Blog/SectionAds";
-import SectionMagazine5 from "@/components/Blog/SectionMagazine5";
-import SectionLatestPosts from "@/components/Blog/SectionLatestPosts";
-import BgGlassmorphism from "@/components/BgGlassmorphism/BgGlassmorphism";
-import SectionPromo3 from "@/components/SectionPromo3";
+import React from 'react'
+import SectionAds from '@/components/Blog/SectionAds'
+import SectionMagazine5 from '@/components/Blog/SectionMagazine5'
+import SectionLatestPosts from '@/components/Blog/SectionLatestPosts'
+import BgGlassmorphism from '@/shared/Background/BgGlassmorphism'
+import SectionPromo3 from '@/components/SectionPromo3'
 
 // DEMO DATA
 
@@ -29,7 +29,7 @@ const BlogPage: React.FC = () => {
         <SectionPromo3 className="pb-16 lg:pb-28" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogPage;
+export default BlogPage
