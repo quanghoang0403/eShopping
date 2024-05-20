@@ -11,14 +11,13 @@ import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outli
 import DiscountIcon from '@/shared/Icon/DiscountIcon'
 import Price from '@/shared/Price/Price'
 import toast from 'react-hot-toast'
-import SectionSliderProductCard from '@/components/SectionSliderProductCard'
+import SliderProductList from '@/components/ProductList/SliderProductList'
 import detail1JPG from '@/images/products/detail1.jpg'
 import detail2JPG from '@/images/products/detail2.jpg'
 import detail3JPG from '@/images/products/detail3.jpg'
 import Policy from '@/components/Product/Policy'
 import ReviewItem from '@/components/Product/Review/ReviewItem'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
-import SectionPromo2 from '@/components/SectionPromo2'
 import ModalViewAllReviews from '@/components/Product/Review/ModalViewAllReviews'
 import NotifyAddTocart from '@/components/Product/NotifyAddTocart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
@@ -26,6 +25,7 @@ import Gallery from '@/components/Product/Gallery/Gallery'
 import { GetServerSideProps, GetStaticProps } from 'next'
 import ProductService from '@/services/product.service'
 import { PageSizeConstants } from '@/constants/default.constants'
+import PromoBanner2 from '@/components/Common/Banner/PromoBanner2'
 
 const LIST_IMAGES_DEMO = [
   detail1JPG,
@@ -366,7 +366,7 @@ const ProductDetailPage = () => {
           <hr className="border-slate-200 dark:border-slate-700" />
 
           {/* OTHER SECTION */}
-          <SectionSliderProductCard
+          <SliderProductList
             heading="Customers also purchased"
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
@@ -375,7 +375,7 @@ const ProductDetailPage = () => {
 
           {/* SECTION */}
           <div className="pb-20 xl:pb-28 lg:pt-14">
-            <SectionPromo2 />
+            <PromoBanner2 />
           </div>
         </div>
       </div>

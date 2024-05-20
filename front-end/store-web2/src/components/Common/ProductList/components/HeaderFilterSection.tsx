@@ -5,7 +5,7 @@ import Nav from '@/shared/Nav/Nav'
 import NavItem from '@/shared/NavItem/NavItem'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import TabFilters from '@/components/TabFilters'
+import TabFilter from '@/shared/Filter/TabFilter'
 import { Transition } from '@headlessui/react'
 import Heading from '@/shared/Heading/Heading'
 
@@ -73,7 +73,7 @@ const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({ className = 'mb-12'
         leaveTo="opacity-0"
       >
         <div className="w-full border-b border-neutral-200 dark:border-neutral-700 my-8"></div>
-        <TabFilters />
+        <TabFilter />
       </Transition>
     </div>
   )

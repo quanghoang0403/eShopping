@@ -1,22 +1,22 @@
 'use client'
 
 import React, { FC, useState } from 'react'
-import CardCategory1 from '@/components/CardCategories/CardCategory1'
-import CardCategory4 from '@/components/CardCategories/CardCategory4'
 import Heading from '@/shared/Heading/Heading'
-import NavItem2 from '@/components/NavItem2'
 import Nav from '@/shared/Nav/Nav'
-import CardCategory6 from '@/components/CardCategories/CardCategory6'
 import { DEMO_MORE_EXPLORE_DATA, ExploreType } from './data'
+import CardCategory4 from '@/shared/CardCategory/CardCategory4'
+import CardCategory6 from '@/shared/CardCategory/CardCategory6'
+import CardCategory1 from '@/shared/CardCategory/CardCategory1'
+import NavItem from '@/shared/NavItem/NavItem'
 
-export interface SectionGridMoreExploreProps {
+export interface GridCategoryListProps {
   className?: string
   gridClassName?: string
   boxCard?: 'box1' | 'box4' | 'box6'
   data?: ExploreType[]
 }
 
-const SectionGridMoreExplore: FC<SectionGridMoreExploreProps> = ({
+const GridCategoryList: FC<GridCategoryListProps> = ({
   className = '',
   boxCard = 'box4',
   gridClassName = 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3',
@@ -107,12 +107,12 @@ const SectionGridMoreExplore: FC<SectionGridMoreExploreProps> = ({
                `,
             },
           ].map((item, index) => (
-            <NavItem2 key={index} isActive={tabActive === item.name} onClick={() => setTabActive(item.name)}>
+            <NavItem key={index} isActive={tabActive === item.name} onClick={() => setTabActive(item.name)}>
               <div className="flex items-center justify-center space-x-1.5 sm:space-x-2.5 text-xs sm:text-sm ">
                 <span className="inline-block" dangerouslySetInnerHTML={{ __html: item.icon }}></span>
                 <span>{item.name}</span>
               </div>
-            </NavItem2>
+            </NavItem>
           ))}
         </Nav>
       </div>
@@ -120,11 +120,11 @@ const SectionGridMoreExplore: FC<SectionGridMoreExploreProps> = ({
   }
 
   return (
-    <div className={`nc-SectionGridMoreExplore relative ${className}`}>
+    <div className={`nc-GridCategoryList relative ${className}`}>
       {renderHeading()}
       <div className={`grid gap-4 md:gap-7 ${gridClassName}`}>{data.map((item) => renderCard(item))}</div>
     </div>
   )
 }
 
-export default SectionGridMoreExplore
+export default GridCategoryList

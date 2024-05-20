@@ -4,9 +4,8 @@ import React, { FC, useEffect, useId, useRef, useState } from 'react'
 import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import CollectionCard from './CollectionCard'
+import CollectionCard from './components/CollectionCard'
 import Nav from '@/shared/Nav/Nav'
-import NavItem2 from './NavItem2'
 import Next from '@/shared/NextPrev/Next'
 import Prev from '@/shared/NextPrev/Prev'
 import full1Img from '@/images/products/full1.png'
@@ -24,8 +23,9 @@ import full31Img from '@/images/products/full3-1.png'
 import full32Img from '@/images/products/full3-2.png'
 import full33Img from '@/images/products/full3-3.png'
 import Link from 'next/link'
+import NavItem from '@/shared/NavItem/NavItem'
 
-export interface SectionSliderLargeProduct2Props {
+export interface LargeProductList2Props {
   className?: string
   itemClassName?: string
 }
@@ -54,7 +54,7 @@ export const DEMO_LARGE_PRODUCTS = [
   },
 ]
 
-const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({ className = '' }) => {
+const LargeProductList2: FC<LargeProductList2Props> = ({ className = '' }) => {
   const [tabActive, setTabActive] = useState('Last 24 hours')
 
   const sliderRef = useRef(null)
@@ -98,7 +98,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({ class
   }, [sliderRef])
 
   return (
-    <div className={`nc-SectionSliderLargeProduct2 ${className}`}>
+    <div className={`nc-LargeProductList2 ${className}`}>
       <Heading className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50" fontClass="text-3xl md:text-4xl 2xl:text-5xl font-semibold" isCenter desc="">
         Top List Collections.
       </Heading>
@@ -144,12 +144,12 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({ class
               `,
           },
         ].map((item, index) => (
-          <NavItem2 key={index} isActive={tabActive === item.name} onClick={() => setTabActive(item.name)}>
+          <NavItem key={index} isActive={tabActive === item.name} onClick={() => setTabActive(item.name)}>
             <div className="flex items-center justify-center sm:space-x-2.5 text-xs sm:text-sm ">
               <span className="hidden sm:inline-block" dangerouslySetInnerHTML={{ __html: item.icon }}></span>
               <span>{item.name}</span>
             </div>
-          </NavItem2>
+          </NavItem>
         ))}
       </Nav>
       <div ref={sliderRef} className={`relative ${isShow ? '' : 'invisible'}`}>
@@ -216,4 +216,4 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({ class
   )
 }
 
-export default SectionSliderLargeProduct2
+export default LargeProductList2

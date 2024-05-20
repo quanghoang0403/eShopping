@@ -5,7 +5,7 @@ import Input from '@/shared/Input/Input'
 import Textarea from '@/shared/Textarea/Textarea'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import BackgroundSection from '@/shared/Background/BackgroundSection'
-import SectionPromo1 from '@/components/SectionPromo1'
+import PromoBanner1 from '@/components/PromoBanner1'
 
 const info = [
   {
@@ -73,7 +73,7 @@ const PageContact = ({}) => {
       <div className="container">
         <div className="relative my-24 lg:my-32 py-24 lg:py-32">
           <BackgroundSection />
-          <SectionPromo1 />
+          <PromoBanner1 />
         </div>
       </div>
     </div>

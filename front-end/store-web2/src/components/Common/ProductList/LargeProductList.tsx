@@ -4,16 +4,16 @@ import React, { FC, useEffect, useId, useRef, useState } from 'react'
 import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import CollectionCard from './CollectionCard'
-import { DEMO_LARGE_PRODUCTS } from './SectionSliderLargeProduct2'
 import Link from 'next/link'
+import { DEMO_LARGE_PRODUCTS } from './LargeProductList2'
+import CollectionCard from './components/CollectionCard'
 
-export interface SectionSliderLargeProductProps {
+export interface LargeProductListProps {
   className?: string
   itemClassName?: string
 }
 
-const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({ className = '' }) => {
+const LargeProductList: FC<LargeProductListProps> = ({ className = '' }) => {
   const sliderRef = useRef(null)
 
   const [isShow, setIsShow] = useState(false)
@@ -54,7 +54,7 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({ classNa
   }, [sliderRef])
 
   return (
-    <div className={`nc-SectionSliderLargeProduct ${className}`}>
+    <div className={`nc-LargeProductList ${className}`}>
       <div ref={sliderRef} className={`flow-root ${isShow ? '' : 'invisible'}`}>
         <Heading isCenter={false} hasNextPrev>
           Chosen by our experts
@@ -110,4 +110,4 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({ classNa
   )
 }
 
-export default SectionSliderLargeProduct
+export default LargeProductList

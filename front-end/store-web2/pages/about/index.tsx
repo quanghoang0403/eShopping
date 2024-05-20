@@ -1,12 +1,12 @@
 import rightImg from '@/images/hero-right1.png'
 import React, { FC } from 'react'
-import SectionFounder from '@/components/About/SectionFounder'
-import SectionStatistic from '@/components/About/SectionStatistic'
 import BgGlassmorphism from '@/shared/Background/BgGlassmorphism'
 import BackgroundSection from '@/shared/Background/BackgroundSection'
 import SectionHero from '@/components/About/SectionHero'
+import SectionFounder from '@/components/About/SectionFounder'
 import SectionClientSay from '@/components/About/SectionClientSay'
-import SectionPromo3 from '@/components/SectionPromo3'
+import SectionStatistic from '@/components/About/SectionStatistic'
+import PromoBanner3 from '@/components/Common/Banner/PromoBanner3'
 
 const PageAbout = ({}) => {
   return (
@@ -30,7 +30,7 @@ const PageAbout = ({}) => {
 
         <SectionStatistic />
 
-        <SectionPromo3 />
+        <PromoBanner3 />
       </div>
     </div>
   )

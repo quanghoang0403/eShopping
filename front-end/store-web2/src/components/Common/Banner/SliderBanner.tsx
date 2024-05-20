@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useEffect, useId, useRef, useState } from 'react'
-import Heading from '../shared/Heading/Heading'
-import CardCategory3 from './CardCategories/CardCategory3'
+import Heading from '../../../shared/Heading/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import { CATS_DISCOVER } from './CardCategories/data'
+import { CATS_DISCOVER } from '@/shared/CardCategory/data'
+import CardCategory3 from '@/shared/CardCategory/CardCategory3'
 
-const DiscoverMoreSlider = () => {
+const SliderBanner = () => {
   const sliderRef = useRef(null)
 
   const [isShow, setIsShow] = useState(false)
@@ -52,7 +52,7 @@ const DiscoverMoreSlider = () => {
   }, [sliderRef])
 
   return (
-    <div ref={sliderRef} className={`nc-DiscoverMoreSlider nc-p-l-container ${isShow ? '' : 'invisible'}`}>
+    <div ref={sliderRef} className={`nc-SliderBanner nc-p-l-container ${isShow ? '' : 'invisible'}`}>
       <Heading
         className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50 nc-p-r-container "
         desc=""
@@ -74,4 +74,4 @@ const DiscoverMoreSlider = () => {
   )
 }
 
-export default DiscoverMoreSlider
+export default SliderBanner

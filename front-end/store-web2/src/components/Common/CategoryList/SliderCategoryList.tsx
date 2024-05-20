@@ -4,13 +4,13 @@ import React, { FC, useEffect, useId, useRef, useState } from 'react'
 import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import CardCategory2 from '@/components/CardCategories/CardCategory2'
 import department1Png from '@/images/collections/department1.png'
 import department2Png from '@/images/collections/department2.png'
 import department3Png from '@/images/collections/department3.png'
 import department4Png from '@/images/collections/department4.png'
 import { StaticImageData } from 'next/image'
 import Link from 'next/link'
+import CardCategory2 from '@/shared/CardCategory/CardCategory2'
 
 export interface CardCategoryData {
   name: string
@@ -44,7 +44,7 @@ const CATS: CardCategoryData[] = [
     color: 'bg-orange-100',
   },
 ]
-export interface SectionSliderCategoriesProps {
+export interface SliderCategoryListProps {
   className?: string
   itemClassName?: string
   heading?: string
@@ -52,7 +52,7 @@ export interface SectionSliderCategoriesProps {
   data?: CardCategoryData[]
 }
 
-const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
+const SliderCategoryList: FC<SliderCategoryListProps> = ({
   heading = 'Shop by department',
   subHeading = '',
   className = '',
@@ -101,7 +101,7 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
   }, [sliderRef])
 
   return (
-    <div className={`nc-SectionSliderCategories ${className}`}>
+    <div className={`nc-SliderCategoryList ${className}`}>
       <div ref={sliderRef} className={`flow-root ${isShow ? '' : 'invisible'}`}>
         <Heading desc={subHeading} hasNextPrev>
           {heading}
@@ -156,4 +156,4 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
   )
 }
 
-export default SectionSliderCategories
+export default SliderCategoryList

@@ -2,10 +2,10 @@
 
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import CardCategory3 from "@/components/CardCategories/CardCategory3";
 import React, { FC, Fragment, useState } from "react";
 import { Route } from "@/routers/types";
 import Link from "next/link";
+import CardCategory3 from "../CardCategory/CardCategory3";
 
 export interface NavItemType {
   id: string;

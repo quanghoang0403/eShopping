@@ -1,9 +1,9 @@
 import React from 'react'
-import CardCategory2 from './CardCategories/CardCategory2'
-import Heading from '../shared/Heading/Heading'
+import Heading from '../../../shared/Heading/Heading'
 import img1 from '@/images/discover-more-1.png'
 import img2 from '@/images/discover-more-2.png'
 import img3 from '@/images/discover-more-3.png'
+import CardCategory2 from '@/shared/CardCategory/CardCategory2'
 
 const CATS_DISCOVER = [
   {
@@ -24,9 +24,9 @@ const CATS_DISCOVER = [
   },
 ]
 
-const DiscoverMoreGrid = () => {
+const GridBanner = () => {
   return (
-    <div className="nc-DiscoverMoreGrid relative">
+    <div className="nc-GridBanner relative">
       <Heading className="mb-12 text-neutral-900 dark:text-neutral-50" desc="" isCenter rightDescText="Good things are waiting for you">
         Discover more
       </Heading>
@@ -39,4 +39,4 @@ const DiscoverMoreGrid = () => {
   )
 }
 
-export default DiscoverMoreGrid
+export default GridBanner

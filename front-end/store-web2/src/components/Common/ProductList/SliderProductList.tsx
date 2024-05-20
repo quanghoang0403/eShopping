@@ -4,10 +4,10 @@ import React, { FC, useEffect, useId, useRef, useState } from 'react'
 import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import ProductCard from './Product/ProductCard'
 import { Product, PRODUCTS } from '@/data/data'
+import ProductCard from '@/components/Product/ProductCard'
 
-export interface SectionSliderProductCardProps {
+export interface SliderProductListProps {
   className?: string
   itemClassName?: string
   heading?: string
@@ -17,7 +17,7 @@ export interface SectionSliderProductCardProps {
   data?: Product[]
 }
 
-const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
+const SliderProductList: FC<SliderProductListProps> = ({
   className = '',
   itemClassName = '',
   headingFontClassName,
@@ -70,7 +70,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
   }, [sliderRef])
 
   return (
-    <div className={`nc-SectionSliderProductCard ${className}`}>
+    <div className={`nc-SliderProductList ${className}`}>
       <div ref={sliderRef} className={`flow-root ${isShow ? '' : 'invisible'}`}>
         <Heading className={headingClassName} fontClass={headingFontClassName} rightDescText={subHeading} hasNextPrev>
           {heading || `New Arrivals`}
@@ -89,4 +89,4 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
   )
 }
 
-export default SectionSliderProductCard
+export default SliderProductList

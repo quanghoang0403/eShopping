@@ -1,9 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/24/solid'
-import SortOrderFilter from '@/components/SectionGridMoreExplore/SortOrderFilter'
 import React, { FC, Fragment } from 'react'
 import ButtonClose from '@/shared/ButtonClose/ButtonClose'
 import ReviewItem from '@/components/Product/Review/ReviewItem'
+import SortOrderFilter from '@/shared/Filter/SortOrderFilter'
 
 export interface ModalViewAllReviewsProps {
   show: boolean
