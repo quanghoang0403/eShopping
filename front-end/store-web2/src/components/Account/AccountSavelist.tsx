@@ -1,15 +1,13 @@
-import ProductCard from "@/components/ProductCard";
-import { PRODUCTS } from "@/data/data";
-import ButtonSecondary from "@/shared/Button/ButtonSecondary";
+import ProductCard from '@/components/Product/ProductCard'
+import { PRODUCTS } from '@/data/data'
+import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 
-const AccountSavelists = () => {
+const AccountSavelist = () => {
   const renderSection1 = () => {
     return (
       <div className="space-y-10 sm:space-y-12">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-semibold">
-            List of saved products
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold">List of saved products</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 ">
@@ -21,10 +19,10 @@ const AccountSavelists = () => {
           <ButtonSecondary loading>Show me more</ButtonSecondary>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
-  return renderSection1();
-};
+  return renderSection1()
+}
 
-export default AccountSavelists;
+export default AccountSavelist

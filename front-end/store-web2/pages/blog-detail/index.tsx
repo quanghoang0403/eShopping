@@ -5,7 +5,7 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Comment from "@/shared/Comment/Comment";
 import NcImage from "@/shared/NcImage/NcImage";
-import SocialsList from "@/shared/SocialsList/SocialsList";
+import SocialsListHorizontal from "@/shared/SocialsList/SocialsListHorizontal";
 import Textarea from "@/shared/Textarea/Textarea";
 import { _getImgRd, _getPersonNameRd, _getTitleRd } from "@/constants/fakeData";
 import Tag from "@/shared/Tag/Tag";
@@ -55,7 +55,7 @@ const BlogDetail = () => {
               </div>
             </div>
             <div className="mt-3 sm:mt-1.5 sm:ml-3">
-              <SocialsList />
+              <SocialsListHorizontal />
             </div>
           </div>
         </div>

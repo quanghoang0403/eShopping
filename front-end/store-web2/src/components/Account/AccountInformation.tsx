@@ -7,7 +7,7 @@ import Textarea from '@/shared/Textarea/Textarea'
 import { avatarImgs } from '@/constants/fakeData'
 import Image from 'next/image'
 
-const AccountPage = () => {
+const AccountInformation = () => {
   return (
     <div className={`nc-AccountPage `}>
       <div className="space-y-10 sm:space-y-12">
@@ -109,4 +109,4 @@ const AccountPage = () => {
   )
 }
 
-export default AccountPage
+export default AccountInformation

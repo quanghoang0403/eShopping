@@ -1,29 +1,22 @@
-"use client";
+'use client'
 
-import { Dialog, Transition } from "@headlessui/react";
-import React, { FC, Fragment } from "react";
-import ButtonClose from "@/shared/ButtonClose/ButtonClose";
-import ProductQuickView from "../ProductQuickView";
-import { usePathname } from "next/navigation";
+import { Dialog, Transition } from '@headlessui/react'
+import React, { FC, Fragment } from 'react'
+import ButtonClose from '@/shared/ButtonClose/ButtonClose'
+import ProductQuickView from '../Product/ProductQuickView'
+import { usePathname } from 'next/navigation'
 
 export interface ModalQuickViewProps {
-  show: boolean;
-  onCloseModalQuickView: () => void;
+  show: boolean
+  onCloseModalQuickView: () => void
 }
 
-const ModalQuickView: FC<ModalQuickViewProps> = ({
-  show,
-  onCloseModalQuickView,
-}) => {
-  const pathname = usePathname();
+const ModalQuickView: FC<ModalQuickViewProps> = ({ show, onCloseModalQuickView }) => {
+  const pathname = usePathname()
 
   return (
     <Transition appear show={show} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed inset-0 z-50"
-        onClose={onCloseModalQuickView}
-      >
+      <Dialog as="div" className="fixed inset-0 z-50" onClose={onCloseModalQuickView}>
         <div className="flex items-stretch md:items-center justify-center h-full text-center md:px-4">
           <Transition.Child
             as={Fragment}
@@ -68,7 +61,7 @@ const ModalQuickView: FC<ModalQuickViewProps> = ({
         </div>
       </Dialog>
     </Transition>
-  );
-};
+  )
+}
 
-export default ModalQuickView;
+export default ModalQuickView

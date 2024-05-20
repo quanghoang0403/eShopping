@@ -1,51 +1,40 @@
-import { avatarColors } from "@/constants/contants";
-import React, { FC } from "react";
-import { avatarImgs } from "@/constants/fakeData";
-import VerifyIcon from "@/shared/Icon/VerifyIcon";
-import Image, { StaticImageData } from "next/image";
-
+import React, { FC } from 'react'
+import { avatarImgs } from '@/constants/fakeData'
+import VerifyIcon from '@/shared/Icon/VerifyIcon'
+import Image, { StaticImageData } from 'next/image'
+import { avatarColors } from '@/constants/avatar-color.contants'
 export interface AvatarProps {
-  containerClassName?: string;
-  sizeClass?: string;
-  radius?: string;
-  imgUrl?: string | StaticImageData;
-  userName?: string;
-  hasChecked?: boolean;
-  hasCheckedClass?: string;
+  containerClassName?: string
+  sizeClass?: string
+  radius?: string
+  imgUrl?: string | StaticImageData
+  userName?: string
+  hasChecked?: boolean
+  hasCheckedClass?: string
 }
 
 const Avatar: FC<AvatarProps> = ({
-  containerClassName = "ring-1 ring-white dark:ring-neutral-900",
-  sizeClass = "h-6 w-6 text-sm",
-  radius = "rounded-full",
+  containerClassName = 'ring-1 ring-white dark:ring-neutral-900',
+  sizeClass = 'h-6 w-6 text-sm',
+  radius = 'rounded-full',
   imgUrl = avatarImgs[0],
   userName,
   hasChecked,
-  hasCheckedClass = "w-4 h-4 bottom-1 -right-0.5",
+  hasCheckedClass = 'w-4 h-4 bottom-1 -right-0.5',
 }) => {
-  const url = imgUrl || "";
-  const name = userName || "John Doe";
+  const url = imgUrl || ''
+  const name = userName || 'John Doe'
   const _setBgColor = (name: string) => {
-    const backgroundIndex = Math.floor(
-      name.charCodeAt(0) % avatarColors.length
-    );
-    return avatarColors[backgroundIndex];
-  };
+    const backgroundIndex = Math.floor(name.charCodeAt(0) % avatarColors.length)
+    return avatarColors[backgroundIndex]
+  }
 
   return (
     <div
       className={`wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner ${radius} ${sizeClass} ${containerClassName}`}
       style={{ backgroundColor: url ? undefined : _setBgColor(name) }}
     >
-      {url && (
-        <Image
-          fill
-          sizes="100px"
-          className={`absolute inset-0 w-full h-full object-cover ${radius}`}
-          src={url}
-          alt={name}
-        />
-      )}
+      {url && <Image fill sizes="100px" className={`absolute inset-0 w-full h-full object-cover ${radius}`} src={url} alt={name} />}
       <span className="wil-avatar__name">{name[0]}</span>
 
       {hasChecked && (
@@ -54,7 +43,7 @@ const Avatar: FC<AvatarProps> = ({
         </span>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Avatar;
+export default Avatar

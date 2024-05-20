@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import React, { useEffect, useId, useRef, useState } from "react";
-import Heading from "./Heading/Heading";
-import CardCategory3 from "./CardCategories/CardCategory3";
+import React, { useEffect, useId, useRef, useState } from 'react'
+import Heading from '../shared/Heading/Heading'
+import CardCategory3 from './CardCategories/CardCategory3'
 // @ts-ignore
-import Glide from "@glidejs/glide/dist/glide.esm";
-import { CATS_DISCOVER } from "./CardCategories/data";
+import Glide from '@glidejs/glide/dist/glide.esm'
+import { CATS_DISCOVER } from './CardCategories/data'
 
 const DiscoverMoreSlider = () => {
-  const sliderRef = useRef(null);
+  const sliderRef = useRef(null)
 
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false)
 
   useEffect(() => {
     const OPTIONS: Partial<Glide.Options> = {
@@ -40,24 +40,19 @@ const DiscoverMoreSlider = () => {
           perView: 1,
         },
       },
-    };
-    if (!sliderRef.current) return;
+    }
+    if (!sliderRef.current) return
 
-    let slider = new Glide(sliderRef.current, OPTIONS);
-    slider.mount();
-    setIsShow(true);
+    let slider = new Glide(sliderRef.current, OPTIONS)
+    slider.mount()
+    setIsShow(true)
     return () => {
-      slider.destroy();
-    };
-  }, [sliderRef]);
+      slider.destroy()
+    }
+  }, [sliderRef])
 
   return (
-    <div
-      ref={sliderRef}
-      className={`nc-DiscoverMoreSlider nc-p-l-container ${
-        isShow ? "" : "invisible"
-      }`}
-    >
+    <div ref={sliderRef} className={`nc-DiscoverMoreSlider nc-p-l-container ${isShow ? '' : 'invisible'}`}>
       <Heading
         className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50 nc-p-r-container "
         desc=""
@@ -70,18 +65,13 @@ const DiscoverMoreSlider = () => {
         <ul className="glide__slides">
           {CATS_DISCOVER.map((item, index) => (
             <li key={index} className={`glide__slide`}>
-              <CardCategory3
-                name={item.name}
-                desc={item.desc}
-                featuredImage={item.featuredImage}
-                color={item.color}
-              />
+              <CardCategory3 name={item.name} desc={item.desc} featuredImage={item.featuredImage} color={item.color} />
             </li>
           ))}
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DiscoverMoreSlider;
+export default DiscoverMoreSlider

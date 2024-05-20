@@ -8,20 +8,20 @@ import BagIcon from '@/shared/Icon/BagIcon'
 import NcInputNumber from '@/components/NcInputNumber'
 import { PRODUCTS } from '@/data/data'
 import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outline'
-import IconDiscount from '@/components/IconDiscount'
-import Prices from '@/components/Prices'
+import DiscountIcon from '@/shared/Icon/DiscountIcon'
+import Price from '@/shared/Price/Price'
 import toast from 'react-hot-toast'
 import SectionSliderProductCard from '@/components/SectionSliderProductCard'
 import detail1JPG from '@/images/products/detail1.jpg'
 import detail2JPG from '@/images/products/detail2.jpg'
 import detail3JPG from '@/images/products/detail3.jpg'
-import Policy from '../../src/components/Product/Policy'
-import ReviewItem from '@/components/ReviewItem'
+import Policy from '@/components/Product/Policy'
+import ReviewItem from '@/components/Product/ReviewItem'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import SectionPromo2 from '@/components/SectionPromo2'
-import ModalViewAllReviews from '../../src/components/Product/ModalViewAllReviews'
-import NotifyAddTocart from '@/components/NotifyAddTocart'
-import AccordionInfo from '@/components/AccordionInfo'
+import ModalViewAllReviews from '@/components/Modal/ModalViewAllReviews'
+import NotifyAddTocart from '@/components/Product/NotifyAddTocart'
+import AccordionInfo from '@/components/Product/AccordionInfo'
 import Gallery from '@/components/Gallery/Gallery'
 import { GetServerSideProps, GetStaticProps } from 'next'
 import ProductService from '@/services/product.service'
@@ -47,38 +47,38 @@ interface IProps {
   productHighLight: IProduct[]
 }
 
-export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
-  const { params, req } = context
-  const slug = params?.url
+// export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
+//   const { params, req } = context
+//   const slug = params?.url
 
-  try {
-    const res = await ProductService.getProductByUrl('323')
-    //const res = await ProductService.getProductByUrl(slug as string);
-    const productDetail = res?.data as IProductDetail
-    const productHighlightRequestModel: IGetProductsRequest = {
-      pageNumber: 0,
-      pageSize: PageSizeConstants.Default,
-      keySearch: '',
-      productCategoryId: productDetail?.productCategory?.id as string,
-      sortType: 0,
-      isFeatured: false,
-      isDiscounted: false,
-    }
-    const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
-    const productHighlight: IProduct[] = productHighlightRequest?.data?.products
-    return {
-      props: {
-        productDetail: productDetail,
-        productHighLight: productHighlight,
-      },
-    }
-  } catch (error) {
-    console.error('Error fetching product:', error)
-    return {
-      notFound: true,
-    }
-  }
-}
+//   try {
+//     const res = await ProductService.getProductByUrl('323')
+//     //const res = await ProductService.getProductByUrl(slug as string);
+//     const productDetail = res?.data as IProductDetail
+//     const productHighlightRequestModel: IGetProductsRequest = {
+//       pageNumber: 0,
+//       pageSize: PageSizeConstants.Default,
+//       keySearch: '',
+//       productCategoryId: productDetail?.productCategory?.id as string,
+//       sortType: 0,
+//       isFeatured: false,
+//       isDiscounted: false,
+//     }
+//     const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
+//     const productHighlight: IProduct[] = productHighlightRequest?.data?.products
+//     return {
+//       props: {
+//         productDetail: productDetail,
+//         productHighLight: productHighlight,
+//       },
+//     }
+//   } catch (error) {
+//     console.error('Error fetching product:', error)
+//     return {
+//       notFound: true,
+//     }
+//   }
+// }
 
 const ProductDetailPage = () => {
   const { sizes, variants, status, allOfSizes, image } = PRODUCTS[0]
@@ -197,7 +197,7 @@ const ProductDetailPage = () => {
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-            <Prices contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" price={112} />
+            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" price={112} />
 
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
 

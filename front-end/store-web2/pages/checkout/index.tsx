@@ -2,7 +2,7 @@
 
 import Label from '@/shared/Label/Label'
 import NcInputNumber from '@/components/NcInputNumber'
-import Prices from '@/components/Prices'
+import Price from '@/shared/Price/Price'
 import { Product, PRODUCTS } from '@/data/data'
 import { useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
@@ -106,12 +106,12 @@ const CheckoutPage = () => {
                     <option value="6">6</option>
                     <option value="7">7</option>
                   </select>
-                  <Prices contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full" price={price} />
+                  <Price contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full" price={price} />
                 </div>
               </div>
 
               <div className="hidden flex-1 sm:flex justify-end">
-                <Prices price={price} className="mt-0.5" />
+                <Price price={price} className="mt-0.5" />
               </div>
             </div>
           </div>

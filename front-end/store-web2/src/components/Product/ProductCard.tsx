@@ -1,51 +1,35 @@
-"use client";
+'use client'
 
-import React, { FC, useState } from "react";
-import LikeButton from "./LikeButton";
-import Prices from "./Prices";
-import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
-import { Product, PRODUCTS } from "@/data/data";
-import { StarIcon } from "@heroicons/react/24/solid";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import BagIcon from "@/shared/Icon/BagIcon";
-import toast from "react-hot-toast";
-import { Transition } from "@headlessui/react";
-import ModalQuickView from "./Modal/ModalQuickView";
-import ProductStatus from "./ProductStatus";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import NcImage from "@/shared/NcImage/NcImage";
+import React, { FC, useState } from 'react'
+import LikeButton from '../LikeButton'
+import Price from '@/shared/Price/Price'
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
+import { Product, PRODUCTS } from '@/data/data'
+import { StarIcon } from '@heroicons/react/24/solid'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import ButtonSecondary from '@/shared/Button/ButtonSecondary'
+import BagIcon from '@/shared/Icon/BagIcon'
+import toast from 'react-hot-toast'
+import { Transition } from '@headlessui/react'
+import ModalQuickView from '../Modal/ModalQuickView'
+import ProductStatus from './ProductStatus'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+import NcImage from '@/shared/NcImage/NcImage'
 
 export interface ProductCardProps {
-  className?: string;
-  data?: Product;
-  isLiked?: boolean;
+  className?: string
+  data?: Product
+  isLiked?: boolean
 }
 
-const ProductCard: FC<ProductCardProps> = ({
-  className = "",
-  data = PRODUCTS[0],
-  isLiked,
-}) => {
-  const {
-    name,
-    price,
-    description,
-    sizes,
-    variants,
-    variantType,
-    status,
-    image,
-    rating,
-    id,
-    numberOfReviews,
-  } = data;
+const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0], isLiked }) => {
+  const { name, price, description, sizes, variants, variantType, status, image, rating, id, numberOfReviews } = data
 
-  const [variantActive, setVariantActive] = useState(0);
-  const [showModalQuickView, setShowModalQuickView] = useState(false);
-  const router = useRouter();
+  const [variantActive, setVariantActive] = useState(0)
+  const [showModalQuickView, setShowModalQuickView] = useState(false)
+  const router = useRouter()
 
   const notifyAddTocart = ({ size }: { size?: string }) => {
     toast.custom(
@@ -61,32 +45,24 @@ const ProductCard: FC<ProductCardProps> = ({
           leaveFrom="opacity-100 translate-x-0"
           leaveTo="opacity-0 translate-x-20"
         >
-          <p className="block text-base font-semibold leading-none">
-            Added to cart!
-          </p>
+          <p className="block text-base font-semibold leading-none">Added to cart!</p>
           <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
           {renderProductCartOnNotify({ size })}
         </Transition>
       ),
       {
-        position: "top-right",
-        id: String(id) || "product-detail",
+        position: 'top-right',
+        id: String(id) || 'product-detail',
         duration: 3000,
       }
-    );
-  };
+    )
+  }
 
   const renderProductCartOnNotify = ({ size }: { size?: string }) => {
     return (
       <div className="flex ">
         <div className="h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image
-            width={80}
-            height={96}
-            src={image}
-            alt={name}
-            className="absolute object-cover object-center"
-          />
+          <Image width={80} height={96} src={image} alt={name} className="absolute object-cover object-center" />
         </div>
 
         <div className="ms-4 flex flex-1 flex-col">
@@ -95,14 +71,12 @@ const ProductCard: FC<ProductCardProps> = ({
               <div>
                 <h3 className="text-base font-medium ">{name}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>
-                    {variants ? variants[variantActive].name : `Natural`}
-                  </span>
+                  <span>{variants ? variants[variantActive].name : `Natural`}</span>
                   <span className="mx-2 border-s border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{size || "XL"}</span>
+                  <span>{size || 'XL'}</span>
                 </p>
               </div>
-              <Prices price={price} className="mt-0.5" />
+              <Price price={price} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
@@ -113,8 +87,8 @@ const ProductCard: FC<ProductCardProps> = ({
                 type="button"
                 className="font-medium text-primary-6000 dark:text-primary-500 "
                 onClick={(e) => {
-                  e.preventDefault();
-                  router.push("/cart");
+                  e.preventDefault()
+                  router.push('/cart')
                 }}
               >
                 View cart
@@ -123,40 +97,40 @@ const ProductCard: FC<ProductCardProps> = ({
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
-  const getBorderClass = (Bgclass = "") => {
-    if (Bgclass.includes("red")) {
-      return "border-red-500";
+  const getBorderClass = (Bgclass = '') => {
+    if (Bgclass.includes('red')) {
+      return 'border-red-500'
     }
-    if (Bgclass.includes("violet")) {
-      return "border-violet-500";
+    if (Bgclass.includes('violet')) {
+      return 'border-violet-500'
     }
-    if (Bgclass.includes("orange")) {
-      return "border-orange-500";
+    if (Bgclass.includes('orange')) {
+      return 'border-orange-500'
     }
-    if (Bgclass.includes("green")) {
-      return "border-green-500";
+    if (Bgclass.includes('green')) {
+      return 'border-green-500'
     }
-    if (Bgclass.includes("blue")) {
-      return "border-blue-500";
+    if (Bgclass.includes('blue')) {
+      return 'border-blue-500'
     }
-    if (Bgclass.includes("sky")) {
-      return "border-sky-500";
+    if (Bgclass.includes('sky')) {
+      return 'border-sky-500'
     }
-    if (Bgclass.includes("yellow")) {
-      return "border-yellow-500";
+    if (Bgclass.includes('yellow')) {
+      return 'border-yellow-500'
     }
-    return "border-transparent";
-  };
+    return 'border-transparent'
+  }
 
   const renderVariants = () => {
     if (!variants || !variants.length || !variantType) {
-      return null;
+      return null
     }
 
-    if (variantType === "color") {
+    if (variantType === 'color') {
       return (
         <div className="flex space-x-1">
           {variants.map((variant, index) => (
@@ -164,19 +138,15 @@ const ProductCard: FC<ProductCardProps> = ({
               key={index}
               onClick={() => setVariantActive(index)}
               className={`relative w-6 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
-                variantActive === index
-                  ? getBorderClass(variant.color)
-                  : "border-transparent"
+                variantActive === index ? getBorderClass(variant.color) : 'border-transparent'
               }`}
               title={variant.name}
             >
-              <div
-                className={`absolute inset-0.5 rounded-full z-0 ${variant.color}`}
-              ></div>
+              <div className={`absolute inset-0.5 rounded-full z-0 ${variant.color}`}></div>
             </div>
           ))}
         </div>
-      );
+      )
     }
 
     return (
@@ -186,9 +156,7 @@ const ProductCard: FC<ProductCardProps> = ({
             key={index}
             onClick={() => setVariantActive(index)}
             className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
-              variantActive === index
-                ? "border-black dark:border-slate-300"
-                : "border-transparent"
+              variantActive === index ? 'border-black dark:border-slate-300' : 'border-transparent'
             }`}
             title={variant.name}
           >
@@ -197,30 +165,25 @@ const ProductCard: FC<ProductCardProps> = ({
               style={{
                 backgroundImage: `url(${
                   // @ts-ignore
-                  typeof variant.thumbnail?.src === "string"
+                  typeof variant.thumbnail?.src === 'string'
                     ? // @ts-ignore
                       variant.thumbnail?.src
-                    : typeof variant.thumbnail === "string"
+                    : typeof variant.thumbnail === 'string'
                     ? variant.thumbnail
-                    : ""
+                    : ''
                 })`,
               }}
             ></div>
           </div>
         ))}
       </div>
-    );
-  };
+    )
+  }
 
   const renderGroupButtons = () => {
     return (
       <div className="absolute bottom-0 group-hover:bottom-4 inset-x-1 flex justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-        <ButtonPrimary
-          className="shadow-lg"
-          fontSize="text-xs"
-          sizeClass="py-2 px-4"
-          onClick={() => notifyAddTocart({ size: "XL" })}
-        >
+        <ButtonPrimary className="shadow-lg" fontSize="text-xs" sizeClass="py-2 px-4" onClick={() => notifyAddTocart({ size: 'XL' })}>
           <BagIcon className="w-3.5 h-3.5 mb-0.5" />
           <span className="ms-1">Add to bag</span>
         </ButtonPrimary>
@@ -234,12 +197,12 @@ const ProductCard: FC<ProductCardProps> = ({
           <span className="ms-1">Quick view</span>
         </ButtonSecondary>
       </div>
-    );
-  };
+    )
+  }
 
   const renderSizeList = () => {
     if (!sizes || !sizes.length) {
-      return null;
+      return null
     }
 
     return (
@@ -253,21 +216,19 @@ const ProductCard: FC<ProductCardProps> = ({
             >
               {size}
             </div>
-          );
+          )
         })}
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <>
-      <div
-        className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`}
-      >
-        <Link href={"/product-detail"} className="absolute inset-0"></Link>
+      <div className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`}>
+        <Link href={'/product-detail'} className="absolute inset-0"></Link>
 
         <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
-          <Link href={"/product-detail"} className="block">
+          <Link href={'/product-detail'} className="block">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
               src={image}
@@ -285,20 +246,16 @@ const ProductCard: FC<ProductCardProps> = ({
         <div className="space-y-4 px-2.5 pt-5 pb-2.5">
           {renderVariants()}
           <div>
-            <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">
-              {name}
-            </h2>
-            <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>
-              {description}
-            </p>
+            <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">{name}</h2>
+            <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>{description}</p>
           </div>
 
           <div className="flex justify-between items-end ">
-            <Prices price={price} />
+            <Price price={price} />
             <div className="flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
               <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
-                {rating || ""} ({numberOfReviews || 0} reviews)
+                {rating || ''} ({numberOfReviews || 0} reviews)
               </span>
             </div>
           </div>
@@ -306,12 +263,9 @@ const ProductCard: FC<ProductCardProps> = ({
       </div>
 
       {/* QUICKVIEW */}
-      <ModalQuickView
-        show={showModalQuickView}
-        onCloseModalQuickView={() => setShowModalQuickView(false)}
-      />
+      <ModalQuickView show={showModalQuickView} onCloseModalQuickView={() => setShowModalQuickView(false)} />
     </>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

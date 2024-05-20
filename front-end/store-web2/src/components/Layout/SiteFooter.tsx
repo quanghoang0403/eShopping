@@ -1,64 +1,62 @@
-import Logo from "@/shared/Logo/Logo";
-import SocialsList1 from "@/shared/SocialsList1/SocialsList1";
-import { CustomLink } from "@/data/types";
-import React from "react";
+import Logo from '@/shared/Logo/Logo'
+import SocialsListVertical from '@/shared/SocialsList/SocialsListVertical'
+import { CustomLink } from '@/data/types'
+import React from 'react'
 
 export interface WidgetFooterMenu {
-  id: string;
-  title: string;
-  menus: CustomLink[];
+  id: string
+  title: string
+  menus: CustomLink[]
 }
 
 const widgetMenus: WidgetFooterMenu[] = [
   {
-    id: "5",
-    title: "Getting started",
+    id: '5',
+    title: 'Getting started',
     menus: [
-      { href: "/", label: "Release Notes" },
-      { href: "/", label: "Upgrade Guide" },
-      { href: "/", label: "Browser Support" },
-      { href: "/", label: "Dark Mode" },
+      { href: '/', label: 'Release Notes' },
+      { href: '/', label: 'Upgrade Guide' },
+      { href: '/', label: 'Browser Support' },
+      { href: '/', label: 'Dark Mode' },
     ],
   },
   {
-    id: "1",
-    title: "Explore",
+    id: '1',
+    title: 'Explore',
     menus: [
-      { href: "/", label: "Prototyping" },
-      { href: "/", label: "Design systems" },
-      { href: "/", label: "Pricing" },
-      { href: "/", label: "Security" },
+      { href: '/', label: 'Prototyping' },
+      { href: '/', label: 'Design systems' },
+      { href: '/', label: 'Pricing' },
+      { href: '/', label: 'Security' },
     ],
   },
   {
-    id: "2",
-    title: "Resources",
+    id: '2',
+    title: 'Resources',
     menus: [
-      { href: "/", label: "Best practices" },
-      { href: "/", label: "Support" },
-      { href: "/", label: "Developers" },
-      { href: "/", label: "Learn design" },
+      { href: '/', label: 'Best practices' },
+      { href: '/', label: 'Support' },
+      { href: '/', label: 'Developers' },
+      { href: '/', label: 'Learn design' },
     ],
   },
   {
-    id: "4",
-    title: "Community",
+    id: '4',
+    title: 'Community',
     menus: [
-      { href: "/", label: "Discussion Forums" },
-      { href: "/", label: "Code of Conduct" },
-      { href: "/", label: "Contributing" },
-      { href: "/", label: "API Reference" },
+      { href: '/', label: 'Discussion Forums' },
+      { href: '/', label: 'Code of Conduct' },
+      { href: '/', label: 'Contributing' },
+      { href: '/', label: 'API Reference' },
     ],
   },
-];
+]
 
 export default function SiteFooter() {
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
-        <h2 className="font-semibold text-neutral-700 dark:text-neutral-200">
-          {menu.title}
-        </h2>
+        <h2 className="font-semibold text-neutral-700 dark:text-neutral-200">{menu.title}</h2>
         <ul className="mt-5 space-y-4">
           {menu.menus.map((item, index) => (
             <li key={index}>
@@ -75,8 +73,8 @@ export default function SiteFooter() {
           ))}
         </ul>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="nc-Footer relative py-20 lg:pt-28 lg:pb-24 border-t border-neutral-200 dark:border-neutral-700">
@@ -86,11 +84,11 @@ export default function SiteFooter() {
             <Logo />
           </div>
           <div className="col-span-2 flex items-center md:col-span-3">
-            <SocialsList1 className="flex items-center space-x-2 lg:space-x-0 lg:flex-col lg:space-y-3 lg:items-start" />
+            <SocialsListVertical className="flex items-center space-x-2 lg:space-x-0 lg:flex-col lg:space-y-3 lg:items-start" />
           </div>
         </div>
         {widgetMenus.map(renderWidgetMenuItem)}
       </div>
     </div>
-  );
+  )
 }

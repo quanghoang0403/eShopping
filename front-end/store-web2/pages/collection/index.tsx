@@ -1,11 +1,11 @@
-import React, { FC } from "react";
-import Pagination from "@/shared/Pagination/Pagination";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import SectionSliderCollections from "@/components/SectionSliderLargeProduct";
-import SectionPromo1 from "@/components/SectionPromo1";
-import ProductCard from "@/components/ProductCard";
-import { PRODUCTS } from "@/data/data";
-import TabFilters from "@/components/TabFilters";
+import React, { FC } from 'react'
+import Pagination from '@/shared/Pagination/Pagination'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import SectionSliderCollections from '@/components/SectionSliderLargeProduct'
+import SectionPromo1 from '@/components/SectionPromo1'
+import ProductCard from '@/components/Product/ProductCard'
+import { PRODUCTS } from '@/data/data'
+import TabFilters from '@/components/TabFilters'
 
 const PageCollection = ({}) => {
   return (
@@ -14,12 +14,9 @@ const PageCollection = ({}) => {
         <div className="space-y-10 lg:space-y-14">
           {/* HEADING */}
           <div className="max-w-screen-sm">
-            <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">
-              Man collection
-            </h2>
+            <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">Man collection</h2>
             <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">
-              We not only help you design exceptional products, but also make it
-              easy for you to share your designs with more like-minded people.
+              We not only help you design exceptional products, but also make it easy for you to share your designs with more like-minded people.
             </span>
           </div>
 
@@ -53,7 +50,7 @@ const PageCollection = ({}) => {
         <SectionPromo1 />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PageCollection;
+export default PageCollection

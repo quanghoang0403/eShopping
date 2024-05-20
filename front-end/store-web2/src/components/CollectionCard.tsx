@@ -1,24 +1,24 @@
-import { StarIcon } from "@heroicons/react/24/solid";
-import { productImgs } from "@/constants/fakeData";
-import React, { FC } from "react";
-import NcImage from "@/shared/NcImage/NcImage";
-import Prices from "./Prices";
-import Link from "next/link";
-import { StaticImageData } from "next/image";
+import { StarIcon } from '@heroicons/react/24/solid'
+import { productImgs } from '@/constants/fakeData'
+import React, { FC } from 'react'
+import NcImage from '@/shared/NcImage/NcImage'
+import Price from '@/shared/Price/Price'
+import Link from 'next/link'
+import { StaticImageData } from 'next/image'
 
 export interface CollectionCardProps {
-  className?: string;
-  imgs?: (string | StaticImageData)[];
-  name?: string;
-  price?: number;
-  description?: string;
+  className?: string
+  imgs?: (string | StaticImageData)[]
+  name?: string
+  price?: number
+  description?: string
 }
 
 const CollectionCard: FC<CollectionCardProps> = ({
   className,
   imgs = [productImgs[9], productImgs[10], productImgs[11], productImgs[8]],
-  name = "Product Name",
-  description = "Product Description",
+  name = 'Product Name',
+  description = 'Product Description',
   price,
 }) => {
   return (
@@ -32,27 +32,9 @@ const CollectionCard: FC<CollectionCardProps> = ({
           sizes="400px"
         />
         <div className="grid grid-cols-3 gap-2.5 mt-2.5">
-          <NcImage
-            containerClassName="w-full h-24 sm:h-28"
-            className="object-cover w-full h-full rounded-2xl"
-            src={imgs[1]}
-            alt=""
-            sizes="150px"
-          />
-          <NcImage
-            containerClassName="w-full h-24 sm:h-28"
-            className="object-cover w-full h-full rounded-2xl"
-            src={imgs[2]}
-            alt=""
-            sizes="150px"
-          />
-          <NcImage
-            containerClassName="w-full h-24 sm:h-28"
-            className="object-cover w-full h-full rounded-2xl"
-            src={imgs[3]}
-            alt=""
-            sizes="150px"
-          />
+          <NcImage containerClassName="w-full h-24 sm:h-28" className="object-cover w-full h-full rounded-2xl" src={imgs[1]} alt="" sizes="150px" />
+          <NcImage containerClassName="w-full h-24 sm:h-28" className="object-cover w-full h-full rounded-2xl" src={imgs[2]} alt="" sizes="150px" />
+          <NcImage containerClassName="w-full h-24 sm:h-28" className="object-cover w-full h-full rounded-2xl" src={imgs[3]} alt="" sizes="150px" />
         </div>
       </div>
 
@@ -72,11 +54,11 @@ const CollectionCard: FC<CollectionCardProps> = ({
             </span>
           </div>
         </div>
-        <Prices className="mt-0.5 sm:mt-1 ml-4" price={price} />
+        <Price className="mt-0.5 sm:mt-1 ml-4" price={price} />
       </div>
-      <Link href={"/product-detail"} className="absolute inset-0 "></Link>
+      <Link href={'/product-detail'} className="absolute inset-0 "></Link>
     </div>
-  );
-};
+  )
+}
 
-export default CollectionCard;
+export default CollectionCard

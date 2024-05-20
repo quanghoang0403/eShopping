@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import SocialsList from '@/shared/SocialsList/SocialsList'
+import SocialsListHorizontal from '@/shared/SocialsList/SocialsListHorizontal'
 import Label from '@/shared/Label/Label'
 import Input from '@/shared/Input/Input'
 import Textarea from '@/shared/Textarea/Textarea'
@@ -40,7 +40,7 @@ const PageContact = ({}) => {
               ))}
               <div>
                 <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">🌏 SOCIALS</h3>
-                <SocialsList className="mt-2" />
+                <SocialsListHorizontal className="mt-2" />
               </div>
             </div>
             <div>

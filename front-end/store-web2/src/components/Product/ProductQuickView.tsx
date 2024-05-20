@@ -1,38 +1,34 @@
-"use client";
-import React, { FC, useState } from "react";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import LikeButton from "@/components/LikeButton";
-import { StarIcon } from "@heroicons/react/24/solid";
-import BagIcon from "@/shared/Icon/BagIcon";
-import NcInputNumber from "@/components/NcInputNumber";
-import { PRODUCTS } from "@/data/data";
-import {
-  NoSymbolIcon,
-  ClockIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline";
-import IconDiscount from "@/components/IconDiscount";
-import Prices from "@/components/Prices";
-import toast from "react-hot-toast";
-import detail1JPG from "@/images/products/detail1.jpg";
-import detail2JPG from "@/images/products/detail2.jpg";
-import detail3JPG from "@/images/products/detail3.jpg";
-import NotifyAddTocart from "./NotifyAddTocart";
-import AccordionInfo from "@/components/AccordionInfo";
-import Image from "next/image";
-import Link from "next/link";
+'use client'
+import React, { FC, useState } from 'react'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import LikeButton from '@/components/LikeButton'
+import { StarIcon } from '@heroicons/react/24/solid'
+import BagIcon from '@/shared/Icon/BagIcon'
+import NcInputNumber from '@/components/NcInputNumber'
+import { PRODUCTS } from '@/data/data'
+import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import DiscountIcon from '@/shared/Icon/DiscountIcon'
+import Price from '@/shared/Price/Price'
+import toast from 'react-hot-toast'
+import detail1JPG from '@/images/products/detail1.jpg'
+import detail2JPG from '@/images/products/detail2.jpg'
+import detail3JPG from '@/images/products/detail3.jpg'
+import NotifyAddTocart from '@/components/Product/NotifyAddTocart'
+import AccordionInfo from '@/components/Product/AccordionInfo'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export interface ProductQuickViewProps {
-  className?: string;
+  className?: string
 }
 
-const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
-  const { sizes, variants, status, allOfSizes } = PRODUCTS[0];
-  const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+const ProductQuickView: FC<ProductQuickViewProps> = ({ className = '' }) => {
+  const { sizes, variants, status, allOfSizes } = PRODUCTS[0]
+  const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG]
 
-  const [variantActive, setVariantActive] = useState(0);
-  const [sizeSelected, setSizeSelected] = useState(sizes ? sizes[0] : "");
-  const [qualitySelected, setQualitySelected] = useState(1);
+  const [variantActive, setVariantActive] = useState(0)
+  const [sizeSelected, setSizeSelected] = useState(sizes ? sizes[0] : '')
+  const [qualitySelected, setQualitySelected] = useState(1)
 
   const notifyAddTocart = () => {
     toast.custom(
@@ -45,13 +41,13 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
           variantActive={variantActive}
         />
       ),
-      { position: "top-right", id: "nc-product-notify", duration: 3000 }
-    );
-  };
+      { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
+    )
+  }
 
   const renderVariants = () => {
     if (!variants || !variants.length) {
-      return null;
+      return null
     }
 
     return (
@@ -59,9 +55,7 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
         <label className="rtl:text-right block" htmlFor="">
           <span className="text-sm font-medium">
             Color:
-            <span className="ms-1 font-semibold">
-              {variants[variantActive].name}
-            </span>
+            <span className="ms-1 font-semibold">{variants[variantActive].name}</span>
           </span>
         </label>
         <div className="flex mt-2.5">
@@ -70,9 +64,7 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
               key={index}
               onClick={() => setVariantActive(index)}
               className={`relative flex-1 max-w-[75px] h-10 rounded-full border-2 cursor-pointer ${
-                variantActive === index
-                  ? "border-primary-6000 dark:border-primary-500"
-                  : "border-transparent"
+                variantActive === index ? 'border-primary-6000 dark:border-primary-500' : 'border-transparent'
               }`}
             >
               <div
@@ -80,12 +72,12 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
                 style={{
                   backgroundImage: `url(${
                     // @ts-ignore
-                    typeof variant.thumbnail?.src === "string"
+                    typeof variant.thumbnail?.src === 'string'
                       ? // @ts-ignore
                         variant.thumbnail?.src
-                      : typeof variant.thumbnail === "string"
+                      : typeof variant.thumbnail === 'string'
                       ? variant.thumbnail
-                      : ""
+                      : ''
                   })`,
                 }}
               ></div>
@@ -93,12 +85,12 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
           ))}
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderSizeList = () => {
     if (!allOfSizes || !sizes || !sizes.length) {
-      return null;
+      return null
     }
     return (
       <div>
@@ -109,88 +101,81 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
               <span className="ms-1 font-semibold">{sizeSelected}</span>
             </span>
           </label>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="##"
-            className="text-primary-6000 hover:text-primary-500"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="##" className="text-primary-6000 hover:text-primary-500">
             See sizing chart
           </a>
         </div>
         <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-2.5">
           {allOfSizes.map((size, index) => {
-            const isActive = size === sizeSelected;
-            const sizeOutStock = !sizes.includes(size);
+            const isActive = size === sizeSelected
+            const sizeOutStock = !sizes.includes(size)
             return (
               <div
                 key={index}
                 className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center 
                 text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 ${
-                  sizeOutStock
-                    ? "text-opacity-20 dark:text-opacity-20 cursor-not-allowed"
-                    : "cursor-pointer"
+                  sizeOutStock ? 'text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : 'cursor-pointer'
                 } ${
                   isActive
-                    ? "bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000"
-                    : "border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
+                    ? 'bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000'
+                    : 'border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'
                 }`}
                 onClick={() => {
                   if (sizeOutStock) {
-                    return;
+                    return
                   }
-                  setSizeSelected(size);
+                  setSizeSelected(size)
                 }}
               >
                 {size}
               </div>
-            );
+            )
           })}
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderStatus = () => {
     if (!status) {
-      return null;
+      return null
     }
     const CLASSES =
-      "absolute top-3 start-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-    if (status === "New in") {
+      'absolute top-3 start-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300'
+    if (status === 'New in') {
       return (
         <div className={CLASSES}>
           <SparklesIcon className="w-3.5 h-3.5" />
           <span className="ms-1 leading-none">{status}</span>
         </div>
-      );
+      )
     }
-    if (status === "50% Discount") {
+    if (status === '50% Discount') {
       return (
         <div className={CLASSES}>
-          <IconDiscount className="w-3.5 h-3.5" />
+          <DiscountIcon className="w-3.5 h-3.5" />
           <span className="ms-1 leading-none">{status}</span>
         </div>
-      );
+      )
     }
-    if (status === "Sold Out") {
+    if (status === 'Sold Out') {
       return (
         <div className={CLASSES}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
           <span className="ms-1 leading-none">{status}</span>
         </div>
-      );
+      )
     }
-    if (status === "limited edition") {
+    if (status === 'limited edition') {
       return (
         <div className={CLASSES}>
           <ClockIcon className="w-3.5 h-3.5" />
           <span className="ms-1 leading-none">{status}</span>
         </div>
-      );
+      )
     }
-    return null;
-  };
+    return null
+  }
 
   const renderSectionContent = () => {
     return (
@@ -203,25 +188,17 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
 
           <div className="flex justify-start rtl:justify-end items-center mt-5 space-x-4 sm:space-x-5 rtl:space-x-reverse">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-            <Prices
-              contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-              price={112}
-            />
+            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" price={112} />
 
             <div className="h-6 border-s border-slate-300 dark:border-slate-700"></div>
 
             <div className="flex items-center">
-              <Link
-                href="/product-detail"
-                className="flex items-center text-sm font-medium"
-              >
+              <Link href="/product-detail" className="flex items-center text-sm font-medium">
                 <StarIcon className="w-5 h-5 pb-[1px] text-yellow-400" />
                 <div className="ms-1.5 flex">
                   <span>4.9</span>
                   <span className="block mx-2">·</span>
-                  <span className="text-slate-600 dark:text-slate-400 underline">
-                    142 reviews
-                  </span>
+                  <span className="text-slate-600 dark:text-slate-400 underline">142 reviews</span>
                 </div>
               </Link>
               <span className="hidden sm:block mx-2.5">·</span>
@@ -240,15 +217,9 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5 rtl:space-x-reverse">
           <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
-            <NcInputNumber
-              defaultValue={qualitySelected}
-              onChange={setQualitySelected}
-            />
+            <NcInputNumber defaultValue={qualitySelected} onChange={setQualitySelected} />
           </div>
-          <ButtonPrimary
-            className="flex-1 flex-shrink-0"
-            onClick={notifyAddTocart}
-          >
+          <ButtonPrimary className="flex-1 flex-shrink-0" onClick={notifyAddTocart}>
             <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
             <span className="ms-3">Add to cart</span>
           </ButtonPrimary>
@@ -262,12 +233,12 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
         <AccordionInfo
           data={[
             {
-              name: "Description",
+              name: 'Description',
               content:
-                "Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.",
+                'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             },
             {
-              name: "Features",
+              name: 'Features',
               content: `<ul class="list-disc list-inside leading-7">
             <li>Material: 43% Sorona Yarn + 57% Stretch Polyester</li>
             <li>
@@ -284,8 +255,8 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
           ]}
         />
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className={`nc-ProductQuickView ${className}`}>
@@ -322,18 +293,16 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = "" }) => {
                     alt="product detail 1"
                   />
                 </div>
-              );
+              )
             })}
           </div>
         </div>
 
         {/* SIDEBAR */}
-        <div className="w-full lg:w-[50%] pt-6 lg:pt-0 lg:ps-7 xl:ps-8">
-          {renderSectionContent()}
-        </div>
+        <div className="w-full lg:w-[50%] pt-6 lg:pt-0 lg:ps-7 xl:ps-8">{renderSectionContent()}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductQuickView;
+export default ProductQuickView

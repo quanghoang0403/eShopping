@@ -1,50 +1,39 @@
-"use client";
+'use client'
 
-import React, { FC, useState } from "react";
-import Heading from "@/shared/Heading/Heading";
-import Nav from "@/shared/Nav/Nav";
-import NavItem from "@/shared/NavItem/NavItem";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import TabFilters from "@/components/TabFilters";
-import { Transition } from "@headlessui/react";
+import React, { FC, useState } from 'react'
+import Heading from '@/shared/Heading/Heading'
+import Nav from '@/shared/Nav/Nav'
+import NavItem from '@/shared/NavItem/NavItem'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import TabFilters from '@/components/TabFilters'
+import { Transition } from '@headlessui/react'
 
 export interface HeaderFilterSectionProps {
-  className?: string;
+  className?: string
 }
 
-const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({
-  className = "mb-12",
-}) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [tabActive, setTabActive] = useState("All items");
+const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({ className = 'mb-12' }) => {
+  const [isOpen, setIsOpen] = useState(true)
+  const [tabActive, setTabActive] = useState('All items')
 
   return (
     <div className={`flex flex-col relative ${className}`}>
       <Heading>{`What's trending now`}</Heading>
       <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-6 lg:space-y-0 lg:space-x-2 ">
-        <Nav
-          className="sm:space-x-2"
-          containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar"
-        >
-          {["All items", "Women", "Mans", "Kids", "jewels"].map(
-            (item, index) => (
-              <NavItem
-                key={index}
-                isActive={tabActive === item}
-                onClick={() => setTabActive(item)}
-              >
-                {item}
-              </NavItem>
-            )
-          )}
+        <Nav className="sm:space-x-2" containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar">
+          {['All items', 'Women', 'Mans', 'Kids', 'jewels'].map((item, index) => (
+            <NavItem key={index} isActive={tabActive === item} onClick={() => setTabActive(item)}>
+              {item}
+            </NavItem>
+          ))}
         </Nav>
         <span className="block flex-shrink-0">
           <ButtonPrimary
             className="w-full !pr-16"
             sizeClass="pl-4 py-2.5 sm:pl-6"
             onClick={() => {
-              setIsOpen(!isOpen);
+              setIsOpen(!isOpen)
             }}
           >
             <svg className={`w-6 h-6`} viewBox="0 0 24 24" fill="none">
@@ -63,21 +52,12 @@ const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <path
-                d="M19.87 17.12L18.87 16.12"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M19.87 17.12L18.87 16.12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
 
             <span className="block truncate ml-2.5">Filter</span>
             <span className="absolute top-1/2 -translate-y-1/2 right-5">
-              <ChevronDownIcon
-                className={`w-5 h-5 ${isOpen ? "rotate-180" : ""}`}
-                aria-hidden="true"
-              />
+              <ChevronDownIcon className={`w-5 h-5 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
             </span>
           </ButtonPrimary>
         </span>
@@ -96,7 +76,7 @@ const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({
         <TabFilters />
       </Transition>
     </div>
-  );
-};
+  )
+}
 
-export default HeaderFilterSection;
+export default HeaderFilterSection

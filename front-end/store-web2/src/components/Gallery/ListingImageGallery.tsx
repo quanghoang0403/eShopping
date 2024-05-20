@@ -1,54 +1,47 @@
-"use client";
+'use client'
 
-import "./styles/index.css";
-import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FC, Fragment, useEffect, useRef } from "react";
-import Modal from "./components/Modal";
-import type { ListingGalleryImage } from "./utils/types";
-import { useLastViewedPhoto } from "./utils/useLastViewedPhoto";
-import { ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
-import { Dialog, Transition } from "@headlessui/react";
-import LikeSaveBtns from "@/components/LikeSaveBtns";
-import { Route } from "next";
+import './styles/index.css'
+import Image from 'next/image'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { FC, Fragment, useEffect, useRef } from 'react'
+import Modal from './components/Modal'
+import type { ListingGalleryImage } from './utils/types'
+import { useLastViewedPhoto } from './utils/useLastViewedPhoto'
+import { ArrowSmallLeftIcon } from '@heroicons/react/24/outline'
+import { Dialog, Transition } from '@headlessui/react'
+import { Route } from 'next'
 
-export const getNewParam = ({
-  paramName = "photoId",
-  value,
-}: {
-  paramName?: string;
-  value: string | number;
-}) => {
-  let params = new URLSearchParams(document.location.search);
-  params.set(paramName, String(value));
-  return params.toString();
-};
+export const getNewParam = ({ paramName = 'photoId', value }: { paramName?: string; value: string | number }) => {
+  let params = new URLSearchParams(document.location.search)
+  params.set(paramName, String(value))
+  return params.toString()
+}
 
 interface Props {
-  images: ListingGalleryImage[];
-  onClose?: () => void;
-  isShowModal: boolean;
+  images: ListingGalleryImage[]
+  onClose?: () => void
+  isShowModal: boolean
 }
 
 const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
-  const searchParams = useSearchParams();
-  const photoId = searchParams?.get("photoId");
-  const router = useRouter();
-  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto();
+  const searchParams = useSearchParams()
+  const photoId = searchParams?.get('photoId')
+  const router = useRouter()
+  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
 
-  const lastViewedPhotoRef = useRef<HTMLDivElement>(null);
-  const thisPathname = usePathname();
+  const lastViewedPhotoRef = useRef<HTMLDivElement>(null)
+  const thisPathname = usePathname()
   useEffect(() => {
     // This effect keeps track of the last viewed photo in the modal to keep the index page in sync when the user navigates back
     if (lastViewedPhoto && !photoId) {
-      lastViewedPhotoRef.current?.scrollIntoView({ block: "center" });
-      setLastViewedPhoto(null);
+      lastViewedPhotoRef.current?.scrollIntoView({ block: 'center' })
+      setLastViewedPhoto(null)
     }
-  }, [photoId, lastViewedPhoto, setLastViewedPhoto]);
+  }, [photoId, lastViewedPhoto, setLastViewedPhoto])
 
   const handleClose = () => {
-    onClose && onClose();
-  };
+    onClose && onClose()
+  }
 
   const renderContent = () => {
     return (
@@ -58,10 +51,10 @@ const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
             images={images}
             onClose={() => {
               // @ts-ignore
-              setLastViewedPhoto(photoId);
-              let params = new URLSearchParams(document.location.search);
-              params.delete("photoId");
-              router.push(`${thisPathname}/?${params.toString()}` as Route);
+              setLastViewedPhoto(photoId)
+              let params = new URLSearchParams(document.location.search)
+              params.delete('photoId')
+              router.push(`${thisPathname}/?${params.toString()}` as Route)
             }}
           />
         )}
@@ -71,8 +64,8 @@ const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
             <div
               key={id}
               onClick={() => {
-                const newPathname = getNewParam({ value: id });
-                router.push(`${thisPathname}/?${newPathname}` as Route);
+                const newPathname = getNewParam({ value: id })
+                router.push(`${thisPathname}/?${newPathname}` as Route)
               }}
               ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
               className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight focus:outline-none"
@@ -81,7 +74,7 @@ const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
                 alt="chisfis listing gallery "
                 className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110 focus:outline-none"
                 style={{
-                  transform: "translate3d(0, 0, 0)",
+                  transform: 'translate3d(0, 0, 0)',
                 }}
                 src={url}
                 width={720}
@@ -92,8 +85,8 @@ const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
           ))}
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -119,7 +112,6 @@ const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
               >
                 <ArrowSmallLeftIcon className="w-6 h-6" />
               </button>
-              <LikeSaveBtns />
             </div>
 
             <div className="flex min-h-full items-center justify-center sm:p-4 pt-0 text-center">
@@ -132,16 +124,14 @@ const ListingImageGallery: FC<Props> = ({ images, onClose, isShowModal }) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-5"
               >
-                <Dialog.Panel className="w-full max-w-screen-lg mx-auto transform p-4 pt-0 text-left transition-all ">
-                  {renderContent()}
-                </Dialog.Panel>
+                <Dialog.Panel className="w-full max-w-screen-lg mx-auto transform p-4 pt-0 text-left transition-all ">{renderContent()}</Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
         </Dialog>
       </Transition>
     </>
-  );
-};
+  )
+}
 
-export default ListingImageGallery;
+export default ListingImageGallery

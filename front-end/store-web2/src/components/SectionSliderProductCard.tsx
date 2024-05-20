@@ -1,35 +1,35 @@
-"use client";
+'use client'
 
-import React, { FC, useEffect, useId, useRef, useState } from "react";
-import Heading from "@/components/Heading/Heading";
+import React, { FC, useEffect, useId, useRef, useState } from 'react'
+import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
-import Glide from "@glidejs/glide/dist/glide.esm";
-import ProductCard from "./ProductCard";
-import { Product, PRODUCTS } from "@/data/data";
+import Glide from '@glidejs/glide/dist/glide.esm'
+import ProductCard from './Product/ProductCard'
+import { Product, PRODUCTS } from '@/data/data'
 
 export interface SectionSliderProductCardProps {
-  className?: string;
-  itemClassName?: string;
-  heading?: string;
-  headingFontClassName?: string;
-  headingClassName?: string;
-  subHeading?: string;
-  data?: Product[];
+  className?: string
+  itemClassName?: string
+  heading?: string
+  headingFontClassName?: string
+  headingClassName?: string
+  subHeading?: string
+  data?: Product[]
 }
 
 const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
-  className = "",
-  itemClassName = "",
+  className = '',
+  itemClassName = '',
   headingFontClassName,
   headingClassName,
   heading,
-  subHeading = "REY backpacks & bags",
+  subHeading = 'REY backpacks & bags',
   data = PRODUCTS.filter((_, i) => i < 8 && i > 2),
 }) => {
-  const sliderRef = useRef(null);
+  const sliderRef = useRef(null)
 
   //
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false)
 
   useEffect(() => {
     const OPTIONS: Partial<Glide.Options> = {
@@ -58,26 +58,21 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
           perView: 1.3,
         },
       },
-    };
-    if (!sliderRef.current) return;
+    }
+    if (!sliderRef.current) return
 
-    let slider = new Glide(sliderRef.current, OPTIONS);
-    slider.mount();
-    setIsShow(true);
+    let slider = new Glide(sliderRef.current, OPTIONS)
+    slider.mount()
+    setIsShow(true)
     return () => {
-      slider.destroy();
-    };
-  }, [sliderRef]);
+      slider.destroy()
+    }
+  }, [sliderRef])
 
   return (
     <div className={`nc-SectionSliderProductCard ${className}`}>
-      <div ref={sliderRef} className={`flow-root ${isShow ? "" : "invisible"}`}>
-        <Heading
-          className={headingClassName}
-          fontClass={headingFontClassName}
-          rightDescText={subHeading}
-          hasNextPrev
-        >
+      <div ref={sliderRef} className={`flow-root ${isShow ? '' : 'invisible'}`}>
+        <Heading className={headingClassName} fontClass={headingFontClassName} rightDescText={subHeading} hasNextPrev>
           {heading || `New Arrivals`}
         </Heading>
         <div className="glide__track" data-glide-el="track">
@@ -91,7 +86,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SectionSliderProductCard;
+export default SectionSliderProductCard

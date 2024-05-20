@@ -1,67 +1,65 @@
-"use client";
+'use client'
 
-import React, { FC, useEffect, useId, useRef, useState } from "react";
-import Heading from "@/components/Heading/Heading";
+import React, { FC, useEffect, useId, useRef, useState } from 'react'
+import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
-import Glide from "@glidejs/glide/dist/glide.esm";
-import CollectionCard from "./CollectionCard";
-import Nav from "@/shared/Nav/Nav";
-import NavItem2 from "./NavItem2";
-import Next from "@/shared/NextPrev/Next";
-import Prev from "@/shared/NextPrev/Prev";
-import full1Img from "@/images/products/full1.png";
-import full11Img from "@/images/products/full1-1.png";
-import full12Img from "@/images/products/full1-2.png";
-import full13Img from "@/images/products/full1-3.png";
+import Glide from '@glidejs/glide/dist/glide.esm'
+import CollectionCard from './CollectionCard'
+import Nav from '@/shared/Nav/Nav'
+import NavItem2 from './NavItem2'
+import Next from '@/shared/NextPrev/Next'
+import Prev from '@/shared/NextPrev/Prev'
+import full1Img from '@/images/products/full1.png'
+import full11Img from '@/images/products/full1-1.png'
+import full12Img from '@/images/products/full1-2.png'
+import full13Img from '@/images/products/full1-3.png'
 //
-import full2Img from "@/images/products/full2.png";
-import full21Img from "@/images/products/full2-1.png";
-import full22Img from "@/images/products/full2-2.png";
-import full23Img from "@/images/products/full2-3.png";
+import full2Img from '@/images/products/full2.png'
+import full21Img from '@/images/products/full2-1.png'
+import full22Img from '@/images/products/full2-2.png'
+import full23Img from '@/images/products/full2-3.png'
 //
-import full3Img from "@/images/products/full3.png";
-import full31Img from "@/images/products/full3-1.png";
-import full32Img from "@/images/products/full3-2.png";
-import full33Img from "@/images/products/full3-3.png";
-import Link from "next/link";
+import full3Img from '@/images/products/full3.png'
+import full31Img from '@/images/products/full3-1.png'
+import full32Img from '@/images/products/full3-2.png'
+import full33Img from '@/images/products/full3-3.png'
+import Link from 'next/link'
 
 export interface SectionSliderLargeProduct2Props {
-  className?: string;
-  itemClassName?: string;
+  className?: string
+  itemClassName?: string
 }
 
 export const DEMO_LARGE_PRODUCTS = [
   {
     id: 1,
     images: [full1Img, full11Img, full12Img, full13Img],
-    name: "Suede Bomber Jacket",
-    desc: "Orange",
+    name: 'Suede Bomber Jacket',
+    desc: 'Orange',
     price: 52,
   },
   {
     id: 2,
     images: [full2Img, full21Img, full22Img, full23Img],
-    name: "Downtown Pet Tote",
-    desc: "Black and Orange",
+    name: 'Downtown Pet Tote',
+    desc: 'Black and Orange',
     price: 88,
   },
   {
     id: 3,
     images: [full3Img, full31Img, full32Img, full33Img],
-    name: "Cader Leather Sneakers",
-    desc: "3 Sizes Available",
+    name: 'Cader Leather Sneakers',
+    desc: '3 Sizes Available',
     price: 60,
   },
-];
+]
 
-const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
-  className = "",
-}) => {
-  const [tabActive, setTabActive] = useState("Last 24 hours");
+const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({ className = '' }) => {
+  const [tabActive, setTabActive] = useState('Last 24 hours')
 
-  const sliderRef = useRef(null);
+  const sliderRef = useRef(null)
 
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false)
 
   useEffect(() => {
     const OPTIONS: Partial<Glide.Options> = {
@@ -87,26 +85,21 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
           perView: 1,
         },
       },
-    };
+    }
 
-    if (!sliderRef.current) return;
+    if (!sliderRef.current) return
 
-    let slider = new Glide(sliderRef.current, OPTIONS);
-    slider.mount();
-    setIsShow(true);
+    let slider = new Glide(sliderRef.current, OPTIONS)
+    slider.mount()
+    setIsShow(true)
     return () => {
-      slider.destroy();
-    };
-  }, [sliderRef]);
+      slider.destroy()
+    }
+  }, [sliderRef])
 
   return (
     <div className={`nc-SectionSliderLargeProduct2 ${className}`}>
-      <Heading
-        className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50"
-        fontClass="text-3xl md:text-4xl 2xl:text-5xl font-semibold"
-        isCenter
-        desc=""
-      >
+      <Heading className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50" fontClass="text-3xl md:text-4xl 2xl:text-5xl font-semibold" isCenter desc="">
         Top List Collections.
       </Heading>
       <Nav
@@ -115,7 +108,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
       >
         {[
           {
-            name: "Last 24 hours",
+            name: 'Last 24 hours',
             icon: `<svg class="w-5 h-5" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.9095 11.5668C17.9095 15.5918 14.6428 18.8585 10.6178 18.8585C6.59284 18.8585 3.32617 15.5918 3.32617 11.5668C3.32617 7.54181 6.59284 4.27515 10.6178 4.27515C14.6428 4.27515 17.9095 7.54181 17.9095 11.5668Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M10.6182 7.19177V11.3584" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -124,7 +117,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
               `,
           },
           {
-            name: "Last 7 days",
+            name: 'Last 7 days',
             icon: `<svg class="w-5 h-5" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7.28516 2.19177V4.69177" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M13.9512 2.19177V4.69177" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -140,7 +133,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
               `,
           },
           {
-            name: "Last 30 days",
+            name: 'Last 30 days',
             icon: `<svg class="w-5 h-5" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7.28516 2.19177V4.69177" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M13.9512 2.19177V4.69177" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -151,22 +144,15 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
               `,
           },
         ].map((item, index) => (
-          <NavItem2
-            key={index}
-            isActive={tabActive === item.name}
-            onClick={() => setTabActive(item.name)}
-          >
+          <NavItem2 key={index} isActive={tabActive === item.name} onClick={() => setTabActive(item.name)}>
             <div className="flex items-center justify-center sm:space-x-2.5 text-xs sm:text-sm ">
-              <span
-                className="hidden sm:inline-block"
-                dangerouslySetInnerHTML={{ __html: item.icon }}
-              ></span>
+              <span className="hidden sm:inline-block" dangerouslySetInnerHTML={{ __html: item.icon }}></span>
               <span>{item.name}</span>
             </div>
           </NavItem2>
         ))}
       </Nav>
-      <div ref={sliderRef} className={`relative ${isShow ? "" : "invisible"}`}>
+      <div ref={sliderRef} className={`relative ${isShow ? '' : 'invisible'}`}>
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
             {DEMO_LARGE_PRODUCTS.map((item, index) => {
@@ -174,19 +160,17 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
                 <li key={index} className={`glide__slide`}>
                   <CollectionCard imgs={item.images} />
                 </li>
-              );
+              )
             })}
 
             <li className={`glide__slide   `}>
-              <Link href={"/search"} className="block relative group">
+              <Link href={'/search'} className="block relative group">
                 <div className="relative flex flex-col rounded-2xl overflow-hidden">
                   <div className="relative">
                     <div className="aspect-w-8 aspect-h-5 bg-black/5 dark:bg-neutral-800"></div>
                     <div className="absolute inset-y-6 inset-x-10  flex flex-col items-center justify-center">
                       <div className="flex items-center justify-center relative">
-                        <span className="text-xl font-semibold">
-                          More items
-                        </span>
+                        <span className="text-xl font-semibold">More items</span>
                         <svg
                           className="absolute left-full w-5 h-5 ml-2 rotate-45 group-hover:scale-110 transition-transform"
                           viewBox="0 0 24 24"
@@ -229,7 +213,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
         <Prev className="absolute right-full mr-5 top-1/2 -translate-y-1/2" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SectionSliderLargeProduct2;
+export default SectionSliderLargeProduct2

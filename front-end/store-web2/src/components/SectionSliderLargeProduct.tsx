@@ -1,24 +1,22 @@
-"use client";
+'use client'
 
-import React, { FC, useEffect, useId, useRef, useState } from "react";
-import Heading from "@/components/Heading/Heading";
+import React, { FC, useEffect, useId, useRef, useState } from 'react'
+import Heading from '@/shared/Heading/Heading'
 // @ts-ignore
-import Glide from "@glidejs/glide/dist/glide.esm";
-import CollectionCard from "./CollectionCard";
-import { DEMO_LARGE_PRODUCTS } from "./SectionSliderLargeProduct2";
-import Link from "next/link";
+import Glide from '@glidejs/glide/dist/glide.esm'
+import CollectionCard from './CollectionCard'
+import { DEMO_LARGE_PRODUCTS } from './SectionSliderLargeProduct2'
+import Link from 'next/link'
 
 export interface SectionSliderLargeProductProps {
-  className?: string;
-  itemClassName?: string;
+  className?: string
+  itemClassName?: string
 }
 
-const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
-  className = "",
-}) => {
-  const sliderRef = useRef(null);
+const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({ className = '' }) => {
+  const sliderRef = useRef(null)
 
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false)
 
   useEffect(() => {
     const OPTIONS: Partial<Glide.Options> = {
@@ -44,20 +42,20 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
           perView: 1,
         },
       },
-    };
-    if (!sliderRef.current) return;
+    }
+    if (!sliderRef.current) return
 
-    let slider = new Glide(sliderRef.current, OPTIONS);
-    slider.mount();
-    setIsShow(true);
+    let slider = new Glide(sliderRef.current, OPTIONS)
+    slider.mount()
+    setIsShow(true)
     return () => {
-      slider.destroy();
-    };
-  }, [sliderRef]);
+      slider.destroy()
+    }
+  }, [sliderRef])
 
   return (
     <div className={`nc-SectionSliderLargeProduct ${className}`}>
-      <div ref={sliderRef} className={`flow-root ${isShow ? "" : "invisible"}`}>
+      <div ref={sliderRef} className={`flow-root ${isShow ? '' : 'invisible'}`}>
         <Heading isCenter={false} hasNextPrev>
           Chosen by our experts
         </Heading>
@@ -65,17 +63,12 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
           <ul className="glide__slides">
             {DEMO_LARGE_PRODUCTS.map((product, index) => (
               <li className={`glide__slide`} key={index}>
-                <CollectionCard
-                  name={product.name}
-                  price={product.price}
-                  imgs={product.images}
-                  description={product.desc}
-                />
+                <CollectionCard name={product.name} price={product.price} imgs={product.images} description={product.desc} />
               </li>
             ))}
 
             <li className={`glide__slide   `}>
-              <Link href={"/search"} className="block relative group">
+              <Link href={'/search'} className="block relative group">
                 <div className="relative rounded-2xl overflow-hidden h-[410px]">
                   <div className="h-[410px] bg-black/5 dark:bg-neutral-800"></div>
                   <div className="absolute inset-y-6 inset-x-10  flex flex-col items-center justify-center">
@@ -114,7 +107,7 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SectionSliderLargeProduct;
+export default SectionSliderLargeProduct

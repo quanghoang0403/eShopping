@@ -1,21 +1,18 @@
-import React, { FC } from "react";
-import Heading from "@/components/Heading/Heading";
-import Pagination from "@/shared/Pagination/Pagination";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import WidgetCategories from "./WidgetCategories";
-import WidgetPosts from "./WidgetPosts";
-import Card3 from "./Card3";
+import React, { FC } from 'react'
+import Heading from '@/shared/Heading/Heading'
+import Pagination from '@/shared/Pagination/Pagination'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import WidgetCategories from './WidgetCategories'
+import WidgetPosts from './WidgetPosts'
+import Card3 from './Card3'
 
 //
 export interface SectionLatestPostsProps {
-  className?: string;
-  postCardName?: "card3";
+  className?: string
+  postCardName?: 'card3'
 }
 
-const SectionLatestPosts: FC<SectionLatestPostsProps> = ({
-  postCardName = "card3",
-  className = "",
-}) => {
+const SectionLatestPosts: FC<SectionLatestPostsProps> = ({ postCardName = 'card3', className = '' }) => {
   return (
     <div className={`nc-SectionLatestPosts relative ${className}`}>
       <div className="flex flex-col lg:flex-row">
@@ -37,7 +34,7 @@ const SectionLatestPosts: FC<SectionLatestPostsProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SectionLatestPosts;
+export default SectionLatestPosts
