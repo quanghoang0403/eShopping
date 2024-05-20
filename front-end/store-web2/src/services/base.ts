@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
-import qs from 'qs'
 import cookie from 'js-cookie'
 import { tokenExpired } from '@/utils/common.helper'
 import { getCookie, cookieKeys, resetSession, setCookie } from '@/utils/localStorage.helper'
+import qs from 'qs'
 
 const _redirectToLoginPage = () => {
   window.location.href = '/login'

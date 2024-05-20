@@ -1,43 +1,35 @@
-"use client";
+'use client'
 
-import Label from "@/components/Label/Label";
-import NcInputNumber from "@/components/NcInputNumber";
-import Prices from "@/components/Prices";
-import { Product, PRODUCTS } from "@/data/data";
-import { useState } from "react";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import Input from "@/shared/Input/Input";
-import ContactInfo from "@/components/Checkout/ContactInfo";
-import PaymentMethod from "@/components/Checkout/PaymentMethod";
-import ShippingAddress from "@/components/Checkout/ShippingAddress";
-import Image from "next/image";
-import Link from "next/link";
+import Label from '@/shared/Label/Label'
+import NcInputNumber from '@/components/NcInputNumber'
+import Prices from '@/components/Prices'
+import { Product, PRODUCTS } from '@/data/data'
+import { useState } from 'react'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import Input from '@/shared/Input/Input'
+import ContactInfo from '@/components/Checkout/ContactInfo'
+import PaymentMethod from '@/components/Checkout/PaymentMethod'
+import ShippingAddress from '@/components/Checkout/ShippingAddress'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const CheckoutPage = () => {
-  const [tabActive, setTabActive] = useState<
-    "ContactInfo" | "ShippingAddress" | "PaymentMethod"
-  >("ShippingAddress");
+  const [tabActive, setTabActive] = useState<'ContactInfo' | 'ShippingAddress' | 'PaymentMethod'>('ShippingAddress')
 
   const handleScrollToEl = (id: string) => {
-    const element = document.getElementById(id);
+    const element = document.getElementById(id)
     setTimeout(() => {
-      element?.scrollIntoView({ behavior: "smooth" });
-    }, 80);
-  };
+      element?.scrollIntoView({ behavior: 'smooth' })
+    }, 80)
+  }
 
   const renderProduct = (item: Product, index: number) => {
-    const { image, price, name } = item;
+    const { image, price, name } = item
 
     return (
       <div key={index} className="relative flex py-7 first:pt-0 last:pb-0">
         <div className="relative h-36 w-24 sm:w-28 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image
-            src={image}
-            fill
-            alt={name}
-            className="h-full w-full object-contain object-center"
-            sizes="150px"
-          />
+          <Image src={image} fill alt={name} className="h-full w-full object-contain object-center" sizes="150px" />
           <Link href="/product-detail" className="absolute inset-0"></Link>
         </div>
 
@@ -75,14 +67,7 @@ const CheckoutPage = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
-                      <path
-                        d="M3 22H16"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
+                      <path d="M3 22H16" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                       <path
                         d="M18.85 15C18.85 15 17 17.01 17 18.24C17 19.26 17.83 20.09 18.85 20.09C19.87 20.09 20.7 19.26 20.7 18.24C20.7 17.01 18.85 15 18.85 15Z"
                         stroke="currentColor"
@@ -97,34 +82,10 @@ const CheckoutPage = () => {
                   <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
                   <div className="flex items-center space-x-1.5">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M21 9V3H15"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M3 15V21H9"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M21 3L13.5 10.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M10.5 13.5L3 21"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
+                      <path d="M21 9V3H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M3 15V21H9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M21 3L13.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M10.5 13.5L3 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
 
                     <span>{`2XL`}</span>
@@ -145,10 +106,7 @@ const CheckoutPage = () => {
                     <option value="6">6</option>
                     <option value="7">7</option>
                   </select>
-                  <Prices
-                    contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                    price={price}
-                  />
+                  <Prices contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full" price={price} />
                 </div>
               </div>
 
@@ -163,76 +121,71 @@ const CheckoutPage = () => {
               <NcInputNumber className="relative z-10" />
             </div>
 
-            <a
-              href="##"
-              className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm "
-            >
+            <a href="##" className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm ">
               <span>Remove</span>
             </a>
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderLeft = () => {
     return (
       <div className="space-y-8">
         <div id="ContactInfo" className="scroll-mt-24">
           <ContactInfo
-            isActive={tabActive === "ContactInfo"}
+            isActive={tabActive === 'ContactInfo'}
             onOpenActive={() => {
-              setTabActive("ContactInfo");
-              handleScrollToEl("ContactInfo");
+              setTabActive('ContactInfo')
+              handleScrollToEl('ContactInfo')
             }}
             onCloseActive={() => {
-              setTabActive("ShippingAddress");
-              handleScrollToEl("ShippingAddress");
+              setTabActive('ShippingAddress')
+              handleScrollToEl('ShippingAddress')
             }}
           />
         </div>
 
         <div id="ShippingAddress" className="scroll-mt-24">
           <ShippingAddress
-            isActive={tabActive === "ShippingAddress"}
+            isActive={tabActive === 'ShippingAddress'}
             onOpenActive={() => {
-              setTabActive("ShippingAddress");
-              handleScrollToEl("ShippingAddress");
+              setTabActive('ShippingAddress')
+              handleScrollToEl('ShippingAddress')
             }}
             onCloseActive={() => {
-              setTabActive("PaymentMethod");
-              handleScrollToEl("PaymentMethod");
+              setTabActive('PaymentMethod')
+              handleScrollToEl('PaymentMethod')
             }}
           />
         </div>
 
         <div id="PaymentMethod" className="scroll-mt-24">
           <PaymentMethod
-            isActive={tabActive === "PaymentMethod"}
+            isActive={tabActive === 'PaymentMethod'}
             onOpenActive={() => {
-              setTabActive("PaymentMethod");
-              handleScrollToEl("PaymentMethod");
+              setTabActive('PaymentMethod')
+              handleScrollToEl('PaymentMethod')
             }}
-            onCloseActive={() => setTabActive("PaymentMethod")}
+            onCloseActive={() => setTabActive('PaymentMethod')}
           />
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="nc-CheckoutPage">
       <main className="container py-16 lg:pb-28 lg:pt-20 ">
         <div className="mb-16">
-          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">
-            Checkout
-          </h2>
+          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">Checkout</h2>
           <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
-            <Link href={"/"} className="">
+            <Link href={'/'} className="">
               Homepage
             </Link>
             <span className="text-xs mx-1 sm:mx-1.5">/</span>
-            <Link href={"/collection"} className="">
+            <Link href={'/collection'} className="">
               Clothing Categories
             </Link>
             <span className="text-xs mx-1 sm:mx-1.5">/</span>
@@ -247,9 +200,7 @@ const CheckoutPage = () => {
 
           <div className="w-full lg:w-[36%] ">
             <h3 className="text-lg font-semibold">Order summary</h3>
-            <div className="mt-8 divide-y divide-slate-200/70 dark:divide-slate-700 ">
-              {[PRODUCTS[0], PRODUCTS[2], PRODUCTS[3]].map(renderProduct)}
-            </div>
+            <div className="mt-8 divide-y divide-slate-200/70 dark:divide-slate-700 ">{[PRODUCTS[0], PRODUCTS[2], PRODUCTS[3]].map(renderProduct)}</div>
 
             <div className="mt-10 pt-6 text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-700 ">
               <div>
@@ -264,21 +215,15 @@ const CheckoutPage = () => {
 
               <div className="mt-4 flex justify-between py-2.5">
                 <span>Subtotal</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  $249.00
-                </span>
+                <span className="font-semibold text-slate-900 dark:text-slate-200">$249.00</span>
               </div>
               <div className="flex justify-between py-2.5">
                 <span>Shipping estimate</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  $5.00
-                </span>
+                <span className="font-semibold text-slate-900 dark:text-slate-200">$5.00</span>
               </div>
               <div className="flex justify-between py-2.5">
                 <span>Tax estimate</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  $24.90
-                </span>
+                <span className="font-semibold text-slate-900 dark:text-slate-200">$24.90</span>
               </div>
               <div className="flex justify-between font-semibold text-slate-900 dark:text-slate-200 text-base pt-4">
                 <span>Order total</span>
@@ -288,11 +233,7 @@ const CheckoutPage = () => {
             <ButtonPrimary className="mt-8 w-full">Confirm order</ButtonPrimary>
             <div className="mt-5 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center">
               <p className="block relative pl-5">
-                <svg
-                  className="w-4 h-4 absolute -left-1 top-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
+                <svg className="w-4 h-4 absolute -left-1 top-0.5" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
                     stroke="currentColor"
@@ -300,39 +241,17 @@ const CheckoutPage = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <path
-                    d="M12 8V13"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M11.9945 16H12.0035"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M12 8V13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M11.9945 16H12.0035" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 Learn more{` `}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="##"
-                  className="text-slate-900 dark:text-slate-200 underline font-medium"
-                >
+                <a target="_blank" rel="noopener noreferrer" href="##" className="text-slate-900 dark:text-slate-200 underline font-medium">
                   Taxes
                 </a>
                 <span>
                   {` `}and{` `}
                 </span>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="##"
-                  className="text-slate-900 dark:text-slate-200 underline font-medium"
-                >
+                <a target="_blank" rel="noopener noreferrer" href="##" className="text-slate-900 dark:text-slate-200 underline font-medium">
                   Shipping
                 </a>
                 {` `} infomation
@@ -342,7 +261,7 @@ const CheckoutPage = () => {
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default CheckoutPage;
+export default CheckoutPage

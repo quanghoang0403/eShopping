@@ -1,26 +1,26 @@
-import React, { FC } from "react";
-import SocialsList from "@/shared/SocialsList/SocialsList";
-import Label from "@/components/Label/Label";
-import Input from "@/shared/Input/Input";
-import Textarea from "@/shared/Textarea/Textarea";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
-import SectionPromo1 from "@/components/SectionPromo1";
+import React, { FC } from 'react'
+import SocialsList from '@/shared/SocialsList/SocialsList'
+import Label from '@/shared/Label/Label'
+import Input from '@/shared/Input/Input'
+import Textarea from '@/shared/Textarea/Textarea'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import BackgroundSection from '@/components/BackgroundSection/BackgroundSection'
+import SectionPromo1 from '@/components/SectionPromo1'
 
 const info = [
   {
-    title: "🗺 ADDRESS",
-    desc: "Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter",
+    title: '🗺 ADDRESS',
+    desc: 'Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter',
   },
   {
-    title: "💌 EMAIL",
-    desc: "nc.example@example.com",
+    title: '💌 EMAIL',
+    desc: 'nc.example@example.com',
   },
   {
-    title: "☎ PHONE",
-    desc: "000-123-456-7890",
+    title: '☎ PHONE',
+    desc: '000-123-456-7890',
   },
-];
+]
 
 const PageContact = ({}) => {
   return (
@@ -34,18 +34,12 @@ const PageContact = ({}) => {
             <div className="max-w-sm space-y-8">
               {info.map((item, index) => (
                 <div key={index}>
-                  <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">
-                    {item.title}
-                  </h3>
-                  <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-                    {item.desc}
-                  </span>
+                  <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">{item.title}</h3>
+                  <span className="block mt-2 text-neutral-500 dark:text-neutral-400">{item.desc}</span>
                 </div>
               ))}
               <div>
-                <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">
-                  🌏 SOCIALS
-                </h3>
+                <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">🌏 SOCIALS</h3>
                 <SocialsList className="mt-2" />
               </div>
             </div>
@@ -54,20 +48,12 @@ const PageContact = ({}) => {
                 <label className="block">
                   <Label>Full name</Label>
 
-                  <Input
-                    placeholder="Example Doe"
-                    type="text"
-                    className="mt-1"
-                  />
+                  <Input placeholder="Example Doe" type="text" className="mt-1" />
                 </label>
                 <label className="block">
                   <Label>Email address</Label>
 
-                  <Input
-                    type="email"
-                    placeholder="example@example.com"
-                    className="mt-1"
-                  />
+                  <Input type="email" placeholder="example@example.com" className="mt-1" />
                 </label>
                 <label className="block">
                   <Label>Message</Label>
@@ -91,7 +77,7 @@ const PageContact = ({}) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PageContact;
+export default PageContact
