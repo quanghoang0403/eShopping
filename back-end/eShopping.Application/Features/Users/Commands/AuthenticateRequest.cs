@@ -1,6 +1,5 @@
 using AutoMapper;
 using eShopping.Application.Features.Settings.Queries;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
 using eShopping.Domain.Entities;
@@ -16,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Users.Commands
 {
-    public class AuthenticateRequest : IRequest<AuthenticateResponse>
+    public class AuthenticateRequest : IRequest<BaseResponseModel>
     {
         public string Email { get; set; }
 
@@ -33,7 +32,7 @@ namespace eShopping.Application.Features.Users.Commands
     }
 
 
-    public class Handler : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
+    public class Handler : IRequestHandler<AuthenticateRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJWTService _jwtService;
@@ -46,23 +45,32 @@ namespace eShopping.Application.Features.Users.Commands
             _mediator = mediator;
         }
 
-        public async Task<AuthenticateResponse> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
         {
-            ThrowError.ArgumentIsNull(request, request.Email);
-            ThrowError.ArgumentIsNull(request, request.Password);
+            if (request.Email == null)
+            {
+                return BaseResponseModel.ReturnError("Email is required");
+            }
+            if (request.Password == null)
+            {
+                return BaseResponseModel.ReturnError("Password is required");
+            }
 
             PasswordHasher<Account> hasher = new();
             var accounts = await _unitOfWork.Accounts
                 .Find(a => a.Email == request.Email.ToLower() && !a.IsDeleted)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken: cancellationToken);
-            ThrowError.Against(!accounts.Any() || accounts.Count > 1, "login.errorLogin");
+            if (!accounts.Any() || accounts.Count > 1)
+            {
+                return BaseResponseModel.ReturnError("login.errorLogin");
+            }
 
             var account = accounts.First();
             PasswordVerificationResult verified = hasher.VerifyHashedPassword(null, account.Password, request.Password);
             if (verified == PasswordVerificationResult.Failed)
             {
-                ThrowError.Against(true, "login.errorLogin");
+                return BaseResponseModel.ReturnError("login.errorLogin");
             }
 
             LoggedUserModel user = new();
@@ -77,7 +85,10 @@ namespace eShopping.Application.Features.Users.Commands
                     .Find(s => s.AccountId == account.Id)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-                ThrowError.Against(customer == null, "login.errorLogin");
+                if (customer == null)
+                {
+                    return BaseResponseModel.ReturnError("login.errorLogin");
+                }
                 user.Id = customer?.Id;
             }
             else
@@ -100,10 +111,10 @@ namespace eShopping.Application.Features.Users.Commands
             {
                 Token = token,
                 RefreshToken = refreshToken,
-                Permissions = permissions?.Permissions
+                Permissions = permissions?.Data
             };
 
-            return response;
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }

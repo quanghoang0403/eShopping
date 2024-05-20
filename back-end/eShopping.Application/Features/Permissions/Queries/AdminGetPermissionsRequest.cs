@@ -1,4 +1,5 @@
 using AutoMapper;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Permissions;
@@ -14,7 +15,7 @@ namespace eShopping.Application.Features.Settings.Queries
     /// <summary>
     ///  Get permissions
     /// </summary>
-    public class AdminGetPermissionsRequest : IRequest<AdminGetPermissionsResponse>
+    public class AdminGetPermissionsRequest : IRequest<BaseResponseModel>
     {
         public string Token { get; set; }
     }
@@ -25,7 +26,7 @@ namespace eShopping.Application.Features.Settings.Queries
 
     }
 
-    public class AdminGetPermissionsRequestHandler : IRequestHandler<AdminGetPermissionsRequest, AdminGetPermissionsResponse>
+    public class AdminGetPermissionsRequestHandler : IRequestHandler<AdminGetPermissionsRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -44,7 +45,7 @@ namespace eShopping.Application.Features.Settings.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<AdminGetPermissionsResponse> Handle(AdminGetPermissionsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetPermissionsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = _userProvider.GetLoggedUserModelFromJwt(request.Token);
 
@@ -62,10 +63,7 @@ namespace eShopping.Application.Features.Settings.Queries
                 permissions = _unitOfWork.Permissions.GetAll().AsNoTracking().ToList();
             }
             var permissionsResponse = _mapper.Map<List<AdminPermissionModel>>(permissions);
-            return new AdminGetPermissionsResponse()
-            {
-                Permissions = permissionsResponse,
-            };
+            return BaseResponseModel.ReturnData(permissionsResponse);
         }
     }
 }

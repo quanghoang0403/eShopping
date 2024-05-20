@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminCreateProductCategoryRequest : IRequest<bool>
+    public class AdminCreateProductCategoryRequest : IRequest<BaseResponseModel>
     {
 
         public string Name { get; set; }
@@ -44,7 +43,7 @@ namespace eShopping.Application.Features.Products.Commands
         public int Position { get; set; }
     }
 
-    public class AdminCreateProductCategoryRequestHandler : IRequestHandler<AdminCreateProductCategoryRequest, bool>
+    public class AdminCreateProductCategoryRequestHandler : IRequestHandler<AdminCreateProductCategoryRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -61,17 +60,21 @@ namespace eShopping.Application.Features.Products.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(AdminCreateProductCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminCreateProductCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
+            if (RequestValidation(request) != null)
+            {
+                return RequestValidation(request);
+            }
 
-            RequestValidation(request);
 
             var productCategoryNameExisted = await _unitOfWork.ProductCategories.GetProductCategoryDetailByNameAsync(request.Name);
-            ThrowError.Against(productCategoryNameExisted != null, new JObject()
+            if (productCategoryNameExisted != null)
             {
-                { $"{nameof(request.Name)}", "Product category name has already existed" },
-            });
+                return BaseResponseModel.ReturnError("Product category name has already existed");
+            }
+
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 // Create a new transaction to save data more securely, data will be restored if an error occurs.
@@ -113,16 +116,20 @@ namespace eShopping.Application.Features.Products.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
 
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
 
-        private static void RequestValidation(AdminCreateProductCategoryRequest request)
+        private static BaseResponseModel RequestValidation(AdminCreateProductCategoryRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product category name");
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return BaseResponseModel.ReturnError("Please enter product category name");
+            }
+            return null;
         }
     }
 }

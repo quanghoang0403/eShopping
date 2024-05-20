@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Permissions;
 using MediatR;
@@ -13,7 +14,7 @@ namespace eShopping.Application.Features.Settings.Queries
     /// <summary>
     ///  Get permissions from all store branches
     /// </summary>
-    public class AdminGetAllPermissionGroupsRequest : IRequest<AdminGetAllPermissionGroupsResponse>
+    public class AdminGetAllPermissionGroupsRequest : IRequest<BaseResponseModel>
     {
     }
 
@@ -22,7 +23,7 @@ namespace eShopping.Application.Features.Settings.Queries
         public IEnumerable<AdminPermissionGroupModel> PermissionGroups { get; set; }
     }
 
-    public class AdminGetAllPermissionGroupsRequestHandler : IRequestHandler<AdminGetAllPermissionGroupsRequest, AdminGetAllPermissionGroupsResponse>
+    public class AdminGetAllPermissionGroupsRequestHandler : IRequestHandler<AdminGetAllPermissionGroupsRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -41,7 +42,7 @@ namespace eShopping.Application.Features.Settings.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<AdminGetAllPermissionGroupsResponse> Handle(AdminGetAllPermissionGroupsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetAllPermissionGroupsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -52,10 +53,7 @@ namespace eShopping.Application.Features.Settings.Queries
                             .ProjectTo<AdminPermissionGroupModel>(_mapperConfiguration)
                             .ToListAsync(cancellationToken: cancellationToken);
 
-            return new AdminGetAllPermissionGroupsResponse()
-            {
-                PermissionGroups = permissionGroups
-            };
+            return BaseResponseModel.ReturnData(permissionGroups);
         }
     }
 }

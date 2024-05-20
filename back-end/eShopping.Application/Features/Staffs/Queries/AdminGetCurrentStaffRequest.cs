@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Common.Models;
 using eShopping.Interfaces;
 using MediatR;
 using System;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Staffs.Queries
 {
-    public class AdminGetCurrentStaffRequest : IRequest<AdminGetCurrentStaffResponse> { }
+    public class AdminGetCurrentStaffRequest : IRequest<BaseResponseModel> { }
 
     public class AdminGetCurrentStaffResponse
     {
@@ -26,7 +26,7 @@ namespace eShopping.Application.Features.Staffs.Queries
         public string Thumbnail { get; set; }
     }
 
-    public class AdminGetStaffByAccountIdRequestHandler : IRequestHandler<AdminGetCurrentStaffRequest, AdminGetCurrentStaffResponse>
+    public class AdminGetStaffByAccountIdRequestHandler : IRequestHandler<AdminGetCurrentStaffRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -42,12 +42,16 @@ namespace eShopping.Application.Features.Staffs.Queries
         }
 
 
-        public async Task<AdminGetCurrentStaffResponse> Handle(AdminGetCurrentStaffRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetCurrentStaffRequest request, CancellationToken cancellationToken)
         {
             var currentUser = await _userProvider.ProvideAsync(cancellationToken);
             var userInformation = _unitOfWork.Accounts.GetIdentifier(currentUser.AccountId ?? Guid.Empty);
             var staff = _unitOfWork.Staffs.GetStaffByAccountId(currentUser.AccountId ?? Guid.Empty);
-            ThrowError.Against(userInformation == null, "myAccount.notExist");
+            if (userInformation == null)
+            {
+                return BaseResponseModel.ReturnError("myAccount.notExist");
+            }
+
 
             var response = new AdminGetCurrentStaffResponse()
             {
@@ -60,7 +64,7 @@ namespace eShopping.Application.Features.Staffs.Queries
                 Thumbnail = userInformation.Thumbnail
             };
 
-            return response;
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }

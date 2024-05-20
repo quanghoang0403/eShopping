@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductCategoryByUrlRequest : IRequest<StoreProductCategoryDetailModel>
+    public class StoreGetProductCategoryByUrlRequest : IRequest<BaseResponseModel>
     {
         public string Url { get; set; }
     }
 
-    public class StoreGetProductCategoryByUrlRequestHandler : IRequestHandler<StoreGetProductCategoryByUrlRequest, StoreProductCategoryDetailModel>
+    public class StoreGetProductCategoryByUrlRequestHandler : IRequestHandler<StoreGetProductCategoryByUrlRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -26,15 +26,18 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<StoreProductCategoryDetailModel> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(request.Url);
-            ThrowError.Against(productCategoryData == null, "Cannot find product category information");
+            if (productCategoryData == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find product category information");
+            }
 
             var productCategory = _mapper.Map<StoreProductCategoryDetailModel>(productCategoryData);
-            return productCategory;
+            return BaseResponseModel.ReturnData(productCategory);
         }
     }
 }

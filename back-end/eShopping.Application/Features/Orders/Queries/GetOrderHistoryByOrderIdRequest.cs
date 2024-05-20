@@ -1,4 +1,5 @@
-﻿using eShopping.Domain.Enums;
+﻿using eShopping.Common.Models;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Orders;
 using MediatR;
@@ -11,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class GetOrderHistoryByOrderIdRequest : IRequest<IEnumerable<OrderHistoryModel>>
+    public class GetOrderHistoryByOrderIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
 
     }
 
-    public class GetOrderHistoryByOrderIdRequestHandle : IRequestHandler<GetOrderHistoryByOrderIdRequest, IEnumerable<OrderHistoryModel>>
+    public class GetOrderHistoryByOrderIdRequestHandle : IRequestHandler<GetOrderHistoryByOrderIdRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -27,7 +28,7 @@ namespace eShopping.Application.Features.Orders.Queries
             _userProvider = userProvider;
         }
 
-        public async Task<IEnumerable<OrderHistoryModel>> Handle(GetOrderHistoryByOrderIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(GetOrderHistoryByOrderIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -72,7 +73,7 @@ namespace eShopping.Application.Features.Orders.Queries
             }
 
             var response = orderHistoryResponse.OrderByDescending(x => x.CreatedTime);
-            return response;
+            return BaseResponseModel.ReturnData(response);
         }
 
     }

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Commands
 {
-    public class AdminUpdateBlogRequest : IRequest<bool>
+    public class AdminUpdateBlogRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
 
@@ -36,7 +35,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         public string Author { get; set; }
         public string Thumbnail { get; set; }
     }
-    public class AdminUpdateBlogHandler : IRequestHandler<AdminUpdateBlogRequest, bool>
+    public class AdminUpdateBlogHandler : IRequestHandler<AdminUpdateBlogRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -52,32 +51,40 @@ namespace eShopping.Application.Features.Blogs.Commands
             _userProvider = userProvider;
             _mapper = mapper;
         }
-        public async Task<bool> Handle(AdminUpdateBlogRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateBlogRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            RequestValidation(request);
-            var blog = await _unitOfWork.Blogs.Where(b => b.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(blog == null, "Cannot find specific blog");
-            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower()) && b.Id != request.Id).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(existedBlogName != null, new JObject()
+            if (RequestValidation(request) != null)
             {
-                { $"{nameof(request.Name)}", "This blog name has already existed" },
-            });
-
+                return RequestValidation(request);
+            }
+            var blog = await _unitOfWork.Blogs.Where(b => b.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
+            if (blog == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find specific blog");
+            }
+            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower()) && b.Id != request.Id).AsNoTracking().FirstOrDefaultAsync();
+            if (existedBlogName != null)
+            {
+                return BaseResponseModel.ReturnError("This blog name has already existed");
+            }
             var modifiedBlog = _mapper.Map<Blog>(request);
             modifiedBlog.LastSavedUser = loggedUser.AccountId.Value;
             modifiedBlog.LastSavedTime = DateTime.Now;
             modifiedBlog.UrlSEO = StringHelpers.UrlEncode(modifiedBlog.Name);
             var result = await _unitOfWork.Blogs.UpdateBlogAsync(modifiedBlog, request.BlogCategoryId, cancellationToken);
-            ThrowError.Against(result == null, "Error updating Blog");
+            if (result == null)
+                return BaseResponseModel.ReturnError("Error updating Blog");
 
-
-            return true;
+            return BaseResponseModel.ReturnData();
         }
-        private static void RequestValidation(AdminUpdateBlogRequest request)
+        private static BaseResponseModel RequestValidation(AdminUpdateBlogRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter blog name");
-
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return BaseResponseModel.ReturnError("Please enter blog name");
+            }
+            return null;
         }
     }
 }

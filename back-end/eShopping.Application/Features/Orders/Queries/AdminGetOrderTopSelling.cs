@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Constants;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Orders;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class AdminGetOrderTopSellingRequest : IRequest<AdminGetOrderTopSellingResponse>
+    public class AdminGetOrderTopSellingRequest : IRequest<BaseResponseModel>
     {
 
         public DateTime StartDate { get; set; }
@@ -32,7 +33,7 @@ namespace eShopping.Application.Features.Orders.Queries
         public IEnumerable<AdminOrderTopCustomerModel> ListTopCustomer { get; set; }
     }
 
-    public class AdminGetOrderTopProductHandler : IRequestHandler<AdminGetOrderTopSellingRequest, AdminGetOrderTopSellingResponse>
+    public class AdminGetOrderTopProductHandler : IRequestHandler<AdminGetOrderTopSellingRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -49,7 +50,7 @@ namespace eShopping.Application.Features.Orders.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetOrderTopSellingResponse> Handle(AdminGetOrderTopSellingRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetOrderTopSellingRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var listOrder = await _unitOfWork.Orders.Find(o => o.CreatedTime.Value.CompareTo(request.StartDate) >= 0
@@ -148,7 +149,7 @@ namespace eShopping.Application.Features.Orders.Queries
                 })
             };
 
-            return response;
+            return BaseResponseModel.ReturnData(response);
         }
     }
 }

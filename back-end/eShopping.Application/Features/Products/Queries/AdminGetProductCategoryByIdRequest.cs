@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class AdminGetProductCategoryByIdRequest : IRequest<AdminGetProductCategoryByIdResponse>
+    public class AdminGetProductCategoryByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminGetProductCategoryByIdResponse
-    {
-        public AdminProductCategoryDetailModel ProductCategory { get; set; }
-    }
+    //public class AdminGetProductCategoryByIdResponse
+    //{
+    //    public AdminProductCategoryDetailModel ProductCategory { get; set; }
+    //}
 
-    public class AdminGetProductCategoryByIdRequestHandler : IRequestHandler<AdminGetProductCategoryByIdRequest, AdminGetProductCategoryByIdResponse>
+    public class AdminGetProductCategoryByIdRequestHandler : IRequestHandler<AdminGetProductCategoryByIdRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -33,12 +33,15 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetProductCategoryByIdResponse> Handle(AdminGetProductCategoryByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetProductCategoryByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByIdAsync(request.Id);
-            ThrowError.Against(productCategoryData == null, "Cannot find product category information");
+            if (productCategoryData == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find product category information");
+            }
 
             var productCategory = _mapper.Map<AdminProductCategoryDetailModel>(productCategoryData);
             if (productCategoryData.ProductInCategories != null)
@@ -55,10 +58,7 @@ namespace eShopping.Application.Features.Products.Queries
                     .ToList();
             }
 
-            return new AdminGetProductCategoryByIdResponse
-            {
-                ProductCategory = productCategory
-            };
+            return BaseResponseModel.ReturnData(productCategory);
         }
     }
 }

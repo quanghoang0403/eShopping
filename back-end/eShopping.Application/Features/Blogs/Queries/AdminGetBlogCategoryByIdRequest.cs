@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
 using MediatR;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Queries
 {
-    public class AdminGetBlogCategoryByIdRequest : IRequest<AdminGetBlogCategoryByIdResponse>
+    public class AdminGetBlogCategoryByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
@@ -20,7 +20,7 @@ namespace eShopping.Application.Features.Blogs.Queries
     {
         public AdminBlogCategoryDetailModel BlogCategory { get; set; }
     }
-    public class AdminGetBlogCategoryByIdRequestHandler : IRequestHandler<AdminGetBlogCategoryByIdRequest, AdminGetBlogCategoryByIdResponse>
+    public class AdminGetBlogCategoryByIdRequestHandler : IRequestHandler<AdminGetBlogCategoryByIdRequest, BaseResponseModel>
     {
 
         private readonly IUserProvider _userProvider;
@@ -33,14 +33,17 @@ namespace eShopping.Application.Features.Blogs.Queries
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<AdminGetBlogCategoryByIdResponse> Handle(AdminGetBlogCategoryByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetBlogCategoryByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategoryData = await _unitOfWork.BlogCategories
                 .Find(bc => bc.Id == request.Id)
                 .Include(bc => bc.BlogInCategories).ThenInclude(bic => bic.blog)
                 .FirstOrDefaultAsync();
-            ThrowError.Against(blogCategoryData == null, "Couldn't found blog category");
+            if (blogCategoryData == null)
+            {
+                return BaseResponseModel.ReturnError("Couldn't found blog category");
+            }
             var blogCategory = _mapper.Map<AdminBlogCategoryDetailModel>(blogCategoryData);
             if (blogCategoryData.BlogInCategories != null)
             {
@@ -53,10 +56,7 @@ namespace eShopping.Application.Features.Blogs.Queries
                     }).OrderBy(bc => bc.Priority).ToList();
 
             }
-            return new AdminGetBlogCategoryByIdResponse
-            {
-                BlogCategory = blogCategory,
-            };
+            return BaseResponseModel.ReturnData(blogCategory);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using eShopping.Common.Models;
+using MediatR;
 using System;
 using System.Net.Http;
 using System.Threading;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Files.Queries
 {
-    public class GetBase64ImageRequest : IRequest<GetBase64ImageResponse>
+    public class GetBase64ImageRequest : IRequest<BaseResponseModel>
     {
         public string Url { get; set; }
     }
@@ -16,16 +17,14 @@ namespace eShopping.Application.Features.Files.Queries
         public string ImageData { get; set; }
     }
 
-    public class GetBase64ImageRequestHandler : IRequestHandler<GetBase64ImageRequest, GetBase64ImageResponse>
+    public class GetBase64ImageRequestHandler : IRequestHandler<GetBase64ImageRequest, BaseResponseModel>
     {
         public GetBase64ImageRequestHandler() { }
 
-        public async Task<GetBase64ImageResponse> Handle(GetBase64ImageRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(GetBase64ImageRequest request, CancellationToken cancellationToken)
         {
-            return new GetBase64ImageResponse
-            {
-                ImageData = await GetImageAsBase64UrlAsync(request.Url),
-            };
+            var imageData = await GetImageAsBase64UrlAsync(request.Url);
+            return BaseResponseModel.ReturnData(imageData);
         }
 
         private async static Task<string> GetImageAsBase64UrlAsync(string url)

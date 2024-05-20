@@ -1,5 +1,4 @@
 ﻿using eShopping.Application.Features.Settings.Queries;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
 using eShopping.Domain.Entities;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Users.Commands
 {
-    public class RefreshTokenRequest : IRequest<RefreshTokenResponse>
+    public class RefreshTokenRequest : IRequest<BaseResponseModel>
     {
         public string Token { get; set; }
 
@@ -30,7 +29,7 @@ namespace eShopping.Application.Features.Users.Commands
         public IEnumerable<AdminPermissionModel> Permissions { get; set; }
     }
 
-    public class RefreshTokenRequestHandler : IRequestHandler<RefreshTokenRequest, RefreshTokenResponse>
+    public class RefreshTokenRequestHandler : IRequestHandler<RefreshTokenRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJWTService _jwtService;
@@ -45,19 +44,31 @@ namespace eShopping.Application.Features.Users.Commands
             _mediator = mediator;
         }
 
-        public async Task<RefreshTokenResponse> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = _userProvider.GetLoggedUserModelFromJwt(request.Token);
-            ThrowError.Against(!loggedUser.AccountId.HasValue, "Cannot find account information");
+            if (!loggedUser.AccountId.HasValue)
+            {
+                return BaseResponseModel.ReturnError("Cannot find account information");
+            }
 
             var account = await _unitOfWork.Accounts
                 .Find(a => a.Id == loggedUser.AccountId)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             var refreshToken = await _unitOfWork.RefreshTokens.GetRefreshToken(account.Id);
-            ThrowError.Against(refreshToken.ExpiredDate < DateTime.Now, "Refresh token is expired");
-            ThrowError.Against(refreshToken.Token != request.RefreshToken, "Refresh token is not valid");
-            ThrowError.Against(refreshToken.IsInvoked == true, "Refresh token is invoked");
+            if (refreshToken.ExpiredDate < DateTime.Now)
+            {
+                return BaseResponseModel.ReturnError("Refresh token is expired");
+            }
+            if (refreshToken.Token != request.RefreshToken)
+            {
+                return BaseResponseModel.ReturnError("Refresh token is not valid");
+            }
+            if (refreshToken.IsInvoked == true)
+            {
+                return BaseResponseModel.ReturnError("Refresh token is invoked");
+            }
 
             var user = new LoggedUserModel();
             Staff staff = await _unitOfWork.Staffs
@@ -91,12 +102,12 @@ namespace eShopping.Application.Features.Users.Commands
             var newRefreshToken = await _jwtService.GenerateRefreshToken(account.Id);
             var permissions = await _mediator.Send(new AdminGetPermissionsRequest() { Token = accessToken }, cancellationToken);
 
-            return new RefreshTokenResponse()
+            return BaseResponseModel.ReturnData(new RefreshTokenResponse()
             {
                 Token = accessToken,
                 RefreshToken = newRefreshToken,
-                Permissions = permissions.Permissions
-            };
+                Permissions = permissions.Data
+            });
         }
     }
 }

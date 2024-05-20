@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
 using MediatR;
@@ -10,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Queries
 {
-    public class AdminGetAllBlogCategoryRequest : IRequest<AdminGetAllBlogCategoryResponse>
+    public class AdminGetAllBlogCategoryRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class AdminGetAllBlogCategoryResponse
-    {
-        public IEnumerable<AdminBlogCategoryModel> BlogCategories { get; set; }
-    }
-    public class AdminGetAllBlogCategoryRequestHandler : IRequestHandler<AdminGetAllBlogCategoryRequest, AdminGetAllBlogCategoryResponse>
+    //public class AdminGetAllBlogCategoryResponse
+    //{
+    //    public IEnumerable<AdminBlogCategoryModel> BlogCategories { get; set; }
+    //}
+    public class AdminGetAllBlogCategoryRequestHandler : IRequestHandler<AdminGetAllBlogCategoryRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -34,7 +35,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetAllBlogCategoryResponse> Handle(AdminGetAllBlogCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetAllBlogCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var allBlogCategory = await _unitOfWork.BlogCategories
@@ -48,11 +49,7 @@ namespace eShopping.Application.Features.Blogs.Queries
                     Priority = b.Priority,
                     Blogs = _mapper.Map<IEnumerable<AdminBlogModel>>(b.BlogInCategories.Select(bc => bc.blog))
                 }).OrderBy(b => b.Priority).ToListAsync(cancellationToken);
-            var response = new AdminGetAllBlogCategoryResponse
-            {
-                BlogCategories = allBlogCategory
-            };
-            return response;
+            return BaseResponseModel.ReturnData(allBlogCategory);
         }
     }
 }

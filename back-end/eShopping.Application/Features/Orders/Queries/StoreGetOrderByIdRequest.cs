@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Orders;
 using MediatR;
@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Queries
 {
-    public class StoreGetOrderByIdRequest : IRequest<StoreOrderDetailModel>
+    public class StoreGetOrderByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class StoreGetOrderByIdRequestHandler : IRequestHandler<StoreGetOrderByIdRequest, StoreOrderDetailModel>
+    public class StoreGetOrderByIdRequestHandler : IRequestHandler<StoreGetOrderByIdRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -37,13 +37,14 @@ namespace eShopping.Application.Features.Orders.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<StoreOrderDetailModel> Handle(StoreGetOrderByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetOrderByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             if (request == null || request.Id.Equals(Guid.Empty))
             {
-                ThrowError.Against(request == null || request.Id.Equals(Guid.Empty), "Not find request");
+                return BaseResponseModel.ReturnError("No request is match");
+
             }
 
             var order = await _unitOfWork.Orders.Where(o => o.Id == request.Id)
@@ -60,7 +61,7 @@ namespace eShopping.Application.Features.Orders.Queries
 
             if (order == null)
             {
-                ThrowError.Against(request == null || request.Id.Equals(Guid.Empty), "Not found order");
+                return BaseResponseModel.ReturnError("Not found order");
             }
 
             order.Reason = await _unitOfWork.OrderHistories
@@ -70,7 +71,7 @@ namespace eShopping.Application.Features.Orders.Queries
                 .Select(oh => oh.CancelReason)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            return order;
+            return BaseResponseModel.ReturnData(order);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Orders.Commands
 {
-    public class StoreUpdateOrderRequest : IRequest<bool>
+    public class StoreUpdateOrderRequest : IRequest<BaseResponseModel>
     {
         public Guid OrderId { get; set; }
 
@@ -30,7 +31,7 @@ namespace eShopping.Application.Features.Orders.Commands
         public int? ShipWardId { get; set; }
     }
 
-    public class StoreUpdateOrderRequestHandle : IRequestHandler<StoreUpdateOrderRequest, bool>
+    public class StoreUpdateOrderRequestHandle : IRequestHandler<StoreUpdateOrderRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -43,7 +44,7 @@ namespace eShopping.Application.Features.Orders.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(StoreUpdateOrderRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreUpdateOrderRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             RequestValidation(request);
@@ -91,7 +92,7 @@ namespace eShopping.Application.Features.Orders.Commands
             order.Note = request.Note;
             order.LastSavedTime = DateTime.Now;
             order.LastSavedUser = accountId;
-            return true;
+            return BaseResponseModel.ReturnData();
         }
 
         private static void RequestValidation(StoreUpdateOrderRequest request)

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminUpdateProductCategoryRequest : IRequest<bool>
+    public class AdminUpdateProductCategoryRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
 
@@ -46,7 +45,7 @@ namespace eShopping.Application.Features.Products.Commands
         public int Position { get; set; }
     }
 
-    public class AdminUpdateProductCategoryRequestHandler : IRequestHandler<AdminUpdateProductCategoryRequest, bool>
+    public class AdminUpdateProductCategoryRequestHandler : IRequestHandler<AdminUpdateProductCategoryRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -63,19 +62,25 @@ namespace eShopping.Application.Features.Products.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(AdminUpdateProductCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateProductCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var productCategory = await _unitOfWork.ProductCategories.Where(c => c.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
-            RequestValidation(request);
-            ThrowError.Against(productCategory == null, "Cannot find product category information");
+            if (RequestValidation(request) != null)
+            {
+                return RequestValidation(request);
+            }
+            if (productCategory == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find product category information");
+            }
 
             var productCategoryNameExisted = await _unitOfWork.ProductCategories.Where(p => p.Id != request.Id && p.Name.Trim().ToLower().Equals(request.Name.Trim().ToLower())).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(productCategoryNameExisted != null, new JObject()
+            if (productCategoryNameExisted != null)
             {
-                { $"{nameof(request.Name)}", "Product category name has already existed" },
-            });
+                return BaseResponseModel.ReturnError("Product category name has already existed");
+            }
 
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
@@ -122,16 +127,20 @@ namespace eShopping.Application.Features.Products.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
 
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
 
-        private static void RequestValidation(AdminUpdateProductCategoryRequest request)
+        private static BaseResponseModel RequestValidation(AdminUpdateProductCategoryRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product category name");
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return BaseResponseModel.ReturnError("Please enter product category name");
+            }
+            return null;
         }
     }
 }

@@ -1,24 +1,24 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Queries
 {
-    public class AdminGetAllBlogRequest : IRequest<AdminGetAllBlogResponse>
+    public class AdminGetAllBlogRequest : IRequest<BaseResponseModel>
     {
     }
-    public class AdminGetAllBlogResponse
-    {
-        public IEnumerable<AdminBlogModel> AllBlogs { get; set; }
-    }
-    public class AdminGetAllBlogRequestHandler : IRequestHandler<AdminGetAllBlogRequest, AdminGetAllBlogResponse>
+    //public class AdminGetAllBlogResponse
+    //{
+    //    public IEnumerable<AdminBlogModel> AllBlogs { get; set; }
+    //}
+    public class AdminGetAllBlogRequestHandler : IRequestHandler<AdminGetAllBlogRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -29,7 +29,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             _userProvider = userProvider;
             _mapperConfiguration = mapperConfiguration;
         }
-        public async Task<AdminGetAllBlogResponse> Handle(AdminGetAllBlogRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetAllBlogRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var allBlogs = await _unitOfWork.Blogs
@@ -41,10 +41,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             {
                 b.BlogCategoryId = categoryIds.Where(c => c.blogId == b.Id).Select(c => c.categoryId).FirstOrDefault();
             });
-            var response = new AdminGetAllBlogResponse
-            {
-                AllBlogs = allBlogs
-            };
+            var response = BaseResponseModel.ReturnData(allBlogs);
             return response;
 
         }
