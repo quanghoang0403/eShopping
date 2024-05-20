@@ -1,5 +1,5 @@
 import { NavItemType } from "@/shared/Navigation/NavigationItem";
-import ncNanoId from "@/utils/ncNanoId";
+import { ncNanoId } from "@/utils/string.helper";
 
 export const NAVIGATION_DEMO: NavItemType[] = [
   {

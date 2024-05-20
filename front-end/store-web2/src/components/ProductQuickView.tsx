@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import LikeButton from "@/components/LikeButton";
 import { StarIcon } from "@heroicons/react/24/solid";
-import BagIcon from "@/components/BagIcon";
+import BagIcon from "@/shared/Icon/BagIcon";
 import NcInputNumber from "@/components/NcInputNumber";
 import { PRODUCTS } from "@/data/data";
 import {

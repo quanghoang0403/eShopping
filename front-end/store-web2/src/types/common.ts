@@ -1,33 +1,40 @@
 interface ISEO {
-  id: string
-  name: string
-  titleSEO?: string
-  content?: string
-  keywordSEO?: string
-  urlSEO: string
-  descriptionSEO?: string
-  description: string
+  id: string;
+  name: string;
+  titleSEO?: string;
+  content?: string;
+  keywordSEO?: string;
+  urlSEO: string;
+  descriptionSEO?: string;
+  description: string;
 }
 
 interface IArea {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
 interface IOption {
-  id: number
-  name?: string
+  id: number;
+  name?: string;
 }
 
-interface IBaseResponse {
-  pageNumber: number
-  total: number
+interface IBaseResponse<T> {
+  code: number;
+  data: T;
+  message: string;
+  errorMessage: string;
 }
 
-interface IBaseRequest {
-  pageNumber: number
-  pageSize: number
-  keySearch: string
+interface IPagingResponse {
+  pageNumber: number;
+  total: number;
+}
+
+interface IPagingRequest {
+  pageNumber: number;
+  pageSize: number;
+  keySearch: string;
 }
 
 enum HttpStatus {

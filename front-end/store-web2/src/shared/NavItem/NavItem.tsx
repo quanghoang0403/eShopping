@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import twFocusClass from "@/utils/twFocusClass";
+import { twFocusClass } from "@/utils/string.helper";
 
 export interface NavItemProps {
   className?: string;

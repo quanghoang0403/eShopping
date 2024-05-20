@@ -7,9 +7,9 @@ import { Product, PRODUCTS } from "@/data/data";
 import { useState } from "react";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Input from "@/shared/Input/Input";
-import ContactInfo from "./ContactInfo";
-import PaymentMethod from "./PaymentMethod";
-import ShippingAddress from "./ShippingAddress";
+import ContactInfo from "@/components/Checkout/ContactInfo";
+import PaymentMethod from "@/components/Checkout/PaymentMethod";
+import ShippingAddress from "@/components/Checkout/ShippingAddress";
 import Image from "next/image";
 import Link from "next/link";
 

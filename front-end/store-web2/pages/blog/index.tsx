@@ -1,7 +1,7 @@
 import React from "react";
-import SectionAds from "./SectionAds";
-import SectionMagazine5 from "./SectionMagazine5";
-import SectionLatestPosts from "./SectionLatestPosts";
+import SectionAds from "@/components/Blog/SectionAds";
+import SectionMagazine5 from "@/components/Blog/SectionMagazine5";
+import SectionLatestPosts from "@/components/Blog/SectionLatestPosts";
 import BgGlassmorphism from "@/components/BgGlassmorphism/BgGlassmorphism";
 import SectionPromo3 from "@/components/SectionPromo3";
 
