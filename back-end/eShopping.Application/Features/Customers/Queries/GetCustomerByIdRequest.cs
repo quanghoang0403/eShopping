@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Customers;
 using MediatR;
@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Customers.Queries
 {
-    public class GetCustomerByIdRequest : IRequest<CustomerDetailModel>
+    public class GetCustomerByIdRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, CustomerDetailModel>
+    public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -33,11 +33,14 @@ namespace eShopping.Application.Features.Customers.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<CustomerDetailModel> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var customer = await _unitOfWork.Customers.Find(x => x.Id == loggedUser.Id.Value).Include(x => x.Account).FirstOrDefaultAsync();
-            ThrowError.Against(customer == null, "Cannot find customer information");
+            if (customer == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find customer information");
+            }
 
             var customerDetailModel = new CustomerDetailModel()
             {
@@ -56,7 +59,7 @@ namespace eShopping.Application.Features.Customers.Queries
                 CityId = customer.CityId,
             };
 
-            return customerDetailModel;
+            return BaseResponseModel.ReturnData(customerDetailModel);
         }
     }
 }

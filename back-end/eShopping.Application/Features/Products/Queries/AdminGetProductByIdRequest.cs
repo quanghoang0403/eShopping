@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Commons;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class AdminGetProductByIdRequest : IRequest<AdminGetProductByIdResponse>
+    public class AdminGetProductByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
@@ -25,7 +26,7 @@ namespace eShopping.Application.Features.Products.Queries
 
     }
 
-    public class AdminGetProductByIdRequestHandler : IRequestHandler<AdminGetProductByIdRequest, AdminGetProductByIdResponse>
+    public class AdminGetProductByIdRequestHandler : IRequestHandler<AdminGetProductByIdRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -44,7 +45,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<AdminGetProductByIdResponse> Handle(AdminGetProductByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetProductByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -67,10 +68,7 @@ namespace eShopping.Application.Features.Products.Queries
 
             ProductData.ProductCategories = category;
 
-            return new AdminGetProductByIdResponse
-            {
-                Product = ProductData,
-            };
+            return BaseResponseModel.ReturnData(ProductData);
         }
     }
 }

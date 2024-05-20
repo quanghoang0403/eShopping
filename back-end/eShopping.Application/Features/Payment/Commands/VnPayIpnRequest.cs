@@ -1,4 +1,5 @@
 ﻿using eShopping.Common.Constants;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Payment.VNPay;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.POS.Application.Features.Payments.Commands
 {
-    public class VnPayIpnRequest : IRequest<VnPayIpnResponse>
+    public class VnPayIpnRequest : IRequest<BaseResponseModel>
     {
         [FromQuery(Name = "vnp_Amount")]
         public long Amount { get; set; }
@@ -63,7 +64,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
         public string Message { get; set; }
     }
 
-    public class VnPayIpnRequestHandler : IRequestHandler<VnPayIpnRequest, VnPayIpnResponse>
+    public class VnPayIpnRequestHandler : IRequestHandler<VnPayIpnRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IVNPayService _vnPayService;
@@ -86,7 +87,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
         /// <param name="request">The HTTP data</param>
         /// <param name="cancellationToken">The current thread.</param>
         /// <returns></returns>
-        public async Task<VnPayIpnResponse> Handle(VnPayIpnRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(VnPayIpnRequest request, CancellationToken cancellationToken)
         {
             long transactionId = 0;
             long.TryParse(request.TxnRef, out transactionId);
@@ -105,7 +106,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
             {
                 vnPayIpnResponse.RspCode = VnPayIpnConstants.Code.ORDER_NOT_FOUND;
                 vnPayIpnResponse.Message = VnPayIpnConstants.Message.ORDER_NOT_FOUND;
-                return vnPayIpnResponse;
+                return BaseResponseModel.ReturnData(vnPayIpnResponse);
             }
 
             // Find order in the database by the order code, for example: 70
@@ -122,21 +123,21 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 {
                     vnPayIpnResponse.RspCode = VnPayIpnConstants.Code.INVALID_SIGNATURE;
                     vnPayIpnResponse.Message = VnPayIpnConstants.Message.INVALID_SIGNATURE;
-                    return vnPayIpnResponse;
+                    return BaseResponseModel.ReturnData(vnPayIpnResponse);
                 }
 
                 if (order.OrderPaymentStatusId == EnumOrderPaymentStatus.Paid && orderTransaction.IsSuccess)
                 {
                     vnPayIpnResponse.RspCode = VnPayIpnConstants.Code.ORDER_ALREADY_CONFIRMED;
                     vnPayIpnResponse.Message = VnPayIpnConstants.Message.ORDER_ALREADY_CONFIRMED;
-                    return vnPayIpnResponse;
+                    return BaseResponseModel.ReturnData(vnPayIpnResponse);
                 }
 
                 if (request.Amount != Convert.ToInt64(order.TotalAmount) * 100)
                 {
                     vnPayIpnResponse.RspCode = VnPayIpnConstants.Code.INVALID_AMOUNT;
                     vnPayIpnResponse.Message = VnPayIpnConstants.Message.INVALID_AMOUNT;
-                    return vnPayIpnResponse;
+                    return BaseResponseModel.ReturnData(vnPayIpnResponse);
                 }
 
                 DateTime lastTime = DateTime.Now;
@@ -173,7 +174,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 vnPayIpnResponse.Message = VnPayIpnConstants.Message.ORDER_NOT_FOUND;
             }
 
-            return vnPayIpnResponse;
+            return BaseResponseModel.ReturnData(vnPayIpnResponse);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using eShopping.Common.Constants;
+using eShopping.Common.Models;
 using eShopping.Interfaces.Common;
 using eShopping.Storage.Azure;
 using eShopping.Storage.Models;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Files.Commands
 {
-    public class UploadFileRequest : IRequest<UploadFileResponse>
+    public class UploadFileRequest : IRequest<BaseResponseModel>
     {
         public UploadFileRequest()
         {
@@ -37,7 +38,7 @@ namespace eShopping.Application.Features.Files.Commands
         }
     }
 
-    public class UploadFileRequestHandler : IRequestHandler<UploadFileRequest, UploadFileResponse>
+    public class UploadFileRequestHandler : IRequestHandler<UploadFileRequest, BaseResponseModel>
     {
         private readonly IAzureStorageService _azureStorageService;
         private readonly IImageService _imageService;
@@ -48,7 +49,7 @@ namespace eShopping.Application.Features.Files.Commands
             _imageService = imageService;
         }
 
-        async Task<UploadFileResponse> IRequestHandler<UploadFileRequest, UploadFileResponse>.Handle(UploadFileRequest request, CancellationToken cancellationToken)
+        async Task<BaseResponseModel> IRequestHandler<UploadFileRequest, BaseResponseModel>.Handle(UploadFileRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -66,11 +67,11 @@ namespace eShopping.Application.Features.Files.Commands
                 {
                     await GenerateThumbnail(requestModel);
                 }
-                return response;
+                return BaseResponseModel.ReturnData(response);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return BaseResponseModel.ReturnError(ex.Message);
             }
         }
 
@@ -97,7 +98,7 @@ namespace eShopping.Application.Features.Files.Commands
                 await streamThumbMobile.CopyToAsync(msMobile);
                 await _azureStorageService.UploadFileToStorageAsync(msMobile, string.Format(thumbNamePattern, request.FileName, "mobile"), request.File.ContentType);
             }
-            catch { }
+            catch (Exception ex) { }
         }
         #endregion private methods
     }

@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Commands
 {
-    public class AdminCreateBlogRequest : IRequest<bool>
+    public class AdminCreateBlogRequest : IRequest<BaseResponseModel>
     {
         public string Name { get; set; }
 
@@ -33,7 +31,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         public string Author { get; set; }
         public List<Guid> BlogCategoryIds { get; set; }
     }
-    public class AdminCreateBlogRequestHandler : IRequestHandler<AdminCreateBlogRequest, bool>
+    public class AdminCreateBlogRequestHandler : IRequestHandler<AdminCreateBlogRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -49,15 +47,19 @@ namespace eShopping.Application.Features.Blogs.Commands
             _userProvider = userProvider;
             _mapper = mapper;
         }
-        public async Task<bool> Handle(AdminCreateBlogRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminCreateBlogRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            RequestValidation(request);
-            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).ToListAsync();
-            ThrowError.Against(existedBlogName != null && existedBlogName.Any(), new JObject()
+            if (RequestValidation(request) != null)
             {
-                { $"{nameof(request.Name)}", "This blog name has already existed" },
-            });
+                return RequestValidation(request);
+            }
+            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).ToListAsync();
+
+            if (existedBlogName != null)
+            {
+                return BaseResponseModel.ReturnError("This blog name has already existed");
+            }
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 using var createTransaction = _unitOfWork.BeginTransactionAsync();
@@ -88,15 +90,18 @@ namespace eShopping.Application.Features.Blogs.Commands
                 {
                     // Data will be restored.
                     await createTransaction.Result.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
-        private static void RequestValidation(AdminCreateBlogRequest request)
+        private static BaseResponseModel RequestValidation(AdminCreateBlogRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter Blog name");
-
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return BaseResponseModel.ReturnError("Please enter blog name");
+            }
+            return null;
         }
     }
 }

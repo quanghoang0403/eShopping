@@ -1,25 +1,25 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class AdminGetAllProductsRequest : IRequest<AdminGetAllProductsResponse>
+    public class AdminGetAllProductsRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class AdminGetAllProductsResponse
-    {
-        public IEnumerable<AdminProductModel> Products { get; set; }
-    }
+    //public class AdminGetAllProductsResponse
+    //{
+    //    public IEnumerable<AdminProductModel> Products { get; set; }
+    //}
 
-    public class AdminGetAllProductsRequestHandler : IRequestHandler<AdminGetAllProductsRequest, AdminGetAllProductsResponse>
+    public class AdminGetAllProductsRequestHandler : IRequestHandler<AdminGetAllProductsRequest, BaseResponseModel>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -40,7 +40,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<AdminGetAllProductsResponse> Handle(AdminGetAllProductsRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetAllProductsRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -50,12 +50,7 @@ namespace eShopping.Application.Features.Products.Queries
                 .ProjectTo<AdminProductModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken: cancellationToken);
 
-            var response = new AdminGetAllProductsResponse()
-            {
-                Products = products
-            };
-
-            return response;
+            return BaseResponseModel.ReturnData(products);
         }
     }
 }

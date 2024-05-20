@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Common.Models;
 using eShopping.Interfaces;
 using MediatR;
 using System;
@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminDeleteProductByIdRequest : IRequest<bool>
+    public class AdminDeleteProductByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminDeleteProductByIdRequestHandler : IRequestHandler<AdminDeleteProductByIdRequest, bool>
+    public class AdminDeleteProductByIdRequestHandler : IRequestHandler<AdminDeleteProductByIdRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
@@ -29,18 +29,21 @@ namespace eShopping.Application.Features.Products.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminDeleteProductByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminDeleteProductByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var product = await _unitOfWork.Products.GetProductByIdAsync(request.Id);
-            ThrowError.Against(product == null, "Product is not found");
+            if (product == null)
+            {
+                return BaseResponseModel.ReturnError("Product is not found");
+            }
 
             product.IsDeleted = true;
             product.LastSavedUser = loggedUser.AccountId.Value;
             product.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }

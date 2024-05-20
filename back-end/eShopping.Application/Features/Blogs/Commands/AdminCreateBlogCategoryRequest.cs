@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Commands
 {
-    public class AdminCreateBlogCategoryRequest : IRequest<bool>
+    public class AdminCreateBlogCategoryRequest : IRequest<BaseResponseModel>
     {
         public string Name { get; set; }
 
@@ -39,7 +38,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         public Guid Id { get; set; }
         public int Position { get; set; }
     }
-    public class AdminCreateBlogCategoryRequestHandler : IRequestHandler<AdminCreateBlogCategoryRequest, bool>
+    public class AdminCreateBlogCategoryRequestHandler : IRequestHandler<AdminCreateBlogCategoryRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -55,15 +54,18 @@ namespace eShopping.Application.Features.Blogs.Commands
             _userProvider = userProvider;
             _mapper = mapper;
         }
-        public async Task<bool> Handle(AdminCreateBlogCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminCreateBlogCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            RequestValidation(request);
-            var existedBlogCategoryName = await _unitOfWork.BlogCategories.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
-            ThrowError.Against(existedBlogCategoryName != null, new JObject()
+            if (RequestValidation(request) != null)
             {
-                { $"{nameof(request.Name)}", "This blog category name name has already existed" },
-            });
+                return RequestValidation(request);
+            }
+            var existedBlogCategoryName = await _unitOfWork.BlogCategories.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
+            if (existedBlogCategoryName != null)
+            {
+                return BaseResponseModel.ReturnError("This blog category name name has already existed");
+            }
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
@@ -100,14 +102,18 @@ namespace eShopping.Application.Features.Blogs.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
-        private static void RequestValidation(AdminCreateBlogCategoryRequest request)
+        private static BaseResponseModel RequestValidation(AdminCreateBlogCategoryRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter blog category name");
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return BaseResponseModel.ReturnError("Please enter blog category name");
+            }
+            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using eShopping.Interfaces;
+﻿using eShopping.Common.Models;
+using eShopping.Interfaces;
 using MediatR;
 using System;
 using System.Threading;
@@ -6,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Users.Commands
 {
-    public class DisableAccountRequest : IRequest<bool>
+    public class DisableAccountRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class DisableAccountRequestHandler : IRequestHandler<DisableAccountRequest, bool>
+    public class DisableAccountRequestHandler : IRequestHandler<DisableAccountRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -31,7 +32,7 @@ namespace eShopping.Application.Features.Users.Commands
         /// <param name="request">Data is mapped from the HTTP request.</param>
         /// <param name="cancellationToken">The current thread.</param>
         /// <returns>Boolean</returns>
-        public async Task<bool> Handle(DisableAccountRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(DisableAccountRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = _userProvider.Provide();
             var account = await _unitOfWork.Accounts.GetAccountActivatedByIdAsync(request.Id);
@@ -40,7 +41,7 @@ namespace eShopping.Application.Features.Users.Commands
             account.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
 
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }

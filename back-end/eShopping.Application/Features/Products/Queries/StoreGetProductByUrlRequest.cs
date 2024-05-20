@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using eShopping.Common.Exceptions;
+using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductByUrlRequest : IRequest<StoreProductDetailModel>
+    public class StoreGetProductByUrlRequest : IRequest<BaseResponseModel>
     {
         public string Url { get; set; }
     }
 
-    public class StoreGetProductByUrlRequestHandler : IRequestHandler<StoreGetProductByUrlRequest, StoreProductDetailModel>
+    public class StoreGetProductByUrlRequestHandler : IRequestHandler<StoreGetProductByUrlRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -35,7 +35,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<StoreProductDetailModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
         {
             //request.Url = "string";
             //List<StoreProductPriceModel> productPrices = new()
@@ -94,6 +94,10 @@ namespace eShopping.Application.Features.Products.Queries
                 .Include(p => p.ProductInCategories)
                 .ProjectTo<StoreProductDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            if (productData == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot find product detail information");
+            }
             var productIncategory = await _unitOfWork.ProductInCategories.Where(p => p.ProductId == productData.Id).Include(p => p.ProductCategory).FirstOrDefaultAsync();
             productData.ProductCategory = new StoreProductCategoryModel
             {
@@ -102,7 +106,7 @@ namespace eShopping.Application.Features.Products.Queries
                 UrlSEO = productIncategory.ProductCategory.UrlSEO,
                 IsShowOnHome = productIncategory.ProductCategory.IsShowOnHome
             };
-            ThrowError.Against(productData == null, "Cannot find product detail information");
+
             var images = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
             //var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(productData.Id).FirstOrDefaultAsync();
             //productData.ProductCategory = new StoreProductCategoryModel()
@@ -129,7 +133,7 @@ namespace eShopping.Application.Features.Products.Queries
             //    Description = "Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY.XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn.Everyday carry +1 seitan poutine tumeric.Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.",
             //};
 
-            return productData;
+            return BaseResponseModel.ReturnData(productData);
         }
     }
 }

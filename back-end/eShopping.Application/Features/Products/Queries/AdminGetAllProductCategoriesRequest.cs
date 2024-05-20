@@ -1,4 +1,5 @@
 using AutoMapper;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
@@ -10,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class AdminGetAllProductCategoriesRequest : IRequest<AdminGetAllProductCategoriesResponse>
+    public class AdminGetAllProductCategoriesRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class AdminGetAllProductCategoriesResponse
-    {
-        public IEnumerable<AdminProductCategoryModel> AllProductCategories { get; set; }
-    }
+    //public class AdminGetAllProductCategoriesResponse
+    //{
+    //    public IEnumerable<AdminProductCategoryModel> AllProductCategories { get; set; }
+    //}
 
-    public class AdminGetAllProductCategoriesRequestHandler : IRequestHandler<AdminGetAllProductCategoriesRequest, AdminGetAllProductCategoriesResponse>
+    public class AdminGetAllProductCategoriesRequestHandler : IRequestHandler<AdminGetAllProductCategoriesRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -38,7 +39,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<AdminGetAllProductCategoriesResponse> Handle(AdminGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -57,12 +58,7 @@ namespace eShopping.Application.Features.Products.Queries
                     .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);
 
-            var response = new AdminGetAllProductCategoriesResponse()
-            {
-                AllProductCategories = allProductCategoriesInStore
-            };
-
-            return response;
+            return BaseResponseModel.ReturnData(allProductCategoriesInStore);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using eShopping.Common.Exceptions;
+﻿using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Commands
 {
-    public class AdminUpdateBlogByBlogCategoryRequest : IRequest<bool>
+    public class AdminUpdateBlogByBlogCategoryRequest : IRequest<BaseResponseModel>
     {
         public Guid BlogCategoryId { get; set; }
         public IEnumerable<Guid> BlogIds { get; set; }
     }
-    public class AdminUpdateBlogByBlogCategoryRequestHandler : IRequestHandler<AdminUpdateBlogByBlogCategoryRequest, bool>
+    public class AdminUpdateBlogByBlogCategoryRequestHandler : IRequestHandler<AdminUpdateBlogByBlogCategoryRequest, BaseResponseModel>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -31,11 +31,14 @@ namespace eShopping.Application.Features.Blogs.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(AdminUpdateBlogByBlogCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateBlogByBlogCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategory = await _unitOfWork.BlogCategories.Where(bc => bc.Id == request.BlogCategoryId).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(blogCategory == null, "No blog category is found");
+            if (blogCategory == null)
+            {
+                return BaseResponseModel.ReturnError("No blog category is found");
+            }
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
@@ -72,9 +75,9 @@ namespace eShopping.Application.Features.Blogs.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
     }

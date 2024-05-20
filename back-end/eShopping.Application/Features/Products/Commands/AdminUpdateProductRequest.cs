@@ -1,6 +1,6 @@
 using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Commands
 {
-    public class AdminUpdateProductRequest : IRequest<bool>
+    public class AdminUpdateProductRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -48,7 +48,7 @@ namespace eShopping.Application.Features.Products.Commands
 
     }
 
-    public class AdminUpdateProductRequestHandler : IRequestHandler<AdminUpdateProductRequest, bool>
+    public class AdminUpdateProductRequestHandler : IRequestHandler<AdminUpdateProductRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
@@ -69,17 +69,22 @@ namespace eShopping.Application.Features.Products.Commands
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(AdminUpdateProductRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateProductRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            RequestValidation(request);
+            if (RequestValidation(request) != null)
+            {
+                return RequestValidation(request);
+            }
 
             var productId = request.Id;
 
             // Check product name duplicate before handle update
             var productNameExisted = await _unitOfWork.Products.GetAll().AnyAsync(p => p.Id != productId && p.Name.Trim().ToLower() == request.Name.Trim().ToLower());
-            ThrowError.Against(productNameExisted, "Product name existed");
-
+            if (productNameExisted != null)
+            {
+                return BaseResponseModel.ReturnError("Product name existed");
+            }
             // Handle update product
             var updateProductModel = _mapper.Map<Product>(request);
             updateProductModel.LastSavedUser = loggedUser.AccountId.Value;
@@ -87,19 +92,44 @@ namespace eShopping.Application.Features.Products.Commands
             updateProductModel.UrlSEO = StringHelpers.UrlEncode(updateProductModel.Name);
 
             var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel, request.ProductCategoryIds);
-            ThrowError.Against(updateProductResult == null, "Cannot update this product.");
-
-            return true;
+            if (updateProductResult == null)
+            {
+                return BaseResponseModel.ReturnError("Cannot update this product.");
+            }
+            return BaseResponseModel.ReturnData();
         }
 
-        private static void RequestValidation(AdminUpdateProductRequest request)
+        private static BaseResponseModel RequestValidation(AdminUpdateProductRequest request)
         {
-            ThrowError.Against(string.IsNullOrEmpty(request.Name), "Please enter product name");
-            ThrowError.Against(!request.ProductPrices.Any(), "Please enter product price");
-            ThrowError.Against(request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)), "Please enter product name");
-            ThrowError.Against(request.ProductPrices.Any(p => p.PriceValue <= 0), "Please enter product price");
-            ThrowError.Against(request.ProductPrices.Any(p => p.PriceOriginal <= 0), "Please enter product price");
-            ThrowError.Against(request.ProductPrices.Any(p => p.PriceOriginal > p.PriceValue), "PriceOriginal must less than PriceValue");
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return BaseResponseModel.ReturnError("Please enter product name");
+            }
+            else if (!request.ProductPrices.Any())
+            {
+                return BaseResponseModel.ReturnError("Please enter product price");
+            }
+            else if (request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)))
+            {
+                return BaseResponseModel.ReturnError("Please enter product price name");
+            }
+            else if (request.ProductPrices.Any(p => p.PriceValue <= 0))
+            {
+                return BaseResponseModel.ReturnError("Price value must greater than 0");
+            }
+            else if (request.ProductPrices.Any(p => p.PriceOriginal <= 0))
+            {
+                return BaseResponseModel.ReturnError("Price original must greater than 0");
+            }
+            else if (request.ProductPrices.Any(p => p.PriceOriginal > p.PriceValue))
+            {
+                return BaseResponseModel.ReturnError("PriceOriginal must less than PriceValue");
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }

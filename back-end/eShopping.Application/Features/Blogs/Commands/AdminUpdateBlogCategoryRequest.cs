@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using eShopping.Common.Exceptions;
 using eShopping.Common.Helpers;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Blogs.Commands
 {
-    public class AdminUpdateBlogCategoryRequest : IRequest<bool>
+    public class AdminUpdateBlogCategoryRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
 
@@ -42,7 +42,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         public Guid Id { get; set; }
         public int Position { get; set; }
     }
-    public class AdminUpdateBlogCategoryRequestHandler : IRequestHandler<AdminUpdateBlogCategoryRequest, bool>
+    public class AdminUpdateBlogCategoryRequestHandler : IRequestHandler<AdminUpdateBlogCategoryRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
@@ -58,14 +58,22 @@ namespace eShopping.Application.Features.Blogs.Commands
             _userProvider = userProvider;
             _mapper = mapper;
         }
-        public async Task<bool> Handle(AdminUpdateBlogCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminUpdateBlogCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategory = await _unitOfWork.BlogCategories.Where(bc => bc.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(blogCategory == null, "No blog category is found");
+            if (blogCategory == null)
+            {
+                return BaseResponseModel.ReturnError("No blog category is found");
+            }
+
             var blogCategoryNameExisted = await _unitOfWork.BlogCategories
                 .Where(bc => bc.Id != request.Id && bc.Name.ToLower().Trim().Equals(request.Name.Trim().ToLower())).AsNoTracking().FirstOrDefaultAsync();
-            ThrowError.Against(blogCategoryNameExisted != null, "Blog category name has already existed");
+            if (blogCategoryNameExisted != null)
+            {
+                return BaseResponseModel.ReturnError("Blog category name has already existed");
+            }
+
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
@@ -103,9 +111,9 @@ namespace eShopping.Application.Features.Blogs.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    return false;
+                    return BaseResponseModel.ReturnError(ex.Message);
                 }
-                return true;
+                return BaseResponseModel.ReturnData();
             });
         }
     }

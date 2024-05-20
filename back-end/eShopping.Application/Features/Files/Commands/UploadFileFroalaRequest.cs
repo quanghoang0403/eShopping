@@ -1,13 +1,13 @@
 ﻿using eShopping.Common.Constants;
+using eShopping.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Files.Commands
 {
-    public class UploadFileFroalaRequest : IRequest<UploadFileFroalaResponse>
+    public class UploadFileFroalaRequest : IRequest<BaseResponseModel>
     {
         public UploadFileFroalaRequest()
         {
@@ -31,7 +31,7 @@ namespace eShopping.Application.Features.Files.Commands
         }
     }
 
-    public class UploadFileFroalaRequestHandler : IRequestHandler<UploadFileFroalaRequest, UploadFileFroalaResponse>
+    public class UploadFileFroalaRequestHandler : IRequestHandler<UploadFileFroalaRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
 
@@ -40,15 +40,15 @@ namespace eShopping.Application.Features.Files.Commands
             _mediator = mediator;
         }
 
-        public async Task<UploadFileFroalaResponse> Handle(UploadFileFroalaRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(UploadFileFroalaRequest request, CancellationToken cancellationToken)
         {
             var uploadFileRequest = new UploadFileRequest { File = request.File, FileName = request.FileName, FileSizeLimit = request.FileSizeLimit };
             var response = await _mediator.Send(uploadFileRequest);
             if (response != null)
             {
-                return new UploadFileFroalaResponse(response.Link);
+                return BaseResponseModel.ReturnData(new UploadFileFroalaResponse(response.Data.Link));
             }
-            throw new Exception("cannot.upload.image");
+            return BaseResponseModel.ReturnError("cannot.upload.image");
         }
     }
 }
