@@ -106,7 +106,7 @@ namespace eShopping.Application.Features.Users.Commands
             {
                 Token = accessToken,
                 RefreshToken = newRefreshToken,
-                Permissions = permissions.Permissions
+                Permissions = permissions.Data
             });
         }
     }

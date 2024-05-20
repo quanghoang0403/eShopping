@@ -1,20 +1,20 @@
 using AutoMapper;
+using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetAllProductCategoriesRequest : IRequest<IEnumerable<StoreProductCategoryModel>>
+    public class StoreGetAllProductCategoriesRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class StoreGetAllProductCategoriesRequestHandler : IRequestHandler<StoreGetAllProductCategoriesRequest, IEnumerable<StoreProductCategoryModel>>
+    public class StoreGetAllProductCategoriesRequestHandler : IRequestHandler<StoreGetAllProductCategoriesRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -33,7 +33,7 @@ namespace eShopping.Application.Features.Products.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<IEnumerable<StoreProductCategoryModel>> Handle(StoreGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
@@ -49,7 +49,7 @@ namespace eShopping.Application.Features.Products.Queries
                         IsShowOnHome = p.IsShowOnHome
                     })
                     .ToListAsync(cancellationToken: cancellationToken);
-            return allProductCategoriesInStore;
+            return BaseResponseModel.ReturnData(allProductCategoriesInStore);
         }
     }
 }

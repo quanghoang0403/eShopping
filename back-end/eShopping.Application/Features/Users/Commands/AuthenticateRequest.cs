@@ -111,7 +111,7 @@ namespace eShopping.Application.Features.Users.Commands
             {
                 Token = token,
                 RefreshToken = refreshToken,
-                Permissions = permissions?.Permissions
+                Permissions = permissions?.Data
             };
 
             return BaseResponseModel.ReturnData(response);

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.POS.Application.Features.Payments.Commands
 {
-    public class MomoIpnRequest : IRequest<bool>
+    public class MomoIpnRequest : IRequest<BaseResponseModel>
     {
         public string PartnerCode { get; set; }
 
@@ -40,7 +40,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
         public string Signature { get; set; }
     }
 
-    public class MomoIpnRequestHandler : IRequestHandler<MomoIpnRequest, bool>
+    public class MomoIpnRequestHandler : IRequestHandler<MomoIpnRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
@@ -53,7 +53,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(MomoIpnRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(MomoIpnRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = new LoggedUserModel();
 
@@ -69,17 +69,17 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 bool signatureIsValid = true;
                 if (!signatureIsValid)
                 {
-                    return false;
+                    return BaseResponseModel.ReturnError("Signature is not valid");
                 }
 
                 if (order.OrderPaymentStatusId == EnumOrderPaymentStatus.Paid && orderTransaction.IsSuccess)
                 {
-                    return false;
+                    return BaseResponseModel.ReturnError("Order is paid");
                 }
 
                 if (request.Amount != order.TotalAmount)
                 {
-                    return false;
+                    return BaseResponseModel.ReturnError("Request amount is not valid");
                 }
 
                 DateTime lastTime = DateTime.Now;
@@ -104,11 +104,11 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                     ActionType = paymentHasBeenCompleted ? EnumOrderActionType.PAID_SUCCESSFULLY : EnumOrderActionType.PAID_FAILED
                 };
                 _unitOfWork.OrderHistories.Add(orderHistoryAddModel);
-                return true;
+                return BaseResponseModel.ReturnData();
             }
             else
             {
-                return true;
+                return BaseResponseModel.ReturnData();
             }
         }
     }

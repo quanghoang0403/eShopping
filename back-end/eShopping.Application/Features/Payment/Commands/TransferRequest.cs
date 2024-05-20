@@ -1,5 +1,4 @@
-﻿using eShopping.Common.Exceptions;
-using eShopping.Common.Models;
+﻿using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
@@ -10,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.POS.Application.Features.Payments.Commands
 {
-    public class TransferRequest : IRequest<bool>
+    public class TransferRequest : IRequest<BaseResponseModel>
     {
         public int OrderCode { get; set; }
     }
 
-    public class TransferRequestHandler : IRequestHandler<TransferRequest, bool>
+    public class TransferRequestHandler : IRequestHandler<TransferRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
@@ -28,7 +27,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<bool> Handle(TransferRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(TransferRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = new LoggedUserModel();
 
@@ -37,8 +36,10 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 .Where(o => o.Id == orderTransaction.OrderId)
                 .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
-            ThrowError.Against(order == null || orderTransaction == null, "Not found order");
+            if (order == null)
+            {
+                return BaseResponseModel.ReturnError("No order is found");
+            }
 
             DateTime lastTime = DateTime.Now;
             order.OrderPaymentStatusId = EnumOrderPaymentStatus.WaitingForConfirm;
@@ -49,7 +50,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
             orderTransaction.IsSuccess = true;
             orderTransaction.LastSavedTime = lastTime;
             await _unitOfWork.OrderPaymentTransactions.UpdateAsync(orderTransaction);
-            return true;
+            return BaseResponseModel.ReturnData();
         }
     }
 }

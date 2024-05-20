@@ -1,4 +1,5 @@
-﻿using eShopping.Domain.Enums;
+﻿using eShopping.Common.Models;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Payment.PayOS;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eShopping.POS.Application.Features.Payments.Commands
 {
-    public class PayOSIpnRequest : IRequest<PayOSIpnResponse>
+    public class PayOSIpnRequest : IRequest<BaseResponseModel>
     {
         public string code { get; set; }
         public string desc { get; set; }
@@ -24,7 +25,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
         public bool Success { get; set; }
     }
 
-    public class PayOSIpnRequestHandler : IRequestHandler<PayOSIpnRequest, PayOSIpnResponse>
+    public class PayOSIpnRequestHandler : IRequestHandler<PayOSIpnRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         public readonly IHttpContextAccessor _httpContext;
@@ -48,7 +49,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
         /// <param name="request">The HTTP data</param>
         /// <param name="cancellationToken">The current thread.</param>
         /// <returns></returns>
-        public async Task<PayOSIpnResponse> Handle(PayOSIpnRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(PayOSIpnRequest request, CancellationToken cancellationToken)
         {
             string urlForDebugging = _httpContext.HttpContext?.Request?.QueryString.Value;
 
@@ -60,7 +61,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
             if (orderTransaction == null)
             {
                 res.Success = false;
-                return res;
+                return BaseResponseModel.ReturnData(res);
             }
 
             // Find order in the database by the order code
@@ -75,17 +76,17 @@ namespace eShopping.POS.Application.Features.Payments.Commands
 
                 if (!signatureIsValid)
                 {
-                    return res;
+                    return BaseResponseModel.ReturnData(res);
                 }
 
                 if (order.OrderPaymentStatusId == EnumOrderPaymentStatus.Paid && orderTransaction.IsSuccess)
                 {
-                    return res;
+                    return BaseResponseModel.ReturnData(res);
                 }
 
                 if (request.data.amount != order.TotalAmount)
                 {
-                    return res;
+                    return BaseResponseModel.ReturnData(res);
                 }
 
                 DateTime lastTime = DateTime.Now;
@@ -119,7 +120,7 @@ namespace eShopping.POS.Application.Features.Payments.Commands
                 res.Success = false;
             }
 
-            return res;
+            return BaseResponseModel.ReturnData(res);
         }
     }
 
