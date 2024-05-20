@@ -25,19 +25,20 @@
                 Code = EnumStatusCodeReturn.Success,
                 Title = title,
                 Message = message,
-                Data = data
+                Data = data ?? true
             };
             return res;
         }
 
-        public static BaseResponseModel ReturnError(string errorMessage = "", string message = "", string title = "")
+        public static BaseResponseModel ReturnError(string message = "", string errorMessage = "", string title = "")
         {
             var res = new BaseResponseModel
             {
                 Code = EnumStatusCodeReturn.Error,
                 Title = title,
-                Message = errorMessage ?? message,
-                ErrorMessage = message
+                Message = message,
+                ErrorMessage = errorMessage,
+                Data = false
             };
             return res;
         }

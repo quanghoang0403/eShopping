@@ -29,9 +29,10 @@ const refreshToken = async () => {
   if (refreshToken && token) {
     try {
       const response = await axios.post(`${env.REACT_APP_ROOT_DOMAIN}/authenticate/refresh-token`, { token, refreshToken })
-      if (response.data) {
-        if (response.data?.permissions?.length > 0) {
-          setStorageToken(response.data)
+      const result = response.data;
+      if (result && result.data) {
+        if (result.data.permissions?.length > 0) {
+          setStorageToken(result.data.token)
         } else {
           message.error("Permission Denied")
         }
@@ -75,7 +76,11 @@ http.interceptors.response.use(
     }
 
     if (response.status === 200) {
-      return response?.data
+      if (response?.data.code != 0) {
+        message.error(response?.data.message)
+        console.log(response?.data.errorMessage ?? response?.data.message);
+      }
+      return response?.data?.data
     }
 
     return response
