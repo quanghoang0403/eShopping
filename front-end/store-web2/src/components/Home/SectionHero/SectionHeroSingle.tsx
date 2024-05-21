@@ -11,10 +11,6 @@ export interface SectionHeroSingleProps {
 }
 
 const SectionHeroSingle: FC<SectionHeroSingleProps> = ({ className = '' }) => {
-  const fetchData = async () => {
-    const res = await ProductService.getProductByUrl('323')
-    console.log(res)
-  }
   return (
     <div className={`nc-SectionHeroSingle relative ${className}`} data-nc-id="SectionHeroSingle">
       <div className="relative pt-8 lg:pt-0 lg:absolute z-10 inset-x-0 top-[10%] sm:top-[20%]  container">
@@ -22,7 +18,7 @@ const SectionHeroSingle: FC<SectionHeroSingleProps> = ({ className = '' }) => {
           <span className="sm:text-lg md:text-xl font-semibold text-neutral-900">In this season, find the best 🔥</span>
           <h2 className="font-bold text-black text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl !leading-[115%] ">Sports equipment collection.</h2>
           <div className="sm:pt-4">
-            <ButtonPrimary onClick={fetchData} sizeClass="px-6 py-3 lg:px-8 lg:py-4" fontSize="text-sm sm:text-base lg:text-lg font-medium">
+            <ButtonPrimary sizeClass="px-6 py-3 lg:px-8 lg:py-4" fontSize="text-sm sm:text-base lg:text-lg font-medium">
               Start your search
             </ButtonPrimary>
           </div>

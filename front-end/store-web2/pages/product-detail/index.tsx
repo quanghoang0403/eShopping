@@ -55,7 +55,6 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
     const res = await ProductService.getProductByUrl('323')
     debugger
     //const res = await ProductService.getProductByUrl(slug as string);
-    const productDetail = res as IProductDetail
     // const productHighlightRequestModel: IGetProductsRequest = {
     //   pageNumber: 0,
     //   pageSize: PageSizeConstants.Default,
@@ -69,7 +68,7 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
     // const productHighlight: IProduct[] = productHighlightRequest?.data?.products
     return {
       props: {
-        productDetail: productDetail,
+        productDetail: res,
         //productHighLight: productHighlight,
       },
     }
