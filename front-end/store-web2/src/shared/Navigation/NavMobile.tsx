@@ -1,15 +1,15 @@
 'use client'
 
 import React from 'react'
-import ButtonClose from '@/shared/ButtonClose/ButtonClose'
-import Logo from '@/shared/Logo/Logo'
+import ButtonClose from '@/shared/Button/ButtonClose'
+import Logo from '@/shared/Logo'
 import { Disclosure } from '@headlessui/react'
 import { NavItemType } from './NavigationItem'
 import { NAVIGATION_DEMO } from '@/data/navigation'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import SocialsListHorizontal from '@/shared/SocialsList/SocialsListHorizontal'
+import SocialsListHorizontal from '@/shared/SocialsList'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
-import SwitchDarkMode from '@/shared/SwitchDarkMode/SwitchDarkMode'
+import SwitchDarkMode from '@/shared/SwitchDarkMode'
 import Link from 'next/link'
 
 export interface NavMobileProps {

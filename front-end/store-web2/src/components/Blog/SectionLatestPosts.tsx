@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import Heading from '@/shared/Heading/Heading'
-import Pagination from '@/shared/Pagination/Pagination'
+import Heading from '@/shared/Heading'
+import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import WidgetCategories from './WidgetCategories'
 import WidgetPosts from './WidgetPosts'

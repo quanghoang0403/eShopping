@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/24/solid'
 import React, { FC, Fragment } from 'react'
-import ButtonClose from '@/shared/ButtonClose/ButtonClose'
+import ButtonClose from '@/shared/Button/ButtonClose'
 import ReviewItem from '@/components/Product/Review/ReviewItem'
 import SortOrderFilter from '@/shared/Filter/SortOrderFilter'
 

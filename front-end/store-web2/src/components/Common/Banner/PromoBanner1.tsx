@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
+import NcImage from '@/shared/NcImage'
 import rightImgDemo from '@/images/rightLargeImg.png'
 import rightLargeImgDark from '@/images/rightLargeImgDark.png'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import Logo from '@/shared/Logo/Logo'
+import Logo from '@/shared/Logo'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 
 export interface PromoBanner1Props {

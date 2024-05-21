@@ -1,4 +1,4 @@
-import Price from '@/shared/Price/Price'
+import Price from '@/shared/Price'
 import { PRODUCTS } from '@/data/data'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import Image from 'next/image'

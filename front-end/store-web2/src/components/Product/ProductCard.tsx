@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from 'react'
 import LikeButton from './LikeButton'
-import Price from '@/shared/Price/Price'
+import Price from '@/shared/Price'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import { Product, PRODUCTS } from '@/data/data'
 import { StarIcon } from '@heroicons/react/24/solid'
@@ -16,7 +16,7 @@ import ProductStatus from './ProductStatus'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import NcImage from '@/shared/NcImage/NcImage'
+import NcImage from '@/shared/NcImage'
 
 export interface ProductCardProps {
   className?: string

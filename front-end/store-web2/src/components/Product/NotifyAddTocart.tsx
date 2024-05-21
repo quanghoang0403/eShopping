@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Transition } from '@headlessui/react'
-import Price from '@/shared/Price/Price'
+import Price from '@/shared/Price'
 import { PRODUCTS } from '@/data/data'
 import Image, { StaticImageData } from 'next/image'
 

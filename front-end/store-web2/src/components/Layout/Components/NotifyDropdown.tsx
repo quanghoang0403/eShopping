@@ -1,27 +1,27 @@
-import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import Avatar from "@/shared/Avatar/Avatar";
+import { Popover, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
+import Avatar from '@/shared/Avatar'
 
 const solutions = [
   {
-    name: "Eden Tuan",
-    description: "Measure actions your users take",
-    time: "3 minutes ago",
-    href: "##",
+    name: 'Eden Tuan',
+    description: 'Measure actions your users take',
+    time: '3 minutes ago',
+    href: '##',
   },
   {
-    name: "Leo Messi",
-    description: "Create your own targeted content",
-    time: "1 minute ago",
-    href: "##",
+    name: 'Leo Messi',
+    description: 'Create your own targeted content',
+    time: '1 minute ago',
+    href: '##',
   },
   {
-    name: "Leo Kante",
-    description: "Keep track of your growth",
-    time: "3 minutes ago",
-    href: "##",
+    name: 'Leo Kante',
+    description: 'Keep track of your growth',
+    time: '3 minutes ago',
+    href: '##',
   },
-];
+]
 
 export default function NotifyDropdown() {
   return (
@@ -31,18 +31,12 @@ export default function NotifyDropdown() {
           <>
             <Popover.Button
               className={`
-                ${open ? "" : "text-opacity-90"}
+                ${open ? '' : 'text-opacity-90'}
                  group w-12 h-12 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 relative`}
             >
               <span className="w-2 h-2 bg-blue-500 absolute top-2 right-2 rounded-full"></span>
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 6.43994V9.76994"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                />
+                <path d="M12 6.43994V9.76994" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" />
                 <path
                   d="M12.02 2C8.34002 2 5.36002 4.98 5.36002 8.66V10.76C5.36002 11.44 5.08002 12.46 4.73002 13.04L3.46002 15.16C2.68002 16.47 3.22002 17.93 4.66002 18.41C9.44002 20 14.61 20 19.39 18.41C20.74 17.96 21.32 16.38 20.59 15.16L19.32 13.04C18.97 12.46 18.69 11.43 18.69 10.76V8.66C18.68 5 15.68 2 12.02 2Z"
                   stroke="currentColor"
@@ -79,15 +73,9 @@ export default function NotifyDropdown() {
                       >
                         <Avatar sizeClass="w-8 h-8 sm:w-12 sm:h-12" />
                         <div className="ml-3 sm:ml-4 space-y-1">
-                          <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
-                            {item.name}
-                          </p>
-                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            {item.description}
-                          </p>
-                          <p className="text-xs text-gray-400 dark:text-gray-400">
-                            {item.time}
-                          </p>
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-200">{item.name}</p>
+                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-400">{item.time}</p>
                         </div>
                         <span className="absolute right-1 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-blue-500"></span>
                       </a>
@@ -100,5 +88,5 @@ export default function NotifyDropdown() {
         )}
       </Popover>
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
 import PostCardMeta from '@/components/Blog/PostCardMeta'
 import { _getImgRd, _getTitleRd } from '@/constants/fakeData'
 import React, { FC } from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
+import NcImage from '@/shared/NcImage'
 import Link from 'next/link'
 
 export interface Card3SmallProps {

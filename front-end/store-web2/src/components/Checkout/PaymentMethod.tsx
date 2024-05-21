@@ -4,8 +4,8 @@ import Label from '@/shared/Label/Label'
 import React, { FC, useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
-import Input from '@/shared/Input/Input'
-import Radio from '@/shared/Radio/Radio'
+import Input from '@/shared/Input'
+import Radio from '@/shared/Radio'
 
 interface Props {
   isActive: boolean

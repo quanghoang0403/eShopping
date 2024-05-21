@@ -1,4 +1,4 @@
-import Logo from '@/shared/Logo/Logo'
+import Logo from '@/shared/Logo'
 import SocialsListVertical from '@/shared/SocialsList/SocialsListVertical'
 import { CustomLink } from '@/data/types'
 import React from 'react'

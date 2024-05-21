@@ -1,7 +1,7 @@
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import React from "react";
-import I404Png from "@/images/404.png";
-import NcImage from "@/shared/NcImage/NcImage";
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import React from 'react'
+import I404Png from '@/images/404.png'
+import NcImage from '@/shared/NcImage'
 
 const Custom404 = () => (
   <div className="nc-Page404">
@@ -18,6 +18,6 @@ const Custom404 = () => (
       </header>
     </div>
   </div>
-);
+)
 
-export default Custom404;
+export default Custom404

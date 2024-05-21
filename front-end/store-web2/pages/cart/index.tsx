@@ -1,6 +1,6 @@
 import { NoSymbolIcon, CheckIcon } from '@heroicons/react/24/outline'
-import NcInputNumber from '@/shared/NcInputNumber/NcInputNumber'
-import Price from '@/shared/Price/Price'
+import NcInputNumber from '@/shared/NcInputNumber'
+import Price from '@/shared/Price'
 import { Product, PRODUCTS } from '@/data/data'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Image from 'next/image'

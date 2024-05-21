@@ -1,6 +1,6 @@
-import Heading from '@/shared/Heading/Heading'
+import Heading from '@/shared/Heading'
 import React from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
+import NcImage from '@/shared/NcImage'
 
 export interface People {
   id: string

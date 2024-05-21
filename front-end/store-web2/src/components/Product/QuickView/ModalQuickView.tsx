@@ -2,7 +2,7 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import React, { FC, Fragment } from 'react'
-import ButtonClose from '@/shared/ButtonClose/ButtonClose'
+import ButtonClose from '@/shared/Button/ButtonClose'
 import ProductQuickView from './ProductQuickView'
 import { usePathname } from 'next/navigation'
 

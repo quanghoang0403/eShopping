@@ -1,11 +1,11 @@
 'use client'
 
 import React, { FC, useEffect, useId, useRef, useState } from 'react'
-import Heading from '@/shared/Heading/Heading'
+import Heading from '@/shared/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
 import CollectionCard from './components/CollectionCard'
-import Nav from '@/shared/Nav/Nav'
+import Nav from '@/shared/Nav'
 import Next from '@/shared/NextPrev/Next'
 import Prev from '@/shared/NextPrev/Prev'
 import full1Img from '@/images/products/full1.png'
@@ -23,7 +23,7 @@ import full31Img from '@/images/products/full3-1.png'
 import full32Img from '@/images/products/full3-2.png'
 import full33Img from '@/images/products/full3-3.png'
 import Link from 'next/link'
-import NavItem from '@/shared/NavItem/NavItem'
+import NavItem from '@/shared/NavItem'
 
 export interface LargeProductList2Props {
   className?: string

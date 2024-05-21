@@ -1,7 +1,7 @@
 'use client'
 import { FC, useEffect, useState } from 'react'
 import { Switch } from '@headlessui/react'
-import Label from '../Label/Label'
+import Label from '../Label'
 
 export interface MySwitchProps {
   enabled?: boolean

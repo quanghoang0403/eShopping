@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
-import Badge from '@/shared/Badge/Badge'
+import NcImage from '@/shared/NcImage'
+import Badge from '@/shared/Badge'
 import { _getImgRd, _getTagNameRd, _getTitleRd } from '@/constants/fakeData'
 import PostCardMeta from '@/components/Blog/PostCardMeta'
 import Link from 'next/link'

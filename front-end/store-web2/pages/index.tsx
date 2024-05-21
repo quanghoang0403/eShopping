@@ -1,7 +1,7 @@
 import React from 'react'
 import SectionHowItWork from '@/components/Home/SectionHowItWork'
 import BackgroundSection from '@/shared/Background/BackgroundSection'
-import Heading from '@/shared/Heading/Heading'
+import Heading from '@/shared/Heading'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import { PRODUCTS, SPORT_PRODUCTS } from '@/data/data'
 import SEO from '@/components/Layout/SEO'

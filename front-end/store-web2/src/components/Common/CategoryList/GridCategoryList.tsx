@@ -1,13 +1,13 @@
 'use client'
 
 import React, { FC, useState } from 'react'
-import Heading from '@/shared/Heading/Heading'
-import Nav from '@/shared/Nav/Nav'
+import Heading from '@/shared/Heading'
+import Nav from '@/shared/Nav'
 import { DEMO_MORE_EXPLORE_DATA, ExploreType } from './data'
 import CardCategory4 from '@/shared/CardCategory/CardCategory4'
 import CardCategory6 from '@/shared/CardCategory/CardCategory6'
 import CardCategory1 from '@/shared/CardCategory/CardCategory1'
-import NavItem from '@/shared/NavItem/NavItem'
+import NavItem from '@/shared/NavItem'
 
 export interface GridCategoryListProps {
   className?: string

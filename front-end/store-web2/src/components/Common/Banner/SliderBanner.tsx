@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useId, useRef, useState } from 'react'
-import Heading from '../../../shared/Heading/Heading'
+import Heading from '../../../shared/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
 import { CATS_DISCOVER } from '@/shared/CardCategory/data'

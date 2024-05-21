@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
+import NcImage from '@/shared/NcImage'
 import { _getImgRd, _getTitleRd } from '@/constants/fakeData'
 import PostCardMeta from '@/components/Blog/PostCardMeta'
 import Link from 'next/link'

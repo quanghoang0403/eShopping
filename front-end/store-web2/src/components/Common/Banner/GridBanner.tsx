@@ -1,5 +1,5 @@
 import React from 'react'
-import Heading from '../../../shared/Heading/Heading'
+import Heading from '../../../shared/Heading'
 import img1 from '@/images/discover-more-1.png'
 import img2 from '@/images/discover-more-2.png'
 import img3 from '@/images/discover-more-3.png'

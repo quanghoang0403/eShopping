@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
-import SocialsShare from '@/shared/SocialsShare/SocialsShare'
+import NcImage from '@/shared/NcImage'
+import SocialsShare from '@/shared/SocialsShare'
 import { imgHigtQualitys, _getTitleRd } from '@/constants/fakeData'
 import PostCardMeta from '@/components/Blog/PostCardMeta'
 import Link from 'next/link'

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import Pagination from '@/shared/Pagination/Pagination'
+import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import SectionSliderCollections from '@/components/ProductList/LargeProductList'
 import ProductCard from '@/components/Product/ProductCard'

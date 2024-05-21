@@ -2,8 +2,8 @@ import Label from '@/shared/Label/Label'
 import React, { FC } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
-import Checkbox from '@/shared/Checkbox/Checkbox'
-import Input from '@/shared/Input/Input'
+import Checkbox from '@/shared/Checkbox'
+import Input from '@/shared/Input'
 
 interface Props {
   isActive: boolean

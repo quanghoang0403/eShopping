@@ -1,7 +1,7 @@
 'use client'
 
 import React, { FC, useEffect, useId, useRef, useState } from 'react'
-import Heading from '@/shared/Heading/Heading'
+import Heading from '@/shared/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
 import Link from 'next/link'

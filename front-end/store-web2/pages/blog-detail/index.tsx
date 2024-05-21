@@ -1,16 +1,16 @@
-import React from "react";
-import Avatar from "@/shared/Avatar/Avatar";
-import Badge from "@/shared/Badge/Badge";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import Comment from "@/shared/Comment/Comment";
-import NcImage from "@/shared/NcImage/NcImage";
-import SocialsListHorizontal from "@/shared/SocialsList/SocialsListHorizontal";
-import Textarea from "@/shared/Textarea/Textarea";
-import { _getImgRd, _getPersonNameRd, _getTitleRd } from "@/constants/fakeData";
-import Tag from "@/shared/Tag/Tag";
-import Image from "next/image";
-import Link from "next/link";
+import React from 'react'
+import Avatar from '@/shared/Avatar'
+import Badge from '@/shared/Badge'
+import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import ButtonSecondary from '@/shared/Button/ButtonSecondary'
+import Comment from '@/shared/Comment'
+import NcImage from '@/shared/NcImage'
+import SocialsListHorizontal from '@/shared/SocialsList'
+import Textarea from '@/shared/Textarea'
+import { _getImgRd, _getPersonNameRd, _getTitleRd } from '@/constants/fakeData'
+import Tag from '@/shared/Tag'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const BlogDetail = () => {
   const renderHeader = () => {
@@ -25,18 +25,14 @@ const BlogDetail = () => {
             Keep up the spirit of the desire to travel around the world
           </h1>
           <span className="block text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1">
-            We’re an online magazine dedicated to covering the best in
-            international product design. We started as a little blog back in
-            2002 covering student work and over time
+            We’re an online magazine dedicated to covering the best in international product design. We started as a little blog back in 2002 covering student
+            work and over time
           </span>
 
           <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
           <div className="flex flex-col items-center sm:flex-row sm:justify-between">
             <div className="nc-PostMeta2 flex items-center flex-wrap text-neutral-700 text-left dark:text-neutral-200 text-sm leading-none flex-shrink-0">
-              <Avatar
-                containerClassName="flex-shrink-0"
-                sizeClass="w-8 h-8 sm:h-11 sm:w-11 "
-              />
+              <Avatar containerClassName="flex-shrink-0" sizeClass="w-8 h-8 sm:h-11 sm:w-11 " />
               <div className="ml-3">
                 <div className="flex items-center">
                   <a className="block font-semibold" href="##">
@@ -44,13 +40,9 @@ const BlogDetail = () => {
                   </a>
                 </div>
                 <div className="text-xs mt-[6px]">
-                  <span className="text-neutral-700 dark:text-neutral-300">
-                    May 20, 2021
-                  </span>
+                  <span className="text-neutral-700 dark:text-neutral-300">May 20, 2021</span>
                   <span className="mx-2 font-semibold">·</span>
-                  <span className="text-neutral-700 dark:text-neutral-300">
-                    6 min read
-                  </span>
+                  <span className="text-neutral-700 dark:text-neutral-300">6 min read</span>
                 </div>
               </div>
             </div>
@@ -60,35 +52,26 @@ const BlogDetail = () => {
           </div>
         </div>
       </header>
-    );
-  };
+    )
+  }
 
   const renderContent = () => {
     return (
-      <div
-        id="single-entry-content"
-        className="prose prose-sm !max-w-screen-md sm:prose lg:prose-lg mx-auto dark:prose-invert"
-      >
+      <div id="single-entry-content" className="prose prose-sm !max-w-screen-md sm:prose lg:prose-lg mx-auto dark:prose-invert">
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure vel
-          officiis ipsum placeat itaque neque dolorem modi perspiciatis dolor
-          distinctio veritatis sapiente, minima corrupti dolores necessitatibus
-          suscipit accusantium dignissimos culpa cumque.
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure vel officiis ipsum placeat itaque neque dolorem modi perspiciatis dolor distinctio
+          veritatis sapiente, minima corrupti dolores necessitatibus suscipit accusantium dignissimos culpa cumque.
         </p>
         <p>
-          It is a long established fact that a <strong>reader</strong> will be
-          distracted by the readable content of a page when looking at its{" "}
-          <strong>layout</strong>. The point of using Lorem Ipsum is that it has
-          a more-or-less normal{" "}
+          It is a long established fact that a <strong>reader</strong> will be distracted by the readable content of a page when looking at its{' '}
+          <strong>layout</strong>. The point of using Lorem Ipsum is that it has a more-or-less normal{' '}
           <a href="/#" target="_blank" rel="noopener noreferrer">
             distribution of letters.
-          </a>{" "}
+          </a>{' '}
         </p>
         <ol>
           <li>We want everything to look good out of the box.</li>
-          <li>
-            {`Really just the first reason, that's the whole point of the plugin.`}
-          </li>
+          <li>{`Really just the first reason, that's the whole point of the plugin.`}</li>
           <li>
             {`Here's a third pretend reason though a list with three items looks
             more realistic than a list with two items.`}
@@ -106,9 +89,7 @@ const BlogDetail = () => {
             like trash. Make it good then it won't be bad.`}
           </p>
         </blockquote>
-        <p>
-          {`It's probably important that images look okay here by default as well:`}
-        </p>
+        <p>{`It's probably important that images look okay here by default as well:`}</p>
         <figure>
           <Image
             src="https://images.pexels.com/photos/6802060/pexels-photo-6802060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -118,9 +99,8 @@ const BlogDetail = () => {
             height={750}
           />
           <figcaption>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure vel
-            officiis ipsum placeat itaque neque dolorem modi perspiciatis dolor
-            distinctio veritatis sapiente
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure vel officiis ipsum placeat itaque neque dolorem modi perspiciatis dolor distinctio
+            veritatis sapiente
           </figcaption>
         </figure>
         <p>
@@ -135,11 +115,9 @@ const BlogDetail = () => {
         <p>{`And that's the end of this section.`}</p>
         <h2>Code should look okay by default.</h2>
         <p>
-          I think most people are going to use{" "}
-          <a href="https://highlightjs.org/">highlight.js</a> or{" "}
-          <a href="https://prismjs.com/">Prism</a>{" "}
+          I think most people are going to use <a href="https://highlightjs.org/">highlight.js</a> or <a href="https://prismjs.com/">Prism</a>{' '}
           {`or something if they want to
-          style their code blocks but it wouldn't hurt to make them look`}{" "}
+          style their code blocks but it wouldn't hurt to make them look`}{' '}
           <em>okay</em> out of the box, even with no syntax highlighting.
         </p>
         <p>
@@ -150,13 +128,9 @@ const BlogDetail = () => {
         <p>Hopefully that looks good enough to you.</p>
         <h3>We still need to think about stacked headings though.</h3>
         <h4>
-          {`Let's make sure we don't screw that up with`} <code>h4</code>{" "}
-          elements, either.
+          {`Let's make sure we don't screw that up with`} <code>h4</code> elements, either.
         </h4>
-        <p>
-          Phew, with any luck we have styled the headings above this text and
-          they look pretty good.
-        </p>
+        <p>Phew, with any luck we have styled the headings above this text and they look pretty good.</p>
         <p>
           {`Let's add a closing paragraph here so things end with a decently sized
           block of text. I can't explain why I want things to end that way but I
@@ -168,8 +142,8 @@ const BlogDetail = () => {
           sentence can't hurt.`}
         </p>
       </div>
-    );
-  };
+    )
+  }
 
   const renderTags = () => {
     return (
@@ -179,8 +153,8 @@ const BlogDetail = () => {
         <Tag />
         <Tag />
       </div>
-    );
-  };
+    )
+  }
 
   const renderAuthor = () => {
     return (
@@ -188,15 +162,12 @@ const BlogDetail = () => {
         <div className="nc-SingleAuthor flex">
           <Avatar sizeClass="w-11 h-11 md:w-24 md:h-24" />
           <div className="flex flex-col ml-3 max-w-lg sm:ml-5 space-y-1">
-            <span className="text-xs text-neutral-400 uppercase tracking-wider">
-              WRITEN BY
-            </span>
+            <span className="text-xs text-neutral-400 uppercase tracking-wider">WRITEN BY</span>
             <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-200">
               <a href="##">Fones Mimi</a>
             </h2>
             <span className="text-sm text-neutral-500 sm:text-base dark:text-neutral-300">
-              There’s no stopping the tech giant. Apple now opens its 100th
-              store in China.There’s no stopping the tech giant.
+              There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.
               <a className="text-primary-6000 font-medium ml-1" href="##">
                 Readmore
               </a>
@@ -204,15 +175,13 @@ const BlogDetail = () => {
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderCommentForm = () => {
     return (
       <div className="max-w-screen-md mx-auto pt-5">
-        <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
-          Responses (14)
-        </h3>
+        <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Responses (14)</h3>
         <form className="nc-SingleCommentForm mt-5">
           <Textarea />
           <div className="mt-2 space-x-3">
@@ -221,8 +190,8 @@ const BlogDetail = () => {
           </div>
         </form>
       </div>
-    );
-  };
+    )
+  }
 
   const renderCommentLists = () => {
     return (
@@ -246,16 +215,13 @@ const BlogDetail = () => {
           </li>
         </ul>
       </div>
-    );
-  };
+    )
+  }
 
   const renderPostRelated = (_: any, index: number) => {
     return (
-      <div
-        key={index}
-        className="relative aspect-w-3 aspect-h-4 rounded-3xl overflow-hidden group"
-      >
-        <Link href={"/blog-detail"} />
+      <div key={index} className="relative aspect-w-3 aspect-h-4 rounded-3xl overflow-hidden group">
+        <Link href={'/blog-detail'} />
         <Image
           alt="Related"
           fill
@@ -273,17 +239,15 @@ const BlogDetail = () => {
           </h2>
 
           <div className="flex">
-            <span className="block text-neutral-200 hover:text-white font-medium truncate">
-              {_getPersonNameRd()}
-            </span>
+            <span className="block text-neutral-200 hover:text-white font-medium truncate">{_getPersonNameRd()}</span>
             <span className="mx-1.5 font-medium">·</span>
             <span className="font-normal truncate">May 20, 2021</span>
           </div>
         </div>
-        <Link href={"/blog-detail"} />
+        <Link href={'/blog-detail'} />
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="nc-PageSingle pt-8 lg:pt-16 ">
@@ -316,7 +280,7 @@ const BlogDetail = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogDetail;
+export default BlogDetail

@@ -1,8 +1,8 @@
 import { StarIcon } from '@heroicons/react/24/solid'
 import { productImgs } from '@/constants/fakeData'
 import React, { FC } from 'react'
-import NcImage from '@/shared/NcImage/NcImage'
-import Price from '@/shared/Price/Price'
+import NcImage from '@/shared/NcImage'
+import Price from '@/shared/Price'
 import Link from 'next/link'
 import { StaticImageData } from 'next/image'
 
