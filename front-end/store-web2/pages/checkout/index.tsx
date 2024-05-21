@@ -1,6 +1,6 @@
 'use client'
 
-import Label from '@/shared/Label/Label'
+import Label from '@/shared/Label'
 import NcInputNumber from '@/shared/NcInputNumber'
 import Price from '@/shared/Price'
 import { Product, PRODUCTS } from '@/data/data'
