@@ -3,6 +3,7 @@ import cookie from 'js-cookie'
 import { tokenExpired } from '@/utils/common.helper'
 import { getCookie, cookieKeys, resetSession, setCookie } from '@/utils/localStorage.helper'
 import qs from 'qs'
+import toast from 'react-hot-toast'
 
 const _redirectToLoginPage = () => {
   window.location.href = '/login'
@@ -14,9 +15,10 @@ const refreshToken = async () => {
   if (refreshToken && token) {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/authenticate/refresh-token`, { token, refreshToken })
-      if (response.data) {
-        setCookie(cookieKeys.TOKEN, response.data.token)
-        setCookie(cookieKeys.REFRESH_TOKEN, response.data.refreshToken)
+      const result = response.data
+      if (result && result.data) {
+        setCookie(cookieKeys.TOKEN, result.data.token)
+        setCookie(cookieKeys.REFRESH_TOKEN, result.data.refreshToken)
       } else {
         resetSession()
       }
@@ -49,13 +51,13 @@ const _configRequest = async (request: any) => {
   return request
 }
 
-//const _configResponse = async (response: any) => response
-
-const _configResponse = async (response: AxiosResponse<any>) => response.data
-
-// const _configResponse = async <T>(response: AxiosResponse<IBaseResponse<T>>) => {
-//   return response.data;
-// };
+const _configResponse = async (response: AxiosResponse<any>) => {
+  if (response.data?.code != 0) {
+    toast.error(response.data?.message)
+    console.log('error: ', response.data?.errorMessage ?? response.data?.message)
+  }
+  return response.data?.data
+}
 
 const _configError = async (error: any) => {
   console.log('error', error)

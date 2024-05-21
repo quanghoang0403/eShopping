@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
 import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import SectionSliderCollections from '@/components/ProductList/LargeProductList'
-import PromoBanner1 from '@/components/PromoBanner1'
 import HeaderFilterSearchPage from '@/components/Search/HeaderFilterSearchPage'
 import Input from '@/shared/Input'
 import ButtonCircle from '@/shared/Button/ButtonCircle'
 import ProductCard from '@/components/Product/ProductCard'
 import { PRODUCTS } from '@/data/data'
+import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
+import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 
 const PageSearch = ({}) => {
   return (
@@ -67,7 +67,7 @@ const PageSearch = ({}) => {
 
         {/* === SECTION 5 === */}
         <hr className="border-slate-200 dark:border-slate-700" />
-        <SectionSliderCollections />
+        <SliderCategoryList />
         <hr className="border-slate-200 dark:border-slate-700" />
 
         {/* SUBCRIBES */}

@@ -1,5 +1,5 @@
 import Logo from '@/shared/Logo'
-import SocialsListVertical from '@/shared/SocialsList/SocialsListVertical'
+import SocialsList from '@/shared/SocialsList'
 import { CustomLink } from '@/data/types'
 import React from 'react'
 
@@ -84,7 +84,7 @@ export default function SiteFooter() {
             <Logo />
           </div>
           <div className="col-span-2 flex items-center md:col-span-3">
-            <SocialsListVertical className="flex items-center space-x-2 lg:space-x-0 lg:flex-col lg:space-y-3 lg:items-start" />
+            <SocialsList vertical className="flex items-center space-x-2 lg:space-x-0 lg:flex-col lg:space-y-3 lg:items-start" />
           </div>
         </div>
         {widgetMenus.map(renderWidgetMenuItem)}

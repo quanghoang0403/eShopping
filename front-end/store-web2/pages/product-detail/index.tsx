@@ -11,7 +11,6 @@ import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outli
 import DiscountIcon from '@/shared/Icon/DiscountIcon'
 import Price from '@/shared/Price'
 import toast from 'react-hot-toast'
-import SliderProductList from '@/components/ProductList/SliderProductList'
 import detail1JPG from '@/images/products/detail1.jpg'
 import detail2JPG from '@/images/products/detail2.jpg'
 import detail3JPG from '@/images/products/detail3.jpg'
@@ -26,6 +25,7 @@ import { GetServerSideProps, GetStaticProps } from 'next'
 import ProductService from '@/services/product.service'
 import { PageSizeConstants } from '@/constants/default.constants'
 import PromoBanner2 from '@/components/Common/Banner/PromoBanner2'
+import SliderProductList from '@/components/Common/ProductList/SliderProductList'
 
 const LIST_IMAGES_DEMO = [
   detail1JPG,
@@ -44,43 +44,44 @@ const LIST_IMAGES_DEMO = [
 
 interface IProps {
   productDetail: IProductDetail
-  productHighLight: IProduct[]
+  //productHighLight: IProduct[]
 }
 
-// export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
-//   const { params, req } = context
-//   const slug = params?.url
+export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
+  const { params, req } = context
+  const slug = params?.url
 
-//   try {
-//     const res = await ProductService.getProductByUrl('323')
-//     //const res = await ProductService.getProductByUrl(slug as string);
-//     const productDetail = res?.data as IProductDetail
-//     const productHighlightRequestModel: IGetProductsRequest = {
-//       pageNumber: 0,
-//       pageSize: PageSizeConstants.Default,
-//       keySearch: '',
-//       productCategoryId: productDetail?.productCategory?.id as string,
-//       sortType: 0,
-//       isFeatured: false,
-//       isDiscounted: false,
-//     }
-//     const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
-//     const productHighlight: IProduct[] = productHighlightRequest?.data?.products
-//     return {
-//       props: {
-//         productDetail: productDetail,
-//         productHighLight: productHighlight,
-//       },
-//     }
-//   } catch (error) {
-//     console.error('Error fetching product:', error)
-//     return {
-//       notFound: true,
-//     }
-//   }
-// }
+  try {
+    const res = await ProductService.getProductByUrl('323')
+    debugger
+    //const res = await ProductService.getProductByUrl(slug as string);
+    const productDetail = res as IProductDetail
+    // const productHighlightRequestModel: IGetProductsRequest = {
+    //   pageNumber: 0,
+    //   pageSize: PageSizeConstants.Default,
+    //   keySearch: '',
+    //   productCategoryId: productDetail?.productCategory?.id as string,
+    //   sortType: 0,
+    //   isFeatured: false,
+    //   isDiscounted: false,
+    // }
+    // const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
+    // const productHighlight: IProduct[] = productHighlightRequest?.data?.products
+    return {
+      props: {
+        productDetail: productDetail,
+        //productHighLight: productHighlight,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
+    return {
+      notFound: true,
+    }
+  }
+}
 
-const ProductDetailPage = () => {
+const ProductDetailPage = ({ productDetail }: IProps) => {
   const { sizes, variants, status, allOfSizes, image } = PRODUCTS[0]
   //
   const [variantActive, setVariantActive] = useState(0)
@@ -193,7 +194,7 @@ const ProductDetailPage = () => {
       <div className="space-y-7 2xl:space-y-8">
         {/* ---------- 1 HEADING ----------  */}
         <div>
-          <h2 className="text-2xl sm:text-3xl font-semibold">Heavy Weight Shoes</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold">{productDetail.name}</h2>
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
