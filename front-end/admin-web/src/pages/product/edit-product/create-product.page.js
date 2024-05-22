@@ -232,7 +232,7 @@ export default function CreateProductPage() {
   const getInitData = async () => {
     const resDataInitialCreateProduct = await productCategoryDataService.getAllProductCategoriesAsync();
     if (resDataInitialCreateProduct) {
-      const allProductCategories = resDataInitialCreateProduct?.allProductCategories;
+      const allProductCategories = resDataInitialCreateProduct;
       if (allProductCategories) {
         setListAllProductCategory(allProductCategories);
       }
