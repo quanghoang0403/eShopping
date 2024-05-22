@@ -20,7 +20,7 @@ import GridFeatureProductList from '@/components/Common/ProductList/GridFeatureP
 function PageHome() {
   return (
     <>
-      <SEO title={'Trang chủ'} description="Describe the home page" />
+      <SEO title={'Trang chủ'} description="Describe the home" />
       <div className="nc-PageHome relative overflow-hidden">
         <SectionHeroSingle />
 
