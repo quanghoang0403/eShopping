@@ -12,7 +12,7 @@ export default function ErrorForm(props: IProps) {
     <ErrorMessage
       errors={errors}
       name={name}
-      render={({ message }) => <p className="text-red-500 pt-2 error">{errors[name]?.type === 'required' && label ? `Nhập ${label}` : message}</p>}
+      render={({ message }) => <p className="text-red-500 pt-2 error text-sm">{errors[name]?.type === 'required' && label ? `Nhập ${label}` : message}</p>}
     />
   )
 }

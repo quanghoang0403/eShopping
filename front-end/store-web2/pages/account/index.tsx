@@ -65,7 +65,7 @@ const PageAbout = () => {
           </div>
           <hr className="mt-10 border-slate-200 dark:border-slate-700"></hr>
 
-          <div className="flex space-x-8 md:space-x-14 overflow-x-auto hiddenScrollbar">
+          <div className="flex justify-around space-x-8 md:space-x-14 overflow-x-auto hiddenScrollbar">
             {tabs.map((item, index) => {
               return (
                 <div
@@ -86,7 +86,7 @@ const PageAbout = () => {
         </div>
       </div>
       <div className="max-w-4xl mx-auto pt-14 sm:pt-26 pb-24 lg:pb-32">
-        {tabId == AccountTab.Information && <AccountInformation />}
+        {(!tabId || tabId == AccountTab.Information) && <AccountInformation />}
         {tabId == AccountTab.Order && <AccountOrder />}
         {tabId == AccountTab.Savelist && <AccountSavelist />}
         {tabId == AccountTab.Pass && <AccountPass />}

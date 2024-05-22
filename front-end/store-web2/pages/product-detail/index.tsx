@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import LikeButton from '@/components/Product/LikeButton'
 import { StarIcon } from '@heroicons/react/24/solid'
@@ -26,6 +26,8 @@ import ProductService from '@/services/product.service'
 import { PageSizeConstants } from '@/constants/default.constants'
 import PromoBanner2 from '@/components/Common/Banner/PromoBanner2'
 import SliderProductList from '@/components/Common/ProductList/SliderProductList'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { sessionActions } from '@/redux/features/sessionSlice'
 
 const LIST_IMAGES_DEMO = [
   detail1JPG,
@@ -44,7 +46,7 @@ const LIST_IMAGES_DEMO = [
 
 interface IProps {
   productDetail: IProductDetail
-  //productHighLight: IProduct[]
+  productRelated: IProduct[]
 }
 
 export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
@@ -52,24 +54,21 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   const slug = params?.url
 
   try {
-    const res = await ProductService.getProductByUrl('323')
-    debugger
-    //const res = await ProductService.getProductByUrl(slug as string);
-    // const productHighlightRequestModel: IGetProductsRequest = {
-    //   pageNumber: 0,
-    //   pageSize: PageSizeConstants.Default,
-    //   keySearch: '',
-    //   productCategoryId: productDetail?.productCategory?.id as string,
-    //   sortType: 0,
-    //   isFeatured: false,
-    //   isDiscounted: false,
-    // }
-    // const productHighlightRequest = await ProductService.getProducts(productHighlightRequestModel)
-    // const productHighlight: IProduct[] = productHighlightRequest?.data?.products
+    const productDetail = await ProductService.getProductByUrl(slug as string)
+    const getProductRelatedRequestModel: IGetProductsRequest = {
+      pageNumber: 0,
+      pageSize: PageSizeConstants.Default,
+      keySearch: '',
+      productCategoryId: productDetail?.productCategory?.id as string,
+      sortType: 0,
+      isFeatured: false,
+      isDiscounted: false,
+    }
+    const productRelated = await ProductService.getProducts(getProductRelatedRequestModel)
     return {
       props: {
-        productDetail: res,
-        //productHighLight: productHighlight,
+        productDetail: productDetail,
+        productRelated: productRelated?.result,
       },
     }
   } catch (error) {
@@ -80,25 +79,37 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   }
 }
 
-const ProductDetailPage = ({ productDetail }: IProps) => {
-  const { sizes, variants, status, allOfSizes, image } = PRODUCTS[0]
-  //
+const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
+  const { productPrices } = productDetail
   const [variantActive, setVariantActive] = useState(0)
-  const [sizeSelected, setSizeSelected] = useState(sizes ? sizes[0] : '')
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    setVariantActive(0)
+  }, [productDetail])
+
+  const handleAddProduct = () => {
+    const cartItem: ICartItem = {
+      productId: productDetail.id,
+      productName: productDetail.name,
+      productUrl: productDetail.urlSEO,
+      productPriceId: productPrices[variantActive].id,
+      priceName: productPrices[variantActive].priceName,
+      priceValue: productPrices[variantActive].priceValue,
+      priceDiscount: productPrices[variantActive].priceDiscount,
+      percentNumber: productPrices[variantActive].percentNumber,
+      thumbnail: productPrices[variantActive].thumbnail ?? productDetail.thumbnail,
+      quantity: 1,
+      quantityLeft: productPrices[variantActive].quantityLeft,
+    }
+    dispatch(sessionActions.addProductToCart(cartItem))
+    toast.custom((t) => <NotifyAddTocart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
+  }
+  // const [sizeSelected, setSizeSelected] = useState(sizes ? sizes[0] : '')
   const [qualitySelected, setQualitySelected] = useState(1)
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] = useState(false)
-  //
-  const notifyAddTocart = () => {
-    toast.custom(
-      (t) => (
-        <NotifyAddTocart productImage={image} qualitySelected={qualitySelected} show={t.visible} sizeSelected={sizeSelected} variantActive={variantActive} />
-      ),
-      { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
-    )
-  }
 
   const renderVariants = () => {
-    if (!variants || !variants.length) {
+    if (!productPrices || !productPrices.length) {
       return null
     }
 
@@ -106,12 +117,11 @@ const ProductDetailPage = ({ productDetail }: IProps) => {
       <div>
         <label htmlFor="">
           <span className="text-sm font-medium">
-            Color:
-            <span className="ml-1 font-semibold">{variants[variantActive].name}</span>
+            - <span className="ml-1 font-semibold">{productPrices[variantActive].priceName}</span>
           </span>
         </label>
         <div className="flex mt-3">
-          {variants.map((variant, index) => (
+          {productPrices.map((variant, index) => (
             <div
               key={index}
               onClick={() => setVariantActive(index)}
@@ -140,53 +150,53 @@ const ProductDetailPage = ({ productDetail }: IProps) => {
     )
   }
 
-  const renderSizeList = () => {
-    if (!allOfSizes || !sizes || !sizes.length) {
-      return null
-    }
-    return (
-      <div>
-        <div className="flex justify-between font-medium text-sm">
-          <label htmlFor="">
-            <span className="">
-              Size:
-              <span className="ml-1 font-semibold">{sizeSelected}</span>
-            </span>
-          </label>
-          <a target="_blank" rel="noopener noreferrer" href="##" className="text-primary-6000 hover:text-primary-500">
-            See sizing chart
-          </a>
-        </div>
-        <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
-          {allOfSizes.map((size, index) => {
-            const isActive = size === sizeSelected
-            const sizeOutStock = !sizes.includes(size)
-            return (
-              <div
-                key={index}
-                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center 
-                text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 ${
-                  sizeOutStock ? 'text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : 'cursor-pointer'
-                } ${
-                  isActive
-                    ? 'bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000'
-                    : 'border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'
-                }`}
-                onClick={() => {
-                  if (sizeOutStock) {
-                    return
-                  }
-                  setSizeSelected(size)
-                }}
-              >
-                {size}
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    )
-  }
+  // const renderSizeList = () => {
+  //   if (!  || !sizes || !sizes.length) {
+  //     return null
+  //   }
+  //   return (
+  //     <div>
+  //       <div className="flex justify-between font-medium text-sm">
+  //         <label htmlFor="">
+  //           <span className="">
+  //             Size:
+  //             <span className="ml-1 font-semibold">{sizeSelected}</span>
+  //           </span>
+  //         </label>
+  //         <a target="_blank" rel="noopener noreferrer" href="##" className="text-primary-6000 hover:text-primary-500">
+  //           See sizing chart
+  //         </a>
+  //       </div>
+  //       <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
+  //         {allOfSizes.map((size, index) => {
+  //           const isActive = size === sizeSelected
+  //           const sizeOutStock = !sizes.includes(size)
+  //           return (
+  //             <div
+  //               key={index}
+  //               className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center
+  //               text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 ${
+  //                 sizeOutStock ? 'text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : 'cursor-pointer'
+  //               } ${
+  //                 isActive
+  //                   ? 'bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000'
+  //                   : 'border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'
+  //               }`}
+  //               onClick={() => {
+  //                 if (sizeOutStock) {
+  //                   return
+  //                 }
+  //                 setSizeSelected(size)
+  //               }}
+  //             >
+  //               {size}
+  //             </div>
+  //           )
+  //         })}
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   const renderSectionContent = () => {
     return (
@@ -197,7 +207,7 @@ const ProductDetailPage = ({ productDetail }: IProps) => {
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" price={112} />
+            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" price={productPrices[variantActive].priceValue} />
 
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
 
@@ -221,14 +231,14 @@ const ProductDetailPage = ({ productDetail }: IProps) => {
 
         {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
         <div className="">{renderVariants()}</div>
-        <div className="">{renderSizeList()}</div>
+        {/* <div className="">{renderSizeList()}</div> */}
 
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5">
-          <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+          {/* <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
             <NcInputNumber defaultValue={qualitySelected} onChange={setQualitySelected} />
-          </div>
-          <ButtonPrimary className="flex-1 flex-shrink-0" onClick={notifyAddTocart}>
+          </div> */}
+          <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddProduct}>
             <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
             <span className="ml-3">Add to cart</span>
           </ButtonPrimary>
@@ -333,7 +343,7 @@ const ProductDetailPage = ({ productDetail }: IProps) => {
             {/* HEADING */}
             <div className="relative">
               <div className="relative">
-                <Gallery images={LIST_IMAGES_DEMO} status={status} />
+                <Gallery images={LIST_IMAGES_DEMO} status={'50% Discount'} />
                 {/* <Image
                   fill
                   sizes="(max-width: 640px) 100vw, 33vw"
@@ -367,10 +377,11 @@ const ProductDetailPage = ({ productDetail }: IProps) => {
 
           {/* OTHER SECTION */}
           <SliderProductList
-            heading="Customers also purchased"
+            heading="Sản phẩm liên quan"
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"
+            data={productRelated}
           />
 
           {/* SECTION */}

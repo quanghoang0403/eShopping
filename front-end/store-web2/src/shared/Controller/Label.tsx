@@ -1,19 +1,17 @@
-import React, { FC } from "react";
+import React, { FC } from 'react'
 
 export interface LabelProps {
-  className?: string;
-  children?: React.ReactNode;
+  className?: string
+  children?: React.ReactNode
+  htmlFor?: string
 }
 
-const Label: FC<LabelProps> = ({ className = "", children }) => {
+const Label: FC<LabelProps> = ({ className = '', children, htmlFor = '' }) => {
   return (
-    <label
-      className={`nc-Label text-base font-medium text-neutral-900 dark:text-neutral-200 ${className}`}
-      data-nc-id="Label"
-    >
+    <label htmlFor={htmlFor} className={`nc-Label text-base font-medium text-neutral-900 dark:text-neutral-200 ${className}`} data-nc-id="Label">
       {children}
     </label>
-  );
-};
+  )
+}
 
-export default Label;
+export default Label

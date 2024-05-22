@@ -1,7 +1,7 @@
 import APIService from './base'
 
 export default class OrderService {
-  static async getOrders(request: IGetOrdersRequest): Promise<IGetOrdersResponse> {
+  static async getOrders(request: IGetOrdersRequest): Promise<IPagingResponse<IOrder>> {
     return await APIService.get(
       `/order/get-orders?pageNumber=${request.pageNumber}&pageSize=${request.pageSize}&keySearch=${request.keySearch}&startDate=${request.startDate}&endDate=${request.endDate}`
     )

@@ -1,7 +1,7 @@
 import APIService from './base'
 
 export default class ProductService {
-  static async getProducts(request: IGetProductsRequest): Promise<IGetProductsResponse> {
+  static async getProducts(request: IGetProductsRequest): Promise<IPagingResponse<IProduct>> {
     return await APIService.get(
       `/product/get-products?pageNumber=${request.pageNumber}&pageSize=${request.pageSize}&keySearch=${request.keySearch}&productCategoryId=${request.productCategoryId}&isFeatured=${request.isFeatured}&isDiscounted=${request.isDiscounted}&sortType=${request.sortType}`
     )

@@ -2,18 +2,9 @@ import React, { memo, useState } from 'react'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import { EyeIcon } from '@heroicons/react/24/solid'
 import { EyeDropperIcon } from '@heroicons/react/24/solid'
-
-
-export enum INPUT_TYPES {
-  TEXT = 'TEXT',
-  TEXTAREA = 'TEXTAREA',
-  PASSWORD = 'PASSWORD',
-  CHECKBOX = 'CHECKBOX',
-  RADIO = 'RADIO',
-}
+import ErrorForm from './ErrorForm'
 
 export type InputCustomProps = {
-  inputType: INPUT_TYPES
   name: string
   label?: string | JSX.Element | null
   customOptions?: JSX.Element[]
@@ -29,7 +20,7 @@ export type InputCustomProps = {
 type IProps = InputCustomProps
 
 export const CustomInputText: React.FC<IProps> = (props) => {
-  const { name, label, register, patternValidate, hideLabel, value, password } = props
+  const { name, label, register, patternValidate, hideLabel, value, password, errors } = props
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -69,12 +60,13 @@ export const CustomInputText: React.FC<IProps> = (props) => {
           </button>
         )}
       </div>
+      {errors && <ErrorForm name={name} label={label} errors={errors} />}
     </>
   )
 }
 
 export const CustomInputTextArea: React.FC<IProps> = (props) => {
-  const { name, label, register, patternValidate, hideLabel, value } = props
+  const { name, label, register, patternValidate, hideLabel, value, errors } = props
   return (
     <>
       {label && !hideLabel && (
@@ -100,6 +92,7 @@ export const CustomInputTextArea: React.FC<IProps> = (props) => {
           defaultValue={value || ''}
         ></textarea>
       )}
+      {errors && <ErrorForm name={name} label={label} errors={errors} />}
     </>
   )
 }

@@ -25,7 +25,7 @@ export interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) => {
-  const { name, description, priceValue, priceDiscount } = data
+  const { name, description, priceValue, priceDiscount, urlSEO } = data
   const [variantActive, setVariantActive] = useState(0)
   const [showModalQuickView, setShowModalQuickView] = useState(false)
   const router = useRouter()
@@ -128,7 +128,6 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
     // if (!variants || !variants.length || !variantType) {
     //   return null
     // }
-
     // if (variantType === 'color') {
     //   return (
     //     <div className="flex space-x-1">
@@ -147,7 +146,6 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
     //     </div>
     //   )
     // }
-
     // return (
     //   <div className="flex ">
     //     {variants.map((variant, index) => (
@@ -203,7 +201,6 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
     // if (!sizes || !sizes.length) {
     //   return null
     // }
-
     // return (
     //   <div className="absolute bottom-0 inset-x-1 space-x-1.5 rtl:space-x-reverse flex justify-center opacity-0 invisible group-hover:bottom-4 group-hover:opacity-100 group-hover:visible transition-all">
     //     {sizes.map((size, index) => {
@@ -224,10 +221,10 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
   return (
     <>
       <div className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`}>
-        <Link href={'/product-detail'} className="absolute inset-0"></Link>
+        <Link href={`/product-detail/${urlSEO}`} className="absolute inset-0"></Link>
 
         <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
-          <Link href={'/product-detail'} className="block">
+          <Link href={`/product-detail/${urlSEO}`} className="block">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
               src={data.thumbnail}
@@ -237,7 +234,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
               alt="product"
             />
           </Link>
-          <ProductStatus status={"50% Discount"} />
+          <ProductStatus status={'50% Discount'} />
           <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" />
           {/* {sizes ? renderSizeList() : renderGroupButtons()} */}
         </div>
@@ -253,9 +250,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
             <Price price={priceValue} />
             <div className="flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
-              <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
-                4 (5 reviews)
-              </span>
+              <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">4 (5 reviews)</span>
             </div>
           </div>
         </div>

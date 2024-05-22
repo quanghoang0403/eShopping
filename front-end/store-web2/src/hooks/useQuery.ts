@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query'
-import { notifyError } from '@/components/Common/Notification'
 import { AxiosError, AxiosResponse } from 'axios'
+import toast from 'react-hot-toast'
 
 // Use throughout your app instead of plain `useMutation` and `useAppQuery`
 export const useAppMutation = (request: any, onSuccessRequest?: any) => {
@@ -9,7 +9,7 @@ export const useAppMutation = (request: any, onSuccessRequest?: any) => {
       onSuccessRequest(res.data)
     },
     onError: (error: AxiosError) => {
-      notifyError(error.message)
+      toast.error(error.message)
       // if (error.response?.status == HttpStatus.BadRequest) notifyError('Yêu cầu không hợp lệ')
       // else if (error.response?.status == HttpStatus.Unauthorized) notifyError('Vui lòng đăng nhập để tiếp tục')
       // else if (error.response?.status == HttpStatus.Forbidden) notifyError('Bạn không có quyền sử dụng tính năng này')
@@ -42,7 +42,7 @@ export const useAppQuery = (key: string[], request: any, initialData?: any, onSu
       onSuccessRequest && onSuccessRequest(res.data)
     },
     onError: (error: any) => {
-      notifyError(error.message)
+      toast.error(error.message)
     },
   })?.data
 }

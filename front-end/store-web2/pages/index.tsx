@@ -22,18 +22,16 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       keySearch: '',
       pageNumber: 0,
       pageSize: PageSizeConstants.Default,
-      sortType: 0
+      sortType: 0,
     }
     const discountedRes = await ProductService.getProducts(discountedRequest)
-    const featuredRequest: IGetProductsRequest = { ...discountedRequest, 
-      isDiscounted: false,
-      isFeatured: true,
-    }
+    const featuredRequest: IGetProductsRequest = { ...discountedRequest, isDiscounted: false, isFeatured: true }
     const featuredRes = await ProductService.getProducts(featuredRequest)
+    console.log(discountedRes)
     return {
       props: {
-        discountedProduct: discountedRes.products,
-        featuredProduct: featuredRes.products,
+        discountedProduct: discountedRes.result,
+        featuredProduct: featuredRes.result,
       },
     }
   } catch (error) {
@@ -55,7 +53,7 @@ export default function HomePage({ discountedProduct, featuredProduct }: HomePag
           <SliderProductList data={featuredProduct} heading="Sản phẩm nổi bật" subHeading="Trở nên khác biệt" />
           <SliderProductList data={discountedProduct} heading="Khuyến mãi khủng" subHeading="Tưng bừng mua sắm" />
           <SliderCategoryList />
-          <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
+          <div className="pt-24 lg:pt-32 border-t border-slate-200 dark:border-slate-700">
             <SectionHowItWork />
           </div>
         </div>
@@ -63,5 +61,3 @@ export default function HomePage({ discountedProduct, featuredProduct }: HomePag
     </>
   )
 }
-
-

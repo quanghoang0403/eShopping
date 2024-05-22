@@ -56,7 +56,7 @@ const CollectionCard: FC<CollectionCardProps> = ({
         </div>
         <Price className="mt-0.5 sm:mt-1 ml-4" price={price} />
       </div>
-      <Link href={'/product-detail'} className="absolute inset-0 "></Link>
+      <Link href={`/product-detail/${''}`} className="absolute inset-0 "></Link>
     </div>
   )
 }

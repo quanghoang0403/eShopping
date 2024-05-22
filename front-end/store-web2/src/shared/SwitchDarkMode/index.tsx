@@ -4,10 +4,10 @@ import { Switch } from '@headlessui/react'
 
 export interface SwitchDarkModeProps {
   className?: string
-  switchType?: boolean
+  typeSecond?: boolean
 }
 
-const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ className = '', switchType = false }) => {
+const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ className = '', typeSecond: switchType = false }) => {
   const { _toogleDarkMode, isDarkMode, toDark, toLight } = useThemeMode()
 
   const switchType1 = () => {
@@ -16,7 +16,7 @@ const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ className = '', switchT
         onClick={_toogleDarkMode}
         className={`text-2xl md:text-3xl w-12 h-12 rounded-full text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none flex items-center justify-center ${className}`}
       >
-        <span className="sr-only">Enable dark mode</span>
+        <span className="sr-only">Chế độ sáng</span>
         {isDarkMode ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -52,14 +52,14 @@ const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ className = '', switchT
   const switchType2 = () => {
     return (
       <div className="inline-flex">
-        <span className="sr-only">Enable dark mode</span>
+        <span className="sr-only">Chế độ sáng</span>
         <Switch
           checked={isDarkMode}
           onChange={_toogleDarkMode}
           className={`${isDarkMode ? 'bg-teal-900' : 'bg-teal-600'}
           relative inline-flex h-[22px] w-[42px] shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
-          <span className="sr-only">Enable dark mode</span>
+          <span className="sr-only">Chế độ tối</span>
           <span
             aria-hidden="true"
             className={`${isDarkMode ? 'translate-x-5' : 'translate-x-0'}

@@ -5,43 +5,38 @@ import { PRODUCTS } from '@/data/data'
 import Image, { StaticImageData } from 'next/image'
 
 interface Props {
+  item: ICartItem
   show: boolean
-  productImage: string | StaticImageData
-  variantActive: number
-  sizeSelected: string
-  qualitySelected: number
 }
 
-const NotifyAddTocart: FC<Props> = ({ show, productImage, variantActive, qualitySelected, sizeSelected }) => {
-  const { name, price, variants } = PRODUCTS[0]
-
+const NotifyAddTocart: FC<Props> = ({ show, item }) => {
+  const { productName, thumbnail, priceName, priceValue, priceDiscount } = item
   const renderProductCartOnNotify = () => {
     return (
       <div className="flex ">
         <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image src={productImage} alt={name} fill sizes="100px" className="h-full w-full object-contain object-center" />
+          <Image src={thumbnail} alt={productName} fill sizes="100px" className="h-full w-full object-contain object-center" />
         </div>
 
         <div className="ml-4 flex flex-1 flex-col">
           <div>
             <div className="flex justify-between ">
               <div>
-                <h3 className="text-base font-medium ">{name}</h3>
+                <h3 className="text-base font-medium ">{productName}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{variants ? variants[variantActive].name : `Natural`}</span>
+                  <span>{priceName}</span>
                   <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{sizeSelected || 'XL'}</span>
+                  {/* <span>{sizeSelected || 'XL'}</span> */}
                 </p>
               </div>
-              <Price price={price} className="mt-0.5" />
+              <Price price={priceValue} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
-            <p className="text-gray-500 dark:text-slate-400">{`Qty ${qualitySelected}`}</p>
-
+            <p className="text-gray-500 dark:text-slate-400">1</p>
             <div className="flex">
               <button type="button" className="font-medium text-primary-6000 dark:text-primary-500 ">
-                View cart
+                Xem giỏ hàng
               </button>
             </div>
           </div>
@@ -62,7 +57,7 @@ const NotifyAddTocart: FC<Props> = ({ show, productImage, variantActive, quality
       leaveFrom="opacity-100 translate-x-0"
       leaveTo="opacity-0 translate-x-20"
     >
-      <p className="block text-base font-semibold leading-none">Added to cart!</p>
+      <p className="block text-base font-semibold leading-none">Đã thêm vào giỏ hàng!</p>
       <hr className=" border-slate-200 dark:border-slate-700 my-4" />
       {renderProductCartOnNotify()}
     </Transition>

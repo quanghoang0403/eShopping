@@ -1,26 +1,95 @@
 'use client'
-
-import Label from '@/shared/Controller/Label'
 import NcInputNumber from '@/shared/NcInputNumber'
 import Price from '@/shared/Price'
 import { Product, PRODUCTS } from '@/data/data'
 import { useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import Input from '@/shared/Input'
-import ContactInfo from '@/components/Checkout/ContactInfo'
 import PaymentMethod from '@/components/Checkout/PaymentMethod'
-import ShippingAddress from '@/components/Checkout/ShippingAddress'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useRouter } from 'next/router'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { useAppMutation } from '@/hooks/useQuery'
+import { trackPromise } from 'react-promise-tracker'
+import OrderService from '@/services/order.service'
+import toast from 'react-hot-toast'
+import { sessionActions } from '@/redux/features/sessionSlice'
+import SEO from '@/components/Layout/SEO'
+import { formatCurrency } from '@/utils/string.helper'
+import CustomerInfo, { defaultCustomerInfo } from '@/components/Common/Customer/CustomerInfo'
+import SummaryPrice from '@/components/Checkout/SummaryPrice'
 
 const CheckoutPage = () => {
-  const [tabActive, setTabActive] = useState<'ContactInfo' | 'ShippingAddress' | 'PaymentMethod'>('ShippingAddress')
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
+  const router = useRouter()
+  const [isShowDialogPayment, setIsShowDialogPayment] = useState(false)
+  const [orderResponse, setOrderResponse] = useState<ICreateOrderResponse>()
+  const [contentDialog, setContentDialog] = useState(<></>)
+  const dispatch = useAppDispatch()
+  const cartItems = useAppSelector((state) => state.session.cartItems)
+  const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
 
-  const handleScrollToEl = (id: string) => {
-    const element = document.getElementById(id)
-    setTimeout(() => {
-      element?.scrollIntoView({ behavior: 'smooth' })
-    }, 80)
+  const mutation = useAppMutation(
+    async (data: ICreateOrderRequest) => trackPromise(OrderService.checkout(data)),
+    async (res: ICreateOrderResponse) => {
+      if (res.isSuccess) {
+        setOrderResponse(res)
+        switch (res.paymentMethodId) {
+          case 0: {
+            // COD
+            break
+          }
+          case 4: {
+            // QR Code
+            setContentDialog(<Image className="mx-auto" alt="" src={res.paymentInfo.paymentUrl} width={450} height={582} />)
+            setIsShowDialogPayment(true)
+            break
+          }
+          case 5: // VnPay
+          case 6: // PayOS
+          case 7: // ATM
+          case 8: {
+            // Card
+            router.push(res.paymentInfo.paymentUrl)
+            break
+          }
+          default: {
+            break
+          }
+        }
+        dispatch(sessionActions.resetCart())
+      } else {
+        toast.error('Tạo đơn hàng thất bại, vui lòng thử lại hoặc liên hệ tổng đài để hỗ trợ')
+      }
+    }
+  )
+
+  const redirectToOrderDetail = () => {
+    router.push(`/don-hang/${orderResponse?.orderId}`)
+  }
+
+  const confirmTransfer = () => {
+    const transferConfirm = async () => {
+      if (orderResponse?.orderCode) {
+        const res = await OrderService.transferConfirm({ orderCode: orderResponse?.orderCode })
+        if (res) {
+          redirectToOrderDetail()
+        }
+      } else {
+        toast.error('Không tìm thấy đơn hàng, vui lòng thanh toán lại hoặc liên hệ tổng đài')
+      }
+    }
+    void transferConfirm()
+  }
+
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    const payload = { ...data, CartItems: cartItems }
+    mutation.mutate(payload)
   }
 
   const renderProduct = (item: Product, index: number) => {
@@ -132,135 +201,55 @@ const CheckoutPage = () => {
 
   const renderLeft = () => {
     return (
-      <div className="space-y-8">
-        <div id="ContactInfo" className="scroll-mt-24">
-          <ContactInfo
-            isActive={tabActive === 'ContactInfo'}
-            onOpenActive={() => {
-              setTabActive('ContactInfo')
-              handleScrollToEl('ContactInfo')
-            }}
-            onCloseActive={() => {
-              setTabActive('ShippingAddress')
-              handleScrollToEl('ShippingAddress')
-            }}
-          />
-        </div>
-
-        <div id="ShippingAddress" className="scroll-mt-24">
-          <ShippingAddress
-            isActive={tabActive === 'ShippingAddress'}
-            onOpenActive={() => {
-              setTabActive('ShippingAddress')
-              handleScrollToEl('ShippingAddress')
-            }}
-            onCloseActive={() => {
-              setTabActive('PaymentMethod')
-              handleScrollToEl('PaymentMethod')
-            }}
-          />
-        </div>
-
-        <div id="PaymentMethod" className="scroll-mt-24">
-          <PaymentMethod
-            isActive={tabActive === 'PaymentMethod'}
-            onOpenActive={() => {
-              setTabActive('PaymentMethod')
-              handleScrollToEl('PaymentMethod')
-            }}
-            onCloseActive={() => setTabActive('PaymentMethod')}
-          />
-        </div>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
+          <PaymentMethod register={register} errors={errors} />
+          <ButtonPrimary className="mt-8 w-full">Thanh toán</ButtonPrimary>
+        </form>
+        {/* <DialogPopup
+          open={isShowDialogPayment}
+          title="Thanh toán qua QR"
+          content={contentDialog}
+          msgCancel="Hủy"
+          msgConfirm="Đã Chuyển khoản"
+          onCancel={() => redirectToOrderDetail()}
+          onConfirm={() => confirmTransfer()}
+          onHandle={() => setIsShowDialogPayment(false)}
+        /> */}
       </div>
     )
   }
 
-  return (
-    <div className="nc-CheckoutPage">
-      <div className="container py-16 lg:pb-28 lg:pt-20 ">
+  const renderPage = () => {
+    return (
+      <>
         <div className="mb-16">
-          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">Checkout</h2>
-          <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
-            <Link href={'/'} className="">
-              Homepage
-            </Link>
-            <span className="text-xs mx-1 sm:mx-1.5">/</span>
-            <Link href={'/collection'} className="">
-              Clothing Categories
-            </Link>
-            <span className="text-xs mx-1 sm:mx-1.5">/</span>
-            <span className="underline">Checkout</span>
-          </div>
+          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">Thanh toán đơn hàng</h2>
         </div>
 
         <div className="flex flex-col lg:flex-row">
-          <div className="flex-1">{renderLeft()}</div>
-
-          <div className="flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 my-10 lg:my-0 lg:mx-10 xl:lg:mx-14 2xl:mx-16 "></div>
-
           <div className="w-full lg:w-[36%] ">
-            <h3 className="text-lg font-semibold">Order summary</h3>
             <div className="mt-8 divide-y divide-slate-200/70 dark:divide-slate-700 ">{[PRODUCTS[0], PRODUCTS[2], PRODUCTS[3]].map(renderProduct)}</div>
-
-            <div className="mt-10 pt-6 text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-700 ">
-              <div>
-                <Label className="text-sm">Discount code</Label>
-                <div className="flex mt-1.5">
-                  <Input sizeClass="h-10 px-4 py-3" className="flex-1" />
-                  <button className="text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 rounded-2xl px-4 ml-3 font-medium text-sm bg-neutral-200/70 dark:bg-neutral-700 dark:hover:bg-neutral-800 w-24 flex justify-center items-center transition-colors">
-                    Apply
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 flex justify-between py-2.5">
-                <span>Subtotal</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-200">$249.00</span>
-              </div>
-              <div className="flex justify-between py-2.5">
-                <span>Shipping estimate</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-200">$5.00</span>
-              </div>
-              <div className="flex justify-between py-2.5">
-                <span>Tax estimate</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-200">$24.90</span>
-              </div>
-              <div className="flex justify-between font-semibold text-slate-900 dark:text-slate-200 text-base pt-4">
-                <span>Order total</span>
-                <span>$276.00</span>
-              </div>
-            </div>
-            <ButtonPrimary className="mt-8 w-full">Confirm order</ButtonPrimary>
-            <div className="mt-5 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center">
-              <p className="block relative pl-5">
-                <svg className="w-4 h-4 absolute -left-1 top-0.5" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path d="M12 8V13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M11.9945 16H12.0035" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Learn more{` `}
-                <a target="_blank" rel="noopener noreferrer" href="##" className="text-slate-900 dark:text-slate-200 underline font-medium">
-                  Taxes
-                </a>
-                <span>
-                  {` `}and{` `}
-                </span>
-                <a target="_blank" rel="noopener noreferrer" href="##" className="text-slate-900 dark:text-slate-200 underline font-medium">
-                  Shipping
-                </a>
-                {` `} infomation
-              </p>
-            </div>
+            <SummaryPrice />
           </div>
+          <div className="flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 my-10 lg:my-0 lg:mx-10 xl:lg:mx-14 2xl:mx-16 "></div>
+          <div className="flex-1">{renderLeft()}</div>
         </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <SEO title="Giỏ hàng" />
+      {/* <div className="nc-CheckoutPage">
+        <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào trong giỏ hàng</div>}</div>
+      </div> */}
+      <div className="nc-CheckoutPage">
+        <div className="container py-16 lg:pb-28 lg:pt-20 ">{renderPage()}</div>
       </div>
-    </div>
+    </>
   )
 }
 
