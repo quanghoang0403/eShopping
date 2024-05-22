@@ -1,12 +1,12 @@
 'use client'
 
-import Label from '@/shared/Label'
+import Label from '@/shared/Controller/Label'
 import React, { FC } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import Input from '@/shared/Input'
-import Radio from '@/shared/Radio'
-import Select from '@/shared/Select'
+import Radio from '@/shared/Controller/Radio'
+import Select from '@/shared/Controller/Select'
 
 interface Props {
   isActive: boolean

@@ -5,25 +5,25 @@ import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Route } from "@/routers/types";
 
-export interface NcDropDownItem {
+export interface DropDownItem {
   id: string;
   name: string;
   icon?: string;
   href?: Route;
 }
 
-export interface NcDropDownProps {
+export interface DropDownProps {
   className?: string;
   panelMenusClass?: string;
   iconClass?: string;
-  data: NcDropDownItem[];
+  data: DropDownItem[];
   renderTrigger?: () => JSX.Element;
-  renderItem?: (item: NcDropDownItem) => JSX.Element;
+  renderItem?: (item: DropDownItem) => JSX.Element;
   title?: string;
-  onClick: (item: NcDropDownItem) => void;
+  onClick: (item: DropDownItem) => void;
 }
 
-const NcDropDown: FC<NcDropDownProps> = ({
+const DropDown: FC<DropDownProps> = ({
   className = `h-8 w-8 flex items-center justify-center`,
   iconClass = "w-4 h-4 sm:h-5 sm:w-5",
   panelMenusClass = "origin-top-right",
@@ -115,4 +115,4 @@ const NcDropDown: FC<NcDropDownProps> = ({
   );
 };
 
-export default NcDropDown;
+export default DropDown;

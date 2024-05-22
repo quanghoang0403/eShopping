@@ -1,9 +1,9 @@
-import Label from '@/shared/Label'
+import Label from '@/shared/Controller/Label'
 import React, { FC } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Input from '@/shared/Input'
-import Select from '@/shared/Select'
-import Textarea from '@/shared/Textarea'
+import Select from '@/shared/Controller/Select'
+import Textarea from '@/shared/Controller/Textarea'
 import { avatarImgs } from '@/constants/fakeData'
 import Image from 'next/image'
 

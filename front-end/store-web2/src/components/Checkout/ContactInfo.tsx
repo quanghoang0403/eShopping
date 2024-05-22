@@ -1,8 +1,8 @@
-import Label from '@/shared/Label'
+import Label from '@/shared/Controller/Label'
 import React, { FC } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
-import Checkbox from '@/shared/Checkbox'
+import Checkbox from '@/shared/Controller/Checkbox'
 import Input from '@/shared/Input'
 
 interface Props {
@@ -43,7 +43,7 @@ const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive }) => {
           </span>
           <div className="sm:ml-8">
             <h3 className=" text-slate-700 dark:text-slate-300 flex ">
-              <span className="uppercase tracking-tight">CONTACT INFO</span>
+              <span className="uppercase tracking-tight">Thông tin liên hệ</span>
               <svg fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-5 h-5 ml-3 text-slate-900 dark:text-slate-100 ">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>

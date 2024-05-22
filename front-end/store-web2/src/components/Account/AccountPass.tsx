@@ -1,4 +1,4 @@
-import Label from '@/shared/Label'
+import Label from '@/shared/Controller/Label'
 import React from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Input from '@/shared/Input'
