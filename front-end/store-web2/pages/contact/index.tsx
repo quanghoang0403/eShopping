@@ -5,7 +5,7 @@ import Input from '@/shared/Input'
 import Textarea from '@/shared/Textarea'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import BackgroundSection from '@/shared/Background/BackgroundSection'
-import PromoBanner1 from '@/components/PromoBanner1'
+import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 
 const info = [
   {
