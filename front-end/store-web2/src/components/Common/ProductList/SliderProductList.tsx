@@ -4,7 +4,6 @@ import React, { FC, useEffect, useId, useRef, useState } from 'react'
 import Heading from '@/shared/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import { Product, PRODUCTS } from '@/data/data'
 import ProductCard from '@/components/Product/ProductCard'
 
 export interface SliderProductListProps {
@@ -14,7 +13,7 @@ export interface SliderProductListProps {
   headingFontClassName?: string
   headingClassName?: string
   subHeading?: string
-  data?: Product[]
+  data: IProduct[]
 }
 
 const SliderProductList: FC<SliderProductListProps> = ({
@@ -24,7 +23,7 @@ const SliderProductList: FC<SliderProductListProps> = ({
   headingClassName,
   heading,
   subHeading,
-  data = PRODUCTS.filter((_, i) => i < 8 && i > 2),
+  data,
 }) => {
   const sliderRef = useRef(null)
 

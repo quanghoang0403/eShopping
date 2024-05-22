@@ -20,13 +20,12 @@ import NcImage from '@/shared/NcImage'
 
 export interface ProductCardProps {
   className?: string
-  data?: Product
+  data: IProduct
   isLiked?: boolean
 }
 
-const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0], isLiked }) => {
-  const { name, price, description, sizes, variants, variantType, status, image, rating, id, numberOfReviews } = data
-
+const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) => {
+  const { name, description, priceValue, priceDiscount } = data
   const [variantActive, setVariantActive] = useState(0)
   const [showModalQuickView, setShowModalQuickView] = useState(false)
   const router = useRouter()
@@ -52,7 +51,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0],
       ),
       {
         position: 'top-right',
-        id: String(id) || 'product-detail',
+        id: String(data.id) || 'product-detail',
         duration: 3000,
       }
     )
@@ -62,7 +61,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0],
     return (
       <div className="flex ">
         <div className="h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image width={80} height={96} src={image} alt={name} className="absolute object-cover object-center" />
+          <Image width={80} height={96} src={data.thumbnail} alt={name} className="absolute object-cover object-center" />
         </div>
 
         <div className="ms-4 flex flex-1 flex-col">
@@ -71,12 +70,12 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0],
               <div>
                 <h3 className="text-base font-medium ">{name}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{variants ? variants[variantActive].name : `Natural`}</span>
+                  {/* <span>{variants ? variants[variantActive].name : `Natural`}</span> */}
                   <span className="mx-2 border-s border-slate-200 dark:border-slate-700 h-4"></span>
                   <span>{size || 'XL'}</span>
                 </p>
               </div>
-              <Price price={price} className="mt-0.5" />
+              <Price price={priceValue} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
@@ -126,58 +125,58 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0],
   }
 
   const renderVariants = () => {
-    if (!variants || !variants.length || !variantType) {
-      return null
-    }
+    // if (!variants || !variants.length || !variantType) {
+    //   return null
+    // }
 
-    if (variantType === 'color') {
-      return (
-        <div className="flex space-x-1">
-          {variants.map((variant, index) => (
-            <div
-              key={index}
-              onClick={() => setVariantActive(index)}
-              className={`relative w-6 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
-                variantActive === index ? getBorderClass(variant.color) : 'border-transparent'
-              }`}
-              title={variant.name}
-            >
-              <div className={`absolute inset-0.5 rounded-full z-0 ${variant.color}`}></div>
-            </div>
-          ))}
-        </div>
-      )
-    }
+    // if (variantType === 'color') {
+    //   return (
+    //     <div className="flex space-x-1">
+    //       {variants.map((variant, index) => (
+    //         <div
+    //           key={index}
+    //           onClick={() => setVariantActive(index)}
+    //           className={`relative w-6 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
+    //             variantActive === index ? getBorderClass(variant.color) : 'border-transparent'
+    //           }`}
+    //           title={variant.name}
+    //         >
+    //           <div className={`absolute inset-0.5 rounded-full z-0 ${variant.color}`}></div>
+    //         </div>
+    //       ))}
+    //     </div>
+    //   )
+    // }
 
-    return (
-      <div className="flex ">
-        {variants.map((variant, index) => (
-          <div
-            key={index}
-            onClick={() => setVariantActive(index)}
-            className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
-              variantActive === index ? 'border-black dark:border-slate-300' : 'border-transparent'
-            }`}
-            title={variant.name}
-          >
-            <div
-              className="absolute inset-0.5 rounded-full overflow-hidden z-0 bg-cover"
-              style={{
-                backgroundImage: `url(${
-                  // @ts-ignore
-                  typeof variant.thumbnail?.src === 'string'
-                    ? // @ts-ignore
-                      variant.thumbnail?.src
-                    : typeof variant.thumbnail === 'string'
-                    ? variant.thumbnail
-                    : ''
-                })`,
-              }}
-            ></div>
-          </div>
-        ))}
-      </div>
-    )
+    // return (
+    //   <div className="flex ">
+    //     {variants.map((variant, index) => (
+    //       <div
+    //         key={index}
+    //         onClick={() => setVariantActive(index)}
+    //         className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
+    //           variantActive === index ? 'border-black dark:border-slate-300' : 'border-transparent'
+    //         }`}
+    //         title={variant.name}
+    //       >
+    //         <div
+    //           className="absolute inset-0.5 rounded-full overflow-hidden z-0 bg-cover"
+    //           style={{
+    //             backgroundImage: `url(${
+    //               // @ts-ignore
+    //               typeof variant.thumbnail?.src === 'string'
+    //                 ? // @ts-ignore
+    //                   variant.thumbnail?.src
+    //                 : typeof variant.thumbnail === 'string'
+    //                 ? variant.thumbnail
+    //                 : ''
+    //             })`,
+    //           }}
+    //         ></div>
+    //       </div>
+    //     ))}
+    //   </div>
+    // )
   }
 
   const renderGroupButtons = () => {
@@ -201,25 +200,25 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0],
   }
 
   const renderSizeList = () => {
-    if (!sizes || !sizes.length) {
-      return null
-    }
+    // if (!sizes || !sizes.length) {
+    //   return null
+    // }
 
-    return (
-      <div className="absolute bottom-0 inset-x-1 space-x-1.5 rtl:space-x-reverse flex justify-center opacity-0 invisible group-hover:bottom-4 group-hover:opacity-100 group-hover:visible transition-all">
-        {sizes.map((size, index) => {
-          return (
-            <div
-              key={index}
-              className="nc-shadow-lg w-10 h-10 rounded-xl bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center uppercase font-semibold tracking-tight text-sm text-slate-900"
-              onClick={() => notifyAddTocart({ size })}
-            >
-              {size}
-            </div>
-          )
-        })}
-      </div>
-    )
+    // return (
+    //   <div className="absolute bottom-0 inset-x-1 space-x-1.5 rtl:space-x-reverse flex justify-center opacity-0 invisible group-hover:bottom-4 group-hover:opacity-100 group-hover:visible transition-all">
+    //     {sizes.map((size, index) => {
+    //       return (
+    //         <div
+    //           key={index}
+    //           className="nc-shadow-lg w-10 h-10 rounded-xl bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center uppercase font-semibold tracking-tight text-sm text-slate-900"
+    //           onClick={() => notifyAddTocart({ size })}
+    //         >
+    //           {size}
+    //         </div>
+    //       )
+    //     })}
+    //   </div>
+    // )
   }
 
   return (
@@ -231,31 +230,31 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data = PRODUCTS[0],
           <Link href={'/product-detail'} className="block">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
-              src={image}
+              src={data.thumbnail}
               className="object-cover w-full h-full drop-shadow-xl"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
               alt="product"
             />
           </Link>
-          <ProductStatus status={status} />
+          <ProductStatus status={"50% Discount"} />
           <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" />
-          {sizes ? renderSizeList() : renderGroupButtons()}
+          {/* {sizes ? renderSizeList() : renderGroupButtons()} */}
         </div>
 
         <div className="space-y-4 px-2.5 pt-5 pb-2.5">
-          {renderVariants()}
+          {/* {renderVariants()} */}
           <div>
             <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">{name}</h2>
             <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>{description}</p>
           </div>
 
           <div className="flex justify-between items-end ">
-            <Price price={price} />
+            <Price price={priceValue} />
             <div className="flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
               <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
-                {rating || ''} ({numberOfReviews || 0} reviews)
+                4 (5 reviews)
               </span>
             </div>
           </div>

@@ -6,6 +6,8 @@ interface IProduct extends ISEO {
   priceDiscount?: number;
   isFeatured?: boolean;
   isDiscounted?: boolean;
+  IsNewIn?: boolean;
+  IsSoldOut?: boolean;
 }
 
 interface IProductDetail extends ISEO {
@@ -13,6 +15,8 @@ interface IProductDetail extends ISEO {
   thumbnail: string;
   isFeatured?: boolean;
   isDiscounted?: boolean;
+  IsNewIn?: boolean;
+  IsSoldOut?: boolean;
   gallery: string[];
   productCategory: IProductCategory;
   productPrices: IProductPrice[];
