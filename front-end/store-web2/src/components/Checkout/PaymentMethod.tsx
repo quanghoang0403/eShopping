@@ -1,6 +1,6 @@
 'use client'
 
-import Label from '@/shared/Label/Label'
+import Label from '@/shared/Label'
 import React, { FC, useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'

@@ -5,13 +5,11 @@ import Heading from '@/shared/Heading'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import { PRODUCTS, SPORT_PRODUCTS } from '@/data/data'
 import SEO from '@/components/Layout/SEO'
-import { Metadata } from 'next'
 import SectionHeroSingle from '@/components/Home/SectionHero/SectionHeroSingle'
 import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 import PromoBanner2 from '@/components/Common/Banner/PromoBanner2'
 import PromoBanner3 from '@/components/Common/Banner/PromoBanner3'
 import LargeProductList from '@/components/Common/ProductList/LargeProductList'
-import LargeProductList2 from '@/components/Common/ProductList/LargeProductList2'
 import SliderProductList from '@/components/Common/ProductList/SliderProductList'
 import GridCategoryList from '@/components/Common/CategoryList/GridCategoryList'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
@@ -25,39 +23,38 @@ function PageHome() {
         <SectionHeroSingle />
 
         <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-          <SliderProductList data={[PRODUCTS[4], SPORT_PRODUCTS[5], PRODUCTS[7], SPORT_PRODUCTS[1], PRODUCTS[6]]} />
-          <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
-            <SectionHowItWork />
-          </div>
-          <PromoBanner1 />
+          {/* <SliderProductList data={[PRODUCTS[4], SPORT_PRODUCTS[5], PRODUCTS[7], SPORT_PRODUCTS[1], PRODUCTS[6]]} /> */}
+          {/* <PromoBanner1 /> */}
 
-          <div className="relative py-24 lg:py-32">
+          {/* <div className="relative py-24 lg:py-32">
             <BackgroundSection />
             <GridCategoryList />
-          </div>
+          </div> */}
 
-          <SliderProductList heading="Best Sellers" subHeading="Best selling of the month" />
+          <SliderProductList heading="Best Sellers" subHeading="Bán chạy trong tháng" />
 
-          <PromoBanner2 />
+          <SliderProductList heading="Sản phẩm nổi bật" />
 
-          <LargeProductList />
+          <SliderProductList heading="Khuyến mãi khủng" />
 
           <SliderCategoryList />
 
-          <PromoBanner3 />
+          <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
+            <SectionHowItWork />
+          </div>
+          {/* <PromoBanner3 /> */}
 
-          <GridFeatureProductList />
+          {/* <GridFeatureProductList /> */}
 
-          <div className="relative py-24 lg:py-32">
+          {/* <div className="relative py-24 lg:py-32">
             <BackgroundSection />
             <div>
               <Heading rightDescText="From the Ciseco blog">The latest news</Heading>
-              {/* <SectionMagazine5 /> */}
               <div className="flex mt-16 justify-center">
                 <ButtonSecondary>Show all blog articles</ButtonSecondary>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

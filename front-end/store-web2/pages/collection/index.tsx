@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import SectionSliderCollections from '@/components/ProductList/LargeProductList'
 import ProductCard from '@/components/Product/ProductCard'
 import { PRODUCTS } from '@/data/data'
 import TabFilter from '@/shared/Filter/TabFilter'
 import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
+import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 
 const PageCollection = ({}) => {
   return (
@@ -43,7 +43,7 @@ const PageCollection = ({}) => {
         {/* === SECTION 5 === */}
         <hr className="border-slate-200 dark:border-slate-700" />
 
-        <SectionSliderCollections />
+        <SliderCategoryList />
         <hr className="border-slate-200 dark:border-slate-700" />
 
         {/* SUBCRIBES */}

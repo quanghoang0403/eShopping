@@ -19,7 +19,7 @@ interface IOption {
   name?: string;
 }
 
-interface IBaseResponse<T> {
+interface T> {
   code: number;
   data: T;
   message: string;

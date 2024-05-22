@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import SocialsListHorizontal from '@/shared/SocialsList'
-import Label from '@/shared/Label/Label'
+import Label from '@/shared/Label'
 import Input from '@/shared/Input'
 import Textarea from '@/shared/Textarea'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'

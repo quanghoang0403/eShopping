@@ -4,9 +4,10 @@ import { Switch } from '@headlessui/react'
 
 export interface SwitchDarkModeProps {
   className?: string
-  type: 1 | 2
+  switchType?: boolean
 }
-const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ type = 1, className = '' }) => {
+
+const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ className = '', switchType = false }) => {
   const { _toogleDarkMode, isDarkMode, toDark, toLight } = useThemeMode()
 
   const switchType1 = () => {
@@ -56,7 +57,7 @@ const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ type = 1, className = '
           checked={isDarkMode}
           onChange={_toogleDarkMode}
           className={`${isDarkMode ? 'bg-teal-900' : 'bg-teal-600'}
-          relative inline-flex h-[22px] w-[42px] shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+          relative inline-flex h-[22px] w-[42px] shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
           <span className="sr-only">Enable dark mode</span>
           <span
@@ -69,7 +70,7 @@ const SwitchDarkMode: React.FC<SwitchDarkModeProps> = ({ type = 1, className = '
     )
   }
 
-  return <>{type == 1 ? switchType1() : switchType2()}</>
+  return <>{switchType ? switchType2() : switchType1()}</>
 }
 
 export default SwitchDarkMode
