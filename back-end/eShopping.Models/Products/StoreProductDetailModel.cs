@@ -7,7 +7,13 @@ namespace eShopping.Models.Products
     {
         public int Code { get; set; }
 
+        public bool? IsDiscount { get; set; }
+
         public bool? IsFeatured { get; set; }
+
+        public bool? IsNewIn { get; set; }
+
+        public bool? IsSoldOut { get; set; }
 
         public int Priority { set; get; }
 

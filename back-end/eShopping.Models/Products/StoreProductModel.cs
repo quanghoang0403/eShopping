@@ -21,7 +21,13 @@ namespace eShopping.Models.Products
         public decimal? PriceDiscount { set; get; }
 
         public float? PercentNumber { set; get; }
+
         public bool? IsFeatured { get; set; }
+
         public bool? IsDiscount { get; set; }
+
+        public bool? IsNewIn { get; set; }
+
+        public bool? IsSoldOut { get; set; }
     }
 }
