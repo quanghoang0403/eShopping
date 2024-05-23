@@ -12,12 +12,14 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   errors?: FieldErrors<FieldValues>
   placeholder?: string
   hideLabel?: boolean
-  // value?: string
+  value?: string
+  className?: string
+  ref: any
 }
 
 // eslint-disable-next-line react/display-name
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ register, patternValidate, className = '', children, rows = 4, errors, name = '', label, hideLabel, ...args }, ref) => {
+  ({ register, patternValidate, className = '', children, rows = 4, errors, name = '', label, hideLabel, value, ref, ...args }, ref) => {
     return (
       <>
         {label && !hideLabel && (
@@ -31,6 +33,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             {...register(name, {
               ...patternValidate,
             })}
+            defaultValue={value || ''}
             ref={ref}
             className={`block w-full text-sm rounded-2xl border-neutral-200 focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white dark:border-neutral-700 dark:focus:ring-primary-6000 dark:focus:ring-opacity-25 dark:bg-neutral-900 ${className}`}
             rows={rows}
@@ -40,6 +43,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           </textarea>
         ) : (
           <textarea
+            defaultValue={value || ''}
             ref={ref}
             className={`block w-full text-sm rounded-2xl border-neutral-200 focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white dark:border-neutral-700 dark:focus:ring-primary-6000 dark:focus:ring-opacity-25 dark:bg-neutral-900 ${className}`}
             rows={rows}

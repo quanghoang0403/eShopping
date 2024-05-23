@@ -1,6 +1,3 @@
-import '@/fonts/line-awesome-1.3.0/css/line-awesome.css'
-import '@/styles/index.scss'
-import 'rc-slider/assets/index.css'
 import SiteHeader from '@/components/Layout/SiteHeader'
 import SiteFooter from '@/components/Layout/SiteFooter'
 import { Toaster } from 'react-hot-toast'

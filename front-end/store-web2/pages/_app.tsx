@@ -1,25 +1,27 @@
-import type { AppProps } from "next/app";
-import SEO from "@/components/Layout/SEO";
-import MainLayout from "@/components/Layout";
-import { Provider } from "react-redux";
-import { wrapper } from "@/redux/store";
-import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import Router from "next/router";
-import "../src/styles/index.scss";
-import React from "react";
-import { I18nextProvider } from "react-i18next";
-import i18n from "../src/utils/i18n";
-import NProgress from "nprogress";
+import '@/fonts/line-awesome-1.3.0/css/line-awesome.css'
+import '@/styles/index.scss'
+import 'rc-slider/assets/index.css'
+import type { AppProps } from 'next/app'
+import SEO from '@/components/Layout/SEO'
+import MainLayout from '@/components/Layout'
+import { Provider } from 'react-redux'
+import { wrapper } from '@/redux/store'
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import Router from 'next/router'
+import React from 'react'
+import { I18nextProvider } from 'react-i18next'
+import i18n from '../src/utils/i18n'
+import NProgress from 'nprogress'
 
-NProgress.configure({ showSpinner: true });
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
+NProgress.configure({ showSpinner: true })
+Router.events.on('routeChangeStart', () => NProgress.start())
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 export default function App({ Component, pageProps }: AppProps) {
-  const queryClient = React.useRef(new QueryClient());
-  const { store } = wrapper.useWrappedStore(pageProps);
+  const queryClient = React.useRef(new QueryClient())
+  const { store } = wrapper.useWrappedStore(pageProps)
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient.current}>
@@ -34,5 +36,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </Hydrate>
       </QueryClientProvider>
     </Provider>
-  );
+  )
 }
