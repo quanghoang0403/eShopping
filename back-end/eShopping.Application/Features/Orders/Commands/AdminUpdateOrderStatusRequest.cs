@@ -1,5 +1,4 @@
-﻿using eShopping.Common.Exceptions;
-using eShopping.Common.Models;
+﻿using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -39,47 +38,54 @@ namespace eShopping.Application.Features.Orders.Commands
             var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).Include(o => o.OrderItems).FirstOrDefaultAsync(cancellationToken);
             var prices = await _unitOfWork.ProductPrices
                 .Where(x => order.OrderItems.Select(cart => cart.ProductPriceId).Contains(x.Id)).ToListAsync();
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            if (order != null)
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                order.Status = request.Status;
-
-                foreach (var item in order.OrderItems)
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                if (order != null)
                 {
-                    var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
-                    var orderItem = order.OrderItems.Where(i => i.ProductPriceId == price.Id).FirstOrDefault();
-                    if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
+                    order.Status = request.Status;
+
+                    foreach (var item in order.OrderItems)
                     {
-                        price.QuantityLeft += orderItem.Quantity;
-                        price.QuantitySold -= orderItem.Quantity;
+                        var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
+                        var orderItem = order.OrderItems.Where(i => i.ProductPriceId == price.Id).FirstOrDefault();
+                        if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
+                        {
+                            price.QuantityLeft += orderItem.Quantity;
+                            price.QuantitySold -= orderItem.Quantity;
+                        }
+                        else if (request.Status == EnumOrderStatus.Confirmed)
+                        {
+                            if (price.QuantityLeft < orderItem.Quantity)
+                            {
+                                return BaseResponseModel.ReturnError("This product is out of stock");
+                            }
+                            price.QuantityLeft -= orderItem.Quantity;
+                            price.QuantitySold += orderItem.Quantity;
+                        }
+                        price.LastSavedTime = DateTime.UtcNow;
+                        price.LastSavedUser = accountId;
                     }
-                    else if (request.Status == EnumOrderStatus.Confirmed)
-                    {
-                        ThrowError.Against(price.QuantityLeft < orderItem.Quantity, "This product is out of stock");
-                        price.QuantityLeft -= orderItem.Quantity;
-                        price.QuantitySold += orderItem.Quantity;
-                    }
-                    price.LastSavedTime = DateTime.UtcNow;
-                    price.LastSavedUser = accountId;
+
+                    order.LastSavedUser = accountId;
+                    order.LastSavedTime = DateTime.Now;
                 }
 
-                order.LastSavedUser = accountId;
-                order.LastSavedTime = DateTime.Now;
-            }
+                // Add order history
+                var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
+                {
+                    OrderId = order.Id,
+                    ActionType = EnumOrderActionType.CANCEL,
+                    Note = request.Note,
+                    CreatedTime = DateTime.Now,
+                    CreatedUser = accountId,
+                });
 
-            // Add order history
-            var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
-            {
-                OrderId = order.Id,
-                ActionType = EnumOrderActionType.CANCEL,
-                Note = request.Note,
-                CreatedTime = DateTime.Now,
-                CreatedUser = accountId,
+                await _unitOfWork.SaveChangesAsync();
+                await createTransaction.CommitAsync(cancellationToken);
+                return BaseResponseModel.ReturnData();
             });
 
-            await _unitOfWork.SaveChangesAsync();
-            await createTransaction.CommitAsync(cancellationToken);
-            return BaseResponseModel.ReturnData();
         }
     }
 }
