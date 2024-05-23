@@ -102,8 +102,7 @@ export default function FormNewProductCategory(props) {
   const getProducts = async () => {
     const res = await productDataService.getAllProductsAsync()
     if (res) {
-      console.log(res);
-      setProducts(res.products)
+      setProducts(res)
     }
   }
 

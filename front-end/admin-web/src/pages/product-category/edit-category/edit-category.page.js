@@ -126,7 +126,7 @@ export default function EditProductCategoryPage(props) {
     if (productCategoryId) {
       productCategoryDataService.getProductCategoryByIdAsync(productCategoryId).then((response) => {
         if (response) {
-          const { productCategory } = response
+          const productCategory = response
           /// Handle set data
           if (productCategory.products) {
             setDataSelectedProducts(productCategory.products)
@@ -155,7 +155,7 @@ export default function EditProductCategoryPage(props) {
   const getProducts = () => {
     productDataService.getAllProductsAsync().then((res) => {
       if (res) {
-        setProducts(res.products)
+        setProducts(res)
       }
     })
   }
@@ -331,6 +331,7 @@ export default function EditProductCategoryPage(props) {
     const res = await productCategoryDataService.deleteProductCategoryByIdAsync(productCategoryId)
     if (res) {
       message.success(pageData.productCategoryDeleteSuccess)
+      setIsChangeForm(false)
       props?.history.push('/product-category')
     } else {
       message.error(pageData.productCategoryDeleteFail)

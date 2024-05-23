@@ -64,13 +64,14 @@ export default function TableProductCategory() {
 
   const fetchDataTableAsync = async (pageNumber, pageSize, keySearch) => {
     const response = await productCategoryDataService.getProductCategoriesAsync(pageNumber, pageSize, keySearch);
-    const data = response?.productCategories.map((s) => mappingRecordToColumns(s));
+    const data = response?.result?.map((s) => mappingRecordToColumns(s));
     setDataSource(data);
-    setTotalRecords(response.total);
-    setCurrentPageNumber(response.pageNumber);
+    setTotalRecords(response?.paging?.total);
+    setCurrentPageNumber(response?.paging?.pageIndex);
   }
 
   const reload = async () => {
+    console.log(currentPageNumber)
     await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, '')
   }
 
@@ -115,7 +116,7 @@ export default function TableProductCategory() {
       const responseData = await productDataService.getProductsByCategoryIdAsync(productCategory?.id, keySearch);
 
       if (responseData) {
-        const records = responseData?.products?.map((item) => {
+        const records = responseData?.result?.map((item) => {
           return {
             key: item?.id,
             productId: item?.id,
@@ -130,7 +131,7 @@ export default function TableProductCategory() {
         await getProducts(records);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -267,7 +268,7 @@ export default function TableProductCategory() {
     try {
       var res = await productDataService.getAllProductsAsync();
       if (res) {
-        const productsToAddModel = res.products;
+        const productsToAddModel = res;
         setAllProducts(productsToAddModel);
         var productIds = records.map(function (item) {
           return item["productId"];
