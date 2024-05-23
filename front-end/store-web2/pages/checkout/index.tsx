@@ -119,7 +119,6 @@ const CheckoutPage = () => {
 
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-[36%] ">
-            <h3 className="text-lg font-semibold">Danh sách sản phẩm</h3>
             <CartList />
             <SummaryPrice />
           </div>

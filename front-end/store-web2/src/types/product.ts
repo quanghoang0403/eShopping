@@ -18,7 +18,7 @@ interface IProductDetail extends ISEO {
   IsNewIn?: boolean
   IsSoldOut?: boolean
   gallery: string[]
-  productCategory: IProductCategory
+  productCategory?: IProductCategory
   productPrices: IProductPrice[]
 }
 

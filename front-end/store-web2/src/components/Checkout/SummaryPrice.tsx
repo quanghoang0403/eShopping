@@ -14,7 +14,7 @@ const SummaryPrice: FC<SummaryPriceProps> = ({ shipping = 20000 }) => {
         <span>Tổng tiền</span>
         <span className="font-semibold text-slate-900 dark:text-slate-200">{formatCurrency(totalPrice)}</span>
       </div>
-      <div className="flex justify-between py-2.5">
+      <div className="flex justify-between py-4">
         <span>Phí giao hàng</span>
         <span className="font-semibold text-slate-900 dark:text-slate-200">{formatCurrency(shipping)}</span>
       </div>

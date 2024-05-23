@@ -1,20 +1,3 @@
-import { productImgs } from '@/constants/fakeData'
-import productVariantImg2 from '@/images/products/v2.jpg'
-import productVariantImg3 from '@/images/products/v3.jpg'
-import productVariantImg4 from '@/images/products/v4.jpg'
-import productVariantImg5 from '@/images/products/v5.jpg'
-import productVariantImg6 from '@/images/products/v6.jpg'
-//
-import productSport1 from '@/images/products/sport-1.png'
-import productSport2 from '@/images/products/sport-2.png'
-import productSport3 from '@/images/products/sport-3.png'
-import productSport4 from '@/images/products/sport-4.png'
-import productSport5 from '@/images/products/sport-5.png'
-import productSport6 from '@/images/products/sport-6.png'
-import productSport7 from '@/images/products/sport-7.png'
-import productSport8 from '@/images/products/sport-8.png'
-import { StaticImageData } from 'next/image'
-
 export const PRODUCTS: IProduct[] = [
   {
     id: '10',

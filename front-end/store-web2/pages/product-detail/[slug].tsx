@@ -46,43 +46,86 @@ interface IProps {
   productRelated: IProduct[]
 }
 
-export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
-  const { params, req } = context
-  const slug = params?.url
+// export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
+//   const { params, req } = context
+//   const slug = params?.url
 
-  try {
-    const productDetail = await ProductService.getProductByUrl(slug as string)
-    const getProductRelatedRequestModel: IGetProductsRequest = {
-      pageNumber: 0,
-      pageSize: PageSizeConstants.Default,
-      keySearch: '',
-      productCategoryId: productDetail?.productCategory?.id as string,
-      sortType: 0,
-      isFeatured: false,
-      isDiscounted: false,
-    }
-    const productRelated = await ProductService.getProducts(getProductRelatedRequestModel)
-    return {
-      props: {
-        productDetail: productDetail,
-        productRelated: productRelated?.result,
+//   try {
+//     const productDetail = await ProductService.getProductByUrl(slug as string)
+//     const getProductRelatedRequestModel: IGetProductsRequest = {
+//       pageNumber: 0,
+//       pageSize: PageSizeConstants.Default,
+//       keySearch: '',
+//       productCategoryId: productDetail?.productCategory?.id as string,
+//       sortType: 0,
+//       isFeatured: false,
+//       isDiscounted: false,
+//     }
+//     const productRelated = await ProductService.getProducts(getProductRelatedRequestModel)
+//     return {
+//       props: {
+//         productDetail: productDetail,
+//         productRelated: productRelated?.result,
+//       },
+//     }
+//   } catch (error) {
+//     console.error('Error fetching product:', error)
+//     return {
+//       notFound: true,
+//     }
+//   }
+// }
+
+//const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
+const ProductDetailPage = () => {
+  const productDetail = {
+    code: 84,
+    viewCount: 0,
+    isFeatured: true,
+    isDiscounted: true,
+    status: 1,
+    priority: 0,
+    thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+    productCategories: [
+      {
+        id: 'e26163b9-30d2-475d-49c9-08dc5e246ecd',
+        no: 0,
+        name: 'asdasd',
+        isShowOnHome: false,
+        priority: 1,
+        numberOfProduct: 0,
       },
-    }
-  } catch (error) {
-    console.error('Error fetching product:', error)
-    return {
-      notFound: true,
-    }
-  }
-}
-
-const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
+    ],
+    productPrices: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        priceName: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        quantityLeft: 61,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        priceName: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        quantityLeft: 61,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ],
+    gallery: ['https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png'],
+    id: '40fed1f2-e668-40b3-f5fa-08dc66b3bd8a',
+    name: '323',
+    content: '',
+    keywordSEO: 'wqeqwe',
+    urlSEO: '323',
+  } as IProductDetail
   const { productPrices } = productDetail
   const [variantActive, setVariantActive] = useState(0)
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    setVariantActive(0)
-  }, [productDetail])
 
   const handleAddProduct = () => {
     const cartItem: ICartItem = {
@@ -114,7 +157,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
       <div>
         <label htmlFor="">
           <span className="text-sm font-medium">
-            - <span className="ml-1 font-semibold">{productPrices[variantActive].priceName}</span>
+            <span className="ml-1 font-semibold">{productPrices[variantActive].priceName}</span>
           </span>
         </label>
         <div className="flex mt-3">
@@ -204,7 +247,11 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" priceValue={productPrices[variantActive].priceValue} />
+            <Price
+              contentClass="py-1 px-2 md:py-1.5 md:px-3 text-2xl font-semibold"
+              priceValue={productPrices[variantActive].priceValue}
+              priceDiscount={productPrices[variantActive].priceDiscount}
+            />
 
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
 
@@ -220,7 +267,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
               <span className="hidden sm:block mx-2.5">·</span>
               <div className="hidden sm:flex items-center text-sm">
                 <SparklesIcon className="w-3.5 h-3.5" />
-                <span className="ml-1 leading-none">{status}</span>
+                <span className="ml-1 leading-none">Mới về</span>
               </div>
             </div>
           </div>
@@ -378,7 +425,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"
-            data={productRelated}
+            // data={productRelated}
           />
 
           {/* SECTION */}

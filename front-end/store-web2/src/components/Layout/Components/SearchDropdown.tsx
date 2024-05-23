@@ -1,5 +1,5 @@
+import Input from '@/shared/Controller/Input'
 import { Popover, Transition } from '@headlessui/react'
-import Input from '@/shared/Input'
 import React, { FC, Fragment } from 'react'
 
 interface Props {
@@ -46,7 +46,7 @@ const SearchDropdown: FC<Props> = ({ className = '' }) => {
               >
                 <Popover.Panel static className="absolute right-0 z-10 w-screen max-w-sm mt-3">
                   <form action="" method="POST">
-                    <Input ref={inputRef} type="search" placeholder="Type and press enter" />
+                    <Input ref={inputRef} placeholder="Type and press enter" />
                     <input type="submit" hidden value="" />
                   </form>
                 </Popover.Panel>

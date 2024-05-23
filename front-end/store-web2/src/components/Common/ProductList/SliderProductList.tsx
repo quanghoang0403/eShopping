@@ -13,7 +13,7 @@ export interface SliderProductListProps {
   headingFontClassName?: string
   headingClassName?: string
   subHeading?: string
-  data: IProduct[]
+  data?: IProduct[]
 }
 
 const SliderProductList: FC<SliderProductListProps> = ({

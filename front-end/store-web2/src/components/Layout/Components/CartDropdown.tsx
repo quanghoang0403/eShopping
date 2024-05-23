@@ -25,7 +25,7 @@ export default function CartDropdown() {
     dispatch(sessionActions.updateProductInCart({ productId, productPriceId, quantity }))
   }
   const renderProduct = (item: ICartItem, index: number, close: () => void) => {
-    const { productName, priceName, priceValue, priceDiscount, thumbnail, productUrl } = item
+    const { productName, priceName, priceValue, priceDiscount, thumbnail, productUrl, quantity } = item
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
@@ -52,7 +52,7 @@ export default function CartDropdown() {
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
-            <p className="text-gray-500 dark:text-slate-400">{`Qty 1`}</p>
+            <p className="text-gray-500 dark:text-slate-400">{`Số lượng: ${quantity}`}</p>
 
             <div className="flex">
               <button
@@ -79,7 +79,7 @@ export default function CartDropdown() {
                  group w-10 h-10 sm:w-12 sm:h-12 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 relative`}
           >
             <div className="w-3.5 h-3.5 flex items-center justify-center bg-primary-500 absolute top-1.5 right-1.5 rounded-full text-[10px] leading-none text-white font-medium">
-              <span>3</span>
+              <span>{totalQuantity}</span>
             </div>
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path

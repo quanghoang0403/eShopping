@@ -33,7 +33,9 @@ const CartPage = () => {
         <hr className="border-slate-200 dark:border-slate-700 my-10 xl:my-12" />
 
         <div className="flex flex-col lg:flex-row">
-          <CartList />
+          <div className="w-full lg:w-[50%] ">
+            <CartList />
+          </div>
           <div className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 my-10 lg:my-0 lg:mx-10 xl:mx-16 2xl:mx-20 flex-shrink-0"></div>
           <div className="flex-1">
             <div className="sticky top-28">

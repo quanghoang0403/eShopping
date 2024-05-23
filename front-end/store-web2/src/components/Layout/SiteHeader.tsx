@@ -3,12 +3,12 @@
 import React, { createRef, FC, useState } from 'react'
 import Logo from '@/shared/Logo'
 import MenuBar from '@/shared/MenuBar'
-import AvatarDropdown from './components/AvatarDropdown'
 import Navigation from '@/shared/Navigation/Navigation'
-import CartDropdown from './components/CartDropdown'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
 import { useThemeMode } from '@/hooks/useThemeMode'
+import AvatarDropdown from './Components/AvatarDropdown'
+import CartDropdown from './Components/CartDropdown'
 
 export interface SiteHeaderProps {}
 

@@ -24,15 +24,15 @@ const NotifyAddTocart: FC<Props> = ({ show, item }) => {
                 <h3 className="text-base font-medium ">{productName}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                   <span>{priceName}</span>
-                  <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  {/* <span>{sizeSelected || 'XL'}</span> */}
+                  {/* <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
+                  <span>{sizeSelected || 'XL'}</span> */}
                 </p>
               </div>
               <Price priceValue={priceValue} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
-            <p className="text-gray-500 dark:text-slate-400">1</p>
+            <p className="text-gray-500 dark:text-slate-400"></p>
             <div className="flex">
               <button type="button" className="font-medium text-primary-6000 dark:text-primary-500 ">
                 Xem giỏ hàng
