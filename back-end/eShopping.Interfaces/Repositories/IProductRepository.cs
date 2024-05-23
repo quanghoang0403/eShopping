@@ -15,6 +15,6 @@ namespace eShopping.Interfaces.Repositories
 
         IQueryable<Product> GetProductByIds(List<Guid> productIds, List<string> includes = null);
 
-        Task<Product> UpdateProductAsync(Product updateModel, List<Guid> categoryIds, CancellationToken cancellationToken = default);
+        Task<Product> UpdateProductAsync(Product updateModel, CancellationToken cancellationToken = default);
     }
 }

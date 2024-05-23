@@ -21,6 +21,7 @@ namespace eShopping.Models.Products
         public bool IsActive { get; set; }
 
         public IEnumerable<AdminProductPriceModel> ProductPrices { get; set; }
+
         public bool? IsFeatured { get; set; }
 
     }

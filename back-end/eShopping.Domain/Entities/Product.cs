@@ -1,7 +1,9 @@
 ﻿using eShopping.Domain.Base;
 using eShopping.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace eShopping.Domain.Entities
 {
@@ -20,13 +22,26 @@ namespace eShopping.Domain.Entities
 
         public bool? IsDiscounted { get; set; }
 
+        public bool? IsNewIn { get { return DateTime.Now.AddDays(-14) < CreatedTime; } }
+
+        public bool? IsSoldOut { get { return ProductPrices.All(p => p.QuantityLeft <= 0); } }
+
         public EnumStatus Status { get; set; }
 
+        public EnumGenderProduct GenderProduct { get; set; }
+
+        // Descending
         public int Priority { set; get; }
 
         public string Thumbnail { set; get; }
 
-        public virtual ICollection<ProductInCategory> ProductInCategories { get; set; }
+        public Guid ProductCategoryId { get; set; }
+
+        public Guid ProductRootCategoryId { get; set; }
+
+        public virtual ProductRootCategory ProductRootCategory { get; set; }
+
+        public virtual ProductCategory ProductCategory { get; set; }
 
         public virtual ICollection<ProductPrice> ProductPrices { get; set; }
 

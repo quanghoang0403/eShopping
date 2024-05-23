@@ -1,33 +1,28 @@
 using AutoMapper;
 using eShopping.Common.Models;
 using eShopping.Interfaces;
+using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Products.Queries
+namespace eShopping.Application.Features.ProductCategories.Queries
 {
-    public class AdminGetAllProductCategoriesRequest : IRequest<BaseResponseModel>
+    public class StoreGetAllProductCategoriesRequest : IRequest<BaseResponseModel>
     {
     }
 
-    //public class AdminGetAllProductCategoriesResponse
-    //{
-    //    public IEnumerable<AdminProductCategoryModel> AllProductCategories { get; set; }
-    //}
-
-    public class AdminGetAllProductCategoriesRequestHandler : IRequestHandler<AdminGetAllProductCategoriesRequest, BaseResponseModel>
+    public class StoreGetAllProductCategoriesRequestHandler : IRequestHandler<StoreGetAllProductCategoriesRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _mapperConfiguration;
 
-        public AdminGetAllProductCategoriesRequestHandler(
+        public StoreGetAllProductCategoriesRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper,
@@ -39,25 +34,21 @@ namespace eShopping.Application.Features.Products.Queries
             _mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<BaseResponseModel> Handle(AdminGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetAllProductCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
             var allProductCategoriesInStore = await _unitOfWork.ProductCategories
                     .GetAll()
                     .AsNoTracking()
-                    .Include(pc => pc.ProductInCategories)
-                    .ThenInclude(ppc => ppc.Product).ThenInclude(p => p.ProductPrices)
-                    .Select(p => new AdminProductCategoryModel
+                    .OrderBy(pc => pc.Priority)
+                    .Select(p => new StoreProductCategoryModel
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        Priority = p.Priority,
-                        Products = _mapper.Map<IEnumerable<AdminProductDatatableModel>>(p.ProductInCategories.Select(ppc => ppc.Product))
+                        UrlSEO = p.UrlSEO
                     })
-                    .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);
-
             return BaseResponseModel.ReturnData(allProductCategoriesInStore);
         }
     }

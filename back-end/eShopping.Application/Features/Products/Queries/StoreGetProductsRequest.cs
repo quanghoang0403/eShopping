@@ -26,9 +26,15 @@ namespace eShopping.Application.Features.Products.Queries
 
         public Guid? ProductCategoryId { get; set; }
 
+        public Guid? ProductRootCategoryId { get; set; }
+
         public bool? IsFeatured { get; set; }
 
         public bool? IsDiscounted { get; set; }
+
+        public bool? IsNewIn { get; set; }
+
+        public bool? IsSoldOut { get; set; }
 
         public EnumSortType SortType { get; set; }
 
@@ -56,20 +62,25 @@ namespace eShopping.Application.Features.Products.Queries
 
             if (products != null)
             {
+                if (request.ProductRootCategoryId != null && request.ProductRootCategoryId != Guid.Empty)
+                {
+                    products = products.Where(x => x.ProductRootCategoryId == request.ProductRootCategoryId);
+                }
+
                 if (request.ProductCategoryId != null && request.ProductCategoryId != Guid.Empty)
                 {
-                    /// Find Products by Product categoryId
-                    var productIdsInProductCategory = _unitOfWork.ProductInCategories
-                        .Find(m => m.ProductCategoryId == request.ProductCategoryId)
-                        .Select(m => m.ProductId);
-
-                    products = products.Where(x => productIdsInProductCategory.Contains(x.Id));
+                    products = products.Where(x => x.ProductCategoryId == request.ProductCategoryId);
                 }
 
                 if (!string.IsNullOrEmpty(request.KeySearch))
                 {
                     string keySearch = request.KeySearch.Trim().ToLower();
                     products = products.Where(g => g.Name.ToLower().Contains(keySearch));
+                }
+
+                if (request.IsNewIn == true)
+                {
+                    products = products.Where(g => g.IsNewIn == true);
                 }
 
                 if (request.IsFeatured == true)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace eShopping.Models.Products
+namespace eShopping.Models.ProductCategories
 {
     public class StoreProductCategoryModel
     {
@@ -9,7 +9,5 @@ namespace eShopping.Models.Products
         public string Name { get; set; }
 
         public string UrlSEO { get; set; }
-
-        public bool IsShowOnHome { set; get; }
     }
 }

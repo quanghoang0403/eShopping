@@ -1,5 +1,6 @@
 ﻿using eShopping.Domain.Enums;
 using eShopping.Models.Commons;
+using eShopping.Models.ProductCategories;
 using System.Collections.Generic;
 
 namespace eShopping.Models.Products
@@ -20,7 +21,7 @@ namespace eShopping.Models.Products
 
         public string Thumbnail { set; get; }
 
-        public IEnumerable<AdminProductCategoryModel> ProductCategories { get; set; }
+        public AdminProductCategoryModel ProductCategory { get; set; }
 
         public IEnumerable<AdminProductPriceModel> ProductPrices { get; set; }
 

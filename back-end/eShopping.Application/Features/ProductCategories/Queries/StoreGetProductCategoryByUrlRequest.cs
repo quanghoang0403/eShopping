@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using eShopping.Common.Models;
 using eShopping.Interfaces;
-using eShopping.Models.Products;
+using eShopping.Models.ProductCategories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Products.Queries
+namespace eShopping.Application.Features.ProductCategories.Queries
 {
     public class StoreGetProductCategoryByUrlRequest : IRequest<BaseResponseModel>
     {

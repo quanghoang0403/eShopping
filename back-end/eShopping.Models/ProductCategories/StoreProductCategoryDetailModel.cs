@@ -1,9 +1,8 @@
 ﻿using eShopping.Models.Commons;
 
-namespace eShopping.Models.Products
+namespace eShopping.Models.ProductCategories
 {
     public class StoreProductCategoryDetailModel : SEOModel
     {
-        public bool IsShowOnHome { set; get; }
     }
 }

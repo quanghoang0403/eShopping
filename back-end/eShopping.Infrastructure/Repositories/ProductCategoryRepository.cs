@@ -16,7 +16,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public Task<ProductCategory> GetProductCategoryDetailByIdAsync(Guid categoryId)
         {
-            var category = dbSet.Include(c => c.ProductInCategories).ThenInclude(pic => pic.Product).FirstOrDefaultAsync(p => p.Id == categoryId);
+            var category = dbSet.Include(c => c.Products).FirstOrDefaultAsync(p => p.Id == categoryId);
 
             return category;
         }
@@ -33,13 +33,6 @@ namespace eShopping.Infrastructure.Repositories
             var productCategory = dbSet.FirstOrDefaultAsync(p => p.Name.Trim().ToLower().Equals(productCategoryName.Trim().ToLower()));
 
             return productCategory;
-        }
-
-        public IQueryable<ProductCategory> GetProductCategoryListByProductId(Guid productId)
-        {
-            //var categories = dbSet.Include(c => c.ProductInCategories).Where(c => c.ProductInCategories.Any(p => p.ProductId == productId));
-            var categories = dbSet.Where(c => c.ProductInCategories.Any(p => p.ProductId == productId));
-            return categories;
         }
     }
 }

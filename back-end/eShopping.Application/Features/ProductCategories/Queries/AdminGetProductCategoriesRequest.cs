@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
+using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
-using eShopping.Models.Products;
+using eShopping.Models.ProductCategories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static eShopping.Common.Extensions.PagingExtensions;
 
-namespace eShopping.Application.Features.Products.Queries
+namespace eShopping.Application.Features.ProductCategories.Queries
 {
     public class AdminGetProductCategoriesRequest : IRequest<BaseResponseModel>
     {
@@ -49,8 +50,8 @@ namespace eShopping.Application.Features.Products.Queries
                 query = query.Where(pc => pc.Name.ToLower().Contains(keySearch));
             }
             var allProductCategoriesInStore = await query
-                   .Include(pc => pc.ProductInCategories.Where(pc => pc.Product.Status == EnumStatus.Active))
-                   .ThenInclude(ppc => ppc.Product)
+                   .Include(ppc => ppc.Products)
+                   .Include(ppc => ppc.ProductRootCategory)
                    .OrderBy(pc => pc.Priority)
                    .ThenBy(x => x.Name)
                    .ToPaginationAsync(request.PageNumber, request.PageSize);
@@ -64,19 +65,14 @@ namespace eShopping.Application.Features.Products.Queries
                     Id = category.Id,
                     Name = category.Name,
                     Priority = category.Priority,
-                    IsShowOnHome = category.IsShowOnHome,
+                    ProductRootCategoryName = category.ProductRootCategory.Name,
+                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products)
                 });
             }
-            productCategoryListResponse.ForEach(pc =>
-            {
-                var productCategory = listAllProductCategoryInStore.FirstOrDefault(i => i.Id == pc.Id);
-                var products = productCategory.ProductInCategories.Select(p => p.Product);
-                pc.Products = _mapper.Map<IEnumerable<AdminProductDatatableModel>>(products);
-            });
 
             productCategoryListResponse.ForEach(p =>
             {
-                p.No = productCategoryListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
+                p.No = productCategoryListResponse.IndexOf(p) + (request.PageNumber - 1) * request.PageSize + 1;
             });
 
             var response = new PagingResult<AdminProductCategoryModel>(productCategoryListResponse, allProductCategoriesInStore.Paging);

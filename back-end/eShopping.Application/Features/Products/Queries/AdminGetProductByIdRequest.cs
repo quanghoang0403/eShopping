@@ -20,12 +20,6 @@ namespace eShopping.Application.Features.Products.Queries
         public Guid Id { get; set; }
     }
 
-    public class AdminGetProductByIdResponse
-    {
-        public AdminProductDetailModel Product { get; set; }
-
-    }
-
     public class AdminGetProductByIdRequestHandler : IRequestHandler<AdminGetProductByIdRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -54,19 +48,16 @@ namespace eShopping.Application.Features.Products.Queries
                 .AsNoTracking()
                 .Include(x => x.ProductPrices)
                 .Include(x => x.Images)
-                .Include(p => p.ProductInCategories)
+                .Include(p => p.ProductCategory)
                 .ProjectTo<AdminProductDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             ThrowError.Against(ProductData == null, "Cannot find product detail information");
             var images = await _unitOfWork.Images.GetAllImagesByObjectId(ProductData.Id, EnumImageTypeObject.Product);
-            var category = await _unitOfWork.ProductCategories.GetProductCategoryListByProductId(ProductData.Id).ProjectTo<AdminProductCategoryModel>(_mapperConfiguration).ToListAsync(cancellationToken);
             if (images.Count > 0)
             {
                 ProductData.Images = _mapper.Map<List<AdminImageModel>>(images);
             }
-
-            ProductData.ProductCategories = category;
 
             return BaseResponseModel.ReturnData(ProductData);
         }

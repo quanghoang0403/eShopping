@@ -1,5 +1,6 @@
 using AutoMapper;
 using eShopping.Application.Features.Blogs.Commands;
+using eShopping.Application.Features.ProductCategories.Commands;
 using eShopping.Application.Features.Products.Commands;
 using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
@@ -8,6 +9,7 @@ using eShopping.Models.Blog;
 using eShopping.Models.Commons;
 using eShopping.Models.Orders;
 using eShopping.Models.Permissions;
+using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
 using System.Linq;
 
@@ -47,19 +49,17 @@ namespace eShopping.Application.Mappings
             CreateMap<Permission, AdminPermissionModel>();
 
             CreateMap<ProductCategory, AdminProductCategoryDetailModel>();
+            CreateMap<Product, AdminProductSelectedModel>();
             CreateMap<ProductCategory, StoreProductCategoryDetailModel>();
             CreateMap<ProductCategory, AdminProductCategoryModel>();
+            CreateMap<ProductCategory, StoreProductCategoryModel>();
+            CreateMap<ProductCategory, AdminProductCategorySelectedModel>();
 
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();
-            CreateMap<Product, StoreProductDetailModel>()
-                .ForMember(dest => dest.IsNewIn, opt => opt.MapFrom(src => DatetimeHelpers.IsWithinPrevious14Days(src.CreatedTime)))
-                .ForMember(dest => dest.IsSoldOut, opt => opt.MapFrom(src => src.ProductPrices.All(p => p.QuantityLeft <= 0)));
+            CreateMap<Product, StoreProductDetailModel>();
             CreateMap<Product, AdminProductModel>();
-            CreateMap<Product, StoreProductModel>()
-                .ForMember(dest => dest.IsNewIn, opt => opt.MapFrom(src => DatetimeHelpers.IsWithinPrevious14Days(src.CreatedTime)))
-                .ForMember(dest => dest.IsSoldOut, opt => opt.MapFrom(src => src.ProductPrices.All(p => p.QuantityLeft <= 0)));
-
+            CreateMap<Product, StoreProductModel>();
 
             CreateMap<ProductPrice, AdminProductPriceModel>();
             CreateMap<ProductPrice, StoreProductPriceModel>();

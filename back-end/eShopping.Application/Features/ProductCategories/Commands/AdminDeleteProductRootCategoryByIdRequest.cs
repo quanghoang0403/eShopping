@@ -6,20 +6,20 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Products.Commands
+namespace eShopping.Application.Features.ProductCategories.Commands
 {
-    public class AdminDeleteProductCategoryByIdRequest : IRequest<BaseResponseModel>
+    public class AdminDeleteProductRootCategoryByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
 
-    public class AdminDeleteProductCategoryRequestHandler : IRequestHandler<AdminDeleteProductCategoryByIdRequest, BaseResponseModel>
+    public class AdminDeleteProductRootCategoryRequestHandler : IRequestHandler<AdminDeleteProductRootCategoryByIdRequest, BaseResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
 
-        public AdminDeleteProductCategoryRequestHandler(
+        public AdminDeleteProductRootCategoryRequestHandler(
             IMediator mediator,
             IUnitOfWork unitOfWork,
             IUserProvider userProvider)
@@ -29,21 +29,21 @@ namespace eShopping.Application.Features.Products.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<BaseResponseModel> Handle(AdminDeleteProductCategoryByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminDeleteProductRootCategoryByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategory = await _unitOfWork.ProductCategories.Find(p => p.Id == request.Id)
+            var ProductRootCategory = await _unitOfWork.ProductRootCategories.Find(p => p.Id == request.Id)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            if (productCategory == null)
+            if (ProductRootCategory == null)
             {
                 return BaseResponseModel.ReturnError("Product category is not found");
             }
 
-            productCategory.IsDeleted = true;
-            productCategory.LastSavedUser = loggedUser.AccountId.Value;
-            productCategory.LastSavedTime = DateTime.Now;
+            ProductRootCategory.IsDeleted = true;
+            ProductRootCategory.LastSavedUser = loggedUser.AccountId.Value;
+            ProductRootCategory.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return BaseResponseModel.ReturnData();
         }

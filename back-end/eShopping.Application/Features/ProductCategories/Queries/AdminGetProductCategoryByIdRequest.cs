@@ -1,24 +1,21 @@
 ﻿using AutoMapper;
+using eShopping.Application.Features.Products.Commands;
 using eShopping.Common.Models;
 using eShopping.Interfaces;
-using eShopping.Models.Products;
+using eShopping.Models.ProductCategories;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Products.Queries
+namespace eShopping.Application.Features.ProductCategories.Queries
 {
     public class AdminGetProductCategoryByIdRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
     }
-
-    //public class AdminGetProductCategoryByIdResponse
-    //{
-    //    public AdminProductCategoryDetailModel ProductCategory { get; set; }
-    //}
 
     public class AdminGetProductCategoryByIdRequestHandler : IRequestHandler<AdminGetProductCategoryByIdRequest, BaseResponseModel>
     {
@@ -44,20 +41,7 @@ namespace eShopping.Application.Features.Products.Queries
             }
 
             var productCategory = _mapper.Map<AdminProductCategoryDetailModel>(productCategoryData);
-            if (productCategoryData.ProductInCategories != null)
-            {
-                productCategory.Products = productCategoryData.ProductInCategories
-                    .Select(x => new AdminProductCategoryDetailModel.AdminProductSelectedModel
-                    {
-                        Id = x.ProductId,
-                        Name = x.Product.Name,
-                        Priority = x.Product.Priority,
-                        Thumbnail = x.Product?.Thumbnail,
-                    })
-                    .OrderByDescending(x => x.Priority)
-                    .ToList();
-            }
-
+            productCategory.Products = _mapper.Map<List<AdminProductSelectedModel>>(productCategoryData.Products.OrderByDescending(x => x.Priority));
             return BaseResponseModel.ReturnData(productCategory);
         }
     }

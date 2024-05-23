@@ -45,7 +45,7 @@ namespace eShopping.Interfaces
 
         IProductPriceRepository ProductPrices { get; }
 
-        IProductInCategoryRepository ProductInCategories { get; }
+        IProductRootCategoryRepository ProductRootCategories { get; }
 
         IStaffRepository Staffs { get; }
 

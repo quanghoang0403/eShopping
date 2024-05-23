@@ -1,4 +1,5 @@
 ﻿using eShopping.Models.Commons;
+using eShopping.Models.ProductCategories;
 using System.Collections.Generic;
 
 namespace eShopping.Models.Products

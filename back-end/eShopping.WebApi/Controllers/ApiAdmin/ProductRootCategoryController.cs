@@ -13,25 +13,25 @@ using System.Threading.Tasks;
 namespace eShopping.WebApi.Controllers.ApiAdmin
 {
     [Authorize]
-    public class ProductCategoryController : BaseApiAdminController
+    public class ProductRootCategoryController : BaseApiAdminController
     {
-        public ProductCategoryController(IMediator mediator) : base(mediator)
+        public ProductRootCategoryController(IMediator mediator) : base(mediator)
         {
         }
 
         [HttpPost]
-        [Route("create-product-category")]
+        [Route("create-product-root-category")]
         [HasPermission(EnumPermission.CREATE_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> CreateProductCategoryAsync([FromBody] AdminCreateProductCategoryRequest request)
+        public async Task<IActionResult> CreateProductRootCategoryAsync([FromBody] AdminCreateProductRootCategoryRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
         }
 
         [HttpPut]
-        [Route("update-product-category")]
+        [Route("update-product-root-category")]
         [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> UpdateProductCategoryAsync([FromBody] AdminUpdateProductCategoryRequest request)
+        public async Task<IActionResult> UpdateProductRootCategoryAsync([FromBody] AdminUpdateProductRootCategoryRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
@@ -39,38 +39,38 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
 
         [HttpDelete]
-        [Route("delete-product-category-by-id/{id}")]
+        [Route("delete-product-root-category-by-id/{id}")]
         [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> DeleteProductCategoryByIdAsync(Guid id)
+        public async Task<IActionResult> DeleteProductRootCategoryByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(new AdminDeleteProductCategoryByIdRequest() { Id = id });
+            var response = await _mediator.Send(new AdminDeleteProductRootCategoryByIdRequest() { Id = id });
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("get-product-categories")]
+        [Route("get-product-root-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetProductCategoriesAsync([FromQuery] AdminGetProductCategoriesRequest request)
+        public async Task<IActionResult> GetProductRootCategoriesAsync([FromQuery] AdminGetProductRootCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("get-all-product-categories")]
+        [Route("get-all-product-root-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetAllProductCategory([FromQuery] AdminGetAllProductCategoriesRequest request)
+        public async Task<IActionResult> GetAllProductRootCategory([FromQuery] AdminGetAllProductRootCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("get-product-category-by-id/{id}")]
+        [Route("get-product-root-category-by-id/{id}")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetProductCategoryByIdAsync(Guid id)
+        public async Task<IActionResult> GetProductRootCategoryByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(new AdminGetProductCategoryByIdRequest() { Id = id });
+            var response = await _mediator.Send(new AdminGetProductRootCategoryByIdRequest() { Id = id });
             return Ok(response);
         }
     }

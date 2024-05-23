@@ -1,21 +1,15 @@
-﻿using System;
+﻿using eShopping.Models.Commons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace eShopping.Models.Products
+namespace eShopping.Models.ProductCategories
 {
-    public class AdminProductCategoryModel
+    public class AdminProductCategoryDetailModel : SEOModel
     {
-
-        public Guid Id { get; set; }
-
-        public int No { get; set; }
-
-        public string Name { get; set; }
-
-        public bool IsShowOnHome { set; get; }
-
         public int Priority { get; set; }
+
+        public IEnumerable<AdminProductSelectedModel> Products { get; set; }
 
         public int NumberOfProduct
         {
@@ -29,7 +23,5 @@ namespace eShopping.Models.Products
                 return Products.Count();
             }
         }
-
-        public IEnumerable<AdminProductDatatableModel> Products { get; set; }
     }
 }
