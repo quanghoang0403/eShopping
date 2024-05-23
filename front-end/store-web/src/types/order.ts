@@ -51,31 +51,22 @@ interface IOrder {
   deliveryFee: number
   totalPrice: number
   totalAmount: number
-  orderItems: IOrderItemDto[]
-}
-
-interface IOrderItemDto {
-  thumbnail: string
-  productName: string
-  priceName: string
-  quantity: number
+  orderItems: IOrderItem[]
 }
 
 interface IOrderItem {
   // id: string
   // orderId: string
   // productId: string
-  productUrl: string
-  // productName: string
+  productUrl?: string
+  productName: string
   percentNumber?: number
   thumbnail: string
   quantity: number
-  // priceName: string
-  itemName: string
+  priceName: string
+  itemName?: string
   priceValue: number
   priceDiscount?: number
-  totalPriceValue: number
-  totalPriceDiscount: number
   totalPrice: number
 }
 interface IOrderDetail {

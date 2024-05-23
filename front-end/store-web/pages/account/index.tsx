@@ -60,7 +60,7 @@ const PageAbout = () => {
           <div className="max-w-2xl">
             <h2 className="text-3xl xl:text-4xl font-semibold">Tài khoản của tôi</h2>
             <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-base sm:text-lg">
-              <span className="text-slate-900 dark:text-slate-200 font-semibold">Enrico Cole,</span> ciseco@gmail.com · Los Angeles, CA
+              <span className="text-slate-900 dark:text-slate-200 font-semibold">Hoàng Đinh Quang,</span> quanghoang0403@gmail.com · Tp. Hồ Chí Minh
             </span>
           </div>
           <hr className="mt-10 border-slate-200 dark:border-slate-700"></hr>

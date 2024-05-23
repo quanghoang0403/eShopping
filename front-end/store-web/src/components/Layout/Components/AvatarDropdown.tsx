@@ -15,7 +15,7 @@ export default function AvatarDropdown() {
   const router = useRouter()
   const handleLogout = () => {
     dispatch(sessionActions.logout())
-    router.push(`/dang-nhap`)
+    router.push(`/login`)
   }
   return (
     <div className="AvatarDropdown ">
@@ -58,8 +58,8 @@ export default function AvatarDropdown() {
                       <Avatar imgUrl={avatarImgs[7]} sizeClass="w-12 h-12" />
 
                       <div className="flex-grow">
-                        <h4 className="font-semibold">Eden Smith</h4>
-                        <p className="text-xs mt-0.5">Los Angeles, CA</p>
+                        <h4 className="font-semibold">Hoàng Đinh</h4>
+                        <p className="text-xs mt-0.5">0946290739</p>
                       </div>
                     </div>
 
@@ -96,7 +96,7 @@ export default function AvatarDropdown() {
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
-                      href={'/checkout'}
+                      href={'/account?tab=account-order'}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
@@ -129,7 +129,7 @@ export default function AvatarDropdown() {
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
-                      href={'/account-savelists'}
+                      href={'/account?tab=account-savelist'}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
@@ -145,7 +145,7 @@ export default function AvatarDropdown() {
                         </svg>
                       </div>
                       <div className="ml-4">
-                        <p className="text-sm font-medium ">Sản phẩm yêMy u thích</p>
+                        <p className="text-sm font-medium ">Sản phẩm yêu thích</p>
                       </div>
                     </Link>
 
@@ -188,7 +188,7 @@ export default function AvatarDropdown() {
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
-                      href={'/#'}
+                      href={'/login'}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >

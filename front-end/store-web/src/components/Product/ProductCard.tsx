@@ -10,7 +10,7 @@ import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import BagIcon from '@/shared/Icon/BagIcon'
 import toast from 'react-hot-toast'
 import { Transition } from '@headlessui/react'
-import ModalQuickView from './QuickView/ModalQuickView'
+// import ModalQuickView from './QuickView/ModalQuickView'
 import ProductStatus from './ProductStatus'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -238,14 +238,14 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
           {/* {sizes ? renderSizeList() : renderGroupButtons()} */}
         </div>
 
-        <div className="space-y-4 px-2.5 pt-5 pb-2.5">
+        <div className="space-y-2 px-2.5 pt-5 pb-2.5">
           {/* {renderVariants()} */}
           <div>
             <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">{name}</h2>
             <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>{description}</p>
           </div>
 
-          <div className="flex justify-between items-end ">
+          <div className="flex justify-between items-center ">
             <Price priceValue={priceValue} />
             <div className="flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
@@ -256,7 +256,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
       </div>
 
       {/* QUICKVIEW */}
-      <ModalQuickView show={showModalQuickView} onCloseModalQuickView={() => setShowModalQuickView(false)} />
+      {/* <ModalQuickView show={showModalQuickView} onCloseModalQuickView={() => setShowModalQuickView(false)} /> */}
     </>
   )
 }

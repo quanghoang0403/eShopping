@@ -3,12 +3,12 @@ import React, { FC } from 'react'
 
 export interface PriceProps {
   className?: string
-  priceValue?: number
+  priceValue: number
   priceDiscount?: number
   contentClass?: string
 }
 
-const Prices: FC<PriceProps> = ({ className = '', priceValue = 33, priceDiscount, contentClass = 'py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium' }) => {
+const Price: FC<PriceProps> = ({ className = '', priceValue, priceDiscount, contentClass = 'text-base font-medium' }) => {
   const hasDiscount = priceDiscount && priceDiscount > 0
   return (
     <div className={`${className}`}>
@@ -20,4 +20,4 @@ const Prices: FC<PriceProps> = ({ className = '', priceValue = 33, priceDiscount
   )
 }
 
-export default Prices
+export default Price

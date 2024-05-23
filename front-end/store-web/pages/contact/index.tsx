@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import SocialsListHorizontal from '@/shared/SocialsList'
 import Label from '@/shared/Controller/Label'
-import Input from '@/shared/Input'
+import Input from '@/shared/Controller/Input'
 import Textarea from '@/shared/Controller/Textarea'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import BackgroundSection from '@/shared/Background/BackgroundSection'
@@ -22,9 +22,9 @@ const info = [
   },
 ]
 
-const PageContact = ({}) => {
+const ContactPage = ({}) => {
   return (
-    <div className={`nc-PageContact overflow-hidden`}>
+    <div className={`nc-ContactPage overflow-hidden`}>
       <div className="">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
           Contact
@@ -46,22 +46,19 @@ const PageContact = ({}) => {
             <div>
               <form className="grid grid-cols-1 gap-6" action="#" method="post">
                 <label className="block">
-                  <Label>Full name</Label>
-
-                  <Input placeholder="Example Doe" type="text" className="mt-1" />
+                  <Label>Họ tên của bạn</Label>
+                  <Input placeholder="Example Doe" className="mt-1" />
                 </label>
                 <label className="block">
-                  <Label>Email address</Label>
-
-                  <Input type="email" placeholder="example@example.com" className="mt-1" />
+                  <Label>Email</Label>
+                  <Input placeholder="example@example.com" className="mt-1" />
                 </label>
                 <label className="block">
-                  <Label>Message</Label>
-
+                  <Label>Lời nhắn</Label>
                   <Textarea className="mt-1" rows={6} />
                 </label>
                 <div>
-                  <ButtonPrimary type="submit">Send Message</ButtonPrimary>
+                  <ButtonPrimary type="submit">Gửi lời nhắn</ButtonPrimary>
                 </div>
               </form>
             </div>
@@ -80,4 +77,4 @@ const PageContact = ({}) => {
   )
 }
 
-export default PageContact
+export default ContactPage

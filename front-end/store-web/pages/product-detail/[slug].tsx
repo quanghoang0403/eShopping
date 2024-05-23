@@ -284,7 +284,7 @@ const ProductDetailPage = () => {
           </div> */}
           <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddProduct}>
             <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
-            <span className="ml-3">Add to cart</span>
+            <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
           </ButtonPrimary>
         </div>
 

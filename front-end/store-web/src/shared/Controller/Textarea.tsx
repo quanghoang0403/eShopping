@@ -14,7 +14,7 @@ interface TextareaProps {
   hideLabel?: boolean
   value?: string
   className?: string
-  ref: any
+  ref?: any
   rows?: number
 }
 

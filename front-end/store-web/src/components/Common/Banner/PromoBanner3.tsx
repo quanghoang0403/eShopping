@@ -3,7 +3,7 @@ import NcImage from '@/shared/NcImage'
 import rightImgDemo from '@/images/promo3.png'
 import backgroundLineSvg from '@/images/BackgroundLine.svg'
 import Badge from '@/shared/Badge'
-import Input from '@/shared/Input'
+import Input from '@/shared/Controller/Input'
 import ButtonCircle from '@/shared/Button/ButtonCircle'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
@@ -40,7 +40,7 @@ const PromoBanner3: FC<PromoBanner3Props> = ({ className = 'lg:pt-10' }) => {
             </li>
           </ul>
           <form className="mt-10 relative max-w-sm">
-            <Input required aria-required placeholder="Enter your email" type="email" rounded="rounded-full" />
+            <Input aria-required placeholder="Enter your email" rounded="rounded-full" />
             <ButtonCircle type="submit" className="absolute transform top-1/2 -translate-y-1/2 right-1">
               <ArrowSmallRightIcon className="w-6 h-6" />
             </ButtonCircle>

@@ -2,14 +2,14 @@ import SiteHeader from '@/components/Layout/SiteHeader'
 import SiteFooter from '@/components/Layout/SiteFooter'
 import { Toaster } from 'react-hot-toast'
 import Loading from '@/shared/Loading'
-import { Open_Sans } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import { cx } from '@/utils/string.helper'
 import { usePromiseTracker } from 'react-promise-tracker'
 
-const fonts = Open_Sans({
+const fonts = Roboto({
   subsets: ['latin', 'vietnamese'],
   display: 'swap',
-  weight: ['300', '400', '500', '700'],
+  weight: ['900', '400', '500', '700'],
 })
 
 interface ILayout {
