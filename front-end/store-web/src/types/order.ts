@@ -56,6 +56,7 @@ interface IOrder {
 
 interface IOrderItemDto {
   thumbnail: string
+  productName: string
   priceName: string
   quantity: number
 }
@@ -108,13 +109,9 @@ interface IOrderHistory {
   createdTime: string
 }
 
-interface IGetOrdersRequest extends IBaseRequest {
+interface IGetOrdersRequest extends IPagingRequest {
   startDate: Date
   endDate: Date
-}
-
-interface IGetOrdersResponse extends IBaseResponse {
-  orders: IOrder[]
 }
 
 interface IUpdateOrderRequest {

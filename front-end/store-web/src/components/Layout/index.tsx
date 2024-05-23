@@ -1,23 +1,32 @@
-import Header from './Header'
-import Footer from './Footer'
-import Notification from '../Common/Notification'
+import SiteHeader from '@/components/Layout/SiteHeader'
+import SiteFooter from '@/components/Layout/SiteFooter'
+import { Toaster } from 'react-hot-toast'
+import Loading from '@/shared/Loading'
+import { Open_Sans } from 'next/font/google'
+import { cx } from '@/utils/string.helper'
 import { usePromiseTracker } from 'react-promise-tracker'
-import Loading from '../Common/Loading'
+
+const fonts = Open_Sans({
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
+  weight: ['300', '400', '500', '700'],
+})
+
 interface ILayout {
   children: React.ReactNode
 }
 
-const MainLayout: React.FC<ILayout> = ({ children }) => {
+const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   return (
-    <div className="text-gray-800 leading-normal text-base tracking-normal overflow-x-hidden">
-      <Header />
-      <Notification />
+    <main className={fonts.className}>
+      <SiteHeader />
+      <Toaster />
       {promiseInProgress && <Loading />}
-      <main className="bg-gray-100">{children}</main>
-      <Footer />
-    </div>
+      {children}
+      <SiteFooter />
+    </main>
   )
 }
 
-export default MainLayout
+export default Layout

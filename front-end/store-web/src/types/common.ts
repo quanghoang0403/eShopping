@@ -6,7 +6,7 @@ interface ISEO {
   keywordSEO?: string
   urlSEO: string
   descriptionSEO?: string
-  description: string
+  description?: string
 }
 
 interface IArea {
@@ -19,15 +19,29 @@ interface IOption {
   name?: string
 }
 
-interface IBaseResponse {
-  pageNumber: number
-  total: number
+interface IBaseResponse<T> {
+  code: number
+  data: T
+  message: string
+  errorMessage: string
 }
 
-interface IBaseRequest {
+interface IPagingResponse<T> {
+  result: T[]
+  paging: IPaging
+}
+
+interface IPagingRequest {
   pageNumber: number
   pageSize: number
   keySearch: string
+}
+
+interface IPaging {
+  pageIndex: number
+  pageSize: number
+  pageCount: number
+  total: number
 }
 
 enum HttpStatus {
