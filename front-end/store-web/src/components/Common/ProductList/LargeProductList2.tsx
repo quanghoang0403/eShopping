@@ -158,7 +158,7 @@ const LargeProductList2: FC<LargeProductList2Props> = ({ className = '' }) => {
             {DEMO_LARGE_PRODUCTS.map((item, index) => {
               return (
                 <li key={index} className={`glide__slide`}>
-                  <CollectionCard imgs={item.images} />
+                  <CollectionCard imgs={item.images} price={0} />
                 </li>
               )
             })}

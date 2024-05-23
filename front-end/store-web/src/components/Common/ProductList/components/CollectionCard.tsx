@@ -10,7 +10,7 @@ export interface CollectionCardProps {
   className?: string
   imgs?: (string | StaticImageData)[]
   name?: string
-  price?: number
+  price: number
   description?: string
 }
 
@@ -19,7 +19,7 @@ const CollectionCard: FC<CollectionCardProps> = ({
   imgs = [productImgs[9], productImgs[10], productImgs[11], productImgs[8]],
   name = 'Product Name',
   description = 'Product Description',
-  price,
+  price
 }) => {
   return (
     <div className={`group relative ${className}`}>
