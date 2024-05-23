@@ -188,7 +188,7 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = '' }) => {
 
           <div className="flex justify-start rtl:justify-end items-center mt-5 space-x-4 sm:space-x-5 rtl:space-x-reverse">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" price={112} />
+            <Price contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold" priceValue={112} />
 
             <div className="h-6 border-s border-slate-300 dark:border-slate-700"></div>
 

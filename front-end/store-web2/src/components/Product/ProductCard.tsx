@@ -75,7 +75,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
                   <span>{size || 'XL'}</span>
                 </p>
               </div>
-              <Price price={priceValue} className="mt-0.5" />
+              <Price priceValue={priceValue} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
@@ -247,7 +247,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
           </div>
 
           <div className="flex justify-between items-end ">
-            <Price price={priceValue} />
+            <Price priceValue={priceValue} />
             <div className="flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
               <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">4 (5 reviews)</span>

@@ -8,15 +8,30 @@ import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { formatCurrency } from '@/utils/string.helper'
+import { sessionActions } from '@/redux/features/sessionSlice'
 
 export default function CartDropdown() {
-  const renderProduct = (item: Product, index: number, close: () => void) => {
-    const { name, price, image } = item
+  const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
+  const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
+  const totalPrice = useAppSelector((state) => state.session.totalPrice)
+  const dispatch = useAppDispatch()
+
+  const removeCartItem = (productId: string, productPriceId: string) => {
+    dispatch(sessionActions.removeProductFromCart({ productId, productPriceId }))
+  }
+
+  const updateCartItem = (productId: string, productPriceId: string, quantity: number) => {
+    dispatch(sessionActions.updateProductInCart({ productId, productPriceId, quantity }))
+  }
+  const renderProduct = (item: ICartItem, index: number, close: () => void) => {
+    const { productName, priceName, priceValue, priceDiscount, thumbnail, productUrl } = item
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image fill src={image} alt={name} className="h-full w-full object-contain object-center" />
-          <Link onClick={close} className="absolute inset-0" href={'/product-detail'} />
+          <Image fill src={thumbnail} alt={productName} className="h-full w-full object-contain object-center" />
+          <Link onClick={close} className="absolute inset-0" href={`/product-detail/${productUrl}`} />
         </div>
 
         <div className="ml-4 flex flex-1 flex-col">
@@ -25,24 +40,28 @@ export default function CartDropdown() {
               <div>
                 <h3 className="text-base font-medium ">
                   <Link onClick={close} href={'/product-detail'}>
-                    {name}
+                    {productName}
                   </Link>
                 </h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{`Natural`}</span>
+                  <span>{priceName}</span>
                   <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
                   <span>{'XL'}</span>
                 </p>
               </div>
-              <Price price={price} className="mt-0.5" />
+              <Price priceValue={priceValue} priceDiscount={priceDiscount} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
             <p className="text-gray-500 dark:text-slate-400">{`Qty 1`}</p>
 
             <div className="flex">
-              <button type="button" className="font-medium text-primary-6000 dark:text-primary-500 ">
-                Remove
+              <button
+                onClick={() => removeCartItem(item.productId, item.productPriceId)}
+                type="button"
+                className="font-medium text-primary-6000 dark:text-primary-500 "
+              >
+                Xoá
               </button>
             </div>
           </div>
@@ -106,25 +125,23 @@ export default function CartDropdown() {
               <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10">
                 <div className="relative bg-white dark:bg-neutral-800">
                   <div className="max-h-[60vh] p-5 overflow-y-auto hiddenScrollbar">
-                    <h3 className="text-xl font-semibold">Shopping cart</h3>
-                    <div className="divide-y divide-slate-100 dark:divide-slate-700">
-                      {[PRODUCTS[0], PRODUCTS[1], PRODUCTS[2]].map((item, index) => renderProduct(item, index, close))}
-                    </div>
+                    <h3 className="text-xl font-semibold">Giỏ hàng</h3>
+                    <div className="divide-y divide-slate-100 dark:divide-slate-700">{cartItems.map((item, index) => renderProduct(item, index, close))}</div>
                   </div>
                   <div className="bg-neutral-50 dark:bg-slate-900 p-5">
                     <p className="flex justify-between font-semibold text-slate-900 dark:text-slate-100">
                       <span>
-                        <span>Subtotal</span>
-                        <span className="block text-sm text-slate-500 dark:text-slate-400 font-normal">Shipping and taxes calculated at checkout.</span>
+                        <span>Tổng đơn hàng</span>
+                        <span className="block text-sm text-slate-500 dark:text-slate-400 font-normal">Phí vận chuyển sẽ được tính tại trang thanh toán</span>
                       </span>
-                      <span className="">$299.00</span>
+                      <span className="">{formatCurrency(totalPrice)}</span>
                     </p>
                     <div className="flex space-x-2 mt-5">
                       <ButtonSecondary href="/cart" className="flex-1 border border-slate-200 dark:border-slate-700" onClick={close}>
-                        View cart
+                        Xem giỏ hàng
                       </ButtonSecondary>
                       <ButtonPrimary href="/checkout" onClick={close} className="flex-1">
-                        Check out
+                        Thanh toán
                       </ButtonPrimary>
                     </div>
                   </div>
