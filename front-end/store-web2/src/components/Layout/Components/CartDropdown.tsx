@@ -2,7 +2,6 @@
 
 import { Popover, Transition } from '@headlessui/react'
 import Price from '@/shared/Price'
-import { Product, PRODUCTS } from '@/data/data'
 import { Fragment } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'

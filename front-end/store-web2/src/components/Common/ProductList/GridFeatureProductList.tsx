@@ -2,13 +2,13 @@ import React, { FC } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import HeaderFilterSection from './components/HeaderFilterSection'
 import ProductList from './components/ProductList'
-
+import { PRODUCTS } from '@/data/data'
 //
 export interface GridFeatureProductListProps {
   data: IProduct[]
 }
 
-const GridFeatureProductList: FC<GridFeatureProductListProps> = ({ data }) => {
+const GridFeatureProductList: FC<GridFeatureProductListProps> = ({ data = PRODUCTS }) => {
   return (
     <div className="nc-GridFeatureProductList relative">
       <HeaderFilterSection />

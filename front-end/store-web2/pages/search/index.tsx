@@ -17,14 +17,7 @@ const PageSearch = ({}) => {
           <form className="relative w-full " method="post">
             <label htmlFor="search-input" className="text-neutral-500 dark:text-neutral-300">
               <span className="sr-only">Search all icons</span>
-              <Input
-                className="shadow-lg border-0 dark:border"
-                id="search-input"
-                type="search"
-                placeholder="Type your keywords"
-                sizeClass="pl-14 py-5 pr-5 md:pl-16"
-                rounded="rounded-full"
-              />
+              <Input className="shadow-lg border-0 dark:border" placeholder="Type your keywords" sizeClass="pl-14 py-5 pr-5 md:pl-16" rounded="rounded-full" />
               <ButtonCircle className="absolute right-2.5 top-1/2 transform -translate-y-1/2" size=" w-11 h-11" type="submit">
                 <i className="las la-arrow-right text-xl"></i>
               </ButtonCircle>
@@ -51,7 +44,9 @@ const PageSearch = ({}) => {
           <HeaderFilterSearchPage />
 
           {/* LOOP ITEMS */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">{/* <ProductList data={data} /> */}</div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
+            <ProductList />
+          </div>
 
           {/* PAGINATION */}
           <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">

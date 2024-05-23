@@ -1,12 +1,8 @@
 'use client'
-import NcInputNumber from '@/shared/NcInputNumber'
-import Price from '@/shared/Price'
-import { Product, PRODUCTS } from '@/data/data'
 import { useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import PaymentMethod from '@/components/Checkout/PaymentMethod'
 import Image from 'next/image'
-import Link from 'next/link'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
@@ -16,7 +12,6 @@ import OrderService from '@/services/order.service'
 import toast from 'react-hot-toast'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import SEO from '@/components/Layout/SEO'
-import { formatCurrency } from '@/utils/string.helper'
 import CustomerInfo, { defaultCustomerInfo } from '@/components/Common/Customer/CustomerInfo'
 import SummaryPrice from '@/components/Checkout/SummaryPrice'
 import CartList from '@/components/Checkout/CartList'
@@ -124,6 +119,7 @@ const CheckoutPage = () => {
 
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-[36%] ">
+            <h3 className="text-lg font-semibold">Danh sách sản phẩm</h3>
             <CartList />
             <SummaryPrice />
           </div>
@@ -136,7 +132,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <SEO title="Giỏ hàng" />
+      <SEO title="Thanh toán" />
       {/* <div className="nc-CheckoutPage">
         <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào trong giỏ hàng</div>}</div>
       </div> */}

@@ -19,7 +19,7 @@ interface InputProps {
   value?: string
   password?: boolean
   className?: string
-  ref: any
+  ref?: any
 }
 
 // eslint-disable-next-line react/display-name

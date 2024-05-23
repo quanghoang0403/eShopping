@@ -1,12 +1,8 @@
 import { NoSymbolIcon, CheckIcon } from '@heroicons/react/24/outline'
-import NcInputNumber from '@/shared/NcInputNumber'
-import Price from '@/shared/Price'
-import { Product, PRODUCTS } from '@/data/data'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import Image from 'next/image'
-import Link from 'next/link'
 import SummaryPrice from '@/components/Checkout/SummaryPrice'
 import CartList from '@/components/Checkout/CartList'
+import SEO from '@/components/Layout/SEO'
 
 const CartPage = () => {
   const renderStatusSoldout = () => {
@@ -27,9 +23,9 @@ const CartPage = () => {
     )
   }
 
-  return (
-    <div className="nc-CartPage">
-      <div className="container py-16 lg:pb-28 lg:pt-20 ">
+  const renderPage = () => {
+    return (
+      <>
         <div className="mb-12 sm:mb-16">
           <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">Giỏ hàng của bạn</h2>
         </div>
@@ -49,8 +45,20 @@ const CartPage = () => {
             </div>
           </div>
         </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <SEO title="Giỏ hàng" />
+      <div className="nc-CartPage">
+        <div className="container py-16 lg:pb-28 lg:pt-20 ">{renderPage()}</div>
       </div>
-    </div>
+      {/* <div className="nc-CartPage">
+        <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào trong giỏ hàng</div>}</div>
+      </div> */}
+    </>
   )
 }
 

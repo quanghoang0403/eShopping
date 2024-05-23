@@ -1,11 +1,42 @@
 import Price from '@/shared/Price'
-import { PRODUCTS } from '@/data/data'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import Image from 'next/image'
 
+const orderList: IOrder[] = [
+  {
+    id: '1',
+    code: '1',
+    status: 6,
+    shipFullAddress: '465 Nguyễn Văn Cừ',
+    createdTime: 'Now',
+    statusName: 'Completed',
+    totalQuantity: 3,
+    totalPrice: 300000,
+    totalAmount: 250000,
+    deliveryFee: 20000,
+    orderItems: [
+      { quantity: 1, priceName: 'Áo kẻ sọc trắng', thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg' },
+      { quantity: 2, priceName: 'Áo kẻ sọc đen', thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg' },
+    ],
+  },
+  {
+    id: '2',
+    code: '3',
+    status: 6,
+    shipFullAddress: '465 Nguyễn Văn Cừ',
+    createdTime: 'Now',
+    statusName: 'Completed',
+    totalQuantity: 3,
+    totalPrice: 300000,
+    totalAmount: 250000,
+    deliveryFee: 20000,
+    orderItems: [{ quantity: 2, priceName: 'Áo kẻ sọc đen', thumbnail: '/imgs/productHighlight/Basic Tee With Long Sleeves Red.jpg' }],
+  },
+]
+
 const AccountOrder = () => {
-  const renderProductItem = (product: any, index: number) => {
-    const { image, name } = product
+  const renderOrderItem = (orderItem: any, index: number) => {
+    const { image, name } = orderItem
     return (
       <div key={index} className="flex py-4 sm:py-7 last:pb-0 first:pt-0">
         <div className="relative h-24 w-16 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
@@ -40,11 +71,44 @@ const AccountOrder = () => {
             </div>
           </div>
         </div>
+
+        <div className="relative mr-4">
+          <Image width={150} height={150} src={order.orderItems[0].thumbnail} alt="" className="rounded-lg h-fit w-full w-32" />
+          <span className="shadow absolute top-3 right-2 px-1 py-0.5 text-xs rounded-lg text-gray-900 bg-white font-semibold">#{order.code}</span>
+        </div>
+        <div className="flex flex-col justify-between w-full">
+          <div className="flex flex-col">
+            <div>
+              <p className="text-sm text-gray-900 line-clamp-2">Đ/c giao hàng: {order.shipFullAddress}</p>
+            </div>
+            {order.orderItems.length > 0 &&
+              order.orderItems.slice(0, 3).map((item, index) => {
+                return (
+                  <div key={index} className="flex items-center mt-1">
+                    <p className="text-sm mr-2">{`${item.quantity} x ${item.priceName}`}</p>
+                  </div>
+                )
+              })}
+            {order.orderItems.length > 3 && (
+              <div key={index} className="flex items-center mt-1">
+                <p className="text-sm mr-2">...</p>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-row justify-between mt-4 text-sm zmd:text-base text-gray-900 font-semibold">
+            <div>
+              <p>{order.statusName}</p>
+            </div>
+            <div>
+              <p>{formatCurrency(order.totalAmount)}</p>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
-  const renderOrder = () => {
+  const renderOrder = (order: IOrder) => {
     return (
       <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden z-0">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 sm:p-8 bg-slate-50 dark:bg-slate-500/5">
@@ -63,7 +127,7 @@ const AccountOrder = () => {
           </div>
         </div>
         <div className="border-t border-slate-200 dark:border-slate-700 p-2 sm:p-8 divide-y divide-y-slate-200 dark:divide-slate-700">
-          {[PRODUCTS[0], PRODUCTS[1], PRODUCTS[2]].map(renderProductItem)}
+          {renderOrderItem(order.orderItems)}
         </div>
       </div>
     )
@@ -72,9 +136,8 @@ const AccountOrder = () => {
   return (
     <div className="space-y-10 sm:space-y-12">
       {/* HEADING */}
-      <h2 className="text-2xl sm:text-3xl font-semibold">Order History</h2>
-      {renderOrder()}
-      {renderOrder()}
+      <h2 className="text-2xl sm:text-3xl font-semibold">Lịch sử đơn hàng</h2>
+      {orderList.map((order) => renderOrder(order))}
     </div>
   )
 }

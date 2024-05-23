@@ -2,14 +2,14 @@ import SiteHeader from '@/components/Layout/SiteHeader'
 import SiteFooter from '@/components/Layout/SiteFooter'
 import { Toaster } from 'react-hot-toast'
 import Loading from '@/shared/Loading'
-import { Poppins } from 'next/font/google'
+import { Open_Sans } from 'next/font/google'
 import { cx } from '@/utils/string.helper'
 import { usePromiseTracker } from 'react-promise-tracker'
 
-const poppins = Poppins({
-  subsets: ['latin'],
+const fonts = Open_Sans({
+  subsets: ['latin', 'vietnamese'],
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '700'],
 })
 
 interface ILayout {
@@ -19,7 +19,7 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   return (
-    <main className={poppins.className}>
+    <main className={fonts.className}>
       <SiteHeader />
       <Toaster />
       {promiseInProgress && <Loading />}

@@ -5,7 +5,7 @@ import Heading from '@/shared/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
 import ProductCard from '@/components/Product/ProductCard'
-
+import { PRODUCTS } from '@/data/data'
 export interface SliderProductListProps {
   className?: string
   itemClassName?: string
@@ -23,7 +23,7 @@ const SliderProductList: FC<SliderProductListProps> = ({
   headingClassName,
   heading,
   subHeading,
-  data,
+  data = PRODUCTS,
 }) => {
   const sliderRef = useRef(null)
 

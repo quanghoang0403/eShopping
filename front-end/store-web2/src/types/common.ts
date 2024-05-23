@@ -6,7 +6,7 @@ interface ISEO {
   keywordSEO?: string
   urlSEO: string
   descriptionSEO?: string
-  description: string
+  description?: string
 }
 
 interface IArea {
