@@ -1,9 +1,41 @@
-import React from 'react'
-import Input from '@/shared/Input'
+import React, { useCallback, useState } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Link from 'next/link'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { useRouter } from 'next/router'
+import AuthService from '@/services/auth.service'
+import { useAppMutation } from '@/hooks/useQuery'
+import Input from '@/shared/Controller/Input'
 
-const PageForgotPass = ({}) => {
+const ForgotPassPage = ({}) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const query = router.query
+  const [showPassword, setShowPassword] = useState(false)
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleForgotPassword = useCallback(async (data: IForgotPasswordRequest) => {
+    return AuthService.forgotPassword(data)
+  }, [])
+
+  const mutation = useAppMutation(handleForgotPassword, async (res: any) => {
+    if (query?.email) {
+      router.push('/')
+    } else {
+      router.push(router.asPath)
+    }
+    console.log(res)
+  })
+
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
   return (
     <div className="container mb-24 lg:mb-32">
       <header className="text-center max-w-2xl mx-auto - mb-14 sm:mb-16 lg:mb-20">
@@ -16,22 +48,33 @@ const PageForgotPass = ({}) => {
       <div className="max-w-md mx-auto space-y-6">
         {/* FORM */}
         <form className="grid grid-cols-1 gap-6" action="#" method="post">
-          <label className="block">
-            <span className="text-neutral-800 dark:text-neutral-200">Email address</span>
-            <Input type="email" placeholder="example@example.com" className="mt-1" />
-          </label>
-          <ButtonPrimary type="submit">Continue</ButtonPrimary>
+          <Input
+            label="Email tạo tài khoản"
+            register={register}
+            patternValidate={{
+              required: true,
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Email không hợp lệ',
+              },
+            }}
+            name="email"
+            errors={errors}
+          />
+          <Input label="Nhập mật khẩu mới" register={register} patternValidate={{ required: true }} name="password" errors={errors} password />
+          <Input label="Nhập lại mật khẩu mới" register={register} patternValidate={{ required: true }} name="passwordConfirm" errors={errors} password />
+          <ButtonPrimary type="submit">Tiếp tục</ButtonPrimary>
         </form>
 
         {/* ==== */}
         <span className="block text-center text-neutral-700 dark:text-neutral-300">
-          Go back for {` `}
+          Quay lại {` `}
           <Link href="/login" className="text-green-600">
-            Sign in
+            Đăng nhập
           </Link>
           {` / `}
           <Link href="/signup" className="text-green-600">
-            Sign up
+            Đăng ký
           </Link>
         </span>
       </div>
@@ -39,4 +82,4 @@ const PageForgotPass = ({}) => {
   )
 }
 
-export default PageForgotPass
+export default ForgotPassPage

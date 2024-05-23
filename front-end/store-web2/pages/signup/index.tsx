@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import facebookSvg from '@/images/Facebook.svg'
 import twitterSvg from '@/images/Twitter.svg'
 import googleSvg from '@/images/Google.svg'
@@ -6,6 +6,11 @@ import Input from '@/shared/Input'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { useRouter } from 'next/router'
+import AuthService from '@/services/auth.service'
+import { useAppMutation } from '@/hooks/useQuery'
 
 const loginSocials = [
   {
@@ -26,11 +31,37 @@ const loginSocials = [
 ]
 
 const SignUpPage = () => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const query = router.query
+  const [showPassword, setShowPassword] = useState(false)
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleSignUp = useCallback(async (data: ISignUpRequest) => {
+    return AuthService.signUp(data)
+  }, [])
+
+  const mutation = useAppMutation(handleSignUp, async (res: any) => {
+    if (query?.email) {
+      router.push('/')
+    } else {
+      router.push(router.asPath)
+    }
+  })
+
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
   return (
     <div className={`nc-SignUpPage `} data-nc-id="SignUpPage">
       <div className="container mb-24 lg:mb-32">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
-          Signup
+          Đăng ký tài khoản
         </h2>
         <div className="max-w-md mx-auto space-y-6 ">
           <div className="grid gap-3">
@@ -51,23 +82,30 @@ const SignUpPage = () => {
             <div className="absolute left-0 w-full top-1/2 transform -translate-y-1/2 border border-neutral-100 dark:border-neutral-800"></div>
           </div>
           {/* FORM */}
-          <form className="grid grid-cols-1 gap-6" action="#" method="post">
-            <label className="block">
-              <span className="text-neutral-800 dark:text-neutral-200">Email address</span>
-              <Input type="email" placeholder="example@example.com" className="mt-1" />
-            </label>
-            <label className="block">
-              <span className="flex justify-between items-center text-neutral-800 dark:text-neutral-200">Password</span>
-              <Input type="password" className="mt-1" />
-            </label>
-            <ButtonPrimary type="submit">Continue</ButtonPrimary>
+          <form className="grid grid-cols-1 gap-6" onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              label="Email"
+              register={register}
+              patternValidate={{
+                required: true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Email không hợp lệ',
+                },
+              }}
+              name="email"
+              errors={errors}
+            />
+            <Input label="Nhập mật khẩu mới" register={register} patternValidate={{ required: true }} name="password" errors={errors} password />
+            <Input label="Nhập lại mật khẩu mới" register={register} patternValidate={{ required: true }} name="passwordConfirm" errors={errors} password />
+            <ButtonPrimary type="submit">Tạo tài khoản</ButtonPrimary>
           </form>
 
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
-            Already have an account? {` `}
+            Đã có tài khoản? {` `}
             <Link className="text-green-600" href="/login">
-              Sign in
+              Đăng nhập
             </Link>
           </span>
         </div>
