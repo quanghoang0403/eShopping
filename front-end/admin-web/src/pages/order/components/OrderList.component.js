@@ -34,7 +34,7 @@ export default function OrderList(props){
             hasPermission(permission) && status !=4 && 
             <div>
                 <Button type="primary" onClick={()=>onConfirm(id,status === OrderStatus.Canceled?OrderStatus.ToConfirm:status+1,'')} >
-                    {status === pageData.status.length-1 ?  pageData.status[0] : pageData.status[status+1]}
+                    {status === pageData.status.length-1 ?  pageData.status[1] : pageData.status[status+1]}
                 </Button>
                 {status !== OrderStatus.Canceled && <Button type="primary" onClick={()=>onConfirmCancel(id)} danger>{pageData.cancel}</Button>}
             </div>

@@ -113,9 +113,9 @@ export default function ProductDetailPage (props) {
 
   const getInitData = async () => {
     let response = await productDataService.getProductByIdAsync(match?.params?.id);
-    setProduct(response.product);
-    setStatusId(response?.product?.status);
-    if (response?.product?.statusId === ProductStatus.Activate) {
+    setProduct(response);
+    setStatusId(response?.status);
+    if (response?.status === ProductStatus.Activate) {
       setActivate(pageData.activate);
     } else {
       setActivate(pageData.deactivate);

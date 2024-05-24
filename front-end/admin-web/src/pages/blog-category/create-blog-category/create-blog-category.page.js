@@ -99,7 +99,7 @@ export default function CreateBlogCategory(){
         const getInitData = async()=>{
             const blogs = await BlogDataService.getAllBlogsAsync();
             if(blogs){
-                setBlogs(blogs?.allBlogs)
+                setBlogs(blogs)
             }
         }
         getInitData();

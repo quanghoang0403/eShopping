@@ -86,7 +86,7 @@ namespace eShopping.Application.Features.Products.Commands
 
             // Check product name duplicate before handle update
             var productNameExisted = await _unitOfWork.Products.GetAll().AnyAsync(p => p.Id != productId && p.Name.Trim().ToLower() == request.Name.Trim().ToLower());
-            if (productNameExisted != null)
+            if (productNameExisted != false)
             {
                 return BaseResponseModel.ReturnError("Product name existed");
             }

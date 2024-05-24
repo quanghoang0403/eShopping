@@ -31,7 +31,7 @@ export default function TableBlogCategory(){
         }
         const res = await BlogCategoryDataService.getBlogCategoriesAsync(data)
         if(res){
-            setDataSource(res?.blogCategories)
+            setDataSource(res?.result)
         }
         else{
             message.error(pageData.fetchFail)
@@ -43,7 +43,7 @@ export default function TableBlogCategory(){
     }
     const getBlogs = async()=>{
         const blogs = await BlogDataService.getAllBlogsAsync()
-        const allBlog = blogs.allBlogs
+        const allBlog = blogs
         if(allBlog){
             setBlogs(allBlog)
         }

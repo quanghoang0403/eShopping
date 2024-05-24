@@ -157,7 +157,7 @@ export default function CreateBlogPage() {
   const getCategories = async () => {
     const resCategory = await BlogCategoryDataService.getAllBlogCategoryAsync()
     if (resCategory) {
-      setCategories(resCategory.blogCategories)
+      setCategories(resCategory)
     }
   }
 

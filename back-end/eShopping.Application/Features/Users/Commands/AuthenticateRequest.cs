@@ -63,7 +63,7 @@ namespace eShopping.Application.Features.Users.Commands
                 .ToListAsync(cancellationToken: cancellationToken);
             if (!accounts.Any() || accounts.Count > 1)
             {
-                return BaseResponseModel.ReturnError("login.errorLogin");
+                return BaseResponseModel.ReturnError("Invalid email or password");
             }
 
             var account = accounts.First();

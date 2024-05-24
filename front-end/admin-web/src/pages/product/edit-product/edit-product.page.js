@@ -251,19 +251,19 @@ export default function EditProductPage(props) {
   };
   const getInitData = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
-      setTitleName(data?.product?.name);
-      setStatusId(data?.product?.status);
-      setProductContent(data?.product?.content)
-      if (data?.product?.status === ProductStatus.Activate) {
+      setTitleName(data?.name);
+      setStatusId(data?.status);
+      setProductContent(data?.content)
+      if (data?.status === ProductStatus.Activate) {
         setActivate(pageData.deactivate);
       } else {
         setActivate(pageData.activate);
       }
-      setListAllProductCategory(data?.product?.productCategories);
+      setListAllProductCategory(data?.productCategories);
       const pricesData = [];
-      if (data?.product?.productPrices.length > 0) {
+      if (data?.productPrices.length > 0) {
         let discountBoxCheck = Array.from({ length: data?.product?.productPrices.length }, value => false)
-        data?.product?.productPrices.map((price, index) => {
+        data?.productPrices.map((price, index) => {
           pricesData.push({
             position: index,
             id: price?.id,
@@ -283,24 +283,24 @@ export default function EditProductPage(props) {
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
-      setKeywordSEOList(list => data?.product?.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,value:curr,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}),[]) || [])
+      setKeywordSEOList(list => data?.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,value:curr,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}),[]) || [])
       const initData = {
         product: {
-          description: data?.product?.description,
-          name: data?.product?.name,
-          productCategoryIds: data?.product?.productCategories.map(pc => pc.id),
-          price: data?.product?.productPrices.length === 1 ? data?.product?.productPrices[0].priceValue : null,
+          description: data?.description,
+          name: data?.name,
+          productCategoryIds: data?.productCategories.map(pc => pc.id),
+          price: data?.productPrices.length === 1 ? data?.productPrices[0].priceValue : null,
           prices: pricesData,
-          titleSEO: data?.product.titleSEO,
-          descriptionSEO: data?.product?.descriptionSEO,
+          titleSEO: data?.titleSEO,
+          descriptionSEO: data?.descriptionSEO,
          
         },
       };
 
       /// Update image
       if (shopImageSelectRef && shopImageSelectRef.current) {
-        shopImageSelectRef.current.setImageUrl(data?.product?.thumbnail);
-        setSelectedImage(data?.product?.thumbnail);
+        shopImageSelectRef.current.setImageUrl(data?.thumbnail);
+        setSelectedImage(data?.thumbnail);
       }
       form.setFieldsValue(initData);
     });
@@ -741,7 +741,7 @@ export default function EditProductPage(props) {
                                           name={['product', 'prices', price.position, 'priceDiscount']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                              pattern: new RegExp(inputNumberRange1To999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
                                             ({getFieldValue})=>(
@@ -778,7 +778,7 @@ export default function EditProductPage(props) {
                                           name={['product', 'prices', price.position, 'percentNumber']}
                                           rules={[
                                             {
-                                              pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                              pattern: new RegExp(inputNumberRange1To999999999.range),
                                               message: pageData.pricing.discount.percentage.validateMessage
                                             }
                                           ]}

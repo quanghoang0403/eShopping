@@ -188,7 +188,7 @@ export default function TableProduct(props) {
 
     // });
     productDataService.getProductByIdAsync(productId).then(res => {
-      const { product } = res
+      const product  = res
       setPreventDeleteProduct(product)
     }).catch(err => {
       console.log(err)
@@ -383,10 +383,10 @@ export default function TableProduct(props) {
       keySearch,
       data?.productCategoryId ?? guidIdEmptyValue,
       data?.statusId ?? 0,
-      data?.filter
+      data?.filter ?? true
     );
 
-    const products = response?.products.map((s) => mappingRecordToColumns(s));
+    const products = response?.result.map((s) => mappingRecordToColumns(s));
     setDataSource(products);
     setTotalRecords(response.total);
     setCurrentPageNumber(response.pageNumber);
