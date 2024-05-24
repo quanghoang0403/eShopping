@@ -6,10 +6,6 @@ import { useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import React from 'react'
-import AccountInformation from '@/components/Account/AccountInformation'
-import AccountOrder from '@/components/Account/AccountOrder'
-import AccountPass from '@/components/Account/AccountPass'
-import AccountSavelist from '@/components/Account/AccountSavelist'
 
 enum AccountTab {
   Information = 'account-information',
@@ -17,7 +13,6 @@ enum AccountTab {
   Order = 'account-order',
   Pass = 'account-pass',
 }
-
 interface ITab {
   name: string
   tab: AccountTab
@@ -41,6 +36,11 @@ const tabs = [
     tab: AccountTab.Pass,
   },
 ]
+
+const AccountInformation = React.lazy(() => import('@/components/Account/AccountInformation'))
+const AccountOrder = React.lazy(() => import('@/components/Account/AccountOrder'))
+const AccountPass = React.lazy(() => import('@/components/Account/AccountPass'))
+const AccountSavelist = React.lazy(() => import('@/components/Account/AccountSavelist'))
 
 const PageAbout = () => {
   const searchParams = useSearchParams()

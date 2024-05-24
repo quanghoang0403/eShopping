@@ -1,6 +1,5 @@
 'use client'
 
-import './styles/index.css'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { FC, Fragment, useEffect, useRef } from 'react'
