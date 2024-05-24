@@ -104,7 +104,7 @@ namespace eShopping.Application.Features.Staffs.Commands
         {
             if (string.IsNullOrEmpty(request.FullName))
             {
-                return BaseResponseModel.ReturnError("Please enter fill name");
+                return BaseResponseModel.ReturnError("Please enter full name");
             }
             if (string.IsNullOrEmpty(request.PhoneNumber))
             {
