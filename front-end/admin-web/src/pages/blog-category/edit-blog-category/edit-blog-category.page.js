@@ -104,7 +104,7 @@ export default function EditBlogCategory(){
     const getallBlogs = async ()=>{
         const blog = await BlogDataService.getAllBlogsAsync()
         if(blog){
-            setBlogs(blog?.allBlogs)
+            setBlogs(blog)
         }
     }
     const onSubmitForm = async ()=>{
@@ -137,7 +137,7 @@ export default function EditBlogCategory(){
         const id = match?.params?.blogCategoryId
         if(id){
             BlogCategoryDataService.getBlogCategoryByIdAsync(id).then(res=>{
-                const blogCategory = res?.blogCategory
+                const blogCategory = res
                 if(blogCategory){
                     form.setFieldsValue({
                         id:blogCategory.id,

@@ -19,7 +19,7 @@ import product from 'pages/product'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
 const { Content } = Layout
 
-export function CreateNewStaff (props) {
+export function CreateNewStaff(props) {
   const shopImageSelectRef = useRef(null)
   const history = useHistory()
   const { t } = useTranslation()
@@ -39,8 +39,8 @@ export function CreateNewStaff (props) {
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
       confirmLeave: t('dialog.confirmLeave')
     },
-    media:{
-      upload:t('common.uploadTitle')
+    media: {
+      upload: t('common.uploadTitle')
     },
     generalInformation: {
       title: t('staff.titleInfo'),
@@ -79,7 +79,7 @@ export function CreateNewStaff (props) {
         label: t('staff.gender'),
         male: t('staff.male'),
         female: t('staff.female'),
-        validateMessage:t('staff.validateGender')
+        validateMessage: t('staff.validateGender')
       }
     },
     permission: {
@@ -90,14 +90,14 @@ export function CreateNewStaff (props) {
         required: true,
         validateMessage: t('staff.validatePermission')
       },
-      allpermission:[
+      allpermission: [
         [t('staff.permissionAdmin')],
         [
           t('staff.permissionViewProduct'),
           t('staff.permissionCreateProduct'),
           t('staff.permissionEditProduct')
         ],
-       [
+        [
           t('staff.permissionViewProductCategory'),
           t('staff.permissionCreateProductCategory'),
           t('staff.permissionEditProductCategory')
@@ -148,8 +148,8 @@ export function CreateNewStaff (props) {
     const fetchPrepareCreateNewStaffData = async () => {
       const response = await permissionDataService.getAllPermissionAsync();
       if (response) {
-        const { permissionGroups } = response
-        setGroupPermissions(permissionGroups.slice(0,-1))
+        const permissionGroups = response
+        setGroupPermissions(permissionGroups.slice(0, -1))
       }
     }
     fetchPrepareCreateNewStaffData()
@@ -160,10 +160,10 @@ export function CreateNewStaff (props) {
     }
     if (groupPermissions?.length > 0) {
       form.validateFields().then((values) => {
-       
+
         // Copy array from the old array.
         const formData = { ...values }
-        
+
         // The array contains new items after handling.
         const newGroups = []
 
@@ -182,7 +182,7 @@ export function CreateNewStaff (props) {
           // Push this object to the array list.
           newGroups.push(aGroup)
         }
-        
+
         // Set data
         // formData.groupPermissionStaff = newGroups
         formData.staff.permissionIds = permissionIds
@@ -244,14 +244,14 @@ export function CreateNewStaff (props) {
       setGroupPermissionStaff([...groupPermissionStaff, newGroupPermissionBranch])
     })
   }
-  const [activeTabKey,setTab] = useState(0)
-  const [permissionIds,setPermissionIds] = useState([])
-  const onChangePermission = (e,index)=>{
-    if(e.target.checked){
-      setPermissionIds(ids=>[...ids,groupPermissions[activeTabKey]?.permissions[index]?.id])
+  const [activeTabKey, setTab] = useState(0)
+  const [permissionIds, setPermissionIds] = useState([])
+  const onChangePermission = (e, index) => {
+    if (e.target.checked) {
+      setPermissionIds(ids => [...ids, groupPermissions[activeTabKey]?.permissions[index]?.id])
     }
-    else{
-      setPermissionIds(ids=>ids.filter(id=>id!=groupPermissions[activeTabKey]?.permissions[index]?.id))
+    else {
+      setPermissionIds(ids => ids.filter(id => id != groupPermissions[activeTabKey]?.permissions[index]?.id))
     }
   }
   /**
@@ -259,17 +259,17 @@ export function CreateNewStaff (props) {
    * @param  {CheckboxChangeEvent} event The event data
    */
   const onSelectAllGroups = (event) => {
-    if(event.target.checked){
+    if (event.target.checked) {
       setPermissionIds([])
       let allpermission = [];
-      groupPermissions.forEach(gp=>{
-        allpermission = gp.permissions.reduce((acc,curr)=>{
+      groupPermissions.forEach(gp => {
+        allpermission = gp.permissions.reduce((acc, curr) => {
           return acc.concat(curr.id)
-        },allpermission)
+        }, allpermission)
       })
       setPermissionIds(allpermission)
     }
-    else{
+    else {
       setPermissionIds([])
     }
   }
@@ -341,41 +341,41 @@ export function CreateNewStaff (props) {
 
     return (
       <Row>
-{/*         
+        {/*         
         <Col className="select-all" >
             <Checkbox checked={groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length} onChange={(event) => onSelectAllGroups(event)}>
                 {pageData.permission.allGroup}
             </Checkbox>
         </Col>
          */}
-        <Card 
-            style={{
-              width: '100%',
-            }}
-            tabList={groupPermissions?.reduce((acc,cur,index)=>{
-              return acc.concat({key:index,tab:cur.name})
-            },[])}
-            onTabChange={key=>setTab(key)}
-            >
-              <Row gutter={[8,16]}>
-                {
-                  groupPermissions[activeTabKey]?.permissions?.map((p,index)=>{
-                    return (
-                    <Col key={index} span={24}>
-                      <Checkbox 
-                      checked={activeTabKey == 0 ? groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length ? true : false : permissionIds.includes(p.id)} 
-                      onChange={e=> activeTabKey == 0? onSelectAllGroups(e) : onChangePermission(e,index)}
-                      >
-                        {pageData.permission.allpermission[activeTabKey][index]}
-                      </Checkbox>
-                    </Col>       
-                  )
-                  })
-                }
-              </Row>  
-            </Card>
+        <Card
+          style={{
+            width: '100%',
+          }}
+          tabList={groupPermissions?.reduce((acc, cur, index) => {
+            return acc.concat({ key: index, tab: cur.name })
+          }, [])}
+          onTabChange={key => setTab(key)}
+        >
+          <Row gutter={[8, 16]}>
+            {
+              groupPermissions[activeTabKey]?.permissions?.map((p, index) => {
+                return (
+                  <Col key={index} span={24}>
+                    <Checkbox
+                      checked={activeTabKey == 0 ? groupPermissions.reduce((totalLength, current) => totalLength + current.permissions.length, 0) === permissionIds.length ? true : false : permissionIds.includes(p.id)}
+                      onChange={e => activeTabKey == 0 ? onSelectAllGroups(e) : onChangePermission(e, index)}
+                    >
+                      {pageData.permission.allpermission[activeTabKey][index]}
+                    </Checkbox>
+                  </Col>
+                )
+              })
+            }
+          </Row>
+        </Card>
       </Row>
-    
+
     )
   }
 
@@ -444,7 +444,7 @@ export function CreateNewStaff (props) {
     setIsChangeForm(true)
   }
 
-  function updateDateFields (event) {
+  function updateDateFields(event) {
     const checkDate = moment(event.target.value, DateFormat.DD_MM_YYYY, true)
     if (checkDate.isValid() && checkDate <= moment()) {
       form.setFieldsValue({
@@ -603,8 +603,8 @@ export function CreateNewStaff (props) {
                   name={['staff', 'gender']}
                   label={pageData.generalInformation.gender.label}
                   rules={[{
-                    required:true,
-                    message:pageData.generalInformation.gender.validateMessage
+                    required: true,
+                    message: pageData.generalInformation.gender.validateMessage
                   }]}
                 >
                   <Radio.Group>
@@ -615,17 +615,17 @@ export function CreateNewStaff (props) {
               </Col>
             </Row>
             <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <Card className="w-100 shop-card h-auto">
-                    <h4 className="title-group">{pageData.media.upload}</h4>
-                    <FnbImageSelectComponent
-                      ref={shopImageSelectRef}
-                      customTextNonImageClass={'create-edit-product-text-non-image'}
-                      customNonImageClass={'create-edit-product-non-image'}
-                    />
-                  </Card>
-                </Col>
-              </Row>
+              <Col xs={24} sm={24} md={24} lg={24}>
+                <Card className="w-100 shop-card h-auto">
+                  <h4 className="title-group">{pageData.media.upload}</h4>
+                  <FnbImageSelectComponent
+                    ref={shopImageSelectRef}
+                    customTextNonImageClass={'create-edit-product-text-non-image'}
+                    customNonImageClass={'create-edit-product-non-image'}
+                  />
+                </Card>
+              </Col>
+            </Row>
           </Card>
         </Content>
 
