@@ -30,7 +30,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
 
         [HttpGet]
         [Route("get-menu-category")]
-        public async Task<IActionResult> GetMenuCategory([FromQuery] StoreGetMenuCategoryRequest request)
+        public async Task<IActionResult> GetMenuCategory(StoreGetMenuCategoryRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);

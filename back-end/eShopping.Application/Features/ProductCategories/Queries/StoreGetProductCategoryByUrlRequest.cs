@@ -28,8 +28,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-
             var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(request.Url);
             if (productCategoryData == null)
             {

@@ -48,12 +48,17 @@ namespace eShopping.Application.Mappings
             CreateMap<PermissionGroup, AdminPermissionGroupModel>();
             CreateMap<Permission, AdminPermissionModel>();
 
-            CreateMap<ProductCategory, AdminProductCategoryDetailModel>();
             CreateMap<Product, AdminProductSelectedModel>();
+            CreateMap<ProductCategory, AdminProductCategorySelectedModel>();
+            CreateMap<ProductCategory, AdminProductCategoryDetailModel>();
             CreateMap<ProductCategory, StoreProductCategoryDetailModel>();
             CreateMap<ProductCategory, AdminProductCategoryModel>();
             CreateMap<ProductCategory, StoreProductCategoryModel>();
-            CreateMap<ProductCategory, AdminProductCategorySelectedModel>();
+
+            CreateMap<ProductRootCategory, AdminProductRootCategoryDetailModel>();
+            CreateMap<ProductRootCategory, StoreProductRootCategoryDetailModel>();
+            CreateMap<ProductRootCategory, AdminProductRootCategoryModel>();
+            CreateMap<ProductRootCategory, StoreProductRootCategoryModel>();
 
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();

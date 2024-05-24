@@ -36,8 +36,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetAllProductRootCategoriesRequest request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-
             var allProductRootCategoriesInStore = await _unitOfWork.ProductRootCategories
                     .GetAll()
                     .AsNoTracking()
