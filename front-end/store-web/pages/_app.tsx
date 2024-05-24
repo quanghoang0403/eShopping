@@ -1,16 +1,18 @@
+import '@/fonts/line-awesome-1.3.0/css/line-awesome.css'
+import '@/styles/index.scss'
+import 'rc-slider/assets/index.css'
 import type { AppProps } from 'next/app'
 import SEO from '@/components/Layout/SEO'
 import MainLayout from '@/components/Layout'
 import { Provider } from 'react-redux'
 import { wrapper } from '@/redux/store'
-import NProgress from 'nprogress'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import Router from 'next/router'
-import '../src/styles/global.scss'
 import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../src/utils/i18n'
+import NProgress from 'nprogress'
 
 NProgress.configure({ showSpinner: true })
 Router.events.on('routeChangeStart', () => NProgress.start())
