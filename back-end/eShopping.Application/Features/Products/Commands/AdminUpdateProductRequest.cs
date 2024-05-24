@@ -39,6 +39,8 @@ namespace eShopping.Application.Features.Products.Commands
 
         public EnumStatus Status { get; set; }
 
+        public EnumGenderProduct GenderProduct { get; set; }
+
         public string Thumbnail { get; set; }
 
         public Guid ProductCategoryId { get; set; }

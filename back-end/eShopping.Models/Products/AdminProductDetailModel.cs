@@ -17,6 +17,8 @@ namespace eShopping.Models.Products
 
         public EnumStatus Status { get; set; }
 
+        public EnumGenderProduct GenderProduct { get; set; }
+
         public int Priority { set; get; }
 
         public string Thumbnail { set; get; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShopping.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +10,8 @@ namespace eShopping.Models.ProductCategories
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
+        public EnumGenderProduct GenderProduct { get; set; }
 
         public int No { get; set; }
 

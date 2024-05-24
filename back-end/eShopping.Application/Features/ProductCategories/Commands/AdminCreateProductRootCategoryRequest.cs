@@ -2,6 +2,7 @@
 using eShopping.Common.Helpers;
 using eShopping.Common.Models;
 using eShopping.Domain.Entities;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace eShopping.Application.Features.ProductCategories.Commands
         public string DescriptionSEO { get; set; }
 
         public string Description { get; set; }
+
+        public EnumGenderProduct GenderProduct { get; set; }
 
     }
 

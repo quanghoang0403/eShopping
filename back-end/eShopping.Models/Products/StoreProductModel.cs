@@ -6,11 +6,7 @@ namespace eShopping.Models.Products
 {
     public class StoreProductModel : SEOEntity
     {
-        public Guid Id { get; set; }
-
         public int Code { get; set; }
-
-        public string Name { get; set; }
 
         public string Thumbnail { get; set; }
 

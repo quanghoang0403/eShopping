@@ -32,6 +32,8 @@ namespace eShopping.Application.Features.Products.Commands
 
         public DateTime DateCreated { set; get; }
 
+        public EnumGenderProduct GenderProduct { get; set; }
+
         public bool? IsFeatured { get; set; }
 
         public Guid ProductCategoryId { get; set; }

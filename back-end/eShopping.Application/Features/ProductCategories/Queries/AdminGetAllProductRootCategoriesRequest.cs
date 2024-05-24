@@ -1,5 +1,6 @@
 using AutoMapper;
 using eShopping.Common.Models;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
@@ -14,6 +15,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 {
     public class AdminGetAllProductRootCategoriesRequest : IRequest<BaseResponseModel>
     {
+        public EnumGenderProduct GenderProduct { get; set; }
     }
 
 

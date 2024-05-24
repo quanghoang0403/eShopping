@@ -1,5 +1,6 @@
 using AutoMapper;
 using eShopping.Common.Models;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
 using MediatR;
@@ -13,12 +14,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 {
     public class AdminGetAllProductCategoriesRequest : IRequest<BaseResponseModel>
     {
+        public EnumGenderProduct GenderProduct { get; set; }
     }
-
-    //public class AdminGetAllProductCategoriesResponse
-    //{
-    //    public IEnumerable<AdminProductCategoryModel> AllProductCategories { get; set; }
-    //}
 
     public class AdminGetAllProductCategoriesRequestHandler : IRequestHandler<AdminGetAllProductCategoriesRequest, BaseResponseModel>
     {

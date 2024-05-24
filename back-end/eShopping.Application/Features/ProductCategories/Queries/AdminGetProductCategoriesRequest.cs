@@ -22,6 +22,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         public int PageSize { get; set; }
 
         public string KeySearch { get; set; }
+
+        public EnumGenderProduct GenderProduct { get; set; }
     }
 
     public class AdminGetProductCategoriesRequestHandler : IRequestHandler<AdminGetProductCategoriesRequest, BaseResponseModel>
