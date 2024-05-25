@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import staffDataService from 'data-services/staff/staff-data.service'
 import permissionDataService from 'data-services/permission/permission-data.service'
 
-export default function TableStaff (props) {
+export default function TableStaff(props) {
   const { onEditStaff, screenKey } = props
   const [t] = useTranslation()
   const [dataSource, setDataSource] = useState([])
@@ -92,18 +92,13 @@ export default function TableStaff (props) {
             const group = record.groups.find((item) => item.name === groupName)
             if (index < maxLine - 1) {
               return (
-                <Link
-                  key={index}
-                  className="row-link"
-                  target="_blank"
-                  to={`/settings/permission-group/${group?.id}/detail`}
-                >
-                  <div key={index} className="width-group text-overflow">
-                    <TooltipParagraph>
-                      <a>{groupName}</a>
-                    </TooltipParagraph>
-                  </div>
-                </Link>
+
+                <div key={index} className="width-group text-overflow">
+                  <TooltipParagraph>
+                    <a>{groupName}</a>
+                  </TooltipParagraph>
+                </div>
+
               )
             }
             if (index === maxLine) {
@@ -205,10 +200,10 @@ export default function TableStaff (props) {
     }
 
     const response = await staffDataService.getDataStaffManagementAsync(dataRequest)
-    const data = response?.staffs.map((s) => mappingRecordToColumns(s))
+    const data = response?.result.map((s) => mappingRecordToColumns(s))
     setDataSource(data)
-    setTotalRecords(response.total)
-    setCurrentPageNumber(response.pageNumber)
+    setTotalRecords(response?.paging?.total)
+    setCurrentPageNumber(response?.paging?.pageIndex)
     let numberRecordCurrent = pageNumber * pageSize
     if (numberRecordCurrent > response.total) {
       numberRecordCurrent = response.total
@@ -239,7 +234,7 @@ export default function TableStaff (props) {
         id: '',
         name: t('staff.allGroupPermission')
       }
-      const PermissionOptions = [allPermissionOption, ...resPermission.permissionGroups]
+      const PermissionOptions = [allPermissionOption, ...resPermission]
       setPermissions(PermissionOptions)
     }
   }
@@ -269,7 +264,7 @@ export default function TableStaff (props) {
       const group = {
         id: item?.id,
         name: item?.name,
-        link: `/settings/permission-group/${item?.id}/detail`
+        link: ``
       }
       listGroup.push(group)
     })

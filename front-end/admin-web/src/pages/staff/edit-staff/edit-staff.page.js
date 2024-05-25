@@ -20,14 +20,14 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 
 const { Content } = Layout
 
-export function EditStaff (props) {
+export function EditStaff(props) {
   const history = useHistory()
   const { t } = useTranslation();
   const [formHasValue, setFormHasValue] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [disableSaveButton, setDisableSaveButton] = useState(true)
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [staff,setStaff] = useState({})
+  const [staff, setStaff] = useState({})
   const shopImageSelectRef = useRef(null)
   // #region Page data
   const pageData = {
@@ -41,8 +41,8 @@ export function EditStaff (props) {
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
       confirmLeave: t('dialog.confirmLeave')
     },
-    media:{
-      upload:t('common.uploadTitle')
+    media: {
+      upload: t('common.uploadTitle')
     },
     generalInformation: {
       title: t('staff.titleInfo'),
@@ -91,14 +91,14 @@ export function EditStaff (props) {
         required: true,
         validateMessage: t('staff.validatePermission')
       },
-      allpermission:[
+      allpermission: [
         [t('staff.permissionAdmin')],
         [
           t('staff.permissionViewProduct'),
           t('staff.permissionCreateProduct'),
           t('staff.permissionEditProduct')
         ],
-       [
+        [
           t('staff.permissionViewProductCategory'),
           t('staff.permissionCreateProductCategory'),
           t('staff.permissionEditProductCategory')
@@ -153,7 +153,7 @@ export function EditStaff (props) {
 
   const loadDataToEditStaff = async (staffId, response) => {
     if (staffId) {
-      const { staff } = await staffDataService.getStaffByIdAsync(staffId)
+      const staff = await staffDataService.getStaffByIdAsync(staffId)
       if (shopImageSelectRef && shopImageSelectRef.current) {
         shopImageSelectRef.current.setImageUrl(staff?.thumbnail);
       }
@@ -166,12 +166,12 @@ export function EditStaff (props) {
           email: staff.email,
           birthday: staff.birthday ? moment.utc(staff.birthday).local() : null,
           gender: staff.gender,
-          permissionIds : staff.permissions.map(p=>p.id),
+          permissionIds: staff.permissions.map(p => p.id),
           thumbnail: staff.thumbnail
         }
-       
+
       })
-      setPermissionIds(staff?.permissions.map(p=>p.id))
+      setPermissionIds(staff?.permissions.map(p => p.id))
       renderGroupPermissionForEdit(staff.permissionGroupControls, response)
     }
   }
@@ -197,8 +197,8 @@ export function EditStaff (props) {
   const loadData = async () => {
     const response = await permissionDataService.getAllPermissionAsync();
     if (response) {
-      const { permissionGroups } = response
-      setGroupPermissions(permissionGroups.slice(0,-1))
+      const permissionGroups = response
+      setGroupPermissions(permissionGroups.slice(0, -1))
     }
     const { id } = props?.match?.params || {}
     loadDataToEditStaff(id, response)
@@ -210,7 +210,7 @@ export function EditStaff (props) {
     }
     if (groupPermissions?.length > 0) {
       form.validateFields().then((values) => {
-        const formData = {...values}
+        const formData = { ...values }
         formData.staff.permissionIds = permissionIds
         formData.staff.thumbnail = imageUrl
         staffDataService
@@ -265,28 +265,28 @@ export function EditStaff (props) {
       setGroupPermissionStaff([...groupPermissionStaff, newGroupPermissionBranch])
     })
   }
-  const [activeTabKey,setTab] = useState(0)
-  const [permissionIds,setPermissionIds] = useState([])
-  const onChangePermission = (e,index)=>{
-    if(e.target.checked){
-      setPermissionIds(ids=>[...ids,groupPermissions[activeTabKey]?.permissions[index]?.id])
+  const [activeTabKey, setTab] = useState(0)
+  const [permissionIds, setPermissionIds] = useState([])
+  const onChangePermission = (e, index) => {
+    if (e.target.checked) {
+      setPermissionIds(ids => [...ids, groupPermissions[activeTabKey]?.permissions[index]?.id])
     }
-    else{
-      setPermissionIds(ids=>ids.filter(id=>id!=groupPermissions[activeTabKey]?.permissions[index]?.id))
+    else {
+      setPermissionIds(ids => ids.filter(id => id != groupPermissions[activeTabKey]?.permissions[index]?.id))
     }
   }
   const onSelectAllGroups = (event) => {
-    if(event.target.checked){
+    if (event.target.checked) {
       setPermissionIds([])
       let allpermission = [];
-      groupPermissions.forEach(gp=>{
-        allpermission = gp.permissions.reduce((acc,curr)=>{
+      groupPermissions.forEach(gp => {
+        allpermission = gp.permissions.reduce((acc, curr) => {
           return acc.concat(curr.id)
-        },allpermission)
+        }, allpermission)
       })
       setPermissionIds(allpermission)
     }
-    else{
+    else {
       setPermissionIds([])
     }
   }
@@ -361,32 +361,32 @@ export function EditStaff (props) {
                 {pageData.permission.allGroup}
             </Checkbox>
         </Col> */}
-        <Card 
-            className='w-100'
-            tabList={groupPermissions?.reduce((acc,cur,index)=>{
-              return acc.concat({key:index,tab:cur.name})
-            },[])}
-            onTabChange={key=>setTab(key)}
-            >
-              <Row gutter={[8,16]}>
-                {
-                  groupPermissions[activeTabKey]?.permissions?.map((p,index)=>{
-                    return (
-                    <Col key={index} span={24}>
-                      <Checkbox
-                      checked={activeTabKey == 0 ? groupPermissions.reduce((totalLength,current)=>totalLength+current.permissions.length,0) === permissionIds.length ? true : false : permissionIds.includes(p.id)} 
-                      onChange={e=> activeTabKey == 0? onSelectAllGroups(e) : onChangePermission(e,index)}
-                      >
-                        {pageData.permission.allpermission[activeTabKey][index]}
-                      </Checkbox>
-                    </Col>       
-                  )
-                  })
-                }
-              </Row>  
-            </Card>
+        <Card
+          className='w-100'
+          tabList={groupPermissions?.reduce((acc, cur, index) => {
+            return acc.concat({ key: index, tab: cur.name })
+          }, [])}
+          onTabChange={key => setTab(key)}
+        >
+          <Row gutter={[8, 16]}>
+            {
+              groupPermissions[activeTabKey]?.permissions?.map((p, index) => {
+                return (
+                  <Col key={index} span={24}>
+                    <Checkbox
+                      checked={activeTabKey == 0 ? groupPermissions.reduce((totalLength, current) => totalLength + current.permissions.length, 0) === permissionIds.length ? true : false : permissionIds.includes(p.id)}
+                      onChange={e => activeTabKey == 0 ? onSelectAllGroups(e) : onChangePermission(e, index)}
+                    >
+                      {pageData.permission.allpermission[activeTabKey][index]}
+                    </Checkbox>
+                  </Col>
+                )
+              })
+            }
+          </Row>
+        </Card>
       </Row>
-    
+
     )
   }
 
@@ -453,7 +453,7 @@ export function EditStaff (props) {
     setIsChangeForm(true)
   }
 
-  function updateDateFields (event) {
+  function updateDateFields(event) {
     setDisableSaveButton(false)
     const checkDate = moment(event.target.value, DateFormat.DD_MM_YYYY, true)
     if (checkDate.isValid() && checkDate <= moment()) {
@@ -518,7 +518,7 @@ export function EditStaff (props) {
         onChange={onFormChanged}
         onFieldsChange={(e) => changeForm(e)}
       >
-         <Content>
+        <Content>
           <Card className="shop-box custom-box">
             <Row className="group-header-box">
               <Col xs={24} sm={24} lg={24}>
@@ -528,11 +528,11 @@ export function EditStaff (props) {
 
             <Row gutter={[24, 24]}>
               <Col xs={24} sm={24} lg={12}>
-                  <Form.Item
+                <Form.Item
                   name={['staff', 'staffId']}
                   hidden={true}>
-                    <Input/>
-                  </Form.Item>
+                  <Input />
+                </Form.Item>
                 <Form.Item
                   name={['staff', 'phoneNumber']}
                   label={pageData.generalInformation.phoneNumber.label}
@@ -562,7 +562,7 @@ export function EditStaff (props) {
                 <Form.Item
                   name={['staff', 'birthday']}
                   label={pageData.generalInformation.birthDay.label}
-                  
+
                 >
                   <DatePicker
                     className="w-100 shop-input"
@@ -628,17 +628,17 @@ export function EditStaff (props) {
               </Col>
             </Row>
             <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <Card className="w-100 shop-card h-auto">
-                    <h4 className="title-group">{pageData.media.upload}</h4>
-                    <FnbImageSelectComponent
-                      ref={shopImageSelectRef}
-                      customTextNonImageClass={'create-edit-product-text-non-image'}
-                      customNonImageClass={'create-edit-product-non-image'}
-                    />
-                  </Card>
-                </Col>
-              </Row>
+              <Col xs={24} sm={24} md={24} lg={24}>
+                <Card className="w-100 shop-card h-auto">
+                  <h4 className="title-group">{pageData.media.upload}</h4>
+                  <FnbImageSelectComponent
+                    ref={shopImageSelectRef}
+                    customTextNonImageClass={'create-edit-product-text-non-image'}
+                    customNonImageClass={'create-edit-product-non-image'}
+                  />
+                </Card>
+              </Col>
+            </Row>
           </Card>
         </Content>
 

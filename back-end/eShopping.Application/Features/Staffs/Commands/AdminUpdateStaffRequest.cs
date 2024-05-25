@@ -104,14 +104,14 @@ namespace eShopping.Application.Features.Staffs.Commands
         {
             if (string.IsNullOrEmpty(request.FullName))
             {
-                return BaseResponseModel.ReturnError("Please enter fill name");
+                return BaseResponseModel.ReturnError("Please enter full name");
             }
             if (string.IsNullOrEmpty(request.PhoneNumber))
             {
                 return BaseResponseModel.ReturnError("Phone number is existed");
             }
 
-            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim());
+            var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim(), accountId);
             if (phoneExisted)
             {
                 return BaseResponseModel.ReturnError("Please enter fill name");
@@ -119,7 +119,7 @@ namespace eShopping.Application.Features.Staffs.Commands
 
             if (!string.IsNullOrWhiteSpace(request.Email))
             {
-                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim());
+                var emailExisted = _unitOfWork.Accounts.CheckAccountByEmail(request.Email.Trim(), accountId);
                 if (emailExisted)
                 {
                     return BaseResponseModel.ReturnError("Email is existed");

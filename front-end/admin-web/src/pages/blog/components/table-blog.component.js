@@ -61,15 +61,15 @@ export const TableBlog = () => {
     // get list blogs
     setIsLoading(true)
     BlogDataService.getBlogManagementsAsync(pageNumber, pageSize, keySearch).then((res) => {
-      const blogs = mappingToDataTableBlogs(res.blogs)
+      const blogs = mappingToDataTableBlogs(res?.result)
       setListBlog(blogs)
-      setTotalBlog(res.total)
+      setTotalBlog(res?.paging?.total)
       setCurrentPageNumber(pageNumber)
       
     })
     BlogCategoryDataService.getAllBlogCategoryAsync().then(res=>{
       if(res){
-        setBlogCategories(res?.blogCategories)
+        setBlogCategories(res)
       }
     })
     setIsLoading(false)
@@ -273,7 +273,7 @@ export const TableBlog = () => {
     BlogDataService
       .getBlogManagementsAsync(pageNumber, pageSize, keySearch, filter?.categoryId || guidIdEmptyValue, filter?.creatorId || '')
       .then((res) => {
-        const blogs = mappingToDataTableBlogs(res.blogs)
+        const blogs = mappingToDataTableBlogs(res.result)
         setListBlog(blogs)
         setTotalBlog(res.total)
       })
@@ -284,7 +284,7 @@ export const TableBlog = () => {
     BlogDataService
       .getBlogManagementsAsync(tableSettings.page, tableSettings.pageSize, keySearch, data?.categoryId, data?.creatorId)
       .then((res) => {
-        const blogs = mappingToDataTableBlogs(res.blogs)
+        const blogs = mappingToDataTableBlogs(res.result)
         setListBlog(blogs)
         setTotalBlog(res.total)
         setCountFilter(Object.values(data).filter((e) => e !== '').length)

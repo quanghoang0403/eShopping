@@ -22,7 +22,7 @@ const changeStatusAsync = id => {
     return http.put(`/${controller}/change-status/${id}`)
 }
 const getProductsByCategoryIdAsync = (id,keySearch)=>{
-    return http.get(`/${controller}/get-products?ProductCategoryId=${id}&KeySearch=${keySearch}`)
+    return http.get(`/${controller}/get-products?ProductCategoryId=${id}&KeySearch=${keySearch}&FilterAll=${true}`)
 }
 const changeFeatureStatus = data=>{
     const {id,isActivate} = data

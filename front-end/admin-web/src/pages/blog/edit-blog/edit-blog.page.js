@@ -159,8 +159,8 @@ export default function EditBlogPage (props) {
     await BlogDataService
       .getBlogByIdAsync(id)
       .then((res) => {
-        setBlog(res?.blog)
-        mappingData(res?.blog)
+        setBlog(res)
+        mappingData(res)
       })
       .catch(error)
   }
@@ -195,7 +195,7 @@ export default function EditBlogPage (props) {
   const getCategories = async () => {
     const resCategory = await BlogCategoryDataService.getAllBlogCategoryAsync()
     if (resCategory) {
-      setCategories(resCategory.blogCategories)
+      setCategories(resCategory)
     }
   }
 
@@ -239,16 +239,7 @@ export default function EditBlogPage (props) {
         
       })
   }
-  const scrollToElement = (id) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'start'
-      })
-    }
-  }
+
   const onCancel = () => {
     if (isChangeForm) {
       setShowConfirm(true)
@@ -477,7 +468,7 @@ export default function EditBlogPage (props) {
                   <Row>
                     <Col span={24}>
                       <h4 className="title-group">{pageData.SEO.title}</h4>
-                      <h4 className="shop-form-label mt-3">
+                      {/* <h4 className="shop-form-label mt-3">
                         {pageData.SEO.SEOPreview}
                         <Tooltip
                           placement="topLeft"
@@ -496,8 +487,8 @@ export default function EditBlogPage (props) {
                             <ExclamationIcon />
                           </span>
                         </Tooltip>
-                      </h4>
-                      <div className="edit-blog-overview">
+                      </h4> */}
+                      {/* <div className="edit-blog-overview">
                         <span
                           style={{ fontSize: '18px' }}
                         >{`<meta name="title" property="title" content="${!titleSEO ? 'SEO on Title' : titleSEO
@@ -516,7 +507,7 @@ export default function EditBlogPage (props) {
                             : 'SEO on Keywords'
                             }">`}
                         </span>
-                      </div>
+                      </div> */}
                       <h4 className="shop-form-label">
                         {pageData.SEO.SEOTitle}
                         <Tooltip

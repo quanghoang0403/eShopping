@@ -54,7 +54,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             {
                 return RequestValidation(request);
             }
-            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).ToListAsync();
+            var existedBlogName = await _unitOfWork.Blogs.Where(b => b.Name.ToLower().Trim().ToLower().Equals(request.Name.Trim().ToLower())).FirstOrDefaultAsync();
 
             if (existedBlogName != null)
             {

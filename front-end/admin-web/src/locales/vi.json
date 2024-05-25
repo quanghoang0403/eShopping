@@ -304,7 +304,8 @@
         "statusComplete":"Hoàn tất",
         "statusDraft":"Draft",
         "updateSuccess":"Cập nhật đơn hàng thành công",
-        "orderCancelationPlaceholder":"Lí do hủy"
+        "orderCancelationPlaceholder":"Lí do hủy",
+        "orderCancelationRequire":"Vui lòng nêu lí do hủy"
     },
     "product": {
         "addProduct": "Thêm sản phẩm",

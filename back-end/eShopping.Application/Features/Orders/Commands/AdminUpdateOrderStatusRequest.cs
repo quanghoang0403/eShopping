@@ -56,19 +56,21 @@ namespace eShopping.Application.Features.Orders.Commands
                 order.LastSavedTime = DateTime.Now;
             }
 
-            // Add order history
-            var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
-            {
-                OrderId = order.Id,
-                ActionType = EnumOrderActionType.CANCEL,
-                Note = request.Note,
-                CreatedTime = DateTime.Now,
-                CreatedUser = accountId,
+                // Add order history
+                var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
+                {
+                    OrderId = order.Id,
+                    ActionType = EnumOrderActionType.CANCEL,
+                    Note = request.Note,
+                    CreatedTime = DateTime.Now,
+                    CreatedUser = accountId,
+                });
+
+                await _unitOfWork.SaveChangesAsync();
+                await createTransaction.CommitAsync(cancellationToken);
+                return BaseResponseModel.ReturnData();
             });
 
-            await _unitOfWork.SaveChangesAsync();
-            await createTransaction.CommitAsync(cancellationToken);
-            return BaseResponseModel.ReturnData();
         }
     }
 }

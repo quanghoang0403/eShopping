@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import OrderList from "./components/OrderList.component";
 import { executeAfter } from "utils/helpers";
 import { FnbModal } from "components/shop-modal/shop-modal-component";
+import { ExclamationIcon } from "constants/icons.constants";
 
 export default function OrderPage (props) {
   const [currentPageNumber,setCurrentPageNumber] = useState(1)
@@ -23,6 +24,7 @@ export default function OrderPage (props) {
   const [openModal, setOpenModal] = useState(false)
   const [note,setNote] = useState('')
   const [orderId,setOrderId] = useState('')
+  const [canceling,isCanceling] = useState(false)
   const getOrderDataAsync = async()=>{
     const data = {
       pageNumber:currentPageNumber,
@@ -34,7 +36,7 @@ export default function OrderPage (props) {
     }
     try{
       const res = await OrderDataService.GetOrdersAsync(data)
-      const orders = res.orders
+      const orders = res?.result
       if(orders){
         setDataSource(orders)
         setFilterData(orders)
@@ -70,7 +72,8 @@ export default function OrderPage (props) {
     cancel:t('button.cancel'),
     leave:t('button.leave'),
     save:t('button.save'),
-    cancelationPlaceholder:t('order.orderCancelationPlaceholder')
+    cancelationPlaceholder:t('order.orderCancelationPlaceholder'),
+    orderCancelationRequire:t('order.orderCancelationRequire')
   }
   const tableSettings = {
     pageSize: 20
@@ -90,7 +93,7 @@ export default function OrderPage (props) {
             setOrderId('')
         }
     }catch(err){
-        message.error(err)
+        console.error(err)
     }
     
 }
@@ -102,19 +105,26 @@ const confirmationInput = ()=>{
   return (
     <div>
       <h3>{pageData.cancelationPlaceholder}</h3>
-      <Input placeholder={pageData.cancelationPlaceholder} onChange={e=>setNote(e.target.value)}/>
+      <Input value={note} placeholder={pageData.cancelationPlaceholder} onChange={e=>setNote(e.target.value)}/>
+      <div className={`d-flex mt-2 ${note === '' && canceling?'':'d-none'}`}>
+        <ExclamationIcon/>
+        <b className="ml-3">{pageData.orderCancelationRequire}</b>
+      </div>
+      
     </div>
     
   );
 }
 const onCloseModal = ()=>{
   setOpenModal(false)
-  setNote('')
+  isCanceling(false)
 }
 const onConfirmCancel = ()=>{
+  isCanceling(true)
+  if(note === '') return;
   let newStatus;
   // if order status is not new 
-  if(statusOrder !== OrderStatus.New || statusOrder !== OrderStatus.ToConfirm){
+  if(statusOrder !== OrderStatus.New && statusOrder !== OrderStatus.ToConfirm){
     // if order status is not canceled
     if(statusOrder !== OrderStatus.Canceled){
       newStatus = statusOrder - 1;
