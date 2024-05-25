@@ -10,10 +10,10 @@ namespace eShopping.Models.Products
 
         public string Thumbnail { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal PriceValue { set; get; }
 
-        [Precision(18, 2)]
+        
         public decimal? PriceDiscount { set; get; }
 
         public float? PercentNumber { set; get; }

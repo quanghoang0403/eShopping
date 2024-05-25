@@ -30,12 +30,6 @@ namespace eShopping.Infrastructure.Repositories
         private ICityRepository _cityRepository;
         public ICityRepository Cities { get { return _cityRepository ??= new CityRepository(_dbContext); } }
 
-        private ICartRepository _cartRepository;
-        public ICartRepository Carts { get { return _cartRepository ??= new CartRepository(_dbContext); } }
-
-        private IProductCategoryRepository _productCategoryRepository;
-        public IProductCategoryRepository ProductCategories { get { return _productCategoryRepository ??= new ProductCategoryRepository(_dbContext); } }
-
         private ICustomerRepository _customerRepository;
         public ICustomerRepository Customers { get { return _customerRepository ??= new CustomerRepository(_dbContext); } }
 
@@ -63,14 +57,26 @@ namespace eShopping.Infrastructure.Repositories
         private IProductRepository _productRepository;
         public IProductRepository Products { get { return _productRepository ??= new ProductRepository(_dbContext); } }
 
+        private IProductSizeRepository _productSizeRepository;
+        public IProductSizeRepository ProductSizes { get { return _productSizeRepository ??= new ProductSizeRepository(_dbContext); } }
+
+        private IProductSizeCategoryRepository _productSizeCategoryRepository;
+        public IProductSizeCategoryRepository ProductSizeCategories { get { return _productSizeCategoryRepository ??= new ProductSizeCategoryRepository(_dbContext); } }
+
+        private IProductStockRepository _productStockRepository;
+        public IProductStockRepository ProductStocks { get { return _productStockRepository ??= new ProductStockRepository(_dbContext); } }
+
+        private IProductCategoryRepository _productCategoryRepository;
+        public IProductCategoryRepository ProductCategories { get { return _productCategoryRepository ??= new ProductCategoryRepository(_dbContext); } }
+
         private IProductRootCategoryRepository _productRootCategoryRepository;
         public IProductRootCategoryRepository ProductRootCategories { get { return _productRootCategoryRepository ??= new ProductRootCategoryRepository(_dbContext); } }
 
         private IImageRepository _productImageRepository;
         public IImageRepository Images { get { return _productImageRepository ??= new ImageRepository(_dbContext); } }
 
-        private IProductPriceRepository _productPriceRepository;
-        public IProductPriceRepository ProductPrices { get { return _productPriceRepository ??= new ProductPriceRepository(_dbContext); } }
+        private IProductVariantRepository _productVariantRepository;
+        public IProductVariantRepository ProductVariants { get { return _productVariantRepository ??= new ProductVariantRepository(_dbContext); } }
 
         private IStaffRepository _staffRepository;
         public IStaffRepository Staffs { get { return _staffRepository ??= new StaffRepository(_dbContext); } }

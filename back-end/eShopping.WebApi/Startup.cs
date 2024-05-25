@@ -43,9 +43,9 @@ namespace eShopping.WebApi
         {
             //services.AddSignalR();
             services.AddCors();
-            services.AddCors(prices =>
+            services.AddCors(variants =>
             {
-                prices.AddPolicy("CorsPolicy",
+                variants.AddPolicy("CorsPolicy",
                     builder => builder
                     .WithExposedHeaders("Token-Expired", "Content-Disposition")
                 );
@@ -58,7 +58,7 @@ namespace eShopping.WebApi
             services.AddHealthChecks();
             services.AddHttpContextAccessor();
 
-            services.AddControllersWithViews().AddNewtonsoftJson(prices => prices.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            services.AddControllersWithViews().AddNewtonsoftJson(variants => variants.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerDocumentation(Configuration);
 
@@ -92,8 +92,6 @@ namespace eShopping.WebApi
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-            services.AddScoped<ICartRepository, CartRepository>();
-            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
@@ -101,7 +99,12 @@ namespace eShopping.WebApi
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddScoped<IProductRootCategoryRepository, ProductRootCategoryRepository>();
+            services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
+            services.AddScoped<IProductSizeCategoryRepository, ProductSizeCategoryRepository>();
+            services.AddScoped<IProductStockRepository, ProductStockRepository>();
+            services.AddScoped<IProductVariantRepository, ProductVariantRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IStaffPermissionRepository, StaffPermissionRepository>();
 
@@ -110,7 +113,7 @@ namespace eShopping.WebApi
             #region Register permission handler and add permission policies
             services.AddScoped<IUserPermissionService, UserPermissionService>();
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
-            services.AddAuthorization(prices =>
+            services.AddAuthorization(variants =>
             {
 
                 var permissions = Enum.GetValues(typeof(EnumPermission))
@@ -120,7 +123,7 @@ namespace eShopping.WebApi
 
                 foreach (var permission in permissions)
                 {
-                    prices.AddPolicy(permission.ToString(),
+                    variants.AddPolicy(permission.ToString(),
                         policy => policy.Requirements.Add(new PermissionRequirement(new List<EnumPermission> {
                              permission
                         })));

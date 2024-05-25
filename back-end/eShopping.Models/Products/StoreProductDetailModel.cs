@@ -27,6 +27,6 @@ namespace eShopping.Models.Products
 
         public StoreProductCategoryModel ProductCategory { get; set; }
 
-        public List<StoreProductPriceModel> ProductPrices { get; set; }
+        public List<StoreProductVariantModel> ProductVariants { get; set; }
     }
 }

@@ -41,13 +41,13 @@ namespace eShopping.Application.Features.Blogs.Queries
             var allBlogCategory = await _unitOfWork.BlogCategories
                 .GetAll()
                 .AsNoTracking()
-                .Include(b => b.BlogInCategories).ThenInclude(bc => bc.blog)
+                .Include(b => b.BlogInCategories).ThenInclude(bc => bc.Blog)
                 .Select(b => new AdminBlogCategoryModel
                 {
                     Id = b.Id,
                     Name = b.Name,
                     Priority = b.Priority,
-                    Blogs = _mapper.Map<IEnumerable<AdminBlogModel>>(b.BlogInCategories.Select(bc => bc.blog))
+                    Blogs = _mapper.Map<IEnumerable<AdminBlogModel>>(b.BlogInCategories.Select(bc => bc.Blog))
                 }).OrderByDescending(b => b.Priority).ToListAsync(cancellationToken);
             return BaseResponseModel.ReturnData(allBlogCategory);
         }

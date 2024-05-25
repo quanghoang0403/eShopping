@@ -93,7 +93,7 @@
     <None Update="Migrations\TableType\TVP_Order.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\TableType\TVP_ProductPrice.sql">
+    <None Update="Migrations\TableType\TVP_ProductVariant.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

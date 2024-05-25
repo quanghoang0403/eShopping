@@ -24,7 +24,7 @@ namespace eShopping.Domain.Entities
 
         public bool? IsNewIn { get { return DateTime.Now.AddDays(-14) < CreatedTime; } }
 
-        public bool? IsSoldOut { get { return ProductPrices.All(p => p.QuantityLeft <= 0); } }
+        public bool? IsSoldOut { get { return ProductStocks.All(p => p.QuantityLeft <= 0); } }
 
         public EnumStatus Status { get; set; }
 
@@ -39,11 +39,17 @@ namespace eShopping.Domain.Entities
 
         public Guid ProductRootCategoryId { get; set; }
 
+        public Guid ProductSizeCategoryId { get; set; }
+
         public virtual ProductRootCategory ProductRootCategory { get; set; }
 
         public virtual ProductCategory ProductCategory { get; set; }
 
-        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+        public virtual ProductSizeCategory ProductSizeCategory { get; set; }
+
+        public virtual ICollection<ProductVariant> ProductVariants { get; set; }
+
+        public virtual ICollection<ProductStock> ProductStocks { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
     }

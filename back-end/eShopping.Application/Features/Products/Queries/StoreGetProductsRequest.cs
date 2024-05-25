@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
-using eShopping.Common.Helpers;
 using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -90,21 +89,21 @@ namespace eShopping.Application.Features.Products.Queries
 
                 if (request.IsDiscounted == true)
                 {
-                    products = products.Where(g => g.IsDiscounted == true).Include(x => x.ProductPrices).Where(x => x.ProductPrices.Any(p => p.EndDate <= DateTime.Now));
+                    products = products.Where(g => g.IsDiscounted == true).Include(x => x.ProductVariants).Where(x => x.ProductVariants.Any(p => p.EndDate <= DateTime.Now));
                 }
 
-                products = products.Include(p => p.ProductPrices.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime));
+                products = products.Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime));
                 if (request.SortType == EnumSortType.Default)
                 {
                     products = products.OrderByDescending(p => p.CreatedTime);
                 }
                 else if (request.SortType == EnumSortType.PriceAsc)
                 {
-                    products = products.OrderBy(p => p.ProductPrices.FirstOrDefault().PriceDiscount ?? p.ProductPrices.FirstOrDefault().PriceValue);
+                    products = products.OrderBy(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
                 }
                 else if (request.SortType == EnumSortType.PriceDesc)
                 {
-                    products = products.OrderByDescending(p => p.ProductPrices.FirstOrDefault().PriceDiscount ?? p.ProductPrices.FirstOrDefault().PriceValue);
+                    products = products.OrderByDescending(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
                 }
             }
             var allProducts = await products.AsNoTracking().ToPaginationAsync(request.PageNumber, request.PageSize);
@@ -112,7 +111,7 @@ namespace eShopping.Application.Features.Products.Queries
             var productListResponse = new List<StoreProductModel>();
             foreach (var product in pagingResult)
             {
-                var defaultPrice = product.ProductPrices.FirstOrDefault();
+                var defaultPrice = product.ProductVariants.FirstOrDefault();
                 var productResponse = _mapper.Map<StoreProductModel>(product);
                 productResponse.PriceValue = defaultPrice.PriceValue;
                 if (defaultPrice.PriceDiscount > 0)

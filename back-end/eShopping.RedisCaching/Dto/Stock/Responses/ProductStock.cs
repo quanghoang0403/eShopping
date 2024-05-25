@@ -2,13 +2,13 @@
 {
     public class ProductStock
     {
-        public ProductStock(Guid productPriceId, int quantity)
+        public ProductStock(Guid productVariantId, int quantity)
         {
-            ProductPriceId = productPriceId;
+            ProductVariantId = productVariantId;
             Quantity = quantity;
         }
 
-        public Guid ProductPriceId { get; set; }
+        public Guid ProductVariantId { get; set; }
         public int Quantity { get; set; }
     }
 }

@@ -17,10 +17,6 @@ namespace eShopping.Interfaces
 
         IRefreshTokenRepository RefreshTokens { get; }
 
-        ICartRepository Carts { get; }
-
-        IProductCategoryRepository ProductCategories { get; }
-
         ICityRepository Cities { get; }
 
         ICustomerRepository Customers { get; }
@@ -43,7 +39,15 @@ namespace eShopping.Interfaces
 
         IImageRepository Images { get; }
 
-        IProductPriceRepository ProductPrices { get; }
+        IProductVariantRepository ProductVariants { get; }
+
+        IProductSizeRepository ProductSizes { get; }
+
+        IProductSizeCategoryRepository ProductSizeCategories { get; }
+
+        IProductStockRepository ProductStocks { get; }
+
+        IProductCategoryRepository ProductCategories { get; }
 
         IProductRootCategoryRepository ProductRootCategories { get; }
 

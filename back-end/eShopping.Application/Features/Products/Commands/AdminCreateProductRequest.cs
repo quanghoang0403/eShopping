@@ -22,6 +22,7 @@ namespace eShopping.Application.Features.Products.Commands
         public string Content { get; set; }
 
         public string TitleSEO { get; set; }
+
         public string KeywordSEO { get; set; }
 
         public string DescriptionSEO { get; set; }
@@ -40,11 +41,15 @@ namespace eShopping.Application.Features.Products.Commands
 
         public Guid ProductRootCategoryId { get; set; }
 
+        public Guid ProductSizeCategoryId { get; set; }
+
         public List<string> ImagePaths { get; set; }
 
         public string Thumbnail { get; set; }
 
-        public List<AdminProductPriceModel> ProductPrices { get; set; }
+        public List<AdminProductVariantModel> ProductVariants { get; set; }
+
+        public List<AdminProductStockModel> ProductStocks { get; set; }
     }
 
     public class AdminCreateMaterialRequestHandler : IRequestHandler<AdminCreateProductRequest, BaseResponseModel>
@@ -75,19 +80,19 @@ namespace eShopping.Application.Features.Products.Commands
             if (string.IsNullOrEmpty(request.Name))
                 return BaseResponseModel.ReturnError("Please enter product name");
 
-            if (request.ProductPrices == null || !request.ProductPrices.Any())
+            if (request.ProductVariants == null || !request.ProductVariants.Any())
                 return BaseResponseModel.ReturnError("Please enter product price");
 
-            if (request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)))
+            if (request.ProductVariants.Any(p => string.IsNullOrEmpty(p.ProductVariantName)))
                 return BaseResponseModel.ReturnError("Please enter price name");
 
-            if (request.ProductPrices.Any(p => p.PriceValue <= 0))
+            if (request.ProductVariants.Any(p => p.PriceValue <= 0))
                 return BaseResponseModel.ReturnError("Please enter price value");
 
-            if (request.ProductPrices.Any(p => p.PriceOriginal <= 0))
+            if (request.ProductVariants.Any(p => p.PriceOriginal <= 0))
                 return BaseResponseModel.ReturnError("Please enter price original");
 
-            if (request.ProductPrices.Any(p => p.PriceOriginal > p.PriceValue))
+            if (request.ProductVariants.Any(p => p.PriceOriginal > p.PriceValue))
                 return BaseResponseModel.ReturnError("Price original must less than price value");
 
             #endregion
@@ -103,7 +108,7 @@ namespace eShopping.Application.Features.Products.Commands
             product.CreatedTime = DateTime.Now;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
-            if (request.ProductPrices.Any(pc => pc.PercentNumber > 0 || pc.PriceDiscount > 0))
+            if (request.ProductVariants.Any(pc => pc.PercentNumber > 0 || pc.PriceDiscount > 0))
             {
                 product.IsDiscounted = true;
             }
@@ -136,16 +141,16 @@ namespace eShopping.Application.Features.Products.Commands
                     await _unitOfWork.Images.AddRangeAsync(productImages);
 
                     // Add option
-                    //List<ProductPrice> productPrices = new();
-                    //foreach (var option in request.ProductPrices)
+                    //List<ProductVariant> productVariants = new();
+                    //foreach (var option in request.ProductVariants)
                     //{
-                    //    var optionToAdd = _mapper.Map<ProductPrice>(option);
+                    //    var optionToAdd = _mapper.Map<ProductVariant>(option);
                     //    optionToAdd.ProductId = product.Id;
                     //    optionToAdd.CreatedUser = accountId;
                     //    optionToAdd.CreatedTime = DateTime.Now;
-                    //    productPrices.Add(optionToAdd);
+                    //    productVariants.Add(optionToAdd);
                     //}
-                    //await _unitOfWork.ProductPrices.AddRangeAsync(productPrices);
+                    //await _unitOfWork.ProductVariants.AddRangeAsync(productVariants);
                     // Complete this transaction, data will be saved.
                     await createTransaction.CommitAsync(cancellationToken);
 

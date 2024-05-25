@@ -46,7 +46,7 @@ namespace eShopping.Application.Features.Payments.Commands
             var items = new List<ItemData>();
             foreach (var orderItem in request.OrderItems)
             {
-                items.Add(new ItemData($"{orderItem.ProductName} - {orderItem.PriceName}", orderItem.Quantity, Convert.ToInt32(orderItem.TotalPrice)));
+                items.Add(new ItemData($"{orderItem.ProductName} - {orderItem.ProductVariantName}", orderItem.Quantity, Convert.ToInt32(orderItem.TotalPrice)));
             }
             var requestPayment = new CreatePaymentRequest()
             {

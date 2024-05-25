@@ -38,30 +38,30 @@ namespace eShopping.Application.Features.Products.Queries
         public async Task<BaseResponseModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
         {
             //request.Url = "string";
-            //List<StoreProductPriceModel> productPrices = new()
+            //List<StoreProductVariantModel> productVariants = new()
             //{
-            //    new StoreProductPriceModel()
+            //    new StoreProductVariantModel()
             //    {
             //        Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
-            //        PriceName = "Large",
+            //        ProductVariantName = "Large",
             //        PercentNumber = -20,
             //        PriceDiscount = 300000,
             //        PriceValue = 400000,
             //        QuantityLeft = 3
             //    },
-            //    new StoreProductPriceModel()
+            //    new StoreProductVariantModel()
             //    {
             //        Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
-            //        PriceName = "Medium",
+            //        ProductVariantName = "Medium",
             //        PercentNumber = -30,
             //        PriceDiscount = 200000,
             //        PriceValue = 300000,
             //        QuantityLeft = 3
             //    },
-            //    new StoreProductPriceModel()
+            //    new StoreProductVariantModel()
             //    {
             //        Id = new Guid("07AE9354-FBD5-4A23-9F69-08DC63767DC7"),
-            //        PriceName = "Small",
+            //        ProductVariantName = "Small",
             //        PriceDiscount = 200000,
             //        PriceValue = 200000,
             //        QuantityLeft = 4
@@ -89,7 +89,7 @@ namespace eShopping.Application.Features.Products.Queries
             var productData = await _unitOfWork.Products
                 .Find(p => p.UrlSEO == request.Url)
                 .AsNoTracking()
-                .Include(x => x.ProductPrices)
+                .Include(x => x.ProductVariants)
                 .Include(x => x.Images)
                 .Include(p => p.ProductCategory)
                 .ProjectTo<StoreProductDetailModel>(_mapperConfiguration)
@@ -121,7 +121,7 @@ namespace eShopping.Application.Features.Products.Queries
             //    UrlSEO = request.Url,
             //    Gallery = gallery,
             //    ProductCategory = productCategory,
-            //    ProductPrices = productPrices,
+            //    ProductVariants = productVariants,
             //    Description = "Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY.XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn.Everyday carry +1 seitan poutine tumeric.Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.",
             //};
 

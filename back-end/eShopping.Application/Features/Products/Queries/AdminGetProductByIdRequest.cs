@@ -46,7 +46,7 @@ namespace eShopping.Application.Features.Products.Queries
             var ProductData = await _unitOfWork.Products
                 .Find(p => p.Id == request.Id)
                 .AsNoTracking()
-                .Include(x => x.ProductPrices)
+                .Include(x => x.ProductVariants)
                 .Include(x => x.Images)
                 .Include(p => p.ProductCategory)
                 .ProjectTo<AdminProductDetailModel>(_mapperConfiguration)

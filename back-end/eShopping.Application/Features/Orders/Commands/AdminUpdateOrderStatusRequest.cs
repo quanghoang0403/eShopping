@@ -5,7 +5,6 @@ using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,40 +35,26 @@ namespace eShopping.Application.Features.Orders.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
             var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).Include(o => o.OrderItems).FirstOrDefaultAsync(cancellationToken);
-            var prices = await _unitOfWork.ProductPrices
-                .Where(x => order.OrderItems.Select(cart => cart.ProductPriceId).Contains(x.Id)).ToListAsync();
-            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
+            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+            if (order != null)
             {
-                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-                if (order != null)
+                order.Status = request.Status;
+
+                foreach (var item in order.OrderItems)
                 {
-                    order.Status = request.Status;
-
-                    foreach (var item in order.OrderItems)
+                    var stock = await _unitOfWork.ProductStocks
+                        .Where(x => item.ProductId == x.ProductId && item.ProductSizeId == x.ProductSizeId && item.ProductVariantId == x.ProductVariantId)
+                        .FirstOrDefaultAsync();
+                    if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
                     {
-                        var price = prices.FirstOrDefault(p => p.Id == item.ProductPriceId);
-                        var orderItem = order.OrderItems.Where(i => i.ProductPriceId == price.Id).FirstOrDefault();
-                        if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
-                        {
-                            price.QuantityLeft += orderItem.Quantity;
-                            price.QuantitySold -= orderItem.Quantity;
-                        }
-                        else if (request.Status == EnumOrderStatus.Confirmed)
-                        {
-                            if (price.QuantityLeft < orderItem.Quantity)
-                            {
-                                return BaseResponseModel.ReturnError("This product is out of stock");
-                            }
-                            price.QuantityLeft -= orderItem.Quantity;
-                            price.QuantitySold += orderItem.Quantity;
-                        }
-                        price.LastSavedTime = DateTime.UtcNow;
-                        price.LastSavedUser = accountId;
+                        stock.QuantityLeft += item.Quantity;
                     }
-
-                    order.LastSavedUser = accountId;
-                    order.LastSavedTime = DateTime.Now;
+                    item.LastSavedTime = DateTime.UtcNow;
+                    item.LastSavedUser = accountId;
                 }
+                order.LastSavedUser = accountId;
+                order.LastSavedTime = DateTime.Now;
+            }
 
                 // Add order history
                 var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()

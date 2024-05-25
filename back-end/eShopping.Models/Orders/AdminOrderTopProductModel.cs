@@ -9,7 +9,7 @@ namespace eShopping.Models.Orders
 
         public string ProductName { get; set; }
 
-        public string PriceName { get; set; }
+        public string ProductVariantName { get; set; }
 
         public int No { get; set; }
 
@@ -17,14 +17,14 @@ namespace eShopping.Models.Orders
 
         public string Category { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal TotalProductCost { get; set; }
 
         public Guid? ProductId { get; set; }
 
-        public Guid? ProductPriceId { get; set; }
+        public Guid? ProductVariantId { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal TotalCost { get; set; }
     }
 }

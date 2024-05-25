@@ -38,7 +38,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var blogCategoryData = await _unitOfWork.BlogCategories
                 .Find(bc => bc.Id == request.Id)
-                .Include(bc => bc.BlogInCategories).ThenInclude(bic => bic.blog)
+                .Include(bc => bc.BlogInCategories).ThenInclude(bic => bic.Blog)
                 .FirstOrDefaultAsync();
             if (blogCategoryData == null)
             {
@@ -50,9 +50,9 @@ namespace eShopping.Application.Features.Blogs.Queries
                 blogCategory.Blogs = blogCategoryData.BlogInCategories
                     .Select(bc => new AdminBlogCategoryDetailModel.AdminBlogSelectedModel
                     {
-                        Id = bc.blogId,
-                        Name = bc.blog.Name,
-                        Priority = bc.blog.Priority,
+                        Id = bc.BlogId,
+                        Name = bc.Blog.Name,
+                        Priority = bc.Blog.Priority,
                     }).OrderByDescending(bc => bc.Priority).ToList();
 
             }

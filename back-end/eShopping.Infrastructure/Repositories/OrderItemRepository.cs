@@ -17,7 +17,7 @@ namespace eShopping.Infrastructure.Repositories
         {
             var OrderItems = await dbSet
                 .Where(o => (o.OrderId == orderId))
-                //.Include(o => o.ProductPrice)
+                //.Include(o => o.ProductVariant)
                 .ToListAsync();
 
             return OrderItems;

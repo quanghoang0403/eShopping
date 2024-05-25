@@ -2,7 +2,6 @@ using AutoMapper;
 using eShopping.Application.Features.Blogs.Commands;
 using eShopping.Application.Features.ProductCategories.Commands;
 using eShopping.Application.Features.Products.Commands;
-using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Models.Addresses;
 using eShopping.Models.Blog;
@@ -11,7 +10,6 @@ using eShopping.Models.Orders;
 using eShopping.Models.Permissions;
 using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
-using System.Linq;
 
 namespace eShopping.Application.Mappings
 {
@@ -66,8 +64,10 @@ namespace eShopping.Application.Mappings
             CreateMap<Product, AdminProductModel>();
             CreateMap<Product, StoreProductModel>();
 
-            CreateMap<ProductPrice, AdminProductPriceModel>();
-            CreateMap<ProductPrice, StoreProductPriceModel>();
+            CreateMap<ProductVariant, AdminProductVariantModel>();
+            CreateMap<ProductVariant, StoreProductVariantModel>();
+
+            CreateMap<ProductStock, AdminProductStockModel>();
 
             CreateMap<Blog, AdminBlogModel>().ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime));
             CreateMap<Blog, AdminBlogDetailModel>()
@@ -87,7 +87,7 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateBlogCategoryRequest, BlogCategory>();
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
-            CreateMap<AdminProductPriceModel, ProductPrice>();
+            CreateMap<AdminProductVariantModel, ProductVariant>();
 
             #endregion
         }

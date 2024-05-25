@@ -47,9 +47,13 @@ namespace eShopping.Application.Features.Products.Commands
 
         public Guid ProductRootCategoryId { get; set; }
 
+        public Guid ProductSizeCategoryId { get; set; }
+
         public List<AdminImageModel> Images { get; set; }
 
-        public List<AdminProductPriceModel> ProductPrices { get; set; }
+        public List<AdminProductVariantModel> ProductVariants { get; set; }
+
+        public List<AdminProductStockModel> ProductStocks { get; set; }
 
     }
 
@@ -85,8 +89,8 @@ namespace eShopping.Application.Features.Products.Commands
             var productId = request.Id;
 
             // Check product name duplicate before handle update
-            var productNameExisted = await _unitOfWork.Products.GetAll().AnyAsync(p => p.Id != productId && p.Name.Trim().ToLower() == request.Name.Trim().ToLower());
-            if (productNameExisted != false)
+            var productNameExisted = await _unitOfWork.Products.GetAll().AnyAsync(p => p.Id != productId && p.Name.Trim().ToLower() == request.Name.Trim().ToLower(), cancellationToken: cancellationToken);
+            if (productNameExisted == true)
             {
                 return BaseResponseModel.ReturnError("Product name existed");
             }
@@ -110,23 +114,23 @@ namespace eShopping.Application.Features.Products.Commands
             {
                 return BaseResponseModel.ReturnError("Please enter product name");
             }
-            else if (!request.ProductPrices.Any())
+            else if (!request.ProductVariants.Any())
             {
                 return BaseResponseModel.ReturnError("Please enter product price");
             }
-            else if (request.ProductPrices.Any(p => string.IsNullOrEmpty(p.PriceName)))
+            else if (request.ProductVariants.Any(p => string.IsNullOrEmpty(p.ProductVariantName)))
             {
                 return BaseResponseModel.ReturnError("Please enter product price name");
             }
-            else if (request.ProductPrices.Any(p => p.PriceValue <= 0))
+            else if (request.ProductVariants.Any(p => p.PriceValue <= 0))
             {
                 return BaseResponseModel.ReturnError("Price value must greater than 0");
             }
-            else if (request.ProductPrices.Any(p => p.PriceOriginal <= 0))
+            else if (request.ProductVariants.Any(p => p.PriceOriginal <= 0))
             {
                 return BaseResponseModel.ReturnError("Price original must greater than 0");
             }
-            else if (request.ProductPrices.Any(p => p.PriceOriginal > p.PriceValue))
+            else if (request.ProductVariants.Any(p => p.PriceOriginal > p.PriceValue))
             {
                 return BaseResponseModel.ReturnError("PriceOriginal must less than PriceValue");
             }

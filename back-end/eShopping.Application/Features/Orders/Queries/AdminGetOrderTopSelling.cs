@@ -63,42 +63,42 @@ namespace eShopping.Application.Features.Orders.Queries
                 .ToListAsync(cancellationToken: cancellationToken);
 
             var listOrderIds = listOrder.Select(x => x.Id);
-            var listAllProductPrices = await _unitOfWork.OrderItems.Find(x => listOrderIds.Contains(x.OrderId))
-                                                             .Select(x => new { x.ProductPriceId, x.Quantity })
-                                                             .GroupBy(x => new { x.ProductPriceId })
-                                                             .Select(g => new AdminProductPriceGroupModel { ProductPriceId = g.Key.ProductPriceId, Quantity = g.Sum(x => x.Quantity) })
+            var listAllProductVariants = await _unitOfWork.OrderItems.Find(x => listOrderIds.Contains(x.OrderId))
+                                                             .Select(x => new { x.ProductVariantId, x.Quantity })
+                                                             .GroupBy(x => new { x.ProductVariantId })
+                                                             .Select(g => new AdminProductVariantGroupModel { ProductVariantId = g.Key.ProductVariantId, Quantity = g.Sum(x => x.Quantity) })
                                                              .ToListAsync();
 
-            var listAllProductPricesGroup = listAllProductPrices.GroupBy(x => new { x.ProductPriceId, x.ProductId })
-                                                                .Select(g => new AdminProductPriceGroupModel { ProductPriceId = g.Key.ProductPriceId, Quantity = g.Sum(x => x.Quantity), ProductId = g.Key.ProductId })
+            var listAllProductVariantsGroup = listAllProductVariants.GroupBy(x => new { x.ProductVariantId, x.ProductId })
+                                                                .Select(g => new AdminProductVariantGroupModel { ProductVariantId = g.Key.ProductVariantId, Quantity = g.Sum(x => x.Quantity), ProductId = g.Key.ProductId })
                                                                 .ToList();
-            var listProductPriceIds = listAllProductPricesGroup.Select(x => x.ProductPriceId);
-            var listProductPrice = await _unitOfWork.ProductPrices.Find(x => (listProductPriceIds.Contains(x.Id)))
+            var listProductVariantIds = listAllProductVariantsGroup.Select(x => x.ProductVariantId);
+            var listProductVariant = await _unitOfWork.ProductVariants.Find(x => (listProductVariantIds.Contains(x.Id)))
                                                                   .Include(x => x.Product)
-                                                                  .Select(x => new { x.Id, x.PriceName, x.PriceValue, x.Product, ProductId = x.Product.Id })
+                                                                  .Select(x => new { x.Id, x.Name, x.PriceValue, x.Product, ProductId = x.Product.Id })
                                                                   .ToListAsync(cancellationToken: cancellationToken);
             var listTopSelling = new List<AdminOrderTopProductModel>();
-            var listProductPriceIdsTemp = new List<Guid?>();
-            listAllProductPricesGroup = listAllProductPricesGroup.OrderByDescending(x => x.Quantity).ToList();
-            foreach (var productPriceItem in listAllProductPricesGroup)
+            var listProductVariantIdsTemp = new List<Guid?>();
+            listAllProductVariantsGroup = listAllProductVariantsGroup.OrderByDescending(x => x.Quantity).ToList();
+            foreach (var productVariantItem in listAllProductVariantsGroup)
             {
                 var topSelling = new AdminOrderTopProductModel();
-                var productPrice = listProductPrice.FirstOrDefault(x => x.Id == productPriceItem.ProductPriceId || x.ProductId == productPriceItem.ProductId);
-                if (productPrice == null) { continue; }
-                if (!listProductPriceIdsTemp.Contains(productPriceItem.ProductPriceId) || productPriceItem.ProductPriceId == null)
+                var productVariant = listProductVariant.FirstOrDefault(x => x.Id == productVariantItem.ProductVariantId || x.ProductId == productVariantItem.ProductId);
+                if (productVariant == null) { continue; }
+                if (!listProductVariantIdsTemp.Contains(productVariantItem.ProductVariantId) || productVariantItem.ProductVariantId == null)
                 {
-                    listProductPriceIdsTemp.Add(productPriceItem.ProductPriceId);
+                    listProductVariantIdsTemp.Add(productVariantItem.ProductVariantId);
                 }
                 else
                 {
                     continue;
                 }
-                topSelling.ProductId = productPrice?.Product?.Id;
-                topSelling.ProductName = productPrice?.Product?.Name;
-                topSelling.PriceName = productPrice?.PriceName;
-                topSelling.Quantity = productPriceItem.Quantity;
-                topSelling.TotalCost = productPriceItem.Quantity * productPrice.PriceValue;
-                topSelling.Thumbnail = productPrice?.Product?.Thumbnail;
+                topSelling.ProductId = productVariant?.Product?.Id;
+                topSelling.ProductName = productVariant?.Product?.Name;
+                topSelling.ProductVariantName = productVariant?.Name;
+                topSelling.Quantity = productVariantItem.Quantity;
+                topSelling.TotalCost = productVariantItem.Quantity * productVariant.PriceValue;
+                topSelling.Thumbnail = productVariant?.Product?.Thumbnail;
                 listTopSelling.Add(topSelling);
                 if (listTopSelling.Count == DefaultConstants.DEFAULT_NUMBER_TOP_SELLING)
                 {
@@ -133,7 +133,7 @@ namespace eShopping.Application.Features.Orders.Queries
                 {
                     No = index + 1,
                     TotalCost = b.TotalCost,
-                    PriceName = b.PriceName,
+                    ProductVariantName = b.ProductVariantName,
                     ProductName = b.ProductName,
                     Quantity = b.Quantity,
                     Thumbnail = b.Thumbnail,

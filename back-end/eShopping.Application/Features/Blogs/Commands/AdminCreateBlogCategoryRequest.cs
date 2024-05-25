@@ -77,7 +77,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                     newBlogCategory.CreatedTime = DateTime.Now;
                     newBlogCategory.UrlSEO = newBlogCategory.Name.UrlEncode();
                     var blogIds = request.Blogs.Select(b => b.Id);
-                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId));
+                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.BlogId));
                     if (request.Blogs != null && request.Blogs.Any())
                     {
                         newBlogCategory.BlogInCategories = new List<BlogInCategory>();
@@ -85,8 +85,8 @@ namespace eShopping.Application.Features.Blogs.Commands
                         {
                             var blogCategory = new BlogInCategory()
                             {
-                                blogId = b.Id,
-                                categoryId = newBlogCategory.Id
+                                BlogId = b.Id,
+                                CategoryId = newBlogCategory.Id
                             };
 
                             newBlogCategory.BlogInCategories.Add(blogCategory);

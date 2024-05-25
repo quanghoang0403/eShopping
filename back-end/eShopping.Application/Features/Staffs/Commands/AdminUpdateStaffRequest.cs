@@ -83,14 +83,14 @@ namespace eShopping.Application.Features.Staffs.Commands
             var newStaffPermissionsToDB = new List<StaffPermission>();
             foreach (var permissionId in newStaffPermissionIds)
             {
-                var newProductPrice = new StaffPermission()
+                var newProductVariant = new StaffPermission()
                 {
                     StaffId = request.StaffId,
                     PermissionId = permissionId,
                     CreatedUser = loggedUser.AccountId.Value,
                     CreatedTime = DateTime.Now
                 };
-                newStaffPermissionsToDB.Add(newProductPrice);
+                newStaffPermissionsToDB.Add(newProductVariant);
 
             }
             await _unitOfWork.StaffPermission.AddRangeAsync(newStaffPermissionsToDB);

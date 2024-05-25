@@ -2,9 +2,9 @@
 
 namespace eShopping.Models.Products
 {
-    public class AdminProductPriceGroupModel
+    public class AdminProductVariantGroupModel
     {
-        public Guid? ProductPriceId { get; set; }
+        public Guid? ProductVariantId { get; set; }
 
         public int Quantity { get; set; }
 

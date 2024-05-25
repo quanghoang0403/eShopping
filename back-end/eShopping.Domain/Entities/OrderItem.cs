@@ -1,5 +1,4 @@
 ﻿using eShopping.Domain.Base;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,19 +15,20 @@ namespace eShopping.Domain.Entities
 
         public string ProductUrl { get; set; }
 
-        public Guid ProductPriceId { get; set; }
+        public Guid ProductVariantId { get; set; }
+
+        public Guid ProductSizeId { get; set; }
 
         public string Thumbnail { get; set; }
 
-        public string PriceName { get; set; }
+        public string ProductVariantName { get; set; }
 
-        [Precision(18, 2)]
+        public string ProductSizeName { get; set; }
+
         public decimal PriceOrigin { get; set; }
 
-        [Precision(18, 2)]
         public decimal PriceValue { get; set; }
 
-        [Precision(18, 2)]
         public decimal? PriceDiscount { get; set; }
 
         public int Quantity { get; set; }
@@ -53,19 +53,18 @@ namespace eShopping.Domain.Entities
             get
             {
                 string itemName = ProductName;
-                if (!string.IsNullOrWhiteSpace(PriceName))
+                if (!string.IsNullOrWhiteSpace(ProductVariantName))
                 {
-                    itemName += $" ({PriceName})";
+                    itemName += $" | ({ProductVariantName})";
                 }
-
+                if (!string.IsNullOrWhiteSpace(ProductSizeName))
+                {
+                    itemName += $" | ({ProductSizeName})";
+                }
                 return itemName;
             }
         }
 
         public virtual Order Order { get; set; }
-
-        public virtual ProductPrice ProductPrice { get; set; }
-
-        public virtual Product Product { get; set; }
     }
 }
