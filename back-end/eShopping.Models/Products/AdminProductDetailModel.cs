@@ -25,7 +25,7 @@ namespace eShopping.Models.Products
 
         public AdminProductCategoryModel ProductCategory { get; set; }
 
-        public IEnumerable<AdminProductPriceModel> ProductPrices { get; set; }
+        public IEnumerable<AdminProductVariantModel> ProductVariants { get; set; }
 
         public IEnumerable<AdminImageModel> Images { get; set; }
     }

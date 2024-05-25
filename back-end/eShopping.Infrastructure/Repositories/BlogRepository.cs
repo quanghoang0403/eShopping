@@ -32,7 +32,7 @@ namespace eShopping.Infrastructure.Repositories
                 {
                     var blogOriginal = await GetBlogById(request.Id);
                     var blogmodified = request;
-                    var blogCategoryId = _dbContext.BlogInCategories.Where(bc => bc.blogId == request.Id).Select(x => x.Id);
+                    var blogCategoryId = _dbContext.BlogInCategories.Where(bc => bc.BlogId == request.Id).Select(x => x.Id);
                     if (blogCategoryId.Any())
                     {
                         var recordIds = string.Join(",", blogCategoryId.Select(id => $"'{id}'"));
@@ -46,8 +46,8 @@ namespace eShopping.Infrastructure.Repositories
                         {
                             blogInCategory.Add(new BlogInCategory
                             {
-                                blogId = request.Id,
-                                categoryId = category
+                                BlogId = request.Id,
+                                CategoryId = category
                             });
                         }
                         await _dbContext.BlogInCategories.AddRangeAsync(blogInCategory, cancellationToken);

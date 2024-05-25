@@ -31,7 +31,5 @@ namespace eShopping.Domain.Entities
         public virtual Account Account { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
-
-        public virtual ICollection<Cart> Carts { get; set; }
     }
 }

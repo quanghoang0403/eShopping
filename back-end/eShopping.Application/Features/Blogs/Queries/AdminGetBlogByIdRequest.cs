@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             }
             var blogCategory = await _unitOfWork.BlogCategories
                 .Where(bc => bc.BlogInCategories
-                .Any(bic => bic.blogId == request.Id))
+                .Any(bic => bic.BlogId == request.Id))
                 .ProjectTo<AdminBlogCategoryModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken);
             blog.BlogCategories = blogCategory;

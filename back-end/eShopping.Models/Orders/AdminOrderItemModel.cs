@@ -13,9 +13,9 @@ namespace eShopping.Models.Orders
 
         public string ProductName { get; set; }
 
-        public Guid ProductPriceId { get; set; }
+        public Guid ProductVariantId { get; set; }
 
-        public string PriceName { get; set; }
+        public string ProductVariantName { get; set; }
 
         public string Thumbnail { get; set; }
 
@@ -23,13 +23,13 @@ namespace eShopping.Models.Orders
 
         public string ItemName { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal PriceOrigin { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal PriceValue { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal? PriceDiscount { get; set; }
 
         public decimal TotalPriceOrigin { get; set; }

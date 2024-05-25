@@ -17,6 +17,6 @@ namespace eShopping.Models.Products
 
         public string Thumbnail { get; set; }
 
-        public IEnumerable<AdminProductPriceModel> ProductPriceModels { get; set; }
+        public IEnumerable<AdminProductVariantModel> ProductVariantModels { get; set; }
     }
 }

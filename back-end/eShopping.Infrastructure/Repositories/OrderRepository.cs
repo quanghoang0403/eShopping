@@ -24,8 +24,7 @@ namespace eShopping.Infrastructure.Repositories
                 .Include(o => o.Customer).ThenInclude(a => a.City)
                 .Include(o => o.Customer).ThenInclude(a => a.District)
                 .Include(o => o.Customer).ThenInclude(a => a.Ward)
-
-                .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice).ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync();
 
             return order;

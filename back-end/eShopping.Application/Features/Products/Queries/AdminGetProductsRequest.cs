@@ -89,7 +89,7 @@ namespace eShopping.Application.Features.Products.Queries
 
             var allProductsInStore = await products
                                     .AsNoTracking()
-                                    .Include(p => p.ProductPrices.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime))
+                                    .Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime))
                                     .OrderByDescending(p => p.CreatedTime)
                                     .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProductsInStore.Result;

@@ -57,8 +57,7 @@ namespace eShopping.Application.Features.Orders.Queries
                                                 .Include(o => o.Customer).ThenInclude(c => c.Ward)
                                                 .Include(o => o.Customer).ThenInclude(c => c.City)
                                                 .Include(o => o.OrderItems)
-                                                .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice)
-                                                .Include(o => o.OrderItems).ThenInclude(oi => oi.ProductPrice).ThenInclude(p => p.Product)
+                                                .Include(o => o.OrderItems)
                                                 .AsNoTracking()
                                                 .ProjectTo<AdminOrderDetailModel>(_mapperConfiguration)
                                                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);

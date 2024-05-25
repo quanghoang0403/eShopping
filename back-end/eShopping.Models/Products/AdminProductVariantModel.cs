@@ -1,21 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 
 namespace eShopping.Models.Products
 {
-    public class AdminProductPriceModel
+    public class AdminProductVariantModel
     {
         public Guid? Id { get; set; }
 
-        public string PriceName { get; set; }
+        public string ProductVariantName { get; set; }
 
-        [Precision(18, 2)]
+
         public decimal PriceOriginal { set; get; }
 
-        [Precision(18, 2)]
+
         public decimal PriceValue { set; get; }
 
-        [Precision(18, 2)]
+
         public decimal? PriceDiscount { set; get; }
 
         public float? PercentNumber { get; set; }

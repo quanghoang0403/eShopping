@@ -21,14 +21,14 @@ namespace eShopping.Models.Orders
 
         public string Thumbnail { get; set; }
 
-        public string PriceName { get; set; }
+        public string ProductVariantName { get; set; }
 
         public string ItemName { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal PriceValue { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal? PriceDiscount { get; set; }
 
         public decimal TotalPriceValue { get; set; }

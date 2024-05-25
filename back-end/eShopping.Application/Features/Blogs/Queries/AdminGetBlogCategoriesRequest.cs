@@ -47,7 +47,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             var allBlogCategories = await blogCategory
                 .AsNoTracking()
                 .Include(b => b.BlogInCategories)
-                .ThenInclude(bl => bl.blog)
+                .ThenInclude(bl => bl.Blog)
                 .OrderBy(b => b.CreatedTime)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);
 
@@ -62,7 +62,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             {
                 var blogInCategory = pageResult.Where(bic => b.Id == bic.Id).FirstOrDefault();
                 b.No = allBlogCategoriesResponse.IndexOf(b) + ((request.PageNumber - 1) * request.PageSize) + 1;
-                b.Blogs = _mapper.Map<List<AdminBlogModel>>(blogInCategory.BlogInCategories.Select(b => b.blog));
+                b.Blogs = _mapper.Map<List<AdminBlogModel>>(blogInCategory.BlogInCategories.Select(b => b.Blog));
 
             });
             var response = new PagingResult<AdminBlogCategoryModel>(allBlogCategoriesResponse, allBlogCategories.Paging);

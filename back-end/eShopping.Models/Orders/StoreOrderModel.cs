@@ -21,13 +21,13 @@ namespace eShopping.Models.Orders
 
         public int TotalQuantity { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal DeliveryFee { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal TotalPriceValue { get; set; }
 
-        [Precision(18, 2)]
+        
         public decimal TotalAmount { get; set; }
 
         public OrderItemDto OrderItems { get; set; }
@@ -36,7 +36,7 @@ namespace eShopping.Models.Orders
         {
             public int Quantity { get; set; }
 
-            public int PriceName { get; set; }
+            public int ProductVariantName { get; set; }
 
             public string Thumbnail { get; set; }
         }

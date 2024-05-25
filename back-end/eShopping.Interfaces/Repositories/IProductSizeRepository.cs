@@ -2,7 +2,7 @@
 
 namespace eShopping.Interfaces.Repositories
 {
-    public interface ICartRepository : IGenericRepository<Cart>
+    public interface IProductSizeRepository : IGenericRepository<ProductSize>
     {
     }
 }

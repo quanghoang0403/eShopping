@@ -80,7 +80,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                 try
                 {
                     var blogIds = request.Blogs.Select(b => b.Id);
-                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.blogId) || b.categoryId == blogCategory.Id);
+                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.BlogId) || b.CategoryId == blogCategory.Id);
                     _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
                     var newBlogInCategory = new List<BlogInCategory>();
                     if (request.Blogs != null && request.Blogs.Any())
@@ -89,8 +89,8 @@ namespace eShopping.Application.Features.Blogs.Commands
                         {
                             var newBlog = new BlogInCategory
                             {
-                                blogId = b.Id,
-                                categoryId = blogCategory.Id
+                                BlogId = b.Id,
+                                CategoryId = blogCategory.Id
                             };
                             newBlogInCategory.Add(newBlog);
                         });

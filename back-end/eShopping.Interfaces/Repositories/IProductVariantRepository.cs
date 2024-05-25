@@ -2,7 +2,7 @@
 
 namespace eShopping.Interfaces.Repositories
 {
-    public interface IProductPriceRepository : IGenericRepository<ProductPrice>
+    public interface IProductVariantRepository : IGenericRepository<ProductVariant>
     {
     }
 }

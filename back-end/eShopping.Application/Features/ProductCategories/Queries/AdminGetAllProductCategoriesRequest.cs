@@ -43,7 +43,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             var allProductCategoriesInStore = await _unitOfWork.ProductCategories
                     .GetAll()
                     .AsNoTracking()
-                    .Include(pc => pc.Products).ThenInclude(p => p.ProductPrices)
+                    .Include(pc => pc.Products).ThenInclude(p => p.ProductVariants)
                     .Select(p => new AdminProductCategoryModel
                     {
                         Id = p.Id,
