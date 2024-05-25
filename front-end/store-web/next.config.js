@@ -1,23 +1,34 @@
 /** @type {import('next').NextConfig} */
-const withFonts = require('next-fonts')
-const { use } = require('react')
-
-module.exports = withFonts({
-  transpilePackages: [],
-  reactStrictMode: true,
+const nextConfig = {
+  experimental: {
+    typedRoutes: true,
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'img.vietqr.io',
-        pathname: '**',
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'eshoppingblob.blob.core.windows.net',
-        pathname: '**',
+        pathname: '/**',
+      },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },
-  output: 'standalone'
-})
+};
+
+module.exports = nextConfig;

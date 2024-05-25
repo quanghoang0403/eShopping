@@ -63,8 +63,8 @@ namespace eShopping.Infrastructure.Repositories
         private IProductRepository _productRepository;
         public IProductRepository Products { get { return _productRepository ??= new ProductRepository(_dbContext); } }
 
-        private IProductInCategoryRepository _productInCategoryRepository;
-        public IProductInCategoryRepository ProductInCategories { get { return _productInCategoryRepository ??= new ProductInCategoryRepository(_dbContext); } }
+        private IProductRootCategoryRepository _productRootCategoryRepository;
+        public IProductRootCategoryRepository ProductRootCategories { get { return _productRootCategoryRepository ??= new ProductRootCategoryRepository(_dbContext); } }
 
         private IImageRepository _productImageRepository;
         public IImageRepository Images { get { return _productImageRepository ??= new ImageRepository(_dbContext); } }

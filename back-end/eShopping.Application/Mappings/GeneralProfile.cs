@@ -1,13 +1,17 @@
 using AutoMapper;
 using eShopping.Application.Features.Blogs.Commands;
+using eShopping.Application.Features.ProductCategories.Commands;
 using eShopping.Application.Features.Products.Commands;
+using eShopping.Common.Helpers;
 using eShopping.Domain.Entities;
 using eShopping.Models.Addresses;
 using eShopping.Models.Blog;
 using eShopping.Models.Commons;
 using eShopping.Models.Orders;
 using eShopping.Models.Permissions;
+using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
+using System.Linq;
 
 namespace eShopping.Application.Mappings
 {
@@ -44,17 +48,34 @@ namespace eShopping.Application.Mappings
             CreateMap<PermissionGroup, AdminPermissionGroupModel>();
             CreateMap<Permission, AdminPermissionModel>();
 
+            CreateMap<Product, AdminProductSelectedModel>();
+            CreateMap<ProductCategory, AdminProductCategorySelectedModel>();
             CreateMap<ProductCategory, AdminProductCategoryDetailModel>();
             CreateMap<ProductCategory, StoreProductCategoryDetailModel>();
             CreateMap<ProductCategory, AdminProductCategoryModel>();
+            CreateMap<ProductCategory, StoreProductCategoryModel>();
+
+            CreateMap<ProductRootCategory, AdminProductRootCategoryDetailModel>();
+            CreateMap<ProductRootCategory, StoreProductRootCategoryDetailModel>();
+            CreateMap<ProductRootCategory, AdminProductRootCategoryModel>();
+            CreateMap<ProductRootCategory, StoreProductRootCategoryModel>();
 
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();
             CreateMap<Product, StoreProductDetailModel>();
             CreateMap<Product, AdminProductModel>();
+            CreateMap<Product, StoreProductModel>();
 
             CreateMap<ProductPrice, AdminProductPriceModel>();
             CreateMap<ProductPrice, StoreProductPriceModel>();
+
+            CreateMap<Blog, AdminBlogModel>().ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime));
+            CreateMap<Blog, AdminBlogDetailModel>()
+                .ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime))
+                .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.CreatedTime));
+            CreateMap<BlogCategory, AdminBlogCategoryModel>();
+            CreateMap<BlogCategory, AdminBlogCategoryDetailModel>();
+            CreateMap<AdminImageModel, Image>();
             #endregion
 
             #region DAL => DTO
@@ -67,14 +88,7 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductPriceModel, ProductPrice>();
-            CreateMap<Blog, AdminBlogModel>().ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime));
-            CreateMap<Blog, AdminBlogDetailModel>()
-                .ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime))
-                .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.CreatedTime));
-            CreateMap<BlogCategory, AdminBlogCategoryModel>();
-            CreateMap<AdminImageModel, Image>();
-            CreateMap<BlogCategory, AdminBlogCategoryDetailModel>();
-            CreateMap<Product, StoreProductModel>();
+
             #endregion
         }
     }

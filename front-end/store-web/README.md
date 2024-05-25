@@ -1,3 +1,26 @@
+# [Ciseco | Shop & eCommerce React Template](https://preview.themeforest.net/item/ciseco-ecommerce-react-template/full_screen_preview/39533516?_ga=2.157120187.1030683988.1710896795-906039627.1708787364&_gac=1.82594148.1710900569.CjwKCAjw7-SvBhB6EiwAwYdCAcT3Bxil9ANm_PksCe8FpOZv7G1nyavxnnN4vPTx8ajd4zIz1kNCoRoCLasQAvD_BwE)
+
+Welcome to Ciseco - your ultimate solution for creating a stunning and responsive eCommerce website! Powered by the latest React 18, TypeScript, and Tailwind CSS, Ciseco brings a modern and fresh design to your online store.
+
+![Homepage](https://raw.githubusercontent.com/UsmanLiaqat404/ciseco-nextjs-ecommerce/main/src/images/demos/demo-1.png?token=GHSAT0AAAAAACOEQ7WJW5BLQMOYGQ3QOAJAZP2IUNA)
+![Product Page](https://github.com/UsmanLiaqat404/ciseco-nextjs-ecommerce/blob/main/src/images/demos/demo-2.png?raw=true)
+
+## Features
+
+- **Modern Design**: Ciseco boasts a contemporary design crafted to captivate your audience and enhance user experience.
+- **Responsive**: Whether your customers are browsing on desktop, tablet, or mobile, Ciseco ensures a seamless experience across all devices.
+- **Smart Search Filter**: Empower your customers with a smart search filter to quickly find what they're looking for.
+- **Multi-Vendor Support**: Ciseco is suited for multi-vendor marketplaces, enabling you to expand your business and collaborate with various sellers.
+- **Versatile Use**: From electronics to clothing, furniture to cosmetics, Ciseco is adaptable to various niches including:
+  - Electronics Store
+  - Furniture Store
+  - Clothing Store
+  - Hi-Tech Store
+  - Organic/Food Store
+  - Cosmetic Store
+  - Jewelry Store
+  - Sporting Goods Store
+  - Accessories Store
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -10,15 +33,9 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 

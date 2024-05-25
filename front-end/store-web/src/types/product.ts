@@ -6,6 +6,8 @@ interface IProduct extends ISEO {
   priceDiscount?: number
   isFeatured?: boolean
   isDiscounted?: boolean
+  IsNewIn?: boolean
+  IsSoldOut?: boolean
 }
 
 interface IProductDetail extends ISEO {
@@ -13,8 +15,10 @@ interface IProductDetail extends ISEO {
   thumbnail: string
   isFeatured?: boolean
   isDiscounted?: boolean
+  IsNewIn?: boolean
+  IsSoldOut?: boolean
   gallery: string[]
-  productCategory: IProductCategory
+  productCategory?: IProductCategory
   productPrices: IProductPrice[]
 }
 
@@ -43,13 +47,9 @@ enum EnumSortType {
   PriceDesc = 2,
 }
 
-interface IGetProductsRequest extends IBaseRequest {
+interface IGetProductsRequest extends IPagingRequest {
   productCategoryId?: string
   isFeatured?: boolean
   isDiscounted?: boolean
   sortType: EnumSortType
-}
-
-interface IGetProductsResponse extends IBaseResponse {
-  products: IProduct[]
 }

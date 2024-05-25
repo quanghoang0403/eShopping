@@ -24,6 +24,7 @@ namespace eShopping.Application.Features.Products.Commands
         public string Content { get; set; }
 
         public string TitleSEO { get; set; }
+
         public string KeywordSEO { get; set; }
 
         public string DescriptionSEO { get; set; }
@@ -38,9 +39,13 @@ namespace eShopping.Application.Features.Products.Commands
 
         public EnumStatus Status { get; set; }
 
+        public EnumGenderProduct GenderProduct { get; set; }
+
         public string Thumbnail { get; set; }
 
-        public List<Guid> ProductCategoryIds { get; set; }
+        public Guid ProductCategoryId { get; set; }
+
+        public Guid ProductRootCategoryId { get; set; }
 
         public List<AdminImageModel> Images { get; set; }
 
@@ -91,7 +96,7 @@ namespace eShopping.Application.Features.Products.Commands
             updateProductModel.LastSavedTime = DateTime.Now;
             updateProductModel.UrlSEO = StringHelpers.UrlEncode(updateProductModel.Name);
 
-            var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel, request.ProductCategoryIds);
+            var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel);
             if (updateProductResult == null)
             {
                 return BaseResponseModel.ReturnError("Cannot update this product.");

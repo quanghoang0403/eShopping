@@ -25,7 +25,7 @@ namespace eShopping.Infrastructure.Repositories
         {
             var product = _dbContext.Products.Where(p => p.Id == id)
                 .Include(x => x.ProductPrices)
-                .Include(x => x.ProductInCategories).ThenInclude(x => x.ProductCategory)
+                .Include(x => x.ProductCategory)
                 .FirstOrDefaultAsync();
             return product;
         }
@@ -44,7 +44,7 @@ namespace eShopping.Infrastructure.Repositories
             return query;
         }
 
-        public async Task<Product> UpdateProductAsync(Product request, List<Guid> categoryIds, CancellationToken cancellationToken = default)
+        public async Task<Product> UpdateProductAsync(Product request, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
@@ -52,32 +52,6 @@ namespace eShopping.Infrastructure.Repositories
                 try
                 {
                     var productEdit = request;
-
-                    #region Update product category
-                    var productProductCategoryIds = _dbContext.ProductInCategories.Where(x => x.ProductId == request.Id).Select(x => x.Id);
-                    if (productProductCategoryIds.Any())
-                    {
-                        // Remove records from table ProductProductCategory
-                        var recordIds = string.Join(",", productProductCategoryIds.Select(id => $"'{id}'"));
-                        var sqlScript = $"DELETE FROM {nameof(ProductInCategory)} WHERE Id IN({recordIds})";
-                        await _dbContext.Database.ExecuteSqlRawAsync(sqlScript, cancellationToken: cancellationToken);
-                    }
-
-                    // Add new ref product - product category via ProductInCategory table
-                    if (categoryIds.Any())
-                    {
-                        var productInCategories = new List<ProductInCategory>();
-                        foreach (var categoryId in categoryIds)
-                        {
-                            productInCategories.Add(new ProductInCategory()
-                            {
-                                ProductId = request.Id,
-                                ProductCategoryId = categoryId,
-                            });
-                        }
-                        await _dbContext.ProductInCategories.AddRangeAsync(productInCategories, cancellationToken);
-                    }
-                    #endregion
 
                     #region Handle update product prices
                     // all product prices before update

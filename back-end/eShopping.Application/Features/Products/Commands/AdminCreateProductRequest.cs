@@ -32,9 +32,13 @@ namespace eShopping.Application.Features.Products.Commands
 
         public DateTime DateCreated { set; get; }
 
+        public EnumGenderProduct GenderProduct { get; set; }
+
         public bool? IsFeatured { get; set; }
 
-        public List<Guid> ProductCategoryIds { get; set; }
+        public Guid ProductCategoryId { get; set; }
+
+        public Guid ProductRootCategoryId { get; set; }
 
         public List<string> ImagePaths { get; set; }
 
@@ -115,19 +119,6 @@ namespace eShopping.Application.Features.Products.Commands
                 try
                 {
                     await _unitOfWork.Products.AddAsync(product);
-
-                    // Add map category
-                    List<ProductInCategory> productInCategories = new();
-                    foreach (var id in request.ProductCategoryIds)
-                    {
-                        ProductInCategory map = new()
-                        {
-                            ProductCategoryId = id,
-                            ProductId = product.Id
-                        };
-                        productInCategories.Add(map);
-                    }
-                    await _unitOfWork.ProductInCategories.AddRangeAsync(productInCategories);
 
                     // Add image
                     List<Image> productImages = new();

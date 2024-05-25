@@ -48,7 +48,7 @@ namespace eShopping.Application.Features.Blogs.Queries
                     Name = b.Name,
                     Priority = b.Priority,
                     Blogs = _mapper.Map<IEnumerable<AdminBlogModel>>(b.BlogInCategories.Select(bc => bc.blog))
-                }).OrderBy(b => b.Priority).ToListAsync(cancellationToken);
+                }).OrderByDescending(b => b.Priority).ToListAsync(cancellationToken);
             return BaseResponseModel.ReturnData(allBlogCategory);
         }
     }

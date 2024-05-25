@@ -1,4 +1,4 @@
-﻿using eShopping.Application.Features.Products.Queries;
+﻿using eShopping.Application.Features.ProductCategories.Queries;
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

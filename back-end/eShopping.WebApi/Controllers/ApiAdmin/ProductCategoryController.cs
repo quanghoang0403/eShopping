@@ -1,4 +1,5 @@
-﻿using eShopping.Application.Features.Products.Commands;
+﻿using eShopping.Application.Features.ProductCategories.Commands;
+using eShopping.Application.Features.ProductCategories.Queries;
 using eShopping.Application.Features.Products.Queries;
 using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
@@ -36,14 +37,6 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return Ok(response);
         }
 
-        [HttpPut]
-        [Route("update-product-list")]
-        [HasPermission(EnumPermission.EDIT_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> UpdateProductListyAsync([FromBody] AdminUpdateProductByProductCategoryRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
 
         [HttpDelete]
         [Route("delete-product-category-by-id/{id}")]

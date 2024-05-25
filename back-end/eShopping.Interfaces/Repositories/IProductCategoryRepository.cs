@@ -12,8 +12,5 @@ namespace eShopping.Interfaces.Repositories
         Task<ProductCategory> GetProductCategoryDetailByUrlAsync(string categoryUrl);
 
         Task<ProductCategory> GetProductCategoryDetailByNameAsync(string categoryName);
-
-        IQueryable<ProductCategory> GetProductCategoryListByProductId(Guid productId);
-
     }
 }

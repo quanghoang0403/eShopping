@@ -5,6 +5,14 @@ namespace eShopping.Common.Helpers
 {
     public static class DatetimeHelpers
     {
+        public static bool IsWithinPrevious14Days(DateTime? dateTime)
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime fourteenDaysAgo = currentDate.AddDays(-14);
+
+            return dateTime >= fourteenDaysAgo && dateTime <= currentDate;
+        }
+
         public static DateTime GetStartOfDay(DateTime date, string timeZone = "")
         {
             return date.Date;
