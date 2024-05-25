@@ -50,7 +50,7 @@ export default function TableProduct(props) {
     confirmDelete: t('dialog.confirmDelete'),
     productDeleteSuccess: t('product.productDeleteSuccess'),
     productDeleteFail: t('product.productDeleteFail'),
-    productEditSuccess:t('product.productEditedSuccess'),
+    productEditSuccess: t('product.productEditedSuccess'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table.no'),
@@ -58,7 +58,7 @@ export default function TableProduct(props) {
       price: t('table.price'),
       status: t('table.status'),
       action: t('table.action'),
-      feature:t('table.feature')
+      feature: t('table.feature')
     },
     notificationTitle: t('dialog.notificationTitle')
   }
@@ -109,20 +109,20 @@ export default function TableProduct(props) {
         }
       },
       {
-        title:pageData.table.feature,
-        align:'center',
-        key:'isFeatured',
-        width:'15%',
-        dataIndex:'isFeatured',
-        render:(_,record)=>{
-          return <Checkbox checked={record?.isFeatured} onChange={(e)=>onChangeFeatureStatus(record?.id,e.target.checked)}/>
+        title: pageData.table.feature,
+        align: 'center',
+        key: 'isFeatured',
+        width: '15%',
+        dataIndex: 'isFeatured',
+        render: (_, record) => {
+          return <Checkbox checked={record?.isFeatured} onChange={(e) => onChangeFeatureStatus(record?.id, e.target.checked)} />
         }
       },
       {
         title: pageData.table.action,
         key: 'action',
         align: 'center',
-        width:'10%',
+        width: '10%',
         render: (_, record) => {
           return (
             <div className="action-column action-column-center">
@@ -155,18 +155,18 @@ export default function TableProduct(props) {
       })
     }
   }
-  const onChangeFeatureStatus = async (id,status)=>{
+  const onChangeFeatureStatus = async (id, status) => {
     const data = {
-      id:id,
-      isActivate:status
+      id: id,
+      isActivate: status
     }
-    try{
+    try {
       const res = await productDataService.changeFeatureStatus(data)
-      if(res){
+      if (res) {
         message.success(pageData.productEditSuccess)
-        await handleFilterProduct(dataFilter||{filter:true}, 1, tableSettings.pageSize, keySearch);
+        await handleFilterProduct(dataFilter || { filter: true }, 1, tableSettings.pageSize, keySearch);
       }
-    }catch(err){
+    } catch (err) {
       message.error(err)
     }
   }
@@ -188,7 +188,7 @@ export default function TableProduct(props) {
 
     // });
     productDataService.getProductByIdAsync(productId).then(res => {
-      const product  = res
+      const product = res
       setPreventDeleteProduct(product)
     }).catch(err => {
       console.log(err)
@@ -228,17 +228,17 @@ export default function TableProduct(props) {
       if (productFilter && productFilter.count > 0) {
         const data = {
           productCategoryId: productFilter.productCategoryId,
-          status: !productFilter.statusId? 0 : 1,
+          status: !productFilter.statusId ? 0 : 1,
           count: productFilter.count,
           filter: productFilter.statusId === '' ? true : false
         }
         setDataFilter(data)
         handleFilterProduct(data, currentPageNumber, tableSettings.pageSize, '')
       } else {
-        handleFilterProduct({filter:true}, currentPageNumber, tableSettings.pageSize, '')
+        handleFilterProduct({ filter: true }, currentPageNumber, tableSettings.pageSize, '')
       }
     } else {
-      handleFilterProduct({filter:true}, currentPageNumber, tableSettings.pageSize, '')
+      handleFilterProduct({ filter: true }, currentPageNumber, tableSettings.pageSize, '')
     }
   }, [])
 
@@ -327,7 +327,7 @@ export default function TableProduct(props) {
       name: item?.name,
       thumbnail: item?.thumbnail,
       prices: item?.prices,
-      isFeatured:item?.isFeatured,
+      isFeatured: item?.isFeatured,
       price: (
         <>
           {item?.productPrices &&
@@ -405,8 +405,8 @@ export default function TableProduct(props) {
       setStorage(localStorageKeys.PRODUCT_FILTER, null)
       setCountFilter(0)
       setShowPopover(false)
-      handleFilterProduct({filter:true}, 1, tableSettings.pageSize, keySearch)
-      setDataFilter({filter:true})
+      handleFilterProduct({ filter: true }, 1, tableSettings.pageSize, keySearch)
+      setDataFilter({ filter: true })
     }
   }
 
