@@ -181,7 +181,7 @@ namespace eShopping.Application.Features.Staffs.Commands
             var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim());
             if (phoneExisted)
             {
-                return BaseResponseModel.ReturnError("Please enter fill name");
+                return BaseResponseModel.ReturnError("Phone number has already existed.");
             }
 
             if (!string.IsNullOrWhiteSpace(request.Email))
