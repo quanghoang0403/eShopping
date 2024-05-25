@@ -12,8 +12,8 @@ using eShopping.Infrastructure.Contexts;
 namespace eShopping.Infrastructure.Migrations
 {
     [DbContext(typeof(eShoppingDbContext))]
-    [Migration("20240329105424_updateOrder")]
-    partial class updateOrder
+    [Migration("20240525183347_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,24 +94,17 @@ namespace eShopping.Infrastructure.Migrations
                     b.ToTable("Account");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.AppConfig", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Key");
-
-                    b.ToTable("AppConfigs");
-                });
-
-            modelBuilder.Entity("eShopping.Domain.Entities.Cart", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.Blog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -119,14 +112,22 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DescriptionSEO")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasComment("SEO Configuration: SEO on Description");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("KeywordSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Keyword");
 
                     b.Property<DateTime?>("LastSavedTime")
                         .HasColumnType("datetime2");
@@ -134,30 +135,120 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("ProductPriceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasPrecision(18, 2)
+                    b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Total")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime?>("PublishedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Title");
+
+                    b.Property<string>("UrlSEO")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)")
+                        .HasComment("SEO Configuration: URL Link");
+
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.BlogCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Color")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DescriptionSEO")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasComment("SEO Configuration: SEO on Description");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("KeywordSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Keyword");
+
+                    b.Property<DateTime?>("LastSavedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastSavedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TitleSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Title");
+
+                    b.Property<string>("UrlSEO")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)")
+                        .HasComment("SEO Configuration: URL Link");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ProductPriceId");
+                    b.ToTable("BlogCategories");
+                });
 
-                    b.ToTable("Cart");
+            modelBuilder.Entity("eShopping.Domain.Entities.BlogInCategory", b =>
+                {
+                    b.Property<Guid>("BlogId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BlogCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BlogId", "BlogCategoryId");
+
+                    b.HasIndex("BlogCategoryId");
+
+                    b.ToTable("BlogInCategory");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.City", b =>
@@ -269,6 +360,8 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("District");
                 });
 
@@ -305,14 +398,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Image");
                 });
@@ -355,6 +443,22 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("OrderPaymentStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShipAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("ShipCityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShipDistrictId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ShipEmail")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -370,6 +474,9 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<string>("ShipPhoneNumber")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("ShipWardId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -451,12 +558,12 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float?>("PercentNumber")
+                        .HasColumnType("real");
+
                     b.Property<decimal?>("PriceDiscount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PriceName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PriceOrigin")
                         .HasPrecision(18, 2)
@@ -472,14 +579,26 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ProductPriceId")
+                    b.Property<Guid>("ProductSizeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductSizeName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ProductVariantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductVariantName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -487,11 +606,66 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductPriceId");
-
                     b.ToTable("OrderItem");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.OrderPaymentTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSuccess")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastSavedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastSavedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OrderInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("TransId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("TransactionType")
+                        .HasColumnType("int")
+                        .HasComment("Return value: PAYMENT or REFUND");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderPaymentTransaction");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>
@@ -601,6 +775,12 @@ namespace eShopping.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasComment("SEO Configuration: SEO on Description");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GenderProduct")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -625,8 +805,35 @@ namespace eShopping.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<float?>("PercentNumber")
+                        .HasColumnType("real");
+
+                    b.Property<decimal?>("PriceDiscount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceOriginal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceValue")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ProductCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductRootCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductSizeCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -650,6 +857,12 @@ namespace eShopping.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.HasIndex("ProductRootCategoryId");
+
+                    b.HasIndex("ProductSizeCategoryId");
 
                     b.ToTable("Product");
                 });
@@ -678,10 +891,80 @@ namespace eShopping.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasComment("SEO Configuration: SEO on Description");
 
+                    b.Property<int>("GenderProduct")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsShowOnHome")
+                    b.Property<string>("KeywordSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Keyword");
+
+                    b.Property<DateTime?>("LastSavedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastSavedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProductRootCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TitleSEO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("SEO Configuration: SEO on Title");
+
+                    b.Property<string>("UrlSEO")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)")
+                        .HasComment("SEO Configuration: URL Link");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ProductRootCategoryId");
+
+                    b.ToTable("ProductCategory");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductRootCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DescriptionSEO")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasComment("SEO Configuration: SEO on Description");
+
+                    b.Property<int>("GenderProduct")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("KeywordSEO")
@@ -716,10 +999,10 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductRootCategory");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.ProductInCategory", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductSize", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -740,24 +1023,75 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductCategoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("ProductSizeCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ProductCategoryId");
+                    b.HasIndex("ProductSizeCategoryId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductInCategory");
+                    b.ToTable("ProductSize");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.ProductPrice", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductSizeCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastSavedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastSavedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("ProductSizeCategory");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductStock", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductSizeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductVariantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("QuantityLeft")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "ProductSizeId", "ProductVariantId");
+
+                    b.ToTable("ProductStock");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductVariant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -775,11 +1109,18 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsUseBasePrice")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("LastSavedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<float?>("PercentNumber")
                         .HasColumnType("real");
@@ -787,10 +1128,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<decimal?>("PriceDiscount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PriceName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("PriceOriginal")
                         .HasPrecision(18, 2)
@@ -806,12 +1143,6 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("QuantityLeft")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantitySold")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -824,7 +1155,30 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductPrice");
+                    b.ToTable("ProductVariant");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsInvoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AccountId");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Staff", b =>
@@ -851,7 +1205,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PermissionGroupId")
+                    b.Property<Guid?>("PermissionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -860,12 +1214,12 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PermissionGroupId");
+                    b.HasIndex("PermissionId");
 
                     b.ToTable("Staff");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermissionGroup", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -886,7 +1240,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid?>("LastSavedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PermissionGroupId")
+                    b.Property<Guid>("PermissionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StaffId")
@@ -896,11 +1250,11 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PermissionGroupId");
+                    b.HasIndex("PermissionId");
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("StaffPermissionGroup");
+                    b.ToTable("StaffPermission");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Ward", b =>
@@ -933,26 +1287,26 @@ namespace eShopping.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("DistrictId");
+
                     b.ToTable("Ward");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.Cart", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.BlogInCategory", b =>
                 {
-                    b.HasOne("eShopping.Domain.Entities.Customer", "Customer")
-                        .WithMany("Carts")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("eShopping.Domain.Entities.BlogCategory", "BlogCategory")
+                        .WithMany("BlogInCategories")
+                        .HasForeignKey("BlogCategoryId");
 
-                    b.HasOne("eShopping.Domain.Entities.ProductPrice", "ProductPrice")
-                        .WithMany("Carts")
-                        .HasForeignKey("ProductPriceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("eShopping.Domain.Entities.Blog", "Blog")
+                        .WithMany("BlogInCategories")
+                        .HasForeignKey("BlogId");
 
-                    b.Navigation("Customer");
+                    b.Navigation("Blog");
 
-                    b.Navigation("ProductPrice");
+                    b.Navigation("BlogCategory");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Customer", b =>
@@ -984,11 +1338,15 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("Ward");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.Image", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.District", b =>
                 {
-                    b.HasOne("eShopping.Domain.Entities.Product", null)
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId");
+                    b.HasOne("eShopping.Domain.Entities.City", "City")
+                        .WithMany("Districts")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Order", b =>
@@ -1021,23 +1379,18 @@ namespace eShopping.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eShopping.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Order");
+                });
 
-                    b.HasOne("eShopping.Domain.Entities.ProductPrice", "ProductPrice")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("ProductPriceId")
+            modelBuilder.Entity("eShopping.Domain.Entities.OrderPaymentTransaction", b =>
+                {
+                    b.HasOne("eShopping.Domain.Entities.Order", "Order")
+                        .WithMany("OrderPaymentTransactions")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductPrice");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>
@@ -1051,29 +1404,68 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("PermissionGroup");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.ProductInCategory", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.Product", b =>
                 {
                     b.HasOne("eShopping.Domain.Entities.ProductCategory", "ProductCategory")
-                        .WithMany("ProductInCategories")
+                        .WithMany("Products")
                         .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("eShopping.Domain.Entities.Product", "Product")
-                        .WithMany("ProductInCategories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("eShopping.Domain.Entities.ProductRootCategory", "ProductRootCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductRootCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.HasOne("eShopping.Domain.Entities.ProductSizeCategory", "ProductSizeCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductSizeCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductCategory");
+
+                    b.Navigation("ProductRootCategory");
+
+                    b.Navigation("ProductSizeCategory");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.ProductPrice", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductCategory", b =>
+                {
+                    b.HasOne("eShopping.Domain.Entities.ProductRootCategory", "ProductRootCategory")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductRootCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductRootCategory");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductSize", b =>
+                {
+                    b.HasOne("eShopping.Domain.Entities.ProductSizeCategory", "ProductSizeCategory")
+                        .WithMany("ProductSizes")
+                        .HasForeignKey("ProductSizeCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductSizeCategory");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductStock", b =>
                 {
                     b.HasOne("eShopping.Domain.Entities.Product", "Product")
-                        .WithMany("ProductPrices")
+                        .WithMany("ProductStocks")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductVariant", b =>
+                {
+                    b.HasOne("eShopping.Domain.Entities.Product", "Product")
+                        .WithMany("ProductVariants")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1089,30 +1481,49 @@ namespace eShopping.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eShopping.Domain.Entities.PermissionGroup", null)
+                    b.HasOne("eShopping.Domain.Entities.Permission", null)
                         .WithMany("Staffs")
-                        .HasForeignKey("PermissionGroupId");
+                        .HasForeignKey("PermissionId");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermissionGroup", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.StaffPermission", b =>
                 {
-                    b.HasOne("eShopping.Domain.Entities.PermissionGroup", "PermissionGroup")
+                    b.HasOne("eShopping.Domain.Entities.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("PermissionGroupId")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("eShopping.Domain.Entities.Staff", "Staff")
-                        .WithMany("StaffPermissionGroups")
+                        .WithMany("StaffPermissions")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PermissionGroup");
+                    b.Navigation("Permission");
 
                     b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.Ward", b =>
+                {
+                    b.HasOne("eShopping.Domain.Entities.City", "City")
+                        .WithMany("Wards")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("eShopping.Domain.Entities.District", "District")
+                        .WithMany("Wards")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("District");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Account", b =>
@@ -1120,21 +1531,35 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("eShopping.Domain.Entities.Blog", b =>
+                {
+                    b.Navigation("BlogInCategories");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.BlogCategory", b =>
+                {
+                    b.Navigation("BlogInCategories");
+                });
+
             modelBuilder.Entity("eShopping.Domain.Entities.City", b =>
                 {
                     b.Navigation("Customers");
+
+                    b.Navigation("Districts");
+
+                    b.Navigation("Wards");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Customer", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.District", b =>
                 {
                     b.Navigation("Customers");
+
+                    b.Navigation("Wards");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Order", b =>
@@ -1142,39 +1567,47 @@ namespace eShopping.Infrastructure.Migrations
                     b.Navigation("OrderHistories");
 
                     b.Navigation("OrderItems");
+
+                    b.Navigation("OrderPaymentTransactions");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.Permission", b =>
+                {
+                    b.Navigation("Staffs");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.PermissionGroup", b =>
                 {
                     b.Navigation("Permissions");
-
-                    b.Navigation("Staffs");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Product", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("ProductStocks");
 
-                    b.Navigation("ProductInCategories");
-
-                    b.Navigation("ProductPrices");
+                    b.Navigation("ProductVariants");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.ProductCategory", b =>
                 {
-                    b.Navigation("ProductInCategories");
+                    b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("eShopping.Domain.Entities.ProductPrice", b =>
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductRootCategory", b =>
                 {
-                    b.Navigation("Carts");
+                    b.Navigation("ProductCategories");
 
-                    b.Navigation("OrderItems");
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("eShopping.Domain.Entities.ProductSizeCategory", b =>
+                {
+                    b.Navigation("ProductSizes");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Staff", b =>
                 {
-                    b.Navigation("StaffPermissionGroups");
+                    b.Navigation("StaffPermissions");
                 });
 
             modelBuilder.Entity("eShopping.Domain.Entities.Ward", b =>

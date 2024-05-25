@@ -58,23 +58,24 @@ namespace eShopping.Infrastructure.Contexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             OverrideQueryFilter(builder);
+
             builder.Entity<Account>().HasKey(x => x.Id);
+
             builder.Entity<Blog>().HasKey(x => x.Id);
-            builder.Entity<Blog>().HasMany(x => x.BlogInCategories).WithOne(x => x.Blog).HasForeignKey(x => x.BlogId);
             builder.Entity<BlogCategory>().HasKey(x => x.Id);
-            builder.Entity<BlogCategory>().HasMany(x => x.BlogInCategories).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId);
-            builder.Entity<BlogInCategory>().HasKey(x => x.Id);
-            builder.Entity<BlogInCategory>().HasOne(x => x.Blog).WithMany(x => x.BlogInCategories).HasForeignKey(x => x.BlogId);
-            builder.Entity<BlogInCategory>().HasOne(x => x.Category).WithMany(x => x.BlogInCategories).HasForeignKey(x => x.CategoryId);
+
+            builder.Entity<BlogInCategory>().HasKey(x => new { x.BlogId, x.BlogCategoryId });
+            builder.Entity<BlogInCategory>().HasOne(x => x.Blog).WithMany(x => x.BlogInCategories).HasForeignKey(x => x.BlogId).IsRequired(false);
+            builder.Entity<BlogInCategory>().HasOne(x => x.BlogCategory).WithMany(x => x.BlogInCategories).HasForeignKey(x => x.BlogCategoryId).IsRequired(false);
 
             builder.Entity<City>().HasKey(x => x.Id);
-            builder.Entity<City>().HasMany(x => x.Customers).WithOne(x => x.City).HasForeignKey(x => x.CityId);
+            builder.Entity<City>().HasMany(x => x.Districts).WithOne(x => x.City).HasForeignKey(x => x.CityId).OnDelete(DeleteBehavior.Restrict); ;
+            builder.Entity<City>().HasMany(x => x.Wards).WithOne(x => x.City).HasForeignKey(x => x.CityId).OnDelete(DeleteBehavior.Restrict); ;
 
             builder.Entity<District>().HasKey(x => x.Id);
-            builder.Entity<District>().HasMany(x => x.Customers).WithOne(x => x.District).HasForeignKey(x => x.DistrictId);
+            builder.Entity<District>().HasMany(x => x.Wards).WithOne(x => x.District).HasForeignKey(x => x.DistrictId).OnDelete(DeleteBehavior.Restrict); ;
 
             builder.Entity<Ward>().HasKey(x => x.Id);
-            builder.Entity<Ward>().HasMany(x => x.Customers).WithOne(x => x.Ward).HasForeignKey(x => x.Ward);
 
             builder.Entity<Customer>().HasKey(x => x.Id);
             builder.Entity<Customer>().HasOne(x => x.City).WithMany(x => x.Customers).HasForeignKey(x => x.CityId);
@@ -86,41 +87,55 @@ namespace eShopping.Infrastructure.Contexts
             builder.Entity<Order>().HasOne(x => x.Customer).WithMany(x => x.Orders).HasForeignKey(x => x.CustomerId);
 
             builder.Entity<OrderItem>().HasKey(x => x.Id);
-            builder.Entity<OrderItem>().HasOne(x => x.Order).WithMany(x => x.OrderItems).HasForeignKey(x => x.OrderId);
-
-            builder.Entity<Permission>().HasKey(x => x.Id);
-            builder.Entity<Permission>().HasOne(x => x.PermissionGroup).WithMany(x => x.Permissions).HasForeignKey(x => x.PermissionGroupId);
-
-            builder.Entity<PermissionGroup>().HasKey(x => x.Id);
+            //builder.Entity<OrderItem>().HasOne(x => x.Order).WithMany(x => x.OrderItems).HasForeignKey(x => x.OrderId);
 
             builder.Entity<Image>().HasKey(x => x.Id);
 
             builder.Entity<Product>().HasKey(x => x.Id);
-            builder.Entity<Product>().HasOne(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => x.ProductCategoryId);
-            builder.Entity<Product>().HasOne(x => x.ProductRootCategory).WithMany(x => x.Products).HasForeignKey(x => x.ProductRootCategoryId);
+            builder.Entity<Product>()
+                .HasOne(x => x.ProductCategory)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.ProductCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Product>()
+                .HasOne(x => x.ProductRootCategory)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.ProductRootCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            //builder.Entity<Product>().HasMany(x => x.ProductVariants).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
+            //builder.Entity<Product>().HasMany(x => x.ProductStocks).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
 
-            builder.Entity<Product>().HasMany(x => x.ProductVariants).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
             builder.Entity<ProductVariant>().HasKey(x => x.Id);
             builder.Entity<ProductVariant>().HasOne(x => x.Product).WithMany(x => x.ProductVariants).HasForeignKey(x => x.ProductId);
 
-            builder.Entity<Product>().HasMany(x => x.ProductStocks).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
             builder.Entity<ProductStock>().HasKey(x => new { x.ProductId, x.ProductSizeId, x.ProductVariantId });
-            builder.Entity<ProductStock>().HasOne(x => x.Product).WithMany(x => x.ProductStocks).HasForeignKey(x => x.ProductId);
+            builder.Entity<ProductStock>().HasOne(x => x.Product).WithMany(x => x.ProductStocks).HasForeignKey(x => x.ProductId).IsRequired(false);
 
             builder.Entity<ProductSize>().HasKey(x => x.Id);
             builder.Entity<ProductSize>().HasOne(x => x.ProductSizeCategory).WithMany(x => x.ProductSizes).HasForeignKey(x => x.ProductSizeCategoryId);
+
             builder.Entity<ProductSizeCategory>().HasKey(x => x.Id);
-            builder.Entity<ProductSizeCategory>().HasMany(x => x.ProductSizes).WithOne(x => x.ProductSizeCategory).HasForeignKey(x => x.ProductSizeCategoryId);
+            //builder.Entity<ProductSizeCategory>().HasMany(x => x.ProductSizes).WithOne(x => x.ProductSizeCategory).HasForeignKey(x => x.ProductSizeCategoryId);
 
             builder.Entity<ProductCategory>().HasKey(x => x.Id);
-            builder.Entity<ProductCategory>().HasOne(x => x.ProductRootCategory).WithMany(x => x.ProductCategories).HasForeignKey(x => x.ProductRootCategoryId);
-            builder.Entity<ProductCategory>().HasMany(x => x.Products).WithOne(x => x.ProductCategory).HasForeignKey(x => x.ProductCategoryId);
+            //builder.Entity<ProductCategory>()
+            //    .HasOne(x => x.ProductRootCategory)
+            //    .WithMany(x => x.ProductCategories)
+            //    .HasForeignKey(x => x.ProductRootCategoryId);
+            //builder.Entity<ProductCategory>().HasMany(x => x.Products)
+            //    .WithOne(x => x.ProductCategory)
+            //    .HasForeignKey(x => x.ProductCategoryId);
 
             builder.Entity<ProductRootCategory>().HasKey(x => x.Id);
             builder.Entity<ProductRootCategory>().HasMany(x => x.ProductCategories).WithOne(x => x.ProductRootCategory).HasForeignKey(x => x.ProductRootCategoryId);
-            builder.Entity<ProductRootCategory>().HasMany(x => x.Products).WithOne(x => x.ProductRootCategory).HasForeignKey(x => x.ProductRootCategoryId);
+            //builder.Entity<ProductRootCategory>().HasMany(x => x.Products).WithOne(x => x.ProductRootCategory).HasForeignKey(x => x.ProductRootCategoryId);
+
+            builder.Entity<PermissionGroup>().HasKey(x => x.Id);
+            builder.Entity<Permission>().HasKey(x => x.Id);
+            builder.Entity<Permission>().HasOne(x => x.PermissionGroup).WithMany(x => x.Permissions).HasForeignKey(x => x.PermissionGroupId);
 
             builder.Entity<Staff>().HasKey(x => x.Id);
+
             builder.Entity<StaffPermission>().HasKey(x => x.Id);
             builder.Entity<StaffPermission>().HasOne(x => x.Staff).WithMany(x => x.StaffPermissions).HasForeignKey(x => x.StaffId);
 
@@ -220,7 +235,6 @@ namespace eShopping.Infrastructure.Contexts
         {
             builder.Entity<Order>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Customer>().HasQueryFilter(m => !m.IsDeleted);
-            builder.Entity<ProductCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Customer>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Image>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Order>().HasQueryFilter(m => !m.IsDeleted);
@@ -229,10 +243,11 @@ namespace eShopping.Infrastructure.Contexts
             builder.Entity<Permission>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<PermissionGroup>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Product>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<ProductSizeCategory>().HasQueryFilter(m => !m.IsDeleted);
+            builder.Entity<ProductCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<ProductRootCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<ProductVariant>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Blog>().HasQueryFilter(m => !m.IsDeleted);
-            builder.Entity<BlogInCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<BlogCategory>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<Staff>().HasQueryFilter(m => !m.IsDeleted);
             builder.Entity<StaffPermission>().HasQueryFilter(m => !m.IsDeleted);

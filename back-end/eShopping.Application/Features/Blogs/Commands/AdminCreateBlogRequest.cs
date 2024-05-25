@@ -77,7 +77,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                         BlogInCategory map = new()
                         {
                             BlogId = newBlog.Id,
-                            CategoryId = id,
+                            BlogCategoryId = id,
                         };
                         blogInCategories.Add(map);
                     }

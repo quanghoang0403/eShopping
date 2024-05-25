@@ -90,7 +90,6 @@ namespace eShopping.Application.Features.Products.Queries
                 .Find(p => p.UrlSEO == request.Url)
                 .AsNoTracking()
                 .Include(x => x.ProductVariants)
-                .Include(x => x.Images)
                 .Include(p => p.ProductCategory)
                 .ProjectTo<StoreProductDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);

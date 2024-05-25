@@ -22,5 +22,8 @@ namespace eShopping.Domain.Entities
 
         public virtual ICollection<Customer> Customers { get; set; }
 
+        public virtual ICollection<District> Districts { get; set; }
+
+        public virtual ICollection<Ward> Wards { get; set; }
     }
 }

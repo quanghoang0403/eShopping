@@ -22,7 +22,11 @@ namespace eShopping.Domain.Entities
 
         public double? Lng { get; set; }
 
+        public virtual City City { get; set; }
+
         public virtual ICollection<Customer> Customers { get; set; }
+
+        public virtual ICollection<Ward> Wards { get; set; }
 
     }
 }

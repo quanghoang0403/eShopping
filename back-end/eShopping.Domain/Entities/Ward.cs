@@ -9,6 +9,7 @@ namespace eShopping.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
+
         public int CityId { get; set; }
 
         public int DistrictId { get; set; }
@@ -22,6 +23,10 @@ namespace eShopping.Domain.Entities
         public double? Lat { get; set; }
 
         public double? Lng { get; set; }
+
+        public virtual City City { get; set; }
+
+        public virtual District District { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
     }

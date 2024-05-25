@@ -1,5 +1,6 @@
 ﻿using eShopping.Domain.Base;
 using eShopping.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,6 +42,21 @@ namespace eShopping.Domain.Entities
 
         public Guid ProductSizeCategoryId { get; set; }
 
+        [Precision(18, 2)]
+        public decimal PriceOriginal { set; get; }
+
+        [Precision(18, 2)]
+        public decimal PriceValue { set; get; }
+
+        [Precision(18, 2)]
+        public decimal? PriceDiscount { set; get; }
+
+        public float? PercentNumber { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
         public virtual ProductRootCategory ProductRootCategory { get; set; }
 
         public virtual ProductCategory ProductCategory { get; set; }
@@ -50,7 +66,5 @@ namespace eShopping.Domain.Entities
         public virtual ICollection<ProductVariant> ProductVariants { get; set; }
 
         public virtual ICollection<ProductStock> ProductStocks { get; set; }
-
-        public virtual ICollection<Image> Images { get; set; }
     }
 }

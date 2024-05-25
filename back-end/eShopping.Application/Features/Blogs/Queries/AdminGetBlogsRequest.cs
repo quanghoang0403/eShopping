@@ -54,7 +54,7 @@ namespace eShopping.Application.Features.Blogs.Queries
                 if (request.BlogCategoryId != null && request.BlogCategoryId != Guid.Empty)
                 {
                     //filter blogs with request category id
-                    var blogInCategoryIds = _unitOfWork.BlogInCategories.Find(b => b.CategoryId == request.BlogCategoryId).Select(b => b.BlogId);
+                    var blogInCategoryIds = _unitOfWork.BlogInCategories.Find(b => b.BlogCategoryId == request.BlogCategoryId).Select(b => b.BlogId);
                     blogs = blogs.Where(b => blogInCategoryIds.Contains(b.Id));
 
                 }
@@ -87,7 +87,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             {
                 var categoryId = pageResult.Where(bl => bl.Id == b.Id).Select(b => b.BlogInCategories).FirstOrDefault();
                 b.No = blogsResponse.IndexOf(b) + ((request.PageNumber - 1) * request.PageSize) + 1;
-                b.BlogCategoryId = categoryId.Select(c => c.CategoryId).FirstOrDefault();
+                b.BlogCategoryId = categoryId.Select(c => c.BlogCategoryId).FirstOrDefault();
             });
 
             var response = new PagingResult<AdminBlogModel>(blogsResponse, allBlog.Paging);

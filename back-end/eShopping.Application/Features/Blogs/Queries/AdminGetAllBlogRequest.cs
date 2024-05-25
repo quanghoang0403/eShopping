@@ -39,7 +39,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             var categoryIds = await _unitOfWork.BlogInCategories.GetAll().ToListAsync(cancellationToken: cancellationToken);
             allBlogs.ForEach(b =>
             {
-                b.BlogCategoryId = categoryIds.Where(c => c.BlogId == b.Id).Select(c => c.CategoryId).FirstOrDefault();
+                b.BlogCategoryId = categoryIds.Where(c => c.BlogId == b.Id).Select(c => c.BlogCategoryId).FirstOrDefault();
             });
             var response = BaseResponseModel.ReturnData(allBlogs);
             return response;
