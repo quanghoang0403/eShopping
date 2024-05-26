@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
@@ -51,7 +50,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 string keySearch = request.KeySearch.Trim().ToLower();
                 query = query.Where(pc => pc.Name.ToLower().Contains(keySearch));
             }
-            var allProductRootCategoriesInStore = await query
+            var allProductRootCategoriesInStore = await query.AsNoTracking()
                    .Include(ppc => ppc.Products)
                    .OrderBy(pc => pc.Priority)
                    .ThenBy(x => x.Name)
