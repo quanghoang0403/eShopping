@@ -367,7 +367,8 @@
         "validateDiscountOverPrice": "Giá không hợp lệ"
     },
     "root-category": {
-        "title": "Quản lí danh mục gốc"
+        "title": "Quản lí danh mục gốc",
+        "createTitle": "Thêm danh mục gốc"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
