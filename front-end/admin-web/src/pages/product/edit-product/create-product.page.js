@@ -37,13 +37,13 @@ import productCategoryDataService from 'data-services/product-category/product-c
 import product from '..';
 import productCategory from 'pages/product-category';
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
-import { FnbDatePicker } from 'components/shop-date-picker/shop-data-picker';
-import moment from 'moment';
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import { DateFormat } from "constants/string.constants";
 import FnbFroalaEditor from "components/shop-froala-editor";
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
+import StockProductTable from '../components/stock-product.component';
+import moment from 'moment';
 
 const { Text } = Typography
 
@@ -62,7 +62,7 @@ export default function CreateProductPage() {
     quantityLeft: 0,
     percentNumber: 0,
     startDate: moment(),
-    endDate: moment().add(7,"days")
+    endDate: moment().add(7, "days")
   }])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
@@ -73,7 +73,7 @@ export default function CreateProductPage() {
   const [productContent, setProductContent] = useState("");
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -121,7 +121,7 @@ export default function CreateProductPage() {
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
         minlength: 50,
-        maxLength:100
+        maxLength: 100
       },
       description: {
         label: t('form.SEODescription'),
@@ -144,8 +144,8 @@ export default function CreateProductPage() {
         min: 0,
         format: '^[1-9]*$',
         validateMessage: t('product.validatePriceNegative'),
-        validateMessageValue:t('product.validateOriginalOverPrice'),
-        validateMessageDiscount:t('product.validateDiscountOverPrice')
+        validateMessageValue: t('product.validateOriginalOverPrice'),
+        validateMessageDiscount: t('product.validateDiscountOverPrice')
       },
       priceOriginal: {
         label: t('product.labelPriceOriginal'),
@@ -155,13 +155,13 @@ export default function CreateProductPage() {
         min: 0,
         format: '^[0-9]*$',
         validateMessage: t('product.validatePriceNegative'),
-        validateMessageValue:t('product.validateOriginalOverPrice')
+        validateMessageValue: t('product.validateOriginalOverPrice')
       },
       discount: {
         numeric: {
           label: t('product.labelPriceDiscount'),
           placeholder: t('product.placeholderPriceDiscount'),
-          validateMessage:t('product.validateDiscountOverPrice')
+          validateMessage: t('product.validateDiscountOverPrice')
         },
         percentage: {
           label: t('product.labelPriceDiscountPercentage'),
@@ -187,17 +187,17 @@ export default function CreateProductPage() {
         remaining: {
           label: t('product.labelQuantityLeft'),
           placeholder: t('product.placeholderQuantityLeft'),
-          validateMessage:t('product.validateQuantity')
+          validateMessage: t('product.validateQuantity')
         }
       },
       priceDate: {
         startDate: {
-          label:t('product.startDate'),
-          placeholder: t('t.product.placeholderStartDate'),
+          label: t('product.startDate'),
+          placeholder: t('product.placeholderStartDate'),
           validateMessage: t('product.validateStartDate')
         },
         endDate: {
-          label:t('product.endDate'),
+          label: t('product.endDate'),
           placeholder: t('product.placeholderEndDate'),
           validateMessage: t('product.validateEndDate')
         }
@@ -287,7 +287,7 @@ export default function CreateProductPage() {
           productPrices: values.product.prices,
           thumbnail: values.product.media.url,
           content: productContent,
-          keywordSEO: keywordSEOs.map(kw=>kw.value)?.join(',') || null
+          keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
         }
         console.log(createProductRequestModel)
         productDataService
@@ -482,8 +482,8 @@ export default function CreateProductPage() {
                                               message: pageData.pricing.quantity.remaining.validateMessage
                                             },
                                             {
-                                              required:true,
-                                              message:pageData.pricing.quantity.remaining.validateMessage
+                                              required: true,
+                                              message: pageData.pricing.quantity.remaining.validateMessage
                                             }
 
                                           ]}
@@ -556,9 +556,9 @@ export default function CreateProductPage() {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
-                                            ({getFieldValue})=>({
-                                              validator(_,value){
-                                                if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                            ({ getFieldValue }) => ({
+                                              validator(_, value) {
+                                                if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
                                                   return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                                 }
                                                 return Promise.resolve()
@@ -595,19 +595,19 @@ export default function CreateProductPage() {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
-                                            ({getFieldValue})=>(
+                                            ({ getFieldValue }) => (
                                               {
-                                                validator(_,value){
-                                                  if(value < getFieldValue(['product', 'prices', price.position, 'priceDiscount'])){
+                                                validator(_, value) {
+                                                  if (value < getFieldValue(['product', 'prices', price.position, 'priceDiscount'])) {
                                                     return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
                                                   }
                                                   return Promise.resolve();
                                                 }
                                               }
                                             ),
-                                            ({getFieldValue})=>({
-                                              validator(_,value){
-                                                if(value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])){
+                                            ({ getFieldValue }) => ({
+                                              validator(_, value) {
+                                                if (value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])) {
                                                   return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                                 }
                                                 return Promise.resolve()
@@ -638,12 +638,12 @@ export default function CreateProductPage() {
                                       </Checkbox>
                                     </Row>
                                     <Row className={`mt-4 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                            <h3>{pageData.pricing.discount.numeric.label}</h3>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={12}>
-                                            <h3>{pageData.pricing.discount.percentage.label}</h3>
-                                        </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>{pageData.pricing.discount.numeric.label}</h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <h3>{pageData.pricing.discount.percentage.label}</h3>
+                                      </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -654,10 +654,10 @@ export default function CreateProductPage() {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
-                                            ({getFieldValue})=>(
+                                            ({ getFieldValue }) => (
                                               {
-                                                validator(_,value){
-                                                  if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                validator(_, value) {
+                                                  if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
                                                     return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
                                                   }
                                                   return Promise.resolve();
@@ -712,16 +712,16 @@ export default function CreateProductPage() {
                                       </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                          <h3>
-                                            {pageData.pricing.priceDate.startDate.label}
-                                          </h3>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                          <h3>
-                                            {pageData.pricing.priceDate.endDate.label}
-                                          </h3>
-                                        </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceDate.startDate.label}
+                                        </h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceDate.endDate.label}
+                                        </h3>
+                                      </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "mt-1" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -848,12 +848,12 @@ export default function CreateProductPage() {
   }
   const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -903,12 +903,12 @@ export default function CreateProductPage() {
                 priceName: 'Default',
                 quantitySold: 0,
                 position: 0,
-                priceValue:0,
-                priceOriginal:0,
-                priceDiscount:0,
-                percentNumber:0,
+                priceValue: 0,
+                priceOriginal: 0,
+                priceDiscount: 0,
+                percentNumber: 0,
                 startDate: moment(),
-                endDate:moment().add(7,"days")
+                endDate: moment().add(7, "days")
               }
             }
           }
@@ -1046,21 +1046,21 @@ export default function CreateProductPage() {
                     </div>
 
                     <div>
-                    {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
-                    }
-                    
-                    <div className='d-flex mt-3'>
+                      {
+                        keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
+                      }
+
+                      <div className='d-flex mt-3'>
                         <Input
-                          className="shop-input-with-count" 
+                          className="shop-input-with-count"
                           showCount
                           value={keywordSEO?.value || ''}
                           placeholder={pageData.SEOInformation.keyword.placeholder}
-                          onChange={e=>{
-                            if(e.target.value !== ''){
+                          onChange={e => {
+                            if (e.target.value !== '') {
                               setKeywordSEO({
-                                id:e.target.value,
-                                value:e.target.value,
+                                id: e.target.value,
+                                value: e.target.value,
                                 colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
                               })
                               setIsKewwordSEOChange(true)
@@ -1075,7 +1075,7 @@ export default function CreateProductPage() {
                           onClick={addSEOKeywords}
                         />
                       </div>
-                  </div>
+                    </div>
                   </Col>
                 </Row>
               </Card>
@@ -1160,6 +1160,13 @@ export default function CreateProductPage() {
                 </Col>
               </Row>
             </Col>
+          </Row>
+
+          <br />
+          <Row>
+            <Card className="w-100 mt-1 shop-card h-auto">
+              <StockProductTable />
+            </Card>
           </Row>
         </div>
       </Form>

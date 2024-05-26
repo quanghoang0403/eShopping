@@ -1,7 +1,7 @@
 import { Form, message, Row, Tooltip } from 'antd'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/shop-table/shop-table'
+import { ShopTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import productCategoryDataService from "data-services/product-category/product-category-data.service";
@@ -301,7 +301,7 @@ export default function TableProductCategory() {
     <>
       <Form className="form-staff">
         <Row>
-          <FnbTable
+          <ShopTable
             className="mt-4"
             columns={tableConfigs.columns}
             pageSize={tableConfigs.pageSize}

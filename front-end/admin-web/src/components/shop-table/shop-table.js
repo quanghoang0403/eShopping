@@ -16,7 +16,7 @@ import { hasPermission } from 'utils/helpers'
 import './shop-table.scss'
 import { useTranslation } from 'react-i18next'
 
-export function FnbTable (props) {
+export function ShopTable(props) {
   const {
     columns, // define columns
     dataSource, // define dataSource
@@ -281,79 +281,79 @@ export function FnbTable (props) {
         <>
           {isMobile && isShowModelOnMoblie
             ? (
-            <>
-              <Button
-                className="action-button"
-                type="primary"
-                icon={
-                  <Badge className="badge-counter" size="small" count={numberTotalFilterSelected} color="#FF8C24">
-                    <FilterOutlined className={numberTotalFilterSelected > 0 ? 'filter-count' : 'filter-empty'} />
-                  </Badge>
-                }
-                onClick={(e) => onClickFilterButton(e)}
-              >
-                <span className="button-title">{btnTitle}</span>
+              <>
+                <Button
+                  className="action-button"
+                  type="primary"
+                  icon={
+                    <Badge className="badge-counter" size="small" count={numberTotalFilterSelected} color="#FF8C24">
+                      <FilterOutlined className={numberTotalFilterSelected > 0 ? 'filter-count' : 'filter-empty'} />
+                    </Badge>
+                  }
+                  onClick={(e) => onClickFilterButton(e)}
+                >
+                  <span className="button-title">{btnTitle}</span>
 
-                {allowClear === false || !totalFilterSelected || numberTotalFilterSelected <= 0 || (
-                  <CloseFill
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      if (onClearFilter) onClearFilter(e)
-                    }}
-                  />
-                )}
-              </Button>
-              <Modal
-                className="modal-filter-mobile"
-                open={showPopover}
-                footer={(null, null)}
-                maskClosable={true}
-                closable={false}
-                onCancel={(e) => onClickFilterButton(e)}
-                centered
-              >
-                {component}
-              </Modal>
-            </>
-              )
+                  {allowClear === false || !totalFilterSelected || numberTotalFilterSelected <= 0 || (
+                    <CloseFill
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        if (onClearFilter) onClearFilter(e)
+                      }}
+                    />
+                  )}
+                </Button>
+                <Modal
+                  className="modal-filter-mobile"
+                  open={showPopover}
+                  footer={(null, null)}
+                  maskClosable={true}
+                  closable={false}
+                  onCancel={(e) => onClickFilterButton(e)}
+                  centered
+                >
+                  {component}
+                </Modal>
+              </>
+            )
             : (
-            <Popover
-              placement="bottomRight"
-              content={component}
-              trigger="click"
-              open={visible}
-              onOpenChange={handleVisibleChange}
-              getPopupContainer={(trigger) => trigger.parentElement}
-              overlayClassName={`filter-component ${filterClassName ?? ''}`}
-            >
-              <Button
-                className="action-button"
-                type="primary"
-                icon={
-                  <Badge className="badge-counter" size="small" count={numberTotalFilterSelected} color="#FF8C24">
-                    <FilterOutlined className={numberTotalFilterSelected > 0 ? 'filter-count' : 'filter-empty'} />
-                  </Badge>
-                }
-                onClick={(e) => onClickFilterButton(e)}
+              <Popover
+                placement="bottomRight"
+                content={component}
+                trigger="click"
+                open={visible}
+                onOpenChange={handleVisibleChange}
+                getPopupContainer={(trigger) => trigger.parentElement}
+                overlayClassName={`filter-component ${filterClassName ?? ''}`}
               >
-                <span className="button-title">{btnTitle}</span>
+                <Button
+                  className="action-button"
+                  type="primary"
+                  icon={
+                    <Badge className="badge-counter" size="small" count={numberTotalFilterSelected} color="#FF8C24">
+                      <FilterOutlined className={numberTotalFilterSelected > 0 ? 'filter-count' : 'filter-empty'} />
+                    </Badge>
+                  }
+                  onClick={(e) => onClickFilterButton(e)}
+                >
+                  <span className="button-title">{btnTitle}</span>
 
-                {allowClear === false || !totalFilterSelected || numberTotalFilterSelected <= 0 || (
-                  <CloseFill
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      if (onClearFilter) {
-                        setVisible(false)
-                        onClearFilter(e)
-                      }
-                    }}
-                  />
-                )}
-              </Button>
-            </Popover>
-              )}
+                  {allowClear === false || !totalFilterSelected || numberTotalFilterSelected <= 0 || (
+                    <CloseFill
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        if (onClearFilter) {
+                          setVisible(false)
+                          onClearFilter(e)
+                        }
+                      }}
+                    />
+                  )}
+                </Button>
+              </Popover>
+            )}
         </>
       )
     }
@@ -384,7 +384,7 @@ export function FnbTable (props) {
         <div className="action-button action-button-calendar-component">
           <FnbDatePicker
             selectedDate={selectedDate}
-            orderTypeFilterTime = {orderTypeFilterTime}
+            orderTypeFilterTime={orderTypeFilterTime}
             setSelectedDate={(date, typeOptionDate) => onSelectedDatePicker(date, typeOptionDate)}
             setConditionCompare={onConditionCompare}
           />

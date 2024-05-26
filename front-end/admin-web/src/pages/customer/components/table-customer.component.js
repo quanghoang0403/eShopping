@@ -2,7 +2,7 @@ import { Col, Form, Image, message, Row, Space } from 'antd'
 import Paragraph from 'antd/lib/typography/Paragraph'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/shop-table/shop-table'
+import { ShopTable } from 'components/shop-table/shop-table'
 import { PermissionKeys } from 'constants/permission-key.constants'
 // import customerDataService from 'data-services/customer/customer-data.service'
 import React, { useEffect, useState } from 'react'
@@ -167,7 +167,7 @@ export default function TableCustomer(props) {
     <>
       <Form className="form-staff form-filter-customer-manager">
         <Row>
-          <FnbTable
+          <ShopTable
             className="mt-4"
             columns={tableSettings.columns}
             pageSize={tableSettings.pageSize}

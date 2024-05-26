@@ -1,5 +1,5 @@
 import { Card, Col, Form, Row, Tooltip, message } from "antd";
-import { FnbTable } from "components/shop-table/shop-table";
+import { ShopTable } from "components/shop-table/shop-table";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { PermissionKeys } from "constants/permission-key.constants";
@@ -13,45 +13,45 @@ import TableBlog from "./blog-in-category.modal";
 import BlogDataService from "data-services/blog/blog-data.service";
 import { executeAfter, getAllPermissions } from "utils/helpers";
 
-export default function TableBlogCategory(){
+export default function TableBlogCategory() {
     const [t] = useTranslation();
     const permissions = getAllPermissions();
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
-    const [dataSource,setDataSource] = useState([]);
-    const [blogCategory,setBlogCategory] = useState(null)
-    const [blogs,setBlogs] = useState([])
-    const [isOpenModal,setIsOpenModal] = useState(false)
+    const [dataSource, setDataSource] = useState([]);
+    const [blogCategory, setBlogCategory] = useState(null)
+    const [blogs, setBlogs] = useState([])
+    const [isOpenModal, setIsOpenModal] = useState(false)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const history = useHistory()
-    const fetchTableData = async(keySearch = '')=>{
-        const data={
-            pageNumber:currentPageNumber,
-            pageSize:tableSettings.pageSize,
-            keySearch:keySearch
+    const fetchTableData = async (keySearch = '') => {
+        const data = {
+            pageNumber: currentPageNumber,
+            pageSize: tableSettings.pageSize,
+            keySearch: keySearch
         }
         const res = await BlogCategoryDataService.getBlogCategoriesAsync(data)
-        if(res){
+        if (res) {
             setDataSource(res?.result)
         }
-        else{
+        else {
             message.error(pageData.fetchFail)
         }
     }
-    const onOpenModal =(record)=>{
+    const onOpenModal = (record) => {
         setIsOpenModal(true)
         setBlogCategory(record)
     }
-    const getBlogs = async()=>{
+    const getBlogs = async () => {
         const blogs = await BlogDataService.getAllBlogsAsync()
         const allBlog = blogs
-        if(allBlog){
+        if (allBlog) {
             setBlogs(allBlog)
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         fetchTableData();
         getBlogs();
-    },[])
+    }, [])
     const pageData = {
         table: {
             searchPlaceholder: t('table.searchPlaceholder'),
@@ -60,10 +60,10 @@ export default function TableBlogCategory(){
             priority: t('table.priority'),
             product: t('table.product'),
             action: t('table.action'),
-            fetchFail:t('table.noDataFound')
+            fetchFail: t('table.noDataFound')
         },
-        updateSuccess:t('blogCategory.categoryUpdateSuccess'),
-        updateFail:t('blogCategory.categoryUpdateFail'),
+        updateSuccess: t('blogCategory.categoryUpdateSuccess'),
+        updateFail: t('blogCategory.categoryUpdateFail'),
         confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
         btnDelete: t('button.delete'),
         btnIgnore: t('button.ignore'),
@@ -72,63 +72,63 @@ export default function TableBlogCategory(){
         creator: t('table.creator'),
         action: t('table.action'),
         no: t('table.no'),
-        blog:t('table.blog'),
+        blog: t('table.blog'),
         title: t('table.title'),
         lastUpdated: t('table.lastUpdated'),
         priority: t('table.priority'),
         searchPlaceholder: t('table.searchPlaceholder'),
-        blogCategoryDeleteSuccess:t('blogCategory.blogCategoryDeletedSuccess'),
-        blogCategoryDeleteFail:t('blogCategory.blogCategoryDeletedFailed'),
-        addBlogFail:t('blogCategory.addBlogFail')
+        blogCategoryDeleteSuccess: t('blogCategory.blogCategoryDeletedSuccess'),
+        blogCategoryDeleteFail: t('blogCategory.blogCategoryDeletedFailed'),
+        addBlogFail: t('blogCategory.addBlogFail')
     };
-    const onRemoveItem = async (id,categoryName)=>{
-        try{
+    const onRemoveItem = async (id, categoryName) => {
+        try {
             const res = await BlogCategoryDataService.deleteBlogCategoryAsync(id)
-            if(res){
-                message.success(formatDeleteMessage(pageData.blogCategoryDeleteSuccess,categoryName));
-                await fetchTableData();     
+            if (res) {
+                message.success(formatDeleteMessage(pageData.blogCategoryDeleteSuccess, categoryName));
+                await fetchTableData();
             }
-        }catch(err){
-            message.error(formatDeleteMessage(pageData.blogCategoryDeleteSuccess,categoryName))
+        } catch (err) {
+            message.error(formatDeleteMessage(pageData.blogCategoryDeleteSuccess, categoryName))
         }
     }
-    const onEditItem = (record)=>{
+    const onEditItem = (record) => {
         history.push(`/blog-category/edit/${record?.id}`)
     }
     const tableConfigs = {
         onSearch: async (keySearch) => {
             executeAfter(500, async () => {
-              await fetchTableData(keySearch)
+                await fetchTableData(keySearch)
             })
         }
     }
-    const getColumns = ()=>{
+    const getColumns = () => {
         const columns = [
             {
-                key:'no',
+                key: 'no',
                 title: pageData.no,
                 dataIndex: 'no',
                 width: '5%'
             },
             {
-                key:'name',
+                key: 'name',
                 title: pageData.title,
                 dataIndex: 'name',
                 width: '60%',
             },
             {
-                key:'priority',
-                title:pageData.priority,
+                key: 'priority',
+                title: pageData.priority,
                 dataIndex: 'priority',
-                width:'15%'
+                width: '15%'
             },
             {
-                key:'numberOfBlogs',
+                key: 'numberOfBlogs',
                 title: pageData.blog,
                 dataIndex: 'numberOfBlogs',
-                width:'10%',
-                render:(text,record)=>{
-                    return <a onClick={()=>onOpenModal(record)}>{text}</a>
+                width: '10%',
+                render: (text, record) => {
+                    return <a onClick={() => onOpenModal(record)}>{text}</a>
                 }
             },
             {
@@ -137,87 +137,87 @@ export default function TableBlogCategory(){
                 width: '20%',
                 align: 'center',
                 render: (_, record) => {
-                  return (
-                    <>
-                      {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN) && (
-                        <EditButtonComponent
-                          className="mr-3"
-                          onClick={() => onEditItem(record)}
-                          permission={PermissionKeys.ADMIN}
-                        />
-                      )}
-        
-                      {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN) && (
-                        <DeleteConfirmComponent
-                            title={pageData.confirmDelete}
-                            content={formatDeleteMessage(pageData.confirmDeleteMessage,record?.name)}
-                            okText={pageData.btnDelete}
-                            cancelText={pageData.btnIgnore}
-                            permission={PermissionKeys.ADMIN}
-                            onOk={() => onRemoveItem(record?.id,record?.name)}
-                        />
-                      )}
-                    </>
-                  )
+                    return (
+                        <>
+                            {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN) && (
+                                <EditButtonComponent
+                                    className="mr-3"
+                                    onClick={() => onEditItem(record)}
+                                    permission={PermissionKeys.ADMIN}
+                                />
+                            )}
+
+                            {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.ADMIN) && (
+                                <DeleteConfirmComponent
+                                    title={pageData.confirmDelete}
+                                    content={formatDeleteMessage(pageData.confirmDeleteMessage, record?.name)}
+                                    okText={pageData.btnDelete}
+                                    cancelText={pageData.btnIgnore}
+                                    permission={PermissionKeys.ADMIN}
+                                    onOk={() => onRemoveItem(record?.id, record?.name)}
+                                />
+                            )}
+                        </>
+                    )
                 }
-              }
-        ].filter(item=>!item.hidden)
+            }
+        ].filter(item => !item.hidden)
         return columns
     }
-    const formatDeleteMessage = (text,name) => {
+    const formatDeleteMessage = (text, name) => {
         const mess = t(text, { name })
         return mess
-      }
-    const onHandleRemoveModalBlog = (id)=>{
-        const tempCategory = {...blogCategory,blogs:blogCategory.blogs.filter(b=>b.id !== id)}
+    }
+    const onHandleRemoveModalBlog = (id) => {
+        const tempCategory = { ...blogCategory, blogs: blogCategory.blogs.filter(b => b.id !== id) }
         setBlogCategory(tempCategory)
     }
-    const onSelectModalBlog = (name)=>{
-        const blog = blogs?.find(b=>b.name === name)
-        if(blog){
-            const tempCategory = {...blogCategory,blogs:[...blogCategory.blogs,blog]}
+    const onSelectModalBlog = (name) => {
+        const blog = blogs?.find(b => b.name === name)
+        if (blog) {
+            const tempCategory = { ...blogCategory, blogs: [...blogCategory.blogs, blog] }
             setBlogCategory(tempCategory)
         }
-        else{
+        else {
             message.error(pageData.addBlogFail)
         }
-    
+
     }
-    const reload = async()=>{
+    const reload = async () => {
         await fetchTableData();
     }
-    const onCloseModal = ()=>{
+    const onCloseModal = () => {
         setBlogCategory(null)
         setIsOpenModal(false)
     }
     const onSelectedRowKeysChange = (selectedRowKeys) => {
         setSelectedRowKeys(selectedRowKeys)
-      }
-    const onSubmitModal = async()=>{
-        const updateModel={
-            blogCategoryId:blogCategory?.id,
-            blogIds:blogCategory?.blogs?.map(b=>b.id) || []
+    }
+    const onSubmitModal = async () => {
+        const updateModel = {
+            blogCategoryId: blogCategory?.id,
+            blogIds: blogCategory?.blogs?.map(b => b.id) || []
         }
-        try{
+        try {
             const res = await BlogCategoryDataService.updateBlogListAsync(updateModel)
-            if(res){
+            if (res) {
                 message.success(pageData.updateSuccess)
                 await reload()
                 onCloseModal()
             }
-        }catch(err){
+        } catch (err) {
             message.error(pageData.updateFail)
             message.error(err)
         }
-        
-        
+
+
     }
     return (
         <Form>
             <Card className="w-100 shop-card-full">
                 <Row className="total-cost-amount-row">
                     <Col span={24}>
-                        <FnbTable
+                        <ShopTable
                             className="mt-5"
                             columns={getColumns()}
                             editPermission={PermissionKeys.ADMIN}
@@ -234,7 +234,7 @@ export default function TableBlogCategory(){
                                 onChange: tableConfigs.onSearch
                             }}
                         />
-                        <TableBlog 
+                        <TableBlog
                             isOpen={isOpenModal}
                             onCancel={onCloseModal}
                             record={blogCategory}
