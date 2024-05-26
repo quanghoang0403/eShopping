@@ -52,6 +52,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             }
             var allProductRootCategoriesInStore = await query.AsNoTracking()
                    .Include(ppc => ppc.Products)
+                   .Include(ppc => ppc.ProductCategories)
                    .OrderBy(pc => pc.Priority)
                    .ThenBy(x => x.Name)
                    .ToPaginationAsync(request.PageNumber, request.PageSize);
