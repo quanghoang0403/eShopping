@@ -23,7 +23,7 @@ namespace eShopping.Infrastructure.Repositories
             return blog;
         }
 
-        public async Task<Blog> UpdateBlogAsync(Blog request, List<Guid> blogcategoryId, CancellationToken cancellationToken = default)
+        public async Task<Blog> UpdateBlogAsync(Blog request, List<Guid> blogCategoryIds, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
@@ -32,22 +32,17 @@ namespace eShopping.Infrastructure.Repositories
                 {
                     var blogOriginal = await GetBlogById(request.Id);
                     var blogmodified = request;
-                    var blogCategoryId = _dbContext.BlogInCategories.Where(bc => bc.BlogId == request.Id).Select(x => x.Id);
-                    if (blogCategoryId.Any())
-                    {
-                        var recordIds = string.Join(",", blogCategoryId.Select(id => $"'{id}'"));
-                        var sqlScript = $"DELETE FROM {nameof(BlogInCategory)} WHERE Id IN({recordIds})";
-                        await _dbContext.Database.ExecuteSqlRawAsync(sqlScript, cancellationToken: cancellationToken);
-                    }
-                    if (blogcategoryId.Any())
+                    var blogInCategories = await _dbContext.BlogInCategories.Where(bc => bc.BlogId == request.Id).ToListAsync();
+                    _dbContext.RemoveRange(blogInCategories);
+                    if (blogCategoryIds.Any())
                     {
                         var blogInCategory = new List<BlogInCategory>();
-                        foreach (var category in blogcategoryId)
+                        foreach (var category in blogCategoryIds)
                         {
                             blogInCategory.Add(new BlogInCategory
                             {
                                 BlogId = request.Id,
-                                CategoryId = category
+                                BlogCategoryId = category
                             });
                         }
                         await _dbContext.BlogInCategories.AddRangeAsync(blogInCategory, cancellationToken);

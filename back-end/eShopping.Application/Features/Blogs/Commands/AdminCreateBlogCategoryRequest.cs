@@ -86,7 +86,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                             var blogCategory = new BlogInCategory()
                             {
                                 BlogId = b.Id,
-                                CategoryId = newBlogCategory.Id
+                                BlogCategoryId = newBlogCategory.Id
                             };
 
                             newBlogCategory.BlogInCategories.Add(blogCategory);

@@ -51,23 +51,25 @@ namespace eShopping.Domain.Entities
         [MaxLength(255)]
         public string Note { get; set; }
 
-        
+        [Precision(18, 2)]
         public decimal DeliveryFee { get; set; }
 
         public int TotalQuantity { get { return OrderItems.Sum(x => x.Quantity); } }
 
-        
+        [Precision(18, 2)]
         public decimal TotalPriceOrigin { get { return OrderItems.Sum(x => x.TotalPriceOrigin); } }
 
-        
+        [Precision(18, 2)]
         public decimal TotalPrice { get { return OrderItems.Sum(x => x.TotalPrice); } }
 
-        
+        [Precision(18, 2)]
         public decimal TotalAmount { get { return TotalPrice + DeliveryFee; } }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
         public virtual ICollection<OrderHistory> OrderHistories { get; set; }
+
+        public virtual ICollection<OrderPaymentTransaction> OrderPaymentTransactions { get; set; }
 
         public virtual Customer Customer { get; set; }
 

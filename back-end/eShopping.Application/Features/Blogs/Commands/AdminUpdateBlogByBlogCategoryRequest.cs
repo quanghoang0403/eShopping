@@ -44,7 +44,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
                 try
                 {
-                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => request.BlogIds.Any(bid => bid == b.BlogId) || b.CategoryId == blogCategory.Id);
+                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => request.BlogIds.Any(bid => bid == b.BlogId) || b.BlogCategoryId == blogCategory.Id);
                     _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
                     var newBlogInCategory = new List<BlogInCategory>();
                     if (request.BlogIds != null && request.BlogIds.Any())
@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                             var newBlog = new BlogInCategory
                             {
                                 BlogId = id,
-                                CategoryId = blogCategory.Id
+                                BlogCategoryId = blogCategory.Id
                             };
                             newBlogInCategory.Add(newBlog);
                         }

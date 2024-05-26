@@ -21,7 +21,7 @@ namespace eShopping.Domain.Entities
 
         public string OrderInfo { get; set; }
 
-        
+        [Precision(18, 2)]
         public decimal Amount { get; set; }
 
         public string PaymentUrl { get; set; }
@@ -29,5 +29,7 @@ namespace eShopping.Domain.Entities
         public string ResponseData { get; set; }
 
         public bool IsSuccess { get; set; }
+
+        public virtual Order Order { get; set; }
     }
 }
