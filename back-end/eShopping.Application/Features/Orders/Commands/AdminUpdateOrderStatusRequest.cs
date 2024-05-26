@@ -35,28 +35,26 @@ namespace eShopping.Application.Features.Orders.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
             var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).Include(o => o.OrderItems).FirstOrDefaultAsync(cancellationToken);
-            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
+            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+            if (order != null)
             {
-                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-                if (order != null)
-                {
-                    order.Status = request.Status;
+                order.Status = request.Status;
 
-                    foreach (var item in order.OrderItems)
+                foreach (var item in order.OrderItems)
+                {
+                    var stock = await _unitOfWork.ProductStocks
+                        .Where(x => item.ProductId == x.ProductId && item.ProductSizeId == x.ProductSizeId && item.ProductVariantId == x.ProductVariantId)
+                        .FirstOrDefaultAsync();
+                    if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
                     {
-                        var stock = await _unitOfWork.ProductStocks
-                            .Where(x => item.ProductId == x.ProductId && item.ProductSizeId == x.ProductSizeId && item.ProductVariantId == x.ProductVariantId)
-                            .FirstOrDefaultAsync();
-                        if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
-                        {
-                            stock.QuantityLeft += item.Quantity;
-                        }
-                        item.LastSavedTime = DateTime.UtcNow;
-                        item.LastSavedUser = accountId;
+                        stock.QuantityLeft += item.Quantity;
                     }
-                    order.LastSavedUser = accountId;
-                    order.LastSavedTime = DateTime.Now;
+                    item.LastSavedTime = DateTime.UtcNow;
+                    item.LastSavedUser = accountId;
                 }
+                order.LastSavedUser = accountId;
+                order.LastSavedTime = DateTime.Now;
+            }
 
             // Add order history
             var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
