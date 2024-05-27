@@ -13,5 +13,22 @@
 
   .ant-table-cell {
     font-size: 15px !important;
+
+    .shop-input-number {
+      height: 48px;
+
+      .ant-input-number-input {
+        padding-right: 0px;
+        font-size: 17px;
+      }
+    }
+
+    .shop-date-picker {
+      height: 48px;
+    }
+
+    .shop-date-picker input {
+      font-size: 17px;
+    }
   }
 }

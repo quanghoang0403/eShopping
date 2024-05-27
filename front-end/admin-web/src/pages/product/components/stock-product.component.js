@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShopTable } from 'components/shop-table/shop-table';
 import { Checkbox, Row, Col, Form, DatePicker, InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -18,12 +18,170 @@ export default function StockProductTable({ basePrice, changeForm }) {
         { id: '3', name: 'L' },
         { id: '4', name: 'XL' },
         { id: '5', name: 'XXL' },
-        { id: '1', name: 'S' },
-        { id: '2', name: 'M' },
-        { id: '3', name: 'L' },
-        { id: '4', name: 'XL' },
-        { id: '5', name: 'XXL' }
     ]
+
+    const tableSettings = {
+        columns: [
+            {
+                title: "Biến thể",
+                dataIndex: 'name',
+                key: 'name',
+                align: 'center',
+                width: 120,
+                fixed: 'left',
+            },
+            {
+                title: "Quản lý giá",
+                align: 'center',
+                children: [
+                    {
+                        title: 'Giá cơ sở',
+                        dataIndex: 'isUseBasePrice',
+                        key: 'isUseBasePrice',
+                        align: 'center',
+                        minWidth: 100,
+                        width: 100,
+                        render: (value, record) => <Checkbox onChange={(e) => handleRadioChange(e.target.checked, record.key, 'isUseBasePrice')} checked={value} />
+                    },
+                    {
+                        title: 'Giá gốc',
+                        dataIndex: 'priceOriginal',
+                        key: 'priceOriginal',
+                        align: 'center',
+                        width: 152,
+                        render: (value, record) => (
+                            <InputNumber
+                                className="shop-input-number w-100"
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                value={value}
+                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceOriginal')}
+                                disabled={record.isUseBasePrice}
+                            />
+                        )
+                    },
+                    {
+                        title: 'Giá bán',
+                        dataIndex: 'priceValue',
+                        key: 'priceValue',
+                        align: 'center',
+                        width: 152,
+                        render: (value, record) => (
+                            <InputNumber
+                                className="shop-input-number w-100"
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                value={value}
+                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceValue')}
+                                disabled={record.isUseBasePrice}
+                            />
+                        )
+                    },
+                    {
+                        title: 'Giá khuyến mãi',
+                        dataIndex: 'priceDiscount',
+                        key: 'priceDiscount',
+                        align: 'center',
+                        width: 152,
+                        render: (value, record) => (
+                            <InputNumber
+                                className="shop-input-number w-100"
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                value={value}
+                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceDiscount')}
+                                disabled={record.isUseBasePrice}
+                            />
+                        )
+                    },
+                    {
+                        title: 'Ngày bắt đầu',
+                        dataIndex: 'startDate',
+                        key: 'startDate',
+                        align: 'center',
+                        width: 204,
+                        render: (value, record) => (
+                            <DatePicker
+                                suffixIcon={<CalendarNewIconBold />}
+                                placeholder={pageData.pricing.priceDate.startDate.placeholder}
+                                className="shop-date-picker w-100"
+                                format={DateFormat.DD_MM_YYYY}
+                                value={moment(value)}
+                                onChange={(date) => handleDateChange(date, record.key, 'startDate')}
+                                disabledDate={(current) => current && current < moment().startOf("day")}
+                            />
+                        )
+                    },
+                    {
+                        title: 'Ngày kết thúc',
+                        dataIndex: 'endDate',
+                        key: 'endDate',
+                        align: 'center',
+                        width: 204,
+                        render: (value, record) => (
+                            <DatePicker
+                                suffixIcon={<CalendarNewIconBold />}
+                                placeholder={pageData.pricing.priceDate.endDate.placeholder}
+                                className="shop-date-picker w-100"
+                                format={DateFormat.DD_MM_YYYY}
+                                value={moment(value)}
+                                onChange={(date) => handleDateChange(date, record.key, 'endDate')}
+                                disabledDate={(current) => current && current < moment(record.startDate).startOf("day")}
+                            />
+                        )
+                    },
+                ]
+            },
+            {
+                title: "Quản lý tồn kho",
+                align: 'center',
+                children: sizes.map((size) => ({
+                    title: size.name,
+                    dataIndex: size.name,
+                    key: size.id,
+                    align: 'center',
+                    width: 90,
+                    render: (value, record) => (
+                        <InputNumber
+                            className="shop-input-number w-100"
+                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                            precision={0}
+                            onKeyPress={(event) => {
+                                if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault()
+                                }
+                            }}
+                            value={value}
+                            onChange={(e) => handleInputChange(e.target.value, record.key, size.name)}
+                        />
+                    )
+                }))
+            }
+        ],
+    };
+
     const [stockData, setStockData] = useState([
         {
             key: '1',
@@ -148,7 +306,7 @@ export default function StockProductTable({ basePrice, changeForm }) {
         changeForm()
     };
 
-    const handleRadioChange = (value) => {
+    const handleRadioChange = (value, key, column) => {
         if (value) {
             form.validateFields().then(values => {
                 setStockData(prevData =>
@@ -188,165 +346,23 @@ export default function StockProductTable({ basePrice, changeForm }) {
         changeForm();
     };
 
-    const tableSettings = {
-        columns: [
-            {
-                title: "Biến thể",
-                dataIndex: 'name',
-                key: 'name',
-                align: 'left',
-                width: 100,
-                render: (value) => <>{value}</>
-            },
-            {
-                title: "Quản lý giá",
-                align: 'center',
-                children: [
-                    {
-                        title: 'Giá cơ sở',
-                        dataIndex: 'isUseBasePrice',
-                        key: 'isUseBasePrice',
-                        align: 'center',
-                        width: 50,
-                        render: (value) => <Checkbox onChange={(e) => handleRadioChange(e.target.value)} checked={value} />
-                    },
-                    {
-                        title: 'Giá gốc',
-                        dataIndex: 'priceOriginal',
-                        key: 'priceOriginal',
-                        align: 'center',
-                        width: 100,
-                        render: (value, record) => (
-                            <InputNumber
-                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                addonAfter={currency}
-                                precision={0}
-                                onKeyPress={(event) => {
-                                    if (!/[0-9]/.test(event.key)) {
-                                        event.preventDefault()
-                                    }
-                                }}
-                                value={value}
-                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceOriginal')}
-                                disabled={record.isUseBasePrice}
-                            />
-                        )
-                    },
-                    {
-                        title: 'Giá bán',
-                        dataIndex: 'priceValue',
-                        key: 'priceValue',
-                        align: 'center',
-                        width: 100,
-                        render: (value, record) => (
-                            <InputNumber
-                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                addonAfter={currency}
-                                precision={0}
-                                onKeyPress={(event) => {
-                                    if (!/[0-9]/.test(event.key)) {
-                                        event.preventDefault()
-                                    }
-                                }}
-                                value={value}
-                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceValue')}
-                                disabled={record.isUseBasePrice}
-                            />
-                        )
-                    },
-                    {
-                        title: 'Giá khuyến mãi',
-                        dataIndex: 'priceDiscount',
-                        key: 'priceDiscount',
-                        align: 'center',
-                        width: 100,
-                        render: (value, record) => (
-                            <InputNumber
-                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                addonAfter={currency}
-                                precision={0}
-                                onKeyPress={(event) => {
-                                    if (!/[0-9]/.test(event.key)) {
-                                        event.preventDefault()
-                                    }
-                                }}
-                                value={value}
-                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceDiscount')}
-                                disabled={record.isUseBasePrice}
-                            />
-                        )
-                    },
-                    {
-                        title: 'Ngày bắt đầu',
-                        dataIndex: 'startDate',
-                        key: 'startDate',
-                        align: 'center',
-                        width: 100,
-                        render: (value, record) => (
-                            <DatePicker
-                                suffixIcon={<CalendarNewIconBold />}
-                                placeholder={pageData.pricing.priceDate.startDate.placeholder}
-                                className="shop-date-picker w-100"
-                                format={DateFormat.DD_MM_YYYY}
-                                value={moment(value)}
-                                onChange={(date) => handleDateChange(date, record.key, 'startDate')}
-                                disabledDate={(current) => current && current < moment().startOf("day")}
-                            />
-                        )
-                    },
-                    {
-                        title: 'Ngày kết thúc',
-                        dataIndex: 'endDate',
-                        key: 'endDate',
-                        align: 'center',
-                        width: 100,
-                        render: (value, record) => (
-                            <DatePicker
-                                suffixIcon={<CalendarNewIconBold />}
-                                placeholder={pageData.pricing.priceDate.endDate.placeholder}
-                                className="shop-date-picker w-100"
-                                format={DateFormat.DD_MM_YYYY}
-                                value={moment(value)}
-                                onChange={(date) => handleDateChange(date, record.key, 'endDate')}
-                                disabledDate={(current) => current && current < moment(record.startDate).startOf("day")}
-                            />
-                        )
-                    },
-                ]
-            },
-            {
-                title: "Quản lý tồn kho",
-                align: 'center',
-                children: sizes.map((size) => ({
-                    title: size.name,
-                    dataIndex: size.name,
-                    key: size.id,
-                    align: 'center',
-                    width: 50,
-                    render: (value, record) => (
-                        <InputNumber
-                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                            precision={0}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault()
-                                }
-                            }}
-                            value={value}
-                            onChange={(e) => handleInputChange(e.target.value, record.key, size.name)}
-                        />
-                    )
-                }))
-            }
-        ],
-        scroll: {
-            x: 'max-content',
-        },
-    };
+    const priceToPercentage = (num, index) => {
+        return roundNumber(prices[index].priceValue === 0 ? 0 : num * 100 / prices[index].priceValue)
+    }
+
+    const percentageToPrice = (num, index) => {
+        return roundNumber(prices[index].priceValue * num / 100)
+    }
+    const onDiscountChange = (numeric = 0, percentage = 0, index) => {
+        if (numeric !== 0) {
+            const percent = priceToPercentage(numeric, index)
+            form.setFieldValue(['product', 'prices', index, 'percentNumber'], percent)
+        }
+        else if (percentage !== 0) {
+            const num = percentageToPrice(percentage, index)
+            form.setFieldValue(['product', 'prices', index, 'priceDiscount'], num)
+        }
+    }
 
     const disabledDate = (current) => {
         // Can not select days before today
@@ -389,23 +405,24 @@ export default function StockProductTable({ basePrice, changeForm }) {
                     </h3>
                 </Col>
             </Row>
-            <Row className='mt-3' gutter={[8, 16]}>
-                <Form
-                    form={form}
-                    name="basic"
-                    initialValues={{
-                        priceValue: 0,
-                        priceOriginal: 0,
-                        priceDiscount: 0,
-                        percentNumber: 0,
-                        startDate: moment(),
-                        endDate: moment().add(7, "days"),
-                        productVariants: [],
-                        productStocks: []
-                    }}
-                    onFieldsChange={(e) => changeForm(e)}
-                    autoComplete="off"
-                >
+            <Form
+                form={form}
+                name="basic"
+                initialValues={{
+                    priceValue: 0,
+                    priceOriginal: 0,
+                    priceDiscount: 0,
+                    percentNumber: 0,
+                    startDate: moment(),
+                    endDate: moment().add(7, "days"),
+                    productVariants: [],
+                    productStocks: []
+                }}
+                onFieldsChange={(e) => changeForm(e)}
+                autoComplete="off"
+            >
+                <Row className='mt-3' gutter={[8, 16]}>
+
                     <Col xs={24} lg={3}>
                         <Form.Item
                             name={['product', 'prices', 'priceOriginal']}
@@ -621,15 +638,17 @@ export default function StockProductTable({ basePrice, changeForm }) {
                             />
                         </Form.Item>
                     </Col>
-                </Form>
+                </Row>
+            </Form>
 
-            </Row>
             <ShopTable
-                className='stock-table'
+                className='stock-table mt-4'
                 columns={tableSettings.columns}
                 editPermission={PermissionKeys.ADMIN}
                 deletePermission={PermissionKeys.ADMIN}
                 dataSource={stockData}
+                //bordered
+                scrollX={1600}
             />
         </>
 
