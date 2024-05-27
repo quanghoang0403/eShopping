@@ -125,7 +125,9 @@
         "productCategoryContent": "Nội dung danh mục",
         "placeholderContent": "Nhập nội dung danh mục",
         "categoryDescription": "Mô tả Danh mục",
-        "placeholderCategoryDescription": "Nhập mô tả danh mục"
+        "placeholderCategoryDescription": "Nhập mô tả danh mục",
+        "genderCategory": "Giới tính danh mục",
+        "placeholderGender": "Chọn giới tính"
     },
     "common": {
         "active": "Đang hoạt động",
@@ -368,7 +370,8 @@
     },
     "root-category": {
         "title": "Quản lí danh mục gốc",
-        "createTitle": "Thêm danh mục gốc"
+        "createTitle": "Thêm danh mục gốc",
+        "productCategoryTitle": "Danh mục con"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
