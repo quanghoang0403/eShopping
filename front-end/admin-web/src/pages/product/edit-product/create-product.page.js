@@ -245,33 +245,7 @@ export default function CreateProductPage() {
       }
     }
   }
-  // when discount checkbox is unchecked set price discount and percent number to 0
-  useEffect(() => {
-    discountChecked.forEach((c, index) => {
-      if (!c) {
-        form.setFieldValue(['product', 'prices', index, 'priceDiscount'], 0);
-        form.setFieldValue(['product', 'prices', index, 'percentNumber'], 0);
-        setPrices(prevPrices => {
-          const updatedPrices = [...prevPrices];
-          updatedPrices[index] = {
-            ...updatedPrices[index],
-            priceDiscount: 0,
-            percentNumber: 0
-          };
-          return updatedPrices;
-        });
-      }
-    })
-  }, [discountChecked])
-  const disabledDate = (current) => {
-    // Can not select days before today
-    return current && current < moment().startOf("day");
-  };
 
-  const disabledDateByStartDate = (current, price) => {
-    // Can not select days before today and today
-    return current && current < price.startDate;
-  };
 
   const scrollToElement = (id) => {
     const element = document.getElementById(id)
@@ -360,6 +334,7 @@ export default function CreateProductPage() {
     product.prices = listPrice
     form.setFieldsValue(formValue)
   }
+
   const onClickAddPrice = () => {
     const formValue = form.getFieldsValue()
     const { product } = formValue
@@ -406,9 +381,9 @@ export default function CreateProductPage() {
               <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
                 <div
                   id="dragDropPrices"
-                  style={prices.length >= 3 ? { height: 640, overflowY: 'scroll' } : { minHeight: prices.length * 127 }}
+                  style={prices.length >= 3 ? { height: 64 * 4, overflowY: 'scroll' } : { minHeight: prices.length * 64 }}
                 >
-                  <div style={{ minHeight: prices.length * 127 }}>
+                  <div style={{ minHeight: prices.length * 64 }}>
                     {prices.map((price, index) => {
                       const position = (price.position || 0) + 1
                       return (
@@ -462,36 +437,35 @@ export default function CreateProductPage() {
                                           />
                                         </Form.Item>
                                       </Col>
-                                      <Col xs={24} sm={24} md={24} lg={8}>
-                                        <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
-                                          <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
-                                            <div style={{ display: 'flex' }}>
-                                              <Form.Item
-                                                name={['product', 'prices', price.position, 'thumbnail']}
-                                                rules={[{
-                                                  required: true,
-                                                  message: pageData.mediaNotExisted
-                                                }]}
-                                              >
-                                                <FnbUploadImageComponent
-                                                  buttonText={pageData.file.uploadImage}
-                                                  onChange={onChangeImage}
-                                                />
-                                              </Form.Item>
-                                            </div>
-                                          </Col>
-                                          <Col
-                                            span={24}
-                                            className="create-edit-product-text-non-image"
-                                            hidden={image !== null}
-                                          >
-                                            <Text disabled>
-                                              {pageData.file.textNonImage}
-                                              <br />
-                                              {pageData.file.bestDisplayImage}
-                                            </Text>
-                                          </Col>
+                                      <Col xs={24} sm={24} md={24} lg={16} className={`non-image ${image !== null ? 'have-image' : ''}`}>
+                                        <Row span={12} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
+                                          <div style={{ display: 'flex' }}>
+                                            <Form.Item
+                                              name={['product', 'prices', price.position, 'thumbnail']}
+                                              rules={[{
+                                                required: true,
+                                                message: pageData.mediaNotExisted
+                                              }]}
+                                            >
+                                              <FnbUploadImageComponent
+                                                buttonText={pageData.file.uploadImage}
+                                                onChange={onChangeImage}
+                                              />
+                                            </Form.Item>
+                                          </div>
                                         </Row>
+                                        <Row
+                                          span={12}
+                                          className="create-edit-product-text-non-image"
+                                          hidden={image !== null}
+                                        >
+                                          <Text disabled>
+                                            {pageData.file.textNonImage}
+                                            <br />
+                                            {pageData.file.bestDisplayImage}
+                                          </Text>
+                                        </Row>
+
                                       </Col>
                                     </Row>
                                   </Col>
@@ -673,7 +647,6 @@ export default function CreateProductPage() {
 
                     <h4 className="shop-form-label">{pageData.content.label}</h4>
                     <FnbFroalaEditor
-                      //value={productContent}
                       onChange={(value) => {
                         if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
                         setProductContent(value);
