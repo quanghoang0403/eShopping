@@ -137,7 +137,8 @@
         "generalInformation": "Thông tin chung",
         "allProduct": "Tất cả sản phẩm",
         "allCategories": "Tất cả danh mục sản phẩm",
-        "uploadTitle": "Thêm hình ảnh"
+        "uploadTitle": "Thêm hình ảnh",
+        "idNotFound": "Không tìm thấy thông tin"
     },
     "customer": {
         "title": "Quản lý khách hàng",
