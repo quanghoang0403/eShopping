@@ -54,3 +54,8 @@ export const MaxNumberInput = 999999999
 export const blank = '_blank'
 
 export const blankWindowDimensions = 'height=650,width=520'
+
+export const isGuid = (id) => {
+  var guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return guidRegex.test(id);
+}
