@@ -1,23 +1,10 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-  },
-  extends: ["prettier"],
-  overrides: [
-    {
-      env: {
-        node: true,
-      },
-      files: [".eslintrc.{js,cjs}"],
-      parserOptions: {
-        sourceType: "script",
-      },
-    },
+  extends: [
+    'next/core-web-vitals',
+    'prettier', // Add "prettier" last. This will turn off eslint rules conflicting with prettier. This is not what will format our code.
   ],
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+  plugins: ['prettier'],
+  rules: {
+    'prettier/prettier': 'error', // Ensure Prettier errors are flagged by ESLint
   },
-  plugins: ["react"],
 };

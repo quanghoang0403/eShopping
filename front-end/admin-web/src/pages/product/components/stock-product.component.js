@@ -1,19 +1,30 @@
 import React from 'react';
 import { ShopTable } from 'components/shop-table/shop-table';
-import { Checkbox, Input, Row, Col, Form, DatePicker, InputNumber } from 'antd';
+import { Checkbox, Row, Col, Form, DatePicker, InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { PermissionKeys } from 'constants/permission-key.constants';
 import './stock-product.component.scss';
-import { formatCurrency } from 'utils/helpers';
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import moment from 'moment';
 import { inputNumberRangeOneTo999999999 } from 'constants/default.constants';
 import { currency } from 'constants/string.constants'
 import { DateFormat } from "constants/string.constants";
 
-export default function StockProductTable() {
-    const sizes = [{ id: '1', name: 'S' }, { id: '2', name: 'M' }, { id: '3', name: 'L' }, { id: '4', name: 'XL' }, { id: '5', name: 'XXL' }, { id: '1', name: 'S' }, { id: '2', name: 'M' }, { id: '3', name: 'L' }, { id: '4', name: 'XL' }, { id: '5', name: 'XXL' }]
-    const stockData = [
+export default function StockProductTable({ basePrice, changeForm }) {
+    const [form] = Form.useForm()
+    const sizes = [
+        { id: '1', name: 'S' },
+        { id: '2', name: 'M' },
+        { id: '3', name: 'L' },
+        { id: '4', name: 'XL' },
+        { id: '5', name: 'XXL' },
+        { id: '1', name: 'S' },
+        { id: '2', name: 'M' },
+        { id: '3', name: 'L' },
+        { id: '4', name: 'XL' },
+        { id: '5', name: 'XXL' }
+    ]
+    const [stockData, setStockData] = useState([
         {
             key: '1',
             name: 'Product Variant 1',
@@ -53,15 +64,7 @@ export default function StockProductTable() {
             Medium: 10,
             Large: 4,
         },
-    ];
-    const price = {
-        priceOriginal: 150000.00,
-        priceValue: 140000.00,
-        priceDiscount: 130000.00,
-        percentNumber: 0,
-        startDate: moment(),
-        endDate: moment().add(7, "days")
-    }
+    ]);
     const { t } = useTranslation();
     const pageData = {
         pricing: {
@@ -135,31 +138,56 @@ export default function StockProductTable() {
                 }
             }
         },
-        productCategory: {
-            label: t('product.labelCategory'),
-            placeholder: t('product.placeholderCategory'),
-            validateMessage: t('product.validateProductCategory')
-        },
-        productNameExisted: t('product.productNameExisted'),
-        productAddedSuccess: t('product.productAddedSuccess'),
-        mediaNotExisted: t('product.validateImage'),
-        file: {
-            uploadImage: t('file.uploadImage'),
-            title: t('file.title'),
-            textNonImage: t('file.textNonImage'),
-            // addFromUrl: t('file.addFromUrl'),
-            bestDisplayImage: t('file.bestDisplayImage'),
-        },
-        leaveDialog: {
-            confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
-            confirmLeaveContent: t('dialog.confirmLeaveContent'),
-            confirmLeave: t('dialog.confirmLeave')
-        },
-        table: {
-            name: t('table.name'),
-            action: t('table.action')
-        }
     }
+    const handleInputChange = (value, key, column) => {
+        setStockData(prevData =>
+            prevData.map(item =>
+                item.key === key ? { ...item, [column]: value } : item
+            )
+        );
+        changeForm()
+    };
+
+    const handleRadioChange = (value) => {
+        if (value) {
+            form.validateFields().then(values => {
+                setStockData(prevData =>
+                    prevData.map(item =>
+                        item.key === key ? {
+                            ...item,
+                            isUseBasePrice: value,
+                            priceOriginal: value ? values.priceOriginal : item.priceOriginal,
+                            priceValue: value ? values.priceValue : item.priceValue,
+                            priceDiscount: value ? values.priceDiscount : item.priceDiscount,
+                            startDate: value ? values.startDate : item.startDate,
+                            endDate: value ? values.endDate : item.endDate
+                        } : item
+                    )
+                );
+                changeForm();
+            }).catch(errorInfo => {
+                console.log('Validation Failed:', errorInfo);
+            });
+        }
+        else {
+            setStockData(prevData =>
+                prevData.map(item =>
+                    item.key === key ? { ...item, isUseBasePrice: value } : item
+                )
+            );
+        }
+        changeForm()
+    };
+
+    const handleDateChange = (date, key, column) => {
+        setStockData(prevData =>
+            prevData.map(item =>
+                item.key === key ? { ...item, [column]: date } : item
+            )
+        );
+        changeForm();
+    };
+
     const tableSettings = {
         columns: [
             {
@@ -180,7 +208,7 @@ export default function StockProductTable() {
                         key: 'isUseBasePrice',
                         align: 'center',
                         width: 50,
-                        render: (value) => <Checkbox checked={value} />
+                        render: (value) => <Checkbox onChange={(e) => handleRadioChange(e.target.value)} checked={value} />
                     },
                     {
                         title: 'Giá gốc',
@@ -188,6 +216,22 @@ export default function StockProductTable() {
                         key: 'priceOriginal',
                         align: 'center',
                         width: 100,
+                        render: (value, record) => (
+                            <InputNumber
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                value={value}
+                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceOriginal')}
+                                disabled={record.isUseBasePrice}
+                            />
+                        )
                     },
                     {
                         title: 'Giá bán',
@@ -195,6 +239,22 @@ export default function StockProductTable() {
                         key: 'priceValue',
                         align: 'center',
                         width: 100,
+                        render: (value, record) => (
+                            <InputNumber
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                value={value}
+                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceValue')}
+                                disabled={record.isUseBasePrice}
+                            />
+                        )
                     },
                     {
                         title: 'Giá khuyến mãi',
@@ -202,6 +262,22 @@ export default function StockProductTable() {
                         key: 'priceDiscount',
                         align: 'center',
                         width: 100,
+                        render: (value, record) => (
+                            <InputNumber
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                value={value}
+                                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceDiscount')}
+                                disabled={record.isUseBasePrice}
+                            />
+                        )
                     },
                     {
                         title: 'Ngày bắt đầu',
@@ -209,6 +285,17 @@ export default function StockProductTable() {
                         key: 'startDate',
                         align: 'center',
                         width: 100,
+                        render: (value, record) => (
+                            <DatePicker
+                                suffixIcon={<CalendarNewIconBold />}
+                                placeholder={pageData.pricing.priceDate.startDate.placeholder}
+                                className="shop-date-picker w-100"
+                                format={DateFormat.DD_MM_YYYY}
+                                value={moment(value)}
+                                onChange={(date) => handleDateChange(date, record.key, 'startDate')}
+                                disabledDate={(current) => current && current < moment().startOf("day")}
+                            />
+                        )
                     },
                     {
                         title: 'Ngày kết thúc',
@@ -216,6 +303,17 @@ export default function StockProductTable() {
                         key: 'endDate',
                         align: 'center',
                         width: 100,
+                        render: (value, record) => (
+                            <DatePicker
+                                suffixIcon={<CalendarNewIconBold />}
+                                placeholder={pageData.pricing.priceDate.endDate.placeholder}
+                                className="shop-date-picker w-100"
+                                format={DateFormat.DD_MM_YYYY}
+                                value={moment(value)}
+                                onChange={(date) => handleDateChange(date, record.key, 'endDate')}
+                                disabledDate={(current) => current && current < moment(record.startDate).startOf("day")}
+                            />
+                        )
                     },
                 ]
             },
@@ -228,7 +326,20 @@ export default function StockProductTable() {
                     key: size.id,
                     align: 'center',
                     width: 50,
-                    render: (value) => <Input value={value} />
+                    render: (value, record) => (
+                        <InputNumber
+                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                            precision={0}
+                            onKeyPress={(event) => {
+                                if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault()
+                                }
+                            }}
+                            value={value}
+                            onChange={(e) => handleInputChange(e.target.value, record.key, size.name)}
+                        />
+                    )
                 }))
             }
         ],
@@ -279,225 +390,239 @@ export default function StockProductTable() {
                 </Col>
             </Row>
             <Row className='mt-3' gutter={[8, 16]}>
-                <Col xs={24} lg={3}>
-                    <Form.Item
-                        name={['product', 'prices', 'priceOriginal']}
-                        rules={[
-                            {
-                                required: true,
-                                message: pageData.pricing.price.validateMessage
-                            },
-                            {
-                                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                                message: pageData.pricing.price.validateMessage
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (value > getFieldValue(['product', 'prices', 'priceValue'])) {
-                                        return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
-                                    }
-                                    return Promise.resolve()
-                                }
-                            })
-                        ]}
-                    >
-
-                        <InputNumber
-                            className="shop-input-number w-100"
-                            placeholder={pageData.pricing.priceOriginal.placeholder}
-                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                            addonAfter={currency}
-                            precision={0}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault()
-                                }
-                            }}
-                            id={`product-prices-${price.position}-price-original`}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col xs={24} lg={3}>
-                    <Form.Item
-                        name={['product', 'prices', 'priceValue']}
-                        rules={[
-                            {
-                                required: true,
-                                message: pageData.pricing.price.validateMessage
-                            },
-                            {
-                                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                                message: pageData.pricing.price.validateMessage
-                            },
-                            ({ getFieldValue }) => (
+                <Form
+                    form={form}
+                    name="basic"
+                    initialValues={{
+                        priceValue: 0,
+                        priceOriginal: 0,
+                        priceDiscount: 0,
+                        percentNumber: 0,
+                        startDate: moment(),
+                        endDate: moment().add(7, "days"),
+                        productVariants: [],
+                        productStocks: []
+                    }}
+                    onFieldsChange={(e) => changeForm(e)}
+                    autoComplete="off"
+                >
+                    <Col xs={24} lg={3}>
+                        <Form.Item
+                            name={['product', 'prices', 'priceOriginal']}
+                            rules={[
                                 {
-                                    validator(_, value) {
-                                        if (value < getFieldValue(['product', 'prices', 'priceDiscount'])) {
-                                            return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
-                                        }
-                                        return Promise.resolve();
-                                    }
-                                }
-                            ),
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (value < getFieldValue(['product', 'prices', 'priceOriginal'])) {
-                                        return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
-                                    }
-                                    return Promise.resolve()
-                                }
-                            })
-                        ]}
-                    >
-                        <InputNumber
-                            onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
-                            className="shop-input-number w-100"
-                            placeholder={pageData.pricing.price.placeholder}
-                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                            addonAfter={currency}
-                            precision={0}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault()
-                                }
-                            }}
-                            id={`product-prices-${price.position}-price`}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col xs={24} lg={3}>
-                    <Form.Item
-                        name={['product', 'prices', 'priceDiscount']}
-                        rules={[
-                            {
-                                required: true,
-                                message: pageData.pricing.price.validateMessage
-                            },
-                            {
-                                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                                message: pageData.pricing.price.validateMessage
-                            },
-                            ({ getFieldValue }) => (
+                                    required: true,
+                                    message: pageData.pricing.price.validateMessage
+                                },
                                 {
+                                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                    message: pageData.pricing.price.validateMessage
+                                },
+                                ({ getFieldValue }) => ({
                                     validator(_, value) {
-                                        if (value < getFieldValue(['product', 'prices', 'priceDiscount'])) {
-                                            return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                                        if (value > getFieldValue(['product', 'prices', 'priceValue'])) {
+                                            return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                         }
-                                        return Promise.resolve();
+                                        return Promise.resolve()
                                     }
-                                }
-                            ),
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (value < getFieldValue(['product', 'prices', 'priceOriginal'])) {
-                                        return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
-                                    }
-                                    return Promise.resolve()
-                                }
-                            })
-                        ]}
-                    >
-                        <InputNumber
-                            onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
-                            className="shop-input-number w-100"
-                            placeholder={pageData.pricing.price.placeholder}
-                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                            addonAfter={currency}
-                            precision={0}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault()
-                                }
-                            }}
-                            id={`product-prices-${price.position}-price`}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col xs={24} lg={5}>
-                    <Form.Item
-                        name={['product', 'prices', 'percentNumber']}
-                        rules={[
-                            {
-                                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                                message: pageData.pricing.priceDiscount.percentage.validateMessage
-                            }
-                        ]}
-                    >
-                        <InputNumber
-                            onChange={value => onDiscountChange(0, value, index)}
-                            className="shop-input-number w-100"
-                            placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
-                            formatter={(value) => `${value}%`}
-                            parser={(value) => value?.replace('%', '')}
-                            min={0}
-                            max={100}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault()
-                                }
-                            }}
-                            id={`product-prices-price-discount-percentage`}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col xs={24} lg={5}>
-                    <Form.Item
-                        name={['product', "prices", "startDate"]}
-                        rules={[
-                            {
-                                required: true,
-                                message: pageData.pricing.priceDate.startDate.validateMessage,
-                            },
-                        ]}
-                    >
-                        <DatePicker
-                            suffixIcon={<CalendarNewIconBold />}
-                            placeholder={pageData.pricing.priceDate.startDate.placeholder}
-                            className="shop-date-picker w-100"
-                            // disabledDate={disabledDate}
-                            format={DateFormat.DD_MM_YYYY}
-                            disabledDate={disabledDate}
-                            onChange={(date) => {
-                                price.startDate = date
-                                // Clear end date after select start date if endate < startdate only
-                                const formValues = form.getFieldsValue();
-                                const { product } = formValues
-                                product.prices[index].startDate = date
-                                if (product.prices[index]?.endDate != null && product.prices[index]?.endDate.isBefore(date)) {
-                                    product.prices[index].endDate = null
-                                    product.prices[index].endTime = null
+                                })
+                            ]}
+                        >
 
+                            <InputNumber
+                                className="shop-input-number w-100"
+                                placeholder={pageData.pricing.priceOriginal.placeholder}
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                id={`product-prices-price-original`}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={3}>
+                        <Form.Item
+                            name={['product', 'prices', 'priceValue']}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: pageData.pricing.price.validateMessage
+                                },
+                                {
+                                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                    message: pageData.pricing.price.validateMessage
+                                },
+                                ({ getFieldValue }) => (
+                                    {
+                                        validator(_, value) {
+                                            if (value < getFieldValue(['product', 'prices', 'priceDiscount'])) {
+                                                return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                                            }
+                                            return Promise.resolve();
+                                        }
+                                    }
+                                ),
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (value < getFieldValue(['product', 'prices', 'priceOriginal'])) {
+                                            return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                                        }
+                                        return Promise.resolve()
+                                    }
+                                })
+                            ]}
+                        >
+                            <InputNumber
+                                onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
+                                className="shop-input-number w-100"
+                                placeholder={pageData.pricing.price.placeholder}
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                id={`product-prices-price`}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={3}>
+                        <Form.Item
+                            name={['product', 'prices', 'priceDiscount']}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: pageData.pricing.price.validateMessage
+                                },
+                                {
+                                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                    message: pageData.pricing.price.validateMessage
+                                },
+                                ({ getFieldValue }) => (
+                                    {
+                                        validator(_, value) {
+                                            if (value < getFieldValue(['product', 'prices', 'priceDiscount'])) {
+                                                return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                                            }
+                                            return Promise.resolve();
+                                        }
+                                    }
+                                ),
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (value < getFieldValue(['product', 'prices', 'priceOriginal'])) {
+                                            return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                                        }
+                                        return Promise.resolve()
+                                    }
+                                })
+                            ]}
+                        >
+                            <InputNumber
+                                onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
+                                className="shop-input-number w-100"
+                                placeholder={pageData.pricing.price.placeholder}
+                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                addonAfter={currency}
+                                precision={0}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                id={`product-prices-price`}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={5}>
+                        <Form.Item
+                            name={['product', 'prices', 'percentNumber']}
+                            rules={[
+                                {
+                                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                                    message: pageData.pricing.priceDiscount.percentage.validateMessage
                                 }
-                                form.setFieldsValue(formValues);
-                                console.log(product)
-                            }}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col xs={24} lg={5}>
-                    <Form.Item
-                        name={['product', "prices", "endDate"]}
-                        rules={[]}
-                    >
-                        <DatePicker
-                            suffixIcon={<CalendarNewIconBold />}
-                            placeholder={pageData.pricing.priceDate.endDate.placeholder}
-                            className="shop-date-picker w-100"
-                            disabledDate={e => disabledDateByStartDate(e, price)}
-                            format={DateFormat.DD_MM_YYYY}
-                            disabled={price.startDate ? false : true}
-                            onChange={(date) => {
-                                const formValues = form.getFieldsValue();
-                                const { product } = formValues
-                                product.prices[index].endDate = date
-                                form.setFieldsValue(formValues)
-                            }}
-                        />
-                    </Form.Item>
-                </Col>
+                            ]}
+                        >
+                            <InputNumber
+                                onChange={value => onDiscountChange(0, value, index)}
+                                className="shop-input-number w-100"
+                                placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
+                                formatter={(value) => `${value}%`}
+                                parser={(value) => value?.replace('%', '')}
+                                min={0}
+                                max={100}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault()
+                                    }
+                                }}
+                                id={`product-prices-price-discount-percentage`}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={5}>
+                        <Form.Item
+                            name={['product', "prices", "startDate"]}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: pageData.pricing.priceDate.startDate.validateMessage,
+                                },
+                            ]}
+                        >
+                            <DatePicker
+                                suffixIcon={<CalendarNewIconBold />}
+                                placeholder={pageData.pricing.priceDate.startDate.placeholder}
+                                className="shop-date-picker w-100"
+                                format={DateFormat.DD_MM_YYYY}
+                                disabledDate={disabledDate}
+                                onChange={(date) => {
+                                    basePrice.startDate = date
+                                    // Clear end date after select start date if endate < startdate only
+                                    const formValues = form.getFieldsValue();
+                                    formValues.startDate = date
+                                    if (formValues.endDate != null && formValues.endDate.isBefore(date)) {
+                                        formValues.endDate = null
+                                        formValues.endTime = null
+
+                                    }
+                                    form.setFieldsValue(formValues);
+                                }}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={5}>
+                        <Form.Item
+                            name={['product', "prices", "endDate"]}
+                            rules={[]}
+                        >
+                            <DatePicker
+                                suffixIcon={<CalendarNewIconBold />}
+                                placeholder={pageData.pricing.priceDate.endDate.placeholder}
+                                className="shop-date-picker w-100"
+                                disabledDate={e => disabledDateByStartDate(e, basePrice)}
+                                format={DateFormat.DD_MM_YYYY}
+                                disabled={basePrice.startDate ? false : true}
+                                onChange={(date) => {
+                                    const formValues = form.getFieldsValue();
+                                    formValues.endDate = date
+                                    form.setFieldsValue(formValues)
+                                }}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Form>
+
             </Row>
             <ShopTable
                 className='stock-table'

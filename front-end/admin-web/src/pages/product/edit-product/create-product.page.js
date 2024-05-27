@@ -50,7 +50,6 @@ const { Text } = Typography
 export default function CreateProductPage() {
   const history = useHistory()
 
-  const [blockNavigation, setBlockNavigation] = useState(false)
   const [image, setImage] = useState(null)
   const [prices, setPrices] = useState([{
     position: 0,
@@ -64,6 +63,14 @@ export default function CreateProductPage() {
     startDate: moment(),
     endDate: moment().add(7, "days")
   }])
+  const basePrice = {
+    priceOriginal: 150000.00,
+    priceValue: 140000.00,
+    priceDiscount: 130000.00,
+    percentNumber: 0,
+    startDate: moment(),
+    endDate: moment().add(7, "days"),
+  }
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
@@ -379,7 +386,7 @@ export default function CreateProductPage() {
     const discountCheckList = [...discountChecked, false]
     isDisCountChecked(discountCheckList);
   }
-  const pricetoPercentage = (num, index) => {
+  const priceToPercentage = (num, index) => {
     return roundNumber(prices[index].priceValue === 0 ? 0 : num * 100 / prices[index].priceValue)
   }
   const percentageToPrice = (num, index) => {
@@ -387,7 +394,7 @@ export default function CreateProductPage() {
   }
   const onDiscountChange = (numeric = 0, percentage = 0, index) => {
     if (numeric !== 0) {
-      const percent = pricetoPercentage(numeric, index)
+      const percent = priceToPercentage(numeric, index)
       form.setFieldValue(['product', 'prices', index, 'percentNumber'], percent)
     }
     else if (percentage !== 0) {
@@ -915,9 +922,6 @@ export default function CreateProductPage() {
         }}
         onFieldsChange={(e) => changeForm(e)}
         autoComplete="off"
-        onChange={() => {
-          if (!blockNavigation) setBlockNavigation(true)
-        }}
       >
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
@@ -1165,7 +1169,7 @@ export default function CreateProductPage() {
           <br />
           <Row>
             <Card className="w-100 mt-1 shop-card h-auto">
-              <StockProductTable />
+              <StockProductTable basePrice={basePrice} changeForm={changeForm} />
             </Card>
           </Row>
         </div>
