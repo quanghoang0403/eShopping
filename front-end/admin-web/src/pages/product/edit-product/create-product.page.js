@@ -763,15 +763,6 @@ export default function CreateProductPage() {
                   </Col>
                 </Row>
               </Card>
-              <br />
-              <Card className="w-100 mt-1 shop-card h-auto">
-                <Row>
-                  <Col span={24}>
-                    <h4 className="title-group">{pageData.pricing.title}</h4>
-                    {renderPrices()}
-                  </Col>
-                </Row>
-              </Card>
             </Col>
 
             {/* right-side of form */}
@@ -837,6 +828,15 @@ export default function CreateProductPage() {
                       />
 
                     </Form.Item>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <br />
+                  <Card className="w-100 mt-1 shop-card h-auto">
+                    <h4 className="title-group">{pageData.pricing.title}</h4>
+                    {renderPrices()}
                   </Card>
                 </Col>
               </Row>
