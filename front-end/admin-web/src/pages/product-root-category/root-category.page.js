@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import TableRootCategory from "./components/table-root-category.component";
 
 export default function RootCategory(props) {
-    const { RootCategoryDataService, history } = props
+    const history = useHistory()
     const [t] = useTranslation()
     const pageData = {
         title: t('root-category.title')
@@ -38,7 +38,7 @@ export default function RootCategory(props) {
                     />
                 </Col>
             </Row>
-            <Card className="shop-card">
+            <Card className="shop-card mt-4">
                 <TableRootCategory />
             </Card>
         </>
