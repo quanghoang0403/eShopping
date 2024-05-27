@@ -1,4 +1,4 @@
-import { Form, Row, Tooltip } from "antd";
+import { Form, Row, Tooltip, message } from "antd";
 import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
 import { EditButtonComponent } from "components/edit-button/edit-button.component";
 import { FnbTable } from "components/shop-table/shop-table";
@@ -7,9 +7,11 @@ import { ProductGender } from "constants/product-status.constants";
 import RootCategoryDataService from "data-services/product-root-category/product-root-category-data.service";
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import { executeAfter, getAllPermissions } from "utils/helpers";
 
 export default function TableRootCategory() {
+    const history = useHistory()
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [dataSource, setDataSource] = useState(null)
     const [totalRecords, setTotalRecords] = useState(0)
@@ -66,8 +68,38 @@ export default function TableRootCategory() {
     useEffect(() => {
         fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize)
     }, [])
+
     const onSelectedRowKeysChange = (selectedRowKeys) => {
         setSelectedRowKeys(selectedRowKeys)
+    }
+
+    const onRemoveItem = async (id) => {
+        try {
+            const res = await RootCategoryDataService.DeleteRootCategoryAsync(id);
+            if (res) {
+                message.success(pageData.productCategoryDeleteSuccess);
+
+                // Recount selected items after delete
+                const newSelectedRowKeys = selectedRowKeys?.filter((x) => x !== id);
+                if (newSelectedRowKeys) {
+                    setSelectedRowKeys(newSelectedRowKeys);
+                }
+            } else {
+                message.error(pageData.productCategoryDeleteFail);
+            }
+            await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, "");
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const formatDeleteMessage = (name) => {
+        const mess = t(pageData.confirmDeleteMessage, { name })
+        return mess
+    }
+
+    const onEditItem = (item) => {
+        return history.push(`/product-root-category/edit/${item?.id}`)
     }
     const tableConfigs = {
         pageSize: 20,
@@ -144,7 +176,7 @@ export default function TableRootCategory() {
                             {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.EDIT_PRODUCT_CATEGORY) && (
                                 <EditButtonComponent
                                     className="mr-3"
-                                    // onClick={() => onEditItem(record)}
+                                    onClick={() => onEditItem(record)}
                                     permission={PermissionKeys.EDIT_PRODUCT_CATEGORY}
                                 />
                             )}
@@ -152,11 +184,11 @@ export default function TableRootCategory() {
                             {permissions?.find((x) => x?.id?.toString().toUpperCase() === PermissionKeys.EDIT_PRODUCT_CATEGORY) && (
                                 <DeleteConfirmComponent
                                     title={pageData.confirmDelete}
-                                    // content={formatDeleteMessage(record?.name)}
+                                    content={formatDeleteMessage(record?.name)}
                                     okText={pageData.btnDelete}
                                     cancelText={pageData.btnIgnore}
                                     permission={PermissionKeys.EDIT_PRODUCT_CATEGORY}
-                                    // onOk={() => onRemoveItem(record?.id)}
+                                    onOk={() => onRemoveItem(record?.id)}
                                     productCategoryId={record?.id}
                                     productCategoryName={record?.name}
                                 />
