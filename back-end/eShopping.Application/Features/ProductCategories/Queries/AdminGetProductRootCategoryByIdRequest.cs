@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using eShopping.Application.Features.Products.Commands;
 using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
@@ -41,8 +40,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             }
 
             var ProductRootCategory = _mapper.Map<AdminProductRootCategoryDetailModel>(ProductRootCategoryData);
-            ProductRootCategory.Products = _mapper.Map<List<AdminProductSelectedModel>>(ProductRootCategoryData.Products.OrderByDescending(x => x.Priority));
-            ProductRootCategory.ProductCategories = _mapper.Map<List<AdminProductCategorySelectedModel>>(ProductRootCategoryData.ProductCategories.OrderByDescending(x => x.Priority));
+            ProductRootCategory.Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(ProductRootCategoryData.Products.OrderByDescending(x => x.Priority));
+            ProductRootCategory.ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(ProductRootCategoryData.ProductCategories.OrderByDescending(x => x.Priority));
             return BaseResponseModel.ReturnData(ProductRootCategory);
         }
     }

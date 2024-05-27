@@ -89,6 +89,7 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductVariantModel, ProductVariant>();
             CreateMap<AdminCreateProductRootCategoryRequest, ProductRootCategory>();
+            CreateMap<AdminUpdateProductRootCategoryRequest, ProductRootCategory>();
 
             #endregion
         }
