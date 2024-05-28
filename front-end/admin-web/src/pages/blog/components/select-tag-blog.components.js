@@ -220,13 +220,13 @@ const SelectBlogTagComponent = (props) => {
 
           return isLongTag
             ? (
-            <Tooltip title={tag?.name} key={tag?.name}>
-              {tagElem}
-            </Tooltip>
-              )
+              <Tooltip title={tag?.name} key={tag?.name}>
+                {tagElem}
+              </Tooltip>
+            )
             : (
-                tagElem
-              )
+              tagElem
+            )
         })}
       </Space>
 
@@ -278,16 +278,16 @@ const SelectBlogTagComponent = (props) => {
       {!inputVisible &&
         (tags?.length === 0
           ? (
-          <Tag onClick={showInput} className="site-tag-plus-text blog-tag-plus-text">
-            <PlusOrangeIcon className="icon-add-new-import-unit" />
-            <span>{t('blog.AddSEOKeywords')}</span>
-          </Tag>
-            )
+            <Tag onClick={showInput} className="site-tag-plus-text blog-tag-plus-text">
+              <PlusOrangeIcon className="icon-add-new-import-unit" />
+              <span>{t('blog.AddSEOKeywords')}</span>
+            </Tag>
+          )
           : (
-          <Tag onClick={showInput} className="site-tag-plus">
-            <PlusOrangeIcon className="icon-add-new-import-unit" />
-          </Tag>
-            ))}
+            <Tag onClick={showInput} className="site-tag-plus">
+              <PlusOrangeIcon className="icon-add-new-import-unit" />
+            </Tag>
+          ))}
     </Space>
   )
 }

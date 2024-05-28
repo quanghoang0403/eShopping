@@ -169,68 +169,68 @@ export default function DetailCustomerPage (props) {
 
       {isTabletOrMobile
         ? (
-        <>
-          <div className="customer-detail-card-responsive">
-            <div className="customer-detail-box">
-              <div className="card-image">
-                <Image
-                  className="thumbnail"
-                  width={176}
-                  src={customer?.thumbnail ?? 'error'}
-                  fallback={images.imgDefault}
-                />
-              </div>
-              <div className="info-container">
-                <div className="other-info-box">
-                  <div className="total">
-                    <span className="text-left">{pageData.totalOrder}</span>
-                    <span className="total-amount">
-                      <b>{formatNumber(customer?.totalOrder)}</b>
-                    </span>
-                  </div>
-                  <div className="total">
-                    <span className="text-left">{pageData.totalMoney}</span>
-                    <span className="total-amount">
-                      <b>{formatCurrency(customer?.totalMoney)}</b>
-                    </span>
+          <>
+            <div className="customer-detail-card-responsive">
+              <div className="customer-detail-box">
+                <div className="card-image">
+                  <Image
+                    className="thumbnail"
+                    width={176}
+                    src={customer?.thumbnail ?? 'error'}
+                    fallback={images.imgDefault}
+                  />
+                </div>
+                <div className="info-container">
+                  <div className="other-info-box">
+                    <div className="total">
+                      <span className="text-left">{pageData.totalOrder}</span>
+                      <span className="total-amount">
+                        <b>{formatNumber(customer?.totalOrder)}</b>
+                      </span>
+                    </div>
+                    <div className="total">
+                      <span className="text-left">{pageData.totalMoney}</span>
+                      <span className="total-amount">
+                        <b>{formatCurrency(customer?.totalMoney)}</b>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="general-info-card-responsive">
-            <div className="title-session">
-              <span>{pageData.generalInformation}</span>
-            </div>
-            <div className="detail-container">
-              <div>
-                <p className="text-label">{pageData.name}</p>
-                <p className="text-detail">{customer?.fullName ?? '-'}</p>
+            <div className="general-info-card-responsive">
+              <div className="title-session">
+                <span>{pageData.generalInformation}</span>
               </div>
-              <div>
-                <p className="text-label">{pageData.phone}</p>
-                <p className="text-detail">
-                  {prefixSelector} {customer?.phoneNumber}
-                </p>
-              </div>
-              <div>
-                <p className="text-label">{pageData.email}</p>
-                <p className="text-detail">{customer?.email ?? '-'}</p>
-              </div>
-              <div>
-                <p className="text-label">{pageData.birthday}</p>
-                <p className="text-detail">
-                  {customer?.birthday ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY) : '-'}
-                </p>
-              </div>
-              <div>
-                <p className="text-label">{pageData.gender}</p>
-                <p className="text-detail">{getNameGender(gender)}</p>
-              </div>
-              <div>
-                <p className="text-label">{pageData.address}</p>
-                <p className="text-detail">{customer?.address}</p>
-              </div>
+              <div className="detail-container">
+                <div>
+                  <p className="text-label">{pageData.name}</p>
+                  <p className="text-detail">{customer?.fullName ?? '-'}</p>
+                </div>
+                <div>
+                  <p className="text-label">{pageData.phone}</p>
+                  <p className="text-detail">
+                    {prefixSelector} {customer?.phoneNumber}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-label">{pageData.email}</p>
+                  <p className="text-detail">{customer?.email ?? '-'}</p>
+                </div>
+                <div>
+                  <p className="text-label">{pageData.birthday}</p>
+                  <p className="text-detail">
+                    {customer?.birthday ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY) : '-'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-label">{pageData.gender}</p>
+                  <p className="text-detail">{getNameGender(gender)}</p>
+                </div>
+                <div>
+                  <p className="text-label">{pageData.address}</p>
+                  <p className="text-detail">{customer?.address}</p>
+                </div>
                 <div>
                   <p className="text-label">{pageData.city}</p>
                   <p className="text-detail">{cityName ?? '-'}</p>
@@ -244,102 +244,102 @@ export default function DetailCustomerPage (props) {
                   <p className="text-detail">{wardName ?? '-'}</p>
                 </div>
               </div>
-          </div>
-        </>
-          )
-        : (
-        <>
-          <div className="customer-detail-card">
-            <div className="title-session">
-              <span>{pageData.generalInformation}</span>
             </div>
-            <Row className="pb-4">
-              <Col span={8}>
-                <div className="left-card">
-                  <div className="left-card-image">
-                    <Image
-                      className="thumbnail"
-                      width={176}
-                      src={customer?.thumbnail ?? 'error'}
-                      fallback={images.imgDefault}
-                    />
-                  </div>
-                  <div className="info-container">
-                    <div className="other-info-box">
-                      <div className="total">
-                        <span className="text-left">{pageData.totalOrder}</span>
-                        <span className="total-amount">
-                          <b>{formatNumber(customer?.totalOrder)}</b>
-                        </span>
-                      </div>
-                      <div className="total">
-                        <span className="text-left">{pageData.totalMoney}</span>
-                        <span className="total-amount">
-                          <b>{formatCurrency(customer?.totalMoney)}</b>
-                        </span>
+          </>
+        )
+        : (
+          <>
+            <div className="customer-detail-card">
+              <div className="title-session">
+                <span>{pageData.generalInformation}</span>
+              </div>
+              <Row className="pb-4">
+                <Col span={8}>
+                  <div className="left-card">
+                    <div className="left-card-image">
+                      <Image
+                        className="thumbnail"
+                        width={176}
+                        src={customer?.thumbnail ?? 'error'}
+                        fallback={images.imgDefault}
+                      />
+                    </div>
+                    <div className="info-container">
+                      <div className="other-info-box">
+                        <div className="total">
+                          <span className="text-left">{pageData.totalOrder}</span>
+                          <span className="total-amount">
+                            <b>{formatNumber(customer?.totalOrder)}</b>
+                          </span>
+                        </div>
+                        <div className="total">
+                          <span className="text-left">{pageData.totalMoney}</span>
+                          <span className="total-amount">
+                            <b>{formatCurrency(customer?.totalMoney)}</b>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </Col>
-              <Col span={16}>
-                <Row>
-                  <Col span={12}>
-                    <div className="detail-container-left">
-                      <div>
-                        <p className="text-label">{pageData.name}</p>
-                        <p className="text-detail">{customer?.fullName}</p>
+                </Col>
+                <Col span={16}>
+                  <Row>
+                    <Col span={12}>
+                      <div className="detail-container-left">
+                        <div>
+                          <p className="text-label">{pageData.name}</p>
+                          <p className="text-detail">{customer?.fullName}</p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.phone}</p>
+                          <p className="text-detail">
+                            {prefixSelector} {customer?.phoneNumber}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.email}</p>
+                          <p className="text-detail">{customer?.email ?? '-'}</p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.birthday}</p>
+                          <p className="text-detail">
+                            {customer?.birthday
+                              ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY)
+                              : '-'}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.gender}</p>
+                          <p className="text-detail">{getNameGender(gender)}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-label">{pageData.phone}</p>
-                        <p className="text-detail">
-                          {prefixSelector} {customer?.phoneNumber}
-                        </p>
+                    </Col>
+                    <Col span={12}>
+                      <div className="detail-container-right">
+                        <div>
+                          <p className="text-label">{pageData.address}</p>
+                          <p className="text-detail">{customer?.address}</p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.city}</p>
+                          <p className="text-detail">{cityName ?? '-'}</p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.district}</p>
+                          <p className="text-detail">{districtName ?? '-'}</p>
+                        </div>
+                        <div>
+                          <p className="text-label">{pageData.ward}</p>
+                          <p className="text-detail">{wardName ?? '-'}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-label">{pageData.email}</p>
-                        <p className="text-detail">{customer?.email ?? '-'}</p>
-                      </div>
-                      <div>
-                        <p className="text-label">{pageData.birthday}</p>
-                        <p className="text-detail">
-                          {customer?.birthday
-                            ? moment.utc(customer?.birthday).local().format(DateFormat.DD_MM_YYYY)
-                            : '-'}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-label">{pageData.gender}</p>
-                        <p className="text-detail">{getNameGender(gender)}</p>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col span={12}>
-                    <div className="detail-container-right">
-                      <div>
-                        <p className="text-label">{pageData.address}</p>
-                        <p className="text-detail">{customer?.address}</p>
-                      </div>
-                      <div>
-                        <p className="text-label">{pageData.city}</p>
-                        <p className="text-detail">{cityName ?? '-'}</p>
-                      </div>
-                      <div>
-                        <p className="text-label">{pageData.district}</p>
-                        <p className="text-detail">{districtName ?? '-'}</p>
-                      </div>
-                      <div>
-                        <p className="text-label">{pageData.ward}</p>
-                        <p className="text-detail">{wardName ?? '-'}</p>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-        </>
-          )}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </div>
+          </>
+        )}
       <DeleteConfirmComponent
         title={pageData.confirmDelete}
         content={formatDeleteMessage(customer?.fullName)}

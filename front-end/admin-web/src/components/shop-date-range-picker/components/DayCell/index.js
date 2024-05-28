@@ -112,8 +112,8 @@ class DayCell extends Component {
       const isSelected = isSameDay(this.props.day, this.props.date)
       return isSelected
         ? (
-        <span className={styles.selected} style={{ color: this.props.color }} />
-          )
+          <span className={styles.selected} style={{ color: this.props.color }} />
+        )
         : null
     }
 

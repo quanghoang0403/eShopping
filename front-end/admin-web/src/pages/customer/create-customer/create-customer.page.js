@@ -155,64 +155,64 @@ export default function CreateCustomerPage (props) {
 
   const renderAddress = () => {
     return (
-        <>
-          <Row gutter={[25, 25]} className="form-row">
-            <Col sm={24} md={24} className="w-100">
-              <h4 className="shop-form-label">{pageData.address}</h4>
-              <Form.Item className="form-create-customer" name={['address', 'address1']}>
-                <Input className="shop-input" size="large" placeholder={pageData.addressPlaceholder} maxLength={255} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={[25, 25]} className="form-row">
-            <Col sm={24} md={8} className="w-100">
-              <h4 className="shop-form-label">{pageData.city}</h4>
-              <Form.Item name={['address', 'cityId']} className="last-item">
-                <FnbSelectSingle
-                  size="large"
-                  placeholder={pageData.selectCity}
-                  onChange={onChangeCity}
-                  showSearch
-                  autoComplete="none"
-                  option={cities?.map((item, index) => ({
-                    id: item.id,
-                    name: item.name
-                  }))}
-                />
-              </Form.Item>
-            </Col>
-            <Col sm={24} md={8} className="w-100">
-              <h4 className="shop-form-label">{pageData.district}</h4>
-              <Form.Item name={['address', 'districtId']} className="last-item">
-                <FnbSelectSingle
-                  size="large"
-                  placeholder={pageData.selectDistrict}
-                  onChange={onChangeDistrict}
-                  showSearch
-                  autoComplete="none"
-                  option={districtsByCityId?.map((item, index) => ({
-                    id: item.id,
-                    name: item.name
-                  }))}
-                />
-              </Form.Item>
-            </Col>
-            <Col sm={24} md={8} className="w-100">
-              <h4 className="shop-form-label">{pageData.ward}</h4>
-              <Form.Item name={['address', 'wardId']} className="last-item">
-                <FnbSelectSingle
-                  size="large"
-                  placeholder={pageData.selectWard}
-                  showSearch
-                  option={wardsByDistrictId?.map((item, index) => ({
-                    id: item.id,
-                    name: item.name
-                  }))}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </>
+      <>
+        <Row gutter={[25, 25]} className="form-row">
+          <Col sm={24} md={24} className="w-100">
+            <h4 className="shop-form-label">{pageData.address}</h4>
+            <Form.Item className="form-create-customer" name={['address', 'address1']}>
+              <Input className="shop-input" size="large" placeholder={pageData.addressPlaceholder} maxLength={255} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={[25, 25]} className="form-row">
+          <Col sm={24} md={8} className="w-100">
+            <h4 className="shop-form-label">{pageData.city}</h4>
+            <Form.Item name={['address', 'cityId']} className="last-item">
+              <FnbSelectSingle
+                size="large"
+                placeholder={pageData.selectCity}
+                onChange={onChangeCity}
+                showSearch
+                autoComplete="none"
+                option={cities?.map((item, index) => ({
+                  id: item.id,
+                  name: item.name
+                }))}
+              />
+            </Form.Item>
+          </Col>
+          <Col sm={24} md={8} className="w-100">
+            <h4 className="shop-form-label">{pageData.district}</h4>
+            <Form.Item name={['address', 'districtId']} className="last-item">
+              <FnbSelectSingle
+                size="large"
+                placeholder={pageData.selectDistrict}
+                onChange={onChangeDistrict}
+                showSearch
+                autoComplete="none"
+                option={districtsByCityId?.map((item, index) => ({
+                  id: item.id,
+                  name: item.name
+                }))}
+              />
+            </Form.Item>
+          </Col>
+          <Col sm={24} md={8} className="w-100">
+            <h4 className="shop-form-label">{pageData.ward}</h4>
+            <Form.Item name={['address', 'wardId']} className="last-item">
+              <FnbSelectSingle
+                size="large"
+                placeholder={pageData.selectWard}
+                showSearch
+                option={wardsByDistrictId?.map((item, index) => ({
+                  id: item.id,
+                  name: item.name
+                }))}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      </>
     )
   }
 

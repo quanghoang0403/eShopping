@@ -346,19 +346,19 @@ export function FnbDatePicker (props) {
               <>
                 {selectionRange[0]?.startDate === selectionRange[0]?.endDate
                   ? (
-                  <p className="shop-text-date">{moment(selectionRange[0]?.startDate)?.format(DateFormat.DD_MM_YYYY)}</p>
-                    )
+                    <p className="shop-text-date">{moment(selectionRange[0]?.startDate)?.format(DateFormat.DD_MM_YYYY)}</p>
+                  )
                   : (
-                  <Row className="shop-date-to-date-wrapper">
-                    <span className="shop-text-start-date">
-                      {moment(selectionRange[0]?.startDate)?.format(DateFormat.DD_MM_YYYY)}
-                    </span>
-                    <span className="shop-text-to-date">{pageData.optionDateTime.to}</span>
-                    <span className="shop-text-end-date">
-                      {moment(selectionRange[0]?.endDate)?.format(DateFormat.DD_MM_YYYY)}
-                    </span>
-                  </Row>
-                    )}
+                    <Row className="shop-date-to-date-wrapper">
+                      <span className="shop-text-start-date">
+                        {moment(selectionRange[0]?.startDate)?.format(DateFormat.DD_MM_YYYY)}
+                      </span>
+                      <span className="shop-text-to-date">{pageData.optionDateTime.to}</span>
+                      <span className="shop-text-end-date">
+                        {moment(selectionRange[0]?.endDate)?.format(DateFormat.DD_MM_YYYY)}
+                      </span>
+                    </Row>
+                  )}
               </>
             )}
           </div>

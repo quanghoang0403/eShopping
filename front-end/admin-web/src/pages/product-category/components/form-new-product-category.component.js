@@ -44,7 +44,7 @@ export default function FormNewProductCategory(props) {
     },
     product: {
       title: t('productCategory.titleProduct'),
-      placeholder: t('productCategory.placeholderProduct'),
+      placeholder: t('productCategory.placeholderProduct')
     },
     priority: {
       title: t('productCategory.titlePriority'),
@@ -84,7 +84,7 @@ export default function FormNewProductCategory(props) {
         minlength: 150,
         maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
-      },
+      }
     },
     productCategoryNameExisted: t('productCategory.productNameExisted'),
     productCategoryAddedSuccess: t('productCategory.productCategoryAddedSuccess'),
@@ -355,7 +355,7 @@ export default function FormNewProductCategory(props) {
 
               {/* content  */}
               <Row gutter={[24, 24]}>
-              <Col xs={24} sm={24} md={24} lg={12} >
+                <Col xs={24} sm={24} md={24} lg={12} >
                   <div className="d-flex">
                     <h3 className="shop-form-label mt-16">
                       {pageData.priority.title}
@@ -400,7 +400,7 @@ export default function FormNewProductCategory(props) {
                     />
                   </Form.Item>
                 </Col>
-                
+
               </Row>
               {/* description */}
               <Row gutter={[24, 24]}>
@@ -505,34 +505,34 @@ export default function FormNewProductCategory(props) {
                     {
                       keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
                     }
-                    
+
                     <div className='d-flex mt-3'>
-                        <Input
-                          className="shop-input-with-count" 
-                          showCount
-                          value={keywordSEO?.value || ''}
-                          placeholder={pageData.SEOInformation.keyword.placeholder}
-                          onChange={e=>{
-                            if(e.target.value !== ''){
-                              setKeywordSEO({
-                                id:randomGuid(),
-                                value:e.target.value,
-                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
-                              })
-                              setIsKewwordSEOChange(true)
-                            }
-                          }}
-                        />
-                        <ShopAddNewButton
-                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
-                          disabled={!isKeywordSEOChange}
-                          text={pageData.SEOInformation.keyword.btnAdd}
-                          className={'mx-4'}
-                          onClick={addSEOKeywords}
-                        />
-                      </div>
+                      <Input
+                        className="shop-input-with-count"
+                        showCount
+                        value={keywordSEO?.value || ''}
+                        placeholder={pageData.SEOInformation.keyword.placeholder}
+                        onChange={e=>{
+                          if(e.target.value !== ''){
+                            setKeywordSEO({
+                              id:randomGuid(),
+                              value:e.target.value,
+                              colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                            })
+                            setIsKewwordSEOChange(true)
+                          }
+                        }}
+                      />
+                      <ShopAddNewButton
+                        permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
+                        disabled={!isKeywordSEOChange}
+                        text={pageData.SEOInformation.keyword.btnAdd}
+                        className={'mx-4'}
+                        onClick={addSEOKeywords}
+                      />
+                    </div>
                   </div>
-                  
+
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>

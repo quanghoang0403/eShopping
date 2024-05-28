@@ -677,7 +677,9 @@ export const checkOnKeyPressValidation = (event, id, min, max, precision) => {
     if (min !== null && text * 1.0 < min) {
       return false
     }
-  } catch { }
+  } catch {
+    console.log("error validate")
+  }
 
   return true
 }

@@ -44,22 +44,22 @@ export default function DeleteProductComponent (props) {
         </Row>
         {preventDeleteProduct?.isPreventDelete === true
           ? (
-          <Row className="btn-i-got-it">
-            <Button type="primary" onClick={() => handleCancel()}>
-              {pageData.iGotItBtn}
-            </Button>
-          </Row>
-            )
+            <Row className="btn-i-got-it">
+              <Button type="primary" onClick={() => handleCancel()}>
+                {pageData.iGotItBtn}
+              </Button>
+            </Row>
+          )
           : (
-          <Row className="modal-footer">
-            <Button className="mr-2" onClick={() => handleCancel()}>
-              {pageData.ignore}
-            </Button>
-            <Button danger onClick={() => onDelete(preventDeleteProduct?.id)}>
-              {pageData.delete}
-            </Button>
-          </Row>
-            )}
+            <Row className="modal-footer">
+              <Button className="mr-2" onClick={() => handleCancel()}>
+                {pageData.ignore}
+              </Button>
+              <Button danger onClick={() => onDelete(preventDeleteProduct?.id)}>
+                {pageData.delete}
+              </Button>
+            </Row>
+          )}
       </Modal>
     </>
   )

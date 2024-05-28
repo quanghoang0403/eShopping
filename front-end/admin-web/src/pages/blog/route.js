@@ -44,6 +44,5 @@ const route = [
     component: EditBlogPage,
     child: []
   }
-
 ]
 export default route

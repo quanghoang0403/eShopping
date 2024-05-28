@@ -50,7 +50,7 @@ export default function ProductDetailPage (props) {
       description:{
         label: t('form.SEODescription'),
         tooltip: t('form.SEODescriptionTooltip')
-      },
+      }
     },
     pricing: {
       title: t('product.priceInfo'),
@@ -82,7 +82,10 @@ export default function ProductDetailPage (props) {
       }
     },
     productCategory: {
-      label: t('product.labelCategory')
+      label: t('product.labelCategory'),
+      name:{
+        label:t('productCategory.labelName')
+      }
     },
     content:{
       label:t('product.labelProductContent')
@@ -97,14 +100,7 @@ export default function ProductDetailPage (props) {
     active: t('common.active'),
     inactive: t('common.inactive'),
     activate: t('product.activate'),
-    deactivate: t('product.deactivate'),
-    productCategory: {
-      label: t('product.labelCategory'),
-      name:{
-        label:t('productCategory.labelName')
-      }
-    }
-
+    deactivate: t('product.deactivate')
   }
 
   useEffect(async () => {
@@ -312,44 +308,44 @@ export default function ProductDetailPage (props) {
                             </Row>
                           </Col>
                           <Row className='w-100'>
-                              <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Row className='my-2'>
-                                      <Col xs={12} sm={24} md={24} lg={10}>
-                                        <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
-                                          <li className="text-bold">{pageData.pricing.priceOriginal.label} </li>
-                                        </Text>
-                                      </Col>
-                                      <Col xs={12} sm={24} md={24} lg={10}>
-                                        <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
-                                          <li className="text-bold">{formatNumber(item?.priceOriginal)} </li>
-                                        </Text>
-                                      </Col>
-                                      <Col xs={12} sm={24} md={24} lg={4}>
-                                        <Text className="text-name" style={{ color: '#9F9F9F' }}>
-                                          <li>{getCurrency()} </li>
-                                        </Text>
-                                      </Col>
-                                    </Row>
-                                    <Row className='my-2'>
-                                      <Col xs={12} sm={24} md={24} lg={10}>
-                                        <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
-                                          <li className="text-bold">{pageData.pricing.title} </li>
-                                        </Text>
-                                      </Col>
-                                      <Col xs={12} sm={24} md={24} lg={10}>
-                                        <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
-                                          <li className="text-bold">{formatNumber(item?.priceValue)} </li>
-                                        </Text>
-                                      </Col>
-                                      <Col xs={12} sm={24} md={24} lg={4}>
-                                        <Text className="text-name" style={{ color: '#9F9F9F' }}>
-                                          <li>{getCurrency()} </li>
-                                        </Text>
-                                      </Col>
-                                    </Row>
-                                    
-                              </Col>
-                            </Row>
+                            <Col xs={24} sm={24} md={24} lg={24}>
+                              <Row className='my-2'>
+                                <Col xs={12} sm={24} md={24} lg={10}>
+                                  <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
+                                    <li className="text-bold">{pageData.pricing.priceOriginal.label} </li>
+                                  </Text>
+                                </Col>
+                                <Col xs={12} sm={24} md={24} lg={10}>
+                                  <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
+                                    <li className="text-bold">{formatNumber(item?.priceOriginal)} </li>
+                                  </Text>
+                                </Col>
+                                <Col xs={12} sm={24} md={24} lg={4}>
+                                  <Text className="text-name" style={{ color: '#9F9F9F' }}>
+                                    <li>{getCurrency()} </li>
+                                  </Text>
+                                </Col>
+                              </Row>
+                              <Row className='my-2'>
+                                <Col xs={12} sm={24} md={24} lg={10}>
+                                  <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
+                                    <li className="text-bold">{pageData.pricing.title} </li>
+                                  </Text>
+                                </Col>
+                                <Col xs={12} sm={24} md={24} lg={10}>
+                                  <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
+                                    <li className="text-bold">{formatNumber(item?.priceValue)} </li>
+                                  </Text>
+                                </Col>
+                                <Col xs={12} sm={24} md={24} lg={4}>
+                                  <Text className="text-name" style={{ color: '#9F9F9F' }}>
+                                    <li>{getCurrency()} </li>
+                                  </Text>
+                                </Col>
+                              </Row>
+
+                            </Col>
+                          </Row>
                           <Row className={`${item?.priceDiscount === 0 && item?.percentNumber === 0 ?'d-none':"w-100"}`}>
                             <Col span={24}>
                               <Row className='mb-2 w-100'>
@@ -403,9 +399,9 @@ export default function ProductDetailPage (props) {
               <div className="product-detail-div d-flex">
                 <Text className="text-item">{pageData.SEOInformation.SEOtitle.label}</Text>
                 <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
-                    <span className="ml-2 mt-1">
-                      <ExclamationIcon />
-                    </span>
+                  <span className="ml-2 mt-1">
+                    <ExclamationIcon />
+                  </span>
                 </Tooltip>
               </div>
               <div className="product-detail-div">
@@ -414,9 +410,9 @@ export default function ProductDetailPage (props) {
               <div className="product-detail-div d-flex">
                 <Text className="text-item">{pageData.SEOInformation.description.label}</Text>
                 <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
-                    <span className="ml-2 mt-1">
-                      <ExclamationIcon />
-                    </span>
+                  <span className="ml-2 mt-1">
+                    <ExclamationIcon />
+                  </span>
                 </Tooltip>
               </div>
               <div className="product-detail-div">
@@ -435,7 +431,7 @@ export default function ProductDetailPage (props) {
               </div>
               <div className="div-text">
                 <FnbFroalaEditor
-                value={product?.content}
+                  value={product?.content}
                 />
               </div>
             </div>

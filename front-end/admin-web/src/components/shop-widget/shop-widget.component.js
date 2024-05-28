@@ -29,11 +29,11 @@ function FnbWidget (props) {
                 <Row>
                   {summaryItem?.percent > 0
                     ? (
-                    <TriangleIncreaseIcon className="icon-increase-triangle" />
-                      )
+                      <TriangleIncreaseIcon className="icon-increase-triangle" />
+                    )
                     : (
-                    <TriangleReduceIcon className="icon-increase-triangle" />
-                      )}
+                      <TriangleReduceIcon className="icon-increase-triangle" />
+                    )}
                   <p className="percent">{Math.abs(summaryItem?.percent)}%</p>
                 </Row>
               </div>
@@ -76,11 +76,11 @@ function FnbWidget (props) {
                   <Row>
                     {summaryItem?.percentAverage > 0
                       ? (
-                      <TriangleIncreaseIcon className="icon-increase-triangle" />
-                        )
+                        <TriangleIncreaseIcon className="icon-increase-triangle" />
+                      )
                       : (
-                      <TriangleReduceIcon className="icon-increase-triangle" />
-                        )}
+                        <TriangleReduceIcon className="icon-increase-triangle" />
+                      )}
                     <p className="percent">{Math.abs(summaryItem?.percentAverage)}%</p>
                   </Row>
                 </div>

@@ -27,13 +27,13 @@ export default function ActionButtonGroup (props) {
     return buttons?.map((button, index) => {
       return hasPermission(button?.permission ? button?.permission : 'public')
         ? (
-        <div onClick={button?.onClick} key={index}>
-          {button.action}
-        </div>
-          )
+          <div onClick={button?.onClick} key={index}>
+            {button.action}
+          </div>
+        )
         : (
-        <></>
-          )
+          <></>
+        )
     })
   }
 

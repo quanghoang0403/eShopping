@@ -161,7 +161,7 @@ export default function EditBlogPage (props) {
         setBlog(res)
         mappingData(res)
       })
-      .catch((errors) => { 
+      .catch((errors) => {
         message.error(element.message)
       })
   }
@@ -233,11 +233,11 @@ export default function EditBlogPage (props) {
           onCompleted()
         }
       })
-      .catch((errors) => { 
-       
+      .catch((errors) => {
+
         form.setFields(getValidationMessages(errors));
         message.error(element.message)
-        
+
       })
   }
 
@@ -630,13 +630,13 @@ export default function EditBlogPage (props) {
                         </Tooltip>
                       </h4>
                       <div>
-                      {
-                        keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
-                      }
-                      
-                      <div className='d-flex mt-3'>
+                        {
+                          keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                        }
+
+                        <div className='d-flex mt-3'>
                           <Input
-                            className="shop-input-with-count" 
+                            className="shop-input-with-count"
                             showCount
                             value={keywordSEO?.value || ''}
                             placeholder={pageData.SEO.SEOKeywordsPlaceholder}
@@ -659,7 +659,7 @@ export default function EditBlogPage (props) {
                             onClick={addSEOKeywords}
                           />
                         </div>
-                    </div>
+                      </div>
                     </Col>
                   </Row>
                 </Card>

@@ -67,7 +67,7 @@ export function FnbSelectSingle ({
       >
         {option?.map((item) => (
           <Select.Option key={item.id} value={item.id} name={item?.name}>
-          {noTranslateOptionName ? item?.name : t(item?.name)}
+            {noTranslateOptionName ? item?.name : t(item?.name)}
           </Select.Option>
         ))}
       </Select>
