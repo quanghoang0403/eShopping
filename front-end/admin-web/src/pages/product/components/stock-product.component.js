@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ShopTable } from 'components/shop-table/shop-table';
 import { Checkbox, Row, Col, Form, DatePicker, InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { PermissionKeys } from 'constants/permission-key.constants';
 import './stock-product.component.scss';
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import moment from 'moment';
 import { inputNumberRangeOneTo999999999 } from 'constants/default.constants';
 import { currency } from 'constants/string.constants'
 import { DateFormat } from "constants/string.constants";
+import { roundNumber } from 'utils/helpers';
+import { PermissionKeys } from 'constants/permission-key.constants'
 
-export default function StockProductTable({ basePrice, changeForm }) {
-  const [form] = Form.useForm()
-  const sizes = [
-    { id: '1', name: 'S' },
-    { id: '2', name: 'M' },
-    { id: '3', name: 'L' },
-    { id: '4', name: 'XL' },
-    { id: '5', name: 'XXL' }
-  ]
-
+export default function StockProductTable({ changeForm, sizes, form, variants, setVariants }) {
   const tableSettings = {
     columns: [
       {
         title: "Biến thể",
         dataIndex: 'name',
-        key: 'name',
+        position: 'name',
         align: 'center',
         width: 120,
         fixed: 'left'
@@ -37,118 +29,240 @@ export default function StockProductTable({ basePrice, changeForm }) {
           {
             title: 'Giá cơ sở',
             dataIndex: 'isUseBasePrice',
-            key: 'isUseBasePrice',
+            position: 'isUseBasePrice',
             align: 'center',
             minWidth: 100,
             width: 100,
-            render: (value, record) => <Checkbox onChange={(e) => handleRadioChange(e.target.checked, record.key, 'isUseBasePrice')} checked={value} />
+            render: (value, record) => {
+              return (
+                <Form.Item
+                  name={['product', "variants", record.position, "isUseBasePrice"]}
+                  rules={[]}
+                >
+                  <Checkbox onChange={(e) => handleRadioChange(e.target.checked, record.position)} checked={value} />
+                </Form.Item>
+              )
+            }
           },
           {
             title: 'Giá gốc',
             dataIndex: 'priceOriginal',
-            key: 'priceOriginal',
+            position: 'priceOriginal',
             align: 'center',
             width: 152,
             render: (value, record) => (
-              <InputNumber
-                className="shop-input-number w-100"
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency}
-                precision={0}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                value={value}
-                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceOriginal')}
-                disabled={record.isUseBasePrice}
-              />
+              <Form.Item
+                name={['product', 'variants', record.position,'priceOriginal']}
+                rules={[
+                  {
+                    required: true,
+                    message: pageData.pricing.price.validateMessage
+                  },
+                  {
+                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                    message: pageData.pricing.price.validateMessage
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (value > getFieldValue(['product', 'priceValue'])) {
+                        return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                      }
+                      return Promise.resolve()
+                    }
+                  })
+                ]}
+              >
+                <InputNumber
+                  className="shop-input-number w-100"
+                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                  addonAfter={currency}
+                  precision={0}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.position)) {
+                      event.preventDefault()
+                    }
+                  }}
+                  value={value}
+                  disabled={record.isUseBasePrice}
+                />
+              </Form.Item>
             )
           },
           {
             title: 'Giá bán',
             dataIndex: 'priceValue',
-            key: 'priceValue',
+            position: 'priceValue',
             align: 'center',
             width: 152,
             render: (value, record) => (
-              <InputNumber
-                className="shop-input-number w-100"
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency}
-                precision={0}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                value={value}
-                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceValue')}
-                disabled={record.isUseBasePrice}
-              />
+              <Form.Item
+                name={['product', 'variants', record.position, 'priceValue']}
+                rules={[
+                  {
+                    required: true,
+                    message: pageData.pricing.price.validateMessage
+                  },
+                  {
+                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                    message: pageData.pricing.price.validateMessage
+                  },
+                  ({ getFieldValue }) => (
+                    {
+                      validator(_, value) {
+                        if (value < getFieldValue(['product', 'variants', record.position, 'priceDiscount'])) {
+                          return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                        }
+                        return Promise.resolve();
+                      }
+                    }
+                  ),
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (value < getFieldValue(['product', 'variants', record.position, 'priceOriginal'])) {
+                        return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                      }
+                      return Promise.resolve()
+                    }
+                  })
+                ]}
+              >
+                <InputNumber
+                  className="shop-input-number w-100"
+                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                  addonAfter={currency}
+                  precision={0}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.position)) {
+                      event.preventDefault()
+                    }
+                  }}
+                  value={value}
+                  disabled={record.isUseBasePrice}
+                />
+              </Form.Item>
             )
           },
           {
             title: 'Giá khuyến mãi',
             dataIndex: 'priceDiscount',
-            key: 'priceDiscount',
+            position: 'priceDiscount',
             align: 'center',
             width: 152,
             render: (value, record) => (
-              <InputNumber
-                className="shop-input-number w-100"
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency}
-                precision={0}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                value={value}
-                onChange={(e) => handleInputChange(e.target.value, record.key, 'priceDiscount')}
-                disabled={record.isUseBasePrice}
-              />
+              <Form.Item
+                name={['product', 'variants', record.position, 'priceDiscount']}
+                rules={[
+                  {
+                    required: true,
+                    message: pageData.pricing.price.validateMessage
+                  },
+                  {
+                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                    message: pageData.pricing.price.validateMessage
+                  },
+                  ({ getFieldValue }) => (
+                    {
+                      validator(_, value) {
+                        if (value < getFieldValue(['product', 'variants', record.position, 'priceDiscount'])) {
+                          /*eslint no-undef: 0*/
+                          return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                        }
+                        return Promise.resolve();
+                      }
+                    }
+                  ),
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (value < getFieldValue(['product', 'variants', record.position, 'priceOriginal'])) {
+                        return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                      }
+                      return Promise.resolve()
+                    }
+                  })
+                ]}
+              >
+                <InputNumber
+                  className="shop-input-number w-100"
+                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                  addonAfter={currency}
+                  precision={0}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.position)) {
+                      event.preventDefault()
+                    }
+                  }}
+                  value={value}
+                  disabled={record.isUseBasePrice}
+                />
+              </Form.Item>
             )
           },
           {
             title: 'Ngày bắt đầu',
             dataIndex: 'startDate',
-            key: 'startDate',
+            position: 'startDate',
             align: 'center',
             width: 204,
             render: (value, record) => (
-              <DatePicker
-                suffixIcon={<CalendarNewIconBold />}
-                placeholder={pageData.pricing.priceDate.startDate.placeholder}
-                className="shop-date-picker w-100"
-                format={DateFormat.DD_MM_YYYY}
-                value={moment(value)}
-                onChange={(date) => handleDateChange(date, record.key, 'startDate')}
-                disabledDate={(current) => current && current < moment().startOf("day")}
-              />
+              <Form.Item
+                name={['product', "variants", record.position, "startDate"]}
+                rules={[
+                  {
+                    required: true,
+                    message: pageData.pricing.priceDate.startDate.validateMessage
+                  }
+                ]}
+              >
+                <DatePicker
+                  suffixIcon={<CalendarNewIconBold />}
+                  placeholder={pageData.pricing.priceDate.startDate.placeholder}
+                  className="shop-date-picker w-100"
+                  format={DateFormat.DD_MM_YYYY}
+                  disabledDate={disabledDate}
+                  onChange={(date) => {
+                    record.startDate = date
+                    // Clear end date after select start date if endate < startdate only
+                    const formValues = form.getFieldsValue();
+                    formValues.startDate = date
+                    if (formValues.endDate != null && formValues.endDate.isBefore(date)) {
+                      formValues.endDate = null
+                      formValues.endTime = null
+
+                    }
+                    form.setFieldsValue(formValues);
+                  }}
+                />
+              </Form.Item>
             )
           },
           {
             title: 'Ngày kết thúc',
             dataIndex: 'endDate',
-            key: 'endDate',
+            position: 'endDate',
             align: 'center',
             width: 204,
             render: (value, record) => (
-              <DatePicker
-                suffixIcon={<CalendarNewIconBold />}
-                placeholder={pageData.pricing.priceDate.endDate.placeholder}
-                className="shop-date-picker w-100"
-                format={DateFormat.DD_MM_YYYY}
-                value={moment(value)}
-                onChange={(date) => handleDateChange(date, record.key, 'endDate')}
-                disabledDate={(current) => current && current < moment(record.startDate).startOf("day")}
-              />
+              <Form.Item
+                name={['product', "variants", record.position, "endDate"]}
+                rules={[]}
+              >
+                <DatePicker
+                  suffixIcon={<CalendarNewIconBold />}
+                  placeholder={pageData.pricing.priceDate.endDate.placeholder}
+                  className="shop-date-picker w-100"
+                  disabledDate={e => disabledDateByStartDate(e, record.startDate)}
+                  format={DateFormat.DD_MM_YYYY}
+                  disabled={record.startDate ? false : true}
+                  onChange={(date) => {
+                    const formValues = form.getFieldsValue();
+                    formValues.endDate = date
+                    form.setFieldsValue(formValues)
+                  }}
+                />
+              </Form.Item>
             )
           }
         ]
@@ -158,71 +272,41 @@ export default function StockProductTable({ basePrice, changeForm }) {
         align: 'center',
         children: sizes.map((size) => ({
           title: size.name,
-          dataIndex: size.name,
-          key: size.id,
+          dataIndex: size.id,
+          position: size.id,
           align: 'center',
           width: 90,
-          render: (value, record) => (
-            <InputNumber
-              className="shop-input-number w-100"
-              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-              precision={0}
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.key)) {
-                  event.preventDefault()
-                }
-              }}
-              value={value}
-              onChange={(e) => handleInputChange(e.target.value, record.key, size.name)}
-            />
-          )
+          render: (_, record, index) => {
+            // Find the size in the stocks array of the current record
+            const stock = record.stocks.find(stock => stock.id === size.id);
+            // If the size is found, return its quantity, otherwise return 0
+            const quantity = stock ? stock.quantity : 0;
+
+            return (
+              <Form.Item
+                name={['product', "variants", record.position, "stocks", index, "quantity"]}
+                rules={[]}
+              >
+                <InputNumber
+                  className="shop-input-number w-100"
+                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                  precision={0}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.position)) {
+                      event.preventDefault()
+                    }
+                  }}
+                  value={quantity}
+                />
+              </Form.Item>
+            );
+          }
         }))
       }
     ]
   };
 
-  const [stockData, setStockData] = useState([
-    {
-      key: '1',
-      name: 'Product Variant 1',
-      isUseBasePrice: true,
-      priceOriginal: 150000.00,
-      priceValue: 140000.00,
-      priceDiscount: 130000.00,
-      startDate: '2023-01-01',
-      endDate: '2023-01-31',
-      Small: 10,
-      Medium: 15,
-      Large: 5
-    },
-    {
-      key: '2',
-      name: 'Product Variant 2',
-      isUseBasePrice: false,
-      priceOriginal: 150000.00,
-      priceValue: 140000.00,
-      priceDiscount: 130000.00,
-      startDate: '2023-02-01',
-      endDate: '2023-02-28',
-      Small: 8,
-      Medium: 12,
-      Large: 7
-    },
-    {
-      key: '3',
-      name: 'Product Variant 3',
-      isUseBasePrice: true,
-      priceOriginal: 150000.00,
-      priceValue: 140000.00,
-      priceDiscount: 130000.00,
-      startDate: '2023-03-01',
-      endDate: '2023-03-31',
-      Small: 6,
-      Medium: 10,
-      Large: 4
-    }
-  ]);
   const { t } = useTranslation();
   const pageData = {
     pricing: {
@@ -265,13 +349,6 @@ export default function StockProductTable({ basePrice, changeForm }) {
           validateMessage: t('product.validateDiscountPercentage')
         }
       },
-      priceName: {
-        label: t('product.labelPriceName'),
-        placeholder: t('product.placeholderPriceName'),
-        required: true,
-        maxLength: 100,
-        validateMessage: t('product.validatePriceName')
-      },
       quantity: {
         sold: {
           label: t('product.labelQuantitySold'),
@@ -297,70 +374,68 @@ export default function StockProductTable({ basePrice, changeForm }) {
       }
     }
   }
-  const handleInputChange = (value, key, column) => {
-    setStockData(prevData =>
-      prevData.map(item =>
-        item.key === key ? { ...item, [column]: value } : item
-      )
-    );
-    changeForm()
-  };
 
-  const handleRadioChange = (value, key, column) => {
+  const handleRadioChange = (value, position) => {
     if (value) {
-      form.validateFields().then(values => {
-        setStockData(prevData =>
-          prevData.map(item =>
-            item.key === key ? {
-              ...item,
-              isUseBasePrice: value,
-              priceOriginal: value ? values.priceOriginal : item.priceOriginal,
-              priceValue: value ? values.priceValue : item.priceValue,
-              priceDiscount: value ? values.priceDiscount : item.priceDiscount,
-              startDate: value ? values.startDate : item.startDate,
-              endDate: value ? values.endDate : item.endDate
-            } : item
-          )
-        );
-        changeForm();
-      }).catch(errorInfo => {
-        console.log('Validation Failed:', errorInfo);
-      });
+      // TO DO
     }
     else {
-      setStockData(prevData =>
-        prevData.map(item =>
-          item.key === key ? { ...item, isUseBasePrice: value } : item
-        )
-      );
+      // TO DO
     }
     changeForm()
   };
 
-  const handleDateChange = (date, key, column) => {
-    setStockData(prevData =>
-      prevData.map(item =>
-        item.key === key ? { ...item, [column]: date } : item
-      )
-    );
-    changeForm();
-  };
+  // const handleInputChange = (value, position, column) => {
+  //   setStockData(prevData =>
+  //     prevData.map(item =>
+  //       item.position === position ? { ...item, [column]: value } : item
+  //     )
+  //   );
+  //   changeForm()
+  // };
+
+  // const handleQuantityChange = (value, position, sizeId) => {
+  //   setStockData(prevData =>
+  //     prevData.map(item =>
+  //       item.position === position ? {
+  //         ...item,
+  //         stocks: item.stocks.map(stock =>
+  //           stock.id === sizeId ? { ...stock, quantity: value } : stock
+  //         )
+  //       } : item
+  //     )
+  //   );
+  //   changeForm();
+  // };
 
   const priceToPercentage = (num, index) => {
-    return roundNumber(prices[index].priceValue === 0 ? 0 : num * 100 / prices[index].priceValue)
+    return roundNumber(stockData[index].priceValue === 0 ? 0 : num * 100 / stockData[index].priceValue)
   }
 
   const percentageToPrice = (num, index) => {
-    return roundNumber(prices[index].priceValue * num / 100)
+    return roundNumber(stockData[index].priceValue * num / 100)
   }
-  const onDiscountChange = (numeric = 0, percentage = 0, index) => {
-    if (numeric !== 0) {
-      const percent = priceToPercentage(numeric, index)
-      form.setFieldValue(['product', 'prices', index, 'percentNumber'], percent)
+
+  const onDiscountChange = (numeric = 0, percentage = 0, index = -1) => {
+    if (index == -1) {
+      if (numeric !== 0) {
+        const percent = priceToPercentage(numeric, index)
+        form.setFieldValue(['product', 'percentNumber'], percent)
+      }
+      else if (percentage !== 0) {
+        const num = percentageToPrice(percentage, index)
+        form.setFieldValue(['product', 'priceDiscount'], num)
+      }
     }
-    else if (percentage !== 0) {
-      const num = percentageToPrice(percentage, index)
-      form.setFieldValue(['product', 'prices', index, 'priceDiscount'], num)
+    else {
+      if (numeric !== 0) {
+        const percent = priceToPercentage(numeric, index)
+        form.setFieldValue(['product', 'variants', index, 'percentNumber'], percent)
+      }
+      else if (percentage !== 0) {
+        const num = percentageToPrice(percentage, index)
+        form.setFieldValue(['product', 'variants', index, 'priceDiscount'], num)
+      }
     }
   }
 
@@ -369,9 +444,9 @@ export default function StockProductTable({ basePrice, changeForm }) {
     return current && current < moment().startOf("day");
   };
 
-  const disabledDateByStartDate = (current, price) => {
+  const disabledDateByStartDate = (current, startDate) => {
     // Can not select days before today and today
-    return current && current < price.startDate;
+    return current && current < startDate;
   };
 
   return (
@@ -405,249 +480,228 @@ export default function StockProductTable({ basePrice, changeForm }) {
           </h3>
         </Col>
       </Row>
-      <Form
-        form={form}
-        name="basic"
-        initialValues={{
-          priceValue: 0,
-          priceOriginal: 0,
-          priceDiscount: 0,
-          percentNumber: 0,
-          startDate: moment(),
-          endDate: moment().add(7, "days"),
-          productVariants: [],
-          productStocks: []
-        }}
-        onFieldsChange={(e) => changeForm(e)}
-        autoComplete="off"
-      >
-        <Row className='mt-3' gutter={[8, 16]}>
+      <Row className='mt-3' gutter={[8, 16]}>
 
-          <Col xs={24} lg={3}>
-            <Form.Item
-              name={['product', 'prices', 'priceOriginal']}
-              rules={[
-                {
-                  required: true,
-                  message: pageData.pricing.price.validateMessage
-                },
-                {
-                  pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                  message: pageData.pricing.price.validateMessage
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (value > getFieldValue(['product', 'prices', 'priceValue'])) {
-                      return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
-                    }
-                    return Promise.resolve()
+        <Col xs={24} lg={3}>
+          <Form.Item
+            name={['product', 'priceOriginal']}
+            rules={[
+              {
+                required: true,
+                message: pageData.pricing.price.validateMessage
+              },
+              {
+                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                message: pageData.pricing.price.validateMessage
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value > getFieldValue(['product', 'priceValue'])) {
+                    return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                   }
-                })
-              ]}
-            >
-
-              <InputNumber
-                className="shop-input-number w-100"
-                placeholder={pageData.pricing.priceOriginal.placeholder}
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency}
-                precision={0}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                id={`product-prices-price-original`}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} lg={3}>
-            <Form.Item
-              name={['product', 'prices', 'priceValue']}
-              rules={[
-                {
-                  required: true,
-                  message: pageData.pricing.price.validateMessage
-                },
-                {
-                  pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                  message: pageData.pricing.price.validateMessage
-                },
-                ({ getFieldValue }) => (
-                  {
-                    validator(_, value) {
-                      if (value < getFieldValue(['product', 'prices', 'priceDiscount'])) {
-                        return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
-                      }
-                      return Promise.resolve();
-                    }
-                  }
-                ),
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (value < getFieldValue(['product', 'prices', 'priceOriginal'])) {
-                      return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
-                    }
-                    return Promise.resolve()
-                  }
-                })
-              ]}
-            >
-              <InputNumber
-                onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
-                className="shop-input-number w-100"
-                placeholder={pageData.pricing.price.placeholder}
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency}
-                precision={0}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                id={`product-prices-price`}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} lg={3}>
-            <Form.Item
-              name={['product', 'prices', 'priceDiscount']}
-              rules={[
-                {
-                  required: true,
-                  message: pageData.pricing.price.validateMessage
-                },
-                {
-                  pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                  message: pageData.pricing.price.validateMessage
-                },
-                ({ getFieldValue }) => (
-                  {
-                    validator(_, value) {
-                      if (value < getFieldValue(['product', 'prices', 'priceDiscount'])) {
-                        return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
-                      }
-                      return Promise.resolve();
-                    }
-                  }
-                ),
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (value < getFieldValue(['product', 'prices', 'priceOriginal'])) {
-                      return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
-                    }
-                    return Promise.resolve()
-                  }
-                })
-              ]}
-            >
-              <InputNumber
-                onChange={value => setPrices(p => p.map((pr, i) => i == index ? { ...pr, priceValue: value } : pr))}
-                className="shop-input-number w-100"
-                placeholder={pageData.pricing.price.placeholder}
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                addonAfter={currency}
-                precision={0}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                id={`product-prices-price`}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} lg={5}>
-            <Form.Item
-              name={['product', 'prices', 'percentNumber']}
-              rules={[
-                {
-                  pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                  message: pageData.pricing.priceDiscount.percentage.validateMessage
+                  return Promise.resolve()
                 }
-              ]}
-            >
-              <InputNumber
-                onChange={value => onDiscountChange(0, value, index)}
-                className="shop-input-number w-100"
-                placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
-                formatter={(value) => `${value}%`}
-                parser={(value) => value?.replace('%', '')}
-                min={0}
-                max={100}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
-                id={`product-prices-price-discount-percentage`}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} lg={5}>
-            <Form.Item
-              name={['product', "prices", "startDate"]}
-              rules={[
-                {
-                  required: true,
-                  message: pageData.pricing.priceDate.startDate.validateMessage
+              })
+            ]}
+          >
+            <InputNumber
+              className="shop-input-number w-100"
+              placeholder={pageData.pricing.priceOriginal.placeholder}
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              addonAfter={currency}
+              precision={0}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.position)) {
+                  event.preventDefault()
                 }
-              ]}
-            >
-              <DatePicker
-                suffixIcon={<CalendarNewIconBold />}
-                placeholder={pageData.pricing.priceDate.startDate.placeholder}
-                className="shop-date-picker w-100"
-                format={DateFormat.DD_MM_YYYY}
-                disabledDate={disabledDate}
-                onChange={(date) => {
-                  basePrice.startDate = date
-                  // Clear end date after select start date if endate < startdate only
-                  const formValues = form.getFieldsValue();
-                  formValues.startDate = date
-                  if (formValues.endDate != null && formValues.endDate.isBefore(date)) {
-                    formValues.endDate = null
-                    formValues.endTime = null
-
+              }}
+              id={`product-variants-price-original`}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} lg={3}>
+          <Form.Item
+            name={['product', 'priceValue']}
+            rules={[
+              {
+                required: true,
+                message: pageData.pricing.price.validateMessage
+              },
+              {
+                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                message: pageData.pricing.price.validateMessage
+              },
+              ({ getFieldValue }) => (
+                {
+                  validator(_, value) {
+                    if (value < getFieldValue(['product', 'priceDiscount'])) {
+                      return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                    }
+                    return Promise.resolve();
                   }
-                  form.setFieldsValue(formValues);
-                }}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} lg={5}>
-            <Form.Item
-              name={['product', "prices", "endDate"]}
-              rules={[]}
-            >
-              <DatePicker
-                suffixIcon={<CalendarNewIconBold />}
-                placeholder={pageData.pricing.priceDate.endDate.placeholder}
-                className="shop-date-picker w-100"
-                disabledDate={e => disabledDateByStartDate(e, basePrice)}
-                format={DateFormat.DD_MM_YYYY}
-                disabled={basePrice.startDate ? false : true}
-                onChange={(date) => {
-                  const formValues = form.getFieldsValue();
-                  formValues.endDate = date
-                  form.setFieldsValue(formValues)
-                }}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-
+                }
+              ),
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value < getFieldValue(['product', 'priceOriginal'])) {
+                    return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                  }
+                  return Promise.resolve()
+                }
+              })
+            ]}
+          >
+            <InputNumber
+              className="shop-input-number w-100"
+              placeholder={pageData.pricing.price.placeholder}
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              addonAfter={currency}
+              precision={0}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.position)) {
+                  event.preventDefault()
+                }
+              }}
+              id={`product-variants-price`}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} lg={3}>
+          <Form.Item
+            name={['product', 'priceDiscount']}
+            rules={[
+              {
+                required: true,
+                message: pageData.pricing.price.validateMessage
+              },
+              {
+                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                message: pageData.pricing.price.validateMessage
+              },
+              ({ getFieldValue }) => (
+                {
+                  validator(_, value) {
+                    if (value < getFieldValue(['product', 'priceDiscount'])) {
+                      return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
+                    }
+                    return Promise.resolve();
+                  }
+                }
+              ),
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value < getFieldValue(['product', 'priceOriginal'])) {
+                    return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
+                  }
+                  return Promise.resolve()
+                }
+              })
+            ]}
+          >
+            <InputNumber
+              className="shop-input-number w-100"
+              placeholder={pageData.pricing.price.placeholder}
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              addonAfter={currency}
+              precision={0}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.position)) {
+                  event.preventDefault()
+                }
+              }}
+              id={`product-variants-price`}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} lg={5}>
+          <Form.Item
+            name={['product', 'percentNumber']}
+            rules={[
+              {
+                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                message: pageData.pricing.priceDiscount.percentage.validateMessage
+              }
+            ]}
+          >
+            <InputNumber
+              onChange={value => onDiscountChange(0, value)}
+              className="shop-input-number w-100"
+              placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
+              formatter={(value) => `${value}%`}
+              parser={(value) => value?.replace('%', '')}
+              min={0}
+              max={100}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.position)) {
+                  event.preventDefault()
+                }
+              }}
+              id={`product-variants-price-discount-percentage`}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} lg={5}>
+          <Form.Item
+            name={['product', "startDate"]}
+            rules={[
+              {
+                required: true,
+                message: pageData.pricing.priceDate.startDate.validateMessage
+              }
+            ]}
+          >
+            <DatePicker
+              suffixIcon={<CalendarNewIconBold />}
+              placeholder={pageData.pricing.priceDate.startDate.placeholder}
+              className="shop-date-picker w-100"
+              format={DateFormat.DD_MM_YYYY}
+              disabledDate={disabledDate}
+              onChange={(date) => {
+                // Clear end date after select start date if endate < startdate only
+                const formValues = form.getFieldsValue();
+                formValues.startDate = date
+                if (formValues.endDate != null && formValues.endDate.isBefore(date)) {
+                  formValues.endDate = null
+                  formValues.endTime = null
+                }
+                form.setFieldsValue(formValues);
+              }}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} lg={5}>
+          <Form.Item
+            name={['product', "endDate"]}
+            rules={[]}
+          >
+            <DatePicker
+              suffixIcon={<CalendarNewIconBold />}
+              placeholder={pageData.pricing.priceDate.endDate.placeholder}
+              className="shop-date-picker w-100"
+              disabledDate={e => {
+                const formValues = form.getFieldsValue();
+                disabledDateByStartDate(e, formValues.startDate)
+              }}
+              format={DateFormat.DD_MM_YYYY}
+              //disabled={basePrice.startDate ? false : true}
+              onChange={(date) => {
+                const formValues = form.getFieldsValue();
+                formValues.endDate = date
+                form.setFieldsValue(formValues)
+              }}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
       <ShopTable
         className='stock-table mt-4'
         columns={tableSettings.columns}
         editPermission={PermissionKeys.ADMIN}
         deletePermission={PermissionKeys.ADMIN}
-        dataSource={stockData}
-        //bordered
+        dataSource={variants}
         scrollX={1600}
       />
     </>

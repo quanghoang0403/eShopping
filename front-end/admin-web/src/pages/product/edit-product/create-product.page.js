@@ -4,41 +4,30 @@ import {
   Col,
   Form,
   Input,
-  InputNumber,
   message,
   Row,
   Typography,
-  Tooltip,
-  Checkbox,
-  DatePicker,
-  Divider,
-  Space
+  Tooltip
 } from 'antd';
 import { ExclamationIcon } from 'constants/icons.constants';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
-import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
-import { DELAYED_TIME, inputNumberRangeOneTo999999999, inputNumberRange0To100, inputNumberRange1To999999999, tableSettings } from 'constants/default.constants'
+import { DELAYED_TIME } from 'constants/default.constants'
 import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import { currency } from 'constants/string.constants'
 import productDataService from "data-services/product/product-data.service";
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useHistory } from 'react-router'
-import { getValidationMessagesWithParentField, randomGuid, roundNumber } from 'utils/helpers'
+import { getValidationMessagesWithParentField } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-import product from '..';
-import productCategory from 'pages/product-category';
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
-import { CalendarNewIconBold } from 'constants/icons.constants';
-import { DateFormat } from "constants/string.constants";
 import FnbFroalaEditor from "components/shop-froala-editor";
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
@@ -51,26 +40,57 @@ export default function CreateProductPage() {
   const history = useHistory()
 
   const [image, setImage] = useState(null)
-  const [prices, setPrices] = useState([{
+  const [variants, setVariants] = useState([{
     position: 0,
-    priceName: 'Default',
-    priceValue: 0,
-    priceOriginal: 0,
-    priceDiscount: 0,
-    quantitySold: 0,
-    quantityLeft: 0,
-    percentNumber: 0,
-    startDate: moment(),
-    endDate: moment().add(7, "days")
-  }])
-  const basePrice = {
+    name: 'Product Variant 1',
+    isUseBasePrice: true,
     priceOriginal: 150000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
-    percentNumber: 0,
-    startDate: moment(),
-    endDate: moment().add(7, "days"),
-  }
+    startDate: '2023-01-01',
+    endDate: '2023-01-31',
+    stocks: [
+      { id: '1', name: 'S', quantity: 0 },
+      { id: '2', name: 'M', quantity: 1  },
+      { id: '3', name: 'L', quantity: 3 },
+      { id: '4', name: 'XL', quantity: 4 },
+      { id: '5', name: 'XXL', quantity: 5 }
+    ]
+  },
+  {
+    position: 1,
+    name: 'Product Variant 2',
+    isUseBasePrice: false,
+    priceOriginal: 150000.00,
+    priceValue: 140000.00,
+    priceDiscount: 130000.00,
+    startDate: '2023-02-01',
+    endDate: '2023-02-28',
+    stocks: [
+      { id: '1', name: 'S', quantity: 4 },
+      { id: '2', name: 'M', quantity: 1  },
+      { id: '3', name: 'L', quantity: 3 },
+      { id: '4', name: 'XL', quantity: 4 },
+      { id: '5', name: 'XXL', quantity: 5 }
+    ]
+  },
+  {
+    position: 2,
+    name: 'Product Variant 3',
+    isUseBasePrice: true,
+    priceOriginal: 150000.00,
+    priceValue: 140000.00,
+    priceDiscount: 130000.00,
+    startDate: '2023-03-01',
+    endDate: '2023-03-31',
+    stocks: [
+      { id: '1', name: 'S', quantity: 10 },
+      { id: '2', name: 'M', quantity: 1  },
+      { id: '3', name: 'L', quantity: 3 },
+      { id: '4', name: 'XL', quantity: 4 },
+      { id: '5', name: 'XXL', quantity: 5 }
+    ]
+  }])
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
@@ -137,78 +157,14 @@ export default function CreateProductPage() {
         minlength: 150,
         maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
-      },
-    },
-    pricing: {
-      title: t('product.priceInfo'),
-      discountCheck: t('product.labelDiscountCheck'),
-      addPrice: t('product.addPrice'),
-      price: {
-        label: t('product.labelPrice'),
-        placeholder: t('product.placeholderPrice'),
-        required: true,
-        max: 999999999,
-        min: 0,
-        format: '^[1-9]*$',
-        validateMessage: t('product.validatePriceNegative'),
-        validateMessageValue: t('product.validateOriginalOverPrice'),
-        validateMessageDiscount: t('product.validateDiscountOverPrice')
-      },
-      priceOriginal: {
-        label: t('product.labelPriceOriginal'),
-        placeholder: t('product.placeholderPriceOriginal'),
-        required: true,
-        max: 999999999,
-        min: 0,
-        format: '^[0-9]*$',
-        validateMessage: t('product.validatePriceNegative'),
-        validateMessageValue: t('product.validateOriginalOverPrice')
-      },
-      discount: {
-        numeric: {
-          label: t('product.labelPriceDiscount'),
-          placeholder: t('product.placeholderPriceDiscount'),
-          validateMessage: t('product.validateDiscountOverPrice')
-        },
-        percentage: {
-          label: t('product.labelPriceDiscountPercentage'),
-          placeholder: t('product.placeholderPriceDiscountPercentage'),
-          max: 100,
-          min: 0,
-          format: '^[0-9]*$',
-          validateMessage: t('product.validateDiscountPercentage')
-        }
-      },
-      priceName: {
-        label: t('product.labelPriceName'),
-        placeholder: t('product.placeholderPriceName'),
-        required: true,
-        maxLength: 100,
-        validateMessage: t('product.validatePriceName')
-      },
-      quantity: {
-        sold: {
-          label: t('product.labelQuantitySold'),
-          placeholder: t('product.placeholderQuantitySold'),
-        },
-        remaining: {
-          label: t('product.labelQuantityLeft'),
-          placeholder: t('product.placeholderQuantityLeft'),
-          validateMessage: t('product.validateQuantity')
-        }
-      },
-      priceDate: {
-        startDate: {
-          label: t('product.startDate'),
-          placeholder: t('product.placeholderStartDate'),
-          validateMessage: t('product.validateStartDate')
-        },
-        endDate: {
-          label: t('product.endDate'),
-          placeholder: t('product.placeholderEndDate'),
-          validateMessage: t('product.validateEndDate')
-        }
       }
+    },
+    variant: {
+      title: t('product.variantInfo'),
+      addVariant: t('product.addVariant'),
+      label: t('product.labelVariant'),
+      placeholder: t('product.placeholderVariant'),
+      validateVariant: t('product.validateVariant')
     },
     productCategory: {
       label: t('product.labelCategory'),
@@ -222,8 +178,7 @@ export default function CreateProductPage() {
       uploadImage: t('file.uploadImage'),
       title: t('file.title'),
       textNonImage: t('file.textNonImage'),
-      // addFromUrl: t('file.addFromUrl'),
-      bestDisplayImage: t('file.bestDisplayImage'),
+      bestDisplayImage: t('file.bestDisplayImage')
     },
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
@@ -246,7 +201,6 @@ export default function CreateProductPage() {
     }
   }
 
-
   const scrollToElement = (id) => {
     const element = document.getElementById(id)
     if (element) {
@@ -265,7 +219,7 @@ export default function CreateProductPage() {
         const createProductRequestModel = {
           ...values.product,
           imagePaths: [],
-          productPrices: values.product.prices,
+          productVariants: values.product.variants,
           thumbnail: values.product.media.url,
           content: productContent,
           keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
@@ -298,17 +252,17 @@ export default function CreateProductPage() {
     setImage(file)
   }
 
-  const onDeletePrice = (index) => {
+  const onDeleteVariant = (index) => {
     const formValue = form.getFieldsValue()
     const { product } = formValue
-    if (product.prices.length > 0) {
-      product.prices.splice(index, 1)
-      product.prices.forEach((item, index) => (item.position = index))
+    if (product.variants.length > 0) {
+      product.variants.splice(index, 1)
+      product.variants.forEach((item, index) => (item.position = index))
     }
-    setPrices(product.prices)
-    if (product.prices.length === 1) {
-      product.price = product.prices[0].price
-      product.prices[0].position = 0
+    setVariants(product.variants)
+    if (product.variants.length === 1) {
+      //product.price = product.variants[0].price
+      product.variants[0].position = 0
     }
     form.setFieldsValue(formValue)
   }
@@ -328,21 +282,21 @@ export default function CreateProductPage() {
     }
     const formValue = form.getFieldsValue()
     const { product } = formValue
-    const listPrice = reorder(product.prices, result.source.index, result.destination.index)
+    const listVariant = reorder(product.variants, result.source.index, result.destination.index)
 
-    setPrices(listPrice)
-    product.prices = listPrice
+    setVariants(listVariant)
+    product.variants = listVariant
     form.setFieldsValue(formValue)
   }
 
-  const onClickAddPrice = () => {
+  const onClickAddVariant = () => {
     const formValue = form.getFieldsValue()
     const { product } = formValue
-    const newPrice = {
-      position: prices.length,
+    const newVariant = {
+      position: variants.length,
       isUseBasePrice: true,
       thumbnail: '',
-      priceName: '',
+      name: '',
       priceValue: 0,
       priceOriginal: 0,
       priceDiscount: 0,
@@ -350,44 +304,34 @@ export default function CreateProductPage() {
       startDate: moment(),
       endDate: null
     }
-    const listPrice = [...(product.prices ?? prices), newPrice]
-    product.prices = listPrice
-    setPrices(listPrice)
+    const listVariant = [...(product.variants ?? variants), newVariant]
+    product.variants = listVariant
+    setVariants(listVariant)
     form.setFieldsValue(formValue)
     setTimeout(() => {
-      const dragDropPrices = document.getElementById('dragDropPrices')
-      dragDropPrices.scrollTop = dragDropPrices.scrollHeight
+      const dragDropVariants = document.getElementById('dragDropVariants')
+      dragDropVariants.scrollTop = dragDropVariants.scrollHeight
     }, 100)
     const discountCheckList = [...discountChecked, false]
     isDisCountChecked(discountCheckList);
   }
 
-  const renderPrices = () => {
-    const addPriceButton = (
-      <Button
-        type="primary"
-        icon={<IconBtnAdd className="icon-btn-add-price" />}
-        className="btn-add-price"
-        onClick={onClickAddPrice}
-      >
-        {pageData.pricing.addPrice}
-      </Button>
-    )
-    const multiplePrices = (
+  const renderVariants = () => {
+    return (
       <>
         <DragDropContext className="mt-4" onDragEnd={(result) => onDragEnd(result)}>
           <Droppable droppableId="droppable">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
                 <div
-                  id="dragDropPrices"
-                  style={prices.length >= 3 ? { height: 64 * 4, overflowY: 'scroll' } : { minHeight: prices.length * 64 }}
+                  id="dragDropVariants"
+                  style={variants.length >= 3 ? { height: 64 * 4, overflowY: 'scroll' } : { minHeight: variants.length * 64 }}
                 >
-                  <div style={{ minHeight: prices.length * 64 }}>
-                    {prices.map((price, index) => {
-                      const position = (price.position || 0) + 1
+                  <div style={{ minHeight: variants.length * 64 }}>
+                    {variants.map((variant, index) => {
+                      const position = (variant.position || 0) + 1
                       return (
-                        <Draggable key={price.id} draggableId={position.toString()} index={index}>
+                        <Draggable key={variant.id} draggableId={position.toString()} index={index}>
                           {(provided) => (
                             <Row
                               className={'mb-4 pointer price-item'}
@@ -402,7 +346,7 @@ export default function CreateProductPage() {
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[0, 16]}>
                                       <Col span={8}>
-                                        <h3>{pageData.pricing.priceName.label}</h3>
+                                        <h3>{pageData.variant.label}</h3>
                                       </Col>
                                       <Col span={8}>
                                         <h3>Hình ảnh</h3>
@@ -411,29 +355,28 @@ export default function CreateProductPage() {
                                     <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'position']}
+                                          name={['product', 'variants', variant.position, 'position']}
                                           hidden={true}
                                         >
                                           <Input />
                                         </Form.Item>
-                                        <Form.Item name={['product', 'prices', price.position, 'id']} hidden={true}>
+                                        <Form.Item name={['product', 'variants', variant.position, 'id']} hidden={true}>
                                           <Input />
                                         </Form.Item>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'priceName']}
+                                          name={['product', 'variants', variant.position, 'name']}
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.priceName.validateMessage
+                                              message: pageData.variant.validateVariant
                                             }
                                           ]}
-                                          value={price.priceName}
+                                          value={variant.name}
                                         >
                                           <Input
                                             className="shop-input"
-                                            placeholder={pageData.pricing.priceName.placeholder}
-                                            maxLength={pageData.pricing.priceName.maxLength}
-                                            id={`product-prices-${price.position}-name`}
+                                            placeholder={pageData.variant.placeholder}
+                                            id={`product-variants-${variant.position}-name`}
                                           />
                                         </Form.Item>
                                       </Col>
@@ -441,7 +384,7 @@ export default function CreateProductPage() {
                                         <Row span={12} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
                                           <div style={{ display: 'flex' }}>
                                             <Form.Item
-                                              name={['product', 'prices', price.position, 'thumbnail']}
+                                              name={['product', 'variants', variant.position, 'thumbnail']}
                                               rules={[{
                                                 required: true,
                                                 message: pageData.mediaNotExisted
@@ -472,7 +415,7 @@ export default function CreateProductPage() {
                                   <Col span={isMobileSize ? 5 : 2} className="icon-delete-price">
                                     <a
                                       className="m-2"
-                                      onClick={() => onDeletePrice(price.position)}
+                                      onClick={() => onDeleteVariant(variant.position)}
                                     >
                                       <FnbDeleteIcon />
                                     </a>
@@ -492,15 +435,16 @@ export default function CreateProductPage() {
         </DragDropContext>
         <Col span={24}>
           <div className="mt-2">
-            {addPriceButton}
+            <Button
+              type="primary"
+              icon={<IconBtnAdd className="icon-btn-add-price" />}
+              className="btn-add-price"
+              onClick={onClickAddVariant}
+            >
+              {pageData.variant.addVariant}
+            </Button>
           </div>
         </Col>
-      </>
-    )
-
-    return (
-      <>
-        {multiplePrices}
       </>
     )
   }
@@ -534,15 +478,26 @@ export default function CreateProductPage() {
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
+
   const addSEOKeywords = (e) => {
     e.preventDefault();
     setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
     setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
+
   const removeSEOKeyword = (keyword) => {
     setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
+
+  const sizes = [
+    { id: '1', name: 'S' },
+    { id: '2', name: 'M' },
+    { id: '3', name: 'L' },
+    { id: '4', name: 'XL' },
+    { id: '5', name: 'XXL' }
+  ]
+
   return (
     <>
       <Row className="shop-row-page-header">
@@ -586,18 +541,21 @@ export default function CreateProductPage() {
         name="basic"
         initialValues={{
           product: {
-            prices: {
-              [0]: {
-                priceName: 'Default',
-                quantitySold: 0,
-                position: 0,
-                priceValue: 0,
-                priceOriginal: 0,
-                priceDiscount: 0,
-                percentNumber: 0,
-                startDate: moment(),
-                endDate: moment().add(7, "days")
-              }
+            variants: {
+              // [0]: {
+              //   position: 0,
+              //   name: 'Default',
+              //   quantitySold: 0,
+              //   priceValue: 0,
+              //   priceOriginal: 0,
+              //   priceDiscount: 0,
+              //   percentNumber: 0,
+              //   startDate: moment(),
+              //   endDate: moment().add(7, "days")
+              // }
+              [0]: variants[0],
+              [1]: variants[1],
+              [2]: variants[2]
             }
           }
         }}
@@ -835,8 +793,8 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.pricing.title}</h4>
-                    {renderPrices()}
+                    <h4 className="title-group">{pageData.variant.title}</h4>
+                    {renderVariants()}
                   </Card>
                 </Col>
               </Row>
@@ -846,7 +804,7 @@ export default function CreateProductPage() {
           <br />
           <Row>
             <Card className="w-100 mt-1 shop-card h-auto">
-              <StockProductTable basePrice={basePrice} changeForm={changeForm} />
+              <StockProductTable changeForm={changeForm} sizes={sizes} form={form} variants={variants} setVariants={setVariants}/>
             </Card>
           </Row>
         </div>
