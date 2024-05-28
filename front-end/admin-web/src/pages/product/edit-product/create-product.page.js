@@ -220,7 +220,7 @@ export default function CreateProductPage() {
   }
 
   const onSubmitForm = () => {
-    console.log(form.getFieldsValue().product.variants)
+    console.log(form.getFieldsValue().product)
     // form
     //   .validateFields()
     //   .then(async (values) => {
@@ -527,7 +527,7 @@ export default function CreateProductPage() {
             //     endDate: moment().add(7, "days")
             //   }
             // }
-            variants: variants
+            variants: variants,
           }
         }}
         onFieldsChange={(e) => changeForm(e)}

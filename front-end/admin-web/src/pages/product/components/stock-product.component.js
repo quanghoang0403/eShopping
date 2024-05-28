@@ -317,13 +317,13 @@ export default function StockProductTable({ sizes, form, variants, setVariants }
       {
         title: "Quản lý tồn kho",
         align: 'center',
-        children: sizes.map((size) => ({
+        children: sizes.map((size, index) => ({
           title: size.name,
           dataIndex: size.id,
           position: size.id,
           align: 'center',
           width: 90,
-          render: (_, record, index) => {
+          render: (_, record) => {
             // Find the size in the stocks array of the current record
             const stock = record.stocks.find(stock => stock.id === size.id);
             // If the size is found, return its quantity, otherwise return 0
