@@ -11,7 +11,7 @@ import { DateFormat } from "constants/string.constants";
 import { roundNumber } from 'utils/helpers';
 import { PermissionKeys } from 'constants/permission-key.constants'
 
-export default function StockProductTable({ changeForm, sizes, form, variants, setVariants }) {
+export default function StockProductTable({ sizes, form, variants, setVariants }) {
   const tableSettings = {
     columns: [
       {
@@ -52,7 +52,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             width: 152,
             render: (value, record) => (
               <Form.Item
-                name={['product', 'variants', record.position,'priceOriginal']}
+                name={['product', 'variants', record.position, 'priceOriginal']}
                 rules={[
                   {
                     required: true,
@@ -78,8 +78,10 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   addonAfter={currency}
                   precision={0}
-                  onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.position)) {
+                  onKeyDown={(event) => {
+                    if (!/[0-9]/.test(event.key) &&
+                      event.key !== 'Backspace' &&
+                      event.key !== 'Delete') {
                       event.preventDefault()
                     }
                   }}
@@ -128,13 +130,16 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
                 ]}
               >
                 <InputNumber
+                  onChange={value => onDiscountChange(value, 0, record.position)}
                   className="shop-input-number w-100"
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   addonAfter={currency}
                   precision={0}
-                  onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.position)) {
+                  onKeyDown={(event) => {
+                    if (!/[0-9]/.test(event.key) &&
+                      event.key !== 'Backspace' &&
+                      event.key !== 'Delete') {
                       event.preventDefault()
                     }
                   }}
@@ -184,13 +189,53 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
                 ]}
               >
                 <InputNumber
+                  //onChange={value => setVariants(p => p.map((pr, i) => i == record.position ? { ...pr, priceValue: value } : pr))}
                   className="shop-input-number w-100"
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   addonAfter={currency}
                   precision={0}
-                  onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.position)) {
+                  onKeyDown={(event) => {
+                    if (!/[0-9]/.test(event.key) &&
+                      event.key !== 'Backspace' &&
+                      event.key !== 'Delete') {
+                      event.preventDefault()
+                    }
+                  }}
+                  value={value}
+                  disabled={record.isUseBasePrice}
+                />
+              </Form.Item>
+            )
+          },
+          {
+            title: '%',
+            dataIndex: 'percentNumber',
+            position: 'percentNumber',
+            align: 'center',
+            width: 102,
+            render: (value, record) => (
+              <Form.Item
+                name={['product', 'variants', record.position, 'percentNumber']}
+                rules={[
+                  {
+                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
+                    message: pageData.pricing.priceDiscount.percentage.validateMessage
+                  }
+                ]}
+              >
+                <InputNumber
+                  onChange={value => onDiscountChange(0, value, record.position)}
+                  className="shop-input-number w-100"
+                  placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
+                  formatter={(value) => `${value}%`}
+                  parser={(value) => value?.replace('%', '')}
+                  min={0}
+                  max={100}
+                  onKeyDown={(event) => {
+                    if (!/[0-9]/.test(event.key) &&
+                      event.key !== 'Backspace' &&
+                      event.key !== 'Delete') {
                       event.preventDefault()
                     }
                   }}
@@ -205,9 +250,10 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             dataIndex: 'startDate',
             position: 'startDate',
             align: 'center',
-            width: 204,
+            width: 206,
             render: (value, record) => (
               <Form.Item
+                valuePropName={'date'}
                 name={['product', "variants", record.position, "startDate"]}
                 rules={[
                   {
@@ -243,9 +289,10 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             dataIndex: 'endDate',
             position: 'endDate',
             align: 'center',
-            width: 204,
+            width: 206,
             render: (value, record) => (
               <Form.Item
+                valuePropName={'date'}
                 name={['product', "variants", record.position, "endDate"]}
                 rules={[]}
               >
@@ -292,8 +339,8 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   precision={0}
-                  onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.position)) {
+                  onKeyDown={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
                       event.preventDefault()
                     }
                   }}
@@ -382,7 +429,6 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
     else {
       // TO DO
     }
-    changeForm()
   };
 
   // const handleInputChange = (value, position, column) => {
@@ -408,33 +454,35 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
   //   changeForm();
   // };
 
-  const priceToPercentage = (num, index) => {
-    return roundNumber(stockData[index].priceValue === 0 ? 0 : num * 100 / stockData[index].priceValue)
+  const priceToPercentage = (num, total) => {
+    return roundNumber(total === 0 ? 0 : num * 100 / total)
   }
 
-  const percentageToPrice = (num, index) => {
-    return roundNumber(stockData[index].priceValue * num / 100)
+  const percentageToPrice = (num, total) => {
+    return roundNumber(total * num / 100)
   }
 
-  const onDiscountChange = (numeric = 0, percentage = 0, index = -1) => {
-    if (index == -1) {
+  const onDiscountChange = (numeric = 0, percentage = 0, position = -1) => {
+    if (position == -1) {
+      const total = form.getFieldValue(['product', 'priceValue'])
       if (numeric !== 0) {
-        const percent = priceToPercentage(numeric, index)
+        const percent = priceToPercentage(numeric, total)
         form.setFieldValue(['product', 'percentNumber'], percent)
       }
       else if (percentage !== 0) {
-        const num = percentageToPrice(percentage, index)
+        const num = percentageToPrice(percentage, total)
         form.setFieldValue(['product', 'priceDiscount'], num)
       }
     }
     else {
+      const total = form.getFieldValue(['product', 'variants', position, 'priceValue'])
       if (numeric !== 0) {
-        const percent = priceToPercentage(numeric, index)
-        form.setFieldValue(['product', 'variants', index, 'percentNumber'], percent)
+        const percent = priceToPercentage(numeric, total)
+        form.setFieldValue(['product', 'variants', position, 'percentNumber'], percent)
       }
       else if (percentage !== 0) {
-        const num = percentageToPrice(percentage, index)
-        form.setFieldValue(['product', 'variants', index, 'priceDiscount'], num)
+        const num = percentageToPrice(percentage, total)
+        form.setFieldValue(['product', 'variants', position, 'priceDiscount'], num)
       }
     }
   }
@@ -453,28 +501,28 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
     <>
       <h4 className="title-group">{pageData.pricing.title}</h4>
       <Row className='mt-3' gutter={[8, 16]}>
-        <Col xs={24} lg={3}>
+        <Col xs={24} lg={4}>
           <h3>
             {pageData.pricing.priceOriginal.label}
           </h3>
         </Col>
-        <Col xs={24} lg={3}>
+        <Col xs={24} lg={4}>
           <h3>
             {pageData.pricing.price.label}
           </h3>
         </Col>
-        <Col xs={24} lg={3}>
+        <Col xs={24} lg={4}>
           <h3>{pageData.pricing.priceDiscount.numeric.label}</h3>
         </Col>
-        <Col xs={24} lg={5}>
+        <Col xs={24} lg={4}>
           <h3>{pageData.pricing.priceDiscount.percentage.label}</h3>
         </Col>
-        <Col xs={24} lg={5}>
+        <Col xs={24} lg={4}>
           <h3>
             {pageData.pricing.priceDate.startDate.label}
           </h3>
         </Col>
-        <Col xs={24} lg={5}>
+        <Col xs={24} lg={4}>
           <h3>
             {pageData.pricing.priceDate.endDate.label}
           </h3>
@@ -482,7 +530,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
       </Row>
       <Row className='mt-3' gutter={[8, 16]}>
 
-        <Col xs={24} lg={3}>
+        <Col xs={24} lg={4}>
           <Form.Item
             name={['product', 'priceOriginal']}
             rules={[
@@ -511,8 +559,10 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               addonAfter={currency}
               precision={0}
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.position)) {
+              onKeyDown={(event) => {
+                if (!/[0-9]/.test(event.key) &&
+                  event.key !== 'Backspace' &&
+                  event.key !== 'Delete') {
                   event.preventDefault()
                 }
               }}
@@ -520,7 +570,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             />
           </Form.Item>
         </Col>
-        <Col xs={24} lg={3}>
+        <Col xs={24} lg={4}>
           <Form.Item
             name={['product', 'priceValue']}
             rules={[
@@ -559,8 +609,10 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               addonAfter={currency}
               precision={0}
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.position)) {
+              onKeyDown={(event) => {
+                if (!/[0-9]/.test(event.key) &&
+                  event.key !== 'Backspace' &&
+                  event.key !== 'Delete') {
                   event.preventDefault()
                 }
               }}
@@ -568,7 +620,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             />
           </Form.Item>
         </Col>
-        <Col xs={24} lg={3}>
+        <Col xs={24} lg={4}>
           <Form.Item
             name={['product', 'priceDiscount']}
             rules={[
@@ -601,14 +653,17 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             ]}
           >
             <InputNumber
+              onChange={value => onDiscountChange(value, 0)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.price.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               addonAfter={currency}
               precision={0}
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.position)) {
+              onKeyDown={(event) => {
+                if (!/[0-9]/.test(event.key) &&
+                  event.key !== 'Backspace' &&
+                  event.key !== 'Delete') {
                   event.preventDefault()
                 }
               }}
@@ -616,7 +671,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             />
           </Form.Item>
         </Col>
-        <Col xs={24} lg={5}>
+        <Col xs={24} lg={4}>
           <Form.Item
             name={['product', 'percentNumber']}
             rules={[
@@ -634,8 +689,10 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
               parser={(value) => value?.replace('%', '')}
               min={0}
               max={100}
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.position)) {
+              onKeyDown={(event) => {
+                if (!/[0-9]/.test(event.key) &&
+                  event.key !== 'Backspace' &&
+                  event.key !== 'Delete') {
                   event.preventDefault()
                 }
               }}
@@ -643,7 +700,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             />
           </Form.Item>
         </Col>
-        <Col xs={24} lg={5}>
+        <Col xs={24} lg={4}>
           <Form.Item
             name={['product', "startDate"]}
             rules={[
@@ -672,7 +729,7 @@ export default function StockProductTable({ changeForm, sizes, form, variants, s
             />
           </Form.Item>
         </Col>
-        <Col xs={24} lg={5}>
+        <Col xs={24} lg={4}>
           <Form.Item
             name={['product', "endDate"]}
             rules={[]}

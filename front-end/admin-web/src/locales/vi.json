@@ -318,7 +318,7 @@
         "placeholderDescription": "Vui lòng nhập mô tả sản phẩm",
         "variantInfo": "Biến thể",
         "addVariant": "Thêm biến thể",
-        "variantLabel": "Tên biến thể",
+        "labelVariant": "Tên biến thể",
         "validateVariant": "Vui lòng nhập tên biến thể",
         "placeholderVariant": "Nhập tên biến thể",
         "labelQuantitySold": "Số lượng đã bán",

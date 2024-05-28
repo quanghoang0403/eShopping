@@ -620,7 +620,7 @@ export const isValidHttpUrl = (string) => {
 }
 
 /**
- * Check onKeyPress event and check input key
+ * Check onKeyDown event and check input key
  * @param {event} event the event of the input
  * @param {string} id is the ID of the InputText
  * @param {number} min: minimum number

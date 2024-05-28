@@ -20,7 +20,7 @@
   .shop-row-page-header {
     display: inline-block !important;
     flex-direction: row;
-    justify-content: flex-end;    
+    justify-content: flex-end;
     .ant-col-12:first-child {
       max-width: 100%;
       display: inline-block;
@@ -112,11 +112,11 @@
   margin-bottom: 10px;
 }
 
-.shop-card {
-  .ant-card-body {
-    padding-bottom: 10px;
-  }
-}
+// .shop-card {
+//   .ant-card-body {
+//     padding-bottom: 10px;
+//   }
+// }
 
 .form-gender {
   display: block;

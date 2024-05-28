@@ -44,14 +44,14 @@ export default function CreateProductPage() {
     position: 0,
     name: 'Product Variant 1',
     isUseBasePrice: true,
-    priceOriginal: 150000.00,
+    priceOriginal: 200000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
-    startDate: '2023-01-01',
-    endDate: '2023-01-31',
+    startDate: moment(),
+    endDate: moment().add(7, "days"),
     stocks: [
       { id: '1', name: 'S', quantity: 0 },
-      { id: '2', name: 'M', quantity: 1  },
+      { id: '2', name: 'M', quantity: 1 },
       { id: '3', name: 'L', quantity: 3 },
       { id: '4', name: 'XL', quantity: 4 },
       { id: '5', name: 'XXL', quantity: 5 }
@@ -61,14 +61,14 @@ export default function CreateProductPage() {
     position: 1,
     name: 'Product Variant 2',
     isUseBasePrice: false,
-    priceOriginal: 150000.00,
+    priceOriginal: 180000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
-    startDate: '2023-02-01',
-    endDate: '2023-02-28',
+    startDate: moment(),
+    endDate: moment().add(6, "days"),
     stocks: [
       { id: '1', name: 'S', quantity: 4 },
-      { id: '2', name: 'M', quantity: 1  },
+      { id: '2', name: 'M', quantity: 1 },
       { id: '3', name: 'L', quantity: 3 },
       { id: '4', name: 'XL', quantity: 4 },
       { id: '5', name: 'XXL', quantity: 5 }
@@ -78,19 +78,26 @@ export default function CreateProductPage() {
     position: 2,
     name: 'Product Variant 3',
     isUseBasePrice: true,
-    priceOriginal: 150000.00,
+    priceOriginal: 160000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
-    startDate: '2023-03-01',
-    endDate: '2023-03-31',
+    startDate: moment(),
+    endDate: moment().add(4, "days"),
     stocks: [
       { id: '1', name: 'S', quantity: 10 },
-      { id: '2', name: 'M', quantity: 1  },
+      { id: '2', name: 'M', quantity: 1 },
       { id: '3', name: 'L', quantity: 3 },
       { id: '4', name: 'XL', quantity: 4 },
       { id: '5', name: 'XXL', quantity: 5 }
     ]
   }])
+  const sizes = [
+    { id: '1', name: 'S' },
+    { id: '2', name: 'M' },
+    { id: '3', name: 'L' },
+    { id: '4', name: 'XL' },
+    { id: '5', name: 'XXL' }
+  ]
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
@@ -213,39 +220,40 @@ export default function CreateProductPage() {
   }
 
   const onSubmitForm = () => {
-    form
-      .validateFields()
-      .then(async (values) => {
-        const createProductRequestModel = {
-          ...values.product,
-          imagePaths: [],
-          productVariants: values.product.variants,
-          thumbnail: values.product.media.url,
-          content: productContent,
-          keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
-        }
-        console.log(createProductRequestModel)
-        productDataService
-          .createProductAsync(createProductRequestModel)
-          .then((res) => {
-            if (res) {
-              message.success(pageData.productAddedSuccess);
-              setIsChangeForm(false);
-              history.push("/product");
-            }
-          })
-          .catch((errs) => {
-            form.setFields(getValidationMessagesWithParentField(errs, "product"));
-            console.error(errs)
-          })
+    console.log(form.getFieldsValue().product.variants)
+    // form
+    //   .validateFields()
+    //   .then(async (values) => {
+    //     const createProductRequestModel = {
+    //       ...values.product,
+    //       imagePaths: [],
+    //       productVariants: values.product.variants,
+    //       thumbnail: values.product.media.url,
+    //       content: productContent,
+    //       keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
+    //     }
+    //     console.log(createProductRequestModel)
+    //     productDataService
+    //       .createProductAsync(createProductRequestModel)
+    //       .then((res) => {
+    //         if (res) {
+    //           message.success(pageData.productAddedSuccess);
+    //           setIsChangeForm(false);
+    //           history.push("/product");
+    //         }
+    //       })
+    //       .catch((errs) => {
+    //         form.setFields(getValidationMessagesWithParentField(errs, "product"));
+    //         console.error(errs)
+    //       })
 
-      })
-      .catch((errors) => {
-        if (errors?.errorFields?.length > 0) {
-          const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
-          scrollToElement(elementId)
-        }
-      })
+    //   })
+    //   .catch((errors) => {
+    //     if (errors?.errorFields?.length > 0) {
+    //       const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
+    //       scrollToElement(elementId)
+    //     }
+    //   })
   }
 
   const onChangeImage = (file) => {
@@ -325,7 +333,7 @@ export default function CreateProductPage() {
               <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
                 <div
                   id="dragDropVariants"
-                  style={variants.length >= 3 ? { height: 64 * 4, overflowY: 'scroll' } : { minHeight: variants.length * 64 }}
+                  style={variants.length >= 3 ? { height: 120 * 4, overflowY: 'scroll' } : { minHeight: variants.length * 64 }}
                 >
                   <div style={{ minHeight: variants.length * 64 }}>
                     {variants.map((variant, index) => {
@@ -339,87 +347,60 @@ export default function CreateProductPage() {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <Col span={24} className="col-title">
-                                <DragIcon className="title-center drag-icon" width={38} height={38} />
-                                <div className="m-4 title-center position-text">{position + '.'}</div>
-                                <Row className="mt-14 w-100">
-                                  <Col span={isMobileSize ? 19 : 22}>
-                                    <Row gutter={[0, 16]}>
-                                      <Col span={8}>
-                                        <h3>{pageData.variant.label}</h3>
-                                      </Col>
-                                      <Col span={8}>
-                                        <h3>Hình ảnh</h3>
-                                      </Col>
-                                    </Row>
-                                    <Row gutter={[8, 16]}>
-                                      <Col xs={24} sm={24} md={24} lg={8}>
+                              <Col className="col-title">
+                                <Row className="m-3 mr-4">
+                                  <Col>
+                                    <h3>{position + '.'} {pageData.variant.label}</h3>
+                                  </Col>
+                                  <Col className="w-100">
+                                    <Form.Item
+                                      name={['product', 'variants', variant.position, 'position']}
+                                      hidden={true}
+                                    >
+                                      <Input />
+                                    </Form.Item>
+                                    <Form.Item name={['product', 'variants', variant.position, 'id']} hidden={true}>
+                                      <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name={['product', 'variants', variant.position, 'name']}
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: pageData.variant.validateVariant
+                                        }
+                                      ]}
+                                      value={variant.name}
+                                    >
+                                      <Input
+                                        className="shop-input"
+                                        placeholder={pageData.variant.placeholder}
+                                        id={`product-variants-${variant.position}-name`}
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col className={`variant-thumnail non-image ${image !== null ? 'have-image' : ''}`}>
+                                    <Row span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
+                                      <div style={{ display: 'flex' }}>
                                         <Form.Item
-                                          name={['product', 'variants', variant.position, 'position']}
-                                          hidden={true}
+                                          name={['product', 'variants', variant.position, 'thumbnail']}
                                         >
-                                          <Input />
-                                        </Form.Item>
-                                        <Form.Item name={['product', 'variants', variant.position, 'id']} hidden={true}>
-                                          <Input />
-                                        </Form.Item>
-                                        <Form.Item
-                                          name={['product', 'variants', variant.position, 'name']}
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message: pageData.variant.validateVariant
-                                            }
-                                          ]}
-                                          value={variant.name}
-                                        >
-                                          <Input
-                                            className="shop-input"
-                                            placeholder={pageData.variant.placeholder}
-                                            id={`product-variants-${variant.position}-name`}
+                                          <FnbUploadImageComponent
+                                            buttonText={pageData.file.uploadImage}
+                                            onChange={onChangeImage}
                                           />
                                         </Form.Item>
-                                      </Col>
-                                      <Col xs={24} sm={24} md={24} lg={16} className={`non-image ${image !== null ? 'have-image' : ''}`}>
-                                        <Row span={12} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
-                                          <div style={{ display: 'flex' }}>
-                                            <Form.Item
-                                              name={['product', 'variants', variant.position, 'thumbnail']}
-                                              rules={[{
-                                                required: true,
-                                                message: pageData.mediaNotExisted
-                                              }]}
-                                            >
-                                              <FnbUploadImageComponent
-                                                buttonText={pageData.file.uploadImage}
-                                                onChange={onChangeImage}
-                                              />
-                                            </Form.Item>
-                                          </div>
-                                        </Row>
-                                        <Row
-                                          span={12}
-                                          className="create-edit-product-text-non-image"
-                                          hidden={image !== null}
-                                        >
-                                          <Text disabled>
-                                            {pageData.file.textNonImage}
-                                            <br />
-                                            {pageData.file.bestDisplayImage}
-                                          </Text>
-                                        </Row>
-
-                                      </Col>
+                                      </div>
                                     </Row>
                                   </Col>
-                                  <Col span={isMobileSize ? 5 : 2} className="icon-delete-price">
-                                    <a
-                                      className="m-2"
-                                      onClick={() => onDeleteVariant(variant.position)}
-                                    >
-                                      <FnbDeleteIcon />
-                                    </a>
-                                  </Col>
+                                </Row>
+                                <Row span={2} className="icon-delete-price">
+                                  <a
+                                    className="m-4"
+                                    onClick={() => onDeleteVariant(variant.position)}
+                                  >
+                                    <FnbDeleteIcon />
+                                  </a>
                                 </Row>
                               </Col>
                             </Row>
@@ -490,14 +471,6 @@ export default function CreateProductPage() {
     setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
 
-  const sizes = [
-    { id: '1', name: 'S' },
-    { id: '2', name: 'M' },
-    { id: '3', name: 'L' },
-    { id: '4', name: 'XL' },
-    { id: '5', name: 'XXL' }
-  ]
-
   return (
     <>
       <Row className="shop-row-page-header">
@@ -541,22 +514,20 @@ export default function CreateProductPage() {
         name="basic"
         initialValues={{
           product: {
-            variants: {
-              // [0]: {
-              //   position: 0,
-              //   name: 'Default',
-              //   quantitySold: 0,
-              //   priceValue: 0,
-              //   priceOriginal: 0,
-              //   priceDiscount: 0,
-              //   percentNumber: 0,
-              //   startDate: moment(),
-              //   endDate: moment().add(7, "days")
-              // }
-              [0]: variants[0],
-              [1]: variants[1],
-              [2]: variants[2]
-            }
+            // variants: {
+            //   [0]: {
+            //     position: 0,
+            //     name: 'Default',
+            //     quantitySold: 0,
+            //     priceValue: 0,
+            //     priceOriginal: 0,
+            //     priceDiscount: 0,
+            //     percentNumber: 0,
+            //     startDate: moment(),
+            //     endDate: moment().add(7, "days")
+            //   }
+            // }
+            variants: variants
           }
         }}
         onFieldsChange={(e) => changeForm(e)}
@@ -804,7 +775,7 @@ export default function CreateProductPage() {
           <br />
           <Row>
             <Card className="w-100 mt-1 shop-card h-auto">
-              <StockProductTable changeForm={changeForm} sizes={sizes} form={form} variants={variants} setVariants={setVariants}/>
+              <StockProductTable sizes={sizes} form={form} variants={variants} setVariants={setVariants} />
             </Card>
           </Row>
         </div>
