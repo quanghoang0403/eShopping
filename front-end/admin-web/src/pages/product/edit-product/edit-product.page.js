@@ -134,7 +134,7 @@ export default function EditProductPage(props) {
         minlength: 150,
         maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
-      },
+      }
     },
     pricing: {
       title: t('product.priceInfo'),
@@ -178,7 +178,7 @@ export default function EditProductPage(props) {
       quantity: {
         sold: {
           label: t('product.labelQuantitySold'),
-          placeholder: t('product.placeholderQuantitySold'),
+          placeholder: t('product.placeholderQuantitySold')
         },
         remaining: {
           label: t('product.labelQuantityLeft'),
@@ -292,9 +292,9 @@ export default function EditProductPage(props) {
           price: data?.productPrices.length === 1 ? data?.productPrices[0].priceValue : null,
           prices: pricesData,
           titleSEO: data?.titleSEO,
-          descriptionSEO: data?.descriptionSEO,
-         
-        },
+          descriptionSEO: data?.descriptionSEO
+
+        }
       };
 
       /// Update image
@@ -531,15 +531,15 @@ export default function EditProductPage(props) {
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[0, 16]}>
-                                        <Col span={8}>
-                                          <h3>{pageData.pricing.priceName.label}</h3>
-                                        </Col>
-                                        <Col span={8}>
-                                          <h3>{pageData.pricing.quantity.remaining.label}</h3>
-                                        </Col>
-                                        <Col span={8}>
-                                          <h3>{pageData.pricing.quantity.sold.label}</h3>
-                                        </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.priceName.label}</h3>
+                                      </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.quantity.remaining.label}</h3>
+                                      </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.quantity.sold.label}</h3>
+                                      </Col>
                                     </Row>
                                     <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -728,12 +728,12 @@ export default function EditProductPage(props) {
                                       </Checkbox>
                                     </Row>
                                     <Row className={`mt-3 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                            <h3>{pageData.pricing.discount.numeric.label}</h3>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={12}>
-                                            <h3>{pageData.pricing.discount.percentage.label}</h3>
-                                        </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>{pageData.pricing.discount.numeric.label}</h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <h3>{pageData.pricing.discount.percentage.label}</h3>
+                                      </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -802,16 +802,16 @@ export default function EditProductPage(props) {
                                       </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                          <h3>
-                                            {pageData.pricing.priceDate.startDate.label}
-                                          </h3>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                          <h3>
-                                            {pageData.pricing.priceDate.endDate.label}
-                                          </h3>
-                                        </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceDate.startDate.label}
+                                        </h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceDate.endDate.label}
+                                        </h3>
+                                      </Col>
                                     </Row>
                                     <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -820,8 +820,8 @@ export default function EditProductPage(props) {
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.priceDate.startDate.validateMessage,
-                                            },
+                                              message: pageData.pricing.priceDate.startDate.validateMessage
+                                            }
                                           ]}
                                         >
                                           <DatePicker
@@ -1153,13 +1153,13 @@ export default function EditProductPage(props) {
                       </Tooltip>
                     </div>
                     <div>
-                    {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
-                    }
-                    
-                    <div className='d-flex mt-3'>
+                      {
+                        keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                      }
+
+                      <div className='d-flex mt-3'>
                         <Input
-                          className="shop-input-with-count" 
+                          className="shop-input-with-count"
                           showCount
                           value={keywordSEO?.value || ''}
                           placeholder={pageData.SEOInformation.keyword.placeholder}

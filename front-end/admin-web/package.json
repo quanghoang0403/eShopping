@@ -52,7 +52,16 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react": "^18.3.3",
+    "@types/react-router-dom": "^5.3.3",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^3.6.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-react": "^7.9.1"
   },
   "browserslist": {
     "production": [
