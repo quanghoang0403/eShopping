@@ -14,7 +14,6 @@ import { ExclamationIcon, WarningIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
 // import blogDataService from 'data-services/blog/blog-data.service'
-import { error } from 'jquery'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -162,7 +161,9 @@ export default function EditBlogPage (props) {
         setBlog(res)
         mappingData(res)
       })
-      .catch(error)
+      .catch((errors) => { 
+        message.error(element.message)
+      })
   }
 
   const mappingData = (data) => {
