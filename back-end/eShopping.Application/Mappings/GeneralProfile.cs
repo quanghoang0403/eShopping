@@ -67,6 +67,8 @@ namespace eShopping.Application.Mappings
             CreateMap<ProductVariant, AdminProductVariantModel>();
             CreateMap<ProductVariant, StoreProductVariantModel>();
 
+            CreateMap<ProductSize, AdminProductSizeModel>();
+
             CreateMap<ProductStock, AdminProductStockModel>();
 
             CreateMap<Blog, AdminBlogModel>().ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime));
@@ -90,6 +92,8 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminProductVariantModel, ProductVariant>();
             CreateMap<AdminCreateProductRootCategoryRequest, ProductRootCategory>();
             CreateMap<AdminUpdateProductRootCategoryRequest, ProductRootCategory>();
+            CreateMap<AdminCreateProductSizeRequest, ProductSize>();
+            CreateMap<AdminCreateProductSizeCategoryRequest, ProductSizeCategory>();
 
             #endregion
         }
