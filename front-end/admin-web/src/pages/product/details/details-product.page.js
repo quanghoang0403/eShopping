@@ -1,10 +1,10 @@
-import { Button, Col, Form, Image, Row, Typography, message,Tooltip } from 'antd'
+import { Button, Col, Form, Image, Row, Typography, message, Tooltip } from 'antd'
 import { images } from 'constants/images.constants'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import PageTitle from 'components/page-title'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ProductStatus } from 'constants/product-status.constants'
-import productDataService from "data-services/product/product-data.service";
+import productDataService from 'data-services/product/product-data.service';
 import { useEffect, useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { formatCurrency, formatNumber, getCurrency } from 'utils/helpers'
@@ -15,12 +15,12 @@ import { useTranslation } from 'react-i18next';
 import { ExclamationIcon } from 'constants/icons.constants';
 const { Text } = Typography
 
-export default function ProductDetailPage (props) {
+export default function ProductDetailPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
   const [product, setProduct] = useState({})
   const [activate, setActivate] = useState(null)
-  const [statusId,setStatusId] = useState(null)
+  const [statusId, setStatusId] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [titleModal, setTitleModal] = useState()
   const { t } = useTranslation()
@@ -37,17 +37,17 @@ export default function ProductDetailPage (props) {
         label: t('product.labelDescription')
       }
     },
-    SEOInformation:{
+    SEOInformation: {
       title: t('form.SEOConfiguration'),
-      keyword:{
+      keyword: {
         label: t('form.SEOKeywords'),
         tooltip: t('form.SEOKeywordsTooltip')
       },
-      SEOtitle:{
-        label:t('form.SEOTitle'),
+      SEOtitle: {
+        label: t('form.SEOTitle'),
         tooltip: t('form.SEOTitleTooltip')
       },
-      description:{
+      description: {
         label: t('form.SEODescription'),
         tooltip: t('form.SEODescriptionTooltip')
       }
@@ -61,34 +61,34 @@ export default function ProductDetailPage (props) {
       priceOriginal: {
         label: t('product.labelPriceOriginal')
       },
-      discount:{
-        numeric:{
-          label:t('product.labelPriceDiscount')
+      discount: {
+        numeric: {
+          label: t('product.labelPriceDiscount')
         },
-        percentage:{
-          label:t('product.labelPriceDiscountPercentage')
+        percentage: {
+          label: t('product.labelPriceDiscountPercentage')
         }
       },
-      quantity:{
+      quantity: {
         sold: {
-          label:t('product.labelQuantitySold')
+          label: t('product.labelQuantitySold')
         },
-        remaining:{
+        remaining: {
           label: t('product.labelQuantityLeft')
         }
       },
-      priceDate:{
-        discountDate:t('product.discountDate')
+      priceDate: {
+        discountDate: t('product.discountDate')
       }
     },
     productCategory: {
       label: t('product.labelCategory'),
-      name:{
-        label:t('productCategory.labelName')
+      name: {
+        label: t('productCategory.labelName')
       }
     },
-    content:{
-      label:t('product.labelProductContent')
+    content: {
+      label: t('product.labelProductContent')
     },
     media: t('file.media'),
     confirmDelete: t('dialog.confirmDelete'),
@@ -134,7 +134,7 @@ export default function ProductDetailPage (props) {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  const onDeleteItem = async() => {
+  const onDeleteItem = async () => {
     const { id } = product
     // productDataService.getAllOrderNotCompletedByProductIdAsync(id).then((res) => {
     //   const { preventDeleteProduct } = res;
@@ -151,7 +151,7 @@ export default function ProductDetailPage (props) {
     setTitleModal(pageData.confirmDelete)
   }
   const handleDeleteItem = async () => {
-    const {id} = product
+    const { id } = product
     var res = await productDataService.deleteProductByIdAsync(id);
     if (res) {
       message.success(pageData.productDeleteSuccess);
@@ -159,7 +159,7 @@ export default function ProductDetailPage (props) {
       message.error(pageData.productDeleteFail);
     }
     setIsModalVisible(false);
-    window.location.href = "/product";
+    window.location.href = '/product';
   }
 
   const onEditItem = (id) => {
@@ -346,7 +346,7 @@ export default function ProductDetailPage (props) {
 
                             </Col>
                           </Row>
-                          <Row className={`${item?.priceDiscount === 0 && item?.percentNumber === 0 ?'d-none':"w-100"}`}>
+                          <Row className={`${item?.priceDiscount === 0 && item?.percentNumber === 0 ? 'd-none' : 'w-100'}`}>
                             <Col span={24}>
                               <Row className='mb-2 w-100'>
                                 <Col xs={24} sm={24} md={24} lg={10} >
@@ -374,13 +374,13 @@ export default function ProductDetailPage (props) {
                                   <Text className="text-name text-bold">{pageData.pricing.priceDate.discountDate}</Text>
                                 </Col>
                                 <Col xs={11} sm={11} md={11} lg={7} className='pl-4'>
-                                  <Text className="text-name">{item?.startDate?.slice(0,10).split('-').reverse().join('-') || ""}</Text>
+                                  <Text className="text-name">{item?.startDate?.slice(0, 10).split('-').reverse().join('-') || ''}</Text>
                                 </Col>
                                 <Col span={1}>
                                   -
                                 </Col>
                                 <Col xs={11} sm={11} md={11} lg={7} className='pr-4'>
-                                  <Text className="text-name text-secondary ">{item?.endDate?.slice(0,10).split('-').reverse().join('-') || ""}</Text>
+                                  <Text className="text-name text-secondary ">{item?.endDate?.slice(0, 10).split('-').reverse().join('-') || ''}</Text>
                                 </Col>
                               </Row>
                             </Col>
@@ -440,7 +440,7 @@ export default function ProductDetailPage (props) {
             <div className="form-image padding-t-l-b">
               <Text className="text-title media">{pageData.media}</Text>
               <div className="content-img">
-                <Image width={176} src={product?.thumbnail ?? "error"} fallback={images.productDefault} />
+                <Image width={176} src={product?.thumbnail ?? 'error'} fallback={images.productDefault} />
               </div>
             </div>
             <div className="form-image padding-t-l-b">
@@ -451,7 +451,7 @@ export default function ProductDetailPage (props) {
                 <Text className="text-item">{pageData.productCategory.name.label}</Text>
               </div>
               <div className="div-text">
-                {product?.productCategories?.map(pc=>{
+                {product?.productCategories?.map(pc => {
                   return <Text className="text-title">{pc.name}</Text>
                 })}
               </div>

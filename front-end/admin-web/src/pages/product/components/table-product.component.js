@@ -7,8 +7,8 @@ import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useTranslation } from 'react-i18next'
-import productCategoryDataService from "data-services/product-category/product-category-data.service";
-import productDataService from "data-services/product/product-data.service";
+import productCategoryDataService from 'data-services/product-category/product-category-data.service';
+import productDataService from 'data-services/product/product-data.service';
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {
@@ -77,7 +77,7 @@ export default function TableProduct(props) {
             <Row className="table-img-box">
               <div>
                 <Thumbnail
-                  // src={getThumbnailUrl(record?.thumbnail, 'mobile')} 
+                  // src={getThumbnailUrl(record?.thumbnail, 'mobile')}
                   src={record?.thumbnail}
                 />
               </div>
@@ -368,8 +368,8 @@ export default function TableProduct(props) {
     var resCategory = await productCategoryDataService.getAllProductCategoriesAsync();
     if (resCategory) {
       const allCategoryOption = {
-        id: "",
-        name: "Tất cả",
+        id: '',
+        name: 'Tất cả'
       };
       const categoryOptions = [allCategoryOption, ...resCategory.allProductCategories];
       setProductCategories(categoryOptions);

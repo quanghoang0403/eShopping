@@ -4,7 +4,6 @@ import {
   Col,
   Form,
   Input,
-  message,
   Row,
   Typography,
   Tooltip
@@ -17,9 +16,9 @@ import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
+import { IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import productDataService from "data-services/product/product-data.service";
+import productDataService from 'data-services/product/product-data.service';
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useHistory } from 'react-router'
@@ -28,7 +27,7 @@ import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
-import FnbFroalaEditor from "components/shop-froala-editor";
+import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 import StockProductTable from '../components/stock-product.component';
@@ -38,17 +37,16 @@ const { Text } = Typography
 
 export default function CreateProductPage() {
   const history = useHistory()
-
-  const [image, setImage] = useState(null)
   const [variants, setVariants] = useState([{
     position: 0,
+    thumbnail: null,
     name: 'Product Variant 1',
     isUseBasePrice: true,
     priceOriginal: 200000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
     startDate: moment(),
-    endDate: moment().add(7, "days"),
+    endDate: moment().add(7, 'days'),
     stocks: [
       { id: '1', name: 'S', quantity: 0 },
       { id: '2', name: 'M', quantity: 1 },
@@ -59,13 +57,14 @@ export default function CreateProductPage() {
   },
   {
     position: 1,
+    thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg',
     name: 'Product Variant 2',
     isUseBasePrice: false,
     priceOriginal: 180000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
     startDate: moment(),
-    endDate: moment().add(6, "days"),
+    endDate: moment().add(6, 'days'),
     stocks: [
       { id: '1', name: 'S', quantity: 4 },
       { id: '2', name: 'M', quantity: 1 },
@@ -76,13 +75,14 @@ export default function CreateProductPage() {
   },
   {
     position: 2,
+    thumbnail: null,
     name: 'Product Variant 3',
     isUseBasePrice: true,
     priceOriginal: 160000.00,
     priceValue: 140000.00,
     priceDiscount: 130000.00,
     startDate: moment(),
-    endDate: moment().add(4, "days"),
+    endDate: moment().add(4, 'days'),
     stocks: [
       { id: '1', name: 'S', quantity: 10 },
       { id: '2', name: 'M', quantity: 1 },
@@ -98,23 +98,35 @@ export default function CreateProductPage() {
     { id: '4', name: 'XL' },
     { id: '5', name: 'XXL' }
   ]
+  const [image, setImage] = useState(null)
+  const [thumbnailVariants, setThumbnailVariants] = useState([]);
   const [listAllProductCategory, setListAllProductCategory] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
   const [discountChecked, isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
-  const [productContent, setProductContent] = useState("");
+  const [productContent, setProductContent] = useState('');
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
+  const [form] = Form.useForm()
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
+
+  useEffect(() => {
+    handleChangeThumbnail()
+  }, [variants])
+
+  const handleChangeThumbnail = () => {
+    const variants = form.getFieldValue(['product', 'variants'])
+    setThumbnailVariants(variants.map(variant => variant.thumbnail));
+  }
+
   const { t } = useTranslation()
-  const [form] = Form.useForm()
   const pageData = {
     title: t('product.addProduct'),
     btnCancel: t('button.cancel'),
@@ -256,10 +268,6 @@ export default function CreateProductPage() {
     //   })
   }
 
-  const onChangeImage = (file) => {
-    setImage(file)
-  }
-
   const onDeleteVariant = (index) => {
     const formValue = form.getFieldsValue()
     const { product } = formValue
@@ -333,11 +341,12 @@ export default function CreateProductPage() {
               <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
                 <div
                   id="dragDropVariants"
-                  style={variants.length >= 3 ? { height: 120 * 4, overflowY: 'scroll' } : { minHeight: variants.length * 64 }}
+                  style={variants.length > 3 ? { height: 700, overflowY: 'scroll' } : { minHeight: variants.length * 64 }}
                 >
                   <div style={{ minHeight: variants.length * 64 }}>
                     {variants.map((variant, index) => {
                       const position = (variant.position || 0) + 1
+                      const thumbnail = thumbnailVariants[variant.position]
                       return (
                         <Draggable key={variant.id} draggableId={position.toString()} index={index}>
                           {(provided) => (
@@ -379,15 +388,15 @@ export default function CreateProductPage() {
                                       />
                                     </Form.Item>
                                   </Col>
-                                  <Col className={`variant-thumnail non-image ${image !== null ? 'have-image' : ''}`}>
-                                    <Row span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
-                                      <div style={{ display: 'flex' }}>
+                                  <Col className={`variant-thumnail non-image ${thumbnail != null ? 'have-image' : ''}`}>
+                                    <Row span={24} className={`image-product ${thumbnail != null ? 'justify-left' : ''}`}>
+                                      <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
                                         <Form.Item
                                           name={['product', 'variants', variant.position, 'thumbnail']}
                                         >
                                           <FnbUploadImageComponent
                                             buttonText={pageData.file.uploadImage}
-                                            onChange={onChangeImage}
+                                            onChange={handleChangeThumbnail}
                                           />
                                         </Form.Item>
                                       </div>
@@ -527,7 +536,7 @@ export default function CreateProductPage() {
             //     endDate: moment().add(7, "days")
             //   }
             // }
-            variants: variants,
+            variants: variants
           }
         }}
         onFieldsChange={(e) => changeForm(e)}
@@ -577,7 +586,7 @@ export default function CreateProductPage() {
                     <h4 className="shop-form-label">{pageData.content.label}</h4>
                     <FnbFroalaEditor
                       onChange={(value) => {
-                        if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
+                        if (value !== '' && value !== '<div></div>') setIsChangeForm(true);
                         setProductContent(value);
                       }}
                       placeholder={pageData.content.placeholder}
@@ -701,8 +710,8 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.file.title}</h4>
-                    <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
-                      <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
+                    <Row className={`non-image ${image != null ? 'have-image' : ''}`}>
+                      <Col span={24} className={`image-product ${image != null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
                           <Form.Item
                             name={['product', 'media']}
@@ -713,7 +722,7 @@ export default function CreateProductPage() {
                           >
                             <FnbUploadImageComponent
                               buttonText={pageData.file.uploadImage}
-                              onChange={onChangeImage}
+                              onChange={(file) => setImage(file)}
                             />
                           </Form.Item>
                         </div>
@@ -721,7 +730,7 @@ export default function CreateProductPage() {
                       <Col
                         span={24}
                         className="create-edit-product-text-non-image"
-                        hidden={image !== null}
+                        hidden={image != null}
                       >
                         <Text disabled>
                           {pageData.file.textNonImage}
@@ -771,11 +780,10 @@ export default function CreateProductPage() {
               </Row>
             </Col>
           </Row>
-
           <br />
           <Row>
             <Card className="w-100 mt-1 shop-card h-auto">
-              <StockProductTable sizes={sizes} form={form} variants={variants} setVariants={setVariants} />
+              <StockProductTable sizes={sizes} form={form} variants={variants} />
             </Card>
           </Row>
         </div>

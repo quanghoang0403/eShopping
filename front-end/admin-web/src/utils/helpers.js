@@ -8,7 +8,7 @@ import { getStorage, localStorageKeys } from './localStorage.helpers'
 import { decryptWithAES } from './securityHelpers'
 import { PermissionKeys } from 'constants/permission-key.constants'
 export const browserHistory = createBrowserHistory()
-import i18n from "utils/i18n";
+import i18n from 'utils/i18n';
 const { t } = i18n;
 /// Format date
 export const formatDate = (date, format) => {
@@ -678,7 +678,7 @@ export const checkOnKeyPressValidation = (event, id, min, max, precision) => {
       return false
     }
   } catch {
-    console.log("error validate")
+    console.log('error validate')
   }
 
   return true

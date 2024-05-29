@@ -34,7 +34,7 @@ const refreshToken = async () => {
         if (result.data.permissions?.length > 0) {
           setStorageToken(result.data.token)
         } else {
-          message.error("Permission Denied")
+          message.error('Permission Denied')
         }
       }
     } catch (error) {

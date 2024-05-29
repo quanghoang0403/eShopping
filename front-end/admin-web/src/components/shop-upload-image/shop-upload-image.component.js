@@ -1,6 +1,6 @@
 import { Col, message, Row } from 'antd'
 import { EditFillImage, EyeOpenImageIcon, TrashFillImage } from 'constants/icons.constants'
-import fileDataService from "data-services/file/file-data.service";
+import fileDataService from 'data-services/file/file-data.service';
 import moment from 'moment'
 import React, { useState } from 'react'
 import ImageUploading from 'react-images-uploading'
@@ -21,7 +21,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
     acceptType,
     imageSizeTooBig = t('file.imageSizeTooBig'),
     acceptFileImageTypes = t('file.acceptFileImageTypes'),
-    isDisabled = false
+    isDisabled = false,
   } = props
   const [images, setImages] = React.useState([])
   const [visibleViewer, setVisibleViewer] = useState(false)
@@ -64,7 +64,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
           if (onChange) {
             onChange({
               fileName: buildFileName,
-              url: res.link,
+              url: res.link
             });
           }
         }

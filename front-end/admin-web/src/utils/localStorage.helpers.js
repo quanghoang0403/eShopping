@@ -1,4 +1,4 @@
-import { encryptWithAES } from "./securityHelpers"
+import { encryptWithAES } from './securityHelpers'
 
 export const localStorageKeys = {
   TOKEN: 'TOKEN',

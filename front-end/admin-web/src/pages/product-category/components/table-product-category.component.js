@@ -4,8 +4,8 @@ import { EditButtonComponent } from 'components/edit-button/edit-button.componen
 import { ShopTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import productCategoryDataService from "data-services/product-category/product-category-data.service";
-import productDataService from "data-services/product/product-data.service";
+import productCategoryDataService from 'data-services/product-category/product-category-data.service';
+import productDataService from 'data-services/product/product-data.service';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -105,7 +105,7 @@ export default function TableProductCategory() {
       } else {
         message.error(pageData.productCategoryDeleteFail);
       }
-      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, "");
+      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, '');
     } catch (error) {
       console.log(error);
     }
@@ -120,8 +120,8 @@ export default function TableProductCategory() {
           return {
             key: item?.id,
             productId: item?.id,
-            name: item?.name ?? "N/A",
-            thumbnail: item?.thumbnail,
+            name: item?.name ?? 'N/A',
+            thumbnail: item?.thumbnail
           };
         });
         setShowProductsModal(true);
@@ -155,9 +155,9 @@ export default function TableProductCategory() {
       const data = dataModal.map((item) => item?.productId);
       const putData = {
         productCategoryId: selectedProductCategory?.id,
-        productByCategoryIds: [],
+        productByCategoryIds: []
       };
-      putData["productByCategoryIds"] = data;
+      putData['productByCategoryIds'] = data;
       const res = await productCategoryDataService.updateProductByCategoryAsync(putData);
       if (res) {
         message.success(pageData.productCategoryUpdateSuccess);
@@ -271,7 +271,7 @@ export default function TableProductCategory() {
         const productsToAddModel = res;
         setAllProducts(productsToAddModel);
         var productIds = records.map(function (item) {
-          return item["productId"];
+          return item['productId'];
         });
         const result = productsToAddModel.filter((item) => !productIds.includes(item?.id));
         setProducts(result);

@@ -19,7 +19,7 @@ import {
 } from 'antd'
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import FnbFroalaEditor from 'components/shop-froala-editor';
-import { DateFormat } from "constants/string.constants";
+import { DateFormat } from 'constants/string.constants';
 import { ExclamationIcon } from 'constants/icons.constants';
 import { roundNumber } from 'utils/helpers';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
@@ -34,7 +34,7 @@ import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ProductStatus } from 'constants/product-status.constants'
 import { currency } from 'constants/string.constants'
-import productDataService from "data-services/product/product-data.service";
+import productDataService from 'data-services/product/product-data.service';
 import cloneDeep from 'lodash/cloneDeep'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -242,7 +242,7 @@ export default function EditProductPage(props) {
   }
   const disabledDate = (current) => {
     // Can not select days before today
-    return current && current < moment().startOf("day");
+    return current && current < moment().startOf('day');
   };
 
   const disabledDateByStartDate = (current, price) => {
@@ -335,7 +335,7 @@ export default function EditProductPage(props) {
                 }
               })
               .catch((errs) => {
-                form.setFields(getValidationMessagesWithParentField(errs, "product"));
+                form.setFields(getValidationMessagesWithParentField(errs, 'product'));
               });
           } catch (errors) {
             // build error message
@@ -727,7 +727,7 @@ export default function EditProductPage(props) {
                                         {pageData.pricing.discountCheck}
                                       </Checkbox>
                                     </Row>
-                                    <Row className={`mt-3 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`mt-3 ${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <h3>{pageData.pricing.discount.numeric.label}</h3>
                                       </Col>
@@ -735,7 +735,7 @@ export default function EditProductPage(props) {
                                         <h3>{pageData.pricing.discount.percentage.label}</h3>
                                       </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceDiscount']}
@@ -801,7 +801,7 @@ export default function EditProductPage(props) {
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <h3>
                                           {pageData.pricing.priceDate.startDate.label}
@@ -813,10 +813,10 @@ export default function EditProductPage(props) {
                                         </h3>
                                       </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices", price.position, "startDate"]}
+                                          name={['product', 'prices', price.position, 'startDate']}
                                           rules={[
                                             {
                                               required: true,
@@ -849,7 +849,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices", price.position, "endDate"]}
+                                          name={['product', 'prices', price.position, 'endDate']}
                                           rules={[]}
                                         >
                                           <DatePicker
@@ -1072,7 +1072,7 @@ export default function EditProductPage(props) {
                   <FnbFroalaEditor
                     value={productContent}
                     onChange={(value) => {
-                      if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
+                      if (value !== '' && value !== '<div></div>') setIsChangeForm(true);
                       setProductContent(value);
                     }}
                     placeholder={pageData.content.placeholder}

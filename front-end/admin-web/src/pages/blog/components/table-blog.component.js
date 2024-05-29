@@ -197,7 +197,7 @@ export const TableBlog = () => {
           return (
             <div className="lastSavedTime">
               <span>{moment(record.lastSavedTime)?.format('HH:mm')}</span>
-              <span className="lastSavedTimeDate">{moment(record.lastSavedTime)?.format("DD-MM-YYYY")}</span>
+              <span className="lastSavedTimeDate">{moment(record.lastSavedTime)?.format('DD-MM-YYYY')}</span>
             </div>
           )
         }
@@ -306,7 +306,7 @@ export const TableBlog = () => {
           }}
         />
       )
-      : "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
+      : 'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd'
   }
 
   return (

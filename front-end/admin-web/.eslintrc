@@ -1,4 +1,3 @@
-
 {
   "env": {
     "browser": true,
@@ -12,9 +11,7 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "prettier", "react"
-  ],
+  "plugins": ["prettier", "react"],
   "parser": "babel-eslint",
   "extends": ["prettier"],
   "settings": {
@@ -43,6 +40,7 @@
   //   "CONFIG": true
   // },
   "rules": {
+    "quotes": ["error", "single"],
     "camelcase": 0,
     "comma-dangle": 1,
     "handle-callback-err": 2,

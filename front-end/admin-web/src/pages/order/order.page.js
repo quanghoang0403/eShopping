@@ -1,18 +1,18 @@
-import { Row, message, Col, Button, Input } from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import HorizontalButtonGroup from "components/button-group-with-badges/button-group-with-badges.component";
-import PageTitle from "components/page-title";
-import { ShopTable } from "components/shop-table/shop-table";
-import { OrderOptionDate, OrderStatus } from "constants/order-status.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import OrderDataService from "data-services/order/order-data.service";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import OrderList from "./components/OrderList.component";
-import { executeAfter } from "utils/helpers";
-import { FnbModal } from "components/shop-modal/shop-modal-component";
-import { ExclamationIcon } from "constants/icons.constants";
+import { Row, message, Col, Button, Input } from 'antd';
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
+import HorizontalButtonGroup from 'components/button-group-with-badges/button-group-with-badges.component';
+import PageTitle from 'components/page-title';
+import { ShopTable } from 'components/shop-table/shop-table';
+import { OrderOptionDate, OrderStatus } from 'constants/order-status.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import OrderDataService from 'data-services/order/order-data.service';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import OrderList from './components/OrderList.component';
+import { executeAfter } from 'utils/helpers';
+import { FnbModal } from 'components/shop-modal/shop-modal-component';
+import { ExclamationIcon } from 'constants/icons.constants';
 
 export default function OrderPage(props) {
   const [currentPageNumber, setCurrentPageNumber] = useState(1)
@@ -31,7 +31,7 @@ export default function OrderPage(props) {
       pageSize: tableSettings.pageSize,
       keySearch: keySearch,
       endDate: moment().toISOString(),
-      startDate: moment().subtract(30, "days").toISOString(),
+      startDate: moment().subtract(30, 'days').toISOString(),
       optionDate: OrderOptionDate.ThisMonth
     }
     try {
@@ -123,7 +123,7 @@ export default function OrderPage(props) {
     isCanceling(true)
     if (note === '') return;
     let newStatus;
-    // if order status is not new 
+    // if order status is not new
     if (statusOrder !== OrderStatus.New && statusOrder !== OrderStatus.ToConfirm) {
       // if order status is not canceled
       if (statusOrder !== OrderStatus.Canceled) {

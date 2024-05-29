@@ -264,7 +264,7 @@ export default function TableStaff(props) {
       const group = {
         id: item?.id,
         name: item?.name,
-        link: ``
+        link: ''
       }
       listGroup.push(group)
     })

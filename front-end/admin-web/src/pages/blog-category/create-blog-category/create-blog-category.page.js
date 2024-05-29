@@ -1,72 +1,72 @@
-import { Row, Col, Button, Form, Card, Input, InputNumber, Tooltip, Divider, Space, message } from "antd";
-import PageTitle from "components/page-title";
-import { useTranslation } from "react-i18next";
+import { Row, Col, Button, Form, Card, Input, InputNumber, Tooltip, Divider, Space, message } from 'antd';
+import PageTitle from 'components/page-title';
+import { useTranslation } from 'react-i18next';
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import { ExclamationIcon, IconBtnAdd } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { useEffect, useState } from "react";
-import { FnbSelectMultiple } from "components/shop-select-multiple/shop-select-multiple";
-import FnbFroalaEditor from "components/shop-froala-editor";
-import { FnbTextArea } from "components/shop-text-area/shop-text-area.component";
-import { ShopAddNewButton } from "components/shop-add-new-button/shop-add-new-button";
-import { DELAYED_TIME } from "constants/default.constants";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import { useHistory } from "react-router";
-import BlogDataService from "data-services/blog/blog-data.service";
-import { getValidationMessages } from "utils/helpers";
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
+import { ExclamationIcon, IconBtnAdd } from 'constants/icons.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import { useEffect, useState } from 'react';
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
+import FnbFroalaEditor from 'components/shop-froala-editor';
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component';
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
+import { DELAYED_TIME } from 'constants/default.constants';
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
+import { useHistory } from 'react-router';
+import BlogDataService from 'data-services/blog/blog-data.service';
+import { getValidationMessages } from 'utils/helpers';
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
-export default function CreateBlogCategory(){
+export default function CreateBlogCategory() {
   const [t] = useTranslation()
   const [form] = Form.useForm();
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [disableCreateButton,setDisableCreateButton] = useState(true)
+  const [disableCreateButton, setDisableCreateButton] = useState(true)
   const [blockNavigation, setBlockNavigation] = useState(false)
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
-  const [blogs,setBlogs] = useState([])
+  const [blogs, setBlogs] = useState([])
   const history = useHistory()
   const pageData = {
-    title:t('blogCategory.pageTitle'),
+    title: t('blogCategory.pageTitle'),
     btnDiscard: t('button.discard'),
-    createSuccess:t('blogCategory.addBlogCategorySuccess'),
-    createFail:t('blogCategory.addBlogCategoryFail'),
-    btnSave:t('button.save'),
-    btnCancel:t('button.cancel'),
-    description:{
+    createSuccess: t('blogCategory.addBlogCategorySuccess'),
+    createFail: t('blogCategory.addBlogCategoryFail'),
+    btnSave: t('button.save'),
+    btnCancel: t('button.cancel'),
+    description: {
       title: t('blogCategory.labelDescription'),
       placeholder: t('blogCategory.placeholderDescription'),
-      maxLength:200
+      maxLength: 200
     },
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
       confirmLeave: t('dialog.confirmLeave')
     },
-    generalInformation:{
+    generalInformation: {
       title: t('common.generalInformation'),
-      name:{
-        title:t('blogCategory.blogCategoryTitle'),
-        placeholder:t('blogCategory.blogCategoryTitlePlaceholder'),
-        validateMessage:t('blogCategory.blogCategoryNameValidation'),
-        required:true,
-        maxLength:255
+      name: {
+        title: t('blogCategory.blogCategoryTitle'),
+        placeholder: t('blogCategory.blogCategoryTitlePlaceholder'),
+        validateMessage: t('blogCategory.blogCategoryNameValidation'),
+        required: true,
+        maxLength: 255
       },
-      priority:{
-        title:t('blogCategory.priority'),
-        placeholder:t('blogCategory.placeholderPriority'),
-        validateMessage:t('blogCategory.validatePriority'),
-        required:true,
+      priority: {
+        title: t('blogCategory.priority'),
+        placeholder: t('blogCategory.placeholderPriority'),
+        validateMessage: t('blogCategory.validatePriority'),
+        required: true,
         tooltip: t('productCategory.tooltipPriority')
       },
-      content:{
+      content: {
         title: t('blogCategory.blogCategoryContent'),
         placeholder: t('blogCategory.placeholderContent')
       },
-      blogs:{
-        title:t('blogCategory.addBlog'),
+      blogs: {
+        title: t('blogCategory.addBlog'),
         placeholder: t('blogCategory.placeholderAddBlog')
       }
     },
@@ -76,7 +76,7 @@ export default function CreateBlogCategory(){
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       },
       SEOtitle: {
         label: t('form.SEOTitle'),
@@ -95,22 +95,22 @@ export default function CreateBlogCategory(){
       }
     }
   }
-  useEffect(()=>{
-    const getInitData = async()=>{
+  useEffect(() => {
+    const getInitData = async () => {
       const blogs = await BlogDataService.getAllBlogsAsync();
-      if(blogs){
+      if (blogs) {
         setBlogs(blogs)
       }
     }
     getInitData();
-  },[])
+  }, [])
   const onCompleted = () => {
     setIsChangeForm(false)
     setTimeout(() => {
       return history.push('/blog-category')
     }, DELAYED_TIME)
   }
-  const onCancel = ()=>{
+  const onCancel = () => {
     if (isChangeForm) {
       setShowConfirm(true)
     } else {
@@ -119,21 +119,21 @@ export default function CreateBlogCategory(){
       return history.push('/blog-category')
     }
   }
-  const changeForm = ()=>{
+  const changeForm = () => {
     setIsChangeForm(true)
     setDisableCreateButton(false)
   }
 
-  const onSubmitForm = ()=>{
-    form.validateFields().then(async values=>{
+  const onSubmitForm = () => {
+    form.validateFields().then(async values => {
       const blogCategoryModel = {
         ...values,
-        blogs:values?.blogs?.reduce((acc,blogId)=>acc.concat({id:blogId,position:values.blogs.indexOf(blogId)}),[]) || [],
-        keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
+        blogs: values?.blogs?.reduce((acc, blogId) => acc.concat({ id: blogId, position: values.blogs.indexOf(blogId) }), []) || [],
+        keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
       }
       console.log(blogCategoryModel)
       const res = await BlogCategoryDataService.createBlogCategoryAsync(blogCategoryModel)
-      if(res.status != 200){
+      if (res.status != 200) {
         message.success(pageData.createSuccess)
         onCompleted()
       }
@@ -145,17 +145,17 @@ export default function CreateBlogCategory(){
       })
   }
 
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
 
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
-  return(
+  return (
     <>
       <Row className="shop-row-page-header">
         <Col xs={24} sm={24} lg={12} md={12}>
@@ -203,7 +203,7 @@ export default function CreateBlogCategory(){
           if (!blockNavigation) setBlockNavigation(true)
         }}
       >
-        <Row gutter={[8,8]}>
+        <Row gutter={[8, 8]}>
           <Col xs={24} sm={24} md={24} lg={16}>
             <Card className="w-100 shop-card h-auto" >
               <h4 className="title-group">{pageData.generalInformation.title}</h4>
@@ -288,7 +288,7 @@ export default function CreateBlogCategory(){
                     name={['content']}
                   >
                     <FnbFroalaEditor
-                      onChange={(value) => { setIsChangeForm(true);}}
+                      onChange={(value) => { setIsChangeForm(true); }}
                       placeholder={pageData.generalInformation.content.placeholder}
                       charCounterMax={-1}
                     />
@@ -357,7 +357,7 @@ export default function CreateBlogCategory(){
 
                   <div>
                     {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                     }
 
                     <div className='d-flex mt-3'>
@@ -366,11 +366,11 @@ export default function CreateBlogCategory(){
                         showCount
                         value={keywordSEO?.value || ''}
                         placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e=>{
-                          if(e.target.value !== ''){
+                        onChange={e => {
+                          if (e.target.value !== '') {
                             setKeywordSEO({
-                              id:e.target.value,
-                              value:e.target.value,
+                              id: e.target.value,
+                              value: e.target.value,
                               colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
                             })
                             setIsKewwordSEOChange(true)
@@ -415,7 +415,7 @@ export default function CreateBlogCategory(){
         skipPermission={true}
         cancelText={pageData.btnDiscard}
         okText={pageData.confirmLeave}
-        onCancel={()=>setShowConfirm(false)}
+        onCancel={() => setShowConfirm(false)}
         onOk={onCompleted}
         isChangeForm={isChangeForm}
       />

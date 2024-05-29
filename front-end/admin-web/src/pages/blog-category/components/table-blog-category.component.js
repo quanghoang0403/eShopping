@@ -1,17 +1,17 @@
-import { Card, Col, Form, Row, Tooltip, message } from "antd";
-import { ShopTable } from "components/shop-table/shop-table";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { PermissionKeys } from "constants/permission-key.constants";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import { EditButtonComponent } from "components/edit-button/edit-button.component";
-import { useSelector } from "react-redux";
-import { tableSettings } from "constants/default.constants";
-import BlogCategoryDataService from "data-services/blog/blog-category-data.service";
-import { useHistory } from "react-router-dom";
-import TableBlog from "./blog-in-category.modal";
-import BlogDataService from "data-services/blog/blog-data.service";
-import { executeAfter, getAllPermissions } from "utils/helpers";
+import { Card, Col, Form, Row, Tooltip, message } from 'antd';
+import { ShopTable } from 'components/shop-table/shop-table';
+import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
+import { EditButtonComponent } from 'components/edit-button/edit-button.component';
+import { useSelector } from 'react-redux';
+import { tableSettings } from 'constants/default.constants';
+import BlogCategoryDataService from 'data-services/blog/blog-category-data.service';
+import { useHistory } from 'react-router-dom';
+import TableBlog from './blog-in-category.modal';
+import BlogDataService from 'data-services/blog/blog-data.service';
+import { executeAfter, getAllPermissions } from 'utils/helpers';
 
 export default function TableBlogCategory() {
   const [t] = useTranslation();

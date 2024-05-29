@@ -1,11 +1,11 @@
-import i18n from "utils/i18n";
-import BlogCategory from "./blog-category.page";
-import { Blog } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import CreateBlogCategory from "./create-blog-category/create-blog-category.page";
-import EditBlogCategory from "./edit-blog-category/edit-blog-category.page";
+import i18n from 'utils/i18n';
+import BlogCategory from './blog-category.page';
+import { Blog } from 'constants/icons.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import CreateBlogCategory from './create-blog-category/create-blog-category.page';
+import EditBlogCategory from './edit-blog-category/edit-blog-category.page';
 
-const {t} = i18n
+const { t } = i18n
 const route = [
   {
     key: 'app.blog-category',

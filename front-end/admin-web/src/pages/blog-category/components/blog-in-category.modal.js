@@ -1,9 +1,9 @@
-import { Col, Form, Modal, Row, Select, Tooltip, Typography, Table, Divider, Button } from "antd";
-import { Thumbnail } from "components/thumbnail/thumbnail";
-import { SearchIcon, TrashFill, DragDropIcon } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { useTranslation } from "react-i18next";
-import { hasPermission } from "utils/helpers";
+import { Col, Form, Modal, Row, Select, Tooltip, Typography, Table, Divider, Button } from 'antd';
+import { Thumbnail } from 'components/thumbnail/thumbnail';
+import { SearchIcon, TrashFill, DragDropIcon } from 'constants/icons.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import { useTranslation } from 'react-i18next';
+import { hasPermission } from 'utils/helpers';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'
 const { Option } = Select
 const { Text } = Typography
@@ -11,8 +11,8 @@ const { Text } = Typography
 const DragHandle = SortableHandle(() => <DragDropIcon />)
 const SortableItem = SortableElement((props) => <tr {...props} />)
 const SortableBody = SortableContainer((props) => <tbody {...props} />)
-export default function TableBlog(props){
-  const {isOpen,onCancel,record,onSelectBlog,onSearch,blogs,onHandleRemoveItem,onSubmitModal} = props
+export default function TableBlog(props) {
+  const { isOpen, onCancel, record, onSelectBlog, onSearch, blogs, onHandleRemoveItem, onSubmitModal } = props
   const [t] = useTranslation()
   const pageData = {
     btnCancel: t('button.cancel'),
@@ -39,7 +39,7 @@ export default function TableBlog(props){
     }
   }
   const DraggableBodyRow = ({ ...restProps }) => {
-    const index = record?.blogs?.findIndex((x,index) => x.index === restProps['data-row-key'])
+    const index = record?.blogs?.findIndex((x, index) => x.index === restProps['data-row-key'])
     return <SortableItem style={{ zIndex: 9999 }} index={index} {...restProps} />
   }
 
@@ -56,7 +56,7 @@ export default function TableBlog(props){
             className="search-product-information"
             suffixIcon=""
           >
-            {blogs?.filter(b=>!record?.blogs?.find(rblog=>rblog.id === b.id)).map((item) => {
+            {blogs?.filter(b => !record?.blogs?.find(rblog => rblog.id === b.id)).map((item) => {
               return (
                 <Option key={item?.id} value={item?.name} className="select-product-option">
                   <Row>
@@ -116,7 +116,7 @@ export default function TableBlog(props){
       )
     }
   }
-  const getColumns = ()=>{
+  const getColumns = () => {
     const columns = [
       {
         title: pageData.table.no,
@@ -198,7 +198,7 @@ export default function TableBlog(props){
       )
     }
   }
-  return(
+  return (
     <Modal
       open={isOpen}
       className="modal-product-in-category"

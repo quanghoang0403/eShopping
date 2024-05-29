@@ -1,33 +1,33 @@
-import { Button, Card, Col, Divider, Form, Input, InputNumber, Row, Space, Tooltip, message } from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import PageTitle from "components/page-title";
-import { ShopAddNewButton } from "components/shop-add-new-button/shop-add-new-button";
-import FnbFroalaEditor from "components/shop-froala-editor";
-import { FnbSelectMultiple } from "components/shop-select-multiple/shop-select-multiple";
-import { FnbTextArea } from "components/shop-text-area/shop-text-area.component";
-import { DELAYED_TIME } from "constants/default.constants";
-import { ExclamationIcon, TrashFill } from "constants/icons.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import BlogCategoryDataService from "data-services/blog/blog-category-data.service";
-import BlogDataService from "data-services/blog/blog-data.service";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import { executeAfter, getValidationMessages } from "utils/helpers";
+import { Button, Card, Col, Divider, Form, Input, InputNumber, Row, Space, Tooltip, message } from 'antd';
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
+import PageTitle from 'components/page-title';
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
+import FnbFroalaEditor from 'components/shop-froala-editor';
+import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component';
+import { DELAYED_TIME } from 'constants/default.constants';
+import { ExclamationIcon, TrashFill } from 'constants/icons.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import BlogCategoryDataService from 'data-services/blog/blog-category-data.service';
+import BlogDataService from 'data-services/blog/blog-data.service';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import { executeAfter, getValidationMessages } from 'utils/helpers';
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
-export default function EditBlogCategory(){
+export default function EditBlogCategory() {
   const [form] = Form.useForm()
   const match = useRouteMatch()
-  const [isChangeForm,setIsChangeForm] = useState(false)
+  const [isChangeForm, setIsChangeForm] = useState(false)
   const [t] = useTranslation();
-  const [showConfirm,setShowConfirm] = useState(false)
-  const [confirmDeleteVisible,setConfirmDeleteVisible] = useState(false)
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
-  const [blogs,setBlogs] = useState([])
-  const [title,setTitle] = useState('')
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
+  const [blogs, setBlogs] = useState([])
+  const [title, setTitle] = useState('')
   const history = useHistory()
   const pageData = {
     btnCancel: t('button.cancel'),
@@ -35,8 +35,8 @@ export default function EditBlogCategory(){
     btnUpdate: t('button.edit'),
     btnDelete: t('button.delete'),
     btnDiscard: t('button.discard'),
-    updateSuccess:t('blogCategory.categoryUpdateSuccess'),
-    updateFail:t('blogCategory.categoryUpdateFail'),
+    updateSuccess: t('blogCategory.categoryUpdateSuccess'),
+    updateFail: t('blogCategory.categoryUpdateFail'),
     DeleteSuccess: t('blogCategory.blogCategoryDeletedSuccess'),
     DeleteFail: t('blogCategory.blogCategoryDeletedFailed'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
@@ -46,33 +46,33 @@ export default function EditBlogCategory(){
       confirmLeave: t('dialog.confirmLeave'),
       confirmDelete: t('dialog.confirmDelete')
     },
-    description:{
+    description: {
       title: t('blogCategory.labelDescription'),
       placeholder: t('blogCategory.placeholderDescription'),
-      maxLength:200
+      maxLength: 200
     },
-    generalInformation:{
+    generalInformation: {
       title: t('common.generalInformation'),
-      name:{
-        title:t('blogCategory.blogCategoryTitle'),
-        placeholder:t('blogCategory.blogCategoryTitlePlaceholder'),
-        validateMessage:t('blogCategory.blogCategoryNameValidation'),
-        required:true,
-        maxLength:255
+      name: {
+        title: t('blogCategory.blogCategoryTitle'),
+        placeholder: t('blogCategory.blogCategoryTitlePlaceholder'),
+        validateMessage: t('blogCategory.blogCategoryNameValidation'),
+        required: true,
+        maxLength: 255
       },
-      priority:{
-        title:t('blogCategory.priority'),
-        placeholder:t('blogCategory.placeholderPriority'),
-        validateMessage:t('blogCategory.validatePriority'),
-        required:true,
+      priority: {
+        title: t('blogCategory.priority'),
+        placeholder: t('blogCategory.placeholderPriority'),
+        validateMessage: t('blogCategory.validatePriority'),
+        required: true,
         tooltip: t('productCategory.tooltipPriority')
       },
-      content:{
+      content: {
         title: t('blogCategory.blogCategoryContent'),
         placeholder: t('blogCategory.placeholderContent')
       },
-      blogs:{
-        title:t('blogCategory.addBlog'),
+      blogs: {
+        title: t('blogCategory.addBlog'),
         placeholder: t('blogCategory.placeholderAddBlog')
       }
     },
@@ -82,7 +82,7 @@ export default function EditBlogCategory(){
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       },
       SEOtitle: {
         label: t('form.SEOTitle'),
@@ -101,72 +101,72 @@ export default function EditBlogCategory(){
       }
     }
   }
-  const getallBlogs = async ()=>{
+  const getallBlogs = async () => {
     const blog = await BlogDataService.getAllBlogsAsync()
-    if(blog){
+    if (blog) {
       setBlogs(blog)
     }
   }
-  const onSubmitForm = async ()=>{
+  const onSubmitForm = async () => {
     const data = await form.validateFields()
     const blogCategoryEditModel = {
-      id:match?.params?.blogCategoryId,
+      id: match?.params?.blogCategoryId,
       name: data.name,
       priority: data.priority,
-      blogs: data.blogs?.map(b=>{return {id:b,position:data.blogs.indexOf(b)}}),
-      keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null,
+      blogs: data.blogs?.map(b => { return { id: b, position: data.blogs.indexOf(b) } }),
+      keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
       titleSEO: data.titleSEO,
-      descriptionSEO:data.descriptionSEO,
-      description:data.description,
-      content:data.content
+      descriptionSEO: data.descriptionSEO,
+      description: data.description,
+      content: data.content
     }
     console.log(blogCategoryEditModel)
     const res = await BlogCategoryDataService.editBlogCategoryAsync(blogCategoryEditModel)
-    try{
-      if(res){
+    try {
+      if (res) {
         message.success(pageData.updateSuccess)
         onCompleted()
       }
     }
-    catch(err){
+    catch (err) {
       message.error(pageData.updateFail)
       form.setFields(getValidationMessages(errors));
     }
   }
-  const getInitData = ()=>{
+  const getInitData = () => {
     const id = match?.params?.blogCategoryId
-    if(id){
-      BlogCategoryDataService.getBlogCategoryByIdAsync(id).then(res=>{
+    if (id) {
+      BlogCategoryDataService.getBlogCategoryByIdAsync(id).then(res => {
         const blogCategory = res
-        if(blogCategory){
+        if (blogCategory) {
           form.setFieldsValue({
-            id:blogCategory.id,
+            id: blogCategory.id,
             name: blogCategory.name,
             priority: blogCategory.priority,
-            blogs: blogCategory.blogs?.map(b=>b.id),
+            blogs: blogCategory.blogs?.map(b => b.id),
             titleSEO: blogCategory.titleSEO,
-            descriptionSEO:blogCategory.descriptionSEO,
-            description:blogCategory.description,
-            content:blogCategory.content
+            descriptionSEO: blogCategory.descriptionSEO,
+            description: blogCategory.description,
+            content: blogCategory.content
           })
           setTitle(blogCategory.name)
-          setKeywordSEOList(blogCategory?.keywordSEO?.split(',').map(kw=>{return{id:kw,value:kw,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}})||[])
+          setKeywordSEOList(blogCategory?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw, colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH) } }) || [])
         }
-      }).catch(err=>{
+      }).catch(err => {
         message.error(err)
       })
     }
 
   }
-  useEffect(()=>{
+  useEffect(() => {
     getInitData()
     getallBlogs()
-  },[])
-  const onCancel = ()=>{
-    if(isChangeForm){
+  }, [])
+  const onCancel = () => {
+    if (isChangeForm) {
       setShowConfirm(true)
     }
-    else{
+    else {
       setShowConfirm(false)
       onCompleted();
     }
@@ -174,48 +174,48 @@ export default function EditBlogCategory(){
   const onCompleted = () => {
     setIsChangeForm(false)
     setTimeout(() => {
-          history?.push('/blog-category')
+      history?.push('/blog-category')
     }, DELAYED_TIME)
   }
 
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
 
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
-  const formatDeleteMessage = (text,name) => {
+  const formatDeleteMessage = (text, name) => {
     const mess = t(text, { name })
     return mess
   }
-  const onRemoveItem = async ()=>{
-    try{
+  const onRemoveItem = async () => {
+    try {
       const res = await BlogCategoryDataService.deleteBlogCategoryAsync(match?.params?.blogCategoryId)
-      if(res){
-        message.success(formatDeleteMessage(pageData.DeleteSuccess,title));
-        executeAfter(500,()=> onCompleted())
+      if (res) {
+        message.success(formatDeleteMessage(pageData.DeleteSuccess, title));
+        executeAfter(500, () => onCompleted())
       }
-    }catch(err){
-      message.error(formatDeleteMessage(pageData.DeleteFail,title))
+    } catch (err) {
+      message.error(formatDeleteMessage(pageData.DeleteFail, title))
     }
   }
   return (
     <>
-      <Form form={form} onFieldsChange={()=>setIsChangeForm(true)}>
+      <Form form={form} onFieldsChange={() => setIsChangeForm(true)}>
         <Row className="shop-row-page-header">
           <Col xs={24} sm={24} lg={12}>
-            <PageTitle content={title}/>
+            <PageTitle content={title} />
           </Col>
           <Col xs={24} sm={24} lg={12}>
             <Space className="float-right header-control">
               <ActionButtonGroup
                 arrayButton={[
                   {
-                    action:(
+                    action: (
                       <ShopAddNewButton
                         type="primary"
                         text={pageData.btnUpdate}
@@ -223,17 +223,17 @@ export default function EditBlogCategory(){
                         className="float-right"
                       />
                     ),
-                    permission:PermissionKeys.ADMIN
+                    permission: PermissionKeys.ADMIN
                   },
                   {
-                    action:(
-                      <Button onClick={()=>setConfirmDeleteVisible(true)} type="primary" danger className="d-flex justify-content-center align-items-center">
+                    action: (
+                      <Button onClick={() => setConfirmDeleteVisible(true)} type="primary" danger className="d-flex justify-content-center align-items-center">
                         <TrashFill />
                         {pageData.btnDelete}
 
                       </Button>
                     ),
-                    permission:PermissionKeys.ADMIN
+                    permission: PermissionKeys.ADMIN
                   },
                   {
                     action: (
@@ -249,10 +249,10 @@ export default function EditBlogCategory(){
             </Space>
           </Col>
         </Row>
-        <Row gutter={[16,24]}>
+        <Row gutter={[16, 24]}>
           <Col xs={24} sm={24} md={24} lg={16}>
             <Card className="shop-card">
-              <Row gutter={[16,24]}>
+              <Row gutter={[16, 24]}>
                 <Col span={24}>
                   <h4 className="shop-form-label">
                     {pageData.generalInformation.name.title}
@@ -342,7 +342,7 @@ export default function EditBlogCategory(){
                     name={['content']}
                   >
                     <FnbFroalaEditor
-                      onChange={(value) => { setIsChangeForm(true);}}
+                      onChange={(value) => { setIsChangeForm(true); }}
                       placeholder={pageData.generalInformation.content.placeholder}
                       charCounterMax={-1}
                     />
@@ -422,7 +422,7 @@ export default function EditBlogCategory(){
 
                   <div>
                     {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                     }
 
                     <div className='d-flex mt-3'>
@@ -431,11 +431,11 @@ export default function EditBlogCategory(){
                         showCount
                         value={keywordSEO?.value || ''}
                         placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e=>{
-                          if(e.target.value !== ''){
+                        onChange={e => {
+                          if (e.target.value !== '') {
                             setKeywordSEO({
-                              id:e.target.value,
-                              value:e.target.value,
+                              id: e.target.value,
+                              value: e.target.value,
                               colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
                             })
                             setIsKewwordSEOChange(true)
@@ -476,7 +476,7 @@ export default function EditBlogCategory(){
       </Form>
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmDelete}
-        content={formatDeleteMessage(pageData.confirmDeleteMessage,title)}
+        content={formatDeleteMessage(pageData.confirmDeleteMessage, title)}
         okText={pageData.btnDelete}
         cancelText={pageData.btnIgnore}
         skipPermission={true}
@@ -491,7 +491,7 @@ export default function EditBlogCategory(){
         skipPermission={true}
         cancelText={pageData.btnDiscard}
         okText={pageData.leaveDialog.confirmLeave}
-        onCancel={()=>setShowConfirm(false)}
+        onCancel={() => setShowConfirm(false)}
         onOk={onCompleted}
         isChangeForm={isChangeForm}
       />
