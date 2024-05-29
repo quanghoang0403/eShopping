@@ -2,8 +2,8 @@
 using eShopping.Infrastructure.Contexts;
 using eShopping.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 
 namespace eShopping.Interfaces.Repositories
 {
@@ -15,7 +15,7 @@ namespace eShopping.Interfaces.Repositories
 
         public Task<ProductRootCategory> GetProductRootCategoryDetailByIdAsync(Guid categoryId)
         {
-            var category = dbSet.Include(c => c.Products).FirstOrDefaultAsync(p => p.Id == categoryId);
+            var category = dbSet.Include(c => c.Products).Include(c => c.ProductCategories).FirstOrDefaultAsync(p => p.Id == categoryId);
 
             return category;
         }

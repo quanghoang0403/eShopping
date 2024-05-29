@@ -10,15 +10,16 @@ import { DELAYED_TIME } from 'constants/default.constants'
 import { CalendarNewIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
-// import customerDataService from 'data-services/customer/customer-data.service'
+import customerDataService from 'data-services/customer/customer-data.service'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { getValidationMessages } from 'utils/helpers'
 import './create-customer.page.scss'
+import AddressDataService from 'data-services/address/address-data.service'
 
-export default function CreateCustomerPage (props) {
+export default function CreateCustomerPage(props) {
   const [t] = useTranslation()
   const history = useHistory()
   const pageData = {
@@ -54,7 +55,7 @@ export default function CreateCustomerPage (props) {
     city: t('form.city'),
     district: t('form.district'),
     ward: t('form.ward'),
-    selectCity: t('form.selectCity'),
+    selectCity: t('form.inputCity'),
     selectDistrict: t('form.selectDistrict'),
     validDistrict: t('form.validDistrict'),
     selectWard: t('form.selectWard'),
@@ -72,20 +73,33 @@ export default function CreateCustomerPage (props) {
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [genderSelected, setGenderSelected] = useState(CustomerGenderConstant.Male)
   const [address, setAddress] = useState('')
-  const [districts, setDistricts] = useState([])
   const [cities, setCities] = useState([])
-  const [wards, setWards] = useState([])
   const [wardsByDistrictId, setWardsByDistrictId] = useState([])
   const [districtsByCityId, setDistrictsByCityId] = useState([])
   const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
     // Call API
-    setCities(cities)
-    setDistricts(districts)
-    setWards(wards)
+    getCitiesInfo();
   }, [])
-
+  const getCitiesInfo = async () => {
+    const cities = await AddressDataService.getAllCitiesAsync();
+    if (cities) {
+      setCities(cities)
+    }
+  }
+  const getWardsInfo = async districtId => {
+    const wards = await AddressDataService.getWardsByDistrictId(districtId);
+    if (wards) {
+      setWardsByDistrictId(wards)
+    }
+  }
+  const getDistrictsInfo = async cityId => {
+    const districts = await AddressDataService.getDistrictsByCityId(cityId)
+    if (districts) {
+      setDistrictsByCityId(districts)
+    }
+  }
   const clickCancel = () => {
     if (isChangeForm) {
       setShowConfirm(true)
@@ -95,25 +109,25 @@ export default function CreateCustomerPage (props) {
   }
 
   const onFinish = async () => {
-    // form.validateFields().then(async (values) => {
-    //   const dataSave = {
-    //     ...values,
-    //     birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null,
-    //   }
-    //   customerDataService
-    //     .createCustomerAsync(dataSave)
-    //     .then((res) => {
-    //       if (res) {
-    //         setIsChangeForm(false)
-    //         // navigate to management list
-    //         navigateToManagementPage()
-    //         message.success(pageData.customerAddSuccess)
-    //       }
-    //     })
-    //     .catch((errs) => {
-    //       form.setFields(getValidationMessages(errs))
-    //     })
-    // })
+    form.validateFields().then(async (values) => {
+      const dataSave = {
+        ...values,
+        birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null,
+      }
+      customerDataService
+        .createCustomerAsync(dataSave)
+        .then((res) => {
+          if (res) {
+            setIsChangeForm(false)
+            // navigate to management list
+            navigateToManagementPage()
+            message.success(pageData.customerAddSuccess)
+          }
+        })
+        .catch((errs) => {
+          form.setFields(getValidationMessages(errs))
+        })
+    })
   }
 
   const onGenderChange = (e) => {
@@ -131,24 +145,22 @@ export default function CreateCustomerPage (props) {
     }, DELAYED_TIME)
   }
 
-  const onChangeCity = (event) => {
-    const districtsFilteredByCity = districts?.filter((item) => item.cityId === event) ?? []
-    setDistrictsByCityId(districtsFilteredByCity)
+  const onChangeCity = async (cityId) => {
+    await getDistrictsInfo(cityId)
 
     const formValue = form.getFieldsValue()
-    formValue.address.districtId = null
-    formValue.address.wardId = null
+    // formValue.address.districtId = null
+    // formValue.address.wardId = null
     formValue.districtId = null
     formValue.wardId = null
     form.setFieldsValue(formValue)
   }
 
-  const onChangeDistrict = (event) => {
-    const wardsFilteredByCity = wards?.filter((item) => item.districtId === event) ?? []
-    setWardsByDistrictId(wardsFilteredByCity)
+  const onChangeDistrict = async (districtId) => {
+    await getWardsInfo(districtId)
 
     const formValue = form.getFieldsValue()
-    formValue.address.wardId = null
+    // formValue.address.wardId = null
     formValue.wardId = null
     form.setFieldsValue(formValue)
   }
@@ -159,7 +171,7 @@ export default function CreateCustomerPage (props) {
         <Row gutter={[25, 25]} className="form-row">
           <Col sm={24} md={24} className="w-100">
             <h4 className="shop-form-label">{pageData.address}</h4>
-            <Form.Item className="form-create-customer" name={['address', 'address1']}>
+            <Form.Item className="form-create-customer" name={['address']}>
               <Input className="shop-input" size="large" placeholder={pageData.addressPlaceholder} maxLength={255} />
             </Form.Item>
           </Col>
@@ -167,7 +179,7 @@ export default function CreateCustomerPage (props) {
         <Row gutter={[25, 25]} className="form-row">
           <Col sm={24} md={8} className="w-100">
             <h4 className="shop-form-label">{pageData.city}</h4>
-            <Form.Item name={['address', 'cityId']} className="last-item">
+            <Form.Item name={['cityId']} className="last-item">
               <FnbSelectSingle
                 size="large"
                 placeholder={pageData.selectCity}
@@ -183,7 +195,7 @@ export default function CreateCustomerPage (props) {
           </Col>
           <Col sm={24} md={8} className="w-100">
             <h4 className="shop-form-label">{pageData.district}</h4>
-            <Form.Item name={['address', 'districtId']} className="last-item">
+            <Form.Item name={['districtId']} className="last-item">
               <FnbSelectSingle
                 size="large"
                 placeholder={pageData.selectDistrict}
@@ -199,7 +211,7 @@ export default function CreateCustomerPage (props) {
           </Col>
           <Col sm={24} md={8} className="w-100">
             <h4 className="shop-form-label">{pageData.ward}</h4>
-            <Form.Item name={['address', 'wardId']} className="last-item">
+            <Form.Item name={['wardId']} className="last-item">
               <FnbSelectSingle
                 size="large"
                 placeholder={pageData.selectWard}
@@ -281,7 +293,7 @@ export default function CreateCustomerPage (props) {
                   </h4>
                   <Form.Item
                     className="last-item"
-                    name={'firstName'}
+                    name={'fullName'}
                     rules={[
                       {
                         required: true,
@@ -314,7 +326,7 @@ export default function CreateCustomerPage (props) {
                   </h4>
                   <Form.Item
                     className="last-item"
-                    name={'phone'}
+                    name={'phoneNumber'}
                     rules={[
                       {
                         required: true,
@@ -330,7 +342,7 @@ export default function CreateCustomerPage (props) {
                       className="shop-input-addon-before"
                       size="large"
                       placeholder={pageData.phonePlaceholder}
-                      addonBefore={prefixSelector}
+                      // addonBefore={prefixSelector}
                       maxLength={15}
                     />
                   </Form.Item>
@@ -375,7 +387,7 @@ export default function CreateCustomerPage (props) {
                     className="form-create-customer form-gender"
                     style={{ marginBottom: '34.14px !important' }}
                   >
-                    <Radio.Group onChange={onGenderChange} defaultValue={genderSelected}>
+                    <Radio.Group className='d-flex' onChange={onGenderChange} defaultValue={genderSelected}>
                       <Radio value={CustomerGenderConstant.Female}>{pageData.female}</Radio>
                       <Radio className="last-gender-option" value={CustomerGenderConstant.Male}>
                         {pageData.male}
