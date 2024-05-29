@@ -64,8 +64,13 @@ namespace eShopping.Application.Mappings
             CreateMap<Product, AdminProductModel>();
             CreateMap<Product, StoreProductModel>();
 
+            CreateMap<ProductSizeCategory, AdminProductSizeCategoryModel>();
+
             CreateMap<ProductVariant, AdminProductVariantModel>();
             CreateMap<ProductVariant, StoreProductVariantModel>();
+
+            CreateMap<ProductSize, AdminProductSizeModel>();
+            CreateMap<ProductSize, AdminProductSizeDetailModel>();
 
             CreateMap<ProductStock, AdminProductStockModel>();
 
@@ -88,6 +93,10 @@ namespace eShopping.Application.Mappings
             CreateMap<AdminUpdateProductCategoryRequest, ProductCategory>();
             CreateMap<AdminUpdateProductRequest, Product>();
             CreateMap<AdminProductVariantModel, ProductVariant>();
+            CreateMap<AdminCreateProductRootCategoryRequest, ProductRootCategory>();
+            CreateMap<AdminUpdateProductRootCategoryRequest, ProductRootCategory>();
+            CreateMap<AdminCreateProductSizeRequest, ProductSize>();
+            CreateMap<AdminCreateProductSizeCategoryRequest, ProductSizeCategory>();
 
             #endregion
         }

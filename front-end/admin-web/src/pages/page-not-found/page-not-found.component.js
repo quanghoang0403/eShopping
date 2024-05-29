@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import './style.scss'
 
-export default function PageNotFound (props) {
+export default function PageNotFound(props) {
   const history = useHistory()
 
   return (
