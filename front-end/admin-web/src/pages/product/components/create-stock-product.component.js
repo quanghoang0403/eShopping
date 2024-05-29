@@ -134,8 +134,6 @@ export default function StockProductTable({ sizes, form, variants }) {
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      console.log('priceOriginal', value)
-                      console.log('priceValue', getFieldValue(['product', 'variants', record.position, 'priceValue']))
                       if (value > getFieldValue(['product', 'variants', record.position, 'priceValue'])) {
                         return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                       }

@@ -13,6 +13,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     value,
     maxFileSize = 5242880,
     isShowBestDisplay = true,
+    isShowTextNonImage = true,
     acceptType,
     bestDisplayImage,
     customTextNonImageClass,
@@ -88,9 +89,6 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
               isDisabled={isDisabled}
               onError={isShowMessageError ? onShowErrorMessage : undefined}
             />
-            {/* <a className="upload-image-url" hidden={selectedImage !== null}>
-              {pageData.addFromUrl}
-            </a> */}
           </div>
         </Col>
         <Col
@@ -98,7 +96,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
           className={`${customTextNonImageClass} text-non-image ${isShowMessageError ? 'border-error' : ''}`}
           hidden={selectedImage !== null}
         >
-          <div>{pageData.textNonImage}</div>
+          {isShowTextNonImage && <div> {pageData.textNonImage}</div>}
           <div> {isShowBestDisplay && (bestDisplayImage ?? pageData.bestDisplayImage)}</div>
         </Col>
       </Row>

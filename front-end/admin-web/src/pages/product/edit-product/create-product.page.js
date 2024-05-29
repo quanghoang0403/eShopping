@@ -112,7 +112,7 @@ export default function CreateProductPage() {
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
-    shopImageSelectRef.current.setImageUrl('https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg');
+    //shopImageSelectRef.current.setImageUrl('https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg');
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
@@ -395,7 +395,20 @@ export default function CreateProductPage() {
                                       />
                                     </Form.Item>
                                   </Col>
-                                  <Col className={`variant-thumnail non-image ${thumbnail != null ? 'have-image' : ''}`}>
+                                  <Col className='variant-thumnail'>
+                                    <Form.Item
+                                      name={['product', 'variants', variant.position, 'thumbnail']}
+                                    >
+                                      <FnbImageSelectComponent
+                                        value={thumbnail}
+                                        isShowBestDisplay={false}
+                                        isShowTextNonImage={false}
+                                        customTextNonImageClass={'create-edit-product-text-non-image'}
+                                        customNonImageClass={'create-edit-product-non-image'}
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                  {/* <Col className={`variant-thumnail non-image ${thumbnail != null ? 'have-image' : ''}`}>
                                     <Row span={24} className={`image-product ${thumbnail != null ? 'justify-left' : ''}`}>
                                       <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
                                         <Form.Item
@@ -408,7 +421,7 @@ export default function CreateProductPage() {
                                         </Form.Item>
                                       </div>
                                     </Row>
-                                  </Col>
+                                  </Col> */}
                                 </Row>
                                 <Row span={2} className="icon-delete-price">
                                   <a
@@ -717,40 +730,18 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.file.title}</h4>
-                    <FnbImageSelectComponent
-                      ref={shopImageSelectRef}
-                      customTextNonImageClass={'create-edit-product-text-non-image'}
-                      customNonImageClass={'create-edit-product-non-image'}
-                    />
-                    {/* <Row className={`non-image ${image != null ? 'have-image' : ''}`}>
-                      <Col span={24} className={`image-product ${image != null ? 'justify-left' : ''}`}>
-                        <div style={{ display: 'flex' }}>
-                          <Form.Item
-                            name={['product', 'media']}
-                            rules={[{
-                              required: true,
-                              message: pageData.mediaNotExisted
-                            }]}
-                          >
-                            <FnbUploadImageComponent
-                              buttonText={pageData.file.uploadImage}
-                              onChange={(file) => setImage(file)}
-                            />
-                          </Form.Item>
-                        </div>
-                      </Col>
-                      <Col
-                        span={24}
-                        className="create-edit-product-text-non-image"
-                        hidden={image != null}
-                      >
-                        <Text disabled>
-                          {pageData.file.textNonImage}
-                          <br />
-                          {pageData.file.bestDisplayImage}
-                        </Text>
-                      </Col>
-                    </Row> */}
+                    <Form.Item
+                      name={['product', 'media']}
+                      rules={[{
+                        required: true,
+                        message: pageData.mediaNotExisted
+                      }]}
+                    >
+                      <FnbImageSelectComponent
+                        customTextNonImageClass={'create-edit-product-text-non-image'}
+                        customNonImageClass={'create-edit-product-non-image'}
+                      />
+                    </Form.Item>
                   </Card>
                 </Col>
               </Row>
