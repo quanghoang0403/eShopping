@@ -10,7 +10,7 @@ import { FnbTextArea } from "components/shop-text-area/shop-text-area.component"
 import { ExclamationIcon } from "constants/icons.constants";
 import { PermissionKeys } from "constants/permission-key.constants";
 import { ProductGender } from "constants/product-status.constants";
-import RootCategoryDataService from "data-services/product-root-category/product-root-category-data.service";
+import RootCategoryDataService from "data-services/product-category/product-root-category-data.service";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";

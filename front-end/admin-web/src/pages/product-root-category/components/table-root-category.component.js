@@ -4,7 +4,7 @@ import { EditButtonComponent } from "components/edit-button/edit-button.componen
 import { FnbTable } from "components/shop-table/shop-table";
 import { PermissionKeys } from "constants/permission-key.constants";
 import { ProductGender } from "constants/product-status.constants";
-import RootCategoryDataService from "data-services/product-root-category/product-root-category-data.service";
+import RootCategoryDataService from "data-services/product-category/product-root-category-data.service";
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -115,7 +115,7 @@ export default function TableRootCategory() {
                 title: pageData.table.name,
                 dataIndex: 'name',
                 key: 'name',
-                width: '35%',
+                width: '30%',
                 className: 'category-name-column',
                 ellipsis: {
                     showTitle: false
@@ -168,7 +168,7 @@ export default function TableRootCategory() {
             {
                 title: pageData.table.action,
                 key: 'action',
-                width: '10%',
+                width: '15%',
                 align: 'center',
                 render: (_, record) => {
                     return (

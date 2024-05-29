@@ -18,7 +18,7 @@ import { sortableContainer, sortableElement, sortableHandle } from 'react-sortab
 import { getValidationMessages } from 'utils/helpers'
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
-import RootCategoryDataService from 'data-services/product-root-category/product-root-category-data.service'
+import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service'
 import { isGuid } from 'constants/string.constants'
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { ProductGender } from 'constants/product-status.constants'
