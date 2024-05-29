@@ -56,9 +56,15 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    ProductSizes = _mapper.Map<IEnumerable<AdminProductSizeModel>>(category.ProductSizes)
+                    NumberOfProductSize = category.ProductSizes.Count()
                 });
             }
+
+            sizeCategoryResponse.ForEach(p =>
+            {
+                p.No = sizeCategoryResponse.IndexOf(p) + (request.PageNumber - 1) * request.PageSize + 1;
+            });
+
             var response = new PagingResult<AdminProductSizeCategoryModel>(sizeCategoryResponse, allSizeCategory.Paging);
             return BaseResponseModel.ReturnData(response);
         }

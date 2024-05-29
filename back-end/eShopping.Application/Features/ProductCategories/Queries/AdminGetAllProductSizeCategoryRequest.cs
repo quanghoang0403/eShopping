@@ -45,7 +45,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    ProductSizes = _mapper.Map<IEnumerable<AdminProductSizeModel>>(item.ProductSizes)
+                    NumberOfProductSize = item.ProductSizes.Count()
                 });
             }
             return BaseResponseModel.ReturnData(categoryResponse);
