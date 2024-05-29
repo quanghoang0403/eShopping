@@ -64,10 +64,13 @@ namespace eShopping.Application.Mappings
             CreateMap<Product, AdminProductModel>();
             CreateMap<Product, StoreProductModel>();
 
+            CreateMap<ProductSizeCategory, AdminProductSizeCategoryModel>();
+
             CreateMap<ProductVariant, AdminProductVariantModel>();
             CreateMap<ProductVariant, StoreProductVariantModel>();
 
             CreateMap<ProductSize, AdminProductSizeModel>();
+            CreateMap<ProductSize, AdminProductSizeDetailModel>();
 
             CreateMap<ProductStock, AdminProductStockModel>();
 
