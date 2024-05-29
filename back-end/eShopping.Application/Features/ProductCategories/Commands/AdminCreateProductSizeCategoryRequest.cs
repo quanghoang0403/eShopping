@@ -3,6 +3,7 @@ using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,11 @@ namespace eShopping.Application.Features.ProductCategories.Commands
             if (string.IsNullOrEmpty(request.Name))
             {
                 return BaseResponseModel.ReturnError("Please provide name for this product size category");
+            }
+            var sizeCategoryNameExisted = await _unitOfWork.ProductSizeCategories.Where(psc => psc.Name.Trim().ToLower().Equals(request.Name.ToLower().Trim())).FirstOrDefaultAsync();
+            if (sizeCategoryNameExisted != null)
+            {
+                return BaseResponseModel.ReturnError("This name is used");
             }
             var newSizeCategory = _mapper.Map<ProductSizeCategory>(request);
             var accountId = loggedUser.AccountId.Value;
