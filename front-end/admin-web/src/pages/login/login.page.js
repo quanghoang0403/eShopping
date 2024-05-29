@@ -1,5 +1,5 @@
 import { Button, Form, Image, Input, message, Row, Select } from 'antd'
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.min.css'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
@@ -9,7 +9,7 @@ import {
   UserNameIcon
 } from 'constants/icons.constants'
 import {
-  setCurrentUser,
+  setCurrentUser
 } from 'store/modules/session/session.actions'
 import { getParamsFromUrl } from 'utils/helpers'
 import loginDataService from '../../data-services/login/login-data.service'

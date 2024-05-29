@@ -19,7 +19,7 @@ import {
 } from 'antd'
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import FnbFroalaEditor from 'components/shop-froala-editor';
-import { DateFormat } from "constants/string.constants";
+import { DateFormat } from 'constants/string.constants';
 import { ExclamationIcon } from 'constants/icons.constants';
 import { roundNumber } from 'utils/helpers';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
@@ -34,7 +34,7 @@ import { DragIcon, IconBtnAdd, TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ProductStatus } from 'constants/product-status.constants'
 import { currency } from 'constants/string.constants'
-import productDataService from "data-services/product/product-data.service";
+import productDataService from 'data-services/product/product-data.service';
 import cloneDeep from 'lodash/cloneDeep'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -74,7 +74,7 @@ export default function EditProductPage(props) {
   const [productContent, setProductContent] = useState('')
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
@@ -134,7 +134,7 @@ export default function EditProductPage(props) {
         minlength: 150,
         maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
-      },
+      }
     },
     pricing: {
       title: t('product.priceInfo'),
@@ -148,7 +148,7 @@ export default function EditProductPage(props) {
         min: 1,
         format: '^[1-9]*$',
         validateMessage: t('product.validatePriceNegative'),
-        validateMessageValue:t('product.validateOriginalOverPrice')
+        validateMessageValue: t('product.validateOriginalOverPrice')
       },
       priceOriginal: {
         label: t('product.labelPriceOriginal'),
@@ -158,13 +158,13 @@ export default function EditProductPage(props) {
         min: 1,
         format: '^[1-9]*$',
         validateMessage: t('product.validatePriceNegative'),
-        validateMessageValue:t('product.validateOriginalOverPrice')
+        validateMessageValue: t('product.validateOriginalOverPrice')
       },
       discount: {
         numeric: {
           label: t('product.labelPriceDiscount'),
           placeholder: t('product.placeholderPriceDiscount'),
-          validateMessage:t('product.validateDiscountOverPrice')
+          validateMessage: t('product.validateDiscountOverPrice')
         },
         percentage: {
           label: t('product.labelPriceDiscountPercentage'),
@@ -178,12 +178,12 @@ export default function EditProductPage(props) {
       quantity: {
         sold: {
           label: t('product.labelQuantitySold'),
-          placeholder: t('product.placeholderQuantitySold'),
+          placeholder: t('product.placeholderQuantitySold')
         },
         remaining: {
           label: t('product.labelQuantityLeft'),
           placeholder: t('product.placeholderQuantityLeft'),
-          validateMessage:t('product.validateQuantity')
+          validateMessage: t('product.validateQuantity')
         }
       },
       priceName: {
@@ -195,12 +195,12 @@ export default function EditProductPage(props) {
       },
       priceDate: {
         startDate: {
-          label:t('product.startDate'),
+          label: t('product.startDate'),
           placeholder: t('t.product.placeholderStartDate'),
           validateMessage: t('product.validateStartDate')
         },
         endDate: {
-          label:t('product.endDate'),
+          label: t('product.endDate'),
           placeholder: t('product.placeholderEndDate'),
           validateMessage: t('product.validateEndDate')
         }
@@ -242,7 +242,7 @@ export default function EditProductPage(props) {
   }
   const disabledDate = (current) => {
     // Can not select days before today
-    return current && current < moment().startOf("day");
+    return current && current < moment().startOf('day');
   };
 
   const disabledDateByStartDate = (current, price) => {
@@ -283,7 +283,7 @@ export default function EditProductPage(props) {
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
-      setKeywordSEOList(list => data?.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,value:curr,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}),[]) || [])
+      setKeywordSEOList(list => data?.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr, colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH) }), []) || [])
       const initData = {
         product: {
           description: data?.description,
@@ -292,9 +292,9 @@ export default function EditProductPage(props) {
           price: data?.productPrices.length === 1 ? data?.productPrices[0].priceValue : null,
           prices: pricesData,
           titleSEO: data?.titleSEO,
-          descriptionSEO: data?.descriptionSEO,
-         
-        },
+          descriptionSEO: data?.descriptionSEO
+
+        }
       };
 
       /// Update image
@@ -321,7 +321,7 @@ export default function EditProductPage(props) {
           thumbnail: imageUrl,
           status: statusId,
           content: productContent,
-          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
+          keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
         }
         console.log(editProductRequestModel)
         if (editProductRequestModel.thumbnail !== '') {
@@ -335,7 +335,7 @@ export default function EditProductPage(props) {
                 }
               })
               .catch((errs) => {
-                form.setFields(getValidationMessagesWithParentField(errs, "product"));
+                form.setFields(getValidationMessagesWithParentField(errs, 'product'));
               });
           } catch (errors) {
             // build error message
@@ -393,7 +393,7 @@ export default function EditProductPage(props) {
       quantityLeft: 0,
       quantitySold: 0,
       startDate: moment(),
-      endDate: moment().add(7,'days')
+      endDate: moment().add(7, 'days')
     }
     if (prices.length === 1) {
       prices[0].price = product.price || 0
@@ -417,7 +417,7 @@ export default function EditProductPage(props) {
       product.prices.splice(index, 1)
       product.selectedMaterials?.priceName?.splice(index, 1)
       product.prices.forEach((item, index) => (item.position = index))
-      discount.splice(index,1)
+      discount.splice(index, 1)
     }
     isDisCountChecked(discount)
     setPrices(product.prices)
@@ -531,15 +531,15 @@ export default function EditProductPage(props) {
                                 <Row className="mt-14 w-100">
                                   <Col span={isMobileSize ? 19 : 22}>
                                     <Row gutter={[0, 16]}>
-                                        <Col span={8}>
-                                          <h3>{pageData.pricing.priceName.label}</h3>
-                                        </Col>
-                                        <Col span={8}>
-                                          <h3>{pageData.pricing.quantity.remaining.label}</h3>
-                                        </Col>
-                                        <Col span={8}>
-                                          <h3>{pageData.pricing.quantity.sold.label}</h3>
-                                        </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.priceName.label}</h3>
+                                      </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.quantity.remaining.label}</h3>
+                                      </Col>
+                                      <Col span={8}>
+                                        <h3>{pageData.pricing.quantity.sold.label}</h3>
+                                      </Col>
                                     </Row>
                                     <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
@@ -587,7 +587,7 @@ export default function EditProductPage(props) {
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                             // addonAfter={currency.vnd}
                                             // precision={0}
-                                            onKeyPress={(event) => {
+                                            onKeyDown={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
@@ -611,7 +611,7 @@ export default function EditProductPage(props) {
                                             placeholder={pageData.pricing.quantity.sold.placeholder}
                                             formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                            onKeyPress={(event) => {
+                                            onKeyDown={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
@@ -646,9 +646,9 @@ export default function EditProductPage(props) {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
-                                            ({getFieldValue})=>({
-                                              validator(_,value){
-                                                if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                            ({ getFieldValue }) => ({
+                                              validator(_, value) {
+                                                if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
                                                   return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                                 }
                                                 return Promise.resolve()
@@ -663,7 +663,7 @@ export default function EditProductPage(props) {
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                             addonAfter={currency.vnd}
                                             precision={0}
-                                            onKeyPress={(event) => {
+                                            onKeyDown={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
@@ -684,18 +684,18 @@ export default function EditProductPage(props) {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
-                                            ({getFieldValue})=>({
-                                              validator(_,value){
-                                                if(value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])){
+                                            ({ getFieldValue }) => ({
+                                              validator(_, value) {
+                                                if (value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])) {
                                                   return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                                 }
                                                 return Promise.resolve()
                                               }
                                             }),
-                                            ({getFieldValue})=>(
+                                            ({ getFieldValue }) => (
                                               {
-                                                validator(_,value){
-                                                  if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                validator(_, value) {
+                                                  if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
                                                     return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
                                                   }
                                                   return Promise.resolve();
@@ -712,7 +712,7 @@ export default function EditProductPage(props) {
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                             addonAfter={currency.vnd}
                                             precision={0}
-                                            onKeyPress={(event) => {
+                                            onKeyDown={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
@@ -727,15 +727,15 @@ export default function EditProductPage(props) {
                                         {pageData.pricing.discountCheck}
                                       </Checkbox>
                                     </Row>
-                                    <Row className={`mt-3 ${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                            <h3>{pageData.pricing.discount.numeric.label}</h3>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={12}>
-                                            <h3>{pageData.pricing.discount.percentage.label}</h3>
-                                        </Col>
+                                    <Row className={`mt-3 ${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>{pageData.pricing.discount.numeric.label}</h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={12}>
+                                        <h3>{pageData.pricing.discount.percentage.label}</h3>
+                                      </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
                                           name={['product', 'prices', price.position, 'priceDiscount']}
@@ -744,10 +744,10 @@ export default function EditProductPage(props) {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
                                               message: pageData.pricing.price.validateMessage
                                             },
-                                            ({getFieldValue})=>(
+                                            ({ getFieldValue }) => (
                                               {
-                                                validator(_,value){
-                                                  if(value > getFieldValue(['product', 'prices', price.position, 'priceValue'])){
+                                                validator(_, value) {
+                                                  if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
                                                     return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
                                                   }
                                                   return Promise.resolve();
@@ -764,7 +764,7 @@ export default function EditProductPage(props) {
                                             parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                                             // addonAfter={currency.vnd}
                                             // precision={0}
-                                            onKeyPress={(event) => {
+                                            onKeyDown={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
@@ -791,7 +791,7 @@ export default function EditProductPage(props) {
                                             parser={(value) => value?.replace('%', '')}
                                             min={0}
                                             max={100}
-                                            onKeyPress={(event) => {
+                                            onKeyDown={(event) => {
                                               if (!/[0-9]/.test(event.key)) {
                                                 event.preventDefault()
                                               }
@@ -801,27 +801,27 @@ export default function EditProductPage(props) {
                                         </Form.Item>
                                       </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                          <h3>
-                                            {pageData.pricing.priceDate.startDate.label}
-                                          </h3>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={8}>
-                                          <h3>
-                                            {pageData.pricing.priceDate.endDate.label}
-                                          </h3>
-                                        </Col>
+                                    <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceDate.startDate.label}
+                                        </h3>
+                                      </Col>
+                                      <Col xs={24} sm={24} md={24} lg={8}>
+                                        <h3>
+                                          {pageData.pricing.priceDate.endDate.label}
+                                        </h3>
+                                      </Col>
                                     </Row>
-                                    <Row className={`${discountChecked[index] ? "" : "d-none"}`} gutter={[8, 16]}>
+                                    <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices", price.position, "startDate"]}
+                                          name={['product', 'prices', price.position, 'startDate']}
                                           rules={[
                                             {
                                               required: true,
-                                              message: pageData.pricing.priceDate.startDate.validateMessage,
-                                            },
+                                              message: pageData.pricing.priceDate.startDate.validateMessage
+                                            }
                                           ]}
                                         >
                                           <DatePicker
@@ -849,7 +849,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', "prices", price.position, "endDate"]}
+                                          name={['product', 'prices', price.position, 'endDate']}
                                           rules={[]}
                                         >
                                           <DatePicker
@@ -943,14 +943,14 @@ export default function EditProductPage(props) {
   const updateDimensions = () => {
     setIsMobileSize(window.innerWidth < 500)
   }
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -1072,7 +1072,7 @@ export default function EditProductPage(props) {
                   <FnbFroalaEditor
                     value={productContent}
                     onChange={(value) => {
-                      if (value !== "" && value !== "<div></div>") setIsChangeForm(true);
+                      if (value !== '' && value !== '<div></div>') setIsChangeForm(true);
                       setProductContent(value);
                     }}
                     placeholder={pageData.content.placeholder}
@@ -1153,21 +1153,21 @@ export default function EditProductPage(props) {
                       </Tooltip>
                     </div>
                     <div>
-                    {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
-                    }
-                    
-                    <div className='d-flex mt-3'>
+                      {
+                        keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
+                      }
+
+                      <div className='d-flex mt-3'>
                         <Input
-                          className="shop-input-with-count" 
+                          className="shop-input-with-count"
                           showCount
                           value={keywordSEO?.value || ''}
                           placeholder={pageData.SEOInformation.keyword.placeholder}
-                          onChange={e=>{
-                            if(e.target.value !== ''){
+                          onChange={e => {
+                            if (e.target.value !== '') {
                               setKeywordSEO({
-                                id:e.target.value,
-                                value:e.target.value,
+                                id: e.target.value,
+                                value: e.target.value,
                                 colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
                               })
                               setIsKewwordSEOChange(true)

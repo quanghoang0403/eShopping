@@ -12,8 +12,8 @@
   display: grid;
   grid-template-columns: 33% 33% calc(33% - 25px);
   grid-template-areas:
-    "leftproduct    leftproduct     rightproduct"
-    "priceproduct   priceproduct    rightproduct";
+    'leftproduct    leftproduct     rightproduct'
+    'priceproduct   priceproduct    rightproduct';
   gap: 20px;
 }
 
@@ -56,6 +56,34 @@
     width: 100%;
     margin-top: 16px;
     font-size: 16px;
+  }
+  &.variant-thumnail {
+    width: 100%;
+    height: 60px;
+
+    .btn-upload-image {
+      height: 58px;
+    }
+
+    .ant-form-item-has-success {
+      width: 100%;
+    }
+
+    .image-item {
+      img {
+        width: 100%;
+        height: 60px;
+        object-fit: cover;
+      }
+    }
+
+    .group-btn-upload-image {
+      width: 100%;
+    }
+
+    .group-btn-upload-image-display {
+      display: flex;
+    }
   }
 }
 
@@ -154,9 +182,9 @@
     display: grid;
     grid-template-columns: 100%;
     grid-template-areas:
-      "leftproduct"
-      "rightproduct"
-      "priceproduct";
+      'leftproduct'
+      'rightproduct'
+      'priceproduct';
     gap: 20px;
   }
 

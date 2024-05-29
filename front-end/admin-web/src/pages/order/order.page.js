@@ -1,64 +1,64 @@
-import { Row, message, Col, Button, Input } from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import HorizontalButtonGroup from "components/button-group-with-badges/button-group-with-badges.component";
-import PageTitle from "components/page-title";
-import { FnbTable } from "components/shop-table/shop-table";
-import { OrderOptionDate, OrderStatus } from "constants/order-status.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import OrderDataService from "data-services/order/order-data.service";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import OrderList from "./components/OrderList.component";
-import { executeAfter } from "utils/helpers";
-import { FnbModal } from "components/shop-modal/shop-modal-component";
-import { ExclamationIcon } from "constants/icons.constants";
+import { Row, message, Col, Button, Input } from 'antd';
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
+import HorizontalButtonGroup from 'components/button-group-with-badges/button-group-with-badges.component';
+import PageTitle from 'components/page-title';
+import { ShopTable } from 'components/shop-table/shop-table';
+import { OrderOptionDate, OrderStatus } from 'constants/order-status.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import OrderDataService from 'data-services/order/order-data.service';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import OrderList from './components/OrderList.component';
+import { executeAfter } from 'utils/helpers';
+import { FnbModal } from 'components/shop-modal/shop-modal-component';
+import { ExclamationIcon } from 'constants/icons.constants';
 
-export default function OrderPage (props) {
-  const [currentPageNumber,setCurrentPageNumber] = useState(1)
+export default function OrderPage(props) {
+  const [currentPageNumber, setCurrentPageNumber] = useState(1)
   const [t] = useTranslation()
-  const [dataSource,setDataSource] = useState([])
-  const [keySearch,setKeySearch] = useState('')
-  const [statusOrder,setStatus] = useState(0)
-  const [filteredData,setFilterData] = useState([])
+  const [dataSource, setDataSource] = useState([])
+  const [keySearch, setKeySearch] = useState('')
+  const [statusOrder, setStatus] = useState(0)
+  const [filteredData, setFilterData] = useState([])
   const [openModal, setOpenModal] = useState(false)
-  const [note,setNote] = useState('')
-  const [orderId,setOrderId] = useState('')
-  const [canceling,isCanceling] = useState(false)
-  const getOrderDataAsync = async()=>{
+  const [note, setNote] = useState('')
+  const [orderId, setOrderId] = useState('')
+  const [canceling, isCanceling] = useState(false)
+  const getOrderDataAsync = async () => {
     const data = {
-      pageNumber:currentPageNumber,
-      pageSize:tableSettings.pageSize,
-      keySearch:keySearch,
-      endDate:moment().toISOString(),
-      startDate:moment().subtract(30,"days").toISOString(),
-      optionDate:OrderOptionDate.ThisMonth
+      pageNumber: currentPageNumber,
+      pageSize: tableSettings.pageSize,
+      keySearch: keySearch,
+      endDate: moment().toISOString(),
+      startDate: moment().subtract(30, 'days').toISOString(),
+      optionDate: OrderOptionDate.ThisMonth
     }
-    try{
+    try {
       const res = await OrderDataService.GetOrdersAsync(data)
       const orders = res?.result
-      if(orders){
+      if (orders) {
         setDataSource(orders)
         setFilterData(orders)
       }
-    }catch(err){
+    } catch (err) {
       message.error(err)
     }
-    
-    
+
+
   }
-  useEffect(()=>{
+  useEffect(() => {
     getOrderDataAsync()
-  },[])
-  const onOrderStatusChange = (status)=>{
-    executeAfter(300,()=>{
-      setFilterData(dataSource.filter(data=>data.status === status))
+  }, [])
+  const onOrderStatusChange = (status) => {
+    executeAfter(300, () => {
+      setFilterData(dataSource.filter(data => data.status === status))
       setStatus(status)
     })
-    
+
   }
   const pageData = {
-    title:t('order.title'),
+    title: t('order.title'),
     table: {
       searchPlaceholder: t('table.searchPlaceholder'),
       no: t('table.no'),
@@ -66,78 +66,78 @@ export default function OrderPage (props) {
       price: t('table.price'),
       status: t('table.status'),
       action: t('table.action'),
-      feature:t('table.feature')
+      feature: t('table.feature')
     },
-    updateSuccess:t('order.updateSuccess'),
-    cancel:t('button.cancel'),
-    leave:t('button.leave'),
-    save:t('button.save'),
-    cancelationPlaceholder:t('order.orderCancelationPlaceholder'),
-    orderCancelationRequire:t('order.orderCancelationRequire')
+    updateSuccess: t('order.updateSuccess'),
+    cancel: t('button.cancel'),
+    leave: t('button.leave'),
+    save: t('button.save'),
+    cancelationPlaceholder: t('order.orderCancelationPlaceholder'),
+    orderCancelationRequire: t('order.orderCancelationRequire')
   }
   const tableSettings = {
     pageSize: 20
   }
-  const onConfirm = async (orderId,status)=>{
+  const onConfirm = async (orderId, status) => {
     const data = {
-        orderId:orderId,
-        status:status,
-        note:note
+      orderId: orderId,
+      status: status,
+      note: note
     }
-    try{
-        const res = await OrderDataService.ChangeOrderStatusAsync(data)
-        if(res){
-            message.success(pageData.updateSuccess)
-            getOrderDataAsync();
-            setNote('')
-            setOrderId('')
-        }
-    }catch(err){
-        console.error(err)
+    try {
+      const res = await OrderDataService.ChangeOrderStatusAsync(data)
+      if (res) {
+        message.success(pageData.updateSuccess)
+        getOrderDataAsync();
+        setNote('')
+        setOrderId('')
+      }
+    } catch (err) {
+      console.error(err)
     }
-    
-}
-const onOpenModal = (orderId)=>{
-  setOpenModal(true)
-  setOrderId(orderId)
-}
-const confirmationInput = ()=>{
-  return (
-    <div>
-      <h3>{pageData.cancelationPlaceholder}</h3>
-      <Input value={note} placeholder={pageData.cancelationPlaceholder} onChange={e=>setNote(e.target.value)}/>
-      <div className={`d-flex mt-2 ${note === '' && canceling?'':'d-none'}`}>
-        <ExclamationIcon/>
-        <b className="ml-3">{pageData.orderCancelationRequire}</b>
+
+  }
+  const onOpenModal = (orderId) => {
+    setOpenModal(true)
+    setOrderId(orderId)
+  }
+  const confirmationInput = () => {
+    return (
+      <div>
+        <h3>{pageData.cancelationPlaceholder}</h3>
+        <Input value={note} placeholder={pageData.cancelationPlaceholder} onChange={e => setNote(e.target.value)} />
+        <div className={`d-flex mt-2 ${note === '' && canceling ? '' : 'd-none'}`}>
+          <ExclamationIcon />
+          <b className="ml-3">{pageData.orderCancelationRequire}</b>
+        </div>
+
       </div>
-      
-    </div>
-    
-  );
-}
-const onCloseModal = ()=>{
-  setOpenModal(false)
-  isCanceling(false)
-}
-const onConfirmCancel = ()=>{
-  isCanceling(true)
-  if(note === '') return;
-  let newStatus;
-  // if order status is not new 
-  if(statusOrder !== OrderStatus.New && statusOrder !== OrderStatus.ToConfirm){
-    // if order status is not canceled
-    if(statusOrder !== OrderStatus.Canceled){
-      newStatus = statusOrder - 1;
+
+    );
+  }
+  const onCloseModal = () => {
+    setOpenModal(false)
+    isCanceling(false)
+  }
+  const onConfirmCancel = () => {
+    isCanceling(true)
+    if (note === '') return;
+    let newStatus;
+    // if order status is not new
+    if (statusOrder !== OrderStatus.New && statusOrder !== OrderStatus.ToConfirm) {
+      // if order status is not canceled
+      if (statusOrder !== OrderStatus.Canceled) {
+        newStatus = statusOrder - 1;
+      }
     }
+    // if new change to cancel
+    else {
+      newStatus = OrderStatus.Canceled
+
+    }
+    onConfirm(orderId, newStatus)
+    onCloseModal()
   }
-  // if new change to cancel
-  else{
-    newStatus = OrderStatus.Canceled
-    
-  }
-  onConfirm(orderId,newStatus)
-  onCloseModal()
-}
   return (
     <>
       <Row>
@@ -161,7 +161,7 @@ const onConfirmCancel = ()=>{
             onConfirm={onConfirm}
             onConfirmCancel={onOpenModal}
           />
-          
+
         </Col>
         <FnbModal
           cancelText={pageData.leave}

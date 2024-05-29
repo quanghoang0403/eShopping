@@ -8,94 +8,94 @@ import {
   message,
   Modal,
   Radio,
-  Row,
-} from "antd";
-import ActionButtonGroup from "components/action-button-group/action-button-group.component";
-import DeleteConfirmComponent from "components/delete-confirm/delete-confirm.component";
-import { FnbImageSelectComponent } from "components/shop-image-select/shop-image-select.component";
-import { FnbSelectSingle } from "components/shop-select-single/shop-select-single";
-import { FnbTextArea } from "components/shop-text-area/shop-text-area.component";
-import PageTitle from "components/page-title";
-import { CustomerGenderConstant } from "constants/customer.constant";
-import { DELAYED_TIME } from "constants/default.constants";
-import { CalendarNewIcon } from "constants/icons.constants";
-import { images } from "constants/images.constants";
-import { PermissionKeys } from "constants/permission-key.constants";
-import { DateFormat } from "constants/string.constants";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
+  Row
+} from 'antd';
+import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
+import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
+import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component';
+import PageTitle from 'components/page-title';
+import { CustomerGenderConstant } from 'constants/customer.constant';
+import { DELAYED_TIME } from 'constants/default.constants';
+import { CalendarNewIcon } from 'constants/icons.constants';
+import { images } from 'constants/images.constants';
+import { PermissionKeys } from 'constants/permission-key.constants';
+import { DateFormat } from 'constants/string.constants';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import {
   formatCurrency,
   formatNumber,
-  getValidationMessages,
-} from "utils/helpers";
-import "../create-customer/create-customer.page.scss";
-import "./index.scss";
+  getValidationMessages
+} from 'utils/helpers';
+import '../create-customer/create-customer.page.scss';
+import './index.scss';
 
 export default function EditCustomerPage(props) {
   const { t, customerDataService, history, match } = props;
   const shopImageSelectRef = React.useRef();
 
   const pageData = {
-    title: t("customer.titleEdit"),
-    generalInformation: t("customer.titleInfo"),
-    btnCancel: t("button.cancel"),
-    btnUpdate: t("button.update"),
-    btnEdit: t("button.edit"),
-    btnSave: t("button.save"),
-    btnLeave: t("button.leave"),
-    btnDiscard: t("button.discard"),
-    btnDelete: t("button.delete"),
-    btnIgnore: t("button.ignore"),
-    customerUpdateSuccess: t("dashboard.customerUpdateSuccess"),
-    customerUpdateFail: t("dashboard.customerUpdateFail"),
-    customerDeleteSuccess: t("customer.customerDeleteSuccess"),
-    customerDeleteFail: t("customer.customerDeleteFail"),
-    discard: t("button.discard"),
-    name: t("customer.name"),
-    phone: t("customer.phone"),
-    address: t("customer.address"),
-    email: t("customer.email"),
-    birthday: t("customer.birthday"),
-    gender: t("customer.gender"),
-    male: t("customer.male"),
-    female: t("customer.female"),
-    other: t("customer.other"),
+    title: t('customer.titleEdit'),
+    generalInformation: t('customer.titleInfo'),
+    btnCancel: t('button.cancel'),
+    btnUpdate: t('button.update'),
+    btnEdit: t('button.edit'),
+    btnSave: t('button.save'),
+    btnLeave: t('button.leave'),
+    btnDiscard: t('button.discard'),
+    btnDelete: t('button.delete'),
+    btnIgnore: t('button.ignore'),
+    customerUpdateSuccess: t('dashboard.customerUpdateSuccess'),
+    customerUpdateFail: t('dashboard.customerUpdateFail'),
+    customerDeleteSuccess: t('customer.customerDeleteSuccess'),
+    customerDeleteFail: t('customer.customerDeleteFail'),
+    discard: t('button.discard'),
+    name: t('customer.name'),
+    phone: t('customer.phone'),
+    address: t('customer.address'),
+    email: t('customer.email'),
+    birthday: t('customer.birthday'),
+    gender: t('customer.gender'),
+    male: t('customer.male'),
+    female: t('customer.female'),
+    other: t('customer.other'),
 
-    namePlaceholder: t("customer.namePlaceholder"),
-    emailPlaceholder: t("customer.emailPlaceholder"),
-    phonePlaceholder: t("customer.phonePlaceholder"),
-    addressPlaceholder: t("customer.addressPlaceholder"),
-    birthdayPlaceholder: t("customer.birthdayPlaceholder"),
+    namePlaceholder: t('customer.namePlaceholder'),
+    emailPlaceholder: t('customer.emailPlaceholder'),
+    phonePlaceholder: t('customer.phonePlaceholder'),
+    addressPlaceholder: t('customer.addressPlaceholder'),
+    birthdayPlaceholder: t('customer.birthdayPlaceholder'),
 
-    nameValidation: t("customer.nameValidation"),
-    phoneValidation: t("customer.phoneValidation"),
-    emailValidation: t("customer.emailValidation"),
-    emailInvalidEmail: t("customer.emailInvalidEmail"),
+    nameValidation: t('customer.nameValidation'),
+    phoneValidation: t('customer.phoneValidation'),
+    emailValidation: t('customer.emailValidation'),
+    emailInvalidEmail: t('customer.emailInvalidEmail'),
 
     mustBeBetweenOneAndHundredCharacters: t(
-      "form.mustBeBetweenOneAndHundredCharacters"
+      'form.mustBeBetweenOneAndHundredCharacters'
     ),
-    allowNumberOnly: t("form.allowNumberOnly"),
-    validPhonePattern: t("form.validPhonePattern"),
+    allowNumberOnly: t('form.allowNumberOnly'),
+    validPhonePattern: t('form.validPhonePattern'),
 
-    city: t("form.city"),
-    district: t("form.district"),
-    ward: t("form.ward"),
+    city: t('form.city'),
+    district: t('form.district'),
+    ward: t('form.ward'),
 
-    selectCity: t("form.selectCity"),
-    selectDistrict: t("form.selectDistrict"),
-    selectWard: t("form.selectWard"),
-    totalOrder: t("dashboard.totalOrder"),
-    totalMoney: t("dashboard.totalMoney"),
+    selectCity: t('form.selectCity'),
+    selectDistrict: t('form.selectDistrict'),
+    selectWard: t('form.selectWard'),
+    totalOrder: t('dashboard.totalOrder'),
+    totalMoney: t('dashboard.totalMoney'),
 
     leaveDialog: {
-      confirmLeaveTitle: t("dialog.confirmLeaveTitle"),
-      confirmLeaveContent: t("dialog.confirmLeaveContent"),
-      confirmLeave: t("dialog.confirmLeave"),
-      confirmDelete: t("dialog.confirmDelete"),
-      confirmDeleteMessage: t("dialog.confirmDeleteMessage"),
-    },
+      confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
+      confirmLeaveContent: t('dialog.confirmLeaveContent'),
+      confirmLeave: t('dialog.confirmLeave'),
+      confirmDelete: t('dialog.confirmDelete'),
+      confirmDeleteMessage: t('dialog.confirmDeleteMessage')
+    }
   };
 
   const [form] = Form.useForm();
@@ -111,7 +111,7 @@ export default function EditCustomerPage(props) {
   const [districtsByCityId, setDistrictsByCityId] = useState([]);
   const [customer, setCustomer] = useState({});
   const [showConfirm, setShowConfirm] = useState(false);
-  const [customerName, setCustomerName] = useState("");
+  const [customerName, setCustomerName] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [showConfirmLeave, setShowConfirmLeave] = useState(false);
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function EditCustomerPage(props) {
         birthDay: customer?.birthday
           ? moment.utc(customer?.birthday).local()
           : null,
-        phone: customer?.phoneNumber,
+        phone: customer?.phoneNumber
       };
       form.setFieldsValue(initField);
 
@@ -183,7 +183,7 @@ export default function EditCustomerPage(props) {
       birthDay: values.birthDay
         ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2)
         : null,
-      tags,
+      tags
     };
     customerDataService
       .updateCustomerAsync(editUserRequestModel)
@@ -256,7 +256,7 @@ export default function EditCustomerPage(props) {
   const gotoCustomerPage = () => {
     setIsChangeForm(false);
     setTimeout(() => {
-      return history.push("/customer");
+      return history.push('/customer');
     }, DELAYED_TIME);
   };
 
@@ -278,10 +278,10 @@ export default function EditCustomerPage(props) {
       autoComplete="off"
       name="basic"
       labelCol={{
-        span: 8,
+        span: 8
       }}
       wrapperCol={{
-        span: 24,
+        span: 24
       }}
       onFinish={onFinish}
       onFieldsChange={() => {
@@ -309,7 +309,7 @@ export default function EditCustomerPage(props) {
                       {pageData.btnUpdate}
                     </Button>
                   ),
-                  permission: PermissionKeys.EDIT_CUSTOMER,
+                  permission: PermissionKeys.EDIT_CUSTOMER
                 },
                 {
                   action: (
@@ -317,7 +317,7 @@ export default function EditCustomerPage(props) {
                       {pageData.btnLeave}
                     </a>
                   ),
-                  permission: null,
+                  permission: null
                 },
                 {
                   action: (
@@ -328,8 +328,8 @@ export default function EditCustomerPage(props) {
                       {pageData.btnDelete}
                     </a>
                   ),
-                  permission: PermissionKeys.EDIT_CUSTOMER,
-                },
+                  permission: PermissionKeys.EDIT_CUSTOMER
+                }
               ]}
             />
           </Col>
@@ -372,33 +372,33 @@ export default function EditCustomerPage(props) {
               lg={16}
               className="customer-edit-card-right-padding"
             >
-              <Row style={{ display: "grid" }}>
+              <Row style={{ display: 'grid' }}>
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">
                       {pageData.name} <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={"firstName"}
+                      name={'firstName'}
                       rules={[
                         {
                           required: true,
-                          message: pageData.nameValidation,
+                          message: pageData.nameValidation
                         },
-                        { type: "string", warningOnly: true },
+                        { type: 'string', warningOnly: true },
                         {
                           validator: (_, value) =>
-                            value?.length > 0 && value.trim() === ""
+                            value?.length > 0 && value.trim() === ''
                               ? Promise.reject()
                               : Promise.resolve(),
-                          message: `${pageData.name} ${pageData.mustBeBetweenOneAndHundredCharacters}`,
+                          message: `${pageData.name} ${pageData.mustBeBetweenOneAndHundredCharacters}`
                         },
                         {
-                          type: "string",
+                          type: 'string',
                           max: 100,
                           min: 1,
-                          message: `${pageData.name} ${pageData.mustBeBetweenOneAndHundredCharacters}`,
-                        },
+                          message: `${pageData.name} ${pageData.mustBeBetweenOneAndHundredCharacters}`
+                        }
                       ]}
                     >
                       <Input
@@ -421,17 +421,17 @@ export default function EditCustomerPage(props) {
                       <span className="text-danger"> *</span>
                     </h4>
                     <Form.Item
-                      name={"phone"}
+                      name={'phone'}
                       rules={[
                         {
                           required: true,
-                          message: pageData.phoneValidation,
+                          message: pageData.phoneValidation
                         },
                         {
                           pattern:
                             /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im,
-                          message: pageData.validPhonePattern,
-                        },
+                          message: pageData.validPhonePattern
+                        }
                       ]}
                     >
                       <Input
@@ -444,7 +444,7 @@ export default function EditCustomerPage(props) {
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.address}</h4>
-                    <Form.Item name={["address", "address1"]}>
+                    <Form.Item name={['address', 'address1']}>
                       <Input
                         className="shop-input"
                         size="large"
@@ -458,12 +458,12 @@ export default function EditCustomerPage(props) {
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.email}</h4>
                     <Form.Item
-                      name={"email"}
+                      name={'email'}
                       rules={[
                         {
-                          type: "email",
-                          message: pageData.emailInvalidEmail,
-                        },
+                          type: 'email',
+                          message: pageData.emailInvalidEmail
+                        }
                       ]}
                     >
                       <Input
@@ -475,7 +475,7 @@ export default function EditCustomerPage(props) {
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.city}</h4>
-                    <Form.Item name={["address", "cityId"]}>
+                    <Form.Item name={['address', 'cityId']}>
                       <FnbSelectSingle
                         size="large"
                         placeholder={pageData.selectCity}
@@ -484,7 +484,7 @@ export default function EditCustomerPage(props) {
                         autoComplete="none"
                         option={cities?.map((item, index) => ({
                           id: item.id,
-                          name: item.name,
+                          name: item.name
                         }))}
                       />
                     </Form.Item>
@@ -493,7 +493,7 @@ export default function EditCustomerPage(props) {
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.birthday}</h4>
-                    <Form.Item name={"birthDay"}>
+                    <Form.Item name={'birthDay'}>
                       <DatePicker
                         suffixIcon={<CalendarNewIcon />}
                         className="shop-date-picker w-100"
@@ -505,7 +505,7 @@ export default function EditCustomerPage(props) {
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.district}</h4>
-                    <Form.Item name={["address", "districtId"]}>
+                    <Form.Item name={['address', 'districtId']}>
                       <FnbSelectSingle
                         size="large"
                         placeholder={pageData.selectDistrict}
@@ -514,7 +514,7 @@ export default function EditCustomerPage(props) {
                         autoComplete="none"
                         option={districtsByCityId?.map((item, index) => ({
                           id: item.id,
-                          name: item.name,
+                          name: item.name
                         }))}
                       />
                     </Form.Item>
@@ -552,14 +552,14 @@ export default function EditCustomerPage(props) {
                     {isDefaultCountry ? (
                       <>
                         <h4 className="shop-form-label">{pageData.ward}</h4>
-                        <Form.Item name={["address", "wardId"]}>
+                        <Form.Item name={['address', 'wardId']}>
                           <FnbSelectSingle
                             size="large"
                             placeholder={pageData.selectWard}
                             showSearch
                             option={wardsByDistrictId?.map((item, index) => ({
                               id: item.id,
-                              name: item.name,
+                              name: item.name
                             }))}
                           />
                         </Form.Item>
@@ -569,12 +569,12 @@ export default function EditCustomerPage(props) {
                         <h4 className="shop-form-label">
                           {pageData.labelState}
                         </h4>
-                        <Form.Item name={["address", "stateId"]}>
+                        <Form.Item name={['address', 'stateId']}>
                           <FnbSelectSingle
                             placeholder={pageData.selectCityStateRegion}
                             option={states?.map((item) => ({
                               id: item.id,
-                              name: item.name,
+                              name: item.name
                             }))}
                             showSearch
                           />
@@ -587,12 +587,12 @@ export default function EditCustomerPage(props) {
                   <Col sm={24} xs={24} lg={24} className="form-row">
                     <h4 className="shop-form-label">{pageData.note}</h4>
                     <Form.Item
-                      name={"note"}
+                      name={'note'}
                       rules={[
                         {
                           max: 1000,
-                          message: pageData.descriptionMaximum,
-                        },
+                          message: pageData.descriptionMaximum
+                        }
                       ]}
                     >
                       <FnbTextArea

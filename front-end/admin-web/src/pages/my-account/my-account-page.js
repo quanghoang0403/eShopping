@@ -22,9 +22,9 @@ export default function MyAccountPage (props) {
       <div className="col-input-full-width">
         <Row className="w-100">
           <Col span={24}>
-              <Card className="my-account-card">
-                <UserInformationComponent />
-              </Card>
+            <Card className="my-account-card">
+              <UserInformationComponent />
+            </Card>
           </Col>
         </Row>
       </div>

@@ -1,7 +1,7 @@
 import { Card, Col, Form, Image, Row, Tooltip, message } from 'antd'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/shop-table/shop-table'
+import { ShopTable } from 'components/shop-table/shop-table'
 import { tableSettings } from 'constants/default.constants'
 import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
@@ -51,7 +51,7 @@ export const TableBlog = () => {
   const [showPopover, setShowPopover] = useState(true)
   const [dataFilter, setDataFilter] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [blogCategories,setBlogCategories] = useState([])
+  const [blogCategories, setBlogCategories] = useState([])
 
   useEffect(() => {
     initDataTableBlogs(tableSettings.page, tableSettings.pageSize, keySearch)
@@ -65,10 +65,10 @@ export const TableBlog = () => {
       setListBlog(blogs)
       setTotalBlog(res?.paging?.total)
       setCurrentPageNumber(pageNumber)
-      
+
     })
-    BlogCategoryDataService.getAllBlogCategoryAsync().then(res=>{
-      if(res){
+    BlogCategoryDataService.getAllBlogCategoryAsync().then(res => {
+      if (res) {
         setBlogCategories(res)
       }
     })
@@ -178,7 +178,7 @@ export const TableBlog = () => {
         dataIndex: 'blogCategoryId',
         width: '10%',
         render: (value) => {
-          return <div>{value === guidIdEmptyValue ? '-' : blogCategories.find(b=>b.id === value)?.name}</div>
+          return <div>{value === guidIdEmptyValue ? '-' : blogCategories.find(b => b.id === value)?.name}</div>
         }
       },
       {
@@ -197,7 +197,7 @@ export const TableBlog = () => {
           return (
             <div className="lastSavedTime">
               <span>{moment(record.lastSavedTime)?.format('HH:mm')}</span>
-              <span className="lastSavedTimeDate">{moment(record.lastSavedTime)?.format("DD-MM-YYYY")}</span>
+              <span className="lastSavedTimeDate">{moment(record.lastSavedTime)?.format('DD-MM-YYYY')}</span>
             </div>
           )
         }
@@ -255,17 +255,17 @@ export const TableBlog = () => {
     }
     const authors = []
     const dataFilter = {
-      blogCategories:blogCategories.map(b=>{return {id:b.id,name:b.name}}),
-      blogAuthors:listBlog.map(b=>{
-        const author = {id:b.author,name:b.author}
-        if(!authors?.find(data=>data.id == author.id)){
+      blogCategories: blogCategories.map(b => { return { id: b.id, name: b.name } }),
+      blogAuthors: listBlog.map(b => {
+        const author = { id: b.author, name: b.author }
+        if (!authors?.find(data => data.id == author.id)) {
           authors.push(author)
           return author
         }
         return null
-      }).filter(data=>data !== null)
+      }).filter(data => data !== null)
     }
-   
+
     setDataFilter(dataFilter)
   }
 
@@ -306,7 +306,7 @@ export const TableBlog = () => {
           }}
         />
       )
-      : "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
+      : 'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd'
   }
 
   return (
@@ -315,7 +315,7 @@ export const TableBlog = () => {
         <Card className="w-100 shop-card-full">
           <Row className="total-cost-amount-row">
             <Col span={24}>
-              <FnbTable
+              <ShopTable
                 className="mt-4 blogTable"
                 columns={getColumns()}
                 pageSize={tableSettings.pageSize}

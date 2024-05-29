@@ -1,6 +1,6 @@
-import http from "../../utils/http-common";
+import http from '../../utils/http-common';
 
-const controller = "file";
+const controller = 'file';
 
 const uploadFileAsync = data => {
   return http.post(`/${controller}/upload`, data);
@@ -12,7 +12,7 @@ const getBase64Image = url => {
 
 const fileDataService = {
   uploadFileAsync,
-  getBase64Image,
+  getBase64Image
 };
 
 export default fileDataService;

@@ -4,7 +4,7 @@ import { executeAfter } from 'utils/helpers'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/shop-table/shop-table'
+import { ShopTable } from 'components/shop-table/shop-table'
 import TooltipParagraph from 'components/shop-tooltip-paragraph/shop-tooltip-paragraph'
 import { FnbViewMoreComponent } from 'components/shop-view-more/shop-view-more'
 import FilterStaff from './filter-staff.component'
@@ -264,7 +264,7 @@ export default function TableStaff(props) {
       const group = {
         id: item?.id,
         name: item?.name,
-        link: ``
+        link: ''
       }
       listGroup.push(group)
     })
@@ -300,7 +300,7 @@ export default function TableStaff(props) {
   return (
     <Form className="form-staff">
       <Row className="mt-4">
-        <FnbTable
+        <ShopTable
           className="mt-4"
           columns={tableSettings.columns}
           pageSize={tableSettings.pageSize}

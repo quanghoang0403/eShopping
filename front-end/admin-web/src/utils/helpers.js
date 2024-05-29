@@ -8,7 +8,7 @@ import { getStorage, localStorageKeys } from './localStorage.helpers'
 import { decryptWithAES } from './securityHelpers'
 import { PermissionKeys } from 'constants/permission-key.constants'
 export const browserHistory = createBrowserHistory()
-import i18n from "utils/i18n";
+import i18n from 'utils/i18n';
 const { t } = i18n;
 /// Format date
 export const formatDate = (date, format) => {
@@ -620,7 +620,7 @@ export const isValidHttpUrl = (string) => {
 }
 
 /**
- * Check onKeyPress event and check input key
+ * Check onKeyDown event and check input key
  * @param {event} event the event of the input
  * @param {string} id is the ID of the InputText
  * @param {number} min: minimum number
@@ -677,7 +677,9 @@ export const checkOnKeyPressValidation = (event, id, min, max, precision) => {
     if (min !== null && text * 1.0 < min) {
       return false
     }
-  } catch { }
+  } catch {
+    console.log('error validate')
+  }
 
   return true
 }

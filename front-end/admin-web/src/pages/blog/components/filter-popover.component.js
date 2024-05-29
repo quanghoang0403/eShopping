@@ -75,9 +75,9 @@ export const FilterBlogPopover = (props) => {
 
       {/* RESET BUTTON */}
       <Row className="row-reset-filter">
-          <a onClick={() => clearFilter()} className="reset-filter" aria-current={Object.values(filterData).filter((e) => e !== '').length === 0 && 'inventory-history-filter'}>
-            {pageData.filter.buttonResetFilter}
-          </a>
+        <a onClick={() => clearFilter()} className="reset-filter" aria-current={Object.values(filterData).filter((e) => e !== '').length === 0 && 'inventory-history-filter'}>
+          {pageData.filter.buttonResetFilter}
+        </a>
       </Row>
 
     </Card>

@@ -2,13 +2,13 @@ import { EllipsisOutlined } from '@ant-design/icons'
 import { Checkbox, Col, message, Popover, Row, Space, Tooltip } from 'antd'
 import { BadgeStatus } from 'components/badge-status'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
-import { FnbTable } from 'components/shop-table/shop-table'
+import { ShopTable } from 'components/shop-table/shop-table'
 import { Thumbnail } from 'components/thumbnail/thumbnail'
 import { TrashFill } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useTranslation } from 'react-i18next'
-import productCategoryDataService from "data-services/product-category/product-category-data.service";
-import productDataService from "data-services/product/product-data.service";
+import productCategoryDataService from 'data-services/product-category/product-category-data.service';
+import productDataService from 'data-services/product/product-data.service';
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {
@@ -77,7 +77,7 @@ export default function TableProduct(props) {
             <Row className="table-img-box">
               <div>
                 <Thumbnail
-                  // src={getThumbnailUrl(record?.thumbnail, 'mobile')} 
+                  // src={getThumbnailUrl(record?.thumbnail, 'mobile')}
                   src={record?.thumbnail}
                 />
               </div>
@@ -368,8 +368,8 @@ export default function TableProduct(props) {
     var resCategory = await productCategoryDataService.getAllProductCategoriesAsync();
     if (resCategory) {
       const allCategoryOption = {
-        id: "",
-        name: "Tất cả",
+        id: '',
+        name: 'Tất cả'
       };
       const categoryOptions = [allCategoryOption, ...resCategory.allProductCategories];
       setProductCategories(categoryOptions);
@@ -428,7 +428,7 @@ export default function TableProduct(props) {
   return (
     <>
       <Row className="form-staff mt-4">
-        <FnbTable
+        <ShopTable
           className="mt-4 table-striped-rows table-product-management"
           columns={tableSettings.columns}
           pageSize={tableSettings.pageSize}
