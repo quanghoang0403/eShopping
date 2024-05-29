@@ -28,15 +28,23 @@ import { useTranslation } from 'react-i18next'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
 import FnbFroalaEditor from 'components/shop-froala-editor';
-import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
+import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
-import StockProductTable from '../components/stock-product.component';
+import CreateStockProductTable from '../components/create-stock-product.component';
 import moment from 'moment';
+import { message } from 'antd';
 
 const { Text } = Typography
 
 export default function CreateProductPage() {
   const history = useHistory()
+  const sizes = [
+    { id: '1', name: 'S' },
+    { id: '2', name: 'M' },
+    { id: '3', name: 'L' },
+    { id: '4', name: 'XL' },
+    { id: '5', name: 'XXL' }
+  ]
   const [variants, setVariants] = useState([{
     position: 0,
     thumbnail: null,
@@ -47,13 +55,11 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(7, 'days'),
-    stocks: [
-      { id: '1', name: 'S', quantity: 0 },
-      { id: '2', name: 'M', quantity: 1 },
-      { id: '3', name: 'L', quantity: 3 },
-      { id: '4', name: 'XL', quantity: 4 },
-      { id: '5', name: 'XXL', quantity: 5 }
-    ]
+    stocks: sizes.map(size => ({
+      sizeId: size.id,
+      name: size.name,
+      quantityLeft: 0
+    }))
   },
   {
     position: 1,
@@ -65,13 +71,11 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(6, 'days'),
-    stocks: [
-      { id: '1', name: 'S', quantity: 4 },
-      { id: '2', name: 'M', quantity: 1 },
-      { id: '3', name: 'L', quantity: 3 },
-      { id: '4', name: 'XL', quantity: 4 },
-      { id: '5', name: 'XXL', quantity: 5 }
-    ]
+    stocks: sizes.map(size => ({
+      sizeId: size.id,
+      name: size.name,
+      quantityLeft: 1
+    }))
   },
   {
     position: 2,
@@ -83,21 +87,12 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(4, 'days'),
-    stocks: [
-      { id: '1', name: 'S', quantity: 10 },
-      { id: '2', name: 'M', quantity: 1 },
-      { id: '3', name: 'L', quantity: 3 },
-      { id: '4', name: 'XL', quantity: 4 },
-      { id: '5', name: 'XXL', quantity: 5 }
-    ]
+    stocks: sizes.map(size => ({
+      sizeId: size.id,
+      name: size.name,
+      quantityLeft: 2
+    }))
   }])
-  const sizes = [
-    { id: '1', name: 'S' },
-    { id: '2', name: 'M' },
-    { id: '3', name: 'L' },
-    { id: '4', name: 'XL' },
-    { id: '5', name: 'XXL' }
-  ]
   const [image, setImage] = useState(null)
   const [thumbnailVariants, setThumbnailVariants] = useState([]);
   const [listAllProductCategory, setListAllProductCategory] = useState([])
@@ -233,39 +228,39 @@ export default function CreateProductPage() {
 
   const onSubmitForm = () => {
     console.log(form.getFieldsValue().product)
-    // form
-    //   .validateFields()
-    //   .then(async (values) => {
-    //     const createProductRequestModel = {
-    //       ...values.product,
-    //       imagePaths: [],
-    //       productVariants: values.product.variants,
-    //       thumbnail: values.product.media.url,
-    //       content: productContent,
-    //       keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
-    //     }
-    //     console.log(createProductRequestModel)
-    //     productDataService
-    //       .createProductAsync(createProductRequestModel)
-    //       .then((res) => {
-    //         if (res) {
-    //           message.success(pageData.productAddedSuccess);
-    //           setIsChangeForm(false);
-    //           history.push("/product");
-    //         }
-    //       })
-    //       .catch((errs) => {
-    //         form.setFields(getValidationMessagesWithParentField(errs, "product"));
-    //         console.error(errs)
-    //       })
+    form
+      .validateFields()
+      .then(async (values) => {
+        const createProductRequestModel = {
+          ...values.product,
+          imagePaths: [],
+          productVariants: values.product.variants,
+          thumbnail: values.product.media.url,
+          content: productContent,
+          keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
+        }
+        console.log(createProductRequestModel)
+        productDataService
+          .createProductAsync(createProductRequestModel)
+          .then((res) => {
+            if (res) {
+              message.success(pageData.productAddedSuccess);
+              setIsChangeForm(false);
+              history.push('/product');
+            }
+          })
+          .catch((errs) => {
+            form.setFields(getValidationMessagesWithParentField(errs, 'product'));
+            console.error(errs)
+          })
 
-    //   })
-    //   .catch((errors) => {
-    //     if (errors?.errorFields?.length > 0) {
-    //       const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
-    //       scrollToElement(elementId)
-    //     }
-    //   })
+      })
+      .catch((errors) => {
+        if (errors?.errorFields?.length > 0) {
+          const elementId = `basic_${errors?.errorFields[0]?.name.join('_')}_help`
+          scrollToElement(elementId)
+        }
+      })
   }
 
   const onDeleteVariant = (index) => {
@@ -783,7 +778,7 @@ export default function CreateProductPage() {
           <br />
           <Row>
             <Card className="w-100 mt-1 shop-card h-auto">
-              <StockProductTable sizes={sizes} form={form} variants={variants} />
+              <CreateStockProductTable sizes={sizes} form={form} variants={variants} />
             </Card>
           </Row>
         </div>

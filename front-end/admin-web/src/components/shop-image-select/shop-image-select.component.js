@@ -13,7 +13,6 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     value,
     maxFileSize = 5242880,
     isShowBestDisplay = true,
-
     acceptType,
     bestDisplayImage,
     customTextNonImageClass,
@@ -35,7 +34,6 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }))
 
   const pageData = {
-    // addFromUrl: t('file.addFromUrl'),
     uploadImage: t('file.uploadImage'),
     textNonImage: t('file.textNonImage'),
     bestDisplayImage: t('file.bestDisplayImage'),

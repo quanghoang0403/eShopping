@@ -52,7 +52,7 @@
     "no-dupe-keys": 2,
     "no-duplicate-case": 2,
     "no-empty": 2,
-    "no-extra-semi": 1,
+    "no-extra-semi": 2,
     "no-func-assign": 2,
     "no-redeclare": 1,
     "no-sync": 1,

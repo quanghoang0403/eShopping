@@ -47,9 +47,21 @@ namespace eShopping.Application.Features.Products.Commands
 
         public string Thumbnail { get; set; }
 
-        public List<AdminProductVariantModel> ProductVariants { get; set; }
+        public List<AdminProductVariantRequestModel> ProductVariants { get; set; }
+    }
 
-        public List<AdminProductStockModel> ProductStocks { get; set; }
+    public class AdminProductVariantRequestModel : AdminProductVariantModel
+    {
+        public List<AdminProductStockRequestModel> Stocks { get; set; }
+    }
+
+    public class AdminProductStockRequestModel
+    {
+        public Guid SizeId { get; set; }
+
+        public string Name { get; set; }
+
+        public int QuantityLeft { get; set; }
     }
 
     public class AdminCreateMaterialRequestHandler : IRequestHandler<AdminCreateProductRequest, BaseResponseModel>
@@ -140,18 +152,24 @@ namespace eShopping.Application.Features.Products.Commands
                     }
                     await _unitOfWork.Images.AddRangeAsync(productImages);
 
-                    // Add option
-                    //List<ProductVariant> productVariants = new();
-                    //foreach (var option in request.ProductVariants)
-                    //{
-                    //    var optionToAdd = _mapper.Map<ProductVariant>(option);
-                    //    optionToAdd.ProductId = product.Id;
-                    //    optionToAdd.CreatedUser = accountId;
-                    //    optionToAdd.CreatedTime = DateTime.Now;
-                    //    productVariants.Add(optionToAdd);
-                    //}
-                    //await _unitOfWork.ProductVariants.AddRangeAsync(productVariants);
-                    // Complete this transaction, data will be saved.
+                    // Add stock
+                    var stocksToAdd = new List<ProductStock>();
+                    foreach (var variant in product.ProductVariants)
+                    {
+                        var variantAdd = request.ProductVariants.Where(x => x.Priority == variant.Priority).FirstOrDefault();
+                        foreach (var stock in variantAdd.Stocks)
+                        {
+                            stocksToAdd.Add(new ProductStock
+                            {
+                                ProductId = product.Id,
+                                ProductVariantId = variant.Id,
+                                ProductSizeId = stock.SizeId,
+                                QuantityLeft = stock.QuantityLeft
+                            });
+                        }
+                    }
+                    await _unitOfWork.ProductStocks.AddRangeAsync(stocksToAdd);
+
                     await createTransaction.CommitAsync(cancellationToken);
 
                 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { ShopTable } from 'components/shop-table/shop-table';
 import { Checkbox, Row, Col, Form, DatePicker, InputNumber } from 'antd';
@@ -118,7 +119,7 @@ export default function StockProductTable({ sizes, form, variants }) {
             dataIndex: 'priceOriginal',
             position: 'priceOriginal',
             align: 'center',
-            width: 152,
+            width: 160,
             render: (value, record) => (
               <Form.Item
                 name={['product', 'variants', record.position, 'priceOriginal']}
@@ -168,7 +169,7 @@ export default function StockProductTable({ sizes, form, variants }) {
             dataIndex: 'priceValue',
             position: 'priceValue',
             align: 'center',
-            width: 152,
+            width: 160,
             render: (value, record) => (
               <Form.Item
                 name={['product', 'variants', record.position, 'priceValue']}
@@ -222,7 +223,7 @@ export default function StockProductTable({ sizes, form, variants }) {
             dataIndex: 'priceDiscount',
             position: 'priceDiscount',
             align: 'center',
-            width: 152,
+            width: 160,
             render: (value, record) => (
               <Form.Item
                 name={['product', 'variants', record.position, 'priceDiscount']}
@@ -385,12 +386,12 @@ export default function StockProductTable({ sizes, form, variants }) {
           width: 90,
           render: (_, record) => {
             // Find the size in the stocks array of the current record
-            const stock = record.stocks.find(stock => stock.id === size.id);
-            // If the size is found, return its quantity, otherwise return 0
-            const quantity = stock ? stock.quantity : 0;
+            const stock = record.stocks.find(stock => stock.sizeId === size.id);
+            // If the size is found, return its quantityLeft, otherwise return 0
+            const quantityLeft = stock ? stock.quantityLeft : 0;
             return (
               <Form.Item
-                name={['product', 'variants', record.position, 'stocks', index, 'quantity']}
+                name={['product', 'variants', record.position, 'stocks', index, 'quantityLeft']}
                 rules={[]}
               >
                 <InputNumber
@@ -403,7 +404,7 @@ export default function StockProductTable({ sizes, form, variants }) {
                       event.preventDefault()
                     }
                   }}
-                  value={quantity}
+                  value={quantityLeft}
                 />
               </Form.Item>
             );
