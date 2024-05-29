@@ -14,6 +14,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   const {
     onChange,
     maxNumber = 1,
+    multiple = false,
     buttonText,
     className,
     maxFileSize = 5242880,
@@ -118,7 +119,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   return (
     <>
       <ImageUploading
-        multiple={false}
+        multiple={multiple}
         value={images}
         onChange={onUploadImage}
         maxNumber={maxNumber}

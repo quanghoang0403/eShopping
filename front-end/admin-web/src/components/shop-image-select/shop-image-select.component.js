@@ -76,7 +76,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
           span={24}
           className={`${customNonImageClass} image-product ${selectedImage !== null ? 'justify-left' : ''}`}
         >
-          <div style={{ display: 'flex' }}>
+          <div>
             <FnbUploadImageComponent
               className={className}
               ref={shopUploadRef}
