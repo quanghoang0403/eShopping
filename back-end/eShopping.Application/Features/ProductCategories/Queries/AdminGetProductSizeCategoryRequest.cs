@@ -56,7 +56,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    NumberOfProductSize = category.ProductSizes.Count()
+                    NumberOfProductSize = category.ProductSizes.Count(),
+                    Priority = category.Priority
                 });
             }
 

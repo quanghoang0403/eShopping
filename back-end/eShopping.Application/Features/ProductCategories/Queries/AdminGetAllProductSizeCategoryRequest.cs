@@ -45,7 +45,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    NumberOfProductSize = item.ProductSizes.Count()
+                    NumberOfProductSize = item.ProductSizes.Count(),
+                    Priority = item.Priority
                 });
             }
             return BaseResponseModel.ReturnData(categoryResponse);
