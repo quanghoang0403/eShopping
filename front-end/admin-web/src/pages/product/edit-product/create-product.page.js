@@ -23,6 +23,7 @@ import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useHistory } from 'react-router'
 import { getValidationMessagesWithParentField } from 'utils/helpers'
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
@@ -33,10 +34,12 @@ import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyw
 import CreateStockProductTable from '../components/create-stock-product.component';
 import moment from 'moment';
 import { message } from 'antd';
+import { useRef } from 'react';
 
 const { Text } = Typography
 
 export default function CreateProductPage() {
+  const shopImageSelectRef = useRef()
   const history = useHistory()
   const sizes = [
     { id: '1', name: 'S' },
@@ -109,6 +112,7 @@ export default function CreateProductPage() {
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
+    shopImageSelectRef.current.setImageUrl('https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg');
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
@@ -119,6 +123,14 @@ export default function CreateProductPage() {
   const handleChangeThumbnail = () => {
     const variants = form.getFieldValue(['product', 'variants'])
     setThumbnailVariants(variants.map(variant => variant.thumbnail));
+  }
+
+  const handleChangeMedia = (file) => {
+    /// Update image
+    if (shopImageSelectRef && shopImageSelectRef.current) {
+      shopImageSelectRef.current.setImageUrl(file);
+      setImage(file);
+    }
   }
 
   const { t } = useTranslation()
@@ -705,7 +717,12 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.file.title}</h4>
-                    <Row className={`non-image ${image != null ? 'have-image' : ''}`}>
+                    <FnbImageSelectComponent
+                      ref={shopImageSelectRef}
+                      customTextNonImageClass={'create-edit-product-text-non-image'}
+                      customNonImageClass={'create-edit-product-non-image'}
+                    />
+                    {/* <Row className={`non-image ${image != null ? 'have-image' : ''}`}>
                       <Col span={24} className={`image-product ${image != null ? 'justify-left' : ''}`}>
                         <div style={{ display: 'flex' }}>
                           <Form.Item
@@ -733,7 +750,7 @@ export default function CreateProductPage() {
                           {pageData.file.bestDisplayImage}
                         </Text>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </Card>
                 </Col>
               </Row>

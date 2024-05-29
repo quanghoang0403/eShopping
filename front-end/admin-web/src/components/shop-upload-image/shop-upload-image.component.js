@@ -21,7 +21,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
     acceptType,
     imageSizeTooBig = t('file.imageSizeTooBig'),
     acceptFileImageTypes = t('file.acceptFileImageTypes'),
-    isDisabled = false,
+    isDisabled = false
   } = props
   const [images, setImages] = React.useState([])
   const [visibleViewer, setVisibleViewer] = useState(false)

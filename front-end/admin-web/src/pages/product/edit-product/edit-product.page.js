@@ -65,7 +65,6 @@ export default function EditProductPage(props) {
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [selectedImage, setSelectedImage] = useState(null)
   const [titleModal, setTitleModal] = useState('')
   const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
   const [statusId, setStatusId] = useState(null)
@@ -300,7 +299,6 @@ export default function EditProductPage(props) {
       /// Update image
       if (shopImageSelectRef && shopImageSelectRef.current) {
         shopImageSelectRef.current.setImageUrl(data?.thumbnail);
-        setSelectedImage(data?.thumbnail);
       }
       form.setFieldsValue(initData);
     });
