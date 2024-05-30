@@ -139,7 +139,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   return (
     <>
       <ImageUploading
-        multiple={false}
+        multiple={maxNumber > 1}
         value={images}
         onChange={onUploadImage}
         maxNumber={maxNumber}
@@ -194,26 +194,22 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
                       </Row>
                     </div>
                   </div>
-                  {
-                    <>
-                      <Viewer
-                        visible={visibleViewer}
-                        onClose={() => {
-                          setVisibleViewer(false)
-                        }}
-                        images={[
-                          {
-                            src: image.data_url
-                          }
-                        ]}
-                        noFooter={true}
-                        defaultSize={{
-                          width: 588,
-                          height: 588
-                        }}
-                      />
-                    </>
-                  }
+                  <Viewer
+                    visible={visibleViewer}
+                    onClose={() => {
+                      setVisibleViewer(false)
+                    }}
+                    images={[
+                      {
+                        src: image.data_url
+                      }
+                    ]}
+                    noFooter={true}
+                    defaultSize={{
+                      width: 588,
+                      height: 588
+                    }}
+                  />
                 </>
               ))}
             </div>
