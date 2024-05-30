@@ -24,6 +24,15 @@ namespace eShopping.WebApi.Controllers.v3_3
             return Ok(respsone);
         }
 
+        [HttpPost]
+        [Route("upload-multiple")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UploadMultipleAsync([FromForm] UploadMultipleFileRequest request)
+        {
+            var respsone = await _mediator.Send(request);
+            return Ok(respsone);
+        }
+
 
         [HttpGet]
         [Route("get-base64-image")]

@@ -58,13 +58,13 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
       }
       const requestFormData = jsonToFormData(requestData)
       fileDataService.uploadFileAsync(requestFormData).then((res) => {
-        if (res.link !== '') {
-          imageList[0].data_url = res.link;
+        if (res !== '') {
+          imageList[0].data_url = res;
           setImages(imageList);
           if (onChange) {
             onChange({
               fileName: buildFileName,
-              url: res.link
+              url: res
             });
           }
         }
