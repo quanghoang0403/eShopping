@@ -3,6 +3,7 @@ using eShopping.Application.Features.Files.Queries;
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -27,8 +28,9 @@ namespace eShopping.WebApi.Controllers.v3_3
         [HttpPost]
         [Route("upload-multiple")]
         [AllowAnonymous]
-        public async Task<IActionResult> UploadMultipleAsync([FromForm] UploadMultipleFileRequest request)
+        public async Task<IActionResult> UploadMultipleAsync(IFormCollection collection)
         {
+            var request = new UploadMultipleFileRequest() { Files = collection.Files };
             var respsone = await _mediator.Send(request);
             return Ok(respsone);
         }

@@ -1,9 +1,10 @@
 import { Button } from 'antd'
-import { PlusIcon } from 'constants/icons.constants'
 import { capitalizeFirstLetterEachWord, hasPermission } from 'utils/helpers'
+import { IconBtnAdd } from 'constants/icons.constants'
+
 import './shop-add-new-button.scss'
 
-export function ShopAddNewButton ({
+export function ShopAddNewButton({
   className,
   onClick,
   text,
@@ -18,7 +19,7 @@ export function ShopAddNewButton ({
     if (hasPermission(permission)) {
       return (
         <Button
-          icon={hideIcon ? <></> : <PlusIcon />}
+          icon={hideIcon ? <></> : <IconBtnAdd />}
           className={`shop-add-new-button ${className ?? ''}`}
           type="primary"
           onClick={onClick}
@@ -34,7 +35,7 @@ export function ShopAddNewButton ({
     if (!permission) {
       return (
         <Button
-          icon={hideIcon ? <></> : <PlusIcon />}
+          icon={hideIcon ? <></> : <IconBtnAdd />}
           className={`shop-add-new-button ${className ?? ''}`}
           type="primary"
           onClick={onClick}

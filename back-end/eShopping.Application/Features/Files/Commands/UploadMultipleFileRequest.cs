@@ -1,5 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using eShopping.Common.Constants;
+﻿using eShopping.Common.Constants;
+using eShopping.Common.Helpers;
 using eShopping.Common.Models;
 using eShopping.Interfaces.Common;
 using eShopping.Storage.Azure;
@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,21 +17,7 @@ namespace eShopping.Application.Features.Files.Commands
 {
     public class UploadMultipleFileRequest : IRequest<BaseResponseModel>
     {
-        public UploadMultipleFileRequest()
-        {
-            FileSizeLimit = DefaultConstants.STORE_IMAGE_LIMIT;
-        }
-
-        public List<UploadFileModel> Files { get; set; }
-
-        public int FileSizeLimit { get; set; } = DefaultConstants.STORE_IMAGE_LIMIT;
-    }
-
-    public class UploadFileModel
-    {
-        public IFormFile File { get; set; }
-
-        public string FileName { get; set; }
+        public IFormFileCollection Files { get; set; }
     }
 
     public class UploadMultipleFileRequestHandler : IRequestHandler<UploadMultipleFileRequest, BaseResponseModel>
@@ -48,6 +33,12 @@ namespace eShopping.Application.Features.Files.Commands
 
         async Task<BaseResponseModel> IRequestHandler<UploadMultipleFileRequest, BaseResponseModel>.Handle(UploadMultipleFileRequest request, CancellationToken cancellationToken)
         {
+
+            if (request.Files == null || request.Files.Count <= 0)
+                return BaseResponseModel.ReturnError("Không tìm thấy ảnh");
+
+            if (request.Files.Count > 30)
+                return BaseResponseModel.ReturnError("Chỉ có thể upload tối đa 20 ảnh");
             try
             {
                 var response = new List<string>();
@@ -55,19 +46,13 @@ namespace eShopping.Application.Features.Files.Commands
                 {
                     var requestModel = new FileUploadRequestModel()
                     {
-                        File = file.File,
-                        FileName = file.FileName,
-                        FileSizeLimit = request.FileSizeLimit,
+                        File = file,
+                        FileName = StringHelpers.RemoveExtensionType(file.FileName),
+                        FileSizeLimit = DefaultConstants.STORE_IMAGE_LIMIT,
                     };
                     var fileUrl = await _azureStorageService.UploadFileToStorageAsync(requestModel);
                     response.Add(fileUrl);
                 }
-
-                //if (_imageService.IsImageFromStream(request.File.OpenReadStream())
-                //    && !DefaultConstants.IMAGE_TYPES_UNSUPPORT_THUMBNAIL.Split(',').Contains(request.File.ContentType))
-                //{
-                //    await GenerateThumbnail(requestModel);
-                //}
                 return BaseResponseModel.ReturnData(response);
             }
             catch (Exception ex)

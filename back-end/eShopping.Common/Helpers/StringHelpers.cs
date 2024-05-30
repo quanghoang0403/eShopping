@@ -13,7 +13,7 @@ namespace eShopping.Common.Helpers
 {
     public static class StringHelpers
     {
-        public static readonly Regex REGEX_WHITESPACE = new Regex(@"\s+");
+        public static readonly Regex REGEX_WHITESPACE = new(@"\s+");
         private static readonly string[] VietnameseSigns = new string[]
         {
             "aAeEoOuUiIdDyY",
@@ -46,6 +46,13 @@ namespace eShopping.Common.Helpers
 
             "ÝỲỴỶỸ"
         };
+
+        public static string RemoveExtensionType(string fileName)
+        {
+            var idx = DateTime.Now.ToString("hhmmssddMMyyyy");
+            var extent = fileName.Substring(fileName.LastIndexOf('.'), fileName.Length - fileName.LastIndexOf('.')).ToLower();
+            return fileName.Replace(extent, "") + idx;
+        }
 
         public static string UserCodeGenerator(string type)
         {
@@ -254,11 +261,11 @@ namespace eShopping.Common.Helpers
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
-                using (MemoryStream memoryStream = new MemoryStream())
+                using (MemoryStream memoryStream = new())
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                    using (CryptoStream cryptoStream = new(memoryStream, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
+                        using (StreamWriter streamWriter = new(cryptoStream))
                         {
                             streamWriter.Write(plainText);
                         }
@@ -282,11 +289,11 @@ namespace eShopping.Common.Helpers
                 aes.IV = iv;
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                using (MemoryStream memoryStream = new(buffer))
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                    using (CryptoStream cryptoStream = new(memoryStream, decryptor, CryptoStreamMode.Read))
                     {
-                        using (StreamReader streamReader = new StreamReader(cryptoStream))
+                        using (StreamReader streamReader = new(cryptoStream))
                         {
                             return streamReader.ReadToEnd();
                         }
@@ -374,7 +381,7 @@ namespace eShopping.Common.Helpers
             }
 
             string pattern = "-+";
-            Regex regex = new Regex(pattern);
+            Regex regex = new(pattern);
             result = regex.Replace(result, "-");
 
             return result;
@@ -401,7 +408,7 @@ namespace eShopping.Common.Helpers
 
         public static string StripUnicodeCharactersFromString(string inputValue)
         {
-            StringBuilder newStringBuilder = new StringBuilder();
+            StringBuilder newStringBuilder = new();
             newStringBuilder.Append(inputValue.Normalize(NormalizationForm.FormKD).Where(x => x < 128).ToArray());
             return newStringBuilder.ToString();
         }

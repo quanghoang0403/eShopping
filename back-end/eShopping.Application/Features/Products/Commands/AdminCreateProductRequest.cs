@@ -43,7 +43,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public Guid ProductSizeCategoryId { get; set; }
 
-        public List<string> ImagePaths { get; set; }
+        public List<string> Gallery { get; set; }
 
         public string Thumbnail { get; set; }
 
@@ -109,9 +109,6 @@ namespace eShopping.Application.Features.Products.Commands
 
             #endregion
 
-            // Check valid image
-            // TO DO
-
             // Add product
             var product = _mapper.Map<Product>(request);
             var accountId = loggedUser.AccountId.Value;
@@ -139,7 +136,7 @@ namespace eShopping.Application.Features.Products.Commands
 
                     // Add image
                     List<Image> productImages = new();
-                    foreach (var path in request.ImagePaths)
+                    foreach (var path in request.Gallery)
                     {
                         Image image = new()
                         {

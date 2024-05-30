@@ -1,5 +1,4 @@
-﻿using eShopping.Common.Constants;
-using eShopping.Common.Models;
+﻿using eShopping.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
@@ -9,16 +8,7 @@ namespace eShopping.Application.Features.Files.Commands
 {
     public class UploadFileFroalaRequest : IRequest<BaseResponseModel>
     {
-        public UploadFileFroalaRequest()
-        {
-            FileSizeLimit = DefaultConstants.STORE_IMAGE_LIMIT;
-        }
-
         public IFormFile File { get; set; }
-
-        public string FileName { get; set; }
-
-        public int FileSizeLimit { get; set; } = DefaultConstants.STORE_IMAGE_LIMIT;
     }
 
     public class UploadFileFroalaResponse
@@ -42,7 +32,10 @@ namespace eShopping.Application.Features.Files.Commands
 
         public async Task<BaseResponseModel> Handle(UploadFileFroalaRequest request, CancellationToken cancellationToken)
         {
-            var uploadFileRequest = new UploadFileRequest { File = request.File, FileName = request.FileName, FileSizeLimit = request.FileSizeLimit };
+            var uploadFileRequest = new UploadFileRequest
+            {
+                File = request.File,
+            };
             var response = await _mediator.Send(uploadFileRequest);
             if (response != null)
             {

@@ -4,7 +4,6 @@ using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
-using eShopping.Models.Commons;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +48,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public Guid ProductSizeCategoryId { get; set; }
 
-        public List<AdminImageModel> Images { get; set; }
+        public List<string> Gallery { get; set; }
 
         public List<AdminProductVariantModel> ProductVariants { get; set; }
 

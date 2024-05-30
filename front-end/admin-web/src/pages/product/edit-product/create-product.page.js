@@ -13,7 +13,6 @@ import ActionButtonGroup from 'components/action-button-group/action-button-grou
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
-import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
 import { IconBtnAdd, TrashFill } from 'constants/icons.constants'
@@ -27,7 +26,6 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
 import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
