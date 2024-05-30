@@ -3,7 +3,6 @@ using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
-using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -51,7 +50,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                         Id = p.Id,
                         Name = p.Name,
                         Priority = p.Priority,
-                        ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(p.ProductCategories.OrderByDescending(x => x.Priority))
+                        ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(p.ProductCategories.OrderBy(x => x.Priority))
                     })
                     .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);

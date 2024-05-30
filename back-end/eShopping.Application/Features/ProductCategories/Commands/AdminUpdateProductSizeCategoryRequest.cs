@@ -46,7 +46,6 @@ namespace eShopping.Application.Features.ProductCategories.Commands
                 return BaseResponseModel.ReturnError("This name is already existed");
             }
             modifiedSizeCategory.Name = request.Name;
-            modifiedSizeCategory.Priority = request.Priority;
             modifiedSizeCategory.LastSavedUser = loggedUser.AccountId.Value;
             modifiedSizeCategory.LastSavedTime = DateTime.Now;
 

@@ -53,7 +53,7 @@ namespace eShopping.Application.Features.Blogs.Queries
                         Id = bc.BlogId,
                         Name = bc.Blog.Name,
                         Priority = bc.Blog.Priority,
-                    }).OrderByDescending(bc => bc.Priority).ToList();
+                    }).OrderBy(bc => bc.Priority).ToList();
 
             }
             return BaseResponseModel.ReturnData(blogCategory);

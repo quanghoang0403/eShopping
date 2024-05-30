@@ -24,6 +24,9 @@
     <None Update="Migrations\Scripts\2024-04-12-refactor-permission.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Migrations\StaticData\3.core.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Migrations\StaticData\foody-platform-and-store-foody-playform.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -48,16 +51,13 @@
     <None Update="Migrations\StaticData\s12-update-pos-package.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\4.permission-groups.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Migrations\StaticData\5.permission.sql">
+    <None Update="Migrations\StaticData\2.account.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\S7.calculate-customers-by-segment.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\1.cities.sql">
+    <None Update="Migrations\StaticData\1.area.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\account-transfer.sql">
@@ -75,19 +75,10 @@
     <None Update="Migrations\StaticData\S1.permission-groups.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Migrations\StaticData\2.districts.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Migrations\StaticData\S1.states.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\StaticData\S1wards-vn.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Migrations\StaticData\6.account.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Migrations\StaticData\3.wards.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\TableType\TVP_Order.sql">

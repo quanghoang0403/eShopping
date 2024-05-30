@@ -11,6 +11,8 @@ namespace eShopping.Domain.Entities
 
         public Guid ProductSizeCategoryId { get; set; }
 
+        public int Priority { get; set; }
+
         public virtual ProductSizeCategory ProductSizeCategory { get; set; }
     }
 }

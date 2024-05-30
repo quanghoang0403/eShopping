@@ -70,8 +70,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Id = category.Id,
                     Name = category.Name,
                     Priority = category.Priority,
-                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products.OrderByDescending(x => x.Priority)),
-                    ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(category.ProductCategories.OrderByDescending(x => x.Priority))
+                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products.OrderBy(x => x.Priority)),
+                    ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(category.ProductCategories.OrderBy(x => x.Priority))
                 });
             }
 

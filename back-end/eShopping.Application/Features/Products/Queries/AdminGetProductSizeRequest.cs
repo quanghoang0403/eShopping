@@ -52,7 +52,8 @@ namespace eShopping.Application.Features.Products.Queries
             }
             var allProductSizeInStore = await allProductSize
                                     .Include(ps => ps.ProductSizeCategory)
-                                    .OrderByDescending(p => p.CreatedTime)
+                                    .OrderBy(ps => ps.Priority)
+                                    .ThenByDescending(p => p.CreatedTime)
                                     .ToPaginationAsync(request.PageNumber, request.PageSize);
             var productSizesResponse = _mapper.Map<List<AdminProductSizeModel>>(allProductSizeInStore.Result);
             var response = new PagingResult<AdminProductSizeModel>(productSizesResponse, allProductSizeInStore.Paging);

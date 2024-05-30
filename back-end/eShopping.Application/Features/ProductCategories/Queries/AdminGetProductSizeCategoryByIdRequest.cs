@@ -43,7 +43,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             {
                 Id = sizeCategory.Id,
                 Name = sizeCategory.Name,
-                Priority = sizeCategory.Priority,
                 ProductSizes = _mapper.Map<IEnumerable<AdminProductSizeModel>>(sizeCategory.ProductSizes)
             };
             return BaseResponseModel.ReturnData(sizeCategoryResponse);

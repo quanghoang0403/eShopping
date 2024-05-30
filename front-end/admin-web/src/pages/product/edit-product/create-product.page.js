@@ -5,7 +5,6 @@ import {
   Form,
   Input,
   Row,
-  Typography,
   Tooltip
 } from 'antd';
 import { ExclamationIcon } from 'constants/icons.constants';
@@ -32,13 +31,10 @@ import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyw
 import CreateStockProductTable from '../components/create-stock-product.component';
 import moment from 'moment';
 import { message } from 'antd';
-import { useRef } from 'react';
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
-
-const { Text } = Typography
+import { ProductGender } from 'constants/product-status.constants';
 
 export default function CreateProductPage() {
-  const shopImageSelectRef = useRef()
   const history = useHistory()
   const sizes = [
     { id: '1', name: 'S' },
@@ -95,13 +91,15 @@ export default function CreateProductPage() {
       quantityLeft: 2
     }))
   }])
-  const [image, setImage] = useState(null)
+
   const [thumbnailVariants, setThumbnailVariants] = useState([]);
-  const [listAllProductCategory, setListAllProductCategory] = useState([])
+  const [listProductCategory, setListProductCategory] = useState([])
+  const [listRootCategory, setListRootCategory] = useState([])
+  const [listSize, setListSize] = useState([])
+  const [gender, setGender] = useState(ProductGender.All)
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
-  const [discountChecked, isDisCountChecked] = useState([false]);
   const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
   const [productContent, setProductContent] = useState('');
   const [keywordSEOs, setKeywordSEOList] = useState([]);
@@ -111,7 +109,6 @@ export default function CreateProductPage() {
   useEffect(() => {
     getInitData()
     window.addEventListener('resize', updateDimensions)
-    //shopImageSelectRef.current.setImageUrl('https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg');
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
@@ -119,17 +116,22 @@ export default function CreateProductPage() {
     handleChangeThumbnail()
   }, [variants])
 
+  useEffect(() => {
+    setListRootCategory([])
+    setListProductCategory([])
+  }, [form.getFieldValue(['product', 'genderProduct'])])
+
+  useEffect(() => {
+    setListProductCategory([])
+  }, [form.getFieldValue(['product', 'productRootCategoryId'])])
+
+  useEffect(() => {
+    setListSize([])
+  }, [form.getFieldValue(['product', 'productSizeCategoryId'])])
+
   const handleChangeThumbnail = () => {
     const variants = form.getFieldValue(['product', 'variants'])
     setThumbnailVariants(variants.map(variant => variant.thumbnail));
-  }
-
-  const handleChangeMedia = (file) => {
-    /// Update image
-    if (shopImageSelectRef && shopImageSelectRef.current) {
-      shopImageSelectRef.current.setImageUrl(file);
-      setImage(file);
-    }
   }
 
   const { t } = useTranslation()
@@ -236,7 +238,7 @@ export default function CreateProductPage() {
     if (resDataInitialCreateProduct) {
       const allProductCategories = resDataInitialCreateProduct;
       if (allProductCategories) {
-        setListAllProductCategory(allProductCategories);
+        setListProductCategory(allProductCategories);
       }
     }
   }
@@ -349,8 +351,6 @@ export default function CreateProductPage() {
       const dragDropVariants = document.getElementById('dragDropVariants')
       dragDropVariants.scrollTop = dragDropVariants.scrollHeight
     }, 100)
-    const discountCheckList = [...discountChecked, false]
-    isDisCountChecked(discountCheckList);
   }
 
   const renderVariants = () => {
@@ -761,19 +761,23 @@ export default function CreateProductPage() {
                   <Card className="w-100 mt-1 shop-card h-auto">
                     <h4 className="title-group">{pageData.gender.label}</h4>
                     <Form.Item
-                      name={['product', 'genderProductId']}
+                      name={['product', 'genderProduct']}
                       rules={[{
                         required: true,
                         message: pageData.gender.validateMessage
                       }]}
                     >
                       <FnbSelectSingle
+                        noTranslateOptionName={true}
+                        option={Object.keys(ProductGender).map(gender => {
+                          return {
+                            id: ProductGender[gender],
+                            name: gender
+                          }
+                        })}
+                        defaultValue={ProductGender.All}
                         placeholder={pageData.gender.placeholder}
-                        showSearch
-                        option={listAllProductCategory?.map((b) => ({
-                          id: b.id,
-                          name: b.name
-                        }))}
+                        onChange={(value) => setGender(value)}
                       />
                     </Form.Item>
                   </Card>
@@ -795,7 +799,7 @@ export default function CreateProductPage() {
                       <FnbSelectSingle
                         placeholder={pageData.rootCategory.placeholder}
                         showSearch
-                        option={listAllProductCategory?.map((b) => ({
+                        option={listProductCategory?.map((b) => ({
                           id: b.id,
                           name: b.name
                         }))}
@@ -820,7 +824,7 @@ export default function CreateProductPage() {
                       <FnbSelectSingle
                         placeholder={pageData.productCategory.placeholder}
                         showSearch
-                        option={listAllProductCategory?.map((b) => ({
+                        option={listProductCategory?.map((b) => ({
                           id: b.id,
                           name: b.name
                         }))}

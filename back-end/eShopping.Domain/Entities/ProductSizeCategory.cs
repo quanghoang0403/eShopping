@@ -9,8 +9,6 @@ namespace eShopping.Domain.Entities
     {
         public string Name { get; set; }
 
-        public int Priority { get; set; }
-
         public virtual IEnumerable<ProductSize> ProductSizes { get; set; }
     }
 }
