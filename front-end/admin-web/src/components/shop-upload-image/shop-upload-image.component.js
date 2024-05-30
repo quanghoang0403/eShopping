@@ -52,24 +52,45 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   const onUploadImage = (imageList) => {
     // data for submit
     const buildFileName = moment(new Date()).format('DDMMYYYYHHmmss')
-    if (imageList[0]) {
-      const requestData = {
-        file: imageList[0].file,
-        fileName: fileNameNormalize(buildFileName)
-      }
-      const requestFormData = jsonToFormData(requestData)
-      fileDataService.uploadFileAsync(requestFormData).then((res) => {
-        if (res.link !== '') {
-          imageList[0].data_url = res.link;
-          setImages(imageList);
-          if (onChange) {
-            onChange({
-              fileName: buildFileName,
-              url: res.link
-            });
-          }
+    if (imageList.length > 0) {
+      if (maxNumber == 1) {
+        const requestData = {
+          file: imageList[0].file,
+          fileName: fileNameNormalize(buildFileName)
         }
-      });
+        const requestFormData = jsonToFormData(requestData)
+        fileDataService.uploadFileAsync(requestFormData).then((res) => {
+          if (res !== '') {
+            imageList[0].data_url = res;
+            setImages(imageList);
+            if (onChange) {
+              onChange({
+                fileName: buildFileName,
+                url: res
+              });
+            }
+          }
+        });
+      }
+      else {
+        let requestData = []
+        imageList.forEach((element, index) => {
+          requestData.push({file: element.file, fileName: index + fileNameNormalize(buildFileName)})
+        });
+        const requestFormData = jsonToFormData(requestData)
+        fileDataService.uploadMultipleFileAsync(requestFormData).then((res) => {
+          if (res !== '') {
+            imageList[0].data_url = res;
+            setImages(imageList);
+            if (onChange) {
+              onChange({
+                fileName: buildFileName,
+                url: res
+              });
+            }
+          }
+        });
+      }
     } else {
       if (onChange) {
         setImages(imageList)
@@ -119,7 +140,7 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   return (
     <>
       <ImageUploading
-        multiple={multiple}
+        multiple={maxNumber > 1}
         value={images}
         onChange={onUploadImage}
         maxNumber={maxNumber}
@@ -174,26 +195,22 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
                       </Row>
                     </div>
                   </div>
-                  {
-                    <>
-                      <Viewer
-                        visible={visibleViewer}
-                        onClose={() => {
-                          setVisibleViewer(false)
-                        }}
-                        images={[
-                          {
-                            src: image.data_url
-                          }
-                        ]}
-                        noFooter={true}
-                        defaultSize={{
-                          width: 588,
-                          height: 588
-                        }}
-                      />
-                    </>
-                  }
+                  <Viewer
+                    visible={visibleViewer}
+                    onClose={() => {
+                      setVisibleViewer(false)
+                    }}
+                    images={[
+                      {
+                        src: image.data_url
+                      }
+                    ]}
+                    noFooter={true}
+                    defaultSize={{
+                      width: 588,
+                      height: 588
+                    }}
+                  />
                 </>
               ))}
             </div>

@@ -35,6 +35,7 @@ import CreateStockProductTable from '../components/create-stock-product.componen
 import moment from 'moment';
 import { message } from 'antd';
 import { useRef } from 'react';
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
 
 const { Text } = Typography
 
@@ -107,7 +108,7 @@ export default function CreateProductPage() {
   const [productContent, setProductContent] = useState('');
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
+  const [isKeywordSEOChange, setIsKeywordSEOChange] = useState(false)
   const [form] = Form.useForm()
   useEffect(() => {
     getInitData()
@@ -158,7 +159,8 @@ export default function CreateProductPage() {
         placeholder: t('product.placeholderDescription'),
         required: false,
         maxLength: 255
-      }
+      },
+      labelGallery: t('product.labelGallery')
     },
     SEOInformation: {
       title: t('form.SEOConfiguration'),
@@ -196,6 +198,20 @@ export default function CreateProductPage() {
       label: t('product.labelCategory'),
       placeholder: t('product.placeholderCategory'),
       validateMessage: t('product.validateProductCategory')
+    },
+    rootCategory: {
+      label: t('product.labelRootCategory'),
+      placeholder: t('product.placeholderRootCategory'),
+      validateMessage: t('product.validateRootCategory')
+    },
+    gender: {
+      label: t('product.labelGender'),
+      placeholder: t('product.placeholderGender'),
+      validateMessage: t('product.validateGender')
+    },
+    sizeCategory: {
+      label: t('product.labelSizeCategory'),
+      placeholder: t('product.placeholderSizeCategory')
     },
     productNameExisted: t('product.productNameExisted'),
     productAddedSuccess: t('product.productAddedSuccess'),
@@ -408,20 +424,6 @@ export default function CreateProductPage() {
                                       />
                                     </Form.Item>
                                   </Col>
-                                  {/* <Col className={`variant-thumnail non-image ${thumbnail != null ? 'have-image' : ''}`}>
-                                    <Row span={24} className={`image-product ${thumbnail != null ? 'justify-left' : ''}`}>
-                                      <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-                                        <Form.Item
-                                          name={['product', 'variants', variant.position, 'thumbnail']}
-                                        >
-                                          <FnbUploadImageComponent
-                                            buttonText={pageData.file.uploadImage}
-                                            onChange={handleChangeThumbnail}
-                                          />
-                                        </Form.Item>
-                                      </div>
-                                    </Row>
-                                  </Col> */}
                                 </Row>
                                 <Row span={2} className="icon-delete-price">
                                   <a
@@ -493,7 +495,7 @@ export default function CreateProductPage() {
     e.preventDefault();
     setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
     setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
+    setIsKeywordSEOChange(false)
   }
 
   const removeSEOKeyword = (keyword) => {
@@ -590,6 +592,15 @@ export default function CreateProductPage() {
                         placeholder={pageData.generalInformation.name.placeholder}
                         maxLength={pageData.generalInformation.name.maxLength}
                         id="product-name"
+                      />
+                    </Form.Item>
+
+                    <h4 className="shop-form-label">{pageData.generalInformation.labelGallery}</h4>
+                    <Form.Item name={['product', 'gallery']} rules={[]}>
+                      <FnbImageSelectComponent
+                        maxNumber={10}
+                        customTextNonImageClass={'create-edit-product-text-non-image'}
+                        customNonImageClass={'create-edit-product-non-image'}
                       />
                     </Form.Item>
 
@@ -705,7 +716,7 @@ export default function CreateProductPage() {
                                 value: e.target.value,
                                 colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
                               })
-                              setIsKewwordSEOChange(true)
+                              setIsKeywordSEOChange(true)
                             }
                           }}
                         />
@@ -750,28 +761,77 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.productCategory.label}</h4>
+                    <h4 className="title-group">{pageData.gender.label}</h4>
                     <Form.Item
-                      name={['product', 'productCategoryIds']}
+                      name={['product', 'genderProductId']}
                       rules={[{
                         required: true,
-                        message: pageData.productCategory.validateMessage
+                        message: pageData.gender.validateMessage
                       }]}
                     >
-                      <FnbSelectMultiple
-                        placeholder={pageData.productCategory.placeholder}
-
+                      <FnbSelectSingle
+                        placeholder={pageData.gender.placeholder}
                         showSearch
                         option={listAllProductCategory?.map((b) => ({
                           id: b.id,
                           name: b.name
                         }))}
                       />
-
                     </Form.Item>
                   </Card>
                 </Col>
               </Row>
+
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <br />
+                  <Card className="w-100 mt-1 shop-card h-auto">
+                    <h4 className="title-group">{pageData.rootCategory.label}</h4>
+                    <Form.Item
+                      name={['product', 'productRootCategoryId']}
+                      rules={[{
+                        required: true,
+                        message: pageData.rootCategory.validateMessage
+                      }]}
+                    >
+                      <FnbSelectSingle
+                        placeholder={pageData.rootCategory.placeholder}
+                        showSearch
+                        option={listAllProductCategory?.map((b) => ({
+                          id: b.id,
+                          name: b.name
+                        }))}
+                      />
+                    </Form.Item>
+                  </Card>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <br />
+                  <Card className="w-100 mt-1 shop-card h-auto">
+                    <h4 className="title-group">{pageData.productCategory.label}</h4>
+                    <Form.Item
+                      name={['product', 'productCategoryId']}
+                      rules={[{
+                        required: true,
+                        message: pageData.productCategory.validateMessage
+                      }]}
+                    >
+                      <FnbSelectSingle
+                        placeholder={pageData.productCategory.placeholder}
+                        showSearch
+                        option={listAllProductCategory?.map((b) => ({
+                          id: b.id,
+                          name: b.name
+                        }))}
+                      />
+                    </Form.Item>
+                  </Card>
+                </Col>
+              </Row>
+
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br />
@@ -782,6 +842,7 @@ export default function CreateProductPage() {
                 </Col>
               </Row>
             </Col>
+
           </Row>
           <br />
           <Row>
