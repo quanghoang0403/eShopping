@@ -291,6 +291,12 @@ export default function CreateProductPage() {
       })
   }
 
+  const updateVariantName = (e, position) => {
+    const updatedVariants = [...variants];
+    updatedVariants[position].name = e.target.value;
+    setVariants(updatedVariants);
+  }
+
   const onDeleteVariant = (index) => {
     const formValue = form.getFieldsValue()
     const { product } = formValue
@@ -341,7 +347,12 @@ export default function CreateProductPage() {
       priceDiscount: 0,
       percentNumber: 0,
       startDate: moment(),
-      endDate: null
+      endDate: null,
+      stocks: sizes.map(size => ({
+        sizeId: size.id,
+        name: size.name,
+        quantityLeft: 2
+      }))
     }
     const listVariant = [...(product.variants ?? variants), newVariant]
     product.variants = listVariant
@@ -406,6 +417,7 @@ export default function CreateProductPage() {
                                         className="shop-input"
                                         placeholder={pageData.variant.placeholder}
                                         id={`product-variants-${variant.position}-name`}
+                                        onChange={(e) => updateVariantName(e, variant.position)}
                                       />
                                     </Form.Item>
                                   </Col>
