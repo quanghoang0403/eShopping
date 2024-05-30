@@ -19,7 +19,8 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     customTextNonImageClass,
     customNonImageClass,
     isDisabled,
-    isShowMessageError = false
+    isShowMessageError = false,
+    maxNumber = 1
   } = props
   const shopUploadRef = React.useRef()
   const [selectedImage, setSelectedImage] = useState(null)
@@ -88,6 +89,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
               acceptType={acceptType}
               isDisabled={isDisabled}
               onError={isShowMessageError ? onShowErrorMessage : undefined}
+              maxNumber={maxNumber}
             />
           </div>
         </Col>
