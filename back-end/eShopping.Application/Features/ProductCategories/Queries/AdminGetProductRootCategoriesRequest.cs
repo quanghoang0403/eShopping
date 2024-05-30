@@ -50,6 +50,10 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 string keySearch = request.KeySearch.Trim().ToLower();
                 query = query.Where(pc => pc.Name.ToLower().Contains(keySearch));
             }
+            if (request.GenderProduct != EnumGenderProduct.All)
+            {
+                query = query.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
+            }
             var allProductRootCategoriesInStore = await query.AsNoTracking()
                    .Include(ppc => ppc.Products)
                    .Include(ppc => ppc.ProductCategories)
