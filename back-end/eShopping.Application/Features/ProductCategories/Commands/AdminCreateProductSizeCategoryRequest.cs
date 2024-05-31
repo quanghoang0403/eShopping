@@ -39,16 +39,16 @@ namespace eShopping.Application.Features.ProductCategories.Commands
             {
                 return BaseResponseModel.ReturnError("Please provide name for this product size category");
             }
-            var sizeCategoryNameExisted = await _unitOfWork.ProductSizeCategories.Where(psc => psc.Name.Trim().ToLower().Equals(request.Name.ToLower().Trim())).FirstOrDefaultAsync();
-            if (sizeCategoryNameExisted != null)
+            var productSizeCategoryNameExisted = await _unitOfWork.ProductSizeCategories.Where(psc => psc.Name.Trim().ToLower().Equals(request.Name.ToLower().Trim())).FirstOrDefaultAsync();
+            if (productSizeCategoryNameExisted != null)
             {
                 return BaseResponseModel.ReturnError("This name is used");
             }
-            var newSizeCategory = _mapper.Map<ProductSizeCategory>(request);
+            var newProductSizeCategory = _mapper.Map<ProductSizeCategory>(request);
             var accountId = loggedUser.AccountId.Value;
-            newSizeCategory.CreatedUser = accountId;
-            newSizeCategory.CreatedTime = DateTime.Now;
-            _unitOfWork.ProductSizeCategories.Add(newSizeCategory);
+            newProductSizeCategory.CreatedUser = accountId;
+            newProductSizeCategory.CreatedTime = DateTime.Now;
+            _unitOfWork.ProductSizeCategories.Add(newProductSizeCategory);
             await _unitOfWork.SaveChangesAsync();
             return BaseResponseModel.ReturnData();
         }

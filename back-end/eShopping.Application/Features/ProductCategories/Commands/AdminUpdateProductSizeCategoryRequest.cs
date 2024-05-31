@@ -35,22 +35,22 @@ namespace eShopping.Application.Features.ProductCategories.Commands
         public async Task<BaseResponseModel> Handle(AdminUpdateProductSizeCategoryRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var modifiedSizeCategory = await _unitOfWork.ProductSizeCategories.Where(ps => ps.Id == request.Id).FirstOrDefaultAsync(cancellationToken: cancellationToken);
-            if (modifiedSizeCategory == null)
+            var modifiedProductSizeCategory = await _unitOfWork.ProductSizeCategories.Where(ps => ps.Id == request.Id).FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            if (modifiedProductSizeCategory == null)
             {
                 return BaseResponseModel.ReturnError("Couldn't find product size category");
             }
-            var sizeCategoryNameExisted = await _unitOfWork.ProductSizeCategories.Where(ps => ps.Id != request.Id && ps.Name.Equals(request.Name)).FirstOrDefaultAsync();
-            if (sizeCategoryNameExisted != null)
+            var productSizeCategoryNameExisted = await _unitOfWork.ProductSizeCategories.Where(ps => ps.Id != request.Id && ps.Name.Equals(request.Name)).FirstOrDefaultAsync();
+            if (productSizeCategoryNameExisted != null)
             {
                 return BaseResponseModel.ReturnError("This name is already existed");
             }
-            modifiedSizeCategory.Name = request.Name;
-            modifiedSizeCategory.Priority = request.Priority;
-            modifiedSizeCategory.LastSavedUser = loggedUser.AccountId.Value;
-            modifiedSizeCategory.LastSavedTime = DateTime.Now;
+            modifiedProductSizeCategory.Name = request.Name;
+            modifiedProductSizeCategory.Priority = request.Priority;
+            modifiedProductSizeCategory.LastSavedUser = loggedUser.AccountId.Value;
+            modifiedProductSizeCategory.LastSavedTime = DateTime.Now;
 
-            await _unitOfWork.ProductSizeCategories.UpdateAsync(modifiedSizeCategory);
+            await _unitOfWork.ProductSizeCategories.UpdateAsync(modifiedProductSizeCategory);
             await _unitOfWork.SaveChangesAsync();
             return BaseResponseModel.ReturnData();
         }

@@ -34,12 +34,12 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var allSizeCategory = await _unitOfOfWork.ProductSizeCategories.GetAll()
+            var allProductSizeCategories = await _unitOfOfWork.ProductSizeCategories.GetAll()
                 .AsNoTracking()
                 .OrderBy(p => p.Priority)
                 .Include(p => p.ProductSizes).ToListAsync();
             var categoryResponse = new List<AdminProductSizeCategoryModel>();
-            foreach (var item in allSizeCategory)
+            foreach (var item in allProductSizeCategories)
             {
                 categoryResponse.Add(new AdminProductSizeCategoryModel
                 {
