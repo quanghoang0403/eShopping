@@ -55,14 +55,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return Ok(response);
         }
 
-        //[HttpGet]
-        //[Route("get-all-product-categories")]
-        //[HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        //public async Task<IActionResult> GetAllProductCategory([FromQuery] AdminGetAllProductCategoriesRequest request)
-        //{
-        //    var response = await _mediator.Send(request);
-        //    return Ok(response);
-        //}
+        [HttpGet]
+        [Route("get-all-product-categories")]
+        [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
+        public async Task<IActionResult> GetAllProductCategory([FromQuery] AdminGetAllProductCategoriesRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
 
         [HttpGet]
         [Route("get-product-category-by-id/{id}")]

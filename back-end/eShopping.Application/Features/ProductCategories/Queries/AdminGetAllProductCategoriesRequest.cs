@@ -54,6 +54,10 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     })
                     .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);
+            if (request.GenderProduct != EnumGenderProduct.All)
+            {
+                allProductCategoriesInStore = allProductCategoriesInStore.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All).ToList();
+            }
 
             return BaseResponseModel.ReturnData(allProductCategoriesInStore);
         }

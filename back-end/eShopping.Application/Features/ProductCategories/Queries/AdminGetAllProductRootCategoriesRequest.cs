@@ -43,7 +43,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
             var allProductRootCategoriesInStore = await _unitOfWork.ProductRootCategories
                     .GetAll()
-                    .Where(p => p.GenderProduct == request.GenderProduct)
                     .AsNoTracking()
                     .Include(pc => pc.Products).ThenInclude(p => p.ProductVariants)
                     .Select(p => new AdminProductRootCategoryModel
@@ -55,6 +54,11 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     })
                     .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);
+            if (request.GenderProduct != EnumGenderProduct.All)
+            {
+                allProductRootCategoriesInStore = allProductRootCategoriesInStore.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All).ToList();
+            }
+
 
             return BaseResponseModel.ReturnData(allProductRootCategoriesInStore);
         }
