@@ -11,7 +11,7 @@ import { useHistory } from 'react-router'
 import { getValidationMessagesWithParentField } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
-import StockProductTable from '../components/create-stock-product.component';
+import StockProductTable from '../components/stock-product.component';
 import moment from 'moment';
 import ProductSizeDataService from 'data-services/product/product-size-data.service';
 import RightProductDetail from '../components/right-product-detail.component';
@@ -225,22 +225,7 @@ export default function CreateProductPage() {
         form={form}
         name="basic"
         initialValues={{
-          product: {
-            // productVariants: {
-            //   [0]: {
-            //     position: 0,
-            //     name: 'Default',
-            //     quantitySold: 0,
-            //     priceValue: 0,
-            //     priceOriginal: 0,
-            //     priceDiscount: 0,
-            //     percentNumber: 0,
-            //     startDate: moment(),
-            //     endDate: moment().add(7, "days")
-            //   }
-            // }
-            productVariants: productVariants
-          }
+          productVariants: productVariants
         }}
         onFieldsChange={(e) => changeForm(e)}
         autoComplete="off"

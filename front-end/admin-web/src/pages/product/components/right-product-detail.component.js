@@ -13,10 +13,10 @@ import ProductSizeCategoryDataService from 'data-services/product-category/produ
 import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service';
 import productCategoryDataService from 'data-services/product-category/product-category-data.service';
 
-export default function RightProductDetail ({form, productVariants, setVariants, thumbnailVariants, productSizes}) {
+export default function RightProductDetail ({form, productVariants, setProductVariants, thumbnailVariants, productSizes}) {
   const { t } = useTranslation()
   const pageData = {
-    variant: {
+    productVariant: {
       title: t('product.variantInfo'),
       addVariant: t('product.addVariant'),
       label: t('product.labelVariant'),
@@ -73,7 +73,7 @@ export default function RightProductDetail ({form, productVariants, setVariants,
   const updateVariantName = (e, position) => {
     const updatedVariants = [...productVariants];
     updatedVariants[position].name = e.target.value;
-    setVariants(updatedVariants);
+    setProductVariants(updatedVariants);
   }
 
   const onDeleteVariant = (index) => {
@@ -82,7 +82,7 @@ export default function RightProductDetail ({form, productVariants, setVariants,
       formValue.splice(index, 1)
       formValue.forEach((item, index) => (item.position = index))
     }
-    setVariants(formValue)
+    setProductVariants(formValue)
     if (formValue.length === 1) {
       formValue[0].position = 0
     }
@@ -102,18 +102,14 @@ export default function RightProductDetail ({form, productVariants, setVariants,
     if (!result.destination) {
       return
     }
-    const formValue = form.getFieldsValue()
-    const { product } = formValue
-    const listVariant = reorder(product.productVariants, result.source.index, result.destination.index)
-
-    setVariants(listVariant)
-    product.productVariants = listVariant
-    form.setFieldsValue(formValue)
+    const formValue = form.getFieldValue('productVariants')
+    const listVariant = reorder(formValue, result.source.index, result.destination.index)
+    setProductVariants(listVariant)
+    form.setFieldValue('productVariants', listVariant)
   }
 
   const onClickAddVariant = () => {
-    const formValue = form.getFieldsValue()
-    const { product } = formValue
+    const formValue = form.getFieldValue('productVariants')
     const newVariant = {
       position: productVariants.length,
       isUseBasePrice: true,
@@ -131,17 +127,16 @@ export default function RightProductDetail ({form, productVariants, setVariants,
         quantityLeft: 2
       }))
     }
-    const listVariant = [...(product.productVariants ?? productVariants), newVariant]
-    product.productVariants = listVariant
-    setVariants(listVariant)
-    form.setFieldsValue(formValue)
+    const listVariant = [...(formValue ?? productVariants), newVariant]
+    setProductVariants(listVariant)
+    form.setFieldValue('productVariants', listVariant)
     setTimeout(() => {
       const dragDropVariants = document.getElementById('dragDropVariants')
       dragDropVariants.scrollTop = dragDropVariants.scrollHeight
     }, 100)
   }
 
-  const renderVariants = () => {
+  const renderProductVariants = () => {
     return (
       <>
         <DragDropContext className="mt-4" onDragEnd={(result) => onDragEnd(result)}>
@@ -168,7 +163,7 @@ export default function RightProductDetail ({form, productVariants, setVariants,
                               <Col className="col-title">
                                 <Row className="m-3 mr-4">
                                   <Col>
-                                    <h3>{position + '.'} {pageData.variant.label}</h3>
+                                    <h3>{position + '.'} {pageData.productVariant.label}</h3>
                                   </Col>
                                   <Col className="w-100">
                                     <Form.Item
@@ -185,14 +180,14 @@ export default function RightProductDetail ({form, productVariants, setVariants,
                                       rules={[
                                         {
                                           required: true,
-                                          message: pageData.variant.validateVariant
+                                          message: pageData.productVariant.validateVariant
                                         }
                                       ]}
                                       value={variant.name}
                                     >
                                       <Input
                                         className="shop-input"
-                                        placeholder={pageData.variant.placeholder}
+                                        placeholder={pageData.productVariant.placeholder}
                                         id={`product-productVariants-${variant.position}-name`}
                                         onChange={(e) => updateVariantName(e, variant.position)}
                                       />
@@ -240,7 +235,7 @@ export default function RightProductDetail ({form, productVariants, setVariants,
               className="btn-add-price"
               onClick={onClickAddVariant}
             >
-              {pageData.variant.addVariant}
+              {pageData.productVariant.addVariant}
             </Button>
           </div>
         </Col>
@@ -385,8 +380,8 @@ export default function RightProductDetail ({form, productVariants, setVariants,
         <Col xs={24} sm={24} md={24} lg={24}>
           <br />
           <Card className="w-100 mt-1 shop-card h-auto">
-            <h4 className="title-group">{pageData.variant.title}</h4>
-            {renderVariants()}
+            <h4 className="title-group">{pageData.productVariant.title}</h4>
+            {renderProductVariants()}
           </Card>
         </Col>
       </Row>
