@@ -25,6 +25,8 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import productCategoryDataService from 'data-services/product-category/product-category-data.service'
+import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service';
+import ProductSizeCategoryDataService from 'data-services/product-category/product-size-category-data.service';
 import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
@@ -33,16 +35,22 @@ import moment from 'moment';
 import { message } from 'antd';
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
 import { ProductGender } from 'constants/product-status.constants';
+import ProductSizeDataService from 'data-services/product/product-size-data.service';
 
 export default function CreateProductPage() {
   const history = useHistory()
-  const sizes = [
+  const [thumbnailVariants, setThumbnailVariants] = useState([]);
+  const [listProductCategory, setListProductCategory] = useState([])
+  const [listProductRootCategory, setListProductRootCategory] = useState([])
+  const [listProductSizeCategory, setListProductSizeCategory] = useState([])
+  const [listProductSize, setListProductSize] = useState([
     { id: '1', name: 'S' },
     { id: '2', name: 'M' },
     { id: '3', name: 'L' },
     { id: '4', name: 'XL' },
     { id: '5', name: 'XXL' }
-  ]
+  ])
+  const [gender, setGender] = useState(ProductGender.All)
   const [variants, setVariants] = useState([{
     position: 0,
     thumbnail: null,
@@ -53,7 +61,7 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(7, 'days'),
-    stocks: sizes.map(size => ({
+    stocks: listProductSize.map(size => ({
       sizeId: size.id,
       name: size.name,
       quantityLeft: 0
@@ -69,7 +77,7 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(6, 'days'),
-    stocks: sizes.map(size => ({
+    stocks: listProductSize.map(size => ({
       sizeId: size.id,
       name: size.name,
       quantityLeft: 1
@@ -85,18 +93,13 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(4, 'days'),
-    stocks: sizes.map(size => ({
+    stocks: listProductSize.map(size => ({
       sizeId: size.id,
       name: size.name,
       quantityLeft: 2
     }))
   }])
 
-  const [thumbnailVariants, setThumbnailVariants] = useState([]);
-  const [listProductCategory, setListProductCategory] = useState([])
-  const [listRootCategory, setListRootCategory] = useState([])
-  const [listSize, setListSize] = useState([])
-  const [gender, setGender] = useState(ProductGender.All)
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
@@ -107,7 +110,7 @@ export default function CreateProductPage() {
   const [isKeywordSEOChange, setIsKeywordSEOChange] = useState(false)
   const [form] = Form.useForm()
   useEffect(() => {
-    getInitData()
+    fetchProductSizeCategories()
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
@@ -117,16 +120,16 @@ export default function CreateProductPage() {
   }, [variants])
 
   useEffect(() => {
-    setListRootCategory([])
+    fetchProductRootCategories()
     setListProductCategory([])
   }, [form.getFieldValue(['product', 'genderProduct'])])
 
   useEffect(() => {
-    setListProductCategory([])
+    fetchProductCategories()
   }, [form.getFieldValue(['product', 'productRootCategoryId'])])
 
   useEffect(() => {
-    setListSize([])
+    fetchProductSizes()
   }, [form.getFieldValue(['product', 'productSizeCategoryId'])])
 
   const handleChangeThumbnail = () => {
@@ -199,19 +202,20 @@ export default function CreateProductPage() {
       placeholder: t('product.placeholderCategory'),
       validateMessage: t('product.validateProductCategory')
     },
-    rootCategory: {
-      label: t('product.labelRootCategory'),
-      placeholder: t('product.placeholderRootCategory'),
-      validateMessage: t('product.validateRootCategory')
+    productRootCategory: {
+      label: t('product.labelProductRootCategory'),
+      placeholder: t('product.placeholderProductRootCategory'),
+      validateMessage: t('product.validateProductRootCategory')
     },
     gender: {
       label: t('product.labelGender'),
       placeholder: t('product.placeholderGender'),
       validateMessage: t('product.validateGender')
     },
-    sizeCategory: {
-      label: t('product.labelSizeCategory'),
-      placeholder: t('product.placeholderSizeCategory')
+    productSizeCategory: {
+      label: t('product.labelProductSizeCategory'),
+      placeholder: t('product.placeholderProductSizeCategory'),
+      validateMessage: t('product.validateProductSizeCategory')
     },
     productNameExisted: t('product.productNameExisted'),
     productAddedSuccess: t('product.productAddedSuccess'),
@@ -233,14 +237,28 @@ export default function CreateProductPage() {
     }
   }
 
-  const getInitData = async () => {
-    const resDataInitialCreateProduct = await productCategoryDataService.getAllProductCategoriesAsync();
-    if (resDataInitialCreateProduct) {
-      const allProductCategories = resDataInitialCreateProduct;
-      if (allProductCategories) {
-        setListProductCategory(allProductCategories);
-      }
-    }
+  const fetchProductRootCategories = async () => {
+    const gender = form.getFieldValue(['product', 'genderProduct'])
+    const productRootCategories = await RootCategoryDataService.GetProductRootCategoryAsync(0, 100, '', gender)
+    if (productRootCategories) setListProductRootCategory(productRootCategories);
+  }
+
+  const fetchProductCategories = async () => {
+    const gender = form.getFieldValue(['product', 'genderProduct'])
+    const productRootCategoryId = form.getFieldValue(['product', 'productRootCategoryId'])
+    const productCategories = await productCategoryDataService.getProductCategoriesAsync(0, 100, gender, '', productRootCategoryId)
+    if (productCategories) setListProductCategory(productCategories);
+  }
+
+  const fetchProductSizeCategories = async () => {
+    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizeCategoryAsync()
+    if (productSizeCategories) setListProductSizeCategory(productSizeCategories);
+  }
+
+  const fetchProductSizes = async () => {
+    const productSizeCategoryId = form.getFieldValue(['product', 'productSizeCategoryId'])
+    const productSizes = await ProductSizeDataService.GetProductSizeAsync(0, 100, '', productSizeCategoryId)
+    if (productSizes) setListProductSize(productSizes);
   }
 
   const scrollToElement = (id) => {
@@ -348,7 +366,7 @@ export default function CreateProductPage() {
       percentNumber: 0,
       startDate: moment(),
       endDate: null,
-      stocks: sizes.map(size => ({
+      stocks: listProductSize.map(size => ({
         sizeId: size.id,
         name: size.name,
         quantityLeft: 2
@@ -800,16 +818,16 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.rootCategory.label}</h4>
+                    <h4 className="title-group">{pageData.productRootCategory.label}</h4>
                     <Form.Item
                       name={['product', 'productRootCategoryId']}
                       rules={[{
                         required: true,
-                        message: pageData.rootCategory.validateMessage
+                        message: pageData.productRootCategory.validateMessage
                       }]}
                     >
                       <FnbSelectSingle
-                        placeholder={pageData.rootCategory.placeholder}
+                        placeholder={pageData.productRootCategory.placeholder}
                         showSearch
                         option={listProductCategory?.map((b) => ({
                           id: b.id,
@@ -850,6 +868,30 @@ export default function CreateProductPage() {
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <br />
                   <Card className="w-100 mt-1 shop-card h-auto">
+                    <h4 className="title-group">{pageData.productSizeCategory.label}</h4>
+                    <Form.Item
+                      name={['product', 'productSizeCategoryId']}
+                      rules={[{
+                        required: true,
+                        message: pageData.productSizeCategory.validateMessage
+                      }]}
+                    >
+                      <FnbSelectSingle
+                        placeholder={pageData.productCategory.placeholder}
+                        showSearch
+                        option={listProductSizeCategory?.map((b) => ({
+                          id: b.id,
+                          name: b.name
+                        }))}
+                      />
+                    </Form.Item>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <br />
+                  <Card className="w-100 mt-1 shop-card h-auto">
                     <h4 className="title-group">{pageData.variant.title}</h4>
                     {renderVariants()}
                   </Card>
@@ -861,7 +903,7 @@ export default function CreateProductPage() {
           <br />
           <Row>
             <Card className="w-100 mt-1 shop-card h-auto">
-              <CreateStockProductTable sizes={sizes} form={form} variants={variants} />
+              <CreateStockProductTable sizes={listProductSize} form={form} variants={variants} />
             </Card>
           </Row>
         </div>
