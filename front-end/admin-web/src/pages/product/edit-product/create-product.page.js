@@ -27,55 +27,6 @@ export default function CreateProductPage() {
     { id: '5', name: 'XXL' }
   ])
 
-  const [productVariants, setProductVariants] = useState([{
-    position: 0,
-    thumbnail: null,
-    name: 'Product Variant 1',
-    isUseBasePrice: true,
-    priceOriginal: 200000.00,
-    priceValue: 140000.00,
-    priceDiscount: 130000.00,
-    startDate: moment(),
-    endDate: moment().add(7, 'days'),
-    stocks: productSizes.map(size => ({
-      sizeId: size.id,
-      name: size.name,
-      quantityLeft: 0
-    }))
-  },
-  {
-    position: 1,
-    thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg',
-    name: 'Product Variant 2',
-    isUseBasePrice: false,
-    priceOriginal: 180000.00,
-    priceValue: 140000.00,
-    priceDiscount: 130000.00,
-    startDate: moment(),
-    endDate: moment().add(6, 'days'),
-    stocks: productSizes.map(size => ({
-      sizeId: size.id,
-      name: size.name,
-      quantityLeft: 1
-    }))
-  },
-  {
-    position: 2,
-    thumbnail: null,
-    name: 'Product Variant 3',
-    isUseBasePrice: true,
-    priceOriginal: 160000.00,
-    priceValue: 140000.00,
-    priceDiscount: 130000.00,
-    startDate: moment(),
-    endDate: moment().add(4, 'days'),
-    stocks: productSizes.map(size => ({
-      sizeId: size.id,
-      name: size.name,
-      quantityLeft: 2
-    }))
-  }])
-
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
@@ -212,25 +163,17 @@ export default function CreateProductPage() {
       <Form
         form={form}
         name="basic"
-        initialValues={{
-          productVariants: productVariants
-        }}
         onFieldsChange={(e) => changeForm(e)}
         autoComplete="off"
       >
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
             <LeftProductDetail form={form} changeForm={changeForm} />
-            <RightProductDetail
-              form={form}
-              productSizes={productSizes}
-              productVariants={productVariants}
-              setProductVariants={setProductVariants}
-            />
+            <RightProductDetail form={form} />
           </Row>
           <br />
           <Row>
-            <StockProductTable productSizes={productSizes} form={form} productVariants={productVariants} />
+            <StockProductTable form={form} productSizes={productSizes} />
           </Row>
         </div>
       </Form>

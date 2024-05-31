@@ -48,7 +48,8 @@ export function ShopTable(props) {
     emptyText,
     autoFocus,
     cursorGrabbing,
-    onRow
+    onRow,
+    component
   } = props
   const { t } = useTranslation()
   const defaultScrollX = 900
@@ -431,6 +432,7 @@ export function ShopTable(props) {
               rowKey={rowKey ?? 'index'}
               summary={summary}
               onRow={onRow}
+              component={component}
             />
             {renderPagination()}
           </Col>

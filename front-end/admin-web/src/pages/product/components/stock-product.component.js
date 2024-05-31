@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShopTable } from 'components/shop-table/shop-table';
-import { Checkbox, Row, Col, Form, DatePicker, InputNumber, Card } from 'antd';
+import { Checkbox, Row, Col, Form, DatePicker, InputNumber, Card, Table } from 'antd';
 import { useTranslation } from 'react-i18next';
 import './stock-product.component.scss';
 import { CalendarNewIconBold } from 'constants/icons.constants';
@@ -11,8 +11,17 @@ import { currency } from 'constants/string.constants'
 import { DateFormat } from 'constants/string.constants';
 import { roundNumber } from 'utils/helpers';
 import { PermissionKeys } from 'constants/permission-key.constants'
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
-export default function StockProductTable({ productSizes, form, productVariants }) {
+export default function StockProductTable({ productSizes, form }) {
   const { t } = useTranslation();
   const pageData = {
     pricing: {
@@ -80,7 +89,54 @@ export default function StockProductTable({ productSizes, form, productVariants 
       }
     }
   }
-
+  const [productVariants, setProductVariants] = useState([{
+    position: 1,
+    thumbnail: null,
+    name: 'Product Variant 1',
+    isUseBasePrice: true,
+    priceOriginal: 200000.00,
+    priceValue: 140000.00,
+    priceDiscount: 130000.00,
+    startDate: moment(),
+    endDate: moment().add(7, 'days'),
+    stocks: productSizes.map(size => ({
+      sizeId: size.id,
+      name: size.name,
+      quantityLeft: 0
+    }))
+  },
+  {
+    position: 2,
+    thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg',
+    name: 'Product Variant 2',
+    isUseBasePrice: false,
+    priceOriginal: 180000.00,
+    priceValue: 140000.00,
+    priceDiscount: 130000.00,
+    startDate: moment(),
+    endDate: moment().add(6, 'days'),
+    stocks: productSizes.map(size => ({
+      sizeId: size.id,
+      name: size.name,
+      quantityLeft: 1
+    }))
+  },
+  {
+    position: 3,
+    thumbnail: null,
+    name: 'Product Variant 3',
+    isUseBasePrice: true,
+    priceOriginal: 160000.00,
+    priceValue: 140000.00,
+    priceDiscount: 130000.00,
+    startDate: moment(),
+    endDate: moment().add(4, 'days'),
+    stocks: productSizes.map(size => ({
+      sizeId: size.id,
+      name: size.name,
+      quantityLeft: 2
+    }))
+  }])
   const tableSettings = {
     columns: [
       {
@@ -89,7 +145,20 @@ export default function StockProductTable({ productSizes, form, productVariants 
         position: 'name',
         align: 'center',
         width: 120,
-        fixed: 'left'
+        fixed: 'left',
+        render: (value, record) => {
+          return (
+            <Form.Item
+              name={['productVariants', record.position, 'name']}
+              rules={[]}
+            >
+              <InputNumber
+                className="shop-input-number w-100"
+                value={value}
+              />
+            </Form.Item>
+          )
+        }
       },
       {
         title: 'Quản lý giá',
@@ -409,7 +478,43 @@ export default function StockProductTable({ productSizes, form, productVariants 
           }
         }))
       }
-    ]
+    ],
+    rows: (props) => {
+      const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: props['data-row-key']
+      });
+      const style = {
+        ...props.style,
+        transform: CSS.Translate.toString(transform),
+        transition,
+        cursor: 'move',
+        ...(isDragging
+          ? {
+            position: 'relative',
+            zIndex: 9999
+          }
+          : {})
+      };
+      return <tr {...props} ref={setNodeRef} style={style} {...attributes} {...listeners} />;
+    }
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        // https://docs.dndkit.com/api-documentation/sensors/pointer#activation-constraints
+        distance: 1
+      }
+    }),
+  );
+  const onDragEnd = ({ active, over }) => {
+    if (active.id !== over?.id) {
+      setDataSource((prev) => {
+        const activeIndex = prev.findIndex((i) => i.position === active.id);
+        const overIndex = prev.findIndex((i) => i.position === over?.id);
+        return arrayMove(prev, activeIndex, overIndex);
+      });
+    }
   };
 
   const handleRadioChange = (isChecked, position) => {
@@ -470,6 +575,10 @@ export default function StockProductTable({ productSizes, form, productVariants 
     // Can not select days before today and today
     return current && current < startDate;
   };
+
+  useEffect(() => {
+    form.setFieldValue('productVariants', productVariants)
+  }, [])
 
   return (
     <Card className="w-100 mt-1 shop-card h-auto">
@@ -713,14 +822,28 @@ export default function StockProductTable({ productSizes, form, productVariants 
           </Form.Item>
         </Col>
       </Row>
-      <ShopTable
-        className='stock-table mt-4'
-        columns={tableSettings.columns}
-        editPermission={PermissionKeys.ADMIN}
-        deletePermission={PermissionKeys.ADMIN}
-        dataSource={productVariants}
-        scrollX={1600}
-      />
+      <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+        <SortableContext
+          // rowKey array
+          items={productVariants.map((i) => i.position)}
+          strategy={verticalListSortingStrategy}
+        >
+          <Table
+            className='mt-4'
+            columns={tableSettings.columns}
+            editPermission={PermissionKeys.ADMIN}
+            deletePermission={PermissionKeys.ADMIN}
+            dataSource={productVariants}
+            rowKey="position"
+            scrollX={1600}
+            components={{
+              body: {
+                row: tableSettings.rows
+              }
+            }}
+          />
+        </SortableContext>
+      </DndContext>
     </Card>
   );
 }
