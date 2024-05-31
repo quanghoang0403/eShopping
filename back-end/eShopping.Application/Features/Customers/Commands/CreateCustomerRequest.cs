@@ -93,7 +93,6 @@ namespace eShopping.Application.Features.Customers.Commands
                         LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
-                    // await _unitOfWork.Accounts.AddAsync(newAccount);
 
                     var newCustomer = new Customer()
                     {
@@ -102,7 +101,6 @@ namespace eShopping.Application.Features.Customers.Commands
                         DistrictId = request.DistrictId,
                         CityId = request.CityId,
                         Account = newAccount,
-                        // AccountId = newAccount.Id,
                         LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
@@ -147,17 +145,17 @@ namespace eShopping.Application.Features.Customers.Commands
         {
             if (string.IsNullOrEmpty(request.FullName))
             {
-                return BaseResponseModel.ReturnError("Please enter fill name");
+                return BaseResponseModel.ReturnError("Please enter full name");
             }
             if (string.IsNullOrEmpty(request.PhoneNumber))
             {
-                return BaseResponseModel.ReturnError("Phone number is existed");
+                return BaseResponseModel.ReturnError("Please enter phone number");
             }
 
             var phoneExisted = _unitOfWork.Accounts.CheckAccountByPhone(request.PhoneNumber.Trim());
             if (phoneExisted)
             {
-                return BaseResponseModel.ReturnError("Please enter fill name");
+                return BaseResponseModel.ReturnError("Phone number is existed");
             }
 
             if (!string.IsNullOrWhiteSpace(request.Email))

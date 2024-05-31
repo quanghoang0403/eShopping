@@ -85,13 +85,32 @@ namespace eShopping.Application.Features.Products.Queries
                     products = products.Where(p => p.Status == request.Status);
                 }
 
+                if (request.IsSoldOut == true)
+                {
+                    products = products.Where(g => g.IsSoldOut == true);
+                }
+
+                if (request.IsNewIn == true)
+                {
+                    products = products.Where(g => g.IsNewIn == true);
+                }
+
+                if (request.IsFeatured == true)
+                {
+                    products = products.Where(g => g.IsFeatured == true);
+                }
+
+                if (request.IsDiscounted == true)
+                {
+                    products = products.Where(g => g.IsDiscounted == true);
+                }
             }
 
             var allProductsInStore = await products
-                                    .AsNoTracking()
-                                    .Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime))
-                                    .OrderByDescending(p => p.CreatedTime)
-                                    .ToPaginationAsync(request.PageNumber, request.PageSize);
+                .AsNoTracking()
+                .Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime))
+                .OrderByDescending(p => p.CreatedTime)
+                .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProductsInStore.Result;
             var productListResponse = _mapper.Map<List<AdminProductDatatableModel>>(pagingResult);
             productListResponse.ForEach(p =>

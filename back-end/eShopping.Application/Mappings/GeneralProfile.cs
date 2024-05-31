@@ -60,7 +60,6 @@ namespace eShopping.Application.Mappings
 
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();
-            CreateMap<Product, StoreProductDetailModel>();
             CreateMap<Product, AdminProductModel>();
             CreateMap<Product, StoreProductModel>();
 
@@ -69,10 +68,12 @@ namespace eShopping.Application.Mappings
             CreateMap<ProductVariant, AdminProductVariantModel>();
             CreateMap<ProductVariant, StoreProductVariantModel>();
 
-            CreateMap<ProductSize, AdminProductSizeModel>();
             CreateMap<ProductSize, AdminProductSizeDetailModel>();
+            CreateMap<ProductSize, AdminProductSizeModel>();
+            CreateMap<ProductSize, StoreProductSizeModel>();
 
             CreateMap<ProductStock, AdminProductStockModel>();
+            CreateMap<ProductStock, StoreProductStockModel>();
 
             CreateMap<Blog, AdminBlogModel>().ForMember(dest => dest.LastSavedTime, opt => opt.MapFrom(src => src.LastSavedTime));
             CreateMap<Blog, AdminBlogDetailModel>()
@@ -80,6 +81,7 @@ namespace eShopping.Application.Mappings
                 .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.CreatedTime));
             CreateMap<BlogCategory, AdminBlogCategoryModel>();
             CreateMap<BlogCategory, AdminBlogCategoryDetailModel>();
+
             CreateMap<AdminImageModel, Image>();
             #endregion
 

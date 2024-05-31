@@ -21,7 +21,7 @@ namespace eShopping.Domain.Entities
 
         public bool? IsFeatured { get; set; }
 
-        public bool? IsDiscounted { get; set; }
+        public bool? IsDiscounted { get { return ProductVariants.Any(p => p.PriceDiscount > 0 && p.PercentNumber > 0 && p.EndDate <= DateTime.Now); } }
 
         public bool? IsNewIn { get { return DateTime.Now.AddDays(-14) < CreatedTime; } }
 
