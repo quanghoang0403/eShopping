@@ -3,7 +3,6 @@ using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
-using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -44,6 +43,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
             var allProductRootCategoriesInStore = await _unitOfWork.ProductRootCategories
                     .GetAll()
+                    .Where(p => p.GenderProduct == request.GenderProduct)
                     .AsNoTracking()
                     .Include(pc => pc.Products).ThenInclude(p => p.ProductVariants)
                     .Select(p => new AdminProductRootCategoryModel

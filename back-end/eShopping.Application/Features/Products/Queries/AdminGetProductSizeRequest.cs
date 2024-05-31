@@ -19,7 +19,7 @@ namespace eShopping.Application.Features.Products.Queries
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string KeySearch { get; set; }
-        public Guid ProductSizeCategoryId { get; set; }
+        public Guid? ProductSizeCategoryId { get; set; }
     }
 
     public class AdminGetProductSizeRequestHandler : IRequestHandler<AdminGetProductSizeRequest, BaseResponseModel>
@@ -46,7 +46,7 @@ namespace eShopping.Application.Features.Products.Queries
                 var key = request.KeySearch.Trim().ToLower();
                 allProductSize = allProductSize.Where(ps => ps.Name.ToLower().Contains(key));
             }
-            if (request.ProductSizeCategoryId != Guid.Empty)
+            if (request.ProductSizeCategoryId != Guid.Empty && request.ProductSizeCategoryId != null)
             {
                 allProductSize = allProductSize.Where(ps => ps.ProductSizeCategoryId == request.ProductSizeCategoryId);
             }

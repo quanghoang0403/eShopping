@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -24,6 +24,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         public string KeySearch { get; set; }
 
         public EnumGenderProduct GenderProduct { get; set; }
+        public Guid? ProductRootCategoryId { get; set; }
     }
 
     public class AdminGetProductCategoriesRequestHandler : IRequestHandler<AdminGetProductCategoriesRequest, BaseResponseModel>
@@ -51,6 +52,15 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 string keySearch = request.KeySearch.Trim().ToLower();
                 query = query.Where(pc => pc.Name.ToLower().Contains(keySearch));
             }
+            if (request.ProductRootCategoryId != null && request.ProductRootCategoryId != Guid.Empty)
+            {
+                query = query.Where(pc => pc.ProductRootCategoryId == request.ProductRootCategoryId);
+            }
+            if (request.GenderProduct != EnumGenderProduct.All)
+            {
+                query = query.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
+            }
+
             var allProductCategoriesInStore = await query
                    .Include(ppc => ppc.Products)
                    .Include(ppc => ppc.ProductRootCategory)

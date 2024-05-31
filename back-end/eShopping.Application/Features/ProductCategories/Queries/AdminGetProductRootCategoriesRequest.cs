@@ -45,6 +45,11 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var query = _unitOfWork.ProductRootCategories.GetAll();
+            if (request.GenderProduct != EnumGenderProduct.All)
+            {
+                query = query.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
+            }
+
             if (!string.IsNullOrEmpty(request.KeySearch))
             {
                 string keySearch = request.KeySearch.Trim().ToLower();

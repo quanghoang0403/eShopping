@@ -1,6 +1,5 @@
 ﻿using eShopping.Application.Features.ProductCategories.Commands;
 using eShopping.Application.Features.ProductCategories.Queries;
-using eShopping.Application.Features.Products.Queries;
 using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
@@ -56,14 +55,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("get-all-product-root-categories")]
-        [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetAllProductRootCategory([FromQuery] AdminGetAllProductRootCategoriesRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("get-all-product-root-categories")]
+        //[HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
+        //public async Task<IActionResult> GetAllProductRootCategories([FromQuery] AdminGetAllProductRootCategoriesRequest request)
+        //{
+        //    var response = await _mediator.Send(request);
+        //    return Ok(response);
+        //}
 
         [HttpGet]
         [Route("get-product-root-category-by-id/{id}")]
