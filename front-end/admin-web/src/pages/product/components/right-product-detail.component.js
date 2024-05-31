@@ -1,19 +1,19 @@
 import { Button, Card, Col, Form, Input, Row } from 'antd';
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
 import { IconBtnAdd } from 'constants/icons.constants'
-import React , { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment';
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
-import { ProductGender, ProductGenderList } from 'constants/product-status.constants';
+import { ProductGenderList } from 'constants/product-status.constants';
 import ProductSizeCategoryDataService from 'data-services/product-category/product-size-category-data.service';
 import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service';
 import productCategoryDataService from 'data-services/product-category/product-category-data.service';
 
-export default function RightProductDetail ({form, productVariants, setProductVariants, thumbnailVariants, productSizes}) {
+export default function RightProductDetail({ form, productVariants, setProductVariants, productSizes }) {
   const { t } = useTranslation()
   const pageData = {
     productVariant: {
@@ -45,7 +45,8 @@ export default function RightProductDetail ({form, productVariants, setProductVa
     },
     file: {
       title: t('file.title')
-    }
+    },
+    mediaNotExisted: t('product.validateImage')
   }
 
   const [productCategories, setProductCategories] = useState([])
@@ -55,25 +56,25 @@ export default function RightProductDetail ({form, productVariants, setProductVa
   const fetchProductRootCategories = async () => {
     const gender = form.getFieldValue('genderProduct')
     const productRootCategories = await RootCategoryDataService.GetProductRootCategoryAsync(0, 100, '', gender)
-    if (productRootCategories) setProductRootCategories(productRootCategories);
+    if (productRootCategories) setProductRootCategories(productRootCategories.result);
   }
 
   const fetchProductCategories = async () => {
     const gender = form.getFieldValue('genderProduct')
     const productRootCategoryId = form.getFieldValue('productRootCategoryId')
     const productCategories = await productCategoryDataService.getProductCategoriesAsync(0, 100, '', gender, productRootCategoryId)
-    if (productCategories) setProductCategories(productCategories);
+    if (productCategories) setProductCategories(productCategories.result);
   }
 
   const fetchProductSizeCategories = async () => {
     const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizeCategoryAsync()
-    if (productSizeCategories) setProductSizesCategory(productSizeCategories);
+    if (productSizeCategories) setProductSizesCategory(productSizeCategories.result);
   }
 
   const updateVariantName = (e, position) => {
     const updatedVariants = [...productVariants];
     updatedVariants[position].name = e.target.value;
-    setProductVariants(updatedVariants);
+    //setProductVariants(updatedVariants);
   }
 
   const onDeleteVariant = (index) => {
@@ -82,10 +83,7 @@ export default function RightProductDetail ({form, productVariants, setProductVa
       formValue.splice(index, 1)
       formValue.forEach((item, index) => (item.position = index))
     }
-    setProductVariants(formValue)
-    if (formValue.length === 1) {
-      formValue[0].position = 0
-    }
+    //setProductVariants(formValue)
     form.setFieldValue('productVariants', formValue)
   }
 
@@ -150,7 +148,7 @@ export default function RightProductDetail ({form, productVariants, setProductVa
                   <div style={{ minHeight: productVariants.length * 64 }}>
                     {productVariants.map((variant, index) => {
                       const position = (variant.position || 0) + 1
-                      const thumbnail = thumbnailVariants[variant.position]
+                      const thumbnail = form.getFieldValue(['productVariants', variant.position, 'thumbnail'])
                       return (
                         <Draggable key={variant.id} draggableId={position.toString()} index={index}>
                           {(provided) => (
@@ -294,7 +292,6 @@ export default function RightProductDetail ({form, productVariants, setProductVa
               <FnbSelectSingle
                 noTranslateOptionName={true}
                 option={ProductGenderList}
-                defaultValue={ProductGender.All}
                 placeholder={pageData.gender.placeholder}
               />
             </Form.Item>

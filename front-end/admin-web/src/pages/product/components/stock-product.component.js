@@ -12,7 +12,7 @@ import { DateFormat } from 'constants/string.constants';
 import { roundNumber } from 'utils/helpers';
 import { PermissionKeys } from 'constants/permission-key.constants'
 
-export default function StockProductTable({ productSizes, form, variants }) {
+export default function StockProductTable({ productSizes, form, productVariants }) {
   const { t } = useTranslation();
   const pageData = {
     pricing: {
@@ -105,7 +105,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             render: (value, record) => {
               return (
                 <Form.Item
-                  name={['variants', record.position, 'isUseBasePrice']}
+                  name={['productVariants', record.position, 'isUseBasePrice']}
                   valuePropName="checked"
                   rules={[]}
                 >
@@ -122,7 +122,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             width: 160,
             render: (value, record) => (
               <Form.Item
-                name={['variants', record.position, 'priceOriginal']}
+                name={['productVariants', record.position, 'priceOriginal']}
                 rules={[
                   {
                     required: true,
@@ -134,7 +134,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (value > getFieldValue(['variants', record.position, 'priceValue'])) {
+                      if (value > getFieldValue(['productVariants', record.position, 'priceValue'])) {
                         return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                       }
                       return Promise.resolve()
@@ -170,7 +170,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             width: 160,
             render: (value, record) => (
               <Form.Item
-                name={['variants', record.position, 'priceValue']}
+                name={['productVariants', record.position, 'priceValue']}
                 rules={[
                   {
                     required: true,
@@ -183,10 +183,10 @@ export default function StockProductTable({ productSizes, form, variants }) {
                   ({ getFieldValue }) => (
                     {
                       validator(_, value) {
-                        if (value <= getFieldValue(['variants', record.position, 'priceDiscount'])) {
+                        if (value <= getFieldValue(['productVariants', record.position, 'priceDiscount'])) {
                           return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
                         }
-                        if (value < getFieldValue(['variants', record.position, 'priceOriginal'])) {
+                        if (value < getFieldValue(['productVariants', record.position, 'priceOriginal'])) {
                           return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                         }
                         return Promise.resolve()
@@ -196,7 +196,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
                 ]}
               >
                 <InputNumber
-                  onChange={value => onDiscountChange(value, 0, record.position)}
+                  onChange={value => onDiscountChange(false, record.position)}
                   className="shop-input-number w-100"
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -224,7 +224,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             width: 160,
             render: (value, record) => (
               <Form.Item
-                name={['variants', record.position, 'priceDiscount']}
+                name={['productVariants', record.position, 'priceDiscount']}
                 rules={[
                   {
                     required: true,
@@ -237,7 +237,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
                   ({ getFieldValue }) => (
                     {
                       validator(_, value) {
-                        if (value >= getFieldValue(['variants', record.position, 'priceValue'])) {
+                        if (value >= getFieldValue(['productVariants', record.position, 'priceValue'])) {
                           return Promise.reject(new Error(pageData.pricing.priceDiscount.numeric.validateMessage))
                         }
                         return Promise.resolve();
@@ -274,7 +274,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             width: 102,
             render: (value, record) => (
               <Form.Item
-                name={['variants', record.position, 'percentNumber']}
+                name={['productVariants', record.position, 'percentNumber']}
                 rules={[
                   {
                     pattern: new RegExp(inputNumberRangeOneTo999999999.range),
@@ -283,7 +283,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
                 ]}
               >
                 <InputNumber
-                  onChange={value => onDiscountChange(0, value, record.position)}
+                  onChange={value => onDiscountChange(true, record.position)}
                   className="shop-input-number w-100"
                   placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
                   formatter={(value) => `${value}%`}
@@ -313,7 +313,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             render: (value, record) => (
               <Form.Item
                 valuePropName={'date'}
-                name={['variants', record.position, 'startDate']}
+                name={['productVariants', record.position, 'startDate']}
                 rules={[
                   {
                     required: true,
@@ -352,7 +352,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             render: (value, record) => (
               <Form.Item
                 valuePropName={'date'}
-                name={['variants', record.position, 'endDate']}
+                name={['productVariants', record.position, 'endDate']}
                 rules={[]}
               >
                 <DatePicker
@@ -389,7 +389,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             const quantityLeft = stock ? stock.quantityLeft : 0;
             return (
               <Form.Item
-                name={['variants', record.position, 'stocks', index, 'quantityLeft']}
+                name={['productVariants', record.position, 'stocks', index, 'quantityLeft']}
                 rules={[]}
               >
                 <InputNumber
@@ -415,44 +415,48 @@ export default function StockProductTable({ productSizes, form, variants }) {
   const handleRadioChange = (isChecked, position) => {
     const fields = form.getFieldsValue();
     if (isChecked) {
-      fields.product.variants[position].priceOriginal = fields.product.priceOriginal;
-      fields.product.variants[position].priceValue = fields.product.priceValue;
-      fields.product.variants[position].priceDiscount = fields.product.priceDiscount;
-      fields.product.variants[position].startDate = fields.product.startDate;
-      fields.product.variants[position].endDate = fields.product.endDate;
+      fields.productVariants[position].priceOriginal = fields.priceOriginal;
+      fields.productVariants[position].priceValue = fields.priceValue;
+      fields.productVariants[position].priceDiscount = fields.priceDiscount;
+      fields.productVariants[position].startDate = fields.startDate;
+      fields.productVariants[position].endDate = fields.endDate;
     }
     form.setFieldsValue(fields);
   };
 
   const priceToPercentage = (num, total) => {
-    return roundNumber(total === 0 ? 0 : num * 100 / total)
+    return roundNumber(total === 0 ? 0 : (total - num) * 100 / total)
   }
 
   const percentageToPrice = (num, total) => {
-    return roundNumber(total * num / 100)
+    return roundNumber((100 - num) / 100 * total)
   }
 
-  const onDiscountChange = (numeric = 0, percentage = 0, position = -1) => {
+  const onDiscountChange = (isPercentage, position = -1) => {
     if (position == -1) {
       const total = form.getFieldValue('priceValue')
-      if (numeric !== 0) {
-        const percent = priceToPercentage(numeric, total)
-        form.setFieldValue('percentNumber', percent)
-      }
-      else if (percentage !== 0) {
+      if (isPercentage) {
+        const percentage = form.getFieldValue('percentNumber')
         const num = percentageToPrice(percentage, total)
         form.setFieldValue('priceDiscount', num)
       }
+      else {
+        const numeric = form.getFieldValue('priceDiscount')
+        const percent = priceToPercentage(numeric, total)
+        form.setFieldValue('percentNumber', percent)
+      }
     }
     else {
-      const total = form.getFieldValue(['variants', position, 'priceValue'])
-      if (numeric !== 0) {
-        const percent = priceToPercentage(numeric, total)
-        form.setFieldValue(['variants', position, 'percentNumber'], percent)
-      }
-      else if (percentage !== 0) {
+      const total = form.getFieldValue(['productVariants', position, 'priceValue'])
+      if (isPercentage) {
+        const percentage = form.getFieldValue(['productVariants', position, 'percentNumber'])
         const num = percentageToPrice(percentage, total)
-        form.setFieldValue(['variants', position, 'priceDiscount'], num)
+        form.setFieldValue(['productVariants', position, 'priceDiscount'], num)
+      }
+      else {
+        const numeric = form.getFieldValue(['productVariants', position, 'priceDiscount'])
+        const percent = priceToPercentage(numeric, total)
+        form.setFieldValue(['productVariants', position, 'percentNumber'], percent)
       }
     }
   }
@@ -566,6 +570,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             ]}
           >
             <InputNumber
+              onChange={value => onDiscountChange(false, record.position)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.price.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -608,7 +613,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             ]}
           >
             <InputNumber
-              onChange={value => onDiscountChange(value, 0)}
+              onChange={value => onDiscountChange(false)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.price.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -637,7 +642,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
             ]}
           >
             <InputNumber
-              onChange={value => onDiscountChange(0, value)}
+              onChange={value => onDiscountChange(true)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
               formatter={(value) => `${value}%`}
@@ -713,7 +718,7 @@ export default function StockProductTable({ productSizes, form, variants }) {
         columns={tableSettings.columns}
         editPermission={PermissionKeys.ADMIN}
         deletePermission={PermissionKeys.ADMIN}
-        dataSource={variants}
+        dataSource={productVariants}
         scrollX={1600}
       />
     </Card>

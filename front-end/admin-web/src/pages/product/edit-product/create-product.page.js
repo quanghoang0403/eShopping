@@ -19,8 +19,6 @@ import LeftProductDetail from '../components/left-product-detail.component';
 
 export default function CreateProductPage() {
   const history = useHistory()
-  const [thumbnailVariants, setThumbnailVariants] = useState([]);
-
   const [productSizes, setProductSizes] = useState([
     { id: '1', name: 'S' },
     { id: '2', name: 'M' },
@@ -84,17 +82,8 @@ export default function CreateProductPage() {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    handleChangeThumbnail()
-  }, [productVariants])
-
-  useEffect(() => {
-    fetchProductSizes()
+    //fetchProductSizes()
   }, [form.getFieldValue('productSizeCategoryId')])
-
-  const handleChangeThumbnail = () => {
-    const productVariants = form.getFieldValue('productVariants')
-    setThumbnailVariants(productVariants.map(productVariant => productVariant.thumbnail));
-  }
 
   const { t } = useTranslation()
   const pageData = {
@@ -115,7 +104,7 @@ export default function CreateProductPage() {
   const fetchProductSizes = async () => {
     const productSizeCategoryId = form.getFieldValue('productSizeCategoryId')
     const productSizes = await ProductSizeDataService.GetProductSizeAsync(0, 100, '', productSizeCategoryId)
-    if (productSizes) setProductSizes(productSizes);
+    if (productSizes) setProductSizes(productSizes.result);
   }
 
   const scrollToElement = (id) => {
@@ -130,11 +119,10 @@ export default function CreateProductPage() {
   }
 
   const onSubmitForm = () => {
-    console.log(form.getFieldsValue().product)
+    console.log(form.getFieldsValue())
     form
       .validateFields()
       .then(async (values) => {
-        //const createProductRequestModel = { ...values }
         productDataService
           .createProductAsync(values)
           .then((res) => {
@@ -232,13 +220,12 @@ export default function CreateProductPage() {
       >
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
-            <LeftProductDetail form={form} changeForm={changeForm}/>
+            <LeftProductDetail form={form} changeForm={changeForm} />
             <RightProductDetail
               form={form}
               productSizes={productSizes}
               productVariants={productVariants}
               setProductVariants={setProductVariants}
-              thumbnailVariants={thumbnailVariants}
             />
           </Row>
           <br />

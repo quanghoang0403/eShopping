@@ -59,8 +59,8 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
           setImages(imageList);
           if (onChange) {
             onChange({
-              fileName: isMultiple ? res[0] : res,
-              url: isMultiple ? res[0] : res
+              fileName: isMultiple ? res : res[0],
+              url: isMultiple ? res : res[0]
             });
           }
         }

@@ -17,12 +17,10 @@ const genderTranslations = {
 }
 
 
-export const ProductGenderList = () => {
-  return Object.keys(ProductGender).map(gender => {
-    return {
-      id: ProductGender[gender],
-      name: genderTranslations[gender]
-    }
-  })
-}
+export const ProductGenderList = Object.keys(ProductGender).map(gender => {
+  return {
+    id: ProductGender[gender],
+    name: genderTranslations[gender]
+  }
+});
 

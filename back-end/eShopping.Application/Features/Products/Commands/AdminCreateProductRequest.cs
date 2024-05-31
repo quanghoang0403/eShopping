@@ -117,15 +117,6 @@ namespace eShopping.Application.Features.Products.Commands
             product.CreatedTime = DateTime.Now;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
 
-            if (request.ProductVariants.Any(pc => pc.PercentNumber > 0 || pc.PriceDiscount > 0))
-            {
-                product.IsDiscounted = true;
-            }
-            else
-            {
-                product.IsDiscounted = false;
-            }
-
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 // Create a new transaction to save data more securely, data will be restored if an error occurs.
