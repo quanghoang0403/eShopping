@@ -352,6 +352,20 @@ export const jsonToFormData = (data) => {
   return formData
 }
 
+export const jsonToFormDataV2 = (json) => {
+  const formData = new FormData();
+  Object.keys(json).forEach(key => {
+    if (Array.isArray(json[key])) {
+      json[key].forEach((item, index) => {
+        formData.append(`${key}[${index}]`, item);
+      });
+    } else {
+      formData.append(key, json[key]);
+    }
+  });
+  return formData;
+};
+
 // Capitalized Case
 export const capitalize = (data) => {
   const result = data.toLowerCase()

@@ -105,7 +105,6 @@ namespace eShopping.Infrastructure.Repositories
                         }
                         _dbContext.ProductVariants.UpdateRange(reusedProductVariants);
                     }
-                    productEdit.IsDiscounted = productEdit.ProductVariants.Any(p => p.PriceDiscount > 0 || p.PercentNumber > 0);
                     #endregion
 
                     #region Handle update product stocks

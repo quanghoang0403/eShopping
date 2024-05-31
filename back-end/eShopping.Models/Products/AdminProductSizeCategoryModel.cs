@@ -7,8 +7,6 @@ namespace eShopping.Models.Products
         public Guid Id { get; set; }
         public int No { get; set; }
         public int NumberOfProductSize { get; set; }
-        public int Priority { get; set; }
-
         public string Name { get; set; }
     }
 }

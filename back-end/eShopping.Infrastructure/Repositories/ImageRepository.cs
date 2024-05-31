@@ -16,7 +16,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public async Task<List<Image>> GetAllImagesByObjectId(Guid objectId, EnumImageTypeObject type)
         {
-            var images = await dbSet.Where(i => i.ObjectId == objectId && i.ImageType == type).OrderByDescending(i => i.Priority).ToListAsync();
+            var images = await dbSet.Where(i => i.ObjectId == objectId && i.ImageType == type).OrderBy(i => i.Priority).ToListAsync();
             return images;
         }
     }

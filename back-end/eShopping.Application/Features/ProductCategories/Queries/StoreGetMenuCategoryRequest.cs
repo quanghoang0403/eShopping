@@ -35,7 +35,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             var maleCategories = await _unitOfWork.ProductRootCategories
                 .Where(x => x.GenderProduct.IsMale())
                 .Include(x => x.ProductCategories)
-                .OrderByDescending(x => x.Priority)
+                .OrderBy(x => x.Priority)
                 .Select(x => new StoreProductRootCategoryModel()
                 {
                     Id = x.Id,
@@ -49,7 +49,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             var femaleCategories = await _unitOfWork.ProductRootCategories
                 .Where(x => x.GenderProduct.IsFemale())
                 .Include(x => x.ProductCategories)
-                .OrderByDescending(x => x.Priority)
+                .OrderBy(x => x.Priority)
                 .Select(x => new StoreProductRootCategoryModel()
                 {
                     Id = x.Id,
@@ -63,7 +63,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             var kidsCategories = await _unitOfWork.ProductRootCategories
                 .Where(x => x.GenderProduct.IsFemale())
                 .Include(x => x.ProductCategories)
-                .OrderByDescending(x => x.Priority)
+                .OrderBy(x => x.Priority)
                 .Select(x => new StoreProductRootCategoryModel()
                 {
                     Id = x.Id,

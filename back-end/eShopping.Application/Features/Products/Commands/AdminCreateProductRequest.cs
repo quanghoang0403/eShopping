@@ -43,7 +43,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public Guid ProductSizeCategoryId { get; set; }
 
-        public List<string> ImagePaths { get; set; }
+        public List<string> Gallery { get; set; }
 
         public string Thumbnail { get; set; }
 
@@ -109,9 +109,6 @@ namespace eShopping.Application.Features.Products.Commands
 
             #endregion
 
-            // Check valid image
-            // TO DO
-
             // Add product
             var product = _mapper.Map<Product>(request);
             var accountId = loggedUser.AccountId.Value;
@@ -119,15 +116,6 @@ namespace eShopping.Application.Features.Products.Commands
             product.CreatedUser = accountId;
             product.CreatedTime = DateTime.Now;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);
-
-            if (request.ProductVariants.Any(pc => pc.PercentNumber > 0 || pc.PriceDiscount > 0))
-            {
-                product.IsDiscounted = true;
-            }
-            else
-            {
-                product.IsDiscounted = false;
-            }
 
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
@@ -139,7 +127,7 @@ namespace eShopping.Application.Features.Products.Commands
 
                     // Add image
                     List<Image> productImages = new();
-                    foreach (var path in request.ImagePaths)
+                    foreach (var path in request.Gallery)
                     {
                         Image image = new()
                         {

@@ -46,8 +46,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             }
             var allProductSizeCategory = await query
                    .Include(ppc => ppc.ProductSizes)
-                   .OrderBy(pc => pc.Priority)
-                   .ThenBy(x => x.Name)
+                   .OrderBy(x => x.Name)
                    .ToPaginationAsync(request.PageNumber, request.PageSize);
             var productSizeCategoryResponse = new List<AdminProductSizeCategoryModel>();
             foreach (var category in allProductSizeCategory.Result)
@@ -57,7 +56,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Id = category.Id,
                     Name = category.Name,
                     NumberOfProductSize = category.ProductSizes.Count(),
-                    Priority = category.Priority
                 });
             }
 

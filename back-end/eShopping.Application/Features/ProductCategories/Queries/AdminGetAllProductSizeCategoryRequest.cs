@@ -36,7 +36,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
             var allProductSizeCategories = await _unitOfOfWork.ProductSizeCategories.GetAll()
                 .AsNoTracking()
-                .OrderBy(p => p.Priority)
                 .Include(p => p.ProductSizes).ToListAsync();
             var categoryResponse = new List<AdminProductSizeCategoryModel>();
             foreach (var item in allProductSizeCategories)
@@ -46,7 +45,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Id = item.Id,
                     Name = item.Name,
                     NumberOfProductSize = item.ProductSizes.Count(),
-                    Priority = item.Priority
                 });
             }
             return BaseResponseModel.ReturnData(categoryResponse);

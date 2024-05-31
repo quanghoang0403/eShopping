@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
+using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
@@ -77,6 +78,11 @@ namespace eShopping.Application.Features.Products.Queries
                     products = products.Where(g => g.Name.ToLower().Contains(keySearch));
                 }
 
+                if (request.IsSoldOut == true)
+                {
+                    products = products.Where(g => g.IsSoldOut == true);
+                }
+
                 if (request.IsNewIn == true)
                 {
                     products = products.Where(g => g.IsNewIn == true);
@@ -89,7 +95,7 @@ namespace eShopping.Application.Features.Products.Queries
 
                 if (request.IsDiscounted == true)
                 {
-                    products = products.Where(g => g.IsDiscounted == true).Include(x => x.ProductVariants).Where(x => x.ProductVariants.Any(p => p.EndDate <= DateTime.Now));
+                    products = products.Where(g => g.IsDiscounted == true);
                 }
 
                 products = products.Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime));
@@ -108,21 +114,9 @@ namespace eShopping.Application.Features.Products.Queries
             }
             var allProducts = await products.AsNoTracking().ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProducts.Result;
-            var productListResponse = new List<StoreProductModel>();
-            foreach (var product in pagingResult)
-            {
-                var defaultPrice = product.ProductVariants.FirstOrDefault();
-                var productResponse = _mapper.Map<StoreProductModel>(product);
-                productResponse.PriceValue = defaultPrice.PriceValue;
-                if (defaultPrice.PriceDiscount > 0)
-                {
-                    productResponse.PriceDiscount = defaultPrice.PriceDiscount;
-                    productResponse.PercentNumber = defaultPrice.PercentNumber;
-                }
-                productListResponse.Add(productResponse);
-            }
+            var productResponse = _mapper.Map<List<StoreProductModel>>(pagingResult);
 
-            var response = new PagingResult<StoreProductModel>(productListResponse, allProducts.Paging);
+            var response = new PagingResult<StoreProductModel>(productResponse, allProducts.Paging);
             return BaseResponseModel.ReturnData(response);
 
         }

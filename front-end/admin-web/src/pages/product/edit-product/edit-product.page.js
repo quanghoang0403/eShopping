@@ -65,7 +65,6 @@ export default function EditProductPage(props) {
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [selectedImage, setSelectedImage] = useState(null)
   const [titleModal, setTitleModal] = useState('')
   const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
   const [statusId, setStatusId] = useState(null)
@@ -300,7 +299,6 @@ export default function EditProductPage(props) {
       /// Update image
       if (shopImageSelectRef && shopImageSelectRef.current) {
         shopImageSelectRef.current.setImageUrl(data?.thumbnail);
-        setSelectedImage(data?.thumbnail);
       }
       form.setFieldsValue(initData);
     });
@@ -465,19 +463,19 @@ export default function EditProductPage(props) {
   const onDiscountChange = (numeric = 0, percentage = 0, index) => {
     if (numeric !== 0) {
       const percent = pricetoPercentage(numeric, index)
-      form.setFieldValue(['product', 'prices', index, 'percentNumber'], percent)
+      form.setFieldValue(['prices', index, 'percentNumber'], percent)
     }
     else if (percentage !== 0) {
       const num = percentageToPrice(percentage, index)
-      form.setFieldValue(['product', 'prices', index, 'priceDiscount'], num)
+      form.setFieldValue(['prices', index, 'priceDiscount'], num)
     }
   }
   // when discount checkbox is unchecked set price discount and percent number to 0
   useEffect(() => {
     discountChecked.forEach((c, index) => {
       if (!c) {
-        form.setFieldValue(['product', 'prices', index, 'priceDiscount'], 0);
-        form.setFieldValue(['product', 'prices', index, 'percentNumber'], 0);
+        form.setFieldValue(['prices', index, 'priceDiscount'], 0);
+        form.setFieldValue(['prices', index, 'percentNumber'], 0);
         setPrices(prevPrices => {
           const updatedPrices = [...prevPrices];
           updatedPrices[index] = {
@@ -544,16 +542,16 @@ export default function EditProductPage(props) {
                                     <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'position']}
+                                          name={['prices', price.position, 'position']}
                                           hidden={true}
                                         >
                                           <Input />
                                         </Form.Item>
-                                        <Form.Item name={['product', 'prices', price.position, 'id']} hidden={true}>
+                                        <Form.Item name={['prices', price.position, 'id']} hidden={true}>
                                           <Input />
                                         </Form.Item>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'priceName']}
+                                          name={['prices', price.position, 'priceName']}
                                           rules={[
                                             {
                                               required: true,
@@ -572,7 +570,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'quantityLeft']}
+                                          name={['prices', price.position, 'quantityLeft']}
                                           rules={[
                                             {
                                               pattern: new RegExp(inputNumberRangeOneTo999999999.range),
@@ -598,7 +596,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'quantitySold']}
+                                          name={['prices', price.position, 'quantitySold']}
                                           rules={[
                                             {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
@@ -636,7 +634,7 @@ export default function EditProductPage(props) {
                                     <Row gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'priceOriginal']}
+                                          name={['prices', price.position, 'priceOriginal']}
                                           rules={[
                                             {
                                               required: true,
@@ -648,7 +646,7 @@ export default function EditProductPage(props) {
                                             },
                                             ({ getFieldValue }) => ({
                                               validator(_, value) {
-                                                if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
+                                                if (value > getFieldValue(['prices', price.position, 'priceValue'])) {
                                                   return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                                 }
                                                 return Promise.resolve()
@@ -674,7 +672,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'priceValue']}
+                                          name={['prices', price.position, 'priceValue']}
                                           rules={[
                                             {
                                               required: true,
@@ -686,7 +684,7 @@ export default function EditProductPage(props) {
                                             },
                                             ({ getFieldValue }) => ({
                                               validator(_, value) {
-                                                if (value < getFieldValue(['product', 'prices', price.position, 'priceOriginal'])) {
+                                                if (value < getFieldValue(['prices', price.position, 'priceOriginal'])) {
                                                   return Promise.reject(new Error(pageData.pricing.priceOriginal.validateMessageValue))
                                                 }
                                                 return Promise.resolve()
@@ -695,7 +693,7 @@ export default function EditProductPage(props) {
                                             ({ getFieldValue }) => (
                                               {
                                                 validator(_, value) {
-                                                  if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
+                                                  if (value > getFieldValue(['prices', price.position, 'priceValue'])) {
                                                     return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
                                                   }
                                                   return Promise.resolve();
@@ -738,7 +736,7 @@ export default function EditProductPage(props) {
                                     <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'priceDiscount']}
+                                          name={['prices', price.position, 'priceDiscount']}
                                           rules={[
                                             {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
@@ -747,7 +745,7 @@ export default function EditProductPage(props) {
                                             ({ getFieldValue }) => (
                                               {
                                                 validator(_, value) {
-                                                  if (value > getFieldValue(['product', 'prices', price.position, 'priceValue'])) {
+                                                  if (value > getFieldValue(['prices', price.position, 'priceValue'])) {
                                                     return Promise.reject(new Error(pageData.pricing.discount.numeric.validateMessage))
                                                   }
                                                   return Promise.resolve();
@@ -775,7 +773,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'percentNumber']}
+                                          name={['prices', price.position, 'percentNumber']}
                                           rules={[
                                             {
                                               pattern: new RegExp(inputNumberRange1To999999999.range),
@@ -816,7 +814,7 @@ export default function EditProductPage(props) {
                                     <Row className={`${discountChecked[index] ? '' : 'd-none'}`} gutter={[8, 16]}>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'startDate']}
+                                          name={['prices', price.position, 'startDate']}
                                           rules={[
                                             {
                                               required: true,
@@ -849,7 +847,7 @@ export default function EditProductPage(props) {
                                       </Col>
                                       <Col xs={24} sm={24} md={24} lg={8}>
                                         <Form.Item
-                                          name={['product', 'prices', price.position, 'endDate']}
+                                          name={['prices', price.position, 'endDate']}
                                           rules={[]}
                                         >
                                           <DatePicker
@@ -1042,7 +1040,7 @@ export default function EditProductPage(props) {
                       <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={['product', 'name']}
+                      name={['name']}
                       rules={[
                         {
                           required: pageData.generalInformation.name.required,
@@ -1060,7 +1058,7 @@ export default function EditProductPage(props) {
                     </Form.Item>
 
                     <h4 className="shop-form-label mt-32">{pageData.generalInformation.description.label}</h4>
-                    <Form.Item name={['product', 'description']} rules={[]}>
+                    <Form.Item name={['description']} rules={[]}>
                       <FnbTextArea
                         showCount
                         maxLength={pageData.generalInformation.description.maxLength}
@@ -1094,7 +1092,7 @@ export default function EditProductPage(props) {
                       </Tooltip>
                     </div>
                     <Form.Item
-                      name={['product', 'titleSEO']}
+                      name={['titleSEO']}
                       className="item-name"
                       rules={[
                         {
@@ -1124,7 +1122,7 @@ export default function EditProductPage(props) {
                       </Tooltip>
                     </div>
                     <Form.Item
-                      name={['product', 'descriptionSEO']}
+                      name={['descriptionSEO']}
                       className="item-name"
                       rules={[
                         {
@@ -1219,7 +1217,7 @@ export default function EditProductPage(props) {
                   <Card className={'w-100 mt-1 shop-card h-auto'}>
                     <h4 className="title-group">{pageData.productCategory.label}</h4>
                     <Form.Item
-                      name={['product', 'productCategoryIds']}
+                      name={['productCategoryIds']}
                       rules={[{
                         required: true,
                         message: pageData.productCategory.validateMessage

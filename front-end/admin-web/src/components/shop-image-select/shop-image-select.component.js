@@ -13,12 +13,14 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     value,
     maxFileSize = 5242880,
     isShowBestDisplay = true,
+    isShowTextNonImage = true,
     acceptType,
     bestDisplayImage,
     customTextNonImageClass,
     customNonImageClass,
     isDisabled,
-    isShowMessageError = false
+    isShowMessageError = false,
+    maxNumber = 1
   } = props
   const shopUploadRef = React.useRef()
   const [selectedImage, setSelectedImage] = useState(null)
@@ -75,7 +77,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
           span={24}
           className={`${customNonImageClass} image-product ${selectedImage !== null ? 'justify-left' : ''}`}
         >
-          <div style={{ display: 'flex' }}>
+          <div>
             <FnbUploadImageComponent
               className={className}
               ref={shopUploadRef}
@@ -87,10 +89,8 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
               acceptType={acceptType}
               isDisabled={isDisabled}
               onError={isShowMessageError ? onShowErrorMessage : undefined}
+              maxNumber={maxNumber}
             />
-            {/* <a className="upload-image-url" hidden={selectedImage !== null}>
-              {pageData.addFromUrl}
-            </a> */}
           </div>
         </Col>
         <Col
@@ -98,7 +98,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
           className={`${customTextNonImageClass} text-non-image ${isShowMessageError ? 'border-error' : ''}`}
           hidden={selectedImage !== null}
         >
-          <div>{pageData.textNonImage}</div>
+          {isShowTextNonImage && <div> {pageData.textNonImage}</div>}
           <div> {isShowBestDisplay && (bestDisplayImage ?? pageData.bestDisplayImage)}</div>
         </Col>
       </Row>

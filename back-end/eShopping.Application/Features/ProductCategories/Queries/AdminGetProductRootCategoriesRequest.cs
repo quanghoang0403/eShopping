@@ -55,6 +55,10 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 string keySearch = request.KeySearch.Trim().ToLower();
                 query = query.Where(pc => pc.Name.ToLower().Contains(keySearch));
             }
+            if (request.GenderProduct != EnumGenderProduct.All)
+            {
+                query = query.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
+            }
             var allProductRootCategoriesInStore = await query.AsNoTracking()
                    .Include(ppc => ppc.Products)
                    .Include(ppc => ppc.ProductCategories)
@@ -71,8 +75,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Id = category.Id,
                     Name = category.Name,
                     Priority = category.Priority,
-                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products.OrderByDescending(x => x.Priority)),
-                    ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(category.ProductCategories.OrderByDescending(x => x.Priority))
+                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products.OrderBy(x => x.Priority)),
+                    ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(category.ProductCategories.OrderBy(x => x.Priority))
                 });
             }
 
