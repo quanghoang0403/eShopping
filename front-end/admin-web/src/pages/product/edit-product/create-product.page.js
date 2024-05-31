@@ -1,57 +1,35 @@
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  Row,
-  Tooltip
-} from 'antd';
-import { ExclamationIcon } from 'constants/icons.constants';
+import { Button, Col, Form, Row, message } from 'antd';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
-import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon'
-import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { IconBtnAdd, TrashFill } from 'constants/icons.constants'
+import { IconBtnAdd } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import productDataService from 'data-services/product/product-data.service';
 import React, { useEffect, useState } from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useHistory } from 'react-router'
 import { getValidationMessagesWithParentField } from 'utils/helpers'
-import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
-import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service';
-import ProductSizeCategoryDataService from 'data-services/product-category/product-size-category-data.service';
-import FnbFroalaEditor from 'components/shop-froala-editor';
-import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
-import CreateStockProductTable from '../components/create-stock-product.component';
+import StockProductTable from '../components/create-stock-product.component';
 import moment from 'moment';
-import { message } from 'antd';
-import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
-import { ProductGender } from 'constants/product-status.constants';
 import ProductSizeDataService from 'data-services/product/product-size-data.service';
+import RightProductDetail from '../components/right-product-detail.component';
+import LeftProductDetail from '../components/left-product-detail.component';
 
 export default function CreateProductPage() {
   const history = useHistory()
   const [thumbnailVariants, setThumbnailVariants] = useState([]);
-  const [listProductCategory, setListProductCategory] = useState([])
-  const [listProductRootCategory, setListProductRootCategory] = useState([])
-  const [listProductSizeCategory, setListProductSizeCategory] = useState([])
-  const [listProductSize, setListProductSize] = useState([
+
+  const [productSizes, setProductSizes] = useState([
     { id: '1', name: 'S' },
     { id: '2', name: 'M' },
     { id: '3', name: 'L' },
     { id: '4', name: 'XL' },
     { id: '5', name: 'XXL' }
   ])
-  const [gender, setGender] = useState(ProductGender.All)
-  const [variants, setVariants] = useState([{
+
+  const [productVariants, setProductVariants] = useState([{
     position: 0,
     thumbnail: null,
     name: 'Product Variant 1',
@@ -61,7 +39,7 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(7, 'days'),
-    stocks: listProductSize.map(size => ({
+    stocks: productSizes.map(size => ({
       sizeId: size.id,
       name: size.name,
       quantityLeft: 0
@@ -77,7 +55,7 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(6, 'days'),
-    stocks: listProductSize.map(size => ({
+    stocks: productSizes.map(size => ({
       sizeId: size.id,
       name: size.name,
       quantityLeft: 1
@@ -93,7 +71,7 @@ export default function CreateProductPage() {
     priceDiscount: 130000.00,
     startDate: moment(),
     endDate: moment().add(4, 'days'),
-    stocks: listProductSize.map(size => ({
+    stocks: productSizes.map(size => ({
       sizeId: size.id,
       name: size.name,
       quantityLeft: 2
@@ -103,38 +81,19 @@ export default function CreateProductPage() {
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
-  const [isMobileSize, setIsMobileSize] = useState(window.innerWidth < 500);
-  const [productContent, setProductContent] = useState('');
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKeywordSEOChange] = useState(false)
   const [form] = Form.useForm()
-  useEffect(() => {
-    fetchProductSizeCategories()
-    window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
 
   useEffect(() => {
     handleChangeThumbnail()
-  }, [variants])
-
-  useEffect(() => {
-    fetchProductRootCategories()
-    setListProductCategory([])
-  }, [form.getFieldValue(['product', 'genderProduct'])])
-
-  useEffect(() => {
-    fetchProductCategories()
-  }, [form.getFieldValue(['product', 'productRootCategoryId'])])
+  }, [productVariants])
 
   useEffect(() => {
     fetchProductSizes()
-  }, [form.getFieldValue(['product', 'productSizeCategoryId'])])
+  }, [form.getFieldValue('productSizeCategoryId')])
 
   const handleChangeThumbnail = () => {
-    const variants = form.getFieldValue(['product', 'variants'])
-    setThumbnailVariants(variants.map(variant => variant.thumbnail));
+    const productVariants = form.getFieldValue('productVariants')
+    setThumbnailVariants(productVariants.map(productVariant => productVariant.thumbnail));
   }
 
   const { t } = useTranslation()
@@ -144,121 +103,19 @@ export default function CreateProductPage() {
     btnSave: t('button.save'),
     btnAddNew: t('button.add'),
     btnDiscard: t('button.discard'),
-    content: {
-      label: t('product.labelProductContent'),
-      placeholder: t('product.placeholderProductContent')
-    },
-    generalInformation: {
-      title: t('product.titleInfo'),
-      name: {
-        label: t('product.labelName'),
-        placeholder: t('product.placeholderName'),
-        required: true,
-        maxLength: 100,
-        validateMessage: t('product.validateName')
-      },
-      description: {
-        label: t('product.labelDescription'),
-        placeholder: t('product.placeholderDescription'),
-        required: false,
-        maxLength: 255
-      },
-      labelGallery: t('product.labelGallery')
-    },
-    SEOInformation: {
-      title: t('form.SEOConfiguration'),
-      keyword: {
-        label: t('form.SEOKeywords'),
-        placeholder: t('form.SEOKeywordsPlaceholder'),
-        tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd: t('form.AddSEOKeywords')
-      },
-      SEOtitle: {
-        label: t('form.SEOTitle'),
-        placeholder: t('form.SEOTitlePlaceholder'),
-        tooltip: t('form.SEOTitleTooltip'),
-        validateMessage: t('form.messageMatchSuggestSEOTitle'),
-        minlength: 50,
-        maxLength: 100
-      },
-      description: {
-        label: t('form.SEODescription'),
-        placeholder: t('form.SEODescriptionPlaceholder'),
-        validateMessage: t('form.messageMatchSuggestSEODescription'),
-        minlength: 150,
-        maxLength: 200,
-        tooltip: t('form.SEODescriptionTooltip')
-      }
-    },
-    variant: {
-      title: t('product.variantInfo'),
-      addVariant: t('product.addVariant'),
-      label: t('product.labelVariant'),
-      placeholder: t('product.placeholderVariant'),
-      validateVariant: t('product.validateVariant')
-    },
-    productCategory: {
-      label: t('product.labelCategory'),
-      placeholder: t('product.placeholderCategory'),
-      validateMessage: t('product.validateProductCategory')
-    },
-    productRootCategory: {
-      label: t('product.labelProductRootCategory'),
-      placeholder: t('product.placeholderProductRootCategory'),
-      validateMessage: t('product.validateProductRootCategory')
-    },
-    gender: {
-      label: t('product.labelGender'),
-      placeholder: t('product.placeholderGender'),
-      validateMessage: t('product.validateGender')
-    },
-    productSizeCategory: {
-      label: t('product.labelProductSizeCategory'),
-      placeholder: t('product.placeholderProductSizeCategory'),
-      validateMessage: t('product.validateProductSizeCategory')
-    },
     productNameExisted: t('product.productNameExisted'),
     productAddedSuccess: t('product.productAddedSuccess'),
-    mediaNotExisted: t('product.validateImage'),
-    file: {
-      uploadImage: t('file.uploadImage'),
-      title: t('file.title'),
-      textNonImage: t('file.textNonImage'),
-      bestDisplayImage: t('file.bestDisplayImage')
-    },
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
       confirmLeave: t('dialog.confirmLeave')
-    },
-    table: {
-      name: t('table.name'),
-      action: t('table.action')
     }
   }
 
-  const fetchProductRootCategories = async () => {
-    const gender = form.getFieldValue(['product', 'genderProduct'])
-    const productRootCategories = await RootCategoryDataService.GetProductRootCategoryAsync(0, 100, '', gender)
-    if (productRootCategories) setListProductRootCategory(productRootCategories);
-  }
-
-  const fetchProductCategories = async () => {
-    const gender = form.getFieldValue(['product', 'genderProduct'])
-    const productRootCategoryId = form.getFieldValue(['product', 'productRootCategoryId'])
-    const productCategories = await productCategoryDataService.getProductCategoriesAsync(0, 100, gender, '', productRootCategoryId)
-    if (productCategories) setListProductCategory(productCategories);
-  }
-
-  const fetchProductSizeCategories = async () => {
-    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizeCategoryAsync()
-    if (productSizeCategories) setListProductSizeCategory(productSizeCategories);
-  }
-
   const fetchProductSizes = async () => {
-    const productSizeCategoryId = form.getFieldValue(['product', 'productSizeCategoryId'])
+    const productSizeCategoryId = form.getFieldValue('productSizeCategoryId')
     const productSizes = await ProductSizeDataService.GetProductSizeAsync(0, 100, '', productSizeCategoryId)
-    if (productSizes) setListProductSize(productSizes);
+    if (productSizes) setProductSizes(productSizes);
   }
 
   const scrollToElement = (id) => {
@@ -277,17 +134,9 @@ export default function CreateProductPage() {
     form
       .validateFields()
       .then(async (values) => {
-        const createProductRequestModel = {
-          ...values.product,
-          imagePaths: [],
-          productVariants: values.product.variants,
-          thumbnail: values.product.media.url,
-          content: productContent,
-          keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
-        }
-        console.log(createProductRequestModel)
+        //const createProductRequestModel = { ...values }
         productDataService
-          .createProductAsync(createProductRequestModel)
+          .createProductAsync(values)
           .then((res) => {
             if (res) {
               message.success(pageData.productAddedSuccess);
@@ -296,10 +145,9 @@ export default function CreateProductPage() {
             }
           })
           .catch((errs) => {
-            form.setFields(getValidationMessagesWithParentField(errs, 'product'));
+            form.setFields(getValidationMessagesWithParentField(errs));
             console.error(errs)
           })
-
       })
       .catch((errors) => {
         if (errors?.errorFields?.length > 0) {
@@ -307,186 +155,6 @@ export default function CreateProductPage() {
           scrollToElement(elementId)
         }
       })
-  }
-
-  const updateVariantName = (e, position) => {
-    const updatedVariants = [...variants];
-    updatedVariants[position].name = e.target.value;
-    setVariants(updatedVariants);
-  }
-
-  const onDeleteVariant = (index) => {
-    const formValue = form.getFieldsValue()
-    const { product } = formValue
-    if (product.variants.length > 0) {
-      product.variants.splice(index, 1)
-      product.variants.forEach((item, index) => (item.position = index))
-    }
-    setVariants(product.variants)
-    if (product.variants.length === 1) {
-      //product.price = product.variants[0].price
-      product.variants[0].position = 0
-    }
-    form.setFieldsValue(formValue)
-  }
-
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-    result.forEach((item, index) => (item.position = index))
-    return result
-  }
-
-  const onDragEnd = (result) => {
-    // dropped outside the list
-    if (!result.destination) {
-      return
-    }
-    const formValue = form.getFieldsValue()
-    const { product } = formValue
-    const listVariant = reorder(product.variants, result.source.index, result.destination.index)
-
-    setVariants(listVariant)
-    product.variants = listVariant
-    form.setFieldsValue(formValue)
-  }
-
-  const onClickAddVariant = () => {
-    const formValue = form.getFieldsValue()
-    const { product } = formValue
-    const newVariant = {
-      position: variants.length,
-      isUseBasePrice: true,
-      thumbnail: '',
-      name: '',
-      priceValue: 0,
-      priceOriginal: 0,
-      priceDiscount: 0,
-      percentNumber: 0,
-      startDate: moment(),
-      endDate: null,
-      stocks: listProductSize.map(size => ({
-        sizeId: size.id,
-        name: size.name,
-        quantityLeft: 2
-      }))
-    }
-    const listVariant = [...(product.variants ?? variants), newVariant]
-    product.variants = listVariant
-    setVariants(listVariant)
-    form.setFieldsValue(formValue)
-    setTimeout(() => {
-      const dragDropVariants = document.getElementById('dragDropVariants')
-      dragDropVariants.scrollTop = dragDropVariants.scrollHeight
-    }, 100)
-  }
-
-  const renderVariants = () => {
-    return (
-      <>
-        <DragDropContext className="mt-4" onDragEnd={(result) => onDragEnd(result)}>
-          <Droppable droppableId="droppable">
-            {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} className="list-price">
-                <div
-                  id="dragDropVariants"
-                  style={variants.length > 3 ? { height: 700, overflowY: 'scroll' } : { minHeight: variants.length * 64 }}
-                >
-                  <div style={{ minHeight: variants.length * 64 }}>
-                    {variants.map((variant, index) => {
-                      const position = (variant.position || 0) + 1
-                      const thumbnail = thumbnailVariants[variant.position]
-                      return (
-                        <Draggable key={variant.id} draggableId={position.toString()} index={index}>
-                          {(provided) => (
-                            <Row
-                              className={'mb-4 pointer price-item'}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <Col className="col-title">
-                                <Row className="m-3 mr-4">
-                                  <Col>
-                                    <h3>{position + '.'} {pageData.variant.label}</h3>
-                                  </Col>
-                                  <Col className="w-100">
-                                    <Form.Item
-                                      name={['product', 'variants', variant.position, 'position']}
-                                      hidden={true}
-                                    >
-                                      <Input />
-                                    </Form.Item>
-                                    <Form.Item name={['product', 'variants', variant.position, 'id']} hidden={true}>
-                                      <Input />
-                                    </Form.Item>
-                                    <Form.Item
-                                      name={['product', 'variants', variant.position, 'name']}
-                                      rules={[
-                                        {
-                                          required: true,
-                                          message: pageData.variant.validateVariant
-                                        }
-                                      ]}
-                                      value={variant.name}
-                                    >
-                                      <Input
-                                        className="shop-input"
-                                        placeholder={pageData.variant.placeholder}
-                                        id={`product-variants-${variant.position}-name`}
-                                        onChange={(e) => updateVariantName(e, variant.position)}
-                                      />
-                                    </Form.Item>
-                                  </Col>
-                                  <Col className='variant-thumnail'>
-                                    <Form.Item
-                                      name={['product', 'variants', variant.position, 'thumbnail']}
-                                    >
-                                      <FnbImageSelectComponent
-                                        value={thumbnail}
-                                        isShowBestDisplay={false}
-                                        isShowTextNonImage={false}
-                                        customTextNonImageClass={'create-edit-product-text-non-image'}
-                                        customNonImageClass={'create-edit-product-non-image'}
-                                      />
-                                    </Form.Item>
-                                  </Col>
-                                </Row>
-                                <Row span={2} className="icon-delete-price">
-                                  <a
-                                    className="m-4"
-                                    onClick={() => onDeleteVariant(variant.position)}
-                                  >
-                                    <FnbDeleteIcon />
-                                  </a>
-                                </Row>
-                              </Col>
-                            </Row>
-                          )}
-                        </Draggable>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        <Col span={24}>
-          <div className="mt-2">
-            <Button
-              type="primary"
-              icon={<IconBtnAdd className="icon-btn-add-price" />}
-              className="btn-add-price"
-              onClick={onClickAddVariant}
-            >
-              {pageData.variant.addVariant}
-            </Button>
-          </div>
-        </Col>
-      </>
-    )
   }
 
   const changeForm = (e) => {
@@ -513,21 +181,6 @@ export default function CreateProductPage() {
     setTimeout(() => {
       return history.push('/product')
     }, DELAYED_TIME)
-  }
-
-  const updateDimensions = () => {
-    setIsMobileSize(window.innerWidth < 500)
-  }
-
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKeywordSEOChange(false)
-  }
-
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
 
   return (
@@ -573,7 +226,7 @@ export default function CreateProductPage() {
         name="basic"
         initialValues={{
           product: {
-            // variants: {
+            // productVariants: {
             //   [0]: {
             //     position: 0,
             //     name: 'Default',
@@ -586,7 +239,7 @@ export default function CreateProductPage() {
             //     endDate: moment().add(7, "days")
             //   }
             // }
-            variants: variants
+            productVariants: productVariants
           }
         }}
         onFieldsChange={(e) => changeForm(e)}
@@ -594,317 +247,18 @@ export default function CreateProductPage() {
       >
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
-            <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
-              <Card className="w-100 shop-card h-auto">
-                <Row>
-                  <Col span={24}>
-                    <h4 className="title-group">{pageData.generalInformation.title}</h4>
-
-                    <h4 className="shop-form-label">
-                      {pageData.generalInformation.name.label}
-                      <span className="text-danger">*</span>
-                    </h4>
-                    <Form.Item
-                      name={['product', 'name']}
-                      rules={[
-                        {
-                          required: pageData.generalInformation.name.required,
-                          message: pageData.generalInformation.name.validateMessage
-                        }
-                      ]}
-                      validateFirst={true}
-                    >
-                      <Input
-                        showCount
-                        className="shop-input-with-count"
-                        placeholder={pageData.generalInformation.name.placeholder}
-                        maxLength={pageData.generalInformation.name.maxLength}
-                        id="product-name"
-                      />
-                    </Form.Item>
-
-                    <h4 className="shop-form-label">{pageData.generalInformation.labelGallery}</h4>
-                    <Form.Item name={['product', 'gallery']} rules={[]}>
-                      <FnbImageSelectComponent
-                        maxNumber={10}
-                        customTextNonImageClass={'create-edit-product-text-non-image'}
-                        customNonImageClass={'create-edit-product-non-image'}
-                      />
-                    </Form.Item>
-
-                    <h4 className="shop-form-label">{pageData.generalInformation.description.label}</h4>
-                    <Form.Item name={['product', 'description']} rules={[]}>
-                      <FnbTextArea
-                        showCount
-                        maxLength={pageData.generalInformation.description.maxLength}
-                        autoSize={{ minRows: 2, maxRows: 6 }}
-                        id="product-description"
-                      />
-                    </Form.Item>
-
-                    <h4 className="shop-form-label">{pageData.content.label}</h4>
-                    <FnbFroalaEditor
-                      onChange={(value) => {
-                        if (value !== '' && value !== '<div></div>') setIsChangeForm(true);
-                        setProductContent(value);
-                      }}
-                      placeholder={pageData.content.placeholder}
-                      charCounterMax={-1}
-                    />
-                  </Col>
-                </Row>
-              </Card>
-              <br />
-              <Card className="w-100 mt-1 shop-card h-auto">
-                <Row>
-                  <Col span={24}>
-                    <h4 className="title-group">{pageData.SEOInformation.title}</h4>
-                    <div className='d-flex'>
-                      <h4 className="shop-form-label mt-16">{pageData.SEOInformation.SEOtitle.label}</h4>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.SEOtitle.tooltip}>
-                        <span className="ml-12 mt-16">
-                          <ExclamationIcon />
-                        </span>
-                      </Tooltip>
-                    </div>
-                    <Form.Item
-                      name={['product', 'titleSEO']}
-                      className="item-name"
-                      rules={[
-                        {
-                          min: pageData.SEOInformation.SEOtitle.minlength,
-                          message: pageData.SEOInformation.SEOtitle.validateMessage
-                        }
-                      ]}
-                    >
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        placeholder={pageData.SEOInformation.SEOtitle.placeholder}
-                        minLength={pageData.SEOInformation.SEOtitle.minlength}
-                        maxLength={pageData.SEOInformation.SEOtitle.maxLength}
-                      />
-                    </Form.Item>
-
-                    <div className='d-flex'>
-                      <h3 className="shop-form-label mt-16">
-                        {pageData.SEOInformation.description.label}
-                      </h3>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.description.tooltip}>
-                        <span className="ml-12 mt-16">
-                          <ExclamationIcon />
-                        </span>
-                      </Tooltip>
-                    </div>
-                    <Form.Item
-                      name={['product', 'descriptionSEO']}
-                      className="item-name"
-                      rules={[
-                        {
-                          min: pageData.SEOInformation.description.minlength,
-                          message: pageData.SEOInformation.description.validateMessage
-                        }
-                      ]}
-                    >
-                      <FnbTextArea
-                        showCount
-                        maxLength={pageData.SEOInformation.description.maxLength}
-                        autoSize={{ minRows: 2, maxRows: 6 }}
-                        id="product-category-SEO-description"
-                        placeholder={pageData.SEOInformation.description.placeholder}
-                      ></FnbTextArea>
-                    </Form.Item>
-
-                    <div className='d-flex'>
-                      <h3 className="shop-form-label mt-16">
-                        {pageData.SEOInformation.keyword.label}
-                      </h3>
-                      <Tooltip placement="topLeft" title={pageData.SEOInformation.keyword.tooltip}>
-                        <span className="ml-12 mt-16">
-                          <ExclamationIcon />
-                        </span>
-                      </Tooltip>
-                    </div>
-
-                    <div>
-                      {
-                        keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                      }
-
-                      <div className='d-flex mt-3'>
-                        <Input
-                          className="shop-input-with-count"
-                          showCount
-                          value={keywordSEO?.value || ''}
-                          placeholder={pageData.SEOInformation.keyword.placeholder}
-                          onChange={e => {
-                            if (e.target.value !== '') {
-                              setKeywordSEO({
-                                id: e.target.value,
-                                value: e.target.value,
-                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
-                              })
-                              setIsKeywordSEOChange(true)
-                            }
-                          }}
-                        />
-                        <ShopAddNewButton
-                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
-                          disabled={!isKeywordSEOChange}
-                          text={pageData.SEOInformation.keyword.btnAdd}
-                          className={'mx-4'}
-                          onClick={addSEOKeywords}
-                        />
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-
-            {/* right-side of form */}
-
-            <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <Card className="w-100 shop-card h-auto">
-                    <h4 className="title-group">{pageData.file.title}</h4>
-                    <Form.Item
-                      name={['product', 'media']}
-                      rules={[{
-                        required: true,
-                        message: pageData.mediaNotExisted
-                      }]}
-                    >
-                      <FnbImageSelectComponent
-                        customTextNonImageClass={'create-edit-product-text-non-image'}
-                        customNonImageClass={'create-edit-product-non-image'}
-                      />
-                    </Form.Item>
-                  </Card>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <br />
-                  <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.gender.label}</h4>
-                    <Form.Item
-                      name={['product', 'genderProduct']}
-                      rules={[{
-                        required: true,
-                        message: pageData.gender.validateMessage
-                      }]}
-                    >
-                      <FnbSelectSingle
-                        noTranslateOptionName={true}
-                        option={Object.keys(ProductGender).map(gender => {
-                          return {
-                            id: ProductGender[gender],
-                            name: gender
-                          }
-                        })}
-                        defaultValue={ProductGender.All}
-                        placeholder={pageData.gender.placeholder}
-                        onChange={(value) => setGender(value)}
-                      />
-                    </Form.Item>
-                  </Card>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <br />
-                  <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.productRootCategory.label}</h4>
-                    <Form.Item
-                      name={['product', 'productRootCategoryId']}
-                      rules={[{
-                        required: true,
-                        message: pageData.productRootCategory.validateMessage
-                      }]}
-                    >
-                      <FnbSelectSingle
-                        placeholder={pageData.productRootCategory.placeholder}
-                        showSearch
-                        option={listProductCategory?.map((b) => ({
-                          id: b.id,
-                          name: b.name
-                        }))}
-                      />
-                    </Form.Item>
-                  </Card>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <br />
-                  <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.productCategory.label}</h4>
-                    <Form.Item
-                      name={['product', 'productCategoryId']}
-                      rules={[{
-                        required: true,
-                        message: pageData.productCategory.validateMessage
-                      }]}
-                    >
-                      <FnbSelectSingle
-                        placeholder={pageData.productCategory.placeholder}
-                        showSearch
-                        option={listProductCategory?.map((b) => ({
-                          id: b.id,
-                          name: b.name
-                        }))}
-                      />
-                    </Form.Item>
-                  </Card>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <br />
-                  <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.productSizeCategory.label}</h4>
-                    <Form.Item
-                      name={['product', 'productSizeCategoryId']}
-                      rules={[{
-                        required: true,
-                        message: pageData.productSizeCategory.validateMessage
-                      }]}
-                    >
-                      <FnbSelectSingle
-                        placeholder={pageData.productCategory.placeholder}
-                        showSearch
-                        option={listProductSizeCategory?.map((b) => ({
-                          id: b.id,
-                          name: b.name
-                        }))}
-                      />
-                    </Form.Item>
-                  </Card>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <br />
-                  <Card className="w-100 mt-1 shop-card h-auto">
-                    <h4 className="title-group">{pageData.variant.title}</h4>
-                    {renderVariants()}
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-
+            <LeftProductDetail form={form} changeForm={changeForm}/>
+            <RightProductDetail
+              form={form}
+              productSizes={productSizes}
+              productVariants={productVariants}
+              setProductVariants={setProductVariants}
+              thumbnailVariants={thumbnailVariants}
+            />
           </Row>
           <br />
           <Row>
-            <Card className="w-100 mt-1 shop-card h-auto">
-              <CreateStockProductTable sizes={listProductSize} form={form} variants={variants} />
-            </Card>
+            <StockProductTable productSizes={productSizes} form={form} productVariants={productVariants} />
           </Row>
         </div>
       </Form>

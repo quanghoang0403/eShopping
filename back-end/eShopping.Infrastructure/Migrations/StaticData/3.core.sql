@@ -19,11 +19,22 @@ VALUES
     (NEWID(), 'XL', @ProductSizeCategoryId, 4, NULL, GETDATE(), NULL, GETDATE(), 0),
     (NEWID(), 'XXL', @ProductSizeCategoryId, 5, NULL, GETDATE(), NULL, GETDATE(), 0);
 
+-- Insert "Free-size" category into ProductSizeCategory table
+INSERT INTO [dbo].[ProductSizeCategory] (Id, Name, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)
+VALUES (NEWID(), 'Free-size', NULL, GETDATE(), NULL, GETDATE(), 0);
 
+-- Get the Id of the inserted "Free-size" category
+DECLARE @FreesizeCategoryId UNIQUEIDENTIFIER;
+SET @FreesizeCategoryId = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = 'Free-size');
+
+-- Insert the "free-size" into ProductSize table
+INSERT INTO [dbo].[ProductSize] (Id, Name, ProductSizeCategoryId, Priority, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)
+VALUES 
+    (NEWID(), 'Free-size', @FreesizeCategoryId, 1, NULL, GETDATE(), NULL, GETDATE(), 0);
 
 
 --
--- Dumping data for `ProductSize`
+-- Dumping data for `ProductRootCategory`
 --
 -- Insert data into ProductRootCategory table
 INSERT INTO [dbo].[ProductRootCategory] (Id, Name, Content, KeywordSEO, UrlSEO, TitleSEO, DescriptionSEO, Description, Priority, GenderProduct, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)
