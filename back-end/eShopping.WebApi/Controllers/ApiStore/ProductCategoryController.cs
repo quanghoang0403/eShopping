@@ -13,14 +13,6 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpGet]
-        [Route("get-all-product-categories")]
-        public async Task<IActionResult> GetAllProductCategory([FromQuery] StoreGetAllProductCategoriesRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
-
-        [HttpGet]
         [Route("get-product-category-by-url")]
         public async Task<IActionResult> GetProductCategoryByUrlAsync([FromQuery] StoreGetProductCategoryByUrlRequest request)
         {

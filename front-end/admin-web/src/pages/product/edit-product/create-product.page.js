@@ -42,7 +42,7 @@ export default function CreateProductPage() {
 
   useEffect(() => {
     const fields = form.getFieldsValue();
-    fields.productVariants.forEach(productVariant => {
+    fields.productVariants?.forEach(productVariant => {
       productVariant.stocks = fields.productSizes?.map(size => ({
         sizeId: size.id,
         name: size.name,
@@ -59,16 +59,6 @@ export default function CreateProductPage() {
         block: 'center',
         inline: 'start'
       })
-    }
-  }
-
-  const fetchProductSizes = async () => {
-    const productSizeCategoryId = form.getFieldValue('productSizeCategoryId')
-    if (productSizeCategoryId != null) {
-      const productSizes = await ProductSizeDataService.GetAllProductSizesAsync(productSizeCategoryId)
-      if (productSizes) {
-        setProductSizes(productSizes);
-      }
     }
   }
 
@@ -190,7 +180,7 @@ export default function CreateProductPage() {
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
             <LeftProductDetail form={form} changeForm={changeForm} />
-            <RightProductDetail form={form} productSizes={productSizes} fetchProductSizes={fetchProductSizes} />
+            <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} />
           </Row>
           <br />
           <Row>

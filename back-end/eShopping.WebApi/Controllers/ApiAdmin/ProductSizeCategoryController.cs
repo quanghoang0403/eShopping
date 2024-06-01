@@ -28,15 +28,6 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         }
 
         [HttpGet]
-        [Route("get-all-product-size-categories")]
-        [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetAllProductSizeCategories([FromQuery] AdminGetAllProductSizeCategoriesRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
-
-        [HttpGet]
         [Route("get-product-size-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
         public async Task<IActionResult> GetProductSizeCategoriesAsync([FromQuery] AdminGetProductSizeCategoriesRequest request)
@@ -60,15 +51,6 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> DeleteProductSizeCategoryByIdAsync(Guid id)
         {
             var response = await _mediator.Send(new AdminDeleteProductSizeCategoryRequest() { Id = id });
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("get-product-size-category-by-id/{id}")]
-        [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetProductSizeCategoryByIdAsync(Guid id)
-        {
-            var response = await _mediator.Send(new AdminGetProductSizeCategoryByIdRequest() { Id = id });
             return Ok(response);
         }
     }

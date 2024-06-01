@@ -9,9 +9,12 @@
 }
 
 .shop-row-page-header {
+  position: sticky;
   padding-bottom: 20px;
   padding-top: 12px;
   background: inherit;
+  top: 0;
+  z-index: 10;
 
   .page-title {
     float: left;

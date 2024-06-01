@@ -15,9 +15,6 @@ const getProductCategoryByIdAsync = (id) => {
 const updateProductCategoryAsync = (data) => {
   return http.put(`${controller}/update-product-category`, data)
 }
-const getAllProductCategoriesAsync = (productRootCategoryId, genderProduct) => {
-  return http.get(`/${controller}/get-all-product-categories?productRootCategoryId=${productRootCategoryId}&GenderProduct=${genderProduct}`)
-}
 const updateProductByCategoryAsync = data => {
   return http.put(`${controller}/update-product-list`, data)
 }
@@ -27,7 +24,6 @@ const productCategoryDataService = {
   deleteProductCategoryByIdAsync,
   getProductCategoryByIdAsync,
   updateProductCategoryAsync,
-  getAllProductCategoriesAsync,
   updateProductByCategoryAsync
 }
 export default productCategoryDataService;
