@@ -23,7 +23,7 @@ import './create-blog.page.scss'
 import moment from 'moment'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 const { Text } = Typography
 
@@ -559,8 +559,7 @@ export default function CreateBlogPage() {
                             if(e.target.value !== ''){
                               setKeywordSEO({
                                 id:e.target.value,
-                                value:e.target.value,
-                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                value:e.target.value
                               })
                               setIsKewwordSEOChange(true)
                             }

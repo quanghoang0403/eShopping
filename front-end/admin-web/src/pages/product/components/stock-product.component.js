@@ -122,7 +122,7 @@ export default function StockProductTable({ productSizes, form }) {
     stocks: productSizes.map(size => ({
       sizeId: size.id,
       name: size.name,
-      quantityLeft: 1
+      quantityLeft: 0
     }))
   },
   {
@@ -138,7 +138,7 @@ export default function StockProductTable({ productSizes, form }) {
     stocks: productSizes.map(size => ({
       sizeId: size.id,
       name: size.name,
-      quantityLeft: 2
+      quantityLeft: 0
     }))
   }])
   const tableSettings = {
@@ -229,7 +229,7 @@ export default function StockProductTable({ productSizes, form }) {
                   valuePropName="checked"
                   rules={[]}
                 >
-                  <Checkbox onChange={(e) => handleRadioChange(e.target.checked, index)} checked={value} />
+                  <Checkbox checked={value} />
                 </Form.Item>
               )
             }
@@ -504,10 +504,6 @@ export default function StockProductTable({ productSizes, form }) {
           align: 'center',
           width: 60,
           render: (_, record, index) => {
-            // Find the size in the stocks array of the current record
-            const stock = record.stocks.find(stock => stock.sizeId === size.id);
-            // If the size is found, return its quantityLeft, otherwise return 0
-            const quantityLeft = stock ? stock.quantityLeft : 0;
             return (
               <Form.Item
                 name={['productVariants', index, 'stocks', indexSize, 'quantityLeft']}
@@ -525,7 +521,6 @@ export default function StockProductTable({ productSizes, form }) {
                       event.preventDefault()
                     }
                   }}
-                  value={quantityLeft}
                 />
               </Form.Item>
             );
@@ -607,19 +602,6 @@ export default function StockProductTable({ productSizes, form }) {
     }
   };
 
-  const handleRadioChange = (isChecked, position) => {
-    const fields = form.getFieldsValue();
-    if (isChecked) {
-      fields.productVariants[position].priceOriginal = fields.priceOriginal;
-      fields.productVariants[position].priceValue = fields.priceValue;
-      fields.productVariants[position].priceDiscount = fields.priceDiscount;
-      fields.productVariants[position].percentNumber = fields.percentNumber;
-      fields.productVariants[position].startDate = fields.startDate;
-      fields.productVariants[position].endDate = fields.endDate;
-    }
-    form.setFieldsValue(fields);
-  };
-
   const priceToPercentage = (num, total) => {
     return roundNumber(total === 0 ? 0 : (total - num) * 100 / total)
   }
@@ -670,21 +652,6 @@ export default function StockProductTable({ productSizes, form }) {
   useEffect(() => {
     form.setFieldValue('productVariants', productVariants)
   }, [])
-
-  useEffect(() => {
-    const fields = form.getFieldsValue();
-    fields.productVariants.forEach(productVariant => {
-      if (productVariant.isChecked) {
-        productVariant.priceOriginal = fields.priceOriginal;
-        productVariant.priceValue = fields.priceValue;
-        productVariant.priceDiscount = fields.priceDiscount;
-        productVariant.percentNumber = fields.percentNumber;
-        productVariant.startDate = fields.startDate;
-        productVariant.endDate = fields.endDate;
-      }
-    });
-  }, [form.getFieldValue('priceOrigin'), form.getFieldValue('priceValue'),
-    form.getFieldValue('priceDiscount'), form.getFieldValue('startDate'), form.getFieldValue('startDate')])
 
 
   return (
@@ -785,7 +752,7 @@ export default function StockProductTable({ productSizes, form }) {
             ]}
           >
             <InputNumber
-              onChange={value => onDiscountChange(false, index)}
+              onChange={value => onDiscountChange(false)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.price.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

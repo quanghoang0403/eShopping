@@ -1,7 +1,7 @@
 import { Card, Col, Form, Input, InputNumber, Row, Tooltip, message } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
 import PageTitle from 'components/page-title';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
@@ -385,8 +385,7 @@ export default function CreateRootCategory(props) {
                           if (e.target.value !== '') {
                             setKeywordSEO({
                               id: e.target.value,
-                              value: e.target.value,
-                              colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              value: e.target.value
                             })
                             setIsKewwordSEOChange(true)
                           }

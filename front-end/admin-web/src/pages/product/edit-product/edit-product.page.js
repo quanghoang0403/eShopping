@@ -50,7 +50,7 @@ import { useTranslation } from 'react-i18next'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import moment from 'moment';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button';
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 export default function EditProductPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
@@ -282,7 +282,7 @@ export default function EditProductPage(props) {
         isDisCountChecked(discountBoxCheck)
         setPrices(pricesData);
       }
-      setKeywordSEOList(list => data?.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr, colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH) }), []) || [])
+      setKeywordSEOList(list => data?.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
       const initData = {
         product: {
           description: data?.description,
@@ -1165,8 +1165,7 @@ export default function EditProductPage(props) {
                             if (e.target.value !== '') {
                               setKeywordSEO({
                                 id: e.target.value,
-                                value: e.target.value,
-                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                value: e.target.value
                               })
                               setIsKewwordSEOChange(true)
                             }

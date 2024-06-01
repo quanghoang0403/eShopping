@@ -53,7 +53,7 @@
       justify-content: center;
     }
 
-    >div {
+    > div {
       width: 100%;
     }
   }
@@ -162,6 +162,10 @@
 
 .ant-select-clear {
   margin-top: -8px;
+}
+
+.ant-input-textarea textarea {
+  min-height: unset !important;
 }
 
 @media (max-width: 500px) {

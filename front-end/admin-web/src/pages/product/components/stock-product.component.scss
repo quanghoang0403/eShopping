@@ -1,11 +1,11 @@
 .stock-table {
-  .ant-table-container table>thead>tr {
-    >th:first-child {
+  .ant-table-container table > thead > tr {
+    > th:first-child {
       border-top-left-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
     }
 
-    >th:last-child {
+    > th:last-child {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
     }
@@ -13,10 +13,14 @@
 
   .ant-table-cell {
     font-size: 14px !important;
-    padding: 4px;
+    padding: 24px 4px;
 
     .ant-form-item {
       margin: 0px;
+
+      .ant-form-item-explain-error {
+        font-size: 11px;
+      }
     }
 
     .shop-input-number,

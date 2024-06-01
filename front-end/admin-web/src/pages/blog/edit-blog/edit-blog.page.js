@@ -28,11 +28,11 @@ import './edit-blog.page.scss'
 import BlogDataService from 'data-services/blog/blog-data.service'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import moment from 'moment'
 
-export default function EditBlogPage (props) {
+export default function EditBlogPage(props) {
   const [t] = useTranslation()
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
@@ -59,9 +59,9 @@ export default function EditBlogPage (props) {
   const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false)
   const [isShowWarningSEODescription, setIsShowWarningSEODescription] = useState(false)
   const [checkBlogContentLoaded, setCheckBlogContentLoaded] = useState(false)
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
 
   useEffect(() => {
     getInitData()
@@ -120,7 +120,7 @@ export default function EditBlogPage (props) {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       }
     },
     media: {
@@ -178,15 +178,15 @@ export default function EditBlogPage (props) {
     setUrlSEO(data?.urlSEO)
     setTitleSEO(data?.titleSEO)
     setDescriptionSEO(data?.descriptionSEO)
-    setKeywordSEOList(data?.keywordSEO?.split(',').map(kw=>{return{id:kw,value:kw,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}})||[])
+    setKeywordSEOList(data?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
     setCheckBlogContentLoaded(true)
     // mapping general
     form.setFieldsValue({
       name: data?.name,
-      author:data?.author,
-      priority:data?.priority,
+      author: data?.author,
+      priority: data?.priority,
       content: data?.content,
-      blogCategoryId: data?.blogCategories.map(b=>b.id),
+      blogCategoryId: data?.blogCategories.map(b => b.id),
       UrlSEO: data?.urlSEO,
       TitleSEO: data?.titleSEO,
       DescriptionSEO: data?.descriptionSEO
@@ -215,14 +215,14 @@ export default function EditBlogPage (props) {
         const request = {
           blogDetailModel: {
             ...values,
-            titleSEO:titleSEO,
-            descriptionSEO:descriptionSEO,
-            author:blog.author,
-            name:blogName,
+            titleSEO: titleSEO,
+            descriptionSEO: descriptionSEO,
+            author: blog.author,
+            name: blogName,
             id: props?.match?.params?.id,
             content: blogContent,
             thumbnail: imageUrl,
-            keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null,
+            keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
             description: blogContent.replace(/<.*?>/gm, '').slice(0, 200)
           }
         }
@@ -273,14 +273,14 @@ export default function EditBlogPage (props) {
     formValue.blogCategoryId = id
     form.setFieldsValue(formValue)
   }
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -631,7 +631,7 @@ export default function EditBlogPage (props) {
                       </h4>
                       <div>
                         {
-                          keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                          keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                         }
 
                         <div className='d-flex mt-3'>
@@ -640,12 +640,11 @@ export default function EditBlogPage (props) {
                             showCount
                             value={keywordSEO?.value || ''}
                             placeholder={pageData.SEO.SEOKeywordsPlaceholder}
-                            onChange={e=>{
-                              if(e.target.value !== ''){
+                            onChange={e => {
+                              if (e.target.value !== '') {
                                 setKeywordSEO({
-                                  id:e.target.value,
-                                  value:e.target.value,
-                                  colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                  id: e.target.value,
+                                  value: e.target.value
                                 })
                                 setIsKewwordSEOChange(true)
                               }

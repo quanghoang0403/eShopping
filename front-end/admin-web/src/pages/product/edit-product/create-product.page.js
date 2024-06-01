@@ -96,9 +96,20 @@ export default function CreateProductPage() {
   }
 
   const changeForm = (e) => {
+    const fields = form.getFieldsValue();
+    fields.productVariants.forEach(productVariant => {
+      if (productVariant.isUseBasePrice) {
+        productVariant.priceOriginal = fields.priceOriginal;
+        productVariant.priceValue = fields.priceValue;
+        productVariant.priceDiscount = fields.priceDiscount;
+        productVariant.percentNumber = fields.percentNumber;
+        productVariant.startDate = fields.startDate;
+        productVariant.endDate = fields.endDate;
+      }
+    });
+    form.setFieldsValue(fields)
     setIsChangeForm(true)
     setDisableCreateButton(false)
-    console.log(form.getFieldsValue())
   }
 
   const onCancel = () => {
