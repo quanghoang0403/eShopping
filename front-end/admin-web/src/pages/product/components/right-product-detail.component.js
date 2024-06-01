@@ -56,7 +56,7 @@ export default function RightProductDetail({ form }) {
   }
 
   const fetchProductSizeCategories = async () => {
-    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizesCategoryAsync()
+    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizesCategoriesAsync()
     if (productSizeCategories) setProductSizesCategory(productSizeCategories.result);
   }
 
