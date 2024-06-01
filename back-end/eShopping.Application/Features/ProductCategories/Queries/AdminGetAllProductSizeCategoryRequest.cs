@@ -4,7 +4,6 @@ using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,20 +33,17 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var allSizeCategory = await _unitOfOfWork.ProductSizeCategories.GetAll()
+            var allProductSizeCategories = await _unitOfOfWork.ProductSizeCategories.GetAll()
                 .AsNoTracking()
-                .Include(p => p.ProductSizes).ToListAsync();
-            var categoryResponse = new List<AdminProductSizeCategoryModel>();
-            foreach (var item in allSizeCategory)
-            {
-                categoryResponse.Add(new AdminProductSizeCategoryModel
+                .Include(p => p.ProductSizes)
+                .Select(p => new AdminProductSizeCategoryModel()
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    NumberOfProductSize = item.ProductSizes.Count(),
-                });
-            }
-            return BaseResponseModel.ReturnData(categoryResponse);
+                    Id = p.Id,
+                    Name = p.Name,
+                    NumberOfProductSize = p.ProductSizes.Count(),
+                })
+                .ToListAsync();
+            return BaseResponseModel.ReturnData(allProductSizeCategories);
         }
     }
 }

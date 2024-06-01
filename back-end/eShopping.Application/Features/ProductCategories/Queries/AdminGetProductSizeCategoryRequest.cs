@@ -44,14 +44,14 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 string keySearch = request.KeySearch.Trim().ToLower();
                 query = query.Where(pc => pc.Name.ToLower().Contains(keySearch));
             }
-            var allSizeCategory = await query
+            var allProductSizeCategory = await query
                    .Include(ppc => ppc.ProductSizes)
                    .OrderBy(x => x.Name)
                    .ToPaginationAsync(request.PageNumber, request.PageSize);
-            var sizeCategoryResponse = new List<AdminProductSizeCategoryModel>();
-            foreach (var category in allSizeCategory.Result)
+            var productSizeCategoryResponse = new List<AdminProductSizeCategoryModel>();
+            foreach (var category in allProductSizeCategory.Result)
             {
-                sizeCategoryResponse.Add(new AdminProductSizeCategoryModel()
+                productSizeCategoryResponse.Add(new AdminProductSizeCategoryModel()
                 {
                     Id = category.Id,
                     Name = category.Name,
@@ -59,12 +59,12 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 });
             }
 
-            sizeCategoryResponse.ForEach(p =>
+            productSizeCategoryResponse.ForEach(p =>
             {
-                p.No = sizeCategoryResponse.IndexOf(p) + (request.PageNumber - 1) * request.PageSize + 1;
+                p.No = productSizeCategoryResponse.IndexOf(p) + (request.PageNumber - 1) * request.PageSize + 1;
             });
 
-            var response = new PagingResult<AdminProductSizeCategoryModel>(sizeCategoryResponse, allSizeCategory.Paging);
+            var response = new PagingResult<AdminProductSizeCategoryModel>(productSizeCategoryResponse, allProductSizeCategory.Paging);
             return BaseResponseModel.ReturnData(response);
         }
     }

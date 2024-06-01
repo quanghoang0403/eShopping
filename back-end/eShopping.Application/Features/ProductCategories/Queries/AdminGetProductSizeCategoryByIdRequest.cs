@@ -34,18 +34,18 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         public async Task<BaseResponseModel> Handle(AdminGetProductSizeCategoryByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var sizeCategory = await _unitOfWork.ProductSizeCategories.Where(ps => ps.Id == request.Id).Include(ps => ps.ProductSizes).AsNoTracking().FirstOrDefaultAsync(cancellationToken: cancellationToken);
-            if (sizeCategory == null)
+            var productSizeCategory = await _unitOfWork.ProductSizeCategories.Where(ps => ps.Id == request.Id).Include(ps => ps.ProductSizes).AsNoTracking().FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            if (productSizeCategory == null)
             {
                 return BaseResponseModel.ReturnError("Couldn't find product size category information");
             }
-            var sizeCategoryResponse = new AdminProductSizeCategoryDetailModel
+            var ProductSizeCategoryResponse = new AdminProductSizeCategoryDetailModel
             {
-                Id = sizeCategory.Id,
-                Name = sizeCategory.Name,
-                ProductSizes = _mapper.Map<IEnumerable<AdminProductSizeModel>>(sizeCategory.ProductSizes)
+                Id = productSizeCategory.Id,
+                Name = productSizeCategory.Name,
+                ProductSizes = _mapper.Map<IEnumerable<AdminProductSizeModel>>(productSizeCategory.ProductSizes)
             };
-            return BaseResponseModel.ReturnData(sizeCategoryResponse);
+            return BaseResponseModel.ReturnData(ProductSizeCategoryResponse);
         }
     }
 }

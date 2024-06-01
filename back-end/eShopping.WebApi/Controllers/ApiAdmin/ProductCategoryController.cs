@@ -1,6 +1,5 @@
 ﻿using eShopping.Application.Features.ProductCategories.Commands;
 using eShopping.Application.Features.ProductCategories.Queries;
-using eShopping.Application.Features.Products.Queries;
 using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
