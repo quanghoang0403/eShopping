@@ -146,7 +146,7 @@ export default function StockProductTable({ productSizes, form }) {
       {
         title: '',
         dataIndex: 'delete',
-        width: 40,
+        width: 100,
         fixed: 'left',
         render: (_, record) =>
           productVariants.length >= 1 ? (
@@ -162,7 +162,7 @@ export default function StockProductTable({ productSizes, form }) {
         dataIndex: 'name',
         position: 'name',
         align: 'center',
-        width: 120,
+        width: 172,
         fixed: 'left',
         render: (value, record, index) => {
           return (
@@ -192,16 +192,15 @@ export default function StockProductTable({ productSizes, form }) {
         dataIndex: 'thumbnail',
         position: 'thumbnail',
         align: 'center',
-        width: 120,
+        width: 140,
         render: (value, record, index) => {
-          //const thumbnail = form.getFieldValue(['productVariants', index, 'thumbnail'])
           return (
             <>
               <Form.Item
                 name={['productVariants', index, 'thumbnail']}
+                className='variant-thumbnail'
               >
                 <FnbImageSelectComponent
-                  //value={thumbnail}
                   isShowBestDisplay={false}
                   isShowTextNonImage={false}
                   customTextNonImageClass={'create-edit-product-text-non-image'}
@@ -217,12 +216,12 @@ export default function StockProductTable({ productSizes, form }) {
         align: 'center',
         children: [
           {
-            title: 'Giá cơ sở',
+            title: '$ cơ sở',
             dataIndex: 'isUseBasePrice',
             position: 'isUseBasePrice',
             align: 'center',
             minWidth: 100,
-            width: 100,
+            width: 80,
             render: (value, record, index) => {
               return (
                 <Form.Item
@@ -240,7 +239,7 @@ export default function StockProductTable({ productSizes, form }) {
             dataIndex: 'priceOriginal',
             position: 'priceOriginal',
             align: 'center',
-            width: 160,
+            width: 124,
             render: (value, record, index) => (
               <Form.Item
                 name={['productVariants', index, 'priceOriginal']}
@@ -288,7 +287,7 @@ export default function StockProductTable({ productSizes, form }) {
             dataIndex: 'priceValue',
             position: 'priceValue',
             align: 'center',
-            width: 160,
+            width: 124,
             render: (value, record, index) => (
               <Form.Item
                 name={['productVariants', index, 'priceValue']}
@@ -342,7 +341,7 @@ export default function StockProductTable({ productSizes, form }) {
             dataIndex: 'priceDiscount',
             position: 'priceDiscount',
             align: 'center',
-            width: 160,
+            width: 124,
             render: (value, record, index) => (
               <Form.Item
                 name={['productVariants', index, 'priceDiscount']}
@@ -392,7 +391,7 @@ export default function StockProductTable({ productSizes, form }) {
             dataIndex: 'percentNumber',
             position: 'percentNumber',
             align: 'center',
-            width: 102,
+            width: 72,
             render: (value, record, index) => (
               <Form.Item
                 name={['productVariants', index, 'percentNumber']}
@@ -430,7 +429,7 @@ export default function StockProductTable({ productSizes, form }) {
             dataIndex: 'startDate',
             position: 'startDate',
             align: 'center',
-            width: 206,
+            width: 176,
             render: (value, record, index) => (
               <Form.Item
                 valuePropName={'date'}
@@ -470,7 +469,7 @@ export default function StockProductTable({ productSizes, form }) {
             dataIndex: 'endDate',
             position: 'endDate',
             align: 'center',
-            width: 206,
+            width: 176,
             render: (value, record, index) => (
               <Form.Item
                 valuePropName={'date'}
@@ -498,12 +497,12 @@ export default function StockProductTable({ productSizes, form }) {
       {
         title: 'Quản lý tồn kho',
         align: 'center',
-        children: productSizes.map((size, index) => ({
+        children: productSizes.map((size, indexSize) => ({
           title: size.name,
           dataIndex: size.id,
           position: size.id,
           align: 'center',
-          width: 90,
+          width: 60,
           render: (_, record, index) => {
             // Find the size in the stocks array of the current record
             const stock = record.stocks.find(stock => stock.sizeId === size.id);
@@ -511,7 +510,7 @@ export default function StockProductTable({ productSizes, form }) {
             const quantityLeft = stock ? stock.quantityLeft : 0;
             return (
               <Form.Item
-                name={['productVariants', index, 'stocks', index, 'quantityLeft']}
+                name={['productVariants', index, 'stocks', indexSize, 'quantityLeft']}
                 rules={[]}
               >
                 <InputNumber
@@ -520,7 +519,9 @@ export default function StockProductTable({ productSizes, form }) {
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   precision={0}
                   onKeyDown={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9]/.test(event.key) &&
+                      event.key !== 'Backspace' &&
+                      event.key !== 'Delete') {
                       event.preventDefault()
                     }
                   }}
@@ -910,13 +911,13 @@ export default function StockProductTable({ productSizes, form }) {
           strategy={verticalListSortingStrategy}
         >
           <Table
-            className='mt-4'
+            className='stock-table shop-table form-table mt-4'
             columns={tableSettings.columns}
             editPermission={PermissionKeys.ADMIN}
             deletePermission={PermissionKeys.ADMIN}
             dataSource={productVariants}
             rowKey="key"
-            scrollX={1600}
+            scroll={{ x: 1600 }}
             pagination={false}
             components={{
               body: {

@@ -99,6 +99,7 @@ export default function CreateProductPage() {
   const changeForm = (e) => {
     setIsChangeForm(true)
     setDisableCreateButton(false)
+    console.log(form.getFieldsValue())
   }
 
   const onCancel = () => {
