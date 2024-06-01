@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class AdminGetProductSizeRequest : IRequest<BaseResponseModel>
+    public class AdminGetProductSizesRequest : IRequest<BaseResponseModel>
     {
         public Guid? ProductSizeCategoryId { get; set; }
     }
 
-    public class AdminGetProductSizeRequestHandler : IRequestHandler<AdminGetProductSizeRequest, BaseResponseModel>
+    public class AdminGetProductSizeRequestHandler : IRequestHandler<AdminGetProductSizesRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
@@ -31,7 +31,7 @@ namespace eShopping.Application.Features.Products.Queries
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<BaseResponseModel> Handle(AdminGetProductSizeRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetProductSizesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var allProductSize = _unitOfWork.ProductSizes.GetAll();

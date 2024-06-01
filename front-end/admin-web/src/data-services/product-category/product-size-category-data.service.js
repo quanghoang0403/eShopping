@@ -4,10 +4,10 @@ const controller = 'productsizecategory'
 const CreateProductSizeCategoryAsync = data => {
   return http.post(`${controller}/create-product-size-category`, data)
 }
-const GetAllProductSizeCategoryAsync = () => {
+const GetAllProductSizesCategoryAsync = () => {
   return http.get(`${controller}/get-all-product-size-categories`)
 }
-const GetProductSizeCategoryAsync = (pageNumber, pageSize, keySearch) => {
+const GetProductSizesCategoryAsync = (pageNumber, pageSize, keySearch) => {
   return http.get(`${controller}/get-product-size-categories?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}`)
 }
 const UpdateProductSizeCategoryAsync = data => {
@@ -21,8 +21,8 @@ const GetProductSizeCategoryById = id => {
 }
 const ProductSizeCategoryDataService = {
   CreateProductSizeCategoryAsync,
-  GetAllProductSizeCategoryAsync,
-  GetProductSizeCategoryAsync,
+  GetAllProductSizesCategoryAsync,
+  GetProductSizesCategoryAsync,
   UpdateProductSizeCategoryAsync,
   DeleteProductSizeCategoryAsync,
   GetProductSizeCategoryById

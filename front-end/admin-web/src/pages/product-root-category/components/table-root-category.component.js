@@ -46,7 +46,7 @@ export default function TableRootCategory() {
   }
 
   const fetchDataTableAsync = async (pageNumber, pageSize, keySearch = '', gender = ProductGender.All) => {
-    const response = await RootCategoryDataService.GetProductRootCategoryAsync(pageNumber, pageSize, keySearch, gender);
+    const response = await RootCategoryDataService.GetProductRootCategoriesAsync(pageNumber, pageSize, keySearch, gender);
     const data = response?.result?.map((s) => mappingRecordToColumns(s));
     setDataSource(data);
     setTotalRecords(response?.paging?.total);

@@ -44,20 +44,18 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             var allProductRootCategoriesInStore = await _unitOfWork.ProductRootCategories
                     .GetAll()
                     .AsNoTracking()
-                    .Include(pc => pc.Products).ThenInclude(p => p.ProductVariants)
+                    .Include(pc => pc.Products)
+                    .Where(pc => pc.GenderProduct == request.GenderProduct)
                     .Select(p => new AdminProductRootCategoryModel
                     {
                         Id = p.Id,
                         Name = p.Name,
                         Priority = p.Priority,
+                        GenderProduct = p.GenderProduct,
                         ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(p.ProductCategories.OrderBy(x => x.Priority))
                     })
                     .OrderBy(pc => pc.Priority)
                     .ToListAsync(cancellationToken: cancellationToken);
-            if (request.GenderProduct != EnumGenderProduct.All)
-            {
-                allProductRootCategoriesInStore = allProductRootCategoriesInStore.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All).ToList();
-            }
 
 
             return BaseResponseModel.ReturnData(allProductRootCategoriesInStore);
