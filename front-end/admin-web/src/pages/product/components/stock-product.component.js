@@ -553,9 +553,15 @@ export default function StockProductTable({ productSizes, form }) {
     }
   };
 
-  const handleDelete = (key) => {
-    const newData = productVariants.filter((item) => item.key !== key);
+  const handleSyncData = (newData) => {
     setProductVariants(newData);
+    form.setFieldValue('productVariants', newData)
+  }
+
+  const handleDelete = (key) => {
+    const oldData = form.getFieldValue('productVariants')
+    const newData = oldData.filter((item) => item.key !== key);
+    handleSyncData(newData)
   };
 
   const handleAdd = () => {
@@ -576,9 +582,9 @@ export default function StockProductTable({ productSizes, form }) {
         quantityLeft: 0
       }))
     }
-    const newData = [...productVariants, newDataRow]
-    form.setFieldValue('productVariants', newData)
-    setProductVariants(newData);
+    const oldData = form.getFieldValue('productVariants')
+    const newData = [...oldData, newDataRow]
+    handleSyncData(newData)
     setCount(count + 1);
   };
 
@@ -593,11 +599,11 @@ export default function StockProductTable({ productSizes, form }) {
 
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
-      const activeIndex = productVariants.findIndex((i) => i.key === active.id);
-      const overIndex = productVariants.findIndex((i) => i.key === over?.id);
-      const newData = arrayMove(productVariants, activeIndex, overIndex);
-      setProductVariants(newData);
-      form.setFieldValue('productVariants', newData)
+      const oldData = form.getFieldValue('productVariants')
+      const activeIndex = oldData.findIndex((i) => i.key === active.id);
+      const overIndex = oldData.findIndex((i) => i.key === over?.id);
+      const newData = arrayMove(oldData, activeIndex, overIndex);
+      handleSyncData(newData)
     }
   };
 
@@ -607,6 +613,7 @@ export default function StockProductTable({ productSizes, form }) {
       fields.productVariants[position].priceOriginal = fields.priceOriginal;
       fields.productVariants[position].priceValue = fields.priceValue;
       fields.productVariants[position].priceDiscount = fields.priceDiscount;
+      fields.productVariants[position].percentNumber = fields.percentNumber;
       fields.productVariants[position].startDate = fields.startDate;
       fields.productVariants[position].endDate = fields.endDate;
     }
@@ -663,6 +670,22 @@ export default function StockProductTable({ productSizes, form }) {
   useEffect(() => {
     form.setFieldValue('productVariants', productVariants)
   }, [])
+
+  useEffect(() => {
+    const fields = form.getFieldsValue();
+    fields.productVariants.forEach(productVariant => {
+      if (productVariant.isChecked) {
+        productVariant.priceOriginal = fields.priceOriginal;
+        productVariant.priceValue = fields.priceValue;
+        productVariant.priceDiscount = fields.priceDiscount;
+        productVariant.percentNumber = fields.percentNumber;
+        productVariant.startDate = fields.startDate;
+        productVariant.endDate = fields.endDate;
+      }
+    });
+  }, [form.getFieldValue('priceOrigin'), form.getFieldValue('priceValue'),
+    form.getFieldValue('priceDiscount'), form.getFieldValue('startDate'), form.getFieldValue('startDate')])
+
 
   return (
     <Card className="w-100 mt-1 shop-card h-auto">

@@ -12,7 +12,6 @@ import { getValidationMessagesWithParentField } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import StockProductTable from '../components/stock-product.component';
-import moment from 'moment';
 import ProductSizeDataService from 'data-services/product/product-size-data.service';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
