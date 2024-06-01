@@ -16,7 +16,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
     public class AdminGetAllProductCategoriesRequest : IRequest<BaseResponseModel>
     {
         public EnumGenderProduct GenderProduct { get; set; }
-        public Guid ProductRootCategoryId { get; set; }
+        public Guid? ProductRootCategoryId { get; set; }
     }
 
     public class AdminGetAllProductCategoriesRequestHandler : IRequestHandler<AdminGetAllProductCategoriesRequest, BaseResponseModel>
@@ -42,32 +42,28 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var allProductCategoriesInStore = await _unitOfWork.ProductCategories
-                    .GetAll()
-                    .Where(pc => pc.GenderProduct == request.GenderProduct)
-                    .AsNoTracking()
-                    .Include(pc => pc.Products).ThenInclude(p => p.ProductVariants)
-
-                    .OrderBy(pc => pc.Priority)
-                    .ToListAsync(cancellationToken: cancellationToken);
+            var query = _unitOfWork.ProductCategories.GetAll();
             if (request.ProductRootCategoryId != null && request.ProductRootCategoryId != Guid.Empty)
             {
-                allProductCategoriesInStore = allProductCategoriesInStore.Where(pc => pc.ProductRootCategoryId == request.ProductRootCategoryId).ToList();
+                query = query.Where(pc => pc.ProductRootCategoryId == request.ProductRootCategoryId);
             }
             if (request.GenderProduct != EnumGenderProduct.All)
             {
-                allProductCategoriesInStore = allProductCategoriesInStore.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All).ToList();
+                query = query.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
             }
-            var allProductCategoriesResponse = allProductCategoriesInStore.Select(p => new AdminProductCategoryModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Priority = p.Priority,
-                Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(p.Products)
-            });
-
-
-
+            var allProductCategoriesResponse = query
+                .AsNoTracking()
+                .Include(pc => pc.Products)
+                .ThenInclude(p => p.ProductVariants)
+                .OrderBy(pc => pc.Priority)
+                .Select(p => new AdminProductCategoryModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Priority = p.Priority,
+                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(p.Products)
+                })
+                .ToListAsync(cancellationToken: cancellationToken);
             return BaseResponseModel.ReturnData(allProductCategoriesResponse);
         }
     }
