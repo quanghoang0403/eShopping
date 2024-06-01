@@ -6,6 +6,9 @@ const CreateProductRootCategoryAsync = (data) => {
 const GetProductRootCategoriesAsync = (pageNumber, pageSize, keySearch, genderProduct) => {
   return http.get(`${controller}/get-product-root-categories?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}&GenderProduct=${genderProduct}`)
 }
+const GetAllProductRootCategoriesAsync = (genderProduct) => {
+  return http.get(`${controller}/get-all-product-root-categories?genderProduct=${genderProduct}`)
+}
 const DeleteRootCategoryAsync = id => {
   return http.delete(`${controller}/delete-product-root-category-by-id/${id}`)
 }
@@ -20,6 +23,7 @@ const RootCategoryDataService = {
   GetProductRootCategoriesAsync,
   DeleteRootCategoryAsync,
   EditProductRootCategory,
-  GetProductRootCatgoryByIdAsync
+  GetProductRootCatgoryByIdAsync,
+  GetAllProductRootCategoriesAsync
 }
 export default RootCategoryDataService

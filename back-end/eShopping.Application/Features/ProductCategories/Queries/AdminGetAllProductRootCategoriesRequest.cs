@@ -45,7 +45,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     .GetAll()
                     .AsNoTracking()
                     .Include(pc => pc.Products)
-                    .Where(pc => pc.GenderProduct == request.GenderProduct)
+                    .Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All)
                     .Select(p => new AdminProductRootCategoryModel
                     {
                         Id = p.Id,

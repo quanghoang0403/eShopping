@@ -4,6 +4,7 @@ using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace eShopping.Application.Features.Products.Queries
 {
     public class AdminGetAllProductSizesRequest : IRequest<BaseResponseModel>
     {
+        public Guid ProductSizeCategoryId { get; set; }
     }
     public class AdminGetAllProductSizesRequestHandler : IRequestHandler<AdminGetAllProductSizesRequest, BaseResponseModel>
     {
@@ -33,7 +35,7 @@ namespace eShopping.Application.Features.Products.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             return BaseResponseModel.ReturnData(
-                await _unitOfWork.ProductSizes.GetAll()
+                await _unitOfWork.ProductSizes.Where(x => x.ProductSizeCategoryId == request.ProductSizeCategoryId)
                 .AsNoTracking()
                 .Select(ps => new AdminProductSizeModel
                 {

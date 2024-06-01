@@ -16,8 +16,8 @@ const GetProductSizeByIdAsync = id => {
 const GetProductSizesAsync = (pageNumber, pageSize, keySearch, sizeCategoryId) => {
   return http.get(`${controller}/get-products-size?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}&ProductSizeCategoryId=${sizeCategoryId}`)
 }
-const GetAllProductSizesAsync = () => {
-  return http.get(`${controller}/get-all-product-size`)
+const GetAllProductSizesAsync = (productSizeCategoryId) => {
+  return http.get(`${controller}/get-all-product-size?productSizeCategoryId=${productSizeCategoryId}`)
 }
 const ProductSizeDataService = {
   CreateProductSizeAsync,
