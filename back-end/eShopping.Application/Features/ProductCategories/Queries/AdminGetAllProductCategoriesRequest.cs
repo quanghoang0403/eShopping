@@ -51,13 +51,17 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             {
                 allProductCategoriesInStore = allProductCategoriesInStore.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
             }
-            var allProductCategoriesResponse = await allProductCategoriesInStore.Include(pc => pc.Products).OrderByDescending(p => p.Priority).Select(p => new AdminProductCategoryModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Priority = p.Priority,
-                Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(p.Products)
-            }).ToListAsync(cancellationToken: cancellationToken);
+            var allProductCategoriesResponse = await allProductCategoriesInStore
+                .Include(pc => pc.Products)
+                .OrderByDescending(p => p.Priority)
+                .Select(p => new AdminProductCategoryModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Priority = p.Priority,
+                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(p.Products)
+                })
+                .ToListAsync(cancellationToken: cancellationToken);
 
             return BaseResponseModel.ReturnData(allProductCategoriesResponse);
         }
