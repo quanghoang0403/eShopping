@@ -53,7 +53,7 @@ export default function CreateProductPage() {
 
   const fetchProductSizes = async () => {
     const productSizeCategoryId = form.getFieldValue('productSizeCategoryId')
-    const productSizes = await ProductSizeDataService.GetProductSizeAsync(0, 100, '', productSizeCategoryId)
+    const productSizes = await ProductSizeDataService.GetProductSizesAsync(0, 100, '', productSizeCategoryId)
     if (productSizes) setProductSizes(productSizes.result);
   }
 

@@ -34,7 +34,7 @@ namespace eShopping.Models.ProductCategories
         {
             get
             {
-                if (Products == null)
+                if (ProductCategories == null)
                 {
                     return 0;
                 }

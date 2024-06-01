@@ -13,10 +13,10 @@ const DeleteProductSizeAsync = id => {
 const GetProductSizeByIdAsync = id => {
   return http.get(`${controller}/get-product-size-by-id/${id}`)
 }
-const GetProductSizeAsync = (pageNumber, pageSize, keySearch, sizeCategoryId) => {
+const GetProductSizesAsync = (pageNumber, pageSize, keySearch, sizeCategoryId) => {
   return http.get(`${controller}/get-products-size?PageNumber=${pageNumber}&PageSize=${pageSize}&KeySearch=${keySearch}&ProductSizeCategoryId=${sizeCategoryId}`)
 }
-const GetAllProductSizeAsync = () => {
+const GetAllProductSizesAsync = () => {
   return http.get(`${controller}/get-all-product-size`)
 }
 const ProductSizeDataService = {
@@ -24,7 +24,7 @@ const ProductSizeDataService = {
   UpdateProductSizeAsync,
   DeleteProductSizeAsync,
   GetProductSizeByIdAsync,
-  GetProductSizeAsync,
-  GetAllProductSizeAsync
+  GetProductSizesAsync,
+  GetAllProductSizesAsync
 }
 export default ProductSizeDataService

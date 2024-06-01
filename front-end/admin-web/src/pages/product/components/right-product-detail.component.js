@@ -44,7 +44,7 @@ export default function RightProductDetail({ form }) {
 
   const fetchProductRootCategories = async () => {
     const gender = form.getFieldValue('genderProduct')
-    const productRootCategories = await RootCategoryDataService.GetProductRootCategoryAsync(0, 100, '', gender)
+    const productRootCategories = await RootCategoryDataService.GetProductRootCategoriesAsync(0, 100, '', gender)
     if (productRootCategories) setProductRootCategories(productRootCategories.result);
   }
 
@@ -56,7 +56,7 @@ export default function RightProductDetail({ form }) {
   }
 
   const fetchProductSizeCategories = async () => {
-    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizeCategoryAsync()
+    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizesCategoriesAsync()
     if (productSizeCategories) setProductSizesCategory(productSizeCategories.result);
   }
 

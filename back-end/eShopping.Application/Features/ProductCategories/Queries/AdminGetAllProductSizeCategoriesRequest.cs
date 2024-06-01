@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.ProductCategories.Queries
 {
-    public class AdminGetAllProductSizeCategoryRequest : IRequest<BaseResponseModel>
+    public class AdminGetAllProductSizeCategoriesRequest : IRequest<BaseResponseModel>
     {
     }
 
-    public class AdminGetAllProductSizeCategoryRequestHandler : IRequestHandler<AdminGetAllProductSizeCategoryRequest, BaseResponseModel>
+    public class AdminGetAllProductSizeCategoriesRequestHandler : IRequestHandler<AdminGetAllProductSizeCategoriesRequest, BaseResponseModel>
     {
         private IUnitOfWork _unitOfOfWork;
         private IMapper _mapper;
         private IUserProvider _userProvider;
-        public AdminGetAllProductSizeCategoryRequestHandler(
+        public AdminGetAllProductSizeCategoriesRequestHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IUserProvider userProvider
@@ -29,7 +29,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             _mapper = mapper;
             _userProvider = userProvider;
         }
-        public async Task<BaseResponseModel> Handle(AdminGetAllProductSizeCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetAllProductSizeCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 

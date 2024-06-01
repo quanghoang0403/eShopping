@@ -42,21 +42,19 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var query = _unitOfWork.ProductCategories.GetAll();
-            if (request.ProductRootCategoryId != null && request.ProductRootCategoryId != Guid.Empty)
+            var allProductCategoriesInStore = _unitOfWork.ProductCategories.GetAll();
+            if (request.ProductRootCategoryId != Guid.Empty && request.ProductRootCategoryId != null)
             {
-                query = query.Where(pc => pc.ProductRootCategoryId == request.ProductRootCategoryId);
+                allProductCategoriesInStore = allProductCategoriesInStore.Where(pc => pc.ProductRootCategoryId == request.ProductRootCategoryId);
             }
             if (request.GenderProduct != EnumGenderProduct.All)
             {
-                query = query.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
+                allProductCategoriesInStore = allProductCategoriesInStore.Where(pc => pc.GenderProduct == request.GenderProduct || pc.GenderProduct == EnumGenderProduct.All);
             }
-            var allProductCategoriesResponse = query
-                .AsNoTracking()
+            var allProductCategoriesResponse = await allProductCategoriesInStore
                 .Include(pc => pc.Products)
-                .ThenInclude(p => p.ProductVariants)
-                .OrderBy(pc => pc.Priority)
-                .Select(p => new AdminProductCategoryModel()
+                .OrderByDescending(p => p.Priority)
+                .Select(p => new AdminProductCategoryModel
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -64,6 +62,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(p.Products)
                 })
                 .ToListAsync(cancellationToken: cancellationToken);
+
             return BaseResponseModel.ReturnData(allProductCategoriesResponse);
         }
     }

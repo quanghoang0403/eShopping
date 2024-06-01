@@ -13,20 +13,20 @@ using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.ProductCategories.Queries
 {
-    public class AdminGetProductSizeCategoryRequest : IRequest<BaseResponseModel>
+    public class AdminGetProductSizeCategoriesRequest : IRequest<BaseResponseModel>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string KeySearch { get; set; }
 
     }
-    public class AdminGetProductSizeCategoryRequestHandler : IRequestHandler<AdminGetProductSizeCategoryRequest, BaseResponseModel>
+    public class AdminGetProductSizeCategoriesRequestHandler : IRequestHandler<AdminGetProductSizeCategoriesRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public AdminGetProductSizeCategoryRequestHandler(
+        public AdminGetProductSizeCategoriesRequestHandler(
             IUserProvider userProvider,
             IUnitOfWork unitOfWork,
             IMapper mapper)
@@ -35,7 +35,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<BaseResponseModel> Handle(AdminGetProductSizeCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(AdminGetProductSizeCategoriesRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var query = _unitOfWork.ProductSizeCategories.GetAll();

@@ -30,7 +30,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-all-product-size-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetAllProductSizeCategories([FromQuery] AdminGetAllProductSizeCategoryRequest request)
+        public async Task<IActionResult> GetAllProductSizeCategories([FromQuery] AdminGetAllProductSizeCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
@@ -39,7 +39,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-product-size-categories")]
         [HasPermission(EnumPermission.VIEW_PRODUCT_CATEGORY)]
-        public async Task<IActionResult> GetProductSizeCategoriesAsync([FromQuery] AdminGetProductSizeCategoryRequest request)
+        public async Task<IActionResult> GetProductSizeCategoriesAsync([FromQuery] AdminGetProductSizeCategoriesRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
