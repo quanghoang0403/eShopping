@@ -15,7 +15,7 @@ import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.com
 import { useHistory } from 'react-router';
 import BlogDataService from 'data-services/blog/blog-data.service';
 import { getValidationMessages } from 'utils/helpers';
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 export default function CreateBlogCategory() {
   const [t] = useTranslation()
   const [form] = Form.useForm();
@@ -370,8 +370,7 @@ export default function CreateBlogCategory() {
                           if (e.target.value !== '') {
                             setKeywordSEO({
                               id: e.target.value,
-                              value: e.target.value,
-                              colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              value: e.target.value
                             })
                             setIsKewwordSEOChange(true)
                           }

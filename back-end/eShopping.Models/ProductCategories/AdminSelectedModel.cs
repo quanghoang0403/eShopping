@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using eShopping.Models.Products;
+﻿using eShopping.Domain.Enums;
+using System;
 
 namespace eShopping.Models.ProductCategories
 {
@@ -13,6 +11,8 @@ namespace eShopping.Models.ProductCategories
         public string Name { get; set; }
 
         public int Priority { get; set; }
+
+        public EnumGenderProduct GenderProduct { get; set; }
 
     }
 

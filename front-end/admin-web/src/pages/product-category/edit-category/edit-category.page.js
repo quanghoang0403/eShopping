@@ -17,7 +17,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
 import { getValidationMessages } from 'utils/helpers'
 import '../index.scss'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 
 export default function EditProductCategoryPage(props) {
@@ -33,9 +33,9 @@ export default function EditProductCategoryPage(props) {
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -69,7 +69,7 @@ export default function EditProductCategoryPage(props) {
     description: {
       title: t('productCategory.categoryDescription'),
       placeholder: t('productCategory.placeholderCategoryDescription'),
-      maxLength:250
+      maxLength: 250
     },
     SEOInformation: {
       title: t('form.SEOConfiguration'),
@@ -77,7 +77,7 @@ export default function EditProductCategoryPage(props) {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       },
       SEOtitle: {
         label: t('form.SEOTitle'),
@@ -85,14 +85,14 @@ export default function EditProductCategoryPage(props) {
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
         minlength: 50,
-        maxLength:100
+        maxLength: 100
       },
       description: {
         label: t('form.SEODescription'),
         placeholder: t('form.SEODescriptionPlaceholder'),
         validateMessage: t('form.messageMatchSuggestSEODescription'),
         minlength: 150,
-        maxLength:200,
+        maxLength: 200,
         tooltip: t('form.SEODescriptionTooltip')
       }
     },
@@ -140,13 +140,13 @@ export default function EditProductCategoryPage(props) {
             name: productCategory.name,
             priority: productCategory.priority,
             productIds: productCategory.products?.map((x) => x.id),
-            keywordSEO:productCategory.keywordSEO,
+            keywordSEO: productCategory.keywordSEO,
             titleSEO: productCategory.titleSEO,
             descriptionSEO: productCategory.descriptionSEO,
             description: productCategory.description,
             content: productCategory.content
           })
-          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc,curr)=>acc.concat({id:curr,value:curr,colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)}),[]) || [])
+          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
         }
       })
     }
@@ -296,7 +296,7 @@ export default function EditProductCategoryPage(props) {
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
-        keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null
+        keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
       }
 
       productCategoryDataService
@@ -343,14 +343,14 @@ export default function EditProductCategoryPage(props) {
     const mess = t(pageData.leaveDialog.confirmDeleteMessage, { name })
     return mess
   }
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -580,7 +580,7 @@ export default function EditProductCategoryPage(props) {
 
                   <div>
                     {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                     }
 
                     <div className='d-flex mt-3'>
@@ -589,12 +589,11 @@ export default function EditProductCategoryPage(props) {
                         showCount
                         value={keywordSEO?.value || ''}
                         placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e=>{
-                          if(e.target.value !== ''){
+                        onChange={e => {
+                          if (e.target.value !== '') {
                             setKeywordSEO({
-                              id:e.target.value,
-                              value:e.target.value,
-                              colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              id: e.target.value,
+                              value: e.target.value
                             })
                             setIsKewwordSEOChange(true)
                           }

@@ -1,27 +1,14 @@
-.keyword-SEO-tag{
-    .ant-tag{
-        position: relative;
-        display: inline-flex;
-        min-height: 30px;
-        width: 150px;
-        border-radius: 10px;
-        justify-content: start;
-        align-items: center;
-        font-size: medium;
-        margin: 5px ;
-        line-height: unset;
-        
-    }
-    .anticon{
-        position: absolute;
-        right: 10px;
-    }
-    .word-wrap{
-        white-space: pre-wrap;      /* CSS3 */   
-        white-space: -moz-pre-wrap; /* Firefox */    
-        white-space: -pre-wrap;     /* Opera <7 */   
-        white-space: -o-pre-wrap;   /* Opera 7 */    
-        word-wrap: break-word;      /* IE */
-        width: 80%;
-    }
+.keyword-SEO-tag {
+  .ant-tag {
+    position: relative;
+    display: inline-flex;
+    min-height: 30px;
+    width: max-content;
+    border-radius: 10px;
+    justify-content: start;
+    align-items: center;
+    font-size: medium;
+    margin: 5px;
+    line-height: unset;
+  }
 }

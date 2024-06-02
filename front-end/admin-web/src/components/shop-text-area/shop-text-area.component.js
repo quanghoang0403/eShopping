@@ -5,8 +5,8 @@ import { Input } from 'antd'
  * Params are used as same as antd text area, visit link https://ant.design/components/input/
  * @returns
  */
-export function FnbTextArea (props) {
-  const { value, onChange, className, showCount, maxLength, rows, defaultValue, allowClear, placeholder } = props
+export function FnbTextArea(props) {
+  const { value, onChange, className, showCount, maxLength, rows, defaultValue, allowClear, placeholder, autoSize } = props
 
   return (
     <Input.TextArea
@@ -22,6 +22,7 @@ export function FnbTextArea (props) {
       rows={rows}
       allowClear={allowClear}
       placeholder={placeholder}
+      autoSize={autoSize}
     ></Input.TextArea>
   )
 }

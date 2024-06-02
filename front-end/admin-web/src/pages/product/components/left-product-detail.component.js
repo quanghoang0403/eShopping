@@ -8,9 +8,9 @@ import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 
-export default function LeftProductDetail ({ form, changeForm }) {
+export default function LeftProductDetail({ form, changeForm }) {
   const { t } = useTranslation()
   const pageData = {
     generalInformation: {
@@ -124,7 +124,7 @@ export default function LeftProductDetail ({ form, changeForm }) {
               <FnbTextArea
                 showCount
                 maxLength={pageData.generalInformation.description.maxLength}
-                autoSize={{ minRows: 2, maxRows: 6 }}
+                rows={3}
                 id="product-description"
               />
             </Form.Item>
@@ -134,7 +134,7 @@ export default function LeftProductDetail ({ form, changeForm }) {
               <FnbFroalaEditor
                 onChange={(value) => {
                   if (value !== '' && value !== '<div></div>') changeForm();
-                //setProductContent(value);
+                  //setProductContent(value);
                 }}
                 placeholder={pageData.generalInformation.content.placeholder}
                 charCounterMax={-1}
@@ -160,10 +160,10 @@ export default function LeftProductDetail ({ form, changeForm }) {
               name={['titleSEO']}
               className="item-name"
               rules={[
-                {
-                  min: pageData.SEOInformation.SEOtitle.minlength,
-                  message: pageData.SEOInformation.SEOtitle.validateMessage
-                }
+                // {
+                //   min: pageData.SEOInformation.SEOtitle.minlength,
+                //   message: pageData.SEOInformation.SEOtitle.validateMessage
+                // }
               ]}
             >
               <Input
@@ -189,16 +189,16 @@ export default function LeftProductDetail ({ form, changeForm }) {
               name={['descriptionSEO']}
               className="item-name"
               rules={[
-                {
-                  min: pageData.SEOInformation.description.minlength,
-                  message: pageData.SEOInformation.description.validateMessage
-                }
+                // {
+                //   min: pageData.SEOInformation.description.minlength,
+                //   message: pageData.SEOInformation.description.validateMessage
+                // }
               ]}
             >
               <FnbTextArea
                 showCount
                 maxLength={pageData.SEOInformation.description.maxLength}
-                autoSize={{ minRows: 2, maxRows: 6 }}
+                rows={3}
                 id="product-category-SEO-description"
                 placeholder={pageData.SEOInformation.description.placeholder}
               ></FnbTextArea>
@@ -216,7 +216,7 @@ export default function LeftProductDetail ({ form, changeForm }) {
             </div>
 
             <div>
-              { keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : '' }
+              {keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''}
               <div className='d-flex mt-3'>
                 <Input
                   className="shop-input-with-count"
@@ -227,8 +227,7 @@ export default function LeftProductDetail ({ form, changeForm }) {
                     if (e.target.value !== '') {
                       setKeywordSEO({
                         id: e.target.value,
-                        value: e.target.value,
-                        colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                        value: e.target.value
                       })
                       setIsKeywordSEOChange(true)
                     }

@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
 import { getValidationMessages } from 'utils/helpers'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service'
 import { isGuid } from 'constants/string.constants'
@@ -153,7 +153,7 @@ export default function EditProductRootCategory() {
             content: productCategory.content,
             genderProductId: productCategory.genderProduct
           })
-          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr, colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH) }), []) || [])
+          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
         }
       })
     }
@@ -165,7 +165,7 @@ export default function EditProductRootCategory() {
   const onCompleted = () => {
     setIsChangeForm(false)
     setTimeout(() => {
-            history?.push('/product-root-category')
+      history?.push('/product-root-category')
     }, 0)
   }
 
@@ -489,8 +489,7 @@ export default function EditProductRootCategory() {
                             if (e.target.value !== '') {
                               setKeywordSEO({
                                 id: e.target.value,
-                                value: e.target.value,
-                                colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                                value: e.target.value
                               })
                               setIsKewwordSEOChange(true)
                             }

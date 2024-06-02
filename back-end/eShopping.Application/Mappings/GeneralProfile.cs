@@ -68,7 +68,6 @@ namespace eShopping.Application.Mappings
             CreateMap<ProductVariant, AdminProductVariantModel>();
             CreateMap<ProductVariant, StoreProductVariantModel>();
 
-            CreateMap<ProductSize, AdminProductSizeDetailModel>();
             CreateMap<ProductSize, AdminProductSizeModel>();
             CreateMap<ProductSize, StoreProductSizeModel>();
 

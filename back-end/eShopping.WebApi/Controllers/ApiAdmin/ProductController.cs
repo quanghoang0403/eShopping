@@ -88,5 +88,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             var response = await _mediator.Send(new AdminGetAllProductsRequest());
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("get-prepared-data-product")]
+        [HasPermission(EnumPermission.VIEW_PRODUCT)]
+        public async Task<IActionResult> GetPreparedDataProduct()
+        {
+            var response = await _mediator.Send(new AdminGetPreparedDataProductRequest());
+            return Ok(response);
+        }
     }
 }

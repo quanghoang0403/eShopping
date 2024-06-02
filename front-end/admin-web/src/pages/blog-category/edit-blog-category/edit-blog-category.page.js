@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { executeAfter, getValidationMessages } from 'utils/helpers';
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 export default function EditBlogCategory() {
   const [form] = Form.useForm()
   const match = useRouteMatch()
@@ -150,7 +150,7 @@ export default function EditBlogCategory() {
             content: blogCategory.content
           })
           setTitle(blogCategory.name)
-          setKeywordSEOList(blogCategory?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw, colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH) } }) || [])
+          setKeywordSEOList(blogCategory?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
         }
       }).catch(err => {
         message.error(err)
@@ -435,8 +435,7 @@ export default function EditBlogCategory() {
                           if (e.target.value !== '') {
                             setKeywordSEO({
                               id: e.target.value,
-                              value: e.target.value,
-                              colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              value: e.target.value
                             })
                             setIsKewwordSEOChange(true)
                           }

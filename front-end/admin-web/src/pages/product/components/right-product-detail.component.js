@@ -4,12 +4,12 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single';
-import { ProductGenderList } from 'constants/product-status.constants';
-import ProductSizeCategoryDataService from 'data-services/product-category/product-size-category-data.service';
-import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service';
-import productCategoryDataService from 'data-services/product-category/product-category-data.service';
+import { ProductGender, ProductGenderList } from 'constants/product-status.constants';
+import ShopParagraph from 'components/shop-paragraph/shop-paragraph';
+import productDataService from 'data-services/product/product-data.service';
 
-export default function RightProductDetail({ form }) {
+
+export default function RightProductDetail({ form, productSizes, setProductSizes }) {
   const { t } = useTranslation()
   const pageData = {
     productCategory: {
@@ -38,41 +38,37 @@ export default function RightProductDetail({ form }) {
     mediaNotExisted: t('product.validateImage')
   }
 
-  const [productCategories, setProductCategories] = useState([])
   const [productRootCategories, setProductRootCategories] = useState([])
-  const [productSizesCategory, setProductSizesCategory] = useState([])
+  const [productCategories, setProductCategories] = useState([])
+  const [preparedDataProduct, setPreparedDataProduct] = useState()
 
-  const fetchProductRootCategories = async () => {
-    const gender = form.getFieldValue('genderProduct')
-    const productRootCategories = await RootCategoryDataService.GetProductRootCategoriesAsync(0, 100, '', gender)
-    if (productRootCategories) setProductRootCategories(productRootCategories.result);
-  }
+  const [activeProductGenderId, setActiveProductGenderId] = useState()
+  const [activeProductRootCategoryId, setActiveProductRootCategoryId] = useState()
 
-  const fetchProductCategories = async () => {
-    const gender = form.getFieldValue('genderProduct')
-    const productRootCategoryId = form.getFieldValue('productRootCategoryId')
-    const productCategories = await productCategoryDataService.getProductCategoriesAsync(0, 100, '', gender, productRootCategoryId)
-    if (productCategories) setProductCategories(productCategories.result);
-  }
-
-  const fetchProductSizeCategories = async () => {
-    const productSizeCategories = await ProductSizeCategoryDataService.GetAllProductSizesCategoriesAsync()
-    if (productSizeCategories) setProductSizesCategory(productSizeCategories.result);
+  const fetchPreparedDataProduct = async () => {
+    const preparedDataProduct = await productDataService.getPreparedDataProductAsync()
+    if (preparedDataProduct != null) {
+      setPreparedDataProduct(preparedDataProduct);
+    }
   }
 
   useEffect(() => {
-    fetchProductSizeCategories()
+    fetchPreparedDataProduct()
   }, [])
 
   useEffect(() => {
-    fetchProductRootCategories()
+    setProductRootCategories(preparedDataProduct?.productRootCategories?.filter(x => x.genderProduct == activeProductGenderId || x.genderProduct == ProductGender.All))
+    setActiveProductRootCategoryId(null)
+    form.setFieldValue('productRootCategoryId', null)
+    form.setFieldValue('productCategoryId', null)
     setProductCategories([])
-  }, [form.getFieldValue('genderProduct')])
+  }, [activeProductGenderId])
 
   useEffect(() => {
-    fetchProductCategories()
-  }, [form.getFieldValue('productRootCategoryId')])
-
+    const productRootCategory = preparedDataProduct?.productRootCategories?.find(x => x.id === activeProductRootCategoryId)
+    setProductCategories(productRootCategory?.productCategories.filter(x => x.genderProduct == activeProductGenderId || x.genderProduct == ProductGender.All))
+    form.setFieldValue('productCategoryId', null)
+  }, [activeProductRootCategoryId])
 
   return (
     <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
@@ -109,6 +105,7 @@ export default function RightProductDetail({ form }) {
               }]}
             >
               <FnbSelectSingle
+                onChange={(value) => setActiveProductGenderId(value)}
                 noTranslateOptionName={true}
                 option={ProductGenderList}
                 placeholder={pageData.gender.placeholder}
@@ -131,6 +128,8 @@ export default function RightProductDetail({ form }) {
               }]}
             >
               <FnbSelectSingle
+                onChange={(value) => setActiveProductRootCategoryId(value)}
+                disabled={activeProductGenderId == null}
                 placeholder={pageData.productRootCategory.placeholder}
                 showSearch
                 option={productRootCategories?.map((b) => ({
@@ -156,6 +155,7 @@ export default function RightProductDetail({ form }) {
               }]}
             >
               <FnbSelectSingle
+                disabled={!activeProductRootCategoryId}
                 placeholder={pageData.productCategory.placeholder}
                 showSearch
                 option={productCategories?.map((b) => ({
@@ -181,14 +181,16 @@ export default function RightProductDetail({ form }) {
               }]}
             >
               <FnbSelectSingle
+                onChange={(value) => setProductSizes(preparedDataProduct?.productSizeCategories?.find(x => x.id == value)?.productSizes)}
                 placeholder={pageData.productCategory.placeholder}
                 showSearch
-                option={productSizesCategory?.map((b) => ({
+                option={preparedDataProduct?.productSizeCategories?.map((b) => ({
                   id: b.id,
                   name: b.name
                 }))}
               />
             </Form.Item>
+            <ShopParagraph>{productSizes.map(_ => _.name).join(', ')}</ShopParagraph>
           </Card>
         </Col>
       </Row>

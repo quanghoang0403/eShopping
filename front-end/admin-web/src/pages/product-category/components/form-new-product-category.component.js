@@ -15,7 +15,7 @@ import { getValidationMessages, randomGuid } from 'utils/helpers';
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import '../index.scss'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
-import { BadgeSEOKeyword, SEO_KEYWORD_COLOR_LENGTH } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
+import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 
 export default function FormNewProductCategory(props) {
   const { t, onCompleted, productCategoryDataService, productDataService } = props
@@ -23,7 +23,7 @@ export default function FormNewProductCategory(props) {
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const [showConfirm, setShowConfirm] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const [form] = Form.useForm()
 
   const pageData = {
@@ -59,7 +59,7 @@ export default function FormNewProductCategory(props) {
     description: {
       title: t('productCategory.categoryDescription'),
       placeholder: t('productCategory.placeholderCategoryDescription'),
-      maxLength:250
+      maxLength: 250
     },
     SEOInformation: {
       title: t('form.SEOConfiguration'),
@@ -67,7 +67,7 @@ export default function FormNewProductCategory(props) {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       },
       SEOtitle: {
         label: t('form.SEOTitle'),
@@ -75,7 +75,7 @@ export default function FormNewProductCategory(props) {
         tooltip: t('form.SEOTitleTooltip'),
         validateMessage: t('form.messageMatchSuggestSEOTitle'),
         minlength: 50,
-        maxLength:100
+        maxLength: 100
       },
       description: {
         label: t('form.SEODescription'),
@@ -242,7 +242,7 @@ export default function FormNewProductCategory(props) {
         titleSEO: values.titleSEO,
         descriptionSEO: values.descriptionSEO,
         description: values.description,
-        keywordSEO: keywordSEOs.map(kw=>kw.value)?.join(',') || null
+        keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
       }
       productCategoryDataService
         .createProductCategoryAsync(createProductCategoryRequestModel)
@@ -277,16 +277,16 @@ export default function FormNewProductCategory(props) {
       onCompleted()
     }, DELAYED_TIME)
   }
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
-  const addSEOKeywords = (e)=>{
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -503,7 +503,7 @@ export default function FormNewProductCategory(props) {
                   </div>
                   <div>
                     {
-                      keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                     }
 
                     <div className='d-flex mt-3'>
@@ -512,12 +512,11 @@ export default function FormNewProductCategory(props) {
                         showCount
                         value={keywordSEO?.value || ''}
                         placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e=>{
-                          if(e.target.value !== ''){
+                        onChange={e => {
+                          if (e.target.value !== '') {
                             setKeywordSEO({
-                              id:randomGuid(),
-                              value:e.target.value,
-                              colorIndex: Math.floor(Math.random() * SEO_KEYWORD_COLOR_LENGTH)
+                              id: randomGuid(),
+                              value: e.target.value
                             })
                             setIsKewwordSEOChange(true)
                           }

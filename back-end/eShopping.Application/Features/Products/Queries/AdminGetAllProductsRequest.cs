@@ -14,11 +14,6 @@ namespace eShopping.Application.Features.Products.Queries
     {
     }
 
-    //public class AdminGetAllProductsResponse
-    //{
-    //    public IEnumerable<AdminProductModel> Products { get; set; }
-    //}
-
     public class AdminGetAllProductsRequestHandler : IRequestHandler<AdminGetAllProductsRequest, BaseResponseModel>
     {
         private readonly IMapper _mapper;

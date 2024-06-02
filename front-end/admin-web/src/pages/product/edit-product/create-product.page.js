@@ -12,29 +12,17 @@ import { getValidationMessagesWithParentField } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import StockProductTable from '../components/stock-product.component';
-import moment from 'moment';
 import ProductSizeDataService from 'data-services/product/product-size-data.service';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
 
 export default function CreateProductPage() {
   const history = useHistory()
-  const [productSizes, setProductSizes] = useState([
-    { id: '1', name: 'S' },
-    { id: '2', name: 'M' },
-    { id: '3', name: 'L' },
-    { id: '4', name: 'XL' },
-    { id: '5', name: 'XXL' }
-  ])
-
   const [disableCreateButton, setDisableCreateButton] = useState(false)
+  const [productSizes, setProductSizes] = useState([])
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
   const [form] = Form.useForm()
-
-  useEffect(() => {
-    //fetchProductSizes()
-  }, [form.getFieldValue('productSizeCategoryId')])
 
   const { t } = useTranslation()
   const pageData = {
@@ -52,11 +40,16 @@ export default function CreateProductPage() {
     }
   }
 
-  const fetchProductSizes = async () => {
-    const productSizeCategoryId = form.getFieldValue('productSizeCategoryId')
-    const productSizes = await ProductSizeDataService.GetProductSizesAsync(0, 100, '', productSizeCategoryId)
-    if (productSizes) setProductSizes(productSizes.result);
-  }
+  useEffect(() => {
+    const fields = form.getFieldsValue();
+    fields.productVariants?.forEach(productVariant => {
+      productVariant.stocks = fields.productSizes?.map(size => ({
+        sizeId: size.id,
+        name: size.name,
+        quantityLeft: 0
+      }))
+    });
+  }, [productSizes])
 
   const scrollToElement = (id) => {
     const element = document.getElementById(id)
@@ -97,6 +90,24 @@ export default function CreateProductPage() {
   }
 
   const changeForm = (e) => {
+    const fields = form.getFieldsValue();
+    fields.productVariants.forEach(productVariant => {
+      if (productVariant.isUseBasePrice) {
+        productVariant.priceOriginal = fields.priceOriginal;
+        productVariant.priceValue = fields.priceValue;
+        productVariant.priceDiscount = fields.priceDiscount;
+        productVariant.percentNumber = fields.percentNumber;
+        productVariant.startDate = fields.startDate;
+        productVariant.endDate = fields.endDate;
+      }
+      console.log(fields.productSizes);
+      productVariant.stocks = fields.productSizes?.map(size => ({
+        sizeId: size.id,
+        name: size.name,
+        quantityLeft: 0
+      }))
+    });
+    form.setFieldsValue(fields)
     setIsChangeForm(true)
     setDisableCreateButton(false)
   }
@@ -169,7 +180,7 @@ export default function CreateProductPage() {
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
             <LeftProductDetail form={form} changeForm={changeForm} />
-            <RightProductDetail form={form} />
+            <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} />
           </Row>
           <br />
           <Row>

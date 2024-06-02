@@ -28,6 +28,9 @@ const changeFeatureStatus = data => {
   const { id, isActivate } = data
   return http.put(`/${controller}/change-featured-status?Id=${id}&IsActivate=${isActivate}`)
 }
+const getPreparedDataProductAsync = () => {
+  return http.get(`/${controller}/get-prepared-data-product`)
+}
 const productDataService = {
   getAllProductsAsync,
   createProductAsync,
@@ -37,6 +40,7 @@ const productDataService = {
   updateProductAsync,
   changeStatusAsync,
   getProductsByCategoryIdAsync,
-  changeFeatureStatus
+  changeFeatureStatus,
+  getPreparedDataProductAsync
 }
 export default productDataService;

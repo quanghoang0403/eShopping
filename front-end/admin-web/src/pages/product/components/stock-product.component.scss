@@ -12,14 +12,23 @@
   }
 
   .ant-table-cell {
-    font-size: 15px !important;
+    font-size: 14px !important;
+    padding: 24px 4px;
 
-    .shop-input-number {
+    .ant-form-item {
+      margin: 0px;
+
+      .ant-form-item-explain-error {
+        font-size: 11px;
+      }
+    }
+
+    .shop-input-number,
+    .shop-input {
       height: 48px;
 
       .ant-input-number-input {
         padding-right: 0px;
-        font-size: 17px;
       }
     }
 
@@ -28,7 +37,56 @@
     }
 
     .shop-date-picker input {
-      font-size: 17px;
+      font-size: 15px;
     }
   }
+
+  .non-image {
+    height: 48px;
+    padding: 10px;
+    background-color: unset;
+
+    .btn-upload-image {
+      margin: 0;
+      padding-bottom: 16px;
+      background-color: unset;
+      font-size: 15px;
+    }
+  }
+
+  .have-image {
+    padding: 0px;
+
+    .image-product {
+      width: 100%;
+    }
+  }
+
+  .ant-form-item-has-success {
+    width: 100%;
+  }
+
+  .image-item {
+    img {
+      height: 48px;
+      object-fit: cover;
+    }
+  }
+
+  .group-btn-upload-image {
+    width: 100%;
+  }
+
+  .group-btn-upload-image-display {
+    display: flex;
+  }
+
+  input,
+  .ant-input-number-group-addon {
+    font-size: 15px;
+  }
+}
+
+.ant-popover-inner-content {
+  padding: 16px;
 }
