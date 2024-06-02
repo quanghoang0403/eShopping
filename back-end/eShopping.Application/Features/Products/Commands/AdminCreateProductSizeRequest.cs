@@ -13,6 +13,7 @@ namespace eShopping.Application.Features.Products.Commands
     public class AdminCreateProductSizeRequest : IRequest<BaseResponseModel>
     {
         public string Name { get; set; }
+        public int Priority { get; set; }
 
         public Guid ProductSizeCategoryId { get; set; }
     }

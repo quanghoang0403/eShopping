@@ -13,7 +13,7 @@ namespace eShopping.Application.Features.Products.Commands
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-
+        public int Priority { get; set; }
         public Guid ProductSizeCategoryId { get; set; }
     }
     public class AdminUpdateProductSizeRequestHandler : IRequestHandler<AdminUpdateProductSizeRequest, BaseResponseModel>
@@ -48,6 +48,7 @@ namespace eShopping.Application.Features.Products.Commands
             }
             modifiedProductSize.Name = request.Name;
             modifiedProductSize.ProductSizeCategoryId = request.ProductSizeCategoryId;
+            modifiedProductSize.Priority = request.Priority;
             modifiedProductSize.LastSavedUser = loggedUser.AccountId.Value;
             modifiedProductSize.LastSavedTime = DateTime.Now;
 
