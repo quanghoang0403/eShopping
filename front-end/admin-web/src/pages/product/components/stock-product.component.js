@@ -17,6 +17,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { IconBtnAdd } from 'constants/icons.constants';
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon';
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
+
 export default function StockProductTable({ productSizes, form }) {
   const { t } = useTranslation();
   const pageData = {
@@ -93,59 +94,54 @@ export default function StockProductTable({ productSizes, form }) {
     }
   }
 
-  const [productVariants, setProductVariants] = useState([{
+  const defaultProductVariant = [{
     key: 1,
     thumbnail: null,
-    name: 'Product Variant 1',
+    name: 'Default',
     isUseBasePrice: true,
-    priceOriginal: 200000.00,
-    priceValue: 140000.00,
-    priceDiscount: 130000.00,
-    startDate: moment(),
-    endDate: moment().add(7, 'days'),
     stocks: productSizes?.map(size => ({
       productSizeId: size.id,
       name: size.name,
       quantityLeft: 0
     }))
-  },
-  {
-    key: 2,
-    thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg',
-    name: 'Product Variant 2',
-    isUseBasePrice: false,
-    priceOriginal: 180000.00,
-    priceValue: 140000.00,
-    priceDiscount: 130000.00,
-    startDate: moment(),
-    endDate: moment().add(6, 'days'),
-    stocks: productSizes?.map(size => ({
-      productSizeId: size.id,
-      name: size.name,
-      quantityLeft: 0
-    }))
-  },
-  {
-    key: 3,
-    thumbnail: null,
-    name: 'Product Variant 3',
-    isUseBasePrice: true,
-    priceOriginal: 160000.00,
-    priceValue: 140000.00,
-    priceDiscount: 130000.00,
-    startDate: moment(),
-    endDate: moment().add(4, 'days'),
-    stocks: productSizes?.map(size => ({
-      productSizeId: size.id,
-      name: size.name,
-      quantityLeft: 0
-    }))
-  }])
+  }]
 
   // const [productVariants, setProductVariants] = useState([{
   //   key: 1,
   //   thumbnail: null,
-  //   name: 'Default',
+  //   name: 'Product Variant 1',
+  //   isUseBasePrice: true,
+  //   priceOriginal: 200000.00,
+  //   priceValue: 140000.00,
+  //   priceDiscount: 130000.00,
+  //   startDate: moment(),
+  //   endDate: moment().add(7, 'days'),
+  //   stocks: productSizes?.map(size => ({
+  //     productSizeId: size.id,
+  //     name: size.name,
+  //     quantityLeft: 0
+  //   }))
+  // },
+  // {
+  //   key: 2,
+  //   thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg',
+  //   name: 'Product Variant 2',
+  //   isUseBasePrice: false,
+  //   priceOriginal: 180000.00,
+  //   priceValue: 140000.00,
+  //   priceDiscount: 130000.00,
+  //   startDate: moment(),
+  //   endDate: moment().add(6, 'days'),
+  //   stocks: productSizes?.map(size => ({
+  //     productSizeId: size.id,
+  //     name: size.name,
+  //     quantityLeft: 0
+  //   }))
+  // },
+  // {
+  //   key: 3,
+  //   thumbnail: null,
+  //   name: 'Product Variant 3',
   //   isUseBasePrice: true,
   //   priceOriginal: 160000.00,
   //   priceValue: 140000.00,
@@ -159,7 +155,9 @@ export default function StockProductTable({ productSizes, form }) {
   //   }))
   // }])
 
-  const [count, setCount] = useState(productVariants.length);
+  const [productVariants, setProductVariants] = useState([])
+
+  const [count, setCount] = useState(defaultProductVariant.length);
   const tableSettings = {
     columns: [
       {
@@ -571,7 +569,6 @@ export default function StockProductTable({ productSizes, form }) {
   };
 
   const onFieldsChange = () => {
-    console.log(form.getFieldsValue());
     const fields = form.getFieldsValue()
     const productVariants = form.getFieldValue('productVariants')
     const newData = productVariants.map(productVariant => {
@@ -585,13 +582,22 @@ export default function StockProductTable({ productSizes, form }) {
         newProductVariant.startDate = fields.startDate;
         newProductVariant.endDate = fields.endDate;
       }
+      return newProductVariant;
+    });
+    handleSyncData(newData)
+  };
 
-      newProductVariant.stocks = fields.productSizes?.map(size => ({
-        sizeId: size.id,
-        name: size.name,
-        quantityLeft: 0
-      }));
-
+  const onProductSizesChange = () => {
+    const productVariants = form.getFieldValue('productVariants')
+    const newData = productVariants.map(productVariant => {
+      let newProductVariant = {
+        ...productVariant,
+        stocks: productSizes?.map(size => ({
+          productSizeId: size.id,
+          name: size.name,
+          quantityLeft: 0
+        }))
+      };
       return newProductVariant;
     });
     handleSyncData(newData)
@@ -618,6 +624,7 @@ export default function StockProductTable({ productSizes, form }) {
       priceOriginal: fields.priceOriginal,
       priceValue: fields.priceValue,
       priceDiscount: fields.priceDiscount,
+      percentNumber: fields.percentNumber,
       startDate: fields.startDate,
       endDate: fields.endDate,
       stocks: productSizes?.map(size => ({
@@ -700,8 +707,13 @@ export default function StockProductTable({ productSizes, form }) {
   };
 
   useEffect(() => {
-    form.setFieldValue('productVariants', productVariants)
+    handleSyncData(defaultProductVariant)
   }, [])
+
+  useEffect(() => {
+    onProductSizesChange()
+  }, [productSizes])
+
 
   return (
     <Card className="w-100 mt-1 shop-card h-auto">
