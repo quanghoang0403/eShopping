@@ -6,10 +6,11 @@ import { Dropdown, Menu, Space } from 'antd'
 import { ArrowDropDownIcon } from 'constants/icons.constants'
 import { hasPermission } from 'utils/helpers'
 import './action-button-group.scss'
+import { useTranslation } from 'react-i18next'
 
-export default function ActionButtonGroup (props) {
+export default function ActionButtonGroup(props) {
   const { arrayButton } = props
-
+  const { t } = useTranslation()
   const countNumberValidButton = (arrayButton) => {
     let totalButton = 0
     arrayButton?.forEach((button) => {
@@ -82,6 +83,7 @@ export default function ActionButtonGroup (props) {
                 overlayClassName="dropdown-box"
               >
                 <a onClick={(e) => e.preventDefault()} className="arrow-dropdown-icon">
+                  {t('button.action')}
                   <ArrowDropDownIcon />
                 </a>
               </Dropdown>

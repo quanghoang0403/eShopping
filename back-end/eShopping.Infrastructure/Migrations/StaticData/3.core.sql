@@ -8,7 +8,7 @@ VALUES (NEWID(), 'Size', NULL, GETDATE(), NULL, GETDATE(), 0);
 
 -- Get the Id of the inserted "Size" category
 DECLARE @ProductSizeCategoryId UNIQUEIDENTIFIER;
-SET @ProductSizeCategoryId = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = 'Size');
+SET @ProductSizeCategoryId = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = 'Size số');
 
 -- Insert sizes into ProductSize table
 INSERT INTO [dbo].[ProductSize] (Id, Name, ProductSizeCategoryId, Priority, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)

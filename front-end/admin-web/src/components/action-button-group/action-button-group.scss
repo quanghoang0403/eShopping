@@ -1,4 +1,5 @@
-.action-cancel {
+.action-cancel,
+.arrow-dropdown-icon {
   color: #50429b !important;
   font-size: 18px !important;
   font-weight: 500 !important;
@@ -8,6 +9,11 @@
   min-width: unset !important;
   border: none !important;
   background-color: unset !important;
+}
+
+.arrow-dropdown-icon svg {
+  margin-left: 12px;
+  margin-bottom: 3px;
 }
 
 .action-activate {
@@ -83,7 +89,7 @@
 }
 
 .action-review {
-  font-family: "Plus Jakarta Sans";
+  font-family: 'Plus Jakarta Sans';
   font-style: normal;
   font-weight: 700 !important;
   font-size: 18px;

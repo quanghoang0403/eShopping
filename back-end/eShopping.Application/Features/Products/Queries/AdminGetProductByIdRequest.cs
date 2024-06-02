@@ -4,12 +4,10 @@ using eShopping.Common.Exceptions;
 using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
-using eShopping.Models.Commons;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,22 +41,17 @@ namespace eShopping.Application.Features.Products.Queries
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var ProductData = await _unitOfWork.Products
+            var productData = await _unitOfWork.Products
                 .Find(p => p.Id == request.Id)
                 .AsNoTracking()
                 .Include(x => x.ProductVariants)
-                .Include(p => p.ProductCategory)
+                .Include(p => p.ProductStocks)
                 .ProjectTo<AdminProductDetailModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            ThrowError.Against(ProductData == null, "Cannot find product detail information");
-            var images = await _unitOfWork.Images.GetAllImagesByObjectId(ProductData.Id, EnumImageTypeObject.Product);
-            if (images.Count > 0)
-            {
-                ProductData.Images = _mapper.Map<List<AdminImageModel>>(images);
-            }
-
-            return BaseResponseModel.ReturnData(ProductData);
+            ThrowError.Against(productData == null, "Cannot find product detail information");
+            productData.Gallery = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
+            return BaseResponseModel.ReturnData(productData);
         }
     }
 }

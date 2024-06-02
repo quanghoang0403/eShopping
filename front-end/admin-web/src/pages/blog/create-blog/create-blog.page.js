@@ -56,9 +56,9 @@ export default function CreateBlogPage() {
   const createdTimeDefault = moment().format(DateFormat.DD_MM_YYYY)
   const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false)
   const [isShowWarningSEODescription, setIsShowWarningSEODescription] = useState(false)
-  const [keywordSEOs,setKeywordSEOList] = useState([]);
-  const [keywordSEO,setKeywordSEO] = useState({})
-  const [isKeywordSEOChange,setIsKewwordSEOChange] = useState(false)
+  const [keywordSEOs, setKeywordSEOList] = useState([]);
+  const [keywordSEO, setKeywordSEO] = useState({})
+  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
 
   useEffect(() => {
     getInitData()
@@ -77,7 +77,7 @@ export default function CreateBlogPage() {
     btnSave: t('button.create'),
     btnAddNew: t('button.addNew'),
     btnDiscard: t('button.discard'),
-    fail:t('blog.blogCreateFail'),
+    fail: t('blog.blogCreateFail'),
     generalInformation: {
       title: t('common.generalInformation'),
       name: {
@@ -119,7 +119,7 @@ export default function CreateBlogPage() {
         label: t('form.SEOKeywords'),
         placeholder: t('form.SEOKeywordsPlaceholder'),
         tooltip: t('form.SEOKeywordsTooltip'),
-        btnAdd:t('form.AddSEOKeywords')
+        btnAdd: t('form.AddSEOKeywords')
       }
     },
     media: {
@@ -175,8 +175,8 @@ export default function CreateBlogPage() {
           content: blogContent,
           thumbnail: image?.url,
           description: blogContent.replace(/<.*?>/gm, '').slice(0, 200),
-          keywordSEO:keywordSEOs.map(kw=>kw.value)?.join(',') || null,
-          author:userFullName || ''
+          keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
+          author: userFullName || ''
         }
         const res = await blogDataService.createBlogAsync(request)
         if (res) {
@@ -234,14 +234,14 @@ export default function CreateBlogPage() {
     formValue.blogCategoryId = id
     form.setFieldsValue(formValue)
   }
-  const addSEOKeywords = (e)=>{
+  const addSEOKeywords = (e) => {
     e.preventDefault();
-    setKeywordSEOList(list=> !list.find(kw=>kw.id === keywordSEO.id) && keywordSEO.value!==''?[...list,keywordSEO]:[...list]);
-    setKeywordSEO({id:'',value:''});
+    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
+    setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
-  const removeSEOKeyword = (keyword)=>{
-    setKeywordSEOList(list=> list.filter(kw=>kw.id !== keyword.id));
+  const removeSEOKeyword = (keyword) => {
+    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -546,7 +546,7 @@ export default function CreateBlogPage() {
                     </div>
                     <div>
                       {
-                        keywordSEOs.length >0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs}/> :''
+                        keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                       }
 
                       <div className='d-flex mt-2'>
@@ -555,11 +555,11 @@ export default function CreateBlogPage() {
                           showCount
                           value={keywordSEO?.value || ''}
                           placeholder={pageData.SEO.SEOKeywordsPlaceholder}
-                          onChange={e=>{
-                            if(e.target.value !== ''){
+                          onChange={e => {
+                            if (e.target.value !== '') {
                               setKeywordSEO({
-                                id:e.target.value,
-                                value:e.target.value
+                                id: e.target.value,
+                                value: e.target.value
                               })
                               setIsKewwordSEOChange(true)
                             }
