@@ -170,6 +170,18 @@ export default function EditProductPage() {
     }, DELAYED_TIME)
   }
 
+  const onChangeStatus = async () => {
+    var res = await productDataService.changeStatusAsync(match?.params?.id);
+    if (res) {
+      if (statusId === ProductStatus.Deactivate) {
+        message.success(pageData.productActivatedSuccess);
+      } else {
+        message.success(pageData.productDeactivatedSuccess);
+      }
+      setStatusId(statusId === ProductStatus.Deactivate ? ProductStatus.Activate : ProductStatus.Deactivate)
+      setActivate(!(statusId === ProductStatus.Deactivate) ? pageData.activate : pageData.deactivate)
+    }
+  }
 
   const handleDeleteItem = async (productId, productName) => {
     var res = await productDataService.deleteProductByIdAsync(productId);
