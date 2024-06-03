@@ -14,9 +14,13 @@ namespace eShopping.Infrastructure.Repositories
     {
         public ImageRepository(eShoppingDbContext dbContext) : base(dbContext) { }
 
-        public async Task<List<Image>> GetAllImagesByObjectId(Guid objectId, EnumImageTypeObject type)
+        public async Task<List<string>> GetAllImagesByObjectId(Guid objectId, EnumImageTypeObject type)
         {
-            var images = await dbSet.Where(i => i.ObjectId == objectId && i.ImageType == type).OrderBy(i => i.Priority).ToListAsync();
+            var images = await dbSet
+                .Where(i => i.ObjectId == objectId && i.ImageType == type)
+                .OrderBy(i => i.Priority)
+                .Select(i => i.ImagePath)
+                .ToListAsync();
             return images;
         }
     }

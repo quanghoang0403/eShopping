@@ -61,7 +61,7 @@ namespace eShopping.Application.Mappings
             CreateMap<Product, AdminProductDatatableModel>();
             CreateMap<Product, AdminProductDetailModel>();
             CreateMap<Product, AdminProductModel>();
-            CreateMap<Product, StoreProductModel>();
+            CreateMap<Product, StoreProductModel>().ForMember(dest => dest.ProductSizes, opt => opt.MapFrom(src => src.ProductSizeCategory.ProductSizes)); ;
 
             CreateMap<ProductSizeCategory, AdminProductSizeCategoryModel>();
 

@@ -8,6 +8,6 @@ namespace eShopping.Interfaces.Repositories
 {
     public interface IImageRepository : IGenericRepository<Image>
     {
-        Task<List<Image>> GetAllImagesByObjectId(Guid objectId, EnumImageTypeObject type);
+        Task<List<string>> GetAllImagesByObjectId(Guid objectId, EnumImageTypeObject type);
     }
 }

@@ -47,6 +47,18 @@ namespace eShopping.Application.Features.Products.Commands
 
         public string Thumbnail { get; set; }
 
+        public decimal PriceOriginal { set; get; }
+
+        public decimal PriceValue { set; get; }
+
+        public decimal? PriceDiscount { set; get; }
+
+        public float? PercentNumber { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
         public List<AdminProductVariantRequestModel> ProductVariants { get; set; }
     }
 
@@ -57,9 +69,7 @@ namespace eShopping.Application.Features.Products.Commands
 
     public class AdminProductStockRequestModel
     {
-        public Guid SizeId { get; set; }
-
-        public string Name { get; set; }
+        public Guid ProductSizeId { get; set; }
 
         public int QuantityLeft { get; set; }
     }
@@ -95,7 +105,7 @@ namespace eShopping.Application.Features.Products.Commands
             if (request.ProductVariants == null || !request.ProductVariants.Any())
                 return BaseResponseModel.ReturnError("Please enter product price");
 
-            if (request.ProductVariants.Any(p => string.IsNullOrEmpty(p.ProductVariantName)))
+            if (request.ProductVariants.Any(p => string.IsNullOrEmpty(p.Name)))
                 return BaseResponseModel.ReturnError("Please enter price name");
 
             if (request.ProductVariants.Any(p => p.PriceValue <= 0))
@@ -126,18 +136,13 @@ namespace eShopping.Application.Features.Products.Commands
                     await _unitOfWork.Products.AddAsync(product);
 
                     // Add image
-                    List<Image> productImages = new();
-                    foreach (var path in request.Gallery)
+                    var productImages = request.Gallery.Select(x => new Image()
                     {
-                        Image image = new()
-                        {
-                            ObjectId = product.Id,
-                            ImagePath = path,
-                            CreatedUser = accountId,
-                            CreatedTime = DateTime.Now
-                        };
-                        productImages.Add(image);
-                    }
+                        ObjectId = product.Id,
+                        ImagePath = x,
+                        CreatedUser = accountId,
+                        CreatedTime = DateTime.Now
+                    });
                     await _unitOfWork.Images.AddRangeAsync(productImages);
 
                     // Add stock
@@ -151,7 +156,7 @@ namespace eShopping.Application.Features.Products.Commands
                             {
                                 ProductId = product.Id,
                                 ProductVariantId = variant.Id,
-                                ProductSizeId = stock.SizeId,
+                                ProductSizeId = stock.ProductSizeId,
                                 QuantityLeft = stock.QuantityLeft
                             });
                         }

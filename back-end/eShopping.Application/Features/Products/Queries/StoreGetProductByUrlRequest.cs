@@ -51,8 +51,7 @@ namespace eShopping.Application.Features.Products.Queries
             {
                 return BaseResponseModel.ReturnError("Cannot find product detail information");
             }
-
-            var images = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
+            productData.Gallery = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
             return BaseResponseModel.ReturnData(productData);
         }
     }
