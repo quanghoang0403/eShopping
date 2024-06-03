@@ -124,6 +124,7 @@ export default function EditProductRootCategory() {
     setKeywordSEO({ id: '', value: '' });
     setIsKewwordSEOChange(false)
   }
+
   const removeSEOKeyword = (keyword) => {
     setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
@@ -191,8 +192,6 @@ export default function EditProductRootCategory() {
     } catch (error) {
       console.error(error)
     }
-
-
   }
 
   const onDiscard = () => {

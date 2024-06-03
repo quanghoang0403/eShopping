@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    NumberOfProductSize = category.ProductSizes.Count(),
+                    ProductSizes = _mapper.Map<List<AdminProductSizeModel>>(category.ProductSizes)
                 });
             }
 

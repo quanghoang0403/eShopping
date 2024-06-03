@@ -274,7 +274,9 @@
         "menuBlogCategory": "Danh mục bài viết",
         "userInfo": "Thông tin tài khoản",
         "logout": "Đăng xuất",
-        "menuRootCategory": "Danh mục gốc"
+        "menuRootCategory": "Danh mục gốc",
+        "menuProductSizeCategory": "Danh mục kích thước",
+        "menuProductSize": "Kích thước sản phẩm"
     },
     "login": {
         "title": "Đăng Nhập",
@@ -382,6 +384,28 @@
         "title": "Quản lí danh mục gốc",
         "createTitle": "Thêm danh mục gốc",
         "productCategoryTitle": "Danh mục con"
+    },
+    "productSize": {
+        "manageProductSize": "Danh mục kích cỡ",
+        "messageDeleteSuccess":"Xoá kích cỡ thành công",
+        "title":"Danh sách kích cỡ"
+    },
+    "productSizeCategory":{
+      "labelName":"Tên kích cỡ",
+      "placeholderName":"Nhập tên kích cỡ",
+      "labelPriority":"Độ ưu tiên",
+      "placeholderPriority":"Nhập độ ưu tiên",
+      "validateName":"Vui lòng nhập tên kích cỡ",
+      "titleCreateNew":"Tạo kích thước mới",
+      "successCreateSizeCategory":"Tạo danh mục kích thước thành công",
+      "viewAll":"Xem tất cả",
+      "labelProductSizeCategory":"Danh mục kích cỡ",
+      "placeholderProductSizeCategory":"Chọn danh mục kích cỡ",
+      "validateProductSizeCategory":"Vui lòng chọn 1 danh mục",
+      "successCreateProductSize":"Tạo kích cỡ thành công",
+      "successEditProductSize":"Chỉnh sửa kích cỡ thành công",
+      "editProductSize":"Chỉnh sửa kích cỡ",
+      "editProductSizeCategory":"Chỉnh sửa danh mục"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",
