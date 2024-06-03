@@ -9,7 +9,6 @@ namespace eShopping.Models.Products
 
         public int No { get; set; }
 
-
         public int NumberOfProductSize
         {
             get
@@ -22,7 +21,6 @@ namespace eShopping.Models.Products
                 return ProductSizes.Count;
             }
         }
-
 
         public string Name { get; set; }
 
