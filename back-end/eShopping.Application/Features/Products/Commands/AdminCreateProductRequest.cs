@@ -59,19 +59,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public DateTime? EndDate { get; set; }
 
-        public List<AdminProductVariantRequestModel> ProductVariants { get; set; }
-    }
-
-    public class AdminProductVariantRequestModel : AdminProductVariantModel
-    {
-        public List<AdminProductStockRequestModel> Stocks { get; set; }
-    }
-
-    public class AdminProductStockRequestModel
-    {
-        public Guid ProductSizeId { get; set; }
-
-        public int QuantityLeft { get; set; }
+        public List<AdminProductVariantWithStockModel> ProductVariants { get; set; }
     }
 
     public class AdminCreateMaterialRequestHandler : IRequestHandler<AdminCreateProductRequest, BaseResponseModel>
