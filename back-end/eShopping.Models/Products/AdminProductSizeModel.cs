@@ -9,5 +9,6 @@ namespace eShopping.Models.Products
         public string Name { get; set; }
 
         public int Priority { get; set; }
+        public Guid ProductSizeCategoryId { get; set; }
     }
 }
