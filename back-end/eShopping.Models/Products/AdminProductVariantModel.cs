@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace eShopping.Models.Products
 {
@@ -23,5 +24,17 @@ namespace eShopping.Models.Products
         public string Thumbnail { get; set; }
 
         public int Priority { get; set; }
+    }
+
+    public class AdminProductVariantWithStockModel : AdminProductVariantModel
+    {
+        public List<AdminProductVariantStockModel> Stocks { get; set; }
+    }
+
+    public class AdminProductVariantStockModel
+    {
+        public Guid ProductSizeId { get; set; }
+
+        public int QuantityLeft { get; set; }
     }
 }

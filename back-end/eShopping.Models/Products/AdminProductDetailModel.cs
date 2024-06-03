@@ -41,7 +41,7 @@ namespace eShopping.Models.Products
 
         public DateTime? EndDate { get; set; }
 
-        public List<AdminProductVariantModel> ProductVariants { get; set; }
+        public List<AdminProductVariantWithStockModel> ProductVariants { get; set; }
 
         public List<AdminProductStockModel> ProductStocks { get; set; }
 

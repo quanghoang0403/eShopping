@@ -8,6 +8,7 @@ using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,6 +51,18 @@ namespace eShopping.Application.Features.Products.Queries
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             ThrowError.Against(productData == null, "Cannot find product detail information");
+
+            foreach (var productVariant in productData.ProductVariants)
+            {
+                productVariant.Stocks = productData.ProductStocks
+                    .Where(x => x.ProductVariantId == productVariant.Id)
+                    .Select(x => new AdminProductVariantStockModel()
+                    {
+                        ProductSizeId = x.ProductSizeId,
+                        QuantityLeft = x.QuantityLeft
+                    })
+                    .ToList();
+            }
             productData.Gallery = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
             return BaseResponseModel.ReturnData(productData);
         }

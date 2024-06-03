@@ -8,7 +8,7 @@ import { PermissionKeys } from 'constants/permission-key.constants'
 import productDataService from 'data-services/product/product-data.service';
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-import { getValidationMessagesWithParentField } from 'utils/helpers'
+import { getValidationMessages } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import StockProductTable from '../components/stock-product.component';
@@ -83,7 +83,7 @@ export default function CreateProductPage() {
             }
           })
           .catch((errs) => {
-            form.setFields(getValidationMessagesWithParentField(errs));
+            form.setFields(getValidationMessages(errs));
             console.error(errs)
           })
       })

@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Form, message, Row } from 'antd';
-import { getValidationMessagesWithParentField } from 'utils/helpers';
+import { getValidationMessages } from 'utils/helpers';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
 import PageTitle from 'components/page-title';
@@ -17,7 +17,7 @@ import StockProductTable from '../components/stock-product.component';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
 
-export default function EditProductPage(props) {
+export default function EditProductPage() {
   const history = useHistory()
   const match = useRouteMatch()
   const { t } = useTranslation()
@@ -101,7 +101,6 @@ export default function EditProductPage(props) {
   const fetchProductDetail = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
       form.setFieldsValue(data)
-      console.log(form.getFieldsValue(data));
       setTitleName(data?.name);
       setStatusId(data?.status);
       if (data?.status === ProductStatus.Activate) {
@@ -119,12 +118,12 @@ export default function EditProductPage(props) {
       .then(async (values) => {
         const payload = {
           ...values,
-          id: match?.params?.id,
-          status: statusId,
           productVariants: values?.productVariants.map((item, index) => ({
             ...item,
             priority: index
-          }))
+          })),
+          id: match?.params?.id,
+          status: statusId
         }
         productDataService
           .updateProductAsync(payload)
@@ -135,7 +134,7 @@ export default function EditProductPage(props) {
             }
           })
           .catch((errs) => {
-            form.setFields(getValidationMessagesWithParentField(errs, 'product'));
+            form.setFields(getValidationMessages(errs));
           });
       })
       .catch((errors) => {
@@ -146,10 +145,10 @@ export default function EditProductPage(props) {
       })
   }
 
-  const changeForm = (e) => {
+  const onFieldsChange = () => {
     setIsChangeForm(true)
     setDisableCreateButton(false)
-  }
+  };
 
   const onCancel = () => {
     if (isChangeForm) {
@@ -273,12 +272,12 @@ export default function EditProductPage(props) {
         form={form}
         name="basic"
         scrollToFirstError
-        onFieldsChange={(e) => changeForm(e)}
+        onFieldsChange={onFieldsChange}
         autoComplete="off"
       >
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
-            <LeftProductDetail form={form} changeForm={changeForm} />
+            <LeftProductDetail form={form} />
             <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} />
           </Row>
           <br />
