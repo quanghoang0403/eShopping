@@ -1,0 +1,11 @@
+.table-product-size{
+  width: 75% !important;
+  top:20px;
+  .ant-modal-body{
+    height: 600px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+  }
+}
