@@ -50,6 +50,18 @@ namespace eShopping.Application.Features.Products.Commands
 
         public List<string> Gallery { get; set; }
 
+        public decimal PriceOriginal { set; get; }
+
+        public decimal PriceValue { set; get; }
+
+        public decimal? PriceDiscount { set; get; }
+
+        public float? PercentNumber { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
         public List<AdminProductVariantModel> ProductVariants { get; set; }
 
         public List<AdminProductStockModel> ProductStocks { get; set; }
@@ -117,7 +129,7 @@ namespace eShopping.Application.Features.Products.Commands
             {
                 return BaseResponseModel.ReturnError("Please enter product price");
             }
-            else if (request.ProductVariants.Any(p => string.IsNullOrEmpty(p.ProductVariantName)))
+            else if (request.ProductVariants.Any(p => string.IsNullOrEmpty(p.Name)))
             {
                 return BaseResponseModel.ReturnError("Please enter product price name");
             }

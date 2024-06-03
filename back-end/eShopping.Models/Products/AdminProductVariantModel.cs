@@ -6,7 +6,7 @@ namespace eShopping.Models.Products
     {
         public Guid? Id { get; set; }
 
-        public string ProductVariantName { get; set; }
+        public string Name { get; set; }
 
         public decimal PriceOriginal { set; get; }
 

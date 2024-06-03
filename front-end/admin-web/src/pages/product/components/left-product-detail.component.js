@@ -10,7 +10,7 @@ import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 
-export default function LeftProductDetail({ form, changeForm }) {
+export default function LeftProductDetail({ form }) {
   const { t } = useTranslation()
   const pageData = {
     generalInformation: {
@@ -132,10 +132,6 @@ export default function LeftProductDetail({ form, changeForm }) {
             <h4 className="shop-form-label">{pageData.generalInformation.content.label}</h4>
             <Form.Item name={['content']} rules={[]}>
               <FnbFroalaEditor
-                onChange={(value) => {
-                  if (value !== '' && value !== '<div></div>') changeForm();
-                  //setProductContent(value);
-                }}
                 placeholder={pageData.generalInformation.content.placeholder}
                 charCounterMax={-1}
               />

@@ -12,13 +12,12 @@ import { getValidationMessagesWithParentField } from 'utils/helpers'
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import StockProductTable from '../components/stock-product.component';
-import ProductSizeDataService from 'data-services/product/product-size-data.service';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
 
 export default function CreateProductPage() {
   const history = useHistory()
-  const [disableCreateButton, setDisableCreateButton] = useState(false)
+  const [disableCreateButton, setDisableCreateButton] = useState(true)
   const [productSizes, setProductSizes] = useState([])
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
@@ -44,7 +43,7 @@ export default function CreateProductPage() {
     const fields = form.getFieldsValue();
     fields.productVariants?.forEach(productVariant => {
       productVariant.stocks = fields.productSizes?.map(size => ({
-        sizeId: size.id,
+        productSizeId: size.id,
         name: size.name,
         quantityLeft: 0
       }))
@@ -67,8 +66,15 @@ export default function CreateProductPage() {
     form
       .validateFields()
       .then(async (values) => {
+        const payload = {
+          ...values,
+          productVariants: values?.productVariants.map((item, index) => ({
+            ...item,
+            priority: index
+          }))
+        }
         productDataService
-          .createProductAsync(values)
+          .createProductAsync(payload)
           .then((res) => {
             if (res) {
               message.success(pageData.productAddedSuccess);
@@ -89,28 +95,10 @@ export default function CreateProductPage() {
       })
   }
 
-  const changeForm = (e) => {
-    const fields = form.getFieldsValue();
-    fields.productVariants.forEach(productVariant => {
-      if (productVariant.isUseBasePrice) {
-        productVariant.priceOriginal = fields.priceOriginal;
-        productVariant.priceValue = fields.priceValue;
-        productVariant.priceDiscount = fields.priceDiscount;
-        productVariant.percentNumber = fields.percentNumber;
-        productVariant.startDate = fields.startDate;
-        productVariant.endDate = fields.endDate;
-      }
-      console.log(fields.productSizes);
-      productVariant.stocks = fields.productSizes?.map(size => ({
-        sizeId: size.id,
-        name: size.name,
-        quantityLeft: 0
-      }))
-    });
-    form.setFieldsValue(fields)
+  const onFieldsChange = () => {
     setIsChangeForm(true)
     setDisableCreateButton(false)
-  }
+  };
 
   const onCancel = () => {
     if (isChangeForm) {
@@ -174,12 +162,12 @@ export default function CreateProductPage() {
       <Form
         form={form}
         name="basic"
-        onFieldsChange={(e) => changeForm(e)}
+        onFieldsChange={onFieldsChange}
         autoComplete="off"
       >
         <div className="col-input-full-width create-product-page">
           <Row className="grid-container-create-product">
-            <LeftProductDetail form={form} changeForm={changeForm} />
+            <LeftProductDetail form={form} />
             <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} />
           </Row>
           <br />

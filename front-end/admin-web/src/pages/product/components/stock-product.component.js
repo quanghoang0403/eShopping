@@ -17,6 +17,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { IconBtnAdd } from 'constants/icons.constants';
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon';
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
+
 export default function StockProductTable({ productSizes, form }) {
   const { t } = useTranslation();
   const pageData = {
@@ -92,7 +93,19 @@ export default function StockProductTable({ productSizes, form }) {
       }
     }
   }
-  const [count, setCount] = useState(1);
+
+  const defaultProductVariant = [{
+    key: 1,
+    thumbnail: null,
+    name: 'Default',
+    isUseBasePrice: true,
+    stocks: productSizes?.map(size => ({
+      productSizeId: size.id,
+      name: size.name,
+      quantityLeft: 0
+    }))
+  }]
+
   // const [productVariants, setProductVariants] = useState([{
   //   key: 1,
   //   thumbnail: null,
@@ -104,7 +117,7 @@ export default function StockProductTable({ productSizes, form }) {
   //   startDate: moment(),
   //   endDate: moment().add(7, 'days'),
   //   stocks: productSizes?.map(size => ({
-  //     sizeId: size.id,
+  //     productSizeId: size.id,
   //     name: size.name,
   //     quantityLeft: 0
   //   }))
@@ -120,7 +133,7 @@ export default function StockProductTable({ productSizes, form }) {
   //   startDate: moment(),
   //   endDate: moment().add(6, 'days'),
   //   stocks: productSizes?.map(size => ({
-  //     sizeId: size.id,
+  //     productSizeId: size.id,
   //     name: size.name,
   //     quantityLeft: 0
   //   }))
@@ -136,23 +149,15 @@ export default function StockProductTable({ productSizes, form }) {
   //   startDate: moment(),
   //   endDate: moment().add(4, 'days'),
   //   stocks: productSizes?.map(size => ({
-  //     sizeId: size.id,
+  //     productSizeId: size.id,
   //     name: size.name,
   //     quantityLeft: 0
   //   }))
   // }])
-  const [productVariants, setProductVariants] = useState([{
-    key: 1,
-    thumbnail: null,
-    name: 'Default',
-    isUseBasePrice: true,
-    stocks: productSizes?.map(size => ({
-      sizeId: size.id,
-      name: size.name,
-      quantityLeft: 0
-    }))
-  }])
 
+  const [productVariants, setProductVariants] = useState([])
+
+  const [count, setCount] = useState(defaultProductVariant.length);
   const tableSettings = {
     columns: [
       {
@@ -192,7 +197,7 @@ export default function StockProductTable({ productSizes, form }) {
                   className="shop-input"
                   placeholder={pageData.productVariant.placeholder}
                   id={`product-productVariants-${index}-name`}
-                  value={value}
+                // value={value}
                 />
               </Form.Item>
             </>
@@ -241,7 +246,7 @@ export default function StockProductTable({ productSizes, form }) {
                   valuePropName="checked"
                   rules={[]}
                 >
-                  <Checkbox checked={value} />
+                  <Checkbox checked={value} onChange={() => onFieldsChange()} />
                 </Form.Item>
               )
             }
@@ -287,7 +292,7 @@ export default function StockProductTable({ productSizes, form }) {
                       event.preventDefault()
                     }
                   }}
-                  value={value}
+                  //value={value}
                   disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-price-original`}
                 />
@@ -328,7 +333,7 @@ export default function StockProductTable({ productSizes, form }) {
                 ]}
               >
                 <InputNumber
-                  onChange={value => onDiscountChange(false, index)}
+                  onChange={() => onDiscountChange(false, index)}
                   className="shop-input-number w-100"
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -341,7 +346,7 @@ export default function StockProductTable({ productSizes, form }) {
                       event.preventDefault()
                     }
                   }}
-                  value={value}
+                  //value={value}
                   disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-price-value`}
                 />
@@ -391,7 +396,7 @@ export default function StockProductTable({ productSizes, form }) {
                       event.preventDefault()
                     }
                   }}
-                  value={value}
+                  //value={value}
                   disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-price-value`}
                 />
@@ -415,7 +420,7 @@ export default function StockProductTable({ productSizes, form }) {
                 ]}
               >
                 <InputNumber
-                  onChange={value => onDiscountChange(true, index)}
+                  onChange={() => onDiscountChange(true, index)}
                   className="shop-input-number w-100"
                   placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
                   formatter={(value) => `${value}%`}
@@ -429,7 +434,7 @@ export default function StockProductTable({ productSizes, form }) {
                       event.preventDefault()
                     }
                   }}
-                  value={value}
+                  //value={value}
                   disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-percent-number`}
                 />
@@ -454,6 +459,7 @@ export default function StockProductTable({ productSizes, form }) {
                 ]}
               >
                 <DatePicker
+                  defaultValue={value}
                   suffixIcon={<CalendarNewIconBold />}
                   placeholder={pageData.pricing.priceDate.startDate.placeholder}
                   className="shop-date-picker w-100"
@@ -461,16 +467,11 @@ export default function StockProductTable({ productSizes, form }) {
                   disabledDate={disabledDate}
                   disabled={record.isUseBasePrice}
                   onChange={(date) => {
-                    record.startDate = date
                     // Clear end date after select start date if endate < startdate only
-                    const formValues = form.getFieldsValue();
-                    formValues.startDate = date
-                    if (formValues.endDate != null && formValues.endDate.isBefore(date)) {
-                      formValues.endDate = null
-                      formValues.endTime = null
-
+                    const productVariant = form.getFieldValue(['productVariants', index]);
+                    if (productVariant.endDate != null && productVariant.endDate.isBefore(date)) {
+                      form.setFieldValue(['productVariants', index, 'endDate'], null);
                     }
-                    form.setFieldsValue(formValues);
                   }}
                 />
               </Form.Item>
@@ -489,17 +490,13 @@ export default function StockProductTable({ productSizes, form }) {
                 rules={[]}
               >
                 <DatePicker
+                  defaultValue={value}
                   suffixIcon={<CalendarNewIconBold />}
                   placeholder={pageData.pricing.priceDate.endDate.placeholder}
                   className="shop-date-picker w-100"
                   disabledDate={e => disabledDateByStartDate(e, record.startDate)}
                   format={DateFormat.DD_MM_YYYY}
                   disabled={!record.startDate || record.isUseBasePrice}
-                  onChange={(date) => {
-                    const formValues = form.getFieldsValue();
-                    formValues.endDate = date
-                    form.setFieldsValue(formValues)
-                  }}
                 />
               </Form.Item>
             )
@@ -517,24 +514,35 @@ export default function StockProductTable({ productSizes, form }) {
           width: 60,
           render: (_, record, index) => {
             return (
-              <Form.Item
-                name={['productVariants', index, 'stocks', indexSize, 'quantityLeft']}
-                rules={[]}
-              >
-                <InputNumber
-                  className="shop-input-number w-100"
-                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                  precision={0}
-                  onKeyDown={(event) => {
-                    if (!/[0-9]/.test(event.key) &&
-                      event.key !== 'Backspace' &&
-                      event.key !== 'Delete') {
-                      event.preventDefault()
-                    }
-                  }}
-                />
-              </Form.Item>
+              <>
+                <Form.Item
+                  className='hidden'
+                  name={['productVariants', index, 'stocks', indexSize, 'productSizeId']}
+                  rules={[]}
+                >
+                  <Input value={record.productSizeId} />
+                </Form.Item>
+                <Form.Item
+                  name={['productVariants', index, 'stocks', indexSize, 'quantityLeft']}
+                  rules={[]}
+                >
+                  <InputNumber
+                    className="shop-input-number w-100"
+                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                    precision={0}
+                    onKeyDown={(event) => {
+                      if (!/[0-9]/.test(event.key) &&
+                        event.key !== 'Backspace' &&
+                        event.key !== 'Delete') {
+                        event.preventDefault()
+                      }
+                    }}
+                    value={record.quantityLeft}
+                  />
+                </Form.Item>
+              </>
+
             );
           }
         }))
@@ -560,6 +568,41 @@ export default function StockProductTable({ productSizes, form }) {
     }
   };
 
+  const onFieldsChange = () => {
+    const fields = form.getFieldsValue()
+    const productVariants = form.getFieldValue('productVariants')
+    const newData = productVariants.map(productVariant => {
+      let newProductVariant = { ...productVariant };
+
+      if (newProductVariant.isUseBasePrice) {
+        newProductVariant.priceOriginal = fields.priceOriginal;
+        newProductVariant.priceValue = fields.priceValue;
+        newProductVariant.priceDiscount = fields.priceDiscount;
+        newProductVariant.percentNumber = fields.percentNumber;
+        newProductVariant.startDate = fields.startDate;
+        newProductVariant.endDate = fields.endDate;
+      }
+      return newProductVariant;
+    });
+    handleSyncData(newData)
+  };
+
+  const onProductSizesChange = () => {
+    const productVariants = form.getFieldValue('productVariants')
+    const newData = productVariants.map(productVariant => {
+      let newProductVariant = {
+        ...productVariant,
+        stocks: productSizes?.map(size => ({
+          productSizeId: size.id,
+          name: size.name,
+          quantityLeft: 0
+        }))
+      };
+      return newProductVariant;
+    });
+    handleSyncData(newData)
+  };
+
   const handleSyncData = (newData) => {
     setProductVariants(newData);
     form.setFieldValue('productVariants', newData)
@@ -581,10 +624,11 @@ export default function StockProductTable({ productSizes, form }) {
       priceOriginal: fields.priceOriginal,
       priceValue: fields.priceValue,
       priceDiscount: fields.priceDiscount,
+      percentNumber: fields.percentNumber,
       startDate: fields.startDate,
       endDate: fields.endDate,
       stocks: productSizes?.map(size => ({
-        sizeId: size.id,
+        productSizeId: size.id,
         name: size.name,
         quantityLeft: 0
       }))
@@ -635,6 +679,7 @@ export default function StockProductTable({ productSizes, form }) {
         const percent = priceToPercentage(numeric, total)
         form.setFieldValue('percentNumber', percent)
       }
+      onFieldsChange()
     }
     else {
       const total = form.getFieldValue(['productVariants', position, 'priceValue'])
@@ -662,8 +707,12 @@ export default function StockProductTable({ productSizes, form }) {
   };
 
   useEffect(() => {
-    form.setFieldValue('productVariants', productVariants)
+    handleSyncData(defaultProductVariant)
   }, [])
+
+  useEffect(() => {
+    onProductSizesChange()
+  }, [productSizes])
 
 
   return (
@@ -721,6 +770,7 @@ export default function StockProductTable({ productSizes, form }) {
             ]}
           >
             <InputNumber
+              onChange={() => onFieldsChange()}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.priceOriginal.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -764,7 +814,7 @@ export default function StockProductTable({ productSizes, form }) {
             ]}
           >
             <InputNumber
-              onChange={value => onDiscountChange(false)}
+              onChange={() => onDiscountChange(false)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.price.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -807,7 +857,7 @@ export default function StockProductTable({ productSizes, form }) {
             ]}
           >
             <InputNumber
-              onChange={value => onDiscountChange(false)}
+              onChange={() => onDiscountChange(false)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.price.placeholder}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -836,7 +886,7 @@ export default function StockProductTable({ productSizes, form }) {
             ]}
           >
             <InputNumber
-              onChange={value => onDiscountChange(true)}
+              onChange={() => onDiscountChange(true)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
               formatter={(value) => `${value}%`}
@@ -871,14 +921,12 @@ export default function StockProductTable({ productSizes, form }) {
               format={DateFormat.DD_MM_YYYY}
               disabledDate={disabledDate}
               onChange={(date) => {
+                onFieldsChange()
                 // Clear end date after select start date if endate < startdate only
-                const formValues = form.getFieldsValue();
-                formValues.startDate = date
-                if (formValues.endDate != null && formValues.endDate.isBefore(date)) {
-                  formValues.endDate = null
-                  formValues.endTime = null
+                const fields = form.getFieldsValue();
+                if (fields.endDate != null && fields.endDate.isBefore(date)) {
+                  form.setFieldValue('endDate', null);
                 }
-                form.setFieldsValue(formValues);
               }}
             />
           </Form.Item>
@@ -892,17 +940,10 @@ export default function StockProductTable({ productSizes, form }) {
               suffixIcon={<CalendarNewIconBold />}
               placeholder={pageData.pricing.priceDate.endDate.placeholder}
               className="shop-date-picker w-100"
-              disabledDate={e => {
-                const formValues = form.getFieldsValue();
-                disabledDateByStartDate(e, formValues.startDate)
-              }}
+              disabledDate={e => disabledDateByStartDate(e, form.getFieldValue('startDate'))}
               format={DateFormat.DD_MM_YYYY}
-              //disabled={basePrice.startDate ? false : true}
-              onChange={(date) => {
-                const formValues = form.getFieldsValue();
-                formValues.endDate = date
-                form.setFieldsValue(formValues)
-              }}
+              disabled={form.getFieldValue('startDate') ? false : true}
+              onChange={() => onFieldsChange()}
             />
           </Form.Item>
         </Col>

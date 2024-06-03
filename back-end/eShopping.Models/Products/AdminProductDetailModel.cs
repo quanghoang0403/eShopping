@@ -1,6 +1,6 @@
 ﻿using eShopping.Domain.Enums;
 using eShopping.Models.Commons;
-using eShopping.Models.ProductCategories;
+using System;
 using System.Collections.Generic;
 
 namespace eShopping.Models.Products
@@ -23,10 +23,28 @@ namespace eShopping.Models.Products
 
         public string Thumbnail { set; get; }
 
-        public AdminProductCategoryModel ProductCategory { get; set; }
+        public Guid ProductRootCategoryId { get; set; }
 
-        public IEnumerable<AdminProductVariantModel> ProductVariants { get; set; }
+        public Guid ProductCategoryId { get; set; }
 
-        public IEnumerable<AdminImageModel> Images { get; set; }
+        public Guid ProductSizeCategoryId { get; set; }
+
+        public decimal PriceOriginal { set; get; }
+
+        public decimal PriceValue { set; get; }
+
+        public decimal? PriceDiscount { set; get; }
+
+        public float? PercentNumber { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        public List<AdminProductVariantModel> ProductVariants { get; set; }
+
+        public List<AdminProductStockModel> ProductStocks { get; set; }
+
+        public List<string> Gallery { get; set; }
     }
 }
