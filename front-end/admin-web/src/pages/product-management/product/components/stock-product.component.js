@@ -907,6 +907,7 @@ export default function StockProductTable({ productSizes, form }) {
         <Col xs={24} lg={4}>
           <Form.Item
             name={['startDate']}
+            valuePropName={'date'}
             rules={[
               {
                 required: true,
@@ -934,6 +935,7 @@ export default function StockProductTable({ productSizes, form }) {
         <Col xs={24} lg={4}>
           <Form.Item
             name={['endDate']}
+            valuePropName={'date'}
             rules={[]}
           >
             <DatePicker

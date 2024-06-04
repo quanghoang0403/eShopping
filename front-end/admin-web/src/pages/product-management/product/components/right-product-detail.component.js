@@ -1,5 +1,5 @@
 import { Card, Col, Form, Row } from 'antd';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,7 @@ import ShopParagraph from 'components/shop-paragraph/shop-paragraph';
 import productDataService from 'data-services/product/product-data.service';
 
 
-export default function RightProductDetail({ form, productSizes, setProductSizes }) {
+export default function RightProductDetail({ form, productSizes, setProductSizes, productData }) {
   const { t } = useTranslation()
   const pageData = {
     productCategory: {
@@ -37,7 +37,6 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
     },
     mediaNotExisted: t('product.validateImage')
   }
-
   const [productRootCategories, setProductRootCategories] = useState([])
   const [productCategories, setProductCategories] = useState([])
   const [preparedDataProduct, setPreparedDataProduct] = useState()
@@ -49,6 +48,12 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
     const preparedDataProduct = await productDataService.getPreparedDataProductAsync()
     if (preparedDataProduct != null) {
       setPreparedDataProduct(preparedDataProduct);
+      // Edit page
+      if (productData) {
+        const productRootCategory = preparedDataProduct?.productRootCategories?.find(x => x.id === productData.productRootCategoryId)
+        setProductCategories(productRootCategory?.productCategories.filter(x => x.genderProduct == productData.genderProduct || x.genderProduct == ProductGender.All))
+        setProductRootCategories(preparedDataProduct?.productRootCategories?.filter(x => x.genderProduct == productData.genderProduct || x.genderProduct == ProductGender.All))
+      }
     }
   }
 
@@ -57,17 +62,21 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
   }, [])
 
   useEffect(() => {
-    setProductRootCategories(preparedDataProduct?.productRootCategories?.filter(x => x.genderProduct == activeProductGenderId || x.genderProduct == ProductGender.All))
-    setActiveProductRootCategoryId(null)
-    form.setFieldValue('productRootCategoryId', null)
-    form.setFieldValue('productCategoryId', null)
-    setProductCategories([])
+    if (preparedDataProduct) {
+      setProductRootCategories(preparedDataProduct?.productRootCategories?.filter(x => x.genderProduct == activeProductGenderId || x.genderProduct == ProductGender.All))
+      setActiveProductRootCategoryId(null)
+      form.setFieldValue('productRootCategoryId', null)
+      form.setFieldValue('productCategoryId', null)
+      setProductCategories([])
+    }
   }, [activeProductGenderId])
 
   useEffect(() => {
-    const productRootCategory = preparedDataProduct?.productRootCategories?.find(x => x.id === activeProductRootCategoryId)
-    setProductCategories(productRootCategory?.productCategories.filter(x => x.genderProduct == activeProductGenderId || x.genderProduct == ProductGender.All))
-    form.setFieldValue('productCategoryId', null)
+    if (preparedDataProduct) {
+      const productRootCategory = preparedDataProduct?.productRootCategories?.find(x => x.id === activeProductRootCategoryId)
+      setProductCategories(productRootCategory?.productCategories.filter(x => x.genderProduct == activeProductGenderId || x.genderProduct == ProductGender.All))
+      form.setFieldValue('productCategoryId', null)
+    }
   }, [activeProductRootCategoryId])
 
   return (
@@ -129,7 +138,7 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
             >
               <FnbSelectSingle
                 onChange={(value) => setActiveProductRootCategoryId(value)}
-                disabled={activeProductGenderId == null}
+                disabled={activeProductGenderId == null && !productData}
                 placeholder={pageData.productRootCategory.placeholder}
                 showSearch
                 option={productRootCategories?.map((b) => ({
@@ -155,7 +164,7 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
               }]}
             >
               <FnbSelectSingle
-                disabled={!activeProductRootCategoryId}
+                disabled={!activeProductRootCategoryId && !productData}
                 placeholder={pageData.productCategory.placeholder}
                 showSearch
                 option={productCategories?.map((b) => ({

@@ -32,6 +32,7 @@ export default function EditProductPage() {
   const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
   const [statusId, setStatusId] = useState(null)
   const [productSizes, setProductSizes] = useState([])
+  const [productData, setProductData] = useState()
 
   const pageData = {
     title: t('product:addProduct'),
@@ -101,6 +102,7 @@ export default function EditProductPage() {
   const fetchProductDetail = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
       form.setFieldsValue(data)
+      setProductData(data)
       setTitleName(data?.name);
       setStatusId(data?.status);
       if (data?.status === ProductStatus.Activate) {
@@ -200,110 +202,116 @@ export default function EditProductPage() {
 
   return (
     <>
-      <Row className="shop-row-page-header">
-        <Col xs={24} sm={24} lg={12}>
-          <Row>
-            <p className="card-header">
-              <PageTitle content={titleName} />
-            </p>
-            {statusId === ProductStatus.Activate && (
-              <span className="badge-status active ml-3">
-                <span> {pageData.active}</span>
-              </span>
-            )}
-            {statusId === ProductStatus.Deactivate && (
-              <span className="badge-status default ml-3">
-                <span> {pageData.inactive}</span>
-              </span>
-            )}
+      {productData ? ( // Check if productData has data
+        <>
+          <Row className="shop-row-page-header">
+            <Col xs={24} sm={24} lg={12}>
+              <Row>
+                <p className="card-header">
+                  <PageTitle content={titleName} />
+                </p>
+                {statusId === ProductStatus.Activate && (
+                  <span className="badge-status active ml-3">
+                    <span> {pageData.active}</span>
+                  </span>
+                )}
+                {statusId === ProductStatus.Deactivate && (
+                  <span className="badge-status default ml-3">
+                    <span> {pageData.inactive}</span>
+                  </span>
+                )}
+              </Row>
+            </Col>
+            <Col span={12} xs={24} sm={24} md={24} lg={12} className="shop-form-item-btn">
+              <ActionButtonGroup
+                arrayButton={[
+                  {
+                    action: (
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={disableCreateButton}
+                        icon={<PlusOutlined className="icon-btn-add-option" />}
+                        className="btn-create-form"
+                        onClick={editProduct}
+                      >
+                        {pageData.btnSave}
+                      </Button>
+                    ),
+                    permission: PermissionKeys.EDIT_PRODUCT
+                  },
+                  {
+                    action: (
+                      <a onClick={() => onCancel()} className="action-cancel">
+                        {pageData.btnCancel}
+                      </a>
+                    ),
+                    permission: null
+                  },
+                  {
+                    action: (
+                      <a
+                        className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
+                        onClick={() => onChangeStatus()}
+                      >
+                        {activate}
+                      </a>
+                    ),
+                    permission: PermissionKeys.EDIT_PRODUCT
+                  },
+                  {
+                    action: (
+                      <a onClick={() => handleOpenDeletePopup()} className="action-delete">
+                        {pageData.btnDelete}
+                      </a>
+                    ),
+                    permission: PermissionKeys.EDIT_PRODUCT
+                  }
+                ]}
+              />
+            </Col>
           </Row>
-        </Col>
-        <Col span={12} xs={24} sm={24} md={24} lg={12} className="shop-form-item-btn">
-          <ActionButtonGroup
-            arrayButton={[
-              {
-                action: (
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    disabled={disableCreateButton}
-                    icon={<PlusOutlined className="icon-btn-add-option" />}
-                    className="btn-create-form"
-                    onClick={editProduct}
-                  >
-                    {pageData.btnSave}
-                  </Button>
-                ),
-                permission: PermissionKeys.EDIT_PRODUCT
-              },
-              {
-                action: (
-                  <a onClick={() => onCancel()} className="action-cancel">
-                    {pageData.btnCancel}
-                  </a>
-                ),
-                permission: null
-              },
-              {
-                action: (
-                  <a
-                    className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
-                    onClick={() => onChangeStatus()}
-                  >
-                    {activate}
-                  </a>
-                ),
-                permission: PermissionKeys.EDIT_PRODUCT
-              },
-              {
-                action: (
-                  <a onClick={() => handleOpenDeletePopup()} className="action-delete">
-                    {pageData.btnDelete}
-                  </a>
-                ),
-                permission: PermissionKeys.EDIT_PRODUCT
-              }
-            ]}
+          <Form
+            form={form}
+            name="basic"
+            scrollToFirstError
+            onFieldsChange={onFieldsChange}
+            autoComplete="off"
+          >
+            <div className="col-input-full-width create-product-page">
+              <Row className="grid-container-create-product">
+                <LeftProductDetail form={form} />
+                <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} />
+              </Row>
+              <br />
+              <Row>
+                <StockProductTable form={form} productSizes={productSizes} />
+              </Row>
+            </div>
+          </Form>
+          <DeleteProductComponent
+            isModalVisible={isModalVisible}
+            preventDeleteProduct={preventDeleteProduct}
+            titleModal={titleModal}
+            handleCancel={() => setIsModalVisible(false)}
+            onDelete={handleDeleteItem}
           />
-        </Col>
-      </Row>
-
-      <Form
-        form={form}
-        name="basic"
-        scrollToFirstError
-        onFieldsChange={onFieldsChange}
-        autoComplete="off"
-      >
-        <div className="col-input-full-width create-product-page">
-          <Row className="grid-container-create-product">
-            <LeftProductDetail form={form} />
-            <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} />
-          </Row>
-          <br />
-          <Row>
-            <StockProductTable form={form} productSizes={productSizes} />
-          </Row>
-        </div>
-      </Form>
-      <DeleteProductComponent
-        isModalVisible={isModalVisible}
-        preventDeleteProduct={preventDeleteProduct}
-        titleModal={titleModal}
-        handleCancel={() => setIsModalVisible(false)}
-        onDelete={handleDeleteItem}
-      />
-      <DeleteConfirmComponent
-        title={pageData.leaveDialog.confirmLeaveTitle}
-        content={pageData.leaveDialog.confirmLeaveContent}
-        visible={showConfirm}
-        skipPermission={true}
-        cancelText={pageData.btnDiscard}
-        okText={pageData.leaveDialog.confirmLeave}
-        onCancel={onDiscard}
-        onOk={onCompleted}
-        isChangeForm={isChangeForm}
-      />
+          <DeleteConfirmComponent
+            title={pageData.leaveDialog.confirmLeaveTitle}
+            content={pageData.leaveDialog.confirmLeaveContent}
+            visible={showConfirm}
+            skipPermission={true}
+            cancelText={pageData.btnDiscard}
+            okText={pageData.leaveDialog.confirmLeave}
+            onCancel={onDiscard}
+            onOk={onCompleted}
+            isChangeForm={isChangeForm}
+          />
+        </>
+      ) : (
+        <p>Loading...</p> // Render loading indicator if productData is null or empty
+      )}
     </>
+
   )
 }

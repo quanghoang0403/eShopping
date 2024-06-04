@@ -1,10 +1,10 @@
 import ProductPage from './product/product.page'
 import { Clothing } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import CreateProductPage from './edit-product/create-product.page'
-import EditProductPage from './edit-product/edit-product.page'
-import ProductDetailPage from './details/details-product.page'
 import i18n from 'utils/i18n'
+import CreateProductPage from './product/edit-product/create-product.page'
+import EditProductPage from './product/edit-product/edit-product.page'
+import ProductDetailPage from './product/details/details-product.page'
 
 const { t } = i18n
 // Define the route
@@ -15,10 +15,9 @@ const route = [
     path: '#',
     icon: <Clothing />,
     name: t('home.menuProduct'),
-    isMenu: false,
+    isMenu: true,
     exact: true,
     auth: true,
-    permission: 'public',
     child: [
       {
         key: 'app.product',

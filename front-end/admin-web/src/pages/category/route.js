@@ -1,11 +1,11 @@
-import CategoryPage from './product-category/category.page'
 import { Category } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import i18n from 'utils/i18n'
-import EditProductCategoryPage from './edit-category/edit-category.page'
-import RootCategory from './root-category.page'
-import CreateRootCategory from './create-root-category/create-root-category.page'
-import EditProductRootCategory from './edit-product-root-category/edit-product-root-category.page'
+import CategoryPage from './product-category/category.page'
+import EditProductCategoryPage from './product-category/edit-category/edit-category.page'
+import RootCategory from './product-root-category/root-category.page'
+import CreateRootCategory from './product-root-category/create-root-category/create-root-category.page'
+import EditProductRootCategory from './product-root-category/edit-product-root-category/edit-product-root-category.page'
 
 const { t } = i18n
 // Define the route
@@ -16,10 +16,9 @@ const route = [
     path: '#',
     icon: <Category />,
     name: t('home.menuCategory'),
-    isMenu: false,
+    isMenu: true,
     exact: true,
     auth: true,
-    permission: 'public',
     child: [
       {
         key: 'app.product-category',

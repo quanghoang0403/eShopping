@@ -80,6 +80,11 @@ export default function LeftProductDetail({ form }) {
     form.setFieldValue('keywordSEO', keywordSEOs.map(kw => kw.value)?.join(',') || null)
   }, [keywordSEOs])
 
+  useEffect(() => {
+    const keywords = form.getFieldValue('keywordSEO')
+    setKeywordSEOList(keywords?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
+  }, [])
+
   return (
     <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
       <Card className="w-100 shop-card h-auto">

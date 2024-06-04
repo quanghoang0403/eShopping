@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next'
 import '../staff.page.scss'
 import permissionDataService from 'data-services/permission/permission-data.service'
 import staffDataService from 'data-services/staff/staff-data.service'
-import product from 'pages/product'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
 const { Content } = Layout
 
