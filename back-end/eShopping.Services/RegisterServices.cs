@@ -28,7 +28,7 @@ namespace eShopping.Services
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
                 {
                     sqlOptions.AddRowNumberSupport();
-                    sqlOptions.EnableRetryOnFailure();
+                    sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                 });
                 //options.EnableSensitiveDataLogging();
             });
