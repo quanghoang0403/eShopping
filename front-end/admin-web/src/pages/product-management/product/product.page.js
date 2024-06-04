@@ -6,8 +6,10 @@ import { PermissionKeys } from 'constants/permission-key.constants'
 import TableProduct from './components/table-product.component'
 import './index.scss'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-export default function ProductPage(props) {
+export default function ProductPage() {
+  const history = useHistory()
   const { t } = useTranslation()
   return (
     <div>
@@ -24,7 +26,7 @@ export default function ProductPage(props) {
                 action: (
                   <ShopAddNewButton
                     permission={PermissionKeys.CREATE_PRODUCT}
-                    onClick={() => props.history.push('/product/create')}
+                    onClick={() => history.push('/product/create')}
                     text={t('button.add')}
                   />
                 ),

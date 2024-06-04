@@ -6,10 +6,11 @@ import TableProductCategory from './components/table-product-category.component'
 import FormNewProductCategory from './components/form-new-product-category.component'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
+import productCategoryDataService from 'data-services/product-category/product-category-data.service'
+import productDataService from 'data-services/product/product-data.service'
 import './index.scss'
 
-export default function CategoryPage(props) {
-  const { productDataService, productCategoryDataService } = props
+export default function CategoryPage() {
   const [showAddNewProductCategoryForm, setShowAddNewProductCategoryForm] = useState(false)
   const { t } = useTranslation()
   const pageData = {
