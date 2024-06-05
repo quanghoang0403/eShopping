@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import LikeButton from './LikeButton'
 import Price from '@/shared/Price'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
@@ -26,10 +26,27 @@ export interface ProductCardProps {
 
 const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) => {
   const { name, description, priceValue, priceDiscount, urlSEO, productSizes, productVariants, productStocks } = data
-  const [productVariantActive, setProductVariantActive] = useState<IProductVariant>()
-  const [productSizeActive, setProductSizeActive] = useState<IProductSize>()
+  const [productVariantActive, setProductVariantActive] = useState<IProductVariant | null>(null)
+  const [productSizeActive, setProductSizeActive] = useState<IProductSize | null>(null)
   const [showModalQuickView, setShowModalQuickView] = useState(false)
   const router = useRouter()
+
+  const onChangeActiveProductVariant = (variant : IProductVariant) => {
+    setProductVariantActive(variant)
+    if (!productStocks?.find(x => x.productVariantId === variant.id && x.productSizeId === productSizeActive?.id && x.quantityLeft > 0))
+      setProductSizeActive(null)
+  }
+
+  const onChangeActiveProductSize = (size : IProductSize) => {
+    setProductSizeActive(size)
+    if (!productStocks?.find(x => x.productSizeId === size.id && x.productVariantId === productVariantActive?.id && x.quantityLeft > 0))
+      setProductVariantActive(null)
+  }
+
+  const isOutOfStock = (productVariant: IProductVariant | null, productSize: IProductSize | null): boolean => {
+    if (!productSize || !productVariant) return false
+    return !productStocks?.find(x => x.productSizeId === productSize.id && x.productVariantId === productVariant?.id && x.quantityLeft > 0)
+  }
 
   const notifyAddToCart = () => {
     toast.custom(
@@ -106,21 +123,25 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
     }
     return (
       <div className="flex ">
-        {productVariants.map((productVariant, index) => (
-          <div
-            key={index}
-            onClick={() => setProductVariantActive(productVariant)}
-            className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
-              productVariant.id === productVariantActive?.id ? 'border-black dark:border-slate-300' : 'border-transparent'
-            }`}
-            title={productVariant.name}
-          >
+        {productVariants.map((productVariant, index) => {
+          const outOfStock = isOutOfStock(productVariant, productSizeActive)
+          return (
             <div
-              className="absolute inset-0.5 rounded-full overflow-hidden z-0 bg-cover"
-              style={{ backgroundImage: `url(${productVariant.thumbnail ?? ''})`}}
-            ></div>
-          </div>
-        ))}
+              key={index}
+              onClick={() => !outOfStock && onChangeActiveProductVariant(productVariant)}
+              className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer 
+              ${productVariant.id === productVariantActive?.id ? 'border-black dark:border-slate-300' : 'border-transparent'} 
+              ${outOfStock ? 'bg-gray-300 cursor-not-allowed' : ''}}
+              `}
+              title={productVariant.name}
+            >
+              <div
+                className="absolute inset-0.5 rounded-full overflow-hidden z-0 bg-cover"
+                style={{ backgroundImage: `url(${productVariant.thumbnail ?? ''})` }}
+              ></div>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -132,11 +153,12 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
     return (
       <div className="absolute bottom-0 inset-x-1 space-x-1.5 rtl:space-x-reverse flex justify-center opacity-0 invisible group-hover:bottom-4 group-hover:opacity-100 group-hover:visible transition-all">
         {productSizes.map((productSize, index) => {
+          const outOfStock = isOutOfStock(productVariantActive, productSize)
           return (
             <div
               key={index}
-              className="nc-shadow-lg w-10 h-10 rounded-xl bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center uppercase font-semibold tracking-tight text-sm text-slate-900"
-              onClick={() => setProductSizeActive(productSize)}
+              className={`nc-shadow-lg w-10 h-10 rounded-xl bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center uppercase font-semibold tracking-tight text-sm text-slate-900 ${outOfStock ? 'bg-gray-300 cursor-not-allowed' : ''}`}
+              onClick={() => !outOfStock && onChangeActiveProductSize(productSize)}
             >
               {productSize.name}
             </div>

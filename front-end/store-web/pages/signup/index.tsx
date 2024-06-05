@@ -89,7 +89,7 @@ const SignUpPage = () => {
               patternValidate={{
                 required: true,
               }}
-              name="name"
+              name="fullName"
               errors={errors}
             />
             <Input
