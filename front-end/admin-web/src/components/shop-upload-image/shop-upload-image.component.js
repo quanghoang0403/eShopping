@@ -2,7 +2,7 @@ import { Col, message, Row } from 'antd'
 import { EditFillImage, EyeOpenImageIcon, TrashFillImage } from 'constants/icons.constants'
 import fileDataService from 'data-services/file/file-data.service';
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageUploading from 'react-images-uploading'
 import Viewer from 'react-viewer'
 import { fileNameNormalize, jsonToFormData } from 'utils/helpers'
@@ -29,15 +29,14 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   const isMultiple = maxNumber > 1
   useImperativeHandle(ref, () => ({
     setImage(url) {
-      if (url) {
-        const imageList = [
-          {
-            data_url: url
-          }
-        ]
-        setImages(imageList)
+      if (url == null) {
+        setImages([]) }
+      else if (Array.isArray(url)) {
+        setImages(url.map(item => ({
+          data_url: item
+        })));
       } else {
-        setImages([])
+        setImages([{ data_url: url }]);
       }
     }
   }))
