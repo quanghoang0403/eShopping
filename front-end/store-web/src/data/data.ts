@@ -7,6 +7,24 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 120000,
     urlSEO: 'basic-tee',
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
   },
   {
     id: '10',
@@ -16,6 +34,24 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 120000,
     urlSEO: 'basic-tee',
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
   },
   {
     id: '10',
@@ -25,6 +61,24 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 120000,
     urlSEO: 'basic-tee',
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
   },
   {
     id: '10',
@@ -34,8 +88,51 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 120000,
     urlSEO: 'basic-tee',
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
   },
-  { id: '10', code: 1, name: 'Paris Tee', thumbnail: '/imgs/productHighlight/Paris Tee.jpg', priceDiscount: 120000, priceValue: 120000, urlSEO: 'basic-tee' },
+  { 
+    id: '10', 
+    code: 1, 
+    name: 'Paris Tee', 
+    thumbnail: '/imgs/productHighlight/Paris Tee.jpg', 
+    priceDiscount: 120000, 
+    priceValue: 120000, 
+    urlSEO: 'basic-tee', 
+    productVariants: [
+    {
+      id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+      name: 'Xanh',
+      priceValue: 200000,
+      priceDiscount: 0,
+      percentNumber: 10,
+      thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+    },
+    {
+      id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+      name: 'Đỏ',
+      priceValue: 13000,
+      priceDiscount: 12332,
+      percentNumber: 10,
+      thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+    },
+  ] },
   {
     id: '10',
     code: 1,
@@ -44,6 +141,24 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 120000,
     urlSEO: 'basic-tee',
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
   },
   {
     id: '10',
@@ -54,6 +169,24 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 140000,
     urlSEO: 'basic-tee',
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
   },
   {
     id: '10',
@@ -64,5 +197,23 @@ export const PRODUCTS: IProduct[] = [
     priceDiscount: 120000,
     priceValue: 130000,
     urlSEO: 'basic-tee',
-  },
+    productVariants: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'Xanh',
+        priceValue: 200000,
+        priceDiscount: 0,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'Đỏ',
+        priceValue: 13000,
+        priceDiscount: 12332,
+        percentNumber: 10,
+        thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
+      },
+    ]
+  }
 ]

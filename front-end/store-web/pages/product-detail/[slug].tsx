@@ -84,16 +84,14 @@ const ProductDetailPage = () => {
     isFeatured: true,
     isDiscounted: true,
     status: 1,
-    priority: 0,
+    priceValue: 200000,
+    priceDiscount: 0,
+    percentNumber: 10,
     thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
     productCategories: [
       {
         id: 'e26163b9-30d2-475d-49c9-08dc5e246ecd',
-        no: 0,
         name: 'asdasd',
-        isShowOnHome: false,
-        priority: 1,
-        numberOfProduct: 0,
       },
     ],
     productVariants: [
@@ -103,7 +101,6 @@ const ProductDetailPage = () => {
         priceValue: 200000,
         priceDiscount: 0,
         percentNumber: 10,
-        quantityLeft: 61,
         thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
       },
       {
@@ -112,7 +109,6 @@ const ProductDetailPage = () => {
         priceValue: 13000,
         priceDiscount: 12332,
         percentNumber: 10,
-        quantityLeft: 61,
         thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
       },
     ],
@@ -139,7 +135,8 @@ const ProductDetailPage = () => {
       percentNumber: productVariants[variantActive].percentNumber,
       thumbnail: productVariants[variantActive].thumbnail ?? productDetail.thumbnail,
       quantity: 1,
-      quantityLeft: productVariants[variantActive].quantityLeft,
+      //quantityLeft: productVariants[variantActive].quantityLeft,
+      quantityLeft: 2,
     }
     dispatch(sessionActions.addProductToCart(cartItem))
     toast.custom((t) => <NotifyAddTocart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })

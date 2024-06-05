@@ -8,12 +8,12 @@ interface IProduct extends ISEO {
   isDiscounted?: boolean
   IsNewIn?: boolean
   IsSoldOut?: boolean
-  gallery: string[]
+  gallery?: string[]
   productCategory?: IProductCategory
   productRootCategory?: IProductCategory
   productVariants: IProductVariant[]
-  productSizes: IProductSize[]
-  productStocks: IProductStock[]
+  productSizes?: IProductSize[]
+  productStocks?: IProductStock[]
 }
 
 interface IProductVariant {
