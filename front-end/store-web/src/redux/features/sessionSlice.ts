@@ -47,17 +47,17 @@ const sessionSlice = createSlice({
     },
     addProductToCart(state, action: PayloadAction<ICartItem>) {
       //notifySuccess('Đã thêm sản phẩm vào giỏ hàng')
-      const { productId, productPriceId } = action.payload;
+      const { productId, productVariantId } = action.payload;
       const existingItemIndex = state.cartItems.findIndex(
         (item) =>
-          item.productId === productId && item.productPriceId === productPriceId
+          item.productId === productId && item.productVariantId === productVariantId
       );
 
       if (existingItemIndex !== -1) {
         const currentQuantity = state.cartItems[existingItemIndex].quantity;
         const maxQuantity = state.cartItems[existingItemIndex].quantityLeft;
         if (currentQuantity == maxQuantity) {
-          //notifyInfo(`${action.payload.productName} - ${action.payload.priceName} chỉ còn ${maxQuantity} sản phẩm`)
+          //notifyInfo(`${action.payload.productName} - ${action.payload.productVariantName} chỉ còn ${maxQuantity} sản phẩm`)
         } else {
           state.cartItems[existingItemIndex].quantity = currentQuantity + 1;
         }
@@ -71,22 +71,22 @@ const sessionSlice = createSlice({
       state,
       action: PayloadAction<{
         productId: string;
-        productPriceId: string;
+        productVariantId: string;
         quantity: number;
       }>
     ) {
       //notifySuccess('Cập nhật sản phẩm thành công')
-      const { productId, productPriceId, quantity } = action.payload;
+      const { productId, productVariantId, quantity } = action.payload;
       const existingItemIndex = state.cartItems.findIndex(
         (item) =>
-          item.productId === productId && item.productPriceId === productPriceId
+          item.productId === productId && item.productVariantId === productVariantId
       );
 
       if (existingItemIndex !== -1) {
         const quantityLeft = state.cartItems[existingItemIndex].quantityLeft;
         if (state.cartItems[existingItemIndex].quantity > quantityLeft) {
           state.cartItems[existingItemIndex].quantity = quantityLeft;
-          //notifyInfo(`${state.cartItems[existingItemIndex].productName} - ${state.cartItems[existingItemIndex].priceName} chỉ còn ${quantityLeft} sản phẩm`)
+          //notifyInfo(`${state.cartItems[existingItemIndex].productName} - ${state.cartItems[existingItemIndex].productVariantName} chỉ còn ${quantityLeft} sản phẩm`)
         } else state.cartItems[existingItemIndex].quantity = quantity;
       }
       state.totalQuantity = calculateTotalQuantity(state.cartItems);
@@ -94,15 +94,15 @@ const sessionSlice = createSlice({
     },
     removeProductFromCart(
       state,
-      action: PayloadAction<{ productId: string; productPriceId: string }>
+      action: PayloadAction<{ productId: string; productVariantId: string }>
     ) {
       //notifySuccess('Đã xoá sản phẩm khỏi giỏ hàng')
-      const { productId, productPriceId } = action.payload;
+      const { productId, productVariantId } = action.payload;
       state.cartItems = state.cartItems.filter(
         (item) =>
           !(
             item.productId === productId &&
-            item.productPriceId === productPriceId
+            item.productVariantId === productVariantId
           )
       );
       state.totalQuantity = calculateTotalQuantity(state.cartItems);

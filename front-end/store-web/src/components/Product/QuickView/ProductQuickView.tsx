@@ -27,7 +27,7 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = '' }) => {
   // const {} = data
   // const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG]
 
-  // const { productPrices } = data
+  // const { productVariants } = data
   // const [variantActive, setVariantActive] = useState(0)
   // const dispatch = useAppDispatch()
 
@@ -36,14 +36,14 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = '' }) => {
   //     productId: productDetail.id,
   //     productName: productDetail.name,
   //     productUrl: productDetail.urlSEO,
-  //     productPriceId: productPrices[variantActive].id,
-  //     priceName: productPrices[variantActive].priceName,
-  //     priceValue: productPrices[variantActive].priceValue,
-  //     priceDiscount: productPrices[variantActive].priceDiscount,
-  //     percentNumber: productPrices[variantActive].percentNumber,
-  //     thumbnail: productPrices[variantActive].thumbnail ?? productDetail.thumbnail,
+  //     productVariantId: productVariants[variantActive].id,
+  //     productVariantName: productVariants[variantActive].name,
+  //     priceValue: productVariants[variantActive].priceValue,
+  //     priceDiscount: productVariants[variantActive].priceDiscount,
+  //     percentNumber: productVariants[variantActive].percentNumber,
+  //     thumbnail: productVariants[variantActive].thumbnail ?? productDetail.thumbnail,
   //     quantity: 1,
-  //     quantityLeft: productPrices[variantActive].quantityLeft,
+  //     quantityLeft: productVariants[variantActive].quantityLeft,
   //   }
   //   dispatch(sessionActions.addProductToCart(cartItem))
   //   toast.custom((t) => <NotifyAddTocart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })

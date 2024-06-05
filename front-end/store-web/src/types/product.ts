@@ -8,35 +8,39 @@ interface IProduct extends ISEO {
   isDiscounted?: boolean
   IsNewIn?: boolean
   IsSoldOut?: boolean
-}
-
-interface IProductDetail extends ISEO {
-  code: number
-  thumbnail: string
-  isFeatured?: boolean
-  isDiscounted?: boolean
-  IsNewIn?: boolean
-  IsSoldOut?: boolean
   gallery: string[]
   productCategory?: IProductCategory
-  productPrices: IProductPrice[]
+  productRootCategory?: IProductCategory
+  productVariants: IProductVariant[]
+  productSizes: IProductSize[]
+  productStocks: IProductStock[]
 }
 
-interface IProductPrice {
+interface IProductVariant {
   id: string
-  priceName: string
+  name: string
   percentNumber?: number
   priceValue: number
   priceDiscount: number
-  quantityLeft: number
   thumbnail?: string
+}
+
+interface IProductSize {
+  id: string
+  name: string
+}
+
+interface IProductStock {
+  productId: string
+  productVariantId: string
+  productSizeId: string
+  quantityLeft: number
 }
 
 interface IProductCategory {
   id: string
   name: string
   urlSEO: string
-  isShowOnHome?: boolean
 }
 
 interface IProductCategoryDetail extends ISEO {}

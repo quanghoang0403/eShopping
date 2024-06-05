@@ -42,7 +42,7 @@ const LIST_IMAGES_DEMO = [
 ]
 
 interface IProps {
-  productDetail: IProductDetail
+  productDetail: IProduct
   productRelated: IProduct[]
 }
 
@@ -96,10 +96,10 @@ const ProductDetailPage = () => {
         numberOfProduct: 0,
       },
     ],
-    productPrices: [
+    productVariants: [
       {
         id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
-        priceName: 'Xanh',
+        name: 'Xanh',
         priceValue: 200000,
         priceDiscount: 0,
         percentNumber: 10,
@@ -108,7 +108,7 @@ const ProductDetailPage = () => {
       },
       {
         id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
-        priceName: 'Đỏ',
+        name: 'Đỏ',
         priceValue: 13000,
         priceDiscount: 12332,
         percentNumber: 10,
@@ -122,8 +122,8 @@ const ProductDetailPage = () => {
     content: '',
     keywordSEO: 'wqeqwe',
     urlSEO: '323',
-  } as IProductDetail
-  const { productPrices } = productDetail
+  } as IProduct
+  const { productVariants } = productDetail
   const [variantActive, setVariantActive] = useState(0)
   const dispatch = useAppDispatch()
 
@@ -132,14 +132,14 @@ const ProductDetailPage = () => {
       productId: productDetail.id,
       productName: productDetail.name,
       productUrl: productDetail.urlSEO,
-      productPriceId: productPrices[variantActive].id,
-      priceName: productPrices[variantActive].priceName,
-      priceValue: productPrices[variantActive].priceValue,
-      priceDiscount: productPrices[variantActive].priceDiscount,
-      percentNumber: productPrices[variantActive].percentNumber,
-      thumbnail: productPrices[variantActive].thumbnail ?? productDetail.thumbnail,
+      productVariantId: productVariants[variantActive].id,
+      productVariantName: productVariants[variantActive].name,
+      priceValue: productVariants[variantActive].priceValue,
+      priceDiscount: productVariants[variantActive].priceDiscount,
+      percentNumber: productVariants[variantActive].percentNumber,
+      thumbnail: productVariants[variantActive].thumbnail ?? productDetail.thumbnail,
       quantity: 1,
-      quantityLeft: productPrices[variantActive].quantityLeft,
+      quantityLeft: productVariants[variantActive].quantityLeft,
     }
     dispatch(sessionActions.addProductToCart(cartItem))
     toast.custom((t) => <NotifyAddTocart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
@@ -149,7 +149,7 @@ const ProductDetailPage = () => {
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] = useState(false)
 
   const renderVariants = () => {
-    if (!productPrices || !productPrices.length) {
+    if (!productVariants || !productVariants.length) {
       return null
     }
 
@@ -157,11 +157,11 @@ const ProductDetailPage = () => {
       <div>
         <label htmlFor="">
           <span className="text-sm font-medium">
-            <span className="ml-1 font-semibold">{productPrices[variantActive].priceName}</span>
+            <span className="ml-1 font-semibold">{productVariants[variantActive].name}</span>
           </span>
         </label>
         <div className="flex mt-3">
-          {productPrices.map((variant, index) => (
+          {productVariants.map((variant, index) => (
             <div
               key={index}
               onClick={() => setVariantActive(index)}
@@ -249,8 +249,8 @@ const ProductDetailPage = () => {
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
             <Price
               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-2xl font-semibold"
-              priceValue={productPrices[variantActive].priceValue}
-              priceDiscount={productPrices[variantActive].priceDiscount}
+              priceValue={productVariants[variantActive].priceValue}
+              priceDiscount={productVariants[variantActive].priceDiscount}
             />
 
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>

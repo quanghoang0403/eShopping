@@ -9,7 +9,7 @@ interface Props {
 }
 
 const NotifyAddTocart: FC<Props> = ({ show, item }) => {
-  const { productName, thumbnail, priceName, priceValue, priceDiscount } = item
+  const { productName, thumbnail, productVariantName, priceValue, priceDiscount } = item
   const renderProductCartOnNotify = () => {
     return (
       <div className="flex ">
@@ -23,7 +23,7 @@ const NotifyAddTocart: FC<Props> = ({ show, item }) => {
               <div>
                 <h3 className="text-base font-medium ">{productName}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{priceName}</span>
+                  <span>{productVariantName}</span>
                   {/* <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
                   <span>{sizeSelected || 'XL'}</span> */}
                 </p>

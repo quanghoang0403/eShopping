@@ -7,7 +7,7 @@ export default class ProductService {
     )
   }
 
-  static async getProductByUrl(url: string): Promise<IProductDetail> {
+  static async getProductByUrl(url: string): Promise<IProduct> {
     return await APIService.get(`/product/get-product-by-url?url=${url}`)
   }
 

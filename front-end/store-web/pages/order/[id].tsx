@@ -34,7 +34,7 @@ const order: IOrderDetail = {
   orderItems: [
     {
       productName: 'Áo kẻ sọc trắng',
-      priceName: 'Size medium',
+      productVariantName: 'Size medium',
       itemName: 'Áo kẻ sọc trắng - Size medium',
       thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
       productUrl: '/san-pham/1',
@@ -46,7 +46,7 @@ const order: IOrderDetail = {
     },
     {
       productName: 'Áo kẻ sọc trắng',
-      priceName: 'Size medium',
+      productVariantName: 'Size medium',
       itemName: 'Áo kẻ sọc trắng - Size medium',
       thumbnail: '/imgs/productHighlight/Classic Short Sleeves Shirt.jpg',
       productUrl: '/san-pham/1',
