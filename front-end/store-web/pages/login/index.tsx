@@ -14,23 +14,23 @@ import { sessionActions } from '@/redux/features/sessionSlice'
 import AuthService from '@/services/auth.service'
 import Input from '@/shared/Controller/Input'
 
-const loginSocials = [
-  {
-    name: 'Continue with Facebook',
-    href: '#',
-    icon: facebookSvg,
-  },
-  {
-    name: 'Continue with Twitter',
-    href: '#',
-    icon: twitterSvg,
-  },
-  {
-    name: 'Continue with Google',
-    href: '#',
-    icon: googleSvg,
-  },
-]
+// const loginSocials = [
+//   {
+//     name: 'Continue with Facebook',
+//     href: '#',
+//     icon: facebookSvg,
+//   },
+//   {
+//     name: 'Continue with Twitter',
+//     href: '#',
+//     icon: twitterSvg,
+//   },
+//   {
+//     name: 'Continue with Google',
+//     href: '#',
+//     icon: googleSvg,
+//   },
+// ]
 
 const LoginPage = () => {
   const {
@@ -41,10 +41,6 @@ const LoginPage = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const { from } = router.query
-  const [showPassword, setShowPassword] = useState(false)
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
 
   const mutation = useAppMutation(
     async (data: ISignInRequest) => trackPromise(AuthService.signIn(data)),
@@ -62,7 +58,7 @@ const LoginPage = () => {
           Đăng nhập
         </h2>
         <div className="max-w-md mx-auto space-y-6">
-          <div className="grid gap-3">
+          {/* <div className="grid gap-3">
             {loginSocials.map((item, index) => (
               <a
                 key={index}
@@ -73,12 +69,12 @@ const LoginPage = () => {
                 <h3 className="flex-grow text-center text-sm font-medium text-neutral-700 dark:text-neutral-300 sm:text-sm">{item.name}</h3>
               </a>
             ))}
-          </div>
+          </div> */}
           {/* OR */}
-          <div className="relative text-center">
+          {/* <div className="relative text-center">
             <span className="relative z-10 inline-block px-4 font-medium text-sm bg-white dark:text-neutral-400 dark:bg-neutral-900">Hoặc</span>
             <div className="absolute left-0 w-full top-1/2 transform -translate-y-1/2 border border-neutral-100 dark:border-neutral-800"></div>
-          </div>
+          </div> */}
           {/* FORM */}
           <form className="grid grid-cols-1 gap-6" onSubmit={handleSubmit(onSubmit)}>
             <Input
@@ -105,6 +101,9 @@ const LoginPage = () => {
               Tạo tài khoản
             </Link>
           </span>
+          <Link className="block text-center text-green-600" href="/forgot-pass">
+            Quên mật khẩu
+          </Link>
         </div>
       </div>
     </div>
