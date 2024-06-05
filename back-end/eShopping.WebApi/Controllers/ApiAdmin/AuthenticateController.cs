@@ -27,5 +27,13 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             var response = await _mediator.Send(request);
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("renew-password")]
+        public async Task<IActionResult> RenewPassword([FromBody] RenewPasswordRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
     }
 }
