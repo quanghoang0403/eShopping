@@ -130,7 +130,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
               key={index}
               onClick={() => !outOfStock && onChangeActiveProductVariant(productVariant)}
               className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer
-              ${productVariant.id === productVariantActive?.id ? ' border-black dark:border-slate-300' : 'b order-transparent'} 
+              ${productVariant.id === productVariantActive?.id ? ' border-black dark:border-slate-300' : ' border-transparent'} 
               ${outOfStock ? ' text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}}`}
               title={productVariant.name}
             >
@@ -204,7 +204,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
               alt="product"
             />
           </Link>
-          <ProductStatus status={'50% Discount'} />
+          <ProductStatus product={data} />
           <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" />
           {/* {productSizes.length > 1 ? renderProductSizes() : renderGroupButtons()} */}
           {renderProductSizes()}

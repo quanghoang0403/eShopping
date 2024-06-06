@@ -184,9 +184,9 @@ const ProductDetailPage = () => {
               <div
                 key={index}
                 onClick={() => setProductVariantActive(productVariant)}
-                className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2 cursor-pointer 
-                ${productVariant.id === productVariantActive?.id ? 'border-primary-6000 dark:border-primary-500' : 'border-transparent'}
-                ${outOfStock ? 'text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : 'cursor-pointer'}}`}
+                className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2 cursor-pointer
+                ${productVariant.id === productVariantActive?.id ? ' border-primary-6000 dark:border-primary-500' : ' border-transparent'}
+                ${outOfStock ? 't ext-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}}`}
               >
                 <div
                   className="absolute inset-0.5 rounded-full overflow-hidden z-0 object-cover bg-cover"
@@ -224,8 +224,7 @@ const ProductDetailPage = () => {
               <div
                 key={index}
                 onClick={() => !outOfStock && onChangeActiveProductSize(productSize)}
-                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center
-                text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0
+                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0
                 ${productSize.id === productSizeActive?.id  ? ' bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000' : ' border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'}
                 ${outOfStock ? ' text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}}`}
               >
@@ -275,7 +274,7 @@ const ProductDetailPage = () => {
 
         {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
         <div className="">{renderProductVariants()}</div>
-        {/* <div className="">{renderSizeList()}</div> */}
+        <div className="">{renderProductSizes()}</div>
 
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5">
@@ -387,7 +386,7 @@ const ProductDetailPage = () => {
             {/* HEADING */}
             <div className="relative">
               <div className="relative">
-                <Gallery images={LIST_IMAGES_DEMO} status={'50% Discount'} />
+                <Gallery product={productDetail} />
                 {/* <Image
                   fill
                   sizes="(max-width: 640px) 100vw, 33vw"
