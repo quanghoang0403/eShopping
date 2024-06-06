@@ -281,11 +281,11 @@ export default function EditProductPage() {
             <div className="col-input-full-width create-product-page">
               <Row className="grid-container-create-product">
                 <LeftProductDetail form={form} />
-                {/* <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} /> */}
+                <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} />
               </Row>
               <br />
               <Row>
-                {/* <StockProductTable form={form} productSizes={productSizes} /> */}
+                <StockProductTable form={form} productSizes={productSizes} />
               </Row>
             </div>
           </Form>
