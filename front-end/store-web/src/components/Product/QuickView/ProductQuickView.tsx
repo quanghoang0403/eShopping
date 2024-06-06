@@ -12,7 +12,7 @@ import toast from 'react-hot-toast'
 import detail1JPG from '@/images/products/detail1.jpg'
 import detail2JPG from '@/images/products/detail2.jpg'
 import detail3JPG from '@/images/products/detail3.jpg'
-import NotifyAddTocart from '@/components/Product/NotifyAddTocart'
+import NotifyAddToCart from '@/components/Product/NotifyAddToCart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -46,7 +46,7 @@ const ProductQuickView: FC<ProductQuickViewProps> = ({ className = '' }) => {
   //     quantityLeft: productVariants[variantActive].quantityLeft,
   //   }
   //   dispatch(sessionActions.addProductToCart(cartItem))
-  //   toast.custom((t) => <NotifyAddTocart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
+  //   toast.custom((t) => <NotifyAddToCart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
   // }
 
   // const renderVariants = () => {

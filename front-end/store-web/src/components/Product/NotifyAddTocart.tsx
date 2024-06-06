@@ -8,7 +8,7 @@ interface Props {
   show: boolean
 }
 
-const NotifyAddTocart: FC<Props> = ({ show, item }) => {
+const NotifyAddToCart: FC<Props> = ({ show, item }) => {
   const { productName, thumbnail, productVariantName, priceValue, priceDiscount } = item
   const renderProductCartOnNotify = () => {
     return (
@@ -63,4 +63,4 @@ const NotifyAddTocart: FC<Props> = ({ show, item }) => {
   )
 }
 
-export default NotifyAddTocart
+export default NotifyAddToCart

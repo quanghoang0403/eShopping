@@ -129,10 +129,9 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
             <div
               key={index}
               onClick={() => !outOfStock && onChangeActiveProductVariant(productVariant)}
-              className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer 
-              ${productVariant.id === productVariantActive?.id ? 'border-black dark:border-slate-300' : 'border-transparent'} 
-              ${outOfStock ? 'bg-gray-300 cursor-not-allowed' : ''}}
-              `}
+              className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer
+              ${productVariant.id === productVariantActive?.id ? ' border-black dark:border-slate-300' : 'b order-transparent'} 
+              ${outOfStock ? ' text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}}`}
               title={productVariant.name}
             >
               <div
@@ -157,8 +156,10 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
           return (
             <div
               key={index}
-              className={`nc-shadow-lg w-10 h-10 rounded-xl bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center uppercase font-semibold tracking-tight text-sm text-slate-900 ${outOfStock ? 'bg-gray-300 cursor-not-allowed' : ''}`}
               onClick={() => !outOfStock && onChangeActiveProductSize(productSize)}
+              className={`nc-shadow-lg w-10 h-10 rounded-xl bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center uppercase font-semibold tracking-tight text-sm text-slate-900
+              ${productSize.id === productSizeActive?.id  ? ' bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000' : ' border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'}
+              ${outOfStock ? ' text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}}`}
             >
               {productSize.name}
             </div>

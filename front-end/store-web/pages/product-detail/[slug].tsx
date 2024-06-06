@@ -15,7 +15,7 @@ import Policy from '@/components/Product/Policy'
 import ReviewItem from '@/components/Product/Review/ReviewItem'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import ModalViewAllReviews from '@/components/Product/Review/ModalViewAllReviews'
-import NotifyAddTocart from '@/components/Product/NotifyAddTocart'
+import NotifyAddToCart from '@/components/Product/NotifyAddToCart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
 import Gallery from '@/components/Product/Gallery/Gallery'
 import { GetServerSideProps, GetStaticProps } from 'next'
@@ -119,33 +119,53 @@ const ProductDetailPage = () => {
     keywordSEO: 'wqeqwe',
     urlSEO: '323',
   } as IProduct
-  const { productVariants } = productDetail
-  const [variantActive, setVariantActive] = useState(0)
+  const { productVariants, productSizes, productStocks } = productDetail
+  const [productVariantActive, setProductVariantActive] = useState<IProductVariant | null>(null)
+  const [productSizeActive, setProductSizeActive] = useState<IProductSize | null>(null)
   const dispatch = useAppDispatch()
 
+  const onChangeActiveProductVariant = (variant : IProductVariant) => {
+    setProductVariantActive(variant)
+    if (!productStocks?.find(x => x.productVariantId === variant.id && x.productSizeId === productSizeActive?.id && x.quantityLeft > 0))
+      setProductSizeActive(null)
+  }
+
+  const onChangeActiveProductSize = (size : IProductSize) => {
+    setProductSizeActive(size)
+    if (!productStocks?.find(x => x.productSizeId === size.id && x.productVariantId === productVariantActive?.id && x.quantityLeft > 0))
+      setProductVariantActive(null)
+  }
+
+  const isOutOfStock = (productVariant: IProductVariant | null, productSize: IProductSize | null): boolean => {
+    if (!productSize || !productVariant) return false
+    return !productStocks?.find(x => x.productSizeId === productSize.id && x.productVariantId === productVariant?.id && x.quantityLeft > 0)
+  }
+
   const handleAddProduct = () => {
-    const cartItem: ICartItem = {
-      productId: productDetail.id,
-      productName: productDetail.name,
-      productUrl: productDetail.urlSEO,
-      productVariantId: productVariants[variantActive].id,
-      productVariantName: productVariants[variantActive].name,
-      priceValue: productVariants[variantActive].priceValue,
-      priceDiscount: productVariants[variantActive].priceDiscount,
-      percentNumber: productVariants[variantActive].percentNumber,
-      thumbnail: productVariants[variantActive].thumbnail ?? productDetail.thumbnail,
-      quantity: 1,
-      //quantityLeft: productVariants[variantActive].quantityLeft,
-      quantityLeft: 2,
+    if (productVariantActive && productSizeActive) {
+      const cartItem: ICartItem = {
+        productId: productDetail.id,
+        productName: productDetail.name,
+        productUrl: productDetail.urlSEO,
+        productVariantId: productVariantActive.id,
+        productVariantName: productVariantActive.name,
+        priceValue: productVariantActive.priceValue,
+        priceDiscount: productVariantActive.priceDiscount,
+        percentNumber: productVariantActive.percentNumber,
+        thumbnail: productVariantActive.thumbnail ?? productDetail.thumbnail,
+        quantity: 1,
+        //quantityLeft: productVariantActive.quantityLeft,
+        quantityLeft: 2,
+      }
+      dispatch(sessionActions.addProductToCart(cartItem))
+      toast.custom((t) => <NotifyAddToCart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
     }
-    dispatch(sessionActions.addProductToCart(cartItem))
-    toast.custom((t) => <NotifyAddTocart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
   }
   // const [sizeSelected, setSizeSelected] = useState(sizes ? sizes[0] : '')
   const [qualitySelected, setQualitySelected] = useState(1)
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] = useState(false)
 
-  const renderVariants = () => {
+  const renderProductVariants = () => {
     if (!productVariants || !productVariants.length) {
       return null
     }
@@ -154,86 +174,69 @@ const ProductDetailPage = () => {
       <div>
         <label htmlFor="">
           <span className="text-sm font-medium">
-            <span className="ml-1 font-semibold">{productVariants[variantActive].name}</span>
+            <span className="ml-1 font-semibold">{productVariantActive?.name ?? ''}</span>
           </span>
         </label>
         <div className="flex mt-3">
-          {productVariants.map((variant, index) => (
-            <div
-              key={index}
-              onClick={() => setVariantActive(index)}
-              className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2 cursor-pointer ${
-                variantActive === index ? 'border-primary-6000 dark:border-primary-500' : 'border-transparent'
-              }`}
-            >
+          {productVariants.map((productVariant, index) => { 
+            const outOfStock = isOutOfStock(productVariant, productSizeActive)
+            return (
               <div
-                className="absolute inset-0.5 rounded-full overflow-hidden z-0 object-cover bg-cover"
-                style={{
-                  backgroundImage: `url(${
-                    // @ts-ignore
-                    typeof variant.thumbnail?.src === 'string'
-                      ? // @ts-ignore
-                        variant.thumbnail?.src
-                      : typeof variant.thumbnail === 'string'
-                      ? variant.thumbnail
-                      : ''
-                  })`,
-                }}
-              ></div>
-            </div>
-          ))}
+                key={index}
+                onClick={() => setProductVariantActive(productVariant)}
+                className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2 cursor-pointer 
+                ${productVariant.id === productVariantActive?.id ? 'border-primary-6000 dark:border-primary-500' : 'border-transparent'}
+                ${outOfStock ? 'text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : 'cursor-pointer'}}`}
+              >
+                <div
+                  className="absolute inset-0.5 rounded-full overflow-hidden z-0 object-cover bg-cover"
+                  style={{ backgroundImage: `url(${productVariant.thumbnail ?? ''})` }}
+                ></div>
+              </div>
+            )} 
+          )}
         </div>
       </div>
     )
   }
 
-  // const renderSizeList = () => {
-  //   if (!  || !sizes || !sizes.length) {
-  //     return null
-  //   }
-  //   return (
-  //     <div>
-  //       <div className="flex justify-between font-medium text-sm">
-  //         <label htmlFor="">
-  //           <span className="">
-  //             Size:
-  //             <span className="ml-1 font-semibold">{sizeSelected}</span>
-  //           </span>
-  //         </label>
-  //         <a target="_blank" rel="noopener noreferrer" href="##" className="text-primary-6000 hover:text-primary-500">
-  //           See sizing chart
-  //         </a>
-  //       </div>
-  //       <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
-  //         {allOfSizes.map((size, index) => {
-  //           const isActive = size === sizeSelected
-  //           const sizeOutStock = !sizes.includes(size)
-  //           return (
-  //             <div
-  //               key={index}
-  //               className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center
-  //               text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 ${
-  //                 sizeOutStock ? 'text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : 'cursor-pointer'
-  //               } ${
-  //                 isActive
-  //                   ? 'bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000'
-  //                   : 'border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'
-  //               }`}
-  //               onClick={() => {
-  //                 if (sizeOutStock) {
-  //                   return
-  //                 }
-  //                 setSizeSelected(size)
-  //               }}
-  //             >
-  //               {size}
-  //             </div>
-  //           )
-  //         })}
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  const renderProductSizes = () => {
+    if (!productSizes || !productSizes.length) {
+      return null
+    }
+    return (
+      <div>
+        <div className="flex justify-between font-medium text-sm">
+          <label htmlFor="">
+            <span className="">
+              Size:
+              <span className="ml-1 font-semibold">{productSizeActive?.name ?? ''}</span>
+            </span>
+          </label>
+          <a target="_blank" rel="noopener noreferrer" href="##" className="text-primary-6000 hover:text-primary-500">
+            Xem bảng size
+          </a>
+        </div>
+        <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
+          {productSizes.map((productSize, index) => {
+            const outOfStock = isOutOfStock(productVariantActive, productSize)
+            return (
+              <div
+                key={index}
+                onClick={() => !outOfStock && onChangeActiveProductSize(productSize)}
+                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center
+                text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0
+                ${productSize.id === productSizeActive?.id  ? ' bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000' : ' border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'}
+                ${outOfStock ? ' text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}}`}
+              >
+                {productSize.name}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
 
   const renderSectionContent = () => {
     return (
@@ -246,8 +249,8 @@ const ProductDetailPage = () => {
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
             <Price
               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-2xl font-semibold"
-              priceValue={productVariants[variantActive].priceValue}
-              priceDiscount={productVariants[variantActive].priceDiscount}
+              priceValue={productVariantActive ? productVariantActive.priceValue : productDetail.priceValue}
+              priceDiscount={productVariantActive ? productVariantActive.priceDiscount : productDetail.priceDiscount}
             />
 
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
@@ -271,7 +274,7 @@ const ProductDetailPage = () => {
         </div>
 
         {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
-        <div className="">{renderVariants()}</div>
+        <div className="">{renderProductVariants()}</div>
         {/* <div className="">{renderSizeList()}</div> */}
 
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
