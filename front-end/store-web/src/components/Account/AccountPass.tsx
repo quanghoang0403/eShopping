@@ -12,6 +12,7 @@ const AccountPass = () => {
     register,
     formState: { errors },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
+
   const mutationUpdatePassword = useAppMutation(async (data: IUpdatePasswordRequest) => CustomerService.updatePassword(data))
   const onSubmitUpdatePassword: SubmitHandler<FieldValues> = (data: any) => mutationUpdatePassword.mutate(data)
   return (
