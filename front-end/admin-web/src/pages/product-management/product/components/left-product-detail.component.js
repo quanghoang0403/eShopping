@@ -83,8 +83,6 @@ export default function LeftProductDetail({ form }) {
   useEffect(() => {
     const keywords = form.getFieldValue('keywordSEO')
     setKeywordSEOList(keywords?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
-    form.setFieldValue(['gallery'], ['https://eshoppingblob.blob.core.windows.net/uploaddev/dowload_bib_green-activ04464302062024.png', 'https://eshoppingblob.blob.core.windows.net/uploaddev/dowload_bib_green-activ04464302062024.png'])
-    console.log(form.getFieldValue('gallery'));
   }, [])
 
   return (

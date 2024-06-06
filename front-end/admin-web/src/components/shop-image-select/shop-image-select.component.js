@@ -22,7 +22,6 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     isShowMessageError = false,
     maxNumber = 1
   } = props
-  //console.log(value);
   const shopUploadRef = React.useRef()
   const [selectedImage, setSelectedImage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -57,9 +56,9 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
 
   const onClickUploadImage = (file) => {
     if (onChange) {
-      onChange(file?.url)
+      onChange(file)
     }
-    setSelectedImage(file != null ? file?.url : null)
+    setSelectedImage(file)
     setErrorMessage(null)
   }
 

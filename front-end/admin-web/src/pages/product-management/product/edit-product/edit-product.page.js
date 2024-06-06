@@ -115,36 +115,36 @@ export default function EditProductPage() {
 
   const editProduct = () => {
     console.log(form.getFieldsValue())
-    form
-      .validateFields()
-      .then(async (values) => {
-        const payload = {
-          ...values,
-          productVariants: values?.productVariants.map((item, index) => ({
-            ...item,
-            priority: index
-          })),
-          id: match?.params?.id,
-          status: statusId
-        }
-        productDataService
-          .updateProductAsync(payload)
-          .then((res) => {
-            if (res) {
-              message.success(pageData.productEditedSuccess);
-              onCompleted();
-            }
-          })
-          .catch((errs) => {
-            form.setFields(getValidationMessages(errs));
-          });
-      })
-      .catch((errors) => {
-        if (errors?.errorFields?.length > 0) {
-          const elementId = errors?.errorFields[0]?.name.join('-')
-          scrollToElement(elementId)
-        }
-      })
+    // form
+    //   .validateFields()
+    //   .then(async (values) => {
+    //     const payload = {
+    //       ...values,
+    //       productVariants: values?.productVariants.map((item, index) => ({
+    //         ...item,
+    //         priority: index
+    //       })),
+    //       id: match?.params?.id,
+    //       status: statusId
+    //     }
+    //     productDataService
+    //       .updateProductAsync(payload)
+    //       .then((res) => {
+    //         if (res) {
+    //           message.success(pageData.productEditedSuccess);
+    //           onCompleted();
+    //         }
+    //       })
+    //       .catch((errs) => {
+    //         form.setFields(getValidationMessages(errs));
+    //       });
+    //   })
+    //   .catch((errors) => {
+    //     if (errors?.errorFields?.length > 0) {
+    //       const elementId = errors?.errorFields[0]?.name.join('-')
+    //       scrollToElement(elementId)
+    //     }
+    //   })
   }
 
   const onFieldsChange = () => {
@@ -281,11 +281,11 @@ export default function EditProductPage() {
             <div className="col-input-full-width create-product-page">
               <Row className="grid-container-create-product">
                 <LeftProductDetail form={form} />
-                <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} />
+                {/* <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} /> */}
               </Row>
               <br />
               <Row>
-                <StockProductTable form={form} productSizes={productSizes} />
+                {/* <StockProductTable form={form} productSizes={productSizes} /> */}
               </Row>
             </div>
           </Form>
