@@ -39,14 +39,8 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
       } else {
         setImages([{ data_url: url }]);
       }
-      console.log('useImperativeHandle');
-      console.log(url);
     }
   }))
-
-  useEffect(() => {
-    console.log(images);
-  }, [images])
 
   /**
    *

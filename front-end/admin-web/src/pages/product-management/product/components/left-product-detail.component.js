@@ -10,7 +10,7 @@ import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 
-export default function LeftProductDetail({ form }) {
+export default function LeftProductDetail({ form, productData }) {
   const { t } = useTranslation()
   const pageData = {
     generalInformation: {
@@ -81,9 +81,10 @@ export default function LeftProductDetail({ form }) {
   }, [keywordSEOs])
 
   useEffect(() => {
-    const keywords = form.getFieldValue('keywordSEO')
-    setKeywordSEOList(keywords?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
-  }, [])
+    if (productData) {
+      setKeywordSEOList(productData.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
+    }
+  }, [productData])
 
   return (
     <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
@@ -235,7 +236,6 @@ export default function LeftProductDetail({ form }) {
                   }}
                 />
                 <ShopAddNewButton
-                  permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
                   disabled={!isKeywordSEOChange}
                   text={pageData.SEOInformation.keyword.btnAdd}
                   className={'mx-4'}

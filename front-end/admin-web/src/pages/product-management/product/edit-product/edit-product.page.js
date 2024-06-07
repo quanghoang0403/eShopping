@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import StockProductTable from '../components/stock-product.component';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
+import moment from 'moment';
 
 export default function EditProductPage() {
   const history = useHistory()
@@ -101,11 +102,21 @@ export default function EditProductPage() {
 
   const fetchProductDetail = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
-      form.setFieldsValue(data)
-      setProductData(data)
-      setTitleName(data?.name);
-      setStatusId(data?.status);
-      if (data?.status === ProductStatus.Activate) {
+      const parsedData = {
+        ...data,
+        productVariants: data?.productVariants.map((productVariant) => ({
+          ...productVariant,
+          startDate: moment(productVariant?.startDate) || moment(),
+          endDate: moment(productVariant?.endDate) || null
+        })),
+        startDate: moment(data?.startDate) || moment(),
+        endDate: moment(data?.endDate) || null
+      };
+      form.setFieldsValue(parsedData)
+      setProductData(parsedData)
+      setTitleName(parsedData?.name);
+      setStatusId(parsedData?.status);
+      if (parsedData?.status === ProductStatus.Activate) {
         setActivate(pageData.deactivate);
       } else {
         setActivate(pageData.activate);
@@ -115,39 +126,40 @@ export default function EditProductPage() {
 
   const editProduct = () => {
     console.log(form.getFieldsValue())
-    // form
-    //   .validateFields()
-    //   .then(async (values) => {
-    //     const payload = {
-    //       ...values,
-    //       productVariants: values?.productVariants.map((item, index) => ({
-    //         ...item,
-    //         priority: index
-    //       })),
-    //       id: match?.params?.id,
-    //       status: statusId
-    //     }
-    //     productDataService
-    //       .updateProductAsync(payload)
-    //       .then((res) => {
-    //         if (res) {
-    //           message.success(pageData.productEditedSuccess);
-    //           onCompleted();
-    //         }
-    //       })
-    //       .catch((errs) => {
-    //         form.setFields(getValidationMessages(errs));
-    //       });
-    //   })
-    //   .catch((errors) => {
-    //     if (errors?.errorFields?.length > 0) {
-    //       const elementId = errors?.errorFields[0]?.name.join('-')
-    //       scrollToElement(elementId)
-    //     }
-    //   })
+    form
+      .validateFields()
+      .then(async (values) => {
+        const payload = {
+          ...values,
+          productVariants: values?.productVariants.map((item, index) => ({
+            ...item,
+            priority: index
+          })),
+          id: match?.params?.id,
+          status: statusId
+        }
+        productDataService
+          .updateProductAsync(payload)
+          .then((res) => {
+            if (res) {
+              message.success(pageData.productEditedSuccess);
+              onCompleted();
+            }
+          })
+          .catch((errs) => {
+            form.setFields(getValidationMessages(errs));
+          });
+      })
+      .catch((errors) => {
+        if (errors?.errorFields?.length > 0) {
+          const elementId = errors?.errorFields[0]?.name.join('-')
+          scrollToElement(elementId)
+        }
+      })
   }
 
   const onFieldsChange = () => {
+    console.log(form.getFieldsValue())
     setIsChangeForm(true)
     setDisableCreateButton(false)
   };
@@ -280,12 +292,12 @@ export default function EditProductPage() {
           >
             <div className="col-input-full-width create-product-page">
               <Row className="grid-container-create-product">
-                <LeftProductDetail form={form} />
+                <LeftProductDetail form={form} productData={productData}/>
                 <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} />
               </Row>
               <br />
               <Row>
-                <StockProductTable form={form} productSizes={productSizes} />
+                <StockProductTable form={form} productSizes={productSizes} productData={productData} />
               </Row>
             </div>
           </Form>

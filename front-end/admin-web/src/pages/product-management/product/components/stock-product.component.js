@@ -18,7 +18,7 @@ import { IconBtnAdd } from 'constants/icons.constants';
 import { FnbDeleteIcon } from 'components/shop-delete-icon/shop-delete-icon';
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
 
-export default function StockProductTable({ productSizes, form }) {
+export default function StockProductTable({ form, productSizes, productData }) {
   const { t } = useTranslation();
   const pageData = {
     productVariant: {
@@ -105,55 +105,6 @@ export default function StockProductTable({ productSizes, form }) {
       quantityLeft: 0
     }))
   }]
-
-  // const [productVariants, setProductVariants] = useState([{
-  //   key: 1,
-  //   thumbnail: null,
-  //   name: 'Product Variant 1',
-  //   isUseBasePrice: true,
-  //   priceOriginal: 200000.00,
-  //   priceValue: 140000.00,
-  //   priceDiscount: 130000.00,
-  //   startDate: moment(),
-  //   endDate: moment().add(7, 'days'),
-  //   stocks: productSizes?.map(size => ({
-  //     productSizeId: size.id,
-  //     name: size.name,
-  //     quantityLeft: 0
-  //   }))
-  // },
-  // {
-  //   key: 2,
-  //   thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/29052024112449.jpg',
-  //   name: 'Product Variant 2',
-  //   isUseBasePrice: false,
-  //   priceOriginal: 180000.00,
-  //   priceValue: 140000.00,
-  //   priceDiscount: 130000.00,
-  //   startDate: moment(),
-  //   endDate: moment().add(6, 'days'),
-  //   stocks: productSizes?.map(size => ({
-  //     productSizeId: size.id,
-  //     name: size.name,
-  //     quantityLeft: 0
-  //   }))
-  // },
-  // {
-  //   key: 3,
-  //   thumbnail: null,
-  //   name: 'Product Variant 3',
-  //   isUseBasePrice: true,
-  //   priceOriginal: 160000.00,
-  //   priceValue: 140000.00,
-  //   priceDiscount: 130000.00,
-  //   startDate: moment(),
-  //   endDate: moment().add(4, 'days'),
-  //   stocks: productSizes?.map(size => ({
-  //     productSizeId: size.id,
-  //     name: size.name,
-  //     quantityLeft: 0
-  //   }))
-  // }])
 
   const [productVariants, setProductVariants] = useState([])
 
@@ -449,7 +400,6 @@ export default function StockProductTable({ productSizes, form }) {
             width: 176,
             render: (value, record, index) => (
               <Form.Item
-                valuePropName={'date'}
                 name={['productVariants', index, 'startDate']}
                 rules={[
                   {
@@ -485,7 +435,6 @@ export default function StockProductTable({ productSizes, form }) {
             width: 176,
             render: (value, record, index) => (
               <Form.Item
-                valuePropName={'date'}
                 name={['productVariants', index, 'endDate']}
                 rules={[]}
               >
@@ -711,6 +660,12 @@ export default function StockProductTable({ productSizes, form }) {
   }, [])
 
   useEffect(() => {
+    if (productData) {
+      handleSyncData(productData.productVariants)
+    }
+  }, [productData])
+
+  useEffect(() => {
     onProductSizesChange()
   }, [productSizes])
 
@@ -907,7 +862,6 @@ export default function StockProductTable({ productSizes, form }) {
         <Col xs={24} lg={4}>
           <Form.Item
             name={['startDate']}
-            valuePropName={'date'}
             rules={[
               {
                 required: true,
@@ -935,7 +889,6 @@ export default function StockProductTable({ productSizes, form }) {
         <Col xs={24} lg={4}>
           <Form.Item
             name={['endDate']}
-            valuePropName={'date'}
             rules={[]}
           >
             <DatePicker
