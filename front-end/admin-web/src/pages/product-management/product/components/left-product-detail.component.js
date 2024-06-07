@@ -61,6 +61,7 @@ export default function LeftProductDetail({ form, productData }) {
     }
   }
 
+  const [currentKeyword, setCurrentKeyword] = useState('');
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange, setIsKeywordSEOChange] = useState(false)
@@ -77,14 +78,15 @@ export default function LeftProductDetail({ form, productData }) {
   }
 
   useEffect(() => {
-    form.setFieldValue('keywordSEO', keywordSEOs.map(kw => kw.value)?.join(',') || null)
-  }, [keywordSEOs])
-
-  useEffect(() => {
     if (productData) {
       setKeywordSEOList(productData.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
     }
   }, [productData])
+
+  useEffect(() => {
+    console.log(keywordSEOs?.map(kw => kw.value)?.join(','));
+    setCurrentKeyword(keywordSEOs?.map(kw => kw.value)?.join(','))
+  }, [keywordSEOs])
 
   return (
     <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
@@ -134,7 +136,6 @@ export default function LeftProductDetail({ form, productData }) {
                 id="product-description"
               />
             </Form.Item>
-
             <h4 className="shop-form-label">{pageData.generalInformation.content.label}</h4>
             <Form.Item name={['content']} rules={[]}>
               <FnbFroalaEditor
@@ -217,6 +218,9 @@ export default function LeftProductDetail({ form, productData }) {
               </Tooltip>
             </div>
 
+            <Form.Item name={['keywordSEO']} rules={[]}>
+              <Input value={currentKeyword} />
+            </Form.Item>
             <div>
               {keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''}
               <div className='d-flex mt-3'>
