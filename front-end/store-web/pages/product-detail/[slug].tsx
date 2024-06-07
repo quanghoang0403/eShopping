@@ -112,6 +112,38 @@ const ProductDetailPage = () => {
         thumbnail: 'https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png',
       },
     ],
+    productSizes: [
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        name: 'L',
+      },
+      {
+        id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        name: 'XL',
+      },
+    ],
+    productStocks: [
+      {
+        productSizeId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        productVariantId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        quantityLeft: 10,
+      },
+      {
+        productSizeId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        productVariantId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        quantityLeft: 15,
+      },
+      {
+        productSizeId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        productVariantId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
+        quantityLeft: 10,
+      },
+      {
+        productSizeId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        productVariantId: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
+        quantityLeft: 15,
+      },
+    ],
     gallery: ['https://eshoppingblob.blob.core.windows.net/uploaddev/27042024191521.png'],
     id: '40fed1f2-e668-40b3-f5fa-08dc66b3bd8a',
     name: '323',
@@ -161,7 +193,7 @@ const ProductDetailPage = () => {
       toast.custom((t) => <NotifyAddToCart item={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
     }
   }
-  // const [sizeSelected, setSizeSelected] = useState(sizes ? sizes[0] : '')
+
   const [qualitySelected, setQualitySelected] = useState(1)
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] = useState(false)
 
@@ -201,6 +233,7 @@ const ProductDetailPage = () => {
   }
 
   const renderProductSizes = () => {
+    console.log(productSizes);
     if (!productSizes || !productSizes.length) {
       return null
     }

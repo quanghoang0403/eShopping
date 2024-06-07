@@ -31,7 +31,6 @@ interface IProductSize {
 }
 
 interface IProductStock {
-  productId: string
   productVariantId: string
   productSizeId: string
   quantityLeft: number
