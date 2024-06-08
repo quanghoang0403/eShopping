@@ -442,7 +442,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
                   className="shop-date-picker w-100"
                   disabledDate={e => disabledDateByStartDate(e, record.startDate)}
                   format={DateFormat.DD_MM_YYYY}
-                  disabled={!record.startDate || record.isUseBasePrice}
+                  disabled={!record.startDate || record.isUseBasePrice || !record.priceDiscount}
                 />
               </Form.Item>
             )
@@ -630,6 +630,9 @@ export default function StockProductTable({ form, productSizes, productData }) {
           form.setFieldValue('startDate', moment())
           form.setFieldValue('endDate', moment().add(7, 'days'))
         }
+      } else {
+        form.setFieldValue('startDate', null)
+        form.setFieldValue('endDate', null)
       }
     }
     else {
@@ -649,6 +652,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
           form.setFieldValue(['productVariants', position, 'startDate'], moment())
           form.setFieldValue(['productVariants', position, 'endDate'], moment().add(7, 'days'))
         }
+      }
+      else {
+        form.setFieldValue(['productVariants', position, 'startDate'], null)
+        form.setFieldValue(['productVariants', position, 'endDate'], null)
       }
     }
     onFieldsChange()
@@ -911,7 +918,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
               className="shop-date-picker w-100"
               disabledDate={e => disabledDateByStartDate(e, form.getFieldValue('startDate'))}
               format={DateFormat.DD_MM_YYYY}
-              disabled={form.getFieldValue('startDate') ? false : true}
+              disabled={!form.getFieldValue('startDate') || !form.getFieldValue('priceDiscount')}
               onChange={() => onFieldsChange()}
             />
           </Form.Item>

@@ -84,8 +84,8 @@ export default function LeftProductDetail({ form, productData }) {
   }, [productData])
 
   useEffect(() => {
-    console.log(keywordSEOs?.map(kw => kw.value)?.join(','));
-    setCurrentKeyword(keywordSEOs?.map(kw => kw.value)?.join(','))
+    //setCurrentKeyword(keywordSEOs?.map(kw => kw.value)?.join(','))
+    form.setFieldValue('keywordSEO', keywordSEOs?.map(kw => kw.value)?.join(','))
   }, [keywordSEOs])
 
   return (
@@ -218,8 +218,8 @@ export default function LeftProductDetail({ form, productData }) {
               </Tooltip>
             </div>
 
-            <Form.Item name={['keywordSEO']} rules={[]}>
-              <Input value={currentKeyword} />
+            <Form.Item hidden name={['keywordSEO']} rules={[]}>
+              <Input />
             </Form.Item>
             <div>
               {keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''}
