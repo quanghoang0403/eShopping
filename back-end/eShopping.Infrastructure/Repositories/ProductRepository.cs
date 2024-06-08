@@ -53,63 +53,43 @@ namespace eShopping.Infrastructure.Repositories
                 {
                     var productEdit = request;
 
-                    #region Handle update product variants
-                    // all product variants before update
-                    var allProductVariants = await _dbContext.ProductVariants
+                    // remove old gallery
+
+                    // remove old product stocks
+                    var oldProductStocks = await _dbContext.ProductStocks
                         .Where(x => x.ProductId == request.Id)
                         .AsNoTracking()
                         .ToListAsync(cancellationToken: cancellationToken);
+                    _dbContext.ProductStocks.RemoveRange(oldProductStocks);
 
-                    // update product variants
-                    if (request.ProductVariants.Any())
+                    // remove old product variants
+                    var oldProductVariants = await _dbContext.ProductVariants
+                        .Where(x => x.ProductId == request.Id)
+                        .AsNoTracking()
+                        .ToListAsync(cancellationToken: cancellationToken);
+                    _dbContext.ProductVariants.RemoveRange(oldProductVariants);
+
+                    // add product variants not insert to DB
+                    var newProductVariants = new List<ProductVariant>();
+                    foreach (var option in request.ProductVariants)
                     {
-                        // remove unused product variants
-                        var unusedProductVariants = allProductVariants.Where(x => !request.ProductVariants.Any(pn => pn.Id == x.Id));
-                        _dbContext.ProductVariants.RemoveRange(unusedProductVariants);
-
-                        // add product variants not insert to DB
-                        var newProductVariants = request.ProductVariants.Where(p => p.Id == Guid.Empty);
-                        var newProductVariantsToDB = new List<ProductVariant>();
-                        foreach (var option in newProductVariants)
+                        var newProductVariant = new ProductVariant()
                         {
-                            allProductVariants.Remove(option);
-                            var newProductVariant = new ProductVariant()
-                            {
-                                Priority = option.Priority,
-                                Name = option.Name,
-                                PriceValue = option.PriceValue,
-                                ProductId = productEdit.Id,
-                                StartDate = option.StartDate,
-                                EndDate = option.EndDate,
-                                PriceOriginal = option.PriceOriginal,
-                                PercentNumber = option.PercentNumber,
-                                PriceDiscount = option.PriceDiscount
-                            };
-                            newProductVariantsToDB.Add(newProductVariant);
-                            await _dbContext.ProductVariants.AddRangeAsync(newProductVariantsToDB, cancellationToken);
-                        }
-
-                        // update product variants existed
-                        var reusedProductVariants = allProductVariants.Where(p => request.ProductVariants.Any(r => r.Id == p.Id));
-                        foreach (var productVariant in reusedProductVariants)
-                        {
-                            var newProductVariant = request.ProductVariants.FirstOrDefault(p => p.Id == productVariant.Id);
-                            productVariant.Priority = newProductVariant.Priority;
-                            productVariant.Name = newProductVariant.Name;
-                            productVariant.PriceValue = newProductVariant.PriceValue;
-                            productVariant.PriceOriginal = newProductVariant.PriceOriginal;
-                            productVariant.PriceDiscount = newProductVariant.PriceDiscount;
-                            productVariant.PercentNumber = newProductVariant.PercentNumber;
-                            productVariant.StartDate = newProductVariant.StartDate;
-                            productVariant.EndDate = newProductVariant.EndDate;
-                        }
-                        _dbContext.ProductVariants.UpdateRange(reusedProductVariants);
+                            Priority = option.Priority,
+                            Name = option.Name,
+                            PriceValue = option.PriceValue,
+                            ProductId = productEdit.Id,
+                            StartDate = option.StartDate,
+                            EndDate = option.EndDate,
+                            PriceOriginal = option.PriceOriginal,
+                            PercentNumber = option.PercentNumber,
+                            PriceDiscount = option.PriceDiscount
+                        };
+                        newProductVariants.Add(newProductVariant);
                     }
-                    #endregion
+                    await _dbContext.ProductVariants.AddRangeAsync(newProductVariants, cancellationToken);
 
-                    #region Handle update product stocks
                     // all product stocks before update
-
                     var sizeIds = await _dbContext.ProductSizes
                         .Where(s => s.ProductSizeCategoryId == request.ProductSizeCategoryId)
                         .Select(x => x.Id)
@@ -118,16 +98,10 @@ namespace eShopping.Infrastructure.Repositories
                         .Where(s => s.ProductId == request.Id)
                         .Select(x => x.Id)
                         .ToListAsync();
+
                     // update product stocks
                     if (request.ProductStocks.Any())
                     {
-                        // remove old product stocks
-                        var oldProductStocks = await _dbContext.ProductStocks
-                            .Where(x => x.ProductId == request.Id)
-                            .AsNoTracking()
-                            .ToListAsync(cancellationToken: cancellationToken);
-                        _dbContext.ProductStocks.RemoveRange(oldProductStocks);
-
                         // add new product stocks not insert to DB 
                         var newProductStocksToDB = new List<ProductStock>();
                         foreach (var option in request.ProductStocks)
@@ -144,11 +118,6 @@ namespace eShopping.Infrastructure.Repositories
                             await _dbContext.ProductStocks.AddRangeAsync(newProductStocksToDB, cancellationToken);
                         }
                     }
-                    #endregion
-
-                    #region Handle update product image
-
-                    #endregion
 
                     _dbContext.Entry(productEdit).State = EntityState.Modified;
                     await _dbContext.SaveChangesAsync(cancellationToken);

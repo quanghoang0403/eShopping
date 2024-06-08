@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public float? PercentNumber { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
 
@@ -124,14 +124,17 @@ namespace eShopping.Application.Features.Products.Commands
                     await _unitOfWork.Products.AddAsync(product);
 
                     // Add image
-                    var productImages = request.Gallery.Select(x => new Image()
+                    if (request.Gallery?.Count > 0)
                     {
-                        ObjectId = product.Id,
-                        ImagePath = x,
-                        CreatedUser = accountId,
-                        CreatedTime = DateTime.Now
-                    });
-                    await _unitOfWork.Images.AddRangeAsync(productImages);
+                        var productImages = request.Gallery.Select(x => new Image()
+                        {
+                            ObjectId = product.Id,
+                            ImagePath = x,
+                            CreatedUser = accountId,
+                            CreatedTime = DateTime.Now
+                        });
+                        await _unitOfWork.Images.AddRangeAsync(productImages);
+                    }
 
                     // Add stock
                     var stocksToAdd = new List<ProductStock>();
@@ -158,7 +161,7 @@ namespace eShopping.Application.Features.Products.Commands
                 {
                     // Data will be restored.
                     await createTransaction.RollbackAsync(cancellationToken);
-                    BaseResponseModel.ReturnError(ex.Message, "Can not create Product");
+                    return BaseResponseModel.ReturnError("Can not create Product", ex.Message);
                 }
 
                 return BaseResponseModel.ReturnData();

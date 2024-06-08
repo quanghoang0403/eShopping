@@ -104,13 +104,14 @@ export default function EditProductPage() {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
       const parsedData = {
         ...data,
-        productVariants: data?.productVariants.map((productVariant) => ({
+        productVariants: data?.productVariants.map((productVariant, index) => ({
           ...productVariant,
-          startDate: moment(productVariant?.startDate) || moment(),
-          endDate: moment(productVariant?.endDate) || null
+          key: index + 1,
+          startDate: productVariant.startDate ? moment(productVariant.startDate) : null,
+          endDate: productVariant.endDate ? moment(productVariant.endDate) : null
         })),
-        startDate: moment(data?.startDate) || moment(),
-        endDate: moment(data?.endDate) || null
+        startDate: data.startDate ? moment(data.startDate) : null,
+        endDate: data.endDate ? moment(data.endDate) : null
       };
       form.setFieldsValue(parsedData)
       setProductData(parsedData)
@@ -126,37 +127,37 @@ export default function EditProductPage() {
 
   const editProduct = () => {
     console.log(form.getFieldsValue())
-    // form
-    //   .validateFields()
-    //   .then(async (values) => {
-    //     console.log(values);
-    //     const payload = {
-    //       ...values,
-    //       productVariants: values?.productVariants.map((item, index) => ({
-    //         ...item,
-    //         priority: index
-    //       })),
-    //       id: match?.params?.id,
-    //       status: statusId
-    //     }
-    //     productDataService
-    //       .updateProductAsync(payload)
-    //       .then((res) => {
-    //         if (res) {
-    //           message.success(pageData.productEditedSuccess);
-    //           onCompleted();
-    //         }
-    //       })
-    //       .catch((errs) => {
-    //         form.setFields(getValidationMessages(errs));
-    //       });
-    //   })
-    //   .catch((errors) => {
-    //     if (errors?.errorFields?.length > 0) {
-    //       const elementId = errors?.errorFields[0]?.name.join('-')
-    //       scrollToElement(elementId)
-    //     }
-    //   })
+    form
+      .validateFields()
+      .then(async (values) => {
+        console.log(values);
+        const payload = {
+          ...values,
+          productVariants: values?.productVariants.map((item, index) => ({
+            ...item,
+            priority: index
+          })),
+          id: match?.params?.id,
+          status: statusId
+        }
+        productDataService
+          .updateProductAsync(payload)
+          .then((res) => {
+            if (res) {
+              message.success(pageData.productEditedSuccess);
+              onCompleted();
+            }
+          })
+          .catch((errs) => {
+            form.setFields(getValidationMessages(errs));
+          });
+      })
+      .catch((errors) => {
+        if (errors?.errorFields?.length > 0) {
+          const elementId = errors?.errorFields[0]?.name.join('-')
+          scrollToElement(elementId)
+        }
+      })
   }
 
   const onFieldsChange = () => {

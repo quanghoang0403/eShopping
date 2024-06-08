@@ -62,9 +62,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public DateTime? EndDate { get; set; }
 
-        public List<AdminProductVariantModel> ProductVariants { get; set; }
-
-        public List<AdminProductStockModel> ProductStocks { get; set; }
+        public List<AdminProductVariantWithStockModel> ProductVariants { get; set; }
 
     }
 
@@ -105,18 +103,95 @@ namespace eShopping.Application.Features.Products.Commands
             {
                 return BaseResponseModel.ReturnError("Product name existed");
             }
-            // Handle update product
-            var updateProductModel = _mapper.Map<Product>(request);
-            updateProductModel.LastSavedUser = loggedUser.AccountId.Value;
-            updateProductModel.LastSavedTime = DateTime.Now;
-            updateProductModel.UrlSEO = StringHelpers.UrlEncode(updateProductModel.Name);
 
-            var updateProductResult = await _unitOfWork.Products.UpdateProductAsync(updateProductModel);
-            if (updateProductResult == null)
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                return BaseResponseModel.ReturnError("Cannot update this product.");
-            }
-            return BaseResponseModel.ReturnData();
+                // Create a new transaction to save data more securely, data will be restored if an error occurs.
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
+                {
+                    // Remove old gallery
+                    var oldGallery = await _unitOfWork.Images
+                        .Where(i => i.ObjectId == request.Id && i.ImageType == EnumImageTypeObject.Product)
+                        .ToListAsync();
+                    _unitOfWork.Images.RemoveRange(oldGallery);
+
+                    // Remove old product stocks
+                    var oldProductStocks = await _unitOfWork.ProductStocks
+                        .Where(x => x.ProductId == request.Id)
+                        .ToListAsync(cancellationToken: cancellationToken);
+                    _unitOfWork.ProductStocks.RemoveRange(oldProductStocks);
+
+                    // Remove old product variants
+                    var oldProductVariants = await _unitOfWork.ProductVariants
+                        .Where(x => x.ProductId == request.Id)
+                        .ToListAsync(cancellationToken: cancellationToken);
+                    _unitOfWork.ProductVariants.RemoveRange(oldProductVariants);
+
+                    // Update gallery
+                    var productImages = request.Gallery?.Select(x => new Image()
+                    {
+                        ObjectId = productId,
+                        ImagePath = x,
+                        CreatedUser = loggedUser.AccountId.Value,
+                        CreatedTime = DateTime.Now
+                    });
+                    await _unitOfWork.Images.AddRangeAsync(productImages);
+
+                    // Update product variants
+                    var newProductVariants = request.ProductVariants.Select(x => new ProductVariant()
+                    {
+                        Priority = x.Priority,
+                        Name = x.Name,
+                        PriceValue = x.PriceValue,
+                        ProductId = productId,
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate,
+                        PriceOriginal = x.PriceOriginal,
+                        PercentNumber = x.PercentNumber,
+                        PriceDiscount = x.PriceDiscount
+                    }).ToList();
+                    await _unitOfWork.ProductVariants.AddRangeAsync(newProductVariants);
+
+                    // Update product stocks
+                    var newProductStocks = new List<ProductStock>();
+                    foreach (var variant in newProductVariants)
+                    {
+                        var variantAdd = request.ProductVariants.Where(x => x.Priority == variant.Priority).FirstOrDefault();
+                        foreach (var stock in variantAdd.Stocks)
+                        {
+                            newProductStocks.Add(new ProductStock
+                            {
+                                ProductId = productId,
+                                ProductVariantId = variant.Id,
+                                ProductSizeId = stock.ProductSizeId,
+                                QuantityLeft = stock.QuantityLeft
+                            });
+                        }
+                    }
+                    await _unitOfWork.ProductStocks.AddRangeAsync(newProductStocks);
+
+                    // Handle update product
+                    var updateProductModel = _mapper.Map<Product>(request);
+                    updateProductModel.LastSavedUser = loggedUser.AccountId.Value;
+                    updateProductModel.LastSavedTime = DateTime.Now;
+                    updateProductModel.UrlSEO = StringHelpers.UrlEncode(updateProductModel.Name);
+                    updateProductModel.ProductVariants = newProductVariants;
+                    updateProductModel.ProductStocks = newProductStocks;
+                    await _unitOfWork.Products.UpdateAsync(updateProductModel);
+
+                    await createTransaction.CommitAsync(cancellationToken);
+
+                }
+                catch (Exception ex)
+                {
+                    // Data will be restored.
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return BaseResponseModel.ReturnError("Can not update product", ex.Message);
+                }
+
+                return BaseResponseModel.ReturnData();
+            });
         }
 
         private static BaseResponseModel RequestValidation(AdminUpdateProductRequest request)

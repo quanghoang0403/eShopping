@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import './stock-product.component.scss';
 import { CalendarNewIconBold } from 'constants/icons.constants';
 import moment from 'moment';
-import { inputNumberRangeOneTo999999999 } from 'constants/default.constants';
+import { inputNumberRange0To100 } from 'constants/default.constants';
 import { currency } from 'constants/string.constants'
 import { DateFormat } from 'constants/string.constants';
 import { roundNumber } from 'utils/helpers';
@@ -216,10 +216,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
                     required: true,
                     message: pageData.pricing.price.validateMessage
                   },
-                  {
-                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                    message: pageData.pricing.price.validateMessage
-                  },
+                  // {
+                  //   pattern: new RegExp(inputNumberRange0To100.range),
+                  //   message: pageData.pricing.price.validateMessage
+                  // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (value > getFieldValue(['productVariants', index, 'priceValue'])) {
@@ -243,7 +243,6 @@ export default function StockProductTable({ form, productSizes, productData }) {
                       event.preventDefault()
                     }
                   }}
-                  //value={value}
                   disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-price-original`}
                 />
@@ -264,10 +263,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
                     required: true,
                     message: pageData.pricing.price.validateMessage
                   },
-                  {
-                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                    message: pageData.pricing.price.validateMessage
-                  },
+                  // {
+                  //   pattern: new RegExp(inputNumberRange0To100.range),
+                  //   message: pageData.pricing.price.validateMessage
+                  // },
                   ({ getFieldValue }) => (
                     {
                       validator(_, value) {
@@ -314,14 +313,14 @@ export default function StockProductTable({ form, productSizes, productData }) {
               <Form.Item
                 name={['productVariants', index, 'priceDiscount']}
                 rules={[
-                  {
-                    required: true,
-                    message: pageData.pricing.price.validateMessage
-                  },
-                  {
-                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                    message: pageData.pricing.price.validateMessage
-                  },
+                  // {
+                  //   required: true,
+                  //   message: pageData.pricing.price.validateMessage
+                  // },
+                  // {
+                  //   pattern: new RegExp(inputNumberRange0To100.range),
+                  //   message: pageData.pricing.price.validateMessage
+                  // },
                   ({ getFieldValue }) => (
                     {
                       validator(_, value) {
@@ -335,6 +334,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
                 ]}
               >
                 <InputNumber
+                  onChange={() => onDiscountChange(false, index)}
                   className="shop-input-number w-100"
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
@@ -347,7 +347,6 @@ export default function StockProductTable({ form, productSizes, productData }) {
                       event.preventDefault()
                     }
                   }}
-                  //value={value}
                   disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-price-value`}
                 />
@@ -364,16 +363,16 @@ export default function StockProductTable({ form, productSizes, productData }) {
               <Form.Item
                 name={['productVariants', index, 'percentNumber']}
                 rules={[
-                  {
-                    pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                    message: pageData.pricing.priceDiscount.percentage.validateMessage
-                  }
+                  // {
+                  //   pattern: new RegExp(inputNumberRange0To100.range),
+                  //   message: pageData.pricing.priceDiscount.percentage.validateMessage
+                  // }
                 ]}
               >
                 <InputNumber
+                  disabled={true}
                   onChange={() => onDiscountChange(true, index)}
                   className="shop-input-number w-100"
-                  placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
                   formatter={(value) => `${value}%`}
                   parser={(value) => value?.replace('%', '')}
                   min={0}
@@ -385,8 +384,6 @@ export default function StockProductTable({ form, productSizes, productData }) {
                       event.preventDefault()
                     }
                   }}
-                  //value={value}
-                  disabled={record.isUseBasePrice}
                   id={`product-variants-${index}-percent-number`}
                 />
               </Form.Item>
@@ -402,10 +399,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
               <Form.Item
                 name={['productVariants', index, 'startDate']}
                 rules={[
-                  {
-                    required: true,
-                    message: pageData.pricing.priceDate.startDate.validateMessage
-                  }
+                  // {
+                  //   required: true,
+                  //   message: pageData.pricing.priceDate.startDate.validateMessage
+                  // }
                 ]}
               >
                 <DatePicker
@@ -415,7 +412,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
                   className="shop-date-picker w-100"
                   format={DateFormat.DD_MM_YYYY}
                   disabledDate={disabledDate}
-                  disabled={record.isUseBasePrice}
+                  disabled={record.isUseBasePrice || !record.priceDiscount}
                   onChange={(date) => {
                     // Clear end date after select start date if endate < startdate only
                     const productVariant = form.getFieldValue(['productVariants', index]);
@@ -628,7 +625,12 @@ export default function StockProductTable({ form, productSizes, productData }) {
         const percent = priceToPercentage(numeric, total)
         form.setFieldValue('percentNumber', percent)
       }
-      onFieldsChange()
+      if (form.getFieldValue('priceDiscount')) {
+        if (!form.getFieldValue('startDate')) {
+          form.setFieldValue('startDate', moment())
+          form.setFieldValue('endDate', moment().add(7, 'days'))
+        }
+      }
     }
     else {
       const total = form.getFieldValue(['productVariants', position, 'priceValue'])
@@ -642,7 +644,14 @@ export default function StockProductTable({ form, productSizes, productData }) {
         const percent = priceToPercentage(numeric, total)
         form.setFieldValue(['productVariants', position, 'percentNumber'], percent)
       }
+      if (form.getFieldValue(['productVariants', position, 'priceDiscount'])) {
+        if (!form.getFieldValue('startDate')) {
+          form.setFieldValue(['productVariants', position, 'startDate'], moment())
+          form.setFieldValue(['productVariants', position, 'endDate'], moment().add(7, 'days'))
+        }
+      }
     }
+    onFieldsChange()
   }
 
   const disabledDate = (current) => {
@@ -661,12 +670,15 @@ export default function StockProductTable({ form, productSizes, productData }) {
 
   useEffect(() => {
     if (productData) {
+      setCount(productData.productVariants.length)
       handleSyncData(productData.productVariants)
     }
   }, [productData])
 
   useEffect(() => {
-    onProductSizesChange()
+    if (form?.getFieldValue('productSizeCategoryId') != productData?.productSizeCategoryId) {
+      onProductSizesChange()
+    }
   }, [productSizes])
 
 
@@ -710,10 +722,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
                 required: true,
                 message: pageData.pricing.price.validateMessage
               },
-              {
-                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                message: pageData.pricing.price.validateMessage
-              },
+              // {
+              //   pattern: new RegExp(inputNumberRange0To100.range),
+              //   message: pageData.pricing.price.validateMessage
+              // },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (value > getFieldValue(['priceValue'])) {
@@ -751,10 +763,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
                 required: true,
                 message: pageData.pricing.price.validateMessage
               },
-              {
-                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                message: pageData.pricing.price.validateMessage
-              },
+              // {
+              //   pattern: new RegExp(inputNumberRange0To100.range),
+              //   message: pageData.pricing.price.validateMessage
+              // },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (value < getFieldValue(['priceOriginal'])) {
@@ -791,14 +803,14 @@ export default function StockProductTable({ form, productSizes, productData }) {
           <Form.Item
             name={['priceDiscount']}
             rules={[
-              {
-                required: true,
-                message: pageData.pricing.price.validateMessage
-              },
-              {
-                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                message: pageData.pricing.price.validateMessage
-              },
+              // {
+              //   required: true,
+              //   message: pageData.pricing.price.validateMessage
+              // },
+              // {
+              //   pattern: new RegExp(inputNumberRange0To100.range),
+              //   message: pageData.pricing.price.validateMessage
+              // },
               ({ getFieldValue }) => (
                 {
                   validator(_, value) {
@@ -834,13 +846,14 @@ export default function StockProductTable({ form, productSizes, productData }) {
           <Form.Item
             name={['percentNumber']}
             rules={[
-              {
-                pattern: new RegExp(inputNumberRangeOneTo999999999.range),
-                message: pageData.pricing.priceDiscount.percentage.validateMessage
-              }
+              // {
+              //   pattern: new RegExp(inputNumberRange0To100.range),
+              //   message: pageData.pricing.priceDiscount.percentage.validateMessage
+              // }
             ]}
           >
             <InputNumber
+              disabled={true}
               onChange={() => onDiscountChange(true)}
               className="shop-input-number w-100"
               placeholder={pageData.pricing.priceDiscount.percentage.placeholder}
@@ -863,13 +876,14 @@ export default function StockProductTable({ form, productSizes, productData }) {
           <Form.Item
             name={['startDate']}
             rules={[
-              {
-                required: true,
-                message: pageData.pricing.priceDate.startDate.validateMessage
-              }
+              // {
+              //   required: true,
+              //   message: pageData.pricing.priceDate.startDate.validateMessage
+              // }
             ]}
           >
             <DatePicker
+              disabled={!form.getFieldValue('priceDiscount')}
               suffixIcon={<CalendarNewIconBold />}
               placeholder={pageData.pricing.priceDate.startDate.placeholder}
               className="shop-date-picker w-100"
