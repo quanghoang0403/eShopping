@@ -84,9 +84,11 @@ namespace eShopping.Application.Features.Customers.Commands
                     var newAccount = new Domain.Entities.Account()
                     {
                         Email = request.Email,
+                        PhoneNumber = request.PhoneNumber,
                         Password = (new PasswordHasher<Domain.Entities.Account>()).HashPassword(null, password),
                         EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
                         AccountType = EnumAccountType.Customer,
+                        IsActivated = true,/// bypass email confirm, will be remove in the feature
                         FullName = request.FullName,
                         Birthday = request.Birthday,
                         Gender = request.Gender,
