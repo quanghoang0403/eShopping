@@ -2,11 +2,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import NcInputNumber from '@/shared/NcInputNumber'
 import Price from '@/shared/Price'
-import { formatCurrency } from '@/utils/string.helper'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 import Selection from '@/shared/Controller/Selection'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 export interface CartListProps {}
 
@@ -114,14 +114,18 @@ const CartList: FC<CartListProps> = () => {
 
                 <div className="flex mt-auto pt-4 items-end justify-between text-sm">
                   <div className="hidden sm:block text-center relative">
-                    <NcInputNumber className="relative z-10" onChange={(value: any) => updateCartItem(item.productId, item.productVariantId, parseInt(value))} />
+                    <NcInputNumber
+                      className="relative z-10"
+                      onChange={(value: any) => updateCartItem(item.productId, item.productVariantId, parseInt(value))}
+                    />
                   </div>
 
                   <a
                     onClick={() => removeCartItem(item.productId, item.productVariantId)}
-                    className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm "
+                    className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm cursor-pointer"
                   >
-                    <span>Xoá</span>
+                    {/* <span>Xoá</span> */}
+                    <TrashIcon className="w-5 h-5" />
                   </a>
                 </div>
               </div>

@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { formatCurrency } from '@/utils/string.helper'
 import { sessionActions } from '@/redux/features/sessionSlice'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 export default function CartDropdown() {
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
@@ -60,7 +61,7 @@ export default function CartDropdown() {
                 type="button"
                 className="font-medium text-primary-6000 dark:text-primary-500 "
               >
-                Xoá
+                <TrashIcon className="w-5 h-5" />
               </button>
             </div>
           </div>
