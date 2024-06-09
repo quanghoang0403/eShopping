@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
@@ -112,10 +111,16 @@ namespace eShopping.Application.Features.Products.Queries
                     products = products.OrderByDescending(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
                 }
             }
-            var allProducts = await products.AsNoTracking().ToPaginationAsync(request.PageNumber, request.PageSize);
+            var allProducts = await products
+                .Include(x => x.ProductVariants)
+                .Include(p => p.ProductCategory)
+                .Include(p => p.ProductRootCategory)
+                .Include(p => p.ProductSizeCategory.ProductSizes)
+                .Include(p => p.ProductStocks)
+                .AsNoTracking()
+                .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProducts.Result;
             var productResponse = _mapper.Map<List<StoreProductModel>>(pagingResult);
-
             var response = new PagingResult<StoreProductModel>(productResponse, allProducts.Paging);
             return BaseResponseModel.ReturnData(response);
 

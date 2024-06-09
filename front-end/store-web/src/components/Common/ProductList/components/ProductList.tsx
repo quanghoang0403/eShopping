@@ -11,7 +11,7 @@ const ProductList: FC<ProductListProps> = ({ data = PRODUCTS }) => {
   return (
     <>
       {data.map((item, index) => (
-        <ProductCard data={item} key={index} />
+        <ProductCard product={item} key={index} />
       ))}
     </>
   )

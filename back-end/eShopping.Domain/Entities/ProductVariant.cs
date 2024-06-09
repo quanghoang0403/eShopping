@@ -33,7 +33,7 @@ namespace eShopping.Domain.Entities
 
         public string Thumbnail { set; get; }
 
-        public bool IsUseBasePrice { get; set; }
+        public bool? IsUseBasePrice { get; set; }
 
         public virtual Product Product { get; set; }
     }

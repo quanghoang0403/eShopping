@@ -1,38 +1,66 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Transition } from '@headlessui/react'
 import Price from '@/shared/Price'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { sessionActions } from '@/redux/features/sessionSlice'
 
 interface Props {
-  item: ICartItem
+  product: IProduct
+  productVariantActive: IProductVariant
+  productSizeActive: IProductSize
+  productStockActive: IProductStock
+  quantity: number
   show: boolean
 }
 
-const NotifyAddToCart: FC<Props> = ({ show, item }) => {
-  const { productName, thumbnail, productVariantName, priceValue, priceDiscount } = item
+const NotifyAddToCart: FC<Props> = ({ product, productVariantActive, productSizeActive, productStockActive, quantity, show }) => {
+  const { name } = product
+  const thumbnail = productVariantActive.thumbnail ?? product.thumbnail
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const cartItem: ICartItem = {
+      productId: product.id,
+      productName: product.name,
+      productUrl: product.urlSEO,
+      productSizeId: productSizeActive.id,
+      productSizeName: productSizeActive.name,
+      productVariantId: productVariantActive.id,
+      productVariantName: productVariantActive.name,
+      priceValue: productVariantActive.priceValue,
+      priceDiscount: productVariantActive.priceDiscount,
+      percentNumber: productVariantActive.percentNumber,
+      thumbnail: thumbnail,
+      quantity: quantity,
+      quantityLeft: productStockActive.quantityLeft,
+    }
+    dispatch(sessionActions.addProductToCart(cartItem))
+  }, [])
+
   const renderProductCartOnNotify = () => {
     return (
       <div className="flex ">
         <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Image src={thumbnail} alt={productName} fill sizes="100px" className="h-full w-full object-contain object-center" />
+          <Image src={thumbnail} alt={name} fill sizes="100px" className="h-full w-full object-contain object-center" />
         </div>
 
         <div className="ml-4 flex flex-1 flex-col">
           <div>
             <div className="flex justify-between ">
               <div>
-                <h3 className="text-base font-medium ">{productName}</h3>
+                <h3 className="text-base font-medium ">{name}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{productVariantName}</span>
-                  {/* <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{sizeSelected || 'XL'}</span> */}
+                  <span>{productVariantActive.name}</span>
+                  <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
+                  <span>{productSizeActive.name}</span>
                 </p>
               </div>
-              <Price priceValue={priceValue} className="mt-0.5" />
+              <Price priceValue={productVariantActive.priceValue} priceDiscount={productVariantActive.priceDiscount} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
-            <p className="text-gray-500 dark:text-slate-400"></p>
+            <p className="text-gray-500 dark:text-slate-400">Số lượng: {quantity}</p>
             <div className="flex">
               <button type="button" className="font-medium text-primary-6000 dark:text-primary-500 ">
                 Xem giỏ hàng
@@ -56,7 +84,7 @@ const NotifyAddToCart: FC<Props> = ({ show, item }) => {
       leaveFrom="opacity-100 translate-x-0"
       leaveTo="opacity-0 translate-x-20"
     >
-      <p className="block text-base font-semibold leading-none">Đã thêm vào giỏ hàng!</p>
+      <p className="block text-base font-semibold leading-none">{}Đã thêm vào giỏ hàng!</p>
       <hr className=" border-slate-200 dark:border-slate-700 my-4" />
       {renderProductCartOnNotify()}
     </Transition>

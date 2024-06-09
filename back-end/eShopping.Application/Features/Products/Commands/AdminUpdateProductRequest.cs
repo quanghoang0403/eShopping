@@ -143,13 +143,15 @@ namespace eShopping.Application.Features.Products.Commands
                     {
                         Priority = x.Priority,
                         Name = x.Name,
-                        PriceValue = x.PriceValue,
                         ProductId = productId,
                         StartDate = x.StartDate,
                         EndDate = x.EndDate,
                         PriceOriginal = x.PriceOriginal,
+                        PriceValue = x.PriceValue,
+                        PriceDiscount = x.PriceDiscount,
                         PercentNumber = x.PercentNumber,
-                        PriceDiscount = x.PriceDiscount
+                        IsUseBasePrice = x.IsUseBasePrice ?? false,
+                        Thumbnail = x.Thumbnail
                     }).ToList();
                     await _unitOfWork.ProductVariants.AddRangeAsync(newProductVariants);
 

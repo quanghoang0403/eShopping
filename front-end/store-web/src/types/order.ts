@@ -30,6 +30,8 @@ interface ICartItem {
   productId: string
   productName: string
   productUrl: string
+  productSizeId: string
+  productSizeName: string
   productVariantId: string
   productVariantName: string
   priceValue: number

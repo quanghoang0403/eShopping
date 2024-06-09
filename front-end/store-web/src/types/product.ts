@@ -12,8 +12,8 @@ interface IProduct extends ISEO {
   productCategory?: IProductCategory
   productRootCategory?: IProductCategory
   productVariants: IProductVariant[]
-  productSizes?: IProductSize[]
-  productStocks?: IProductStock[]
+  productSizes: IProductSize[]
+  productStocks: IProductStock[]
 }
 
 interface IProductVariant {
@@ -52,7 +52,10 @@ enum EnumSortType {
 
 interface IGetProductsRequest extends IPagingRequest {
   productCategoryId?: string
+  productRootCategoryId?: string
   isFeatured?: boolean
   isDiscounted?: boolean
+  isSoldOut?: boolean
+  isNewIn?: boolean
   sortType: EnumSortType
 }
