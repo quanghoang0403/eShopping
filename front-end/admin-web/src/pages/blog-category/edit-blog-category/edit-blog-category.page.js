@@ -1,4 +1,4 @@
-import { Button, Card, Col, Divider, Form, Input, InputNumber, Row, Space, Tooltip, message } from 'antd';
+import { Button, Card, Col, Form, Input, InputNumber, Row, Space, Tooltip, message } from 'antd';
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component';
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
 import PageTitle from 'components/page-title';
@@ -120,7 +120,6 @@ export default function EditBlogCategory() {
       description: data.description,
       content: data.content
     }
-    console.log(blogCategoryEditModel)
     const res = await BlogCategoryDataService.editBlogCategoryAsync(blogCategoryEditModel)
     try {
       if (res) {

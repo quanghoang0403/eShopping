@@ -5,24 +5,17 @@ import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-bu
 import FnbCard from 'components/shop-card/shop-card.component'
 import FnbFroalaEditor from 'components/shop-froala-editor'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
-import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import PageTitle from 'components/page-title'
-import SelectBlogTagComponent from 'pages/blog/components/select-tag-blog.components'
-import TextDanger from 'components/text-danger'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { ExclamationIcon, WarningIcon } from 'constants/icons.constants'
+import { ExclamationIcon} from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
-// import blogDataService from 'data-services/blog/blog-data.service'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import {
-  convertSeoUrl,
   formatNumber,
-  getValidationMessages,
-  getValidationMessagesWithParentField
+  getValidationMessages
 } from 'utils/helpers'
 import './edit-blog.page.scss'
 import BlogDataService from 'data-services/blog/blog-data.service'
@@ -37,28 +30,12 @@ export default function EditBlogPage(props) {
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
   const shopImageSelectRef = useRef()
-
   const [categories, setCategories] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [tagDataTemp, setTagDataTemp] = useState([])
-  const [tags, setTags] = useState([])
-  const [tagError, setTagError] = useState(false)
-  const [newCategoryName, setNewCategoryName] = useState(null)
-  const [showCategoryNameValidateMessage, setShowCategoryNameValidateMessage] = useState(false)
-  const [isCategoryNameExisted, setIsCategoryNameExisted] = useState(false)
-  const [urlLink, setUrlSEO] = useState('')
-  const [titleSEO, setTitleSEO] = useState('')
-  const [descriptionSEO, setDescriptionSEO] = useState('')
-  const [blogContent, setBlogContent] = useState('')
-  const [showBlogContentValidateMessage, setShowBlogContentValidateMessage] = useState(false)
   const [blogName, setBlogName] = useState('')
-  const reduxState = useSelector((state) => state)
   const [blog, setBlog] = useState({})
-  const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false)
-  const [isShowWarningSEODescription, setIsShowWarningSEODescription] = useState(false)
-  const [checkBlogContentLoaded, setCheckBlogContentLoaded] = useState(false)
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
@@ -162,7 +139,7 @@ export default function EditBlogPage(props) {
         mappingData(res)
       })
       .catch((errors) => {
-        message.error(element.message)
+        message.error(errors.message)
       })
   }
 
@@ -171,15 +148,8 @@ export default function EditBlogPage(props) {
     if (shopImageSelectRef && shopImageSelectRef.current) {
       shopImageSelectRef.current.setImageUrl(data?.thumbnail)
     }
-
-    setTags(data?.blogTags)
     setBlogName(data?.name)
-    setBlogContent(data?.content)
-    setUrlSEO(data?.urlSEO)
-    setTitleSEO(data?.titleSEO)
-    setDescriptionSEO(data?.descriptionSEO)
     setKeywordSEOList(data?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
-    setCheckBlogContentLoaded(true)
     // mapping general
     form.setFieldsValue({
       name: data?.name,
@@ -187,9 +157,9 @@ export default function EditBlogPage(props) {
       priority: data?.priority,
       content: data?.content,
       blogCategoryId: data?.blogCategories.map(b => b.id),
-      UrlSEO: data?.urlSEO,
-      TitleSEO: data?.titleSEO,
-      DescriptionSEO: data?.descriptionSEO
+      urlSEO: data?.urlSEO,
+      titleSEO: data?.titleSEO,
+      descriptionSEO: data?.descriptionSEO
     })
   }
 
@@ -201,10 +171,6 @@ export default function EditBlogPage(props) {
   }
 
   const onSubmitForm = () => {
-    if (blogContent.length === 0) {
-      setShowBlogContentValidateMessage(true)
-      return
-    }
     let imageUrl = ''
     if (shopImageSelectRef && shopImageSelectRef.current) {
       imageUrl = shopImageSelectRef.current.getImageUrl()
@@ -215,18 +181,13 @@ export default function EditBlogPage(props) {
         const request = {
           blogDetailModel: {
             ...values,
-            titleSEO: titleSEO,
-            descriptionSEO: descriptionSEO,
             author: blog.author,
-            name: blogName,
             id: props?.match?.params?.id,
-            content: blogContent,
             thumbnail: imageUrl,
             keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
-            description: blogContent.replace(/<.*?>/gm, '').slice(0, 200)
+            description: values.content.replace(/<.*?>/gm, '').slice(0, 200)
           }
         }
-        console.log(request.blogDetailModel)
         const res = await BlogDataService.editBlogAsync(request.blogDetailModel)
         if (res) {
           message.success(pageData.updateBlogSuccess)
@@ -234,9 +195,8 @@ export default function EditBlogPage(props) {
         }
       })
       .catch((errors) => {
-
         form.setFields(getValidationMessages(errors));
-        message.error(element.message)
+        message.error(errors.message)
 
       })
   }
@@ -262,17 +222,11 @@ export default function EditBlogPage(props) {
     }, DELAYED_TIME)
   }
 
-  const changeForm = (e) => {
+  const changeForm = () => {
     setIsChangeForm(true)
     setDisableCreateButton(false)
   }
 
-  const onChangeOption = (id) => {
-    const formValue = form.getFieldsValue()
-
-    formValue.blogCategoryId = id
-    form.setFieldsValue(formValue)
-  }
   const addSEOKeywords = (e) => {
     e.preventDefault();
     setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
@@ -323,7 +277,7 @@ export default function EditBlogPage(props) {
         form={form}
         name="basic"
         className="edit-blog"
-        onFieldsChange={(e) => changeForm(e)}
+        onFieldsChange={() => changeForm()}
         autoComplete="off"
         onChange={() => {
           if (!blockNavigation) setBlockNavigation(true)
@@ -339,7 +293,6 @@ export default function EditBlogPage(props) {
                       <h4 className="title-group">
                         {pageData.generalInformation.title}
                       </h4>
-
                       <h4 className="shop-form-label">
                         {pageData.generalInformation.name.label}
                         <span className="text-danger">*</span>
@@ -362,13 +315,7 @@ export default function EditBlogPage(props) {
                           }
                           maxLength={pageData.generalInformation.name.maxLength}
                           id="product-name"
-                          onChange={(e) => {
-                            if (e.target.value.length <= 255) {
-                              setBlogName(e.target.value)
-                            }
-                          }}
                           allowClear
-                          value={blogName}
                           showCount
                         />
                       </Form.Item>
@@ -438,26 +385,11 @@ export default function EditBlogPage(props) {
                         {pageData.generalInformation.blogContent.label}{' '}
                         <span className="text-danger">*</span>
                       </h4>
-                      <FnbFroalaEditor
-                        value={blogContent}
-                        onChange={(value) => {
-                          if (checkBlogContentLoaded) { setIsChangeForm(true) }
-                          setBlogContent(value)
-                          if (value.length > 0) {
-                            setShowBlogContentValidateMessage(false)
-                          } else {
-                            setShowBlogContentValidateMessage(true)
-                          }
-                        }}
-                        charCounterMax={-1}
-                      />
-                      <TextDanger
-                        className="text-error-add-unit"
-                        visible={showBlogContentValidateMessage}
-                        text={
-                          pageData.generalInformation.blogContent.validateMessage
-                        }
-                      />
+                      <Form.Item name={'content'} rules={[{required:true,message:pageData.generalInformation.blogContent.validateMessage}]}>
+                        <FnbFroalaEditor
+                          charCounterMax={-1}
+                        />
+                      </Form.Item>
                     </Col>
                   </Row>
                 </Card>
@@ -509,7 +441,7 @@ export default function EditBlogPage(props) {
                             }">`}
                         </span>
                       </div> */}
-                      <h4 className="shop-form-label">
+                      <h4 className="shop-form-label d-flex">
                         {pageData.SEO.SEOTitle}
                         <Tooltip
                           placement="topLeft"
@@ -524,41 +456,28 @@ export default function EditBlogPage(props) {
                           }}
                           className="material-edit-cost-per-unit-tool-tip"
                         >
-                          <span>
+                          <span className='ml-2'>
                             <ExclamationIcon />
                           </span>
                         </Tooltip>
                       </h4>
-                      <Form.Item name={'titleSEO'}>
+                      <Form.Item
+                        name={'titleSEO'}
+                        rules={[{
+                          min:50,
+                          max:60,
+                          message:pageData.messageMatchSuggestSEOTitle
+                        }]}
+                      >
                         <Input
                           className="shop-input-with-count"
                           placeholder={pageData.SEO.SEOTitlePlaceholder}
                           maxLength={100}
-                          onChange={(e) => {
-                            setIsChangeForm(true)
-                            e.target.value.length < 50 ||
-                              e.target.value.length > 60
-                              ? setIsShowWarningSEOTitle(true)
-                              : setIsShowWarningSEOTitle(false)
-                            setTitleSEO(e.target.value)
-                          }}
-                          value={titleSEO}
                           showCount
                         />
-                        <div
-                          hidden={!isShowWarningSEOTitle}
-                          className="seo-warning-message"
-                        >
-                          <div className="icon-warning">
-                            <WarningIcon />
-                          </div>
-                          <div className="text-warning">
-                            <span>{pageData.messageMatchSuggestSEOTitle}</span>
-                          </div>
-                        </div>
                       </Form.Item>
 
-                      <h4 className="shop-form-label">
+                      <h4 className="shop-form-label d-flex mt-2">
                         {pageData.SEO.SEODescription}
                         <Tooltip
                           placement="topLeft"
@@ -573,43 +492,28 @@ export default function EditBlogPage(props) {
                           }}
                           className=" material-edit-cost-per-unit-tool-tip"
                         >
-                          <span>
+                          <span className='ml-2'>
                             <ExclamationIcon />
                           </span>
                         </Tooltip>
                       </h4>
-                      <Form.Item name={'descriptionSEO'}>
+                      <Form.Item
+                        name={'descriptionSEO'}
+                        rules={[{
+                          min:150,
+                          max:160,
+                          message:pageData.messageMatchSuggestSEOTitle
+                        }]}
+                      >
                         <FnbTextArea
-                          // className="shop-input-with-count"
+                          rows={6}
                           placeholder={pageData.SEO.SEODescriptionPlaceholder}
                           maxLength={255}
-                          onChange={(e) => {
-                            setIsChangeForm(true)
-                            e.target.value.length < 150 ||
-                              e.target.value.length > 160
-                              ? setIsShowWarningSEODescription(true)
-                              : setIsShowWarningSEODescription(false)
-                            setDescriptionSEO(e.target.value)
-                          }}
-                          value={descriptionSEO}
                           showCount
                         />
-                        <div
-                          hidden={!isShowWarningSEODescription}
-                          className="seo-warning-message"
-                        >
-                          <div className="icon-warning">
-                            <WarningIcon />
-                          </div>
-                          <div className="text-warning">
-                            <span>
-                              {pageData.messageMatchSuggestSEODescription}
-                            </span>
-                          </div>
-                        </div>
                       </Form.Item>
 
-                      <h4 className="shop-form-label">
+                      <h4 className="shop-form-label d-flex">
                         {pageData.SEO.SEOKeywords}
                         <Tooltip
                           placement="topLeft"
@@ -624,7 +528,7 @@ export default function EditBlogPage(props) {
                           }}
                           className=" material-edit-cost-per-unit-tool-tip"
                         >
-                          <span>
+                          <span className='ml-2'>
                             <ExclamationIcon />
                           </span>
                         </Tooltip>
@@ -634,7 +538,7 @@ export default function EditBlogPage(props) {
                           keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
                         }
 
-                        <div className='d-flex mt-3'>
+                        <div className='d-flex mt-2'>
                           <Input
                             className="shop-input-with-count"
                             showCount

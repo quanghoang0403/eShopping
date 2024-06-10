@@ -4,13 +4,10 @@ import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.com
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import FnbCard from 'components/shop-card/shop-card.component'
 import FnbFroalaEditor from 'components/shop-froala-editor'
-import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
-import SelectBlogTagComponent from '../components/select-tag-blog.components'
-import TextDanger from 'components/text-danger'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { ExclamationIcon, IconBtnAdd, WarningIcon } from 'constants/icons.constants'
+import { ExclamationIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
 import blogDataService from 'data-services/blog/blog-data.service'
@@ -18,7 +15,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { convertSeoUrl, getValidationMessages } from 'utils/helpers'
+import { getValidationMessages } from 'utils/helpers'
 import './create-blog.page.scss'
 import moment from 'moment'
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
@@ -32,30 +29,12 @@ export default function CreateBlogPage() {
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
   const [image, setImage] = useState(null)
-
   const [categories, setCategories] = useState([])
-  const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [isClickSubmitForm, setIsClickSubmitForm] = useState(false)
-  const [tagDataTemp, setTagDataTemp] = useState([])
-  const [tags, setTags] = useState([])
-  const [tagError, setTagError] = useState(false)
-  const [newCategoryName, setNewCategoryName] = useState(null)
-  const [showCategoryNameValidateMessage, setShowCategoryNameValidateMessage] = useState(false)
-  const [isCategoryNameExisted, setIsCategoryNameExisted] = useState(false)
-  const [SEOUrlLink, setSEOUrlLink] = useState('')
-  const [SEOTitle, setSEOTitle] = useState('')
-  const [SEODescription, setSEODescription] = useState('')
-  const [blogContent, setBlogContent] = useState('')
-  const [showBlogContentValidateMessage, setShowBlogContentValidateMessage] = useState(false)
-  const [blogName, setBlogName] = useState('')
-  const reduxState = useSelector((state) => state)
   const state = useSelector((state) => state)
   const userFullName = state?.session?.currentUser?.fullName
   const createdTimeDefault = moment().format(DateFormat.DD_MM_YYYY)
-  const [isShowWarningSEOTitle, setIsShowWarningSEOTitle] = useState(false)
-  const [isShowWarningSEODescription, setIsShowWarningSEODescription] = useState(false)
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
@@ -162,19 +141,13 @@ export default function CreateBlogPage() {
   }
 
   const onSubmitForm = () => {
-    setIsClickSubmitForm(true)
-    if (blogContent.length === 0) {
-      setShowBlogContentValidateMessage(true)
-      return
-    }
     form
       .validateFields()
       .then(async (values) => {
         const request = {
           ...values,
-          content: blogContent,
           thumbnail: image?.url,
-          description: blogContent.replace(/<.*?>/gm, '').slice(0, 200),
+          description: values.content.replace(/<.*?>/gm, '').slice(0, 200),
           keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
           author: userFullName || ''
         }
@@ -223,9 +196,8 @@ export default function CreateBlogPage() {
     }, DELAYED_TIME)
   }
 
-  const changeForm = (e) => {
+  const changeForm = () => {
     setIsChangeForm(true)
-    setDisableCreateButton(false)
   }
 
   const onChangeOption = (id) => {
@@ -259,7 +231,7 @@ export default function CreateBlogPage() {
                   <Button
                     type="primary"
                     htmlType="submit"
-                    disabled={disableCreateButton}
+                    disabled={!isChangeForm}
                     className="btn-add-product"
                     onClick={onSubmitForm}
                   >
@@ -317,7 +289,6 @@ export default function CreateBlogPage() {
                         placeholder={pageData.generalInformation.name.placeholder}
                         maxLength={pageData.generalInformation.name.maxLength}
                         id="blog-name"
-                        onChange={(e) => setBlogName(e.target.value)}
                         allowClear
                         showCount
                       />
@@ -381,20 +352,18 @@ export default function CreateBlogPage() {
                     <h4 className="shop-form-label">
                       {pageData.generalInformation.blogContent.label} <span className="text-danger">*</span>
                     </h4>
-                    <FnbFroalaEditor
-                      value={blogContent}
-                      placeholder={pageData.generalInformation.blogContent.blogContentPlaceholder}
-                      onChange={(value) => {
-                        if (value !== '' && value !== '<div></div>') setIsChangeForm(true)
-                        setBlogContent(value)
-                      }}
-                      charCounterMax={-1}
-                    />
-                    <TextDanger
-                      className="text-error-add-unit"
-                      visible={showBlogContentValidateMessage}
-                      text={pageData.generalInformation.blogContent.validateMessage}
-                    />
+                    <Form.Item
+                      name={'content'}
+                      rules={[{
+                        required:true,
+                        message:pageData.generalInformation.blogContent.validateMessage
+                      }]}
+                    >
+                      <FnbFroalaEditor
+                        placeholder={pageData.generalInformation.blogContent.blogContentPlaceholder}
+                        charCounterMax={-1}
+                      />
+                    </Form.Item>
                   </Col>
                 </Row>
               </Card>
@@ -464,30 +433,22 @@ export default function CreateBlogPage() {
                       </Tooltip>
                     </div>
 
-                    <Form.Item name={'titleSEO'}>
+                    <Form.Item
+                      name={'titleSEO'}
+                      rules={[{
+                        min:50,
+                        max:60,
+                        message:pageData.messageMatchSuggestSEOTitle
+                      }]}
+                    >
                       <Input
                         className="shop-input-with-count"
                         placeholder={pageData.SEO.SEOTitlePlaceholder}
                         maxLength={100}
-                        onChange={(e) => {
-                          setIsChangeForm(true)
-                          e.target.value.length < 50 || e.target.value.length > 60
-                            ? setIsShowWarningSEOTitle(true)
-                            : setIsShowWarningSEOTitle(false)
-                          setSEOTitle(e.target.value)
-                        }}
                         showCount
                       />
-                      <div hidden={!isShowWarningSEOTitle} className="seo-warning-message">
-                        <div className="icon-warning">
-                          <WarningIcon />
-                        </div>
-                        <div className="text-warning">
-                          <span>{pageData.messageMatchSuggestSEOTitle}</span>
-                        </div>
-                      </div>
                     </Form.Item>
-                    <div className='d-flex'>
+                    <div className='d-flex mt-2'>
                       <h4 className="shop-form-label d-flex justify-content-center align-items-center">
                         {pageData.SEO.SEODescription}
                       </h4>
@@ -510,28 +471,20 @@ export default function CreateBlogPage() {
                       </Tooltip>
                     </div>
 
-                    <Form.Item name={'descriptionSEO'}>
+                    <Form.Item
+                      name={'descriptionSEO'}
+                      rules={[{
+                        min:150,
+                        max:160,
+                        message:pageData.messageMatchSuggestSEOTitle
+                      }]}
+                    >
                       <FnbTextArea
-
+                        rows={6}
                         placeholder={pageData.SEO.SEODescriptionPlaceholder}
                         maxLength={255}
-                        onChange={(e) => {
-                          setIsChangeForm(true)
-                          e.target.value.length < 155 || e.target.value.length > 160
-                            ? setIsShowWarningSEODescription(true)
-                            : setIsShowWarningSEODescription(false)
-                          setSEODescription(e.target.value)
-                        }}
                         showCount
                       />
-                      <div hidden={!isShowWarningSEODescription} className="seo-warning-message">
-                        <div className="icon-warning">
-                          <WarningIcon />
-                        </div>
-                        <div className="text-warning">
-                          <span>{pageData.messageMatchSuggestSEODescription}</span>
-                        </div>
-                      </div>
                     </Form.Item>
 
                     <div className='d-flex'>

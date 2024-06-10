@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { PermissionKeys } from 'constants/permission-key.constants';
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
 import { EditButtonComponent } from 'components/edit-button/edit-button.component';
-import { useSelector } from 'react-redux';
 import { tableSettings } from 'constants/default.constants';
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service';
 import { useHistory } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import { Row, Col, Button, Form, Card, Input, InputNumber, Tooltip, Divider, Space, message } from 'antd';
+import { Row, Col, Button, Form, Card, Input, InputNumber, Tooltip, message } from 'antd';
 import PageTitle from 'components/page-title';
 import { useTranslation } from 'react-i18next';
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
@@ -20,7 +20,6 @@ export default function CreateBlogCategory() {
   const [t] = useTranslation()
   const [form] = Form.useForm();
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [disableCreateButton, setDisableCreateButton] = useState(true)
   const [blockNavigation, setBlockNavigation] = useState(false)
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
@@ -121,7 +120,6 @@ export default function CreateBlogCategory() {
   }
   const changeForm = () => {
     setIsChangeForm(true)
-    setDisableCreateButton(false)
   }
 
   const onSubmitForm = () => {
@@ -131,7 +129,6 @@ export default function CreateBlogCategory() {
         blogs: values?.blogs?.reduce((acc, blogId) => acc.concat({ id: blogId, position: values.blogs.indexOf(blogId) }), []) || [],
         keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
       }
-      console.log(blogCategoryModel)
       const res = await BlogCategoryDataService.createBlogCategoryAsync(blogCategoryModel)
       if (res.status != 200) {
         message.success(pageData.createSuccess)
@@ -171,7 +168,7 @@ export default function CreateBlogCategory() {
                   <Button
                     type="primary"
                     htmlType="submit"
-                    disabled={disableCreateButton}
+                    disabled={!isChangeForm}
                     icon={<IconBtnAdd className="icon-btn-add-product" />}
                     className="btn-add-product"
                     onClick={onSubmitForm}
@@ -288,7 +285,7 @@ export default function CreateBlogCategory() {
                     name={['content']}
                   >
                     <FnbFroalaEditor
-                      onChange={(value) => { setIsChangeForm(true); }}
+                      onChange={() => { setIsChangeForm(true); }}
                       placeholder={pageData.generalInformation.content.placeholder}
                       charCounterMax={-1}
                     />
