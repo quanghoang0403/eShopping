@@ -332,7 +332,7 @@ export default function CreateBlogPage() {
                       {pageData.generalInformation.category.label} <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={'blogCategoryIds'}
+                      name={'blogCategoryId'}
                       rules={[
                         {
                           required: pageData.generalInformation.category.required,
