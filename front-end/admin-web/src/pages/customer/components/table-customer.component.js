@@ -123,14 +123,14 @@ export default function TableCustomer(props) {
   }
 
   const handleDeleteItem = async (id) => {
-    // await customerDataService.deleteCustomerByIdAsync(id).then((res) => {
-    //   if (res) {
-    //     message.success(pageData.customerDeleteSuccess)
-    //   } else {
-    //     message.error(pageData.customerDeleteFail)
-    //   }
-    // })
-    await fetchDatableAsync(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, keySearch, dataFilter)
+    await customerDataService.deleteCustomerAsync(id).then((res) => {
+      if (res) {
+        message.success(pageData.customerDeleteSuccess)
+      } else {
+        message.error(pageData.customerDeleteFail)
+      }
+    })
+    await fetchDatableAsync(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, keySearch)
   }
 
   useEffect(() => {

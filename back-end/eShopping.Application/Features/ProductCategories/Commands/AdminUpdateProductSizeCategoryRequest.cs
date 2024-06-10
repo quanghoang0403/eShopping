@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using eShopping.Common.Models;
+using eShopping.Domain.Entities;
 using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,8 +15,7 @@ namespace eShopping.Application.Features.ProductCategories.Commands
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-
-        public int Priority { get; set; }
+        public IEnumerable<ProductSize>? ProductSizes { get; set; }
     }
     public class AdminUpdateProductSizeCategoryRequestHandler : IRequestHandler<AdminUpdateProductSizeCategoryRequest, BaseResponseModel>
     {
@@ -46,6 +47,10 @@ namespace eShopping.Application.Features.ProductCategories.Commands
                 return BaseResponseModel.ReturnError("This name is already existed");
             }
             modifiedProductSizeCategory.Name = request.Name;
+            if(request.ProductSizes != null)
+            {
+                modifiedProductSizeCategory.ProductSizes = request.ProductSizes;
+            }
             modifiedProductSizeCategory.LastSavedUser = loggedUser.AccountId.Value;
             modifiedProductSizeCategory.LastSavedTime = DateTime.Now;
 

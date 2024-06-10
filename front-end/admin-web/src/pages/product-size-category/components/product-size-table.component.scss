@@ -1,4 +1,5 @@
 .table-product-size{
+  position: relative;
   width: 75% !important;
   top:20px;
   .ant-modal-body{
@@ -8,4 +9,14 @@
       display: none;
     }
   }
+  .ant-btn{
+    position: sticky;
+    bottom: 0px;
+  }
+  .ant-modal-close{
+    color: white;
+    right: 10px;
+    top:10px;
+  }
+  
 }

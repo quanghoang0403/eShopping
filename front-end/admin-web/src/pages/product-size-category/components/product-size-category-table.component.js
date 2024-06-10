@@ -36,7 +36,7 @@ export default function TableProductSizeCategory(props) {
       no: t('table.no'),
       name: t('table.name'),
       priority: t('table.priority'),
-      product: t('table.product'),
+      product: t('productSizeCategory.productSizeList'),
       action: t('table.action')
     },
     viewAll:t('productSizeCategory.viewAll')
@@ -47,6 +47,8 @@ export default function TableProductSizeCategory(props) {
     setDataSource(data);
     setTotalRecords(response?.paging?.total);
     setCurrentPageNumber(response?.paging?.pageIndex);
+    const updatedCurrent = data.find(d=>d.id === currentProductSizeCategory?.id)
+    setCurrentProductSizeCategory(updatedCurrent)
   }
 
   const onRemoveItem = async (id) => {
@@ -115,7 +117,7 @@ export default function TableProductSizeCategory(props) {
         render:(text,record)=>{
           return(
             <div onClick={()=>onOpenProductSizeTable(record)} className='w-100 d-flex justify-content-center'>
-              <b className='mx-2'>{text}</b>
+              <b className='mx-2'>{record?.productSizes.slice(0,3).map(ps=>ps.name).join(', ') || 0}{record?.productSizes.length > 3 && ', ...'}</b>
               <ViewMoreIcon className="style-icon-view-more" />
             </div>
           )

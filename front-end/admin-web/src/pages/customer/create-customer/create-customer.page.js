@@ -112,7 +112,7 @@ export default function CreateCustomerPage(props) {
     form.validateFields().then(async (values) => {
       const dataSave = {
         ...values,
-        birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null,
+        birthDay: values.birthDay ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2) : null
       }
       customerDataService
         .createCustomerAsync(dataSave)
@@ -339,7 +339,7 @@ export default function CreateCustomerPage(props) {
                     ]}
                   >
                     <Input
-                      className="shop-input-addon-before"
+                      className="shop-input-addon-before shop-input"
                       size="large"
                       placeholder={pageData.phonePlaceholder}
                       // addonBefore={prefixSelector}
@@ -375,7 +375,7 @@ export default function CreateCustomerPage(props) {
                       suffixIcon={<CalendarNewIcon />}
                       className="shop-date-picker w-100"
                       format={DateFormat.DD_MM_YYYY}
-                      onChange={(date) => setStartDate(date)}
+                      // onChange={(date) => setStartDate(date)}
                       placeholder={pageData.birthdayPlaceholder}
                     />
                   </Form.Item>
@@ -387,7 +387,7 @@ export default function CreateCustomerPage(props) {
                     className="form-create-customer form-gender"
                     style={{ marginBottom: '34.14px !important' }}
                   >
-                    <Radio.Group className='d-flex' onChange={onGenderChange} defaultValue={genderSelected}>
+                    <Radio.Group defaultValue={genderSelected}>
                       <Radio value={CustomerGenderConstant.Female}>{pageData.female}</Radio>
                       <Radio className="last-gender-option" value={CustomerGenderConstant.Male}>
                         {pageData.male}

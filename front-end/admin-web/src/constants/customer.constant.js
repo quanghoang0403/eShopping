@@ -1,5 +1,5 @@
 export const CustomerGenderConstant = {
-  Male: '1',
-  Female: '2',
-  Other: '3'
+  Male: 1,
+  Female: 2,
+  Other: 3
 }

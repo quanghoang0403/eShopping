@@ -4,6 +4,7 @@ using eShopping.Interfaces;
 using eShopping.Models.Customers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace eShopping.Application.Features.Customers.Queries
 {
     public class GetCustomerByIdRequest : IRequest<BaseResponseModel>
     {
+        public Guid Id { get; set; }
     }
 
     public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdRequest, BaseResponseModel>
@@ -36,7 +38,7 @@ namespace eShopping.Application.Features.Customers.Queries
         public async Task<BaseResponseModel> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var customer = await _unitOfWork.Customers.Find(x => x.Id == loggedUser.Id.Value).Include(x => x.Account).FirstOrDefaultAsync();
+            var customer = await _unitOfWork.Customers.Find(x => x.Id == request.Id).Include(x => x.Account).FirstOrDefaultAsync();
             if (customer == null)
             {
                 return BaseResponseModel.ReturnError("Cannot find customer information");

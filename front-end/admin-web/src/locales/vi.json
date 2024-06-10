@@ -405,7 +405,9 @@
       "successCreateProductSize":"Tạo kích cỡ thành công",
       "successEditProductSize":"Chỉnh sửa kích cỡ thành công",
       "editProductSize":"Chỉnh sửa kích cỡ",
-      "editProductSizeCategory":"Chỉnh sửa danh mục"
+      "editProductSizeCategory":"Chỉnh sửa danh mục",
+      "messageUpdateFail":"Cập nhật kích cỡ sản phẩm thất bại",
+      "productSizeList":"Danh sách size"
     },
     "promotion": {
         "title": "Quản Lý chiến dịch giảm giá",

@@ -55,7 +55,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    ProductSizes = _mapper.Map<List<AdminProductSizeModel>>(category.ProductSizes)
+                    ProductSizes = _mapper.Map<List<AdminProductSizeModel>>(category.ProductSizes.OrderByDescending(ps => ps.Priority))
                 });
             }
 

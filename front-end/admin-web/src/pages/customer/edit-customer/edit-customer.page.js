@@ -31,16 +31,22 @@ import {
 } from 'utils/helpers';
 import '../create-customer/create-customer.page.scss';
 import './index.scss';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import customerDataService from 'data-services/customer/customer-data.service';
+import AddressDataService from 'data-services/address/address-data.service';
 
 export default function EditCustomerPage(props) {
-  const { t, customerDataService, history, match } = props;
+  const [t] = useTranslation()
+  const history = useHistory()
+  const match = useRouteMatch()
   const shopImageSelectRef = React.useRef();
 
   const pageData = {
     title: t('customer.titleEdit'),
     generalInformation: t('customer.titleInfo'),
     btnCancel: t('button.cancel'),
-    btnUpdate: t('button.update'),
+    btnUpdate: t('button.save'),
     btnEdit: t('button.edit'),
     btnSave: t('button.save'),
     btnLeave: t('button.leave'),
@@ -100,91 +106,99 @@ export default function EditCustomerPage(props) {
 
   const [form] = Form.useForm();
   const [isChangeForm, setIsChangeForm] = useState(false);
-  const [startDate, setStartDate] = useState(null);
-  const [genderSelected, setGenderSelected] = useState(
-    CustomerGenderConstant.Female
-  );
   const [districts, setDistricts] = useState([]);
   const [cities, setCities] = useState([]);
   const [wards, setWards] = useState([]);
-  const [wardsByDistrictId, setWardsByDistrictId] = useState([]);
-  const [districtsByCityId, setDistrictsByCityId] = useState([]);
   const [customer, setCustomer] = useState({});
   const [showConfirm, setShowConfirm] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [showConfirmLeave, setShowConfirmLeave] = useState(false);
   useEffect(() => {
-    // getInitDataAsync();
+    getInitDataAsync();
   }, []);
 
-  const getInitDataAsync = async () => {
+  const getInitDataAsync = () => {
     const promises = [];
     promises.push(
-      customerDataService.getCustomerByIdAsync(match?.params?.customerId)
+      customerDataService.getCustomerByIdAsync(match?.params?.customerId),
     );
-    const [customerResponse] = await Promise.all(promises);
+    promises.push(AddressDataService.getAllCitiesAsync())
+    const customerResponse = Promise.all(promises)
+      .then(value=>{
+        const [customer,cities] = value
+        setCities(cities);
+        const initField = {
+          ...customer,
+          birthDay: customer?.birthday
+            ? moment.utc(customer?.birthday).local()
+            : null,
+          phone: customer?.phoneNumber
+        };
+        form.setFieldsValue(initField);
+        const wardAndDistrictPromises = []
+        wardAndDistrictPromises.push(AddressDataService.getDistrictsByCityId(customer.cityId))
+        wardAndDistrictPromises.push(AddressDataService.getWardsByDistrictId(customer.districtId))
+        return Promise.all(wardAndDistrictPromises)
 
-    const { cities, districts, wards } = customerResponse;
-    setCities(cities);
-    setDistricts(districts);
-    setWards(wards);
-    let cityId = null;
-    let districtId = null;
-    let wardId = null;
-    /// Set customer data
-    if (customerResponse) {
-      const { customer } = customerResponse;
-      cityId = customer?.cityId;
-      districtId = customer?.districtId;
-      wardId = customer?.wardId;
+      })
+      .then(wardAndDistrict=>{
+        const [districts,wards] = wardAndDistrict;
+        setDistricts(districts);
+        setWards(wards)
 
-      setCustomer(customer);
-      setGenderSelected(customer?.gender);
-      onChangeCity(cityId);
-      onChangeDistrict(districtId);
-      setCustomerName(customer?.firstName);
-      const initField = {
-        ...customer,
-        birthDay: customer?.birthday
-          ? moment.utc(customer?.birthday).local()
-          : null,
-        phone: customer?.phoneNumber
-      };
-      form.setFieldsValue(initField);
+      }).catch(error=>{
+        console.error(error)
+      });
+    // let cityId = null;
+    // let districtId = null;
+    // let wardId = null;
+    // /// Set customer data
+    // if (customerResponse) {
+    //   const { customer } = customerResponse;
+    //   cityId = customer?.cityId;
+    //   districtId = customer?.districtId;
+    //   wardId = customer?.wardId;
 
-      const districtsFilteredByCity =
-        districts?.filter((item) => item.cityId === cityId) ?? [];
-      setDistrictsByCityId(districtsFilteredByCity);
+    //   setCustomer(customer);
 
-      const wardsFilteredByCity =
-        wards?.filter((item) => item.districtId === districtId) ?? [];
-      setWardsByDistrictId(wardsFilteredByCity);
+    //   setCustomerName(customer?.firstName);
+    //   const initField = {
+    //     ...customer,
+    //     birthDay: customer?.birthday
+    //       ? moment.utc(customer?.birthday).local()
+    //       : null,
+    //     phone: customer?.phoneNumber
+    //   };
+    //   form.setFieldsValue(initField);
 
-      if (shopImageSelectRef && shopImageSelectRef.current) {
-        shopImageSelectRef.current.setImageUrl(
+    //   const districtsFilteredByCity =
+    //     districts?.filter((item) => item.cityId === cityId) ?? [];
+    //   setDistrictsByCityId(districtsFilteredByCity);
+
+    //   const wardsFilteredByCity =
+    //     wards?.filter((item) => item.districtId === districtId) ?? [];
+    //   setWardsByDistrictId(wardsFilteredByCity);
+
+    if (shopImageSelectRef && shopImageSelectRef.current) {
+      shopImageSelectRef.current.setImageUrl(
           customer?.thumbnail ?? images.imgDefault
-        );
-        setSelectedImage(customer?.thumbnail ?? images.imgDefault);
-      }
+      );
+      setSelectedImage(customer?.thumbnail ?? images.imgDefault);
     }
+    // }
   };
 
   const onFinish = async (values) => {
     const editUserRequestModel = {
-      ...values,
-      gender: genderSelected,
-      addressId: customer?.addressId,
       id: match?.params?.customerId,
+      ...values,
       thumbnail:
         shopImageSelectRef.current.getImageUrl() === images.imgDefault
           ? null
-          : shopImageSelectRef.current.getImageUrl(),
-      birthDay: values.birthDay
-        ? moment.utc(values.birthDay).format(DateFormat.YYYY_MM_DD_HH_MM_SS_2)
-        : null,
-      tags
+          : shopImageSelectRef.current.getImageUrl()
     };
+    console.log(editUserRequestModel)
     customerDataService
       .updateCustomerAsync(editUserRequestModel)
       .then((res) => {
@@ -200,30 +214,21 @@ export default function EditCustomerPage(props) {
       });
   };
 
-  const onGenderChange = (e) => {
-    setGenderSelected(e.target.value);
-  };
 
-  const onChangeCity = (event) => {
-    const districtsFilteredByCity =
-      districts?.filter((item) => item.cityId === event) ?? [];
-    setDistrictsByCityId(districtsFilteredByCity);
+  const onChangeCity = async(event) => {
+    const districts = await AddressDataService.getDistrictsByCityId(event)
+    setDistricts(districts)
 
     const formValue = form.getFieldsValue();
-    formValue.address.districtId = null;
-    formValue.address.wardId = null;
     formValue.districtId = null;
     formValue.wardId = null;
     form.setFieldsValue(formValue);
   };
 
-  const onChangeDistrict = (event) => {
-    const wardsFilteredByCity =
-      wards?.filter((item) => item.districtId === event) ?? [];
-    setWardsByDistrictId(wardsFilteredByCity);
-
+  const onChangeDistrict = async (event) => {
+    const wards = await AddressDataService.getWardsByDistrictId(event)
+    setWards(wards)
     const formValue = form.getFieldsValue();
-    formValue.address.wardId = null;
     formValue.wardId = null;
     form.setFieldsValue(formValue);
   };
@@ -235,7 +240,7 @@ export default function EditCustomerPage(props) {
   };
 
   const handleDeleteItem = async (id) => {
-    await customerDataService.deleteCustomerByIdAsync(id).then((res) => {
+    await customerDataService.deleteCustomerAsync(id).then((res) => {
       if (res) {
         gotoCustomerPage();
         message.success(pageData.customerDeleteSuccess);
@@ -379,7 +384,7 @@ export default function EditCustomerPage(props) {
                       {pageData.name} <span className="text-danger">*</span>
                     </h4>
                     <Form.Item
-                      name={'firstName'}
+                      name={'fullName'}
                       rules={[
                         {
                           required: true,
@@ -421,7 +426,7 @@ export default function EditCustomerPage(props) {
                       <span className="text-danger"> *</span>
                     </h4>
                     <Form.Item
-                      name={'phone'}
+                      name={'phoneNumber'}
                       rules={[
                         {
                           required: true,
@@ -436,7 +441,7 @@ export default function EditCustomerPage(props) {
                     >
                       <Input
                         maxLength={15}
-                        className="shop-input-addon-before"
+                        className="shop-input-addon-before shop-input"
                         size="large"
                         placeholder={pageData.phonePlaceholder}
                       />
@@ -444,7 +449,7 @@ export default function EditCustomerPage(props) {
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.address}</h4>
-                    <Form.Item name={['address', 'address1']}>
+                    <Form.Item name={['address']}>
                       <Input
                         className="shop-input"
                         size="large"
@@ -475,17 +480,14 @@ export default function EditCustomerPage(props) {
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.city}</h4>
-                    <Form.Item name={['address', 'cityId']}>
+                    <Form.Item name={[ 'cityId']}>
                       <FnbSelectSingle
                         size="large"
                         placeholder={pageData.selectCity}
                         onChange={onChangeCity}
                         showSearch
                         autoComplete="none"
-                        option={cities?.map((item, index) => ({
-                          id: item.id,
-                          name: item.name
-                        }))}
+                        option={cities}
                       />
                     </Form.Item>
                   </Col>
@@ -498,24 +500,20 @@ export default function EditCustomerPage(props) {
                         suffixIcon={<CalendarNewIcon />}
                         className="shop-date-picker w-100"
                         format={DateFormat.DD_MM_YYYY}
-                        onChange={(date) => setStartDate(date)}
                         placeholder={pageData.birthdayPlaceholder}
                       />
                     </Form.Item>
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.district}</h4>
-                    <Form.Item name={['address', 'districtId']}>
+                    <Form.Item name={['districtId']}>
                       <FnbSelectSingle
                         size="large"
                         placeholder={pageData.selectDistrict}
                         onChange={onChangeDistrict}
                         showSearch
                         autoComplete="none"
-                        option={districtsByCityId?.map((item, index) => ({
-                          id: item.id,
-                          name: item.name
-                        }))}
+                        option={districts}
                       />
                     </Form.Item>
                   </Col>
@@ -523,11 +521,8 @@ export default function EditCustomerPage(props) {
                 <Row gutter={[25, 25]} className="form-row">
                   <Col sm={24} xs={24} lg={12}>
                     <h4 className="shop-form-label">{pageData.gender}</h4>
-                    <Form.Item className="form-gender-customer-edit">
-                      <Radio.Group
-                        onChange={onGenderChange}
-                        value={`${genderSelected}`}
-                      >
+                    <Form.Item name={'gender'} className="form-gender-customer-edit">
+                      <Radio.Group>
                         <Row gutter={[16, 8]}>
                           <Col sm={24} xs={24} lg={8}>
                             <Radio value={CustomerGenderConstant.Female}>
@@ -549,38 +544,16 @@ export default function EditCustomerPage(props) {
                     </Form.Item>
                   </Col>
                   <Col sm={24} xs={24} lg={12}>
-                    {isDefaultCountry ? (
-                      <>
-                        <h4 className="shop-form-label">{pageData.ward}</h4>
-                        <Form.Item name={['address', 'wardId']}>
-                          <FnbSelectSingle
-                            size="large"
-                            placeholder={pageData.selectWard}
-                            showSearch
-                            option={wardsByDistrictId?.map((item, index) => ({
-                              id: item.id,
-                              name: item.name
-                            }))}
-                          />
-                        </Form.Item>
-                      </>
-                    ) : (
-                      <>
-                        <h4 className="shop-form-label">
-                          {pageData.labelState}
-                        </h4>
-                        <Form.Item name={['address', 'stateId']}>
-                          <FnbSelectSingle
-                            placeholder={pageData.selectCityStateRegion}
-                            option={states?.map((item) => ({
-                              id: item.id,
-                              name: item.name
-                            }))}
-                            showSearch
-                          />
-                        </Form.Item>
-                      </>
-                    )}
+                    <h4 className="shop-form-label">
+                      {pageData.ward}
+                    </h4>
+                    <Form.Item name={['wardId']}>
+                      <FnbSelectSingle
+                        placeholder={pageData.selectWard}
+                        option={wards}
+                        showSearch
+                      />
+                    </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={[25, 25]}>
