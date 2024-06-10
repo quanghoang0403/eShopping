@@ -3,8 +3,10 @@ import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import SummaryPrice from '@/components/Checkout/SummaryPrice'
 import CartList from '@/components/Checkout/CartList'
 import SEO from '@/components/Layout/SEO'
+import { useAppSelector } from '@/hooks/useRedux'
 
 const CartPage = () => {
+  const totalQuantity = useAppSelector((state) => state.session.totalQuantity)
   const renderStatusSoldout = () => {
     return (
       <div className="rounded-full flex items-center justify-center px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
@@ -55,11 +57,8 @@ const CartPage = () => {
     <>
       <SEO title="Giỏ hàng" />
       <div className="nc-CartPage">
-        <div className="container py-16 lg:pb-28 lg:pt-20 ">{renderPage()}</div>
-      </div>
-      {/* <div className="nc-CartPage">
         <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào trong giỏ hàng</div>}</div>
-      </div> */}
+      </div>
     </>
   )
 }

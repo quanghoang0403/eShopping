@@ -38,6 +38,7 @@ const CheckoutPage = () => {
         switch (res.paymentMethodId) {
           case 0: {
             // COD
+            redirectToOrderDetail()
             break
           }
           case 4: {
@@ -132,11 +133,8 @@ const CheckoutPage = () => {
   return (
     <>
       <SEO title="Thanh toán" />
-      {/* <div className="nc-CheckoutPage">
-        <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào trong giỏ hàng</div>}</div>
-      </div> */}
       <div className="nc-CheckoutPage">
-        <div className="container py-16 lg:pb-28 lg:pt-20 ">{renderPage()}</div>
+        <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào để checkout, mời bạn tiếp tục mua sắm</div>}</div>
       </div>
     </>
   )
