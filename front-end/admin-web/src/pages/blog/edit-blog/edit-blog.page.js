@@ -78,6 +78,10 @@ export default function EditBlogPage(props) {
         required: true,
         validateMessage: t('blog.blogContentValidateMessage'),
         blogContentPlaceholder: t('blog.blogContentPlaceholder')
+      },
+      description:{
+        labelDescription:t('blog.labelDescription'),
+        placeholderDescription:t('blog.placeholderDescription')
       }
     },
     SEO: {
@@ -159,8 +163,18 @@ export default function EditBlogPage(props) {
       blogCategoryId: data?.blogCategories.map(b => b.id),
       urlSEO: data?.urlSEO,
       titleSEO: data?.titleSEO,
-      descriptionSEO: data?.descriptionSEO
+      descriptionSEO: data?.descriptionSEO,
+      description:data?.description
     })
+  }
+
+  const onChangeDescription = (value)=>{
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = value;
+
+    // Extract the text content from the div element
+    const extractedContent = tempDiv.textContent || tempDiv.innerText;
+    form.setFieldValue('description',extractedContent)
   }
 
   const getCategories = async () => {
@@ -184,8 +198,7 @@ export default function EditBlogPage(props) {
             author: blog.author,
             id: props?.match?.params?.id,
             thumbnail: imageUrl,
-            keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
-            description: values.content.replace(/<.*?>/gm, '').slice(0, 200)
+            keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
           }
         }
         const res = await BlogDataService.editBlogAsync(request.blogDetailModel)
@@ -387,7 +400,20 @@ export default function EditBlogPage(props) {
                       </h4>
                       <Form.Item name={'content'} rules={[{required:true,message:pageData.generalInformation.blogContent.validateMessage}]}>
                         <FnbFroalaEditor
+                          onChange={onChangeDescription}
                           charCounterMax={-1}
+                        />
+                      </Form.Item>
+                      <h4 className="shop-form-label">
+                        {pageData.generalInformation.description.labelDescription}{' '}
+                        <span className="text-danger">*</span>
+                      </h4>
+                      <Form.Item name={'description'}>
+                        <FnbTextArea
+                          rows={6}
+                          placeholder={pageData.generalInformation.description.placeholderDescription}
+                          maxLength={255}
+                          showCount
                         />
                       </Form.Item>
                     </Col>

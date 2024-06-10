@@ -79,6 +79,10 @@ export default function CreateBlogPage() {
         required: true,
         validateMessage: t('blog.blogContentValidateMessage'),
         blogContentPlaceholder: t('blog.blogContentPlaceholder')
+      },
+      description:{
+        labelDescription:t('blog.labelDescription'),
+        placeholderDescription:t('blog.placeholderDescription')
       }
     },
     SEO: {
@@ -121,6 +125,15 @@ export default function CreateBlogPage() {
     createBlogFailed: t('blog.createBlogFailed'),
     messageMatchSuggestSEOTitle: t('form.messageMatchSuggestSEOTitle'),
     messageMatchSuggestSEODescription: t('form.messageMatchSuggestSEODescription')
+  }
+
+  const onChangeDescription = (value)=>{
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = value;
+
+    // Extract the text content from the div element
+    const extractedContent = tempDiv.textContent || tempDiv.innerText;
+    form.setFieldValue('description',extractedContent)
   }
 
   useEffect(() => {
@@ -362,6 +375,19 @@ export default function CreateBlogPage() {
                       <FnbFroalaEditor
                         placeholder={pageData.generalInformation.blogContent.blogContentPlaceholder}
                         charCounterMax={-1}
+                        onChange={onChangeDescription}
+                      />
+                    </Form.Item>
+                    <h4 className="shop-form-label">
+                      {pageData.generalInformation.description.labelDescription}{' '}
+                      <span className="text-danger">*</span>
+                    </h4>
+                    <Form.Item name={'description'}>
+                      <FnbTextArea
+                        rows={6}
+                        placeholder={pageData.generalInformation.description.placeholderDescription}
+                        maxLength={255}
+                        showCount
                       />
                     </Form.Item>
                   </Col>
