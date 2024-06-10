@@ -92,10 +92,10 @@ namespace eShopping.Application.Features.Products.Queries
                     products = products.Where(g => g.IsFeatured == true);
                 }
 
-                if (request.IsDiscounted == true)
-                {
-                    products = products.Where(g => g.IsDiscounted == true);
-                }
+                //if (request.IsDiscounted == true)
+                //{
+                //    products = products.Where(g => g.IsDiscounted == true);
+                //}
 
                 products = products.Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime));
                 if (request.SortType == EnumSortType.Default)
