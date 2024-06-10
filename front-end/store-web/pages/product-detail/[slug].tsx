@@ -1,11 +1,6 @@
-import React, { FC, useEffect, useState } from 'react'
-import ButtonPrimary from '@/shared/Button/ButtonPrimary'
+import React, { useState } from 'react'
 import LikeButton from '@/components/Product/LikeButton'
 import { StarIcon } from '@heroicons/react/24/solid'
-import BagIcon from '@/shared/Icon/BagIcon'
-import { SparklesIcon } from '@heroicons/react/24/outline'
-import Price from '@/shared/Price'
-import toast from 'react-hot-toast'
 import detail1JPG from '@/images/products/detail1.jpg'
 import detail2JPG from '@/images/products/detail2.jpg'
 import detail3JPG from '@/images/products/detail3.jpg'
@@ -13,34 +8,14 @@ import Policy from '@/components/Product/Policy'
 import ReviewItem from '@/components/Product/Review/ReviewItem'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import ModalViewAllReviews from '@/components/Product/Review/ModalViewAllReviews'
-import NotifyAddToCart from '@/components/Product/NotifyAddToCart'
-import AccordionInfo from '@/components/Product/AccordionInfo'
 import Gallery from '@/components/Product/Gallery/Gallery'
-import { GetServerSideProps, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import ProductService from '@/services/product.service'
 import { PageSizeConstants } from '@/constants/default.constants'
 import PromoBanner2 from '@/components/Common/Banner/PromoBanner2'
 import SliderProductList from '@/components/Common/ProductList/SliderProductList'
-import { useAppDispatch } from '@/hooks/useRedux'
-import { sessionActions } from '@/redux/features/sessionSlice'
 import SEO from '@/components/Layout/SEO'
-import NcInputNumber from '@/shared/NcInputNumber'
 import ProductInfo from '@/components/Product/ProductInfo'
-
-const LIST_IMAGES_DEMO = [
-  detail1JPG,
-  detail2JPG,
-  detail3JPG,
-  detail1JPG,
-  detail2JPG,
-  detail3JPG,
-  detail1JPG,
-  detail2JPG,
-  detail3JPG,
-  detail1JPG,
-  detail2JPG,
-  detail3JPG,
-]
 
 interface IProps {
   productDetail: IProduct

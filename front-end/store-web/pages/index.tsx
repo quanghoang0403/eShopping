@@ -13,34 +13,35 @@ interface HomePageProps {
   discountedProduct: IProduct[]
   featuredProduct: IProduct[]
 }
-// export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
-//   try {
-//     let discountedRequest: IGetProductsRequest = {
-//       isDiscounted: true,
-//       isFeatured: false,
-//       productCategoryId: guidIdEmptyValue,
-//       keySearch: '',
-//       pageNumber: 0,
-//       pageSize: PageSizeConstants.Default,
-//       sortType: 0,
-//     }
-//     const discountedRes = await ProductService.getProducts(discountedRequest)
-//     const featuredRequest: IGetProductsRequest = { ...discountedRequest, isDiscounted: false, isFeatured: true }
-//     const featuredRes = await ProductService.getProducts(featuredRequest)
-//     console.log(discountedRes)
-//     return {
-//       props: {
-//         discountedProduct: discountedRes.result,
-//         featuredProduct: featuredRes.result,
-//       },
-//     }
-//   } catch (error) {
-//     // console.error('Error fetching product:', error)
-//     // return {
-//     //   notFound: true,
-//     // }
-//   }
-// }
+
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
+  try {
+    let discountedRequest: IGetProductsRequest = {
+      isDiscounted: true,
+      isFeatured: false,
+      productCategoryId: guidIdEmptyValue,
+      keySearch: '',
+      pageNumber: 0,
+      pageSize: PageSizeConstants.Default,
+      sortType: 0,
+    }
+    const discountedRes = await ProductService.getProducts(discountedRequest)
+    const featuredRequest: IGetProductsRequest = { ...discountedRequest, isDiscounted: false, isFeatured: true }
+    const featuredRes = await ProductService.getProducts(featuredRequest)
+    console.log(discountedRes)
+    return {
+      props: {
+        discountedProduct: discountedRes.result,
+        featuredProduct: featuredRes.result,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
+    return {
+      notFound: true,
+    }
+  }
+}
 
 export default function HomePage({ discountedProduct, featuredProduct }: HomePageProps) {
   return (
@@ -49,9 +50,8 @@ export default function HomePage({ discountedProduct, featuredProduct }: HomePag
       <div className="nc-PageHome relative overflow-hidden">
         <SectionHeroSingle />
         <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-          {/* <SliderProductList data={discountedProduct} heading="Best Sellers" subHeading="Bán chạy trong tháng" /> */}
-          <SliderProductList heading="Sản phẩm nổi bật" subHeading="Trở nên khác biệt" />
-          <SliderProductList heading="Khuyến mãi khủng" subHeading="Tưng bừng mua sắm" />
+          <SliderProductList data={featuredProduct} heading="Sản phẩm nổi bật" subHeading="Trở nên khác biệt" />
+          <SliderProductList data={discountedProduct} heading="Khuyến mãi khủng" subHeading="Tưng bừng mua sắm" />
           <SliderCategoryList />
           <div className="pt-24 lg:pt-32 border-t border-slate-200 dark:border-slate-700">
             <SectionHowItWork />
