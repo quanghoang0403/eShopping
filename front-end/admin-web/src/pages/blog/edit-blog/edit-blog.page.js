@@ -164,17 +164,8 @@ export default function EditBlogPage(props) {
       urlSEO: data?.urlSEO,
       titleSEO: data?.titleSEO,
       descriptionSEO: data?.descriptionSEO,
-      description:data?.description
+      description: data?.description
     })
-  }
-
-  const onChangeDescription = (value)=>{
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = value;
-
-    // Extract the text content from the div element
-    const extractedContent = tempDiv.textContent || tempDiv.innerText;
-    form.setFieldValue('description',extractedContent)
   }
 
   const getCategories = async () => {
@@ -400,7 +391,6 @@ export default function EditBlogPage(props) {
                       </h4>
                       <Form.Item name={'content'} rules={[{required:true,message:pageData.generalInformation.blogContent.validateMessage}]}>
                         <FnbFroalaEditor
-                          onChange={onChangeDescription}
                           charCounterMax={-1}
                         />
                       </Form.Item>
