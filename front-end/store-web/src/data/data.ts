@@ -35,6 +35,7 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
+    productStocks: []
   },
   {
     id: '10',
@@ -72,6 +73,7 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
+    productStocks: []
   },
   {
     id: '10',
@@ -109,6 +111,7 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
+    productStocks: []
   },
   {
     id: '10',
@@ -146,15 +149,16 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
+    productStocks: []
   },
-  { 
-    id: '10', 
-    code: 1, 
-    name: 'Paris Tee', 
-    thumbnail: '/imgs/productHighlight/Paris Tee.jpg', 
-    priceDiscount: 120000, 
-    priceValue: 120000, 
-    urlSEO: 'basic-tee', 
+  {
+    id: '10',
+    code: 1,
+    name: 'Paris Tee',
+    thumbnail: '/imgs/productHighlight/Paris Tee.jpg',
+    priceDiscount: 120000,
+    priceValue: 120000,
+    urlSEO: 'basic-tee',
     productVariants: [
       {
         id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd1',
@@ -182,7 +186,8 @@ export const PRODUCTS: IProduct[] = [
         id: '9d4b8a96-b1e6-43b5-bffa-08dc66b3bdd2',
         name: 'XL',
       },
-    ], 
+    ],
+    productStocks: []
   },
   {
     id: '10',
@@ -220,6 +225,7 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
+    productStocks: []
   },
   {
     id: '10',
@@ -258,6 +264,7 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
+    productStocks: []
   },
   {
     id: '10',
@@ -296,5 +303,6 @@ export const PRODUCTS: IProduct[] = [
         name: 'XL',
       },
     ],
-  }
+    productStocks: []
+  },
 ]
