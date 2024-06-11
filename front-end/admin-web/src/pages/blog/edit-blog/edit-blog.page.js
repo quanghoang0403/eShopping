@@ -10,7 +10,7 @@ import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon} from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import {
@@ -29,7 +29,6 @@ export default function EditBlogPage(props) {
   const [t] = useTranslation()
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
-  const shopImageSelectRef = useRef()
   const [categories, setCategories] = useState([])
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
@@ -149,22 +148,12 @@ export default function EditBlogPage(props) {
 
   const mappingData = (data) => {
     // mapping banner
-    if (shopImageSelectRef && shopImageSelectRef.current) {
-      shopImageSelectRef.current.setImageUrl(data?.thumbnail)
-    }
     setBlogName(data?.name)
     setKeywordSEOList(data?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
     // mapping general
     form.setFieldsValue({
-      name: data?.name,
-      author: data?.author,
-      priority: data?.priority,
-      content: data?.content,
-      blogCategoryId: data?.blogCategories.map(b => b.id),
-      urlSEO: data?.urlSEO,
-      titleSEO: data?.titleSEO,
-      descriptionSEO: data?.descriptionSEO,
-      description: data?.description
+      ...data,
+      blogCategoryId: data?.blogCategories.map(b => b.id)
     })
   }
 
@@ -176,10 +165,6 @@ export default function EditBlogPage(props) {
   }
 
   const onSubmitForm = () => {
-    let imageUrl = ''
-    if (shopImageSelectRef && shopImageSelectRef.current) {
-      imageUrl = shopImageSelectRef.current.getImageUrl()
-    }
     form
       .validateFields()
       .then(async (values) => {
@@ -188,7 +173,6 @@ export default function EditBlogPage(props) {
             ...values,
             author: blog.author,
             id: props?.match?.params?.id,
-            thumbnail: imageUrl,
             keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
           }
         }
@@ -597,12 +581,14 @@ export default function EditBlogPage(props) {
                       <h4 className="shop-form-label">
                         {pageData.media.bannerTitle}
                       </h4>
-                      <FnbImageSelectComponent
-                        ref={shopImageSelectRef}
-                        messageTooBigSize={pageData.media.imageSizeTooBig}
-                        isShowBestDisplay={true}
-                        bestDisplayImage={pageData.media.bestDisplayImage}
-                      />
+                      <Form.Item name={'thumbnail'}>
+                        <FnbImageSelectComponent
+                          messageTooBigSize={pageData.media.imageSizeTooBig}
+                          isShowBestDisplay={true}
+                          bestDisplayImage={pageData.media.bestDisplayImage}
+                        />
+                      </Form.Item>
+
                     </Card>
                   </Col>
                 </Row>

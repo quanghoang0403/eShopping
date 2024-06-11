@@ -4,7 +4,6 @@ import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.com
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import FnbCard from 'components/shop-card/shop-card.component'
 import FnbFroalaEditor from 'components/shop-froala-editor'
-import { FnbUploadImageComponent } from 'components/shop-upload-image/shop-upload-image.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon } from 'constants/icons.constants'
@@ -22,13 +21,13 @@ import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-m
 import BlogCategoryDataService from 'data-services/blog/blog-category-data.service'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
 const { Text } = Typography
 
 export default function CreateBlogPage() {
   const [t] = useTranslation()
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
-  const [image, setImage] = useState(null)
   const [categories, setCategories] = useState([])
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -150,8 +149,6 @@ export default function CreateBlogPage() {
       .then(async (values) => {
         const request = {
           ...values,
-          thumbnail: image?.url,
-          description: values.content.replace(/<.*?>/gm, '').slice(0, 200),
           keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
           author: userFullName || ''
         }
@@ -174,9 +171,6 @@ export default function CreateBlogPage() {
         inline: 'start'
       })
     }
-  }
-  const onChangeImage = (file) => {
-    setImage(file)
   }
 
   const onCancel = () => {
@@ -555,26 +549,20 @@ export default function CreateBlogPage() {
                   <Card className="w-100 shop-card h-auto">
                     <h4 className="title-group">{pageData.media.title}</h4>
                     <h4 className="shop-form-label">{pageData.media.bannerTitle}</h4>
-                    <Row className={`non-image ${image !== null ? 'have-image' : ''}`}>
-                      <Col span={24} className={`image-product ${image !== null ? 'justify-left' : ''}`}>
-                        <div style={{ display: 'flex' }}>
-                          <Form.Item>
-                            <FnbUploadImageComponent
-                              buttonText={pageData.media.uploadImage}
-                              onChange={onChangeImage}
+                    <Row className={'non-image'}>
+                      <Col span={24} className={'image-product'}>
+                        <div className='blog-image' style={{ display: 'flex' }}>
+                          <Form.Item name={'thumbnail'} className='mx-auto'>
+                            <FnbImageSelectComponent
+                              isShowBestDisplay={false}
+                              messageTooBigSize={pageData.media.imageSizeTooBig}
+                              bestDisplayImage={pageData.media.bestDisplayImage}
                             />
                           </Form.Item>
                           {/* <a className="upload-image-url" hidden={image !== null}>
                             {pageData.media.addFromUrl}
                           </a> */}
                         </div>
-                      </Col>
-                      <Col span={24} className="text-non-image" hidden={image !== null}>
-                        <Text disabled>
-                          {pageData.media.textNonImage}
-                          <br />
-                          {pageData.media.bestDisplayImage}
-                        </Text>
                       </Col>
                     </Row>
                   </Card>
