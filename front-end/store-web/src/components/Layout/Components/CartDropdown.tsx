@@ -22,9 +22,6 @@ export default function CartDropdown() {
     dispatch(sessionActions.removeProductFromCart({ productId, productVariantId }))
   }
 
-  const updateCartItem = (productId: string, productVariantId: string, quantity: number) => {
-    dispatch(sessionActions.updateProductInCart({ productId, productVariantId, quantity }))
-  }
   const renderProduct = (item: ICartItem, index: number, close: () => void) => {
     const { productName, productVariantName, priceValue, priceDiscount, thumbnail, productUrl, quantity } = item
     return (

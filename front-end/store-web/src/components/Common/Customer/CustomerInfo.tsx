@@ -118,7 +118,7 @@ export default function CustomerInfo(props: IProps) {
                 label="Tên"
                 name={isShipping ? 'ShipName' : 'FullName'}
                 register={register}
-                // patternValidate={{ required: true }}
+                patternValidate={{ required: true }}
                 errors={errors}
               />
             </div>
@@ -129,7 +129,7 @@ export default function CustomerInfo(props: IProps) {
                 name={isShipping ? 'ShipPhoneNumber' : 'PhoneNumber'}
                 register={register}
                 patternValidate={{
-                  //required: true,
+                  required: true,
                   pattern: {
                     value: /(03[2-9]|05[2689]|07[06-9]|08[1-9]|09[0-49])+([0-9]{7})\b/,
                     message: 'Số điện thoại không hợp lệ',
@@ -146,7 +146,7 @@ export default function CustomerInfo(props: IProps) {
                 label="Email"
                 register={register}
                 patternValidate={{
-                  //required: true,
+                  required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     message: 'Email không hợp lệ',
@@ -211,7 +211,7 @@ export default function CustomerInfo(props: IProps) {
               register={register}
               patternValidate={
                 {
-                  //required: true,
+                  required: true,
                 }
               }
               errors={errors}

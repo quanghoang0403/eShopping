@@ -45,7 +45,8 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked })
 
   const isOutOfStock = (productVariant: IProductVariant | null, productSize: IProductSize | null): boolean => {
     if (!productSize || !productVariant) return false
-    return !productStocks?.find((x) => x.productSizeId === productSize.id && x.productVariantId === productVariant?.id && x.quantityLeft > 0)
+    const productStock = productStocks?.find((x) => x.productSizeId === productSize.id && x.productVariantId === productVariant?.id)
+    return !productStock || productStock.quantityLeft == 0
   }
 
   const handleAddToCart = () => {

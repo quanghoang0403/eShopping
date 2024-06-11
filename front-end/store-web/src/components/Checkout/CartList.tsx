@@ -41,7 +41,7 @@ const CartList: FC<CartListProps> = () => {
                   <div className="flex justify-between ">
                     <div className="flex-[1.5] ">
                       <h3 className="text-base font-semibold">
-                        <Link href="/product-detail">{item.productVariantName}</Link>
+                        <Link href="/product-detail">{item.productName}</Link>
                       </h3>
                       <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
                         <div className="flex items-center space-x-1.5">
@@ -91,7 +91,7 @@ const CartList: FC<CartListProps> = () => {
                             <path d="M10.5 13.5L3 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
 
-                          <span>{`2XL`}</span>
+                          <span>{item.productSizeName}</span>
                         </div>
                       </div>
 
@@ -107,7 +107,7 @@ const CartList: FC<CartListProps> = () => {
                     </div>
 
                     <div className="hidden flex-1 sm:flex justify-end">
-                      <Price priceValue={item.priceValue} className="mt-0.5" />
+                      <Price priceValue={item.priceValue} priceDiscount={item.priceDiscount} className="mt-0.5" />
                     </div>
                   </div>
                 </div>
@@ -115,7 +115,9 @@ const CartList: FC<CartListProps> = () => {
                 <div className="flex mt-auto pt-4 items-end justify-between text-sm">
                   <div className="hidden sm:block text-center relative">
                     <NcInputNumber
+                      defaultValue={item.quantity}
                       className="relative z-10"
+                      max={item.quantityLeft}
                       onChange={(value: any) => updateCartItem(item.productId, item.productVariantId, parseInt(value))}
                     />
                   </div>

@@ -133,6 +133,6 @@ interface ICreateOrderResponse {
   paymentMethodId: EnumPaymentMethod
   orderId?: string
   orderCode?: number
-  orderItem?: IProductVariant[]
+  cartItems?: ICartItem[]
   paymentInfo?: any
 }

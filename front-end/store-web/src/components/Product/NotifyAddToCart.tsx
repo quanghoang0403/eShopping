@@ -20,7 +20,7 @@ const NotifyAddToCart: FC<Props> = ({ product, productVariantActive, productSize
   const thumbnail = productVariantActive.thumbnail ?? product.thumbnail
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  const renderProductCartOnNotify = () => {
     const cartItem: ICartItem = {
       productId: product.id,
       productName: product.name,
@@ -37,9 +37,6 @@ const NotifyAddToCart: FC<Props> = ({ product, productVariantActive, productSize
       quantityLeft: productStockActive.quantityLeft,
     }
     dispatch(sessionActions.addProductToCart(cartItem))
-  }, [])
-
-  const renderProductCartOnNotify = () => {
     return (
       <div className="flex ">
         <div className="h-24 w-20 relative flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
