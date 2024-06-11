@@ -45,8 +45,9 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    setImageUrl(value)
-  }, [])
+    if(maxNumber === 1 )
+      setImageUrl(value)
+  }, [value])
 
   const setImageUrl = (url) => {
     if (shopUploadRef && shopUploadRef.current && url) {
