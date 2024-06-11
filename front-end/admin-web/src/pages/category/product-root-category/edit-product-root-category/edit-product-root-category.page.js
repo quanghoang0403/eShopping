@@ -1,21 +1,13 @@
-import { Card, Col, Form, Image, Input, InputNumber, message, Row, Space, Tooltip, Divider } from 'antd'
-import { arrayMoveImmutable } from 'array-move'
+import { Card, Col, Form, Input, InputNumber, message, Row, Space, Tooltip} from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { FnbSelectMultipleProduct } from 'components/shop-select-multiple-product/shop-select-multiple-product'
 import PageTitle from 'components/page-title'
-import { DELAYED_TIME } from 'constants/default.constants'
 import { ExclamationIcon, PolygonIcon, TrashFill } from 'constants/icons.constants'
-import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
-import productCategoryDataService from 'data-services/product-category/product-category-data.service'
-import productDataService from 'data-services/product/product-data.service'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch } from 'react-router-dom'
-import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
-import { getValidationMessages } from 'utils/helpers'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service'
@@ -144,15 +136,7 @@ export default function EditProductRootCategory() {
           setCurrentName(productCategory.name)
 
           form.setFieldsValue({
-            id: productCategory.id,
-            name: productCategory.name,
-            priority: productCategory.priority,
-            keywordSEO: productCategory.keywordSEO,
-            titleSEO: productCategory.titleSEO,
-            descriptionSEO: productCategory.descriptionSEO,
-            description: productCategory.description,
-            content: productCategory.content,
-            genderProductId: productCategory.genderProduct
+            ...productCategory
           })
           setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
         }
@@ -174,14 +158,8 @@ export default function EditProductRootCategory() {
     const values = await form.validateFields();
     const updateProductRootCategoryRequestModel = {
       id: match?.params?.productRootCategoryId,
-      name: values.name,
-      priority: values.priority,
-      content: values.content,
-      titleSEO: values.titleSEO,
-      descriptionSEO: values.descriptionSEO,
-      description: values.description,
-      keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
-      genderProduct: values.genderProductId
+      ...values,
+      keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
     }
     try {
       const res = await RootCategoryDataService.EditProductRootCategory(updateProductRootCategoryRequestModel)
@@ -372,7 +350,7 @@ export default function EditProductRootCategory() {
                 <Card className="shop-card">
                   <h3>{pageData.gender.genderCategory}</h3>
                   <Form.Item
-                    name={['genderProductId']}
+                    name={['genderProduct']}
                     className="item-name"
                   >
                     <FnbSelectSingle

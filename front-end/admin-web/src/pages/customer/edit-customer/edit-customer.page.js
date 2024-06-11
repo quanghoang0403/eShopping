@@ -95,6 +95,15 @@ export default function EditCustomerPage(props) {
     totalOrder: t('dashboard.totalOrder'),
     totalMoney: t('dashboard.totalMoney'),
 
+    media: {
+      title: t('blog.media'),
+      bannerTitle: t('blog.bannerTitle'),
+      textNonImage: t('file.textNonImage'),
+      uploadImage: t('file.uploadImage'),
+      // addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('blog.bestDisplayImage')
+    },
+
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
@@ -112,7 +121,6 @@ export default function EditCustomerPage(props) {
   const [customer, setCustomer] = useState({});
   const [showConfirm, setShowConfirm] = useState(false);
   const [customerName, setCustomerName] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
   const [showConfirmLeave, setShowConfirmLeave] = useState(false);
   useEffect(() => {
     getInitDataAsync();
@@ -132,10 +140,10 @@ export default function EditCustomerPage(props) {
           ...customer,
           birthDay: customer?.birthday
             ? moment.utc(customer?.birthday).local()
-            : null,
-          phone: customer?.phoneNumber
+            : null
         };
         form.setFieldsValue(initField);
+        setCustomer(customer)
         const wardAndDistrictPromises = []
         wardAndDistrictPromises.push(AddressDataService.getDistrictsByCityId(customer.cityId))
         wardAndDistrictPromises.push(AddressDataService.getWardsByDistrictId(customer.districtId))
@@ -179,26 +187,14 @@ export default function EditCustomerPage(props) {
     //   const wardsFilteredByCity =
     //     wards?.filter((item) => item.districtId === districtId) ?? [];
     //   setWardsByDistrictId(wardsFilteredByCity);
-
-    if (shopImageSelectRef && shopImageSelectRef.current) {
-      shopImageSelectRef.current.setImageUrl(
-          customer?.thumbnail ?? images.imgDefault
-      );
-      setSelectedImage(customer?.thumbnail ?? images.imgDefault);
-    }
     // }
   };
 
   const onFinish = async (values) => {
     const editUserRequestModel = {
       id: match?.params?.customerId,
-      ...values,
-      thumbnail:
-        shopImageSelectRef.current.getImageUrl() === images.imgDefault
-          ? null
-          : shopImageSelectRef.current.getImageUrl()
+      ...values
     };
-    console.log(editUserRequestModel)
     customerDataService
       .updateCustomerAsync(editUserRequestModel)
       .then((res) => {
@@ -348,10 +344,13 @@ export default function EditCustomerPage(props) {
             <Col sm={24} xs={24} lg={8}>
               <div className="left-card">
                 <div className="left-card-image">
-                  <FnbImageSelectComponent
-                    ref={shopImageSelectRef}
-                    messageTooBigSize={pageData.fileSizeLimit}
-                  />
+                  <Form.Item name={'thumbnail'} className='mx-auto'>
+                    <FnbImageSelectComponent
+                      isShowBestDisplay={false}
+                      messageTooBigSize={pageData.media.imageSizeTooBig}
+                      bestDisplayImage={pageData.media.bestDisplayImage}
+                    />
+                  </Form.Item>
                 </div>
                 <div className="info-container">
                   <div className="other-info-box">

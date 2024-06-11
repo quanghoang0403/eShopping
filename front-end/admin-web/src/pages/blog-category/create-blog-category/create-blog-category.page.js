@@ -388,17 +388,17 @@ export default function CreateBlogCategory() {
           </Col>
           <Col xs={24} sm={24} md={24} lg={8}>
             <Card className="w-100 shop-card h-auto">
+              <h4 className="title-group">{pageData.generalInformation.blogs.title}</h4>
               <Row className="mb-4">
-                <h4 className="title-group">{pageData.generalInformation.blogs.title}</h4>
                 <Form.Item
                   name={['blogs']}
+                  className={'w-100'}
                 >
                   <FnbSelectMultiple
                     placeholder={pageData.generalInformation.blogs.placeholder}
                     option={blogs}
                   />
                 </Form.Item>
-
               </Row>
             </Card>
           </Col>

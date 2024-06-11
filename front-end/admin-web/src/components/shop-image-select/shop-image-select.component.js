@@ -43,11 +43,11 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     imageSizeTooBig: t('file.imageSizeTooBig'),
     acceptFileImageTypes: t('file.acceptFileImageTypes')
   }
-  
+
   useEffect(() => {
-    setImageUrl(value)
-    console.log(value);
-  }, [])
+    if(maxNumber === 1 )
+      setImageUrl(value)
+  }, [value])
 
   const setImageUrl = (url) => {
     if (shopUploadRef && shopUploadRef.current && url) {

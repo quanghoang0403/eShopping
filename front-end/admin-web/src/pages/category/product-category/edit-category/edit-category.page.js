@@ -136,15 +136,8 @@ export default function EditProductCategoryPage(props) {
           setCurrentName(productCategory.name)
 
           form.setFieldsValue({
-            id: productCategory.id,
-            name: productCategory.name,
-            priority: productCategory.priority,
-            productIds: productCategory.products?.map((x) => x.id),
-            keywordSEO: productCategory.keywordSEO,
-            titleSEO: productCategory.titleSEO,
-            descriptionSEO: productCategory.descriptionSEO,
-            description: productCategory.description,
-            content: productCategory.content
+            ...productCategory,
+            productIds: productCategory.products?.map((x) => x.id)
           })
           setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
         }
@@ -288,14 +281,8 @@ export default function EditProductCategoryPage(props) {
   const onSubmitForm = () => {
     form.validateFields().then((values) => {
       const updateProductCategoryRequestModel = {
-        id: values.id,
-        name: values.name,
+        ...values,
         products: dataSelectedProducts,
-        priority: values.priority,
-        content: values.content,
-        titleSEO: values.titleSEO,
-        descriptionSEO: values.descriptionSEO,
-        description: values.description,
         keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
       }
 

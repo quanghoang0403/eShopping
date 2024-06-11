@@ -7,7 +7,7 @@ import FnbFroalaEditor from 'components/shop-froala-editor'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
 import PageTitle from 'components/page-title'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { ExclamationIcon } from 'constants/icons.constants'
+import { ExclamationIcon} from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
 import { useEffect, useState } from 'react'
@@ -30,10 +30,9 @@ export default function EditBlogPage(props) {
   const history = useHistory()
   const [blockNavigation, setBlockNavigation] = useState(false)
   const [categories, setCategories] = useState([])
-  const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [blog, setBlog] = useState(null)
+  const [blog, setBlog] = useState({})
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
@@ -77,9 +76,9 @@ export default function EditBlogPage(props) {
         validateMessage: t('blog.blogContentValidateMessage'),
         blogContentPlaceholder: t('blog.blogContentPlaceholder')
       },
-      description: {
-        labelDescription: t('blog.labelDescription'),
-        placeholderDescription: t('blog.placeholderDescription')
+      description:{
+        labelDescription:t('blog.labelDescription'),
+        placeholderDescription:t('blog.placeholderDescription')
       }
     },
     SEO: {
@@ -131,13 +130,13 @@ export default function EditBlogPage(props) {
     await BlogDataService
       .getBlogByIdAsync(id)
       .then((res) => {
-        const parsedData = {
+        setBlog(res)
+        setKeywordSEOList(res?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
+        // mapping general
+        form.setFieldsValue({
           ...res,
           blogCategoryId: res?.blogCategories.map(b => b.id)
-        }
-        setKeywordSEOList(res?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
-        form.setFieldsValue(parsedData)
-        setBlog(parsedData)
+        })
       })
       .catch((errors) => {
         message.error(errors.message)
@@ -199,7 +198,6 @@ export default function EditBlogPage(props) {
 
   const changeForm = () => {
     setIsChangeForm(true)
-    setDisableCreateButton(false)
   }
 
   const addSEOKeywords = (e) => {
@@ -213,449 +211,444 @@ export default function EditBlogPage(props) {
   }
   return (
     <>
-      {blog ? (
-        <>
-          <Row className="shop-row-page-header">
-            <Col xs={24} sm={24} lg={12}>
-              <p className="card-header">
-                <PageTitle content={blog.name} />
-              </p>
-            </Col>
-            <Col span={12} xs={24} sm={24} md={24} lg={12}>
-              <ActionButtonGroup
-                arrayButton={[
-                  {
-                    action: (
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        disabled={disableCreateButton}
-                        className="btn-add-product"
-                        onClick={onSubmitForm}
+      <Row className="shop-row-page-header">
+        <Col xs={24} sm={24} lg={12}>
+          <p className="card-header">
+            <PageTitle content={blog?.name} />
+          </p>
+        </Col>
+        <Col span={12} xs={24} sm={24} md={24} lg={12}>
+          <ActionButtonGroup
+            arrayButton={[
+              {
+                action: (
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={!isChangeForm}
+                    className="btn-add-product"
+                    onClick={onSubmitForm}
+                  >
+                    {pageData.btnUpdate}
+                  </Button>
+                ),
+                permission: PermissionKeys.CREATE_BLOG
+              },
+              {
+                action: (
+                  <a onClick={() => onCancel()} className="action-cancel">
+                    {pageData.btnCancel}
+                  </a>
+                ),
+                permission: null
+              }
+            ]}
+          />
+        </Col>
+      </Row>
+      <Form
+        form={form}
+        name="basic"
+        className="edit-blog"
+        onFieldsChange={() => changeForm()}
+        autoComplete="off"
+        onChange={() => {
+          if (!blockNavigation) setBlockNavigation(true)
+        }}
+      >
+        <div className="col-input-full-width">
+          <Row gutter={[12, 0]}>
+            <Col xs={24} sm={24} md={16} lg={16} xl={15} xxl={16}>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <Card className="w-100 shop-card h-auto">
+                  <Row className="mb-4">
+                    <Col span={24}>
+                      <h4 className="title-group">
+                        {pageData.generalInformation.title}
+                      </h4>
+                      <h4 className="shop-form-label">
+                        {pageData.generalInformation.name.label}
+                        <span className="text-danger">*</span>
+                      </h4>
+                      <Form.Item
+                        name={'name'}
+                        rules={[
+                          {
+                            required: pageData.generalInformation.name.required,
+                            message:
+                              pageData.generalInformation.name.validateMessage
+                          }
+                        ]}
+                        validateFirst={true}
                       >
-                        {pageData.btnUpdate}
-                      </Button>
-                    ),
-                    permission: PermissionKeys.CREATE_BLOG
-                  },
-                  {
-                    action: (
-                      <a onClick={() => onCancel()} className="action-cancel">
-                        {pageData.btnCancel}
-                      </a>
-                    ),
-                    permission: null
-                  }
-                ]}
-              />
-            </Col>
-          </Row>
-          <Form
-            form={form}
-            name="basic"
-            className="edit-blog"
-            onFieldsChange={() => changeForm()}
-            autoComplete="off"
-            onChange={() => {
-              if (!blockNavigation) setBlockNavigation(true)
-            }}
-          >
-            <div className="col-input-full-width">
-              <Row gutter={[12, 0]}>
-                <Col xs={24} sm={24} md={16} lg={16} xl={15} xxl={16}>
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                    <Card className="w-100 shop-card h-auto">
-                      <Row className="mb-4">
-                        <Col span={24}>
-                          <h4 className="title-group">
-                            {pageData.generalInformation.title}
-                          </h4>
-                          <h4 className="shop-form-label">
-                            {pageData.generalInformation.name.label}
-                            <span className="text-danger">*</span>
-                          </h4>
-                          <Form.Item
-                            name={'name'}
-                            rules={[
-                              {
-                                required: pageData.generalInformation.name.required,
-                                message:
-                                  pageData.generalInformation.name.validateMessage
-                              }
-                            ]}
-                            validateFirst={true}
-                          >
-                            <Input
-                              className="shop-input"
-                              placeholder={
-                                pageData.generalInformation.name.placeholder
-                              }
-                              maxLength={pageData.generalInformation.name.maxLength}
-                              id="product-name"
-                              allowClear
-                              showCount
-                            />
-                          </Form.Item>
+                        <Input
+                          className="shop-input"
+                          placeholder={
+                            pageData.generalInformation.name.placeholder
+                          }
+                          maxLength={pageData.generalInformation.name.maxLength}
+                          id="product-name"
+                          allowClear
+                          showCount
+                        />
+                      </Form.Item>
 
-                          <div className="d-flex">
-                            <h4 className="shop-form-label mt-16">
-                              {pageData.priority.title}
-                              <span className="text-danger">*</span>
-                            </h4>
-                            <Tooltip placement="topLeft" title={pageData.priority.tooltip}>
-                              <span className="ml-12 mt-16">
-                                <ExclamationIcon />
-                              </span>
-                            </Tooltip>
-                          </div>
-                          <Form.Item
-                            name={['priority']}
-                            rules={[
-                              {
-                                required: true,
-                                message: pageData.priority.validateMessage
-                              }
-                            ]}
-                          >
-                            <InputNumber
-                              placeholder={pageData.priority.placeholder}
-                              className="shop-input-number w-100"
-                              min={1}
-                              max={1000000}
-                              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                            />
-                          </Form.Item>
-
-                          <h4 className="shop-form-label">
-                            {pageData.generalInformation.blogCategory.label}{' '}
-                            <span className="text-danger">*</span>
-                          </h4>
-                          <Form.Item
-                            name={'blogCategoryId'}
-                            rules={[
-                              {
-                                required:
-                                  pageData.generalInformation.blogCategory.required,
-                                message:
-                                  pageData.generalInformation.blogCategory
-                                    .blogCategoryValidateMessage
-                              }
-                            ]}
-                          >
-                            <FnbSelectMultiple
-                              // onChange={onChangeOption}
-                              className="unit-selector"
-                              placeholder={
-                                pageData.generalInformation.blogCategory.placeholder
-                              }
-                              allowClear
-                              noTranslateOptionName
-                              option={categories?.map((item) => ({
-                                id: item.id,
-                                name: item.name
-                              }))}
-                            />
-                          </Form.Item>
-
-                          <h4 className="shop-form-label">
-                            {pageData.generalInformation.blogContent.label}{' '}
-                            <span className="text-danger">*</span>
-                          </h4>
-                          <Form.Item name={'content'} rules={[{ required: true, message: pageData.generalInformation.blogContent.validateMessage }]}>
-                            <FnbFroalaEditor
-                              charCounterMax={-1}
-                            />
-                          </Form.Item>
-                          <h4 className="shop-form-label">
-                            {pageData.generalInformation.description.labelDescription}{' '}
-                            <span className="text-danger">*</span>
-                          </h4>
-                          <Form.Item name={'description'}>
-                            <FnbTextArea
-                              rows={6}
-                              placeholder={pageData.generalInformation.description.placeholderDescription}
-                              maxLength={255}
-                              showCount
-                            />
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                    </Card>
-                    <br />
-                  </Col>
-
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                    <Card className="w-100 mt-1 shop-card h-auto">
-                      <Row>
-                        <Col span={24}>
-                          <h4 className="title-group">{pageData.SEO.title}</h4>
-                          {/* <h4 className="shop-form-label mt-3">
-                          {pageData.SEO.SEOPreview}
-                          <Tooltip
-                            placement="topLeft"
-                            title={() => {
-                              return (
-                                <span
-                                  dangerouslySetInnerHTML={{
-                                    __html: pageData.SEO.SEOOverviewTooltip
-                                  }}
-                                ></span>
-                              )
-                            }}
-                            className=" material-edit-cost-per-unit-tool-tip"
-                          >
-                            <span>
-                              <ExclamationIcon />
-                            </span>
-                          </Tooltip>
-                        </h4> */}
-                          {/* <div className="edit-blog-overview">
-                          <span
-                            style={{ fontSize: '18px' }}
-                          >{`<meta name="title" property="title" content="${!titleSEO ? 'SEO on Title' : titleSEO
-                            }">`}</span>
-                          <br />
-                          <span style={{ fontSize: '18px' }}>
-                            {`<meta name="description" property="description" content="${!descriptionSEO
-                              ? 'SEO on Description'
-                              : descriptionSEO
-                              }">`}
+                      <div className="d-flex">
+                        <h4 className="shop-form-label mt-16">
+                          {pageData.priority.title}
+                          <span className="text-danger">*</span>
+                        </h4>
+                        <Tooltip placement="topLeft" title={pageData.priority.tooltip}>
+                          <span className="ml-12 mt-16">
+                            <ExclamationIcon />
                           </span>
-                          <br />
-                          <span style={{ fontSize: '18px' }}>
-                            {`<meta name="keywords" property="keywords" content="${keywordSEOs.length > 0
-                              ? keywordSEOs.map((x) => x.value).join(',')
-                              : 'SEO on Keywords'
-                              }">`}
-                          </span>
-                        </div> */}
-                          <h4 className="shop-form-label d-flex">
-                            {pageData.SEO.SEOTitle}
-                            <Tooltip
-                              placement="topLeft"
-                              title={() => {
-                                return (
-                                  <span
-                                    dangerouslySetInnerHTML={{
-                                      __html: pageData.SEO.SEOTitleTooltip
-                                    }}
-                                  ></span>
-                                )
-                              }}
-                              className="material-edit-cost-per-unit-tool-tip"
-                            >
-                              <span className='ml-2'>
-                                <ExclamationIcon />
-                              </span>
-                            </Tooltip>
-                          </h4>
-                          <Form.Item
-                            name={'titleSEO'}
-                            rules={[{
-                              min: 50,
-                              max: 60,
-                              message: pageData.messageMatchSuggestSEOTitle
-                            }]}
-                          >
-                            <Input
-                              className="shop-input-with-count"
-                              placeholder={pageData.SEO.SEOTitlePlaceholder}
-                              maxLength={100}
-                              showCount
-                            />
-                          </Form.Item>
+                        </Tooltip>
+                      </div>
+                      <Form.Item
+                        name={['priority']}
+                        rules={[
+                          {
+                            required: true,
+                            message: pageData.priority.validateMessage
+                          }
+                        ]}
+                      >
+                        <InputNumber
+                          placeholder={pageData.priority.placeholder}
+                          className="shop-input-number w-100"
+                          min={1}
+                          max={1000000}
+                          formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                        />
+                      </Form.Item>
 
-                          <h4 className="shop-form-label d-flex mt-2">
-                            {pageData.SEO.SEODescription}
-                            <Tooltip
-                              placement="topLeft"
-                              title={() => {
-                                return (
-                                  <span
-                                    dangerouslySetInnerHTML={{
-                                      __html: pageData.SEO.SEODescriptionTooltip
-                                    }}
-                                  ></span>
-                                )
-                              }}
-                              className=" material-edit-cost-per-unit-tool-tip"
-                            >
-                              <span className='ml-2'>
-                                <ExclamationIcon />
-                              </span>
-                            </Tooltip>
-                          </h4>
-                          <Form.Item
-                            name={'descriptionSEO'}
-                            rules={[{
-                              min: 150,
-                              max: 160,
-                              message: pageData.messageMatchSuggestSEOTitle
-                            }]}
-                          >
-                            <FnbTextArea
-                              rows={6}
-                              placeholder={pageData.SEO.SEODescriptionPlaceholder}
-                              maxLength={255}
-                              showCount
-                            />
-                          </Form.Item>
+                      <h4 className="shop-form-label">
+                        {pageData.generalInformation.blogCategory.label}{' '}
+                        <span className="text-danger">*</span>
+                      </h4>
+                      <Form.Item
+                        name={'blogCategoryId'}
+                        rules={[
+                          {
+                            required:
+                              pageData.generalInformation.blogCategory.required,
+                            message:
+                              pageData.generalInformation.blogCategory
+                                .blogCategoryValidateMessage
+                          }
+                        ]}
+                      >
+                        <FnbSelectMultiple
+                          // onChange={onChangeOption}
+                          className="unit-selector"
+                          placeholder={
+                            pageData.generalInformation.blogCategory.placeholder
+                          }
+                          allowClear
+                          noTranslateOptionName
+                          option={categories?.map((item) => ({
+                            id: item.id,
+                            name: item.name
+                          }))}
+                        />
+                      </Form.Item>
 
-                          <h4 className="shop-form-label d-flex">
-                            {pageData.SEO.SEOKeywords}
-                            <Tooltip
-                              placement="topLeft"
-                              title={() => {
-                                return (
-                                  <span
-                                    dangerouslySetInnerHTML={{
-                                      __html: pageData.SEO.SEOKeywordsTooltip
-                                    }}
-                                  ></span>
-                                )
-                              }}
-                              className=" material-edit-cost-per-unit-tool-tip"
-                            >
-                              <span className='ml-2'>
-                                <ExclamationIcon />
-                              </span>
-                            </Tooltip>
-                          </h4>
-                          <div>
-                            {
-                              keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                            }
+                      <h4 className="shop-form-label">
+                        {pageData.generalInformation.blogContent.label}{' '}
+                        <span className="text-danger">*</span>
+                      </h4>
+                      <Form.Item name={'content'} rules={[{required:true,message:pageData.generalInformation.blogContent.validateMessage}]}>
+                        <FnbFroalaEditor
+                          charCounterMax={-1}
+                        />
+                      </Form.Item>
+                      <h4 className="shop-form-label">
+                        {pageData.generalInformation.description.labelDescription}{' '}
+                        <span className="text-danger">*</span>
+                      </h4>
+                      <Form.Item name={'description'}>
+                        <FnbTextArea
+                          rows={6}
+                          placeholder={pageData.generalInformation.description.placeholderDescription}
+                          maxLength={255}
+                          showCount
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Card>
+                <br />
+              </Col>
 
-                            <div className='d-flex mt-2'>
-                              <Input
-                                className="shop-input-with-count"
-                                showCount
-                                value={keywordSEO?.value || ''}
-                                placeholder={pageData.SEO.SEOKeywordsPlaceholder}
-                                onChange={e => {
-                                  if (e.target.value !== '') {
-                                    setKeywordSEO({
-                                      id: e.target.value,
-                                      value: e.target.value
-                                    })
-                                    setIsKewwordSEOChange(true)
-                                  }
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <Card className="w-100 mt-1 shop-card h-auto">
+                  <Row>
+                    <Col span={24}>
+                      <h4 className="title-group">{pageData.SEO.title}</h4>
+                      {/* <h4 className="shop-form-label mt-3">
+                        {pageData.SEO.SEOPreview}
+                        <Tooltip
+                          placement="topLeft"
+                          title={() => {
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pageData.SEO.SEOOverviewTooltip
                                 }}
-                              />
-                              <ShopAddNewButton
-                                permission={PermissionKeys.CREATE_BLOG}
-                                disabled={!isKeywordSEOChange}
-                                text={pageData.SEO.keyword.btnAdd}
-                                className={'mx-4'}
-                                onClick={addSEOKeywords}
-                              />
+                              ></span>
+                            )
+                          }}
+                          className=" material-edit-cost-per-unit-tool-tip"
+                        >
+                          <span>
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                      </h4> */}
+                      {/* <div className="edit-blog-overview">
+                        <span
+                          style={{ fontSize: '18px' }}
+                        >{`<meta name="title" property="title" content="${!titleSEO ? 'SEO on Title' : titleSEO
+                          }">`}</span>
+                        <br />
+                        <span style={{ fontSize: '18px' }}>
+                          {`<meta name="description" property="description" content="${!descriptionSEO
+                            ? 'SEO on Description'
+                            : descriptionSEO
+                            }">`}
+                        </span>
+                        <br />
+                        <span style={{ fontSize: '18px' }}>
+                          {`<meta name="keywords" property="keywords" content="${keywordSEOs.length > 0
+                            ? keywordSEOs.map((x) => x.value).join(',')
+                            : 'SEO on Keywords'
+                            }">`}
+                        </span>
+                      </div> */}
+                      <h4 className="shop-form-label d-flex">
+                        {pageData.SEO.SEOTitle}
+                        <Tooltip
+                          placement="topLeft"
+                          title={() => {
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pageData.SEO.SEOTitleTooltip
+                                }}
+                              ></span>
+                            )
+                          }}
+                          className="material-edit-cost-per-unit-tool-tip"
+                        >
+                          <span className='ml-2'>
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                      </h4>
+                      <Form.Item
+                        name={'titleSEO'}
+                        rules={[{
+                          min:50,
+                          max:60,
+                          message:pageData.messageMatchSuggestSEOTitle
+                        }]}
+                      >
+                        <Input
+                          className="shop-input-with-count"
+                          placeholder={pageData.SEO.SEOTitlePlaceholder}
+                          maxLength={100}
+                          showCount
+                        />
+                      </Form.Item>
+
+                      <h4 className="shop-form-label d-flex mt-2">
+                        {pageData.SEO.SEODescription}
+                        <Tooltip
+                          placement="topLeft"
+                          title={() => {
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pageData.SEO.SEODescriptionTooltip
+                                }}
+                              ></span>
+                            )
+                          }}
+                          className=" material-edit-cost-per-unit-tool-tip"
+                        >
+                          <span className='ml-2'>
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                      </h4>
+                      <Form.Item
+                        name={'descriptionSEO'}
+                        rules={[{
+                          min:150,
+                          max:160,
+                          message:pageData.messageMatchSuggestSEOTitle
+                        }]}
+                      >
+                        <FnbTextArea
+                          rows={6}
+                          placeholder={pageData.SEO.SEODescriptionPlaceholder}
+                          maxLength={255}
+                          showCount
+                        />
+                      </Form.Item>
+
+                      <h4 className="shop-form-label d-flex">
+                        {pageData.SEO.SEOKeywords}
+                        <Tooltip
+                          placement="topLeft"
+                          title={() => {
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pageData.SEO.SEOKeywordsTooltip
+                                }}
+                              ></span>
+                            )
+                          }}
+                          className=" material-edit-cost-per-unit-tool-tip"
+                        >
+                          <span className='ml-2'>
+                            <ExclamationIcon />
+                          </span>
+                        </Tooltip>
+                      </h4>
+                      <div>
+                        {
+                          keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
+                        }
+
+                        <div className='d-flex mt-2'>
+                          <Input
+                            className="shop-input-with-count"
+                            showCount
+                            value={keywordSEO?.value || ''}
+                            placeholder={pageData.SEO.SEOKeywordsPlaceholder}
+                            onChange={e => {
+                              if (e.target.value !== '') {
+                                setKeywordSEO({
+                                  id: e.target.value,
+                                  value: e.target.value
+                                })
+                                setIsKewwordSEOChange(true)
+                              }
+                            }}
+                          />
+                          <ShopAddNewButton
+                            permission={PermissionKeys.CREATE_BLOG}
+                            disabled={!isKeywordSEOChange}
+                            text={pageData.SEO.keyword.btnAdd}
+                            className={'mx-4'}
+                            onClick={addSEOKeywords}
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card>
+                <br />
+              </Col>
+            </Col>
+
+            {/* <Col xs={24} sm={24} md={16} lg={16} xl={15} xxl={16}> */}
+
+            <Col xs={24} sm={24} md={8} lg={8} xl={9} xxl={8}>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <Row>
+                  <Col xs={24} sm={24} md={24} lg={24}>
+                    <Card className="w-100 shop-card h-auto">
+                      <h4 className="title-group">{pageData.media.title}</h4>
+                      <h4 className="shop-form-label">
+                        {pageData.media.bannerTitle}
+                      </h4>
+                      <Form.Item name={'thumbnail'}>
+                        <FnbImageSelectComponent
+                          messageTooBigSize={pageData.media.imageSizeTooBig}
+                          isShowBestDisplay={true}
+                          bestDisplayImage={pageData.media.bestDisplayImage}
+                        />
+                      </Form.Item>
+
+                    </Card>
+                  </Col>
+                </Row>
+                <FnbCard className="mt-4">
+                  <Row gutter={[24, 24]}>
+                    <Col sm={24} lg={24} className="w-100">
+                      <Row className="mb-1 mt-3 edit-blog-overview-odd">
+                        <Col span={24}>
+                          <div className="left-column">{pageData.createdBy}</div>
+                          <div className="right-column">
+                            <div className="shop-form-label-right">
+                              {blog?.author
+                                ? blog?.author
+                                : '-'}
                             </div>
                           </div>
                         </Col>
                       </Row>
-                    </Card>
-                    <br />
-                  </Col>
-                </Col>
-
-                {/* <Col xs={24} sm={24} md={16} lg={16} xl={15} xxl={16}> */}
-
-                <Col xs={24} sm={24} md={8} lg={8} xl={9} xxl={8}>
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                    <Row>
-                      <Col xs={24} sm={24} md={24} lg={24}>
-                        <Card className="w-100 shop-card h-auto">
-                          <h4 className="title-group">{pageData.media.title}</h4>
-                          <h4 className="shop-form-label">
-                            {pageData.media.bannerTitle}
-                          </h4>
-                          <Form.Item name={'thumbnail'}>
-                            <FnbImageSelectComponent
-                              messageTooBigSize={pageData.media.imageSizeTooBig}
-                              isShowBestDisplay={true}
-                              bestDisplayImage={pageData.media.bestDisplayImage}
-                            />
-                          </Form.Item>
-
-                        </Card>
-                      </Col>
-                    </Row>
-                    <FnbCard className="mt-4">
-                      <Row gutter={[24, 24]}>
-                        <Col sm={24} lg={24} className="w-100">
-                          <Row className="mb-1 mt-3 edit-blog-overview-odd">
-                            <Col span={24}>
-                              <div className="left-column">{pageData.createdBy}</div>
-                              <div className="right-column">
-                                <div className="shop-form-label-right">
-                                  {blog?.author
-                                    ? blog?.author
-                                    : '-'}
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                          <Row className="edit-blog-overview-even">
-                            <Col span={24}>
-                              <div className="left-column">
-                                {pageData.createdTime}
-                              </div>
-                              <div className="right-column">
-                                <div className="shop-form-label-right">
-                                  {blog?.createdTime
-                                    ? moment(blog?.createdTime)?.format(
-                                      DateFormat.DD_MM_YYYY
-                                    )
-                                    : '-'}
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                          <Row className="mb-1 mt-3 edit-blog-overview-odd">
-                            <Col span={24}>
-                              <div className="left-column">{pageData.updatedTime}</div>
-                              <div className="right-column">
-                                <div className="shop-form-label-right">
-                                  {blog?.lastSavedTime
-                                    ? moment(blog?.lastSavedTime)?.format(DateFormat.DD_MM_YYYY)
-                                    : '-'}
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                          <Row className="edit-blog-overview-even">
-                            <Col span={24}>
-                              <div className="left-column">{pageData.view}</div>
-                              <div className="right-column">
-                                <div className="shop-form-label-right">
-                                  {formatNumber(blog?.viewCount)}
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
+                      <Row className="edit-blog-overview-even">
+                        <Col span={24}>
+                          <div className="left-column">
+                            {pageData.createdTime}
+                          </div>
+                          <div className="right-column">
+                            <div className="shop-form-label-right">
+                              {blog?.createdTime
+                                ? moment(blog?.createdTime)?.format(
+                                  DateFormat.DD_MM_YYYY
+                                )
+                                : '-'}
+                            </div>
+                          </div>
                         </Col>
                       </Row>
-                    </FnbCard>
-                  </Col>
-                </Col>
-              </Row>
-            </div>
-          </Form>
-          <DeleteConfirmComponent
-            title={pageData.leaveDialog.confirmLeaveTitle}
-            content={pageData.leaveDialog.confirmLeaveContent}
-            visible={showConfirm}
-            skipPermission={true}
-            cancelText={pageData.btnDiscard}
-            okText={pageData.leaveDialog.confirmLeave}
-            onCancel={onDiscard}
-            onOk={onCompleted}
-            isChangeForm={isChangeForm}
-          />
-        </>
-      ) : <p>Loading...</p>
-      }
+                      <Row className="mb-1 mt-3 edit-blog-overview-odd">
+                        <Col span={24}>
+                          <div className="left-column">{pageData.updatedTime}</div>
+                          <div className="right-column">
+                            <div className="shop-form-label-right">
+                              {blog?.lastSavedTime
+                                ? moment(blog?.lastSavedTime)?.format(DateFormat.DD_MM_YYYY)
+                                : '-'}
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row className="edit-blog-overview-even">
+                        <Col span={24}>
+                          <div className="left-column">{pageData.view}</div>
+                          <div className="right-column">
+                            <div className="shop-form-label-right">
+                              {formatNumber(blog?.viewCount)}
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </FnbCard>
+              </Col>
+            </Col>
+          </Row>
+        </div>
+      </Form>
+      <DeleteConfirmComponent
+        title={pageData.leaveDialog.confirmLeaveTitle}
+        content={pageData.leaveDialog.confirmLeaveContent}
+        visible={showConfirm}
+        skipPermission={true}
+        cancelText={pageData.btnDiscard}
+        okText={pageData.leaveDialog.confirmLeave}
+        onCancel={onDiscard}
+        onOk={onCompleted}
+        isChangeForm={isChangeForm}
+      />
     </>
   )
 }

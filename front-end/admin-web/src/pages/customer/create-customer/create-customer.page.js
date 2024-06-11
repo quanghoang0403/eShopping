@@ -18,6 +18,7 @@ import { useHistory } from 'react-router'
 import { getValidationMessages } from 'utils/helpers'
 import './create-customer.page.scss'
 import AddressDataService from 'data-services/address/address-data.service'
+import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
 
 export default function CreateCustomerPage(props) {
   const [t] = useTranslation()
@@ -62,6 +63,14 @@ export default function CreateCustomerPage(props) {
     labelAddress: t('form.address'),
     inputAddress: t('form.inputAddress'),
     validAddress: t('form.validAddress'),
+    media: {
+      title: t('blog.media'),
+      bannerTitle: t('blog.bannerTitle'),
+      textNonImage: t('file.textNonImage'),
+      uploadImage: t('file.uploadImage'),
+      // addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('blog.bestDisplayImage')
+    },
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
@@ -72,7 +81,6 @@ export default function CreateCustomerPage(props) {
   const [form] = Form.useForm()
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [genderSelected, setGenderSelected] = useState(CustomerGenderConstant.Male)
-  const [address, setAddress] = useState('')
   const [cities, setCities] = useState([])
   const [wardsByDistrictId, setWardsByDistrictId] = useState([])
   const [districtsByCityId, setDistrictsByCityId] = useState([])
@@ -287,7 +295,7 @@ export default function CreateCustomerPage(props) {
             </Row>
             <Row style={{ display: 'grid' }}>
               <Row gutter={[25, 25]} className="form-row">
-                <Col sm={24} md={8} className="w-100">
+                <Col sm={24} md={8} lg={12}>
                   <h4 className="shop-form-label">
                     {pageData.name} <span className="text-danger">*</span>
                   </h4>
@@ -314,6 +322,15 @@ export default function CreateCustomerPage(props) {
                       maxLength={100}
                       size="large"
                       placeholder={pageData.namePlaceholder}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={12}>
+                  <Form.Item name={'thumbnail'} className='mx-auto'>
+                    <FnbImageSelectComponent
+                      isShowBestDisplay={false}
+                      messageTooBigSize={pageData.media.imageSizeTooBig}
+                      bestDisplayImage={pageData.media.bestDisplayImage}
                     />
                   </Form.Item>
                 </Col>

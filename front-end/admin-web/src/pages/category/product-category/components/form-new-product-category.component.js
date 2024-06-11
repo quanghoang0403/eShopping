@@ -235,13 +235,8 @@ export default function FormNewProductCategory(props) {
   const onSubmitForm = () => {
     form.validateFields().then(async (values) => {
       const createProductCategoryRequestModel = {
-        name: values.name,
+        ...values,
         products: dataSelectedProducts,
-        priority: values.priority,
-        content: values.content,
-        titleSEO: values.titleSEO,
-        descriptionSEO: values.descriptionSEO,
-        description: values.description,
         keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
       }
       productCategoryDataService
