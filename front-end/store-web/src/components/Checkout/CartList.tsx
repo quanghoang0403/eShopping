@@ -2,11 +2,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import NcInputNumber from '@/shared/NcInputNumber'
 import Price from '@/shared/Price'
-import { formatCurrency } from '@/utils/string.helper'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 import Selection from '@/shared/Controller/Selection'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 export interface CartListProps {}
 
@@ -14,12 +14,12 @@ const CartList: FC<CartListProps> = () => {
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
   const dispatch = useAppDispatch()
 
-  const removeCartItem = (productId: string, productPriceId: string) => {
-    dispatch(sessionActions.removeProductFromCart({ productId, productPriceId }))
+  const removeCartItem = (productId: string, productVariantId: string) => {
+    dispatch(sessionActions.removeProductFromCart({ productId, productVariantId }))
   }
 
-  const updateCartItem = (productId: string, productPriceId: string, quantity: number) => {
-    dispatch(sessionActions.updateProductInCart({ productId, productPriceId, quantity }))
+  const updateCartItem = (productId: string, productVariantId: string, quantity: number) => {
+    dispatch(sessionActions.updateProductInCart({ productId, productVariantId, quantity }))
   }
   return (
     <>
@@ -41,7 +41,7 @@ const CartList: FC<CartListProps> = () => {
                   <div className="flex justify-between ">
                     <div className="flex-[1.5] ">
                       <h3 className="text-base font-semibold">
-                        <Link href="/product-detail">{item.priceName}</Link>
+                        <Link href="/product-detail">{item.productName}</Link>
                       </h3>
                       <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
                         <div className="flex items-center space-x-1.5">
@@ -80,7 +80,7 @@ const CartList: FC<CartListProps> = () => {
                             />
                           </svg>
 
-                          <span>{item.priceName}</span>
+                          <span>{item.productVariantName}</span>
                         </div>
                         <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
                         <div className="flex items-center space-x-1.5">
@@ -91,7 +91,7 @@ const CartList: FC<CartListProps> = () => {
                             <path d="M10.5 13.5L3 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
 
-                          <span>{`2XL`}</span>
+                          <span>{item.productSizeName}</span>
                         </div>
                       </div>
 
@@ -100,28 +100,34 @@ const CartList: FC<CartListProps> = () => {
                           name="quantity"
                           defaultValue={item.quantity}
                           options={options}
-                          onChange={(value: any) => updateCartItem(item.productId, item.productPriceId, parseInt(value))}
+                          onChange={(value: any) => updateCartItem(item.productId, item.productVariantId, parseInt(value))}
                         />
                         <Price contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full" priceValue={item.priceValue} />
                       </div>
                     </div>
 
                     <div className="hidden flex-1 sm:flex justify-end">
-                      <Price priceValue={item.priceValue} className="mt-0.5" />
+                      <Price priceValue={item.priceValue} priceDiscount={item.priceDiscount} className="mt-0.5" />
                     </div>
                   </div>
                 </div>
 
                 <div className="flex mt-auto pt-4 items-end justify-between text-sm">
                   <div className="hidden sm:block text-center relative">
-                    <NcInputNumber className="relative z-10" onChange={(value: any) => updateCartItem(item.productId, item.productPriceId, parseInt(value))} />
+                    <NcInputNumber
+                      defaultValue={item.quantity}
+                      className="relative z-10"
+                      max={item.quantityLeft}
+                      onChange={(value: any) => updateCartItem(item.productId, item.productVariantId, parseInt(value))}
+                    />
                   </div>
 
                   <a
-                    onClick={() => removeCartItem(item.productId, item.productPriceId)}
-                    className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm "
+                    onClick={() => removeCartItem(item.productId, item.productVariantId)}
+                    className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm cursor-pointer"
                   >
-                    <span>Xoá</span>
+                    {/* <span>Xoá</span> */}
+                    <TrashIcon className="w-5 h-5" />
                   </a>
                 </div>
               </div>

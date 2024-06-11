@@ -55,6 +55,7 @@ const _configResponse = async (response: AxiosResponse<any>) => {
   if (response.data?.code != 0) {
     toast.error(response.data?.message)
     console.log('error: ', response.data?.errorMessage ?? response.data?.message)
+    return null
   }
   return response.data?.data
 }

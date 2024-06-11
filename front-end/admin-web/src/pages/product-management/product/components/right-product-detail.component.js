@@ -53,6 +53,7 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
         const productRootCategory = preparedDataProduct?.productRootCategories?.find(x => x.id === productData.productRootCategoryId)
         setProductCategories(productRootCategory?.productCategories.filter(x => x.genderProduct == productData.genderProduct || x.genderProduct == ProductGender.All))
         setProductRootCategories(preparedDataProduct?.productRootCategories?.filter(x => x.genderProduct == productData.genderProduct || x.genderProduct == ProductGender.All))
+        setProductSizes(preparedDataProduct?.productSizeCategories?.find(x => x.id == productData.productSizeCategoryId)?.productSizes)
       }
     }
   }

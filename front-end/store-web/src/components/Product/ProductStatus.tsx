@@ -3,48 +3,47 @@ import React, { FC } from 'react'
 import DiscountIcon from '@/shared/Icon/DiscountIcon'
 
 interface Props {
-  status: string
+  product: IProduct
   className?: string
 }
 
 const ProductStatus: FC<Props> = ({
-  status,
-  className = 'absolute top-3 start-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300',
+  product,
+  className = 'nc-shadow-lg rounded-full flex items-center justify-center absolute top-3 start-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300',
 }) => {
   const renderStatus = () => {
-    if (!status) {
+    if (!product) {
       return null
     }
-    const CLASSES = `nc-shadow-lg rounded-full flex items-center justify-center ${className}`
-    if (status === 'New in') {
+    if (product.IsNewIn) {
       return (
-        <div className={CLASSES}>
+        <div className={className}>
           <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ms-1 leading-none">Mới về</span>
         </div>
       )
     }
-    if (status === '50% Discount') {
+    if (product.isDiscounted) {
       return (
-        <div className={CLASSES}>
+        <div className={className}>
           <DiscountIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ms-1 leading-none">Khuyến mãi</span>
         </div>
       )
     }
-    if (status === 'Sold Out') {
+    if (product.IsSoldOut) {
       return (
-        <div className={CLASSES}>
+        <div className={className}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ms-1 leading-none">Hết hàng</span>
         </div>
       )
     }
-    if (status === 'limited edition') {
+    if (product.isFeatured) {
       return (
-        <div className={CLASSES}>
+        <div className={className}>
           <ClockIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">{status}</span>
+          <span className="ms-1 leading-none">Nổi bật</span>
         </div>
       )
     }

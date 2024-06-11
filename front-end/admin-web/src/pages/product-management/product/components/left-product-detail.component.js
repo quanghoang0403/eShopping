@@ -10,7 +10,7 @@ import FnbFroalaEditor from 'components/shop-froala-editor';
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 
-export default function LeftProductDetail({ form }) {
+export default function LeftProductDetail({ form, productData }) {
   const { t } = useTranslation()
   const pageData = {
     generalInformation: {
@@ -61,6 +61,7 @@ export default function LeftProductDetail({ form }) {
     }
   }
 
+  const [currentKeyword, setCurrentKeyword] = useState('');
   const [keywordSEOs, setKeywordSEOList] = useState([]);
   const [keywordSEO, setKeywordSEO] = useState({})
   const [isKeywordSEOChange, setIsKeywordSEOChange] = useState(false)
@@ -77,13 +78,15 @@ export default function LeftProductDetail({ form }) {
   }
 
   useEffect(() => {
-    form.setFieldValue('keywordSEO', keywordSEOs.map(kw => kw.value)?.join(',') || null)
-  }, [keywordSEOs])
+    if (productData) {
+      setKeywordSEOList(productData.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
+    }
+  }, [productData])
 
   useEffect(() => {
-    const keywords = form.getFieldValue('keywordSEO')
-    setKeywordSEOList(keywords?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
-  }, [])
+    //setCurrentKeyword(keywordSEOs?.map(kw => kw.value)?.join(','))
+    form.setFieldValue('keywordSEO', keywordSEOs?.map(kw => kw.value)?.join(','))
+  }, [keywordSEOs])
 
   return (
     <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
@@ -133,7 +136,6 @@ export default function LeftProductDetail({ form }) {
                 id="product-description"
               />
             </Form.Item>
-
             <h4 className="shop-form-label">{pageData.generalInformation.content.label}</h4>
             <Form.Item name={['content']} rules={[]}>
               <FnbFroalaEditor
@@ -216,6 +218,9 @@ export default function LeftProductDetail({ form }) {
               </Tooltip>
             </div>
 
+            <Form.Item hidden name={['keywordSEO']} rules={[]}>
+              <Input />
+            </Form.Item>
             <div>
               {keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''}
               <div className='d-flex mt-3'>
@@ -235,7 +240,6 @@ export default function LeftProductDetail({ form }) {
                   }}
                 />
                 <ShopAddNewButton
-                  permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
                   disabled={!isKeywordSEOChange}
                   text={pageData.SEOInformation.keyword.btnAdd}
                   className={'mx-4'}

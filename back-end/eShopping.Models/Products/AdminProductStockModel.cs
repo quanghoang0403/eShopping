@@ -4,7 +4,6 @@ namespace eShopping.Models.Products
 {
     public class AdminProductStockModel
     {
-        public Guid? Id { get; set; }
 
         public Guid ProductVariantId { get; set; }
 

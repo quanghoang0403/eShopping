@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopping.Infrastructure.Contexts;
 
@@ -11,9 +12,11 @@ using eShopping.Infrastructure.Contexts;
 namespace eShopping.Infrastructure.Migrations
 {
     [DbContext(typeof(eShoppingDbContext))]
-    partial class eShoppingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240608101434_UpdateStartDate")]
+    partial class UpdateStartDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -826,7 +829,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<Guid>("ProductSizeCategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("StartDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
@@ -1103,7 +1106,7 @@ namespace eShopping.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsUseBasePrice")
+                    b.Property<bool>("IsUseBasePrice")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastSavedTime")

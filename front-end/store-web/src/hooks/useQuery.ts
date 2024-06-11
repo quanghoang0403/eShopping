@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from 'react-query'
-import { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 
 // Use throughout your app instead of plain `useMutation` and `useAppQuery`
 export const useAppMutation = (request: any, onSuccessRequest?: any) => {
   return useMutation(request, {
-    onSuccess: async (res: AxiosResponse) => {
-      onSuccessRequest(res.data)
+    onSuccess: async (res) => {
+      onSuccessRequest(res)
     },
     onError: (error: AxiosError) => {
       toast.error(error.message)
@@ -38,8 +38,8 @@ export const useAppQuery = (key: string[], request: any, initialData?: any, onSu
     queryFn: request,
     initialData: initialData,
     // enabled: !initialData,
-    onSuccess: async (res: AxiosResponse) => {
-      onSuccessRequest && onSuccessRequest(res.data)
+    onSuccess: async (res) => {
+      onSuccessRequest && onSuccessRequest(res)
     },
     onError: (error: any) => {
       toast.error(error.message)

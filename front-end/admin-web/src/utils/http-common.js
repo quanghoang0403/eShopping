@@ -78,7 +78,8 @@ http.interceptors.response.use(
     if (response.status === 200) {
       if (response?.data.code != 0) {
         message.error(response?.data.message)
-        console.log(response?.data.errorMessage ?? response?.data.message);
+        console.log(response?.data.errorMessage);
+        return null
       }
       return response?.data?.data
     }

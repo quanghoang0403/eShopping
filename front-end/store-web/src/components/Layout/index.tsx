@@ -5,6 +5,7 @@ import Loading from '@/shared/Loading'
 import { Roboto } from 'next/font/google'
 import { cx } from '@/utils/string.helper'
 import { usePromiseTracker } from 'react-promise-tracker'
+import { useEffect, useState } from 'react'
 
 const fonts = Roboto({
   subsets: ['latin', 'vietnamese'],
@@ -18,10 +19,17 @@ interface ILayout {
 
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    // Ensure the Toaster is rendered only on the client-side
+    setIsClient(true)
+  }, [])
+
   return (
     <main className={fonts.className}>
       <SiteHeader />
-      <Toaster />
+      {isClient && <Toaster />}
       {promiseInProgress && <Loading />}
       {children}
       <SiteFooter />

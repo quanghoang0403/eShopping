@@ -33,8 +33,6 @@ void i18n.use(initReactI18next).init(
       useSuspense: false,
     },
   },
-  (_error, t) => {
-    console.log('i18next: setup language successfully')
-  }
+  (_error, t) => {}
 )
 export default i18n

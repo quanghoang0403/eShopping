@@ -9,7 +9,7 @@ interface IProps {
 
 const OrderItemList = ({ orderItems }: IProps) => {
   return orderItems.map((item, index) => {
-    const { percentNumber, thumbnail, priceName, priceValue, priceDiscount, productName, quantity, totalPrice } = item
+    const { percentNumber, thumbnail, productVariantName, priceValue, priceDiscount, productName, quantity, totalPrice } = item
     return (
       <div key={index} className="flex py-4 sm:py-7 last:pb-0 first:pt-0">
         <div className="relative h-24 w-24 sm:w-32 sm:h-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
@@ -24,7 +24,7 @@ const OrderItemList = ({ orderItems }: IProps) => {
               <div>
                 <h3 className="text-base font-medium line-clamp-1">{productName}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{priceName}</span>
+                  <span>{productVariantName}</span>
                   <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
                   <span>XL</span>
                 </p>

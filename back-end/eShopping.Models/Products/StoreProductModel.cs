@@ -1,8 +1,6 @@
 ﻿using eShopping.Domain.Base;
 using eShopping.Domain.Enums;
 using eShopping.Models.ProductCategories;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 
 namespace eShopping.Models.Products

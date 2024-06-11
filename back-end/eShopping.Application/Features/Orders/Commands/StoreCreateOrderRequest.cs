@@ -44,7 +44,7 @@ namespace eShopping.Application.Features.Orders.Commands
     public class StoreCreateOrderResponse
     {
         // If out of stock, response this data to user limit quantity
-        public IEnumerable<StoreProductVariantModel> OrderItem { get; set; }
+        public IEnumerable<StoreCartModel> CartItems { get; set; }
 
         public bool IsSuccess { get; set; }
 
@@ -114,6 +114,8 @@ namespace eShopping.Application.Features.Orders.Commands
                     ward = wardData.Prefix.FormatAddress() + ' ' + wardData.Name;
                 }
             }
+
+            var isFailed = false;
             return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
@@ -131,60 +133,55 @@ namespace eShopping.Application.Features.Orders.Commands
                         .Include(x => x.Product)
                         .AsNoTracking()
                         .FirstOrDefaultAsync();
-                    var size = await _unitOfWork.ProductSizes.Where(x => x.Id == item.ProductVariantId).AsNoTracking().FirstOrDefaultAsync();
                     if (stock == null)
                     {
-                        await createTransaction.RollbackAsync(cancellationToken);
-                        return BaseResponseModel.ReturnData(new StoreCreateOrderResponse()
-                        {
-                            IsSuccess = false,
-                            // OrderItem = cartItemRes
-                        });
+                        isFailed = true;
+                        continue;
                     }
-                    else if (stock.QuantityLeft < item.Quantity)
+                    if (stock != null && stock.QuantityLeft < item.Quantity)
                     {
-                        await createTransaction.RollbackAsync(cancellationToken);
-                        return BaseResponseModel.ReturnData(new StoreCreateOrderResponse()
-                        {
-                            IsSuccess = false,
-                            // OrderItem = cartItemRes
-                        });
+                        isFailed = true;
+                        item.Quantity = stock.QuantityLeft;
                     }
-                    else if (variant.PriceDiscount != item.PriceDiscount
+                    if (variant.PriceDiscount != item.PriceDiscount
                     || variant.PriceValue != item.PriceValue
                     || variant.PercentNumber != item.PercentNumber)
                     {
-                        await createTransaction.RollbackAsync(cancellationToken);
-                        return BaseResponseModel.ReturnData(new StoreCreateOrderResponse()
-                        {
-                            IsSuccess = false,
-                            // OrderItem = cartItemRes
-                        });
+                        isFailed = true;
+                        item.PriceDiscount = variant.PriceDiscount;
+                        item.PriceValue = variant.PriceValue;
+                        item.PercentNumber = variant.PercentNumber;
                     }
-                    else
-                    {
-                        orderItems.Add(new OrderItem()
-                        {
-                            ProductId = item.ProductId,
-                            ProductName = item.ProductName,
-                            ProductUrl = variant.Product.UrlSEO,
-                            ProductVariantId = item.ProductVariantId,
-                            ProductSizeId = item.ProductSizeId,
-                            PercentNumber = item.PercentNumber,
-                            ProductVariantName = variant.Name,
-                            ProductSizeName = size.Name,
-                            PriceOrigin = variant.PriceOriginal,
-                            PriceDiscount = variant.PriceDiscount,
-                            PriceValue = variant.PriceValue,
-                            Quantity = item.Quantity,
-                            Thumbnail = item.Thumbnail,
-                            CreatedTime = DateTime.Now,
-                            CreatedUser = accountId,
-                        });
-                    }
+                    if (isFailed) continue;
 
-                    // Update quantity
+                    orderItems.Add(new OrderItem()
+                    {
+                        ProductId = item.ProductId,
+                        ProductName = item.ProductName,
+                        ProductUrl = variant.Product.UrlSEO,
+                        ProductVariantId = item.ProductVariantId,
+                        ProductSizeId = item.ProductSizeId,
+                        PercentNumber = item.PercentNumber,
+                        ProductVariantName = variant.Name,
+                        ProductSizeName = item.ProductSizeName,
+                        PriceOrigin = variant.PriceOriginal,
+                        PriceDiscount = variant.PriceDiscount,
+                        PriceValue = variant.PriceValue,
+                        Quantity = item.Quantity,
+                        Thumbnail = item.Thumbnail,
+                        CreatedTime = DateTime.Now,
+                        CreatedUser = accountId,
+                    });
                     stock.QuantityLeft -= item.Quantity;
+                }
+
+                if (isFailed)
+                {
+                    return BaseResponseModel.ReturnData(new StoreCreateOrderResponse()
+                    {
+                        IsSuccess = false,
+                        CartItems = request.CartItems
+                    });
                 }
 
                 // Add order

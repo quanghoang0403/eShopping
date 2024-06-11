@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace eShopping.Models.ProductCategories
@@ -12,6 +11,6 @@ namespace eShopping.Models.ProductCategories
 
         public string UrlSEO { get; set; }
 
-        public IEnumerable<StoreProductCategoryModel> ProductCategories { get; set; }
+        public List<StoreProductCategoryModel> ProductCategories { get; set; }
     }
 }

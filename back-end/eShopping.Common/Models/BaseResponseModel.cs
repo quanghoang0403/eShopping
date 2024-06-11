@@ -38,7 +38,7 @@
                 Title = title,
                 Message = message,
                 ErrorMessage = errorMessage,
-                Data = false
+                Data = null
             };
             return res;
         }

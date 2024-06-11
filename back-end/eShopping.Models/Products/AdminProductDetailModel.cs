@@ -37,7 +37,7 @@ namespace eShopping.Models.Products
 
         public float? PercentNumber { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
 

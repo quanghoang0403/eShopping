@@ -2,7 +2,7 @@ import { Col, message, Row } from 'antd'
 import { EditFillImage, EyeOpenImageIcon, TrashFillImage } from 'constants/icons.constants'
 import fileDataService from 'data-services/file/file-data.service';
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageUploading from 'react-images-uploading'
 import Viewer from 'react-viewer'
 import { fileNameNormalize, jsonToFormData } from 'utils/helpers'
@@ -29,15 +29,15 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   const isMultiple = maxNumber > 1
   useImperativeHandle(ref, () => ({
     setImage(url) {
-      if (url) {
-        const imageList = [
-          {
-            data_url: url
-          }
-        ]
-        setImages(imageList)
-      } else {
+      if (url == null) {
         setImages([])
+      }
+      else if (Array.isArray(url)) {
+        setImages(url.map(item => ({
+          data_url: item
+        })));
+      } else {
+        setImages([{ data_url: url }]);
       }
     }
   }))
@@ -48,24 +48,32 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
    * @param {*} addUpdateIndex
    * @param {Position of image item} index
    */
-  const onUploadImage = (imageList) => {
-    if (imageList.length > 0) {
-      const requestFormData = jsonToFormData({ files: imageList })
+  const onUploadImage = (imageList, updateIndex) => {
+    if (updateIndex?.length > 0) {
+      // Thêm ảnh
+      const updateImage = imageList.filter((item, index) => updateIndex.includes(index))
+      const requestFormData = jsonToFormData({ files: updateImage })
       fileDataService.uploadMultipleFileAsync(requestFormData).then((res) => {
-        if (res !== '') {
-          imageList.forEach((img, idx) => {
-            img.data_url = res[idx];
-          });
-          setImages(imageList);
-          if (onChange) {
-            onChange({
-              fileName: isMultiple ? res : res[0],
-              url: isMultiple ? res : res[0]
-            });
+        if (res) {
+          if (isMultiple) {
+            const newImageList = [...images, ...res.map((url) => ({ data_url: url }))]
+            setImages(newImageList);
+            onChange && onChange(newImageList.map(x => x.data_url));
+          }
+          else {
+            setImages([{ data_url: res[0] }]);
+            onChange && onChange(res[0]);
           }
         }
       });
+    } else if (imageList.length > 0) {
+      // Xoá ảnh
+      if (onChange) {
+        setImages(imageList)
+        onChange(imageList.map(x => x.data_url))
+      }
     } else {
+      // Xoá hết ảnh => update giao diện có viền
       if (onChange) {
         setImages(imageList)
         onChange(null)
@@ -74,9 +82,9 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   }
 
   /**
-   * When hover into image. It will show action include: edit, view and delete
-   * @param {Position of image item} index
-   */
+ * When hover into image. It will show action include: edit, view and delete
+ * @param {Position of image item} index
+ */
   const hoverEnterImage = (className, index) => {
     const groupControlBtn = document.getElementById(`group-btn-upload-image-${className}-${index}-${randomId}`)
     if (groupControlBtn) {
@@ -85,9 +93,9 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   }
 
   /**
-   *
-   * @param {Position of image item} index
-   */
+ *
+ * @param {Position of image item} index
+ */
   const hoverLeaveImage = (className, index) => {
     const groupControlBtn = document.getElementById(`group-btn-upload-image-${className}-${index}-${randomId}`)
     if (groupControlBtn) {
@@ -96,9 +104,9 @@ export const FnbUploadImageComponent = forwardRef((props, ref) => {
   }
 
   /**
-   *
-   * @param {Position of image item} index
-   */
+ *
+ * @param {Position of image item} index
+ */
   const onViewImage = () => {
     setVisibleViewer(true)
   }

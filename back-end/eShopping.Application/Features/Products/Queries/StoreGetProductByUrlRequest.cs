@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
@@ -45,14 +44,17 @@ namespace eShopping.Application.Features.Products.Queries
                 .Include(p => p.ProductRootCategory)
                 .Include(p => p.ProductSizeCategory.ProductSizes)
                 .Include(p => p.ProductStocks)
-                .ProjectTo<StoreProductModel>(_mapperConfiguration)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
             if (productData == null)
             {
                 return BaseResponseModel.ReturnError("Cannot find product detail information");
             }
-            productData.Gallery = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
-            return BaseResponseModel.ReturnData(productData);
+
+            var productRes = new StoreProductModel();
+            productRes = _mapper.Map<StoreProductModel>(productData);
+            productRes.Gallery = await _unitOfWork.Images.GetAllImagesByObjectId(productData.Id, EnumImageTypeObject.Product);
+            return BaseResponseModel.ReturnData(productRes);
         }
     }
 }

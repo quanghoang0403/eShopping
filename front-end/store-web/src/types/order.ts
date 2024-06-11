@@ -30,8 +30,10 @@ interface ICartItem {
   productId: string
   productName: string
   productUrl: string
-  productPriceId: string
-  priceName: string
+  productSizeId: string
+  productSizeName: string
+  productVariantId: string
+  productVariantName: string
   priceValue: number
   priceDiscount?: number
   percentNumber?: number
@@ -63,7 +65,7 @@ interface IOrderItem {
   percentNumber?: number
   thumbnail: string
   quantity: number
-  priceName: string
+  productVariantName: string
   itemName?: string
   priceValue: number
   priceDiscount?: number
@@ -131,6 +133,6 @@ interface ICreateOrderResponse {
   paymentMethodId: EnumPaymentMethod
   orderId?: string
   orderCode?: number
-  orderItem?: IProductPrice[]
+  cartItems?: ICartItem[]
   paymentInfo?: any
 }

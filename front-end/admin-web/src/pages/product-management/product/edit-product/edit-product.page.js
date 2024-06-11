@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import StockProductTable from '../components/stock-product.component';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
+import moment from 'moment';
 
 export default function EditProductPage() {
   const history = useHistory()
@@ -101,11 +102,22 @@ export default function EditProductPage() {
 
   const fetchProductDetail = async () => {
     productDataService.getProductByIdAsync(match?.params?.id).then((data) => {
-      form.setFieldsValue(data)
-      setProductData(data)
-      setTitleName(data?.name);
-      setStatusId(data?.status);
-      if (data?.status === ProductStatus.Activate) {
+      const parsedData = {
+        ...data,
+        productVariants: data?.productVariants.map((productVariant, index) => ({
+          ...productVariant,
+          key: index + 1,
+          startDate: productVariant.startDate ? moment(productVariant.startDate) : null,
+          endDate: productVariant.endDate ? moment(productVariant.endDate) : null
+        })),
+        startDate: data.startDate ? moment(data.startDate) : null,
+        endDate: data.endDate ? moment(data.endDate) : null
+      };
+      form.setFieldsValue(parsedData)
+      setProductData(parsedData)
+      setTitleName(parsedData?.name);
+      setStatusId(parsedData?.status);
+      if (parsedData?.status === ProductStatus.Activate) {
         setActivate(pageData.deactivate);
       } else {
         setActivate(pageData.activate);
@@ -118,6 +130,7 @@ export default function EditProductPage() {
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
         const payload = {
           ...values,
           productVariants: values?.productVariants.map((item, index) => ({
@@ -148,6 +161,7 @@ export default function EditProductPage() {
   }
 
   const onFieldsChange = () => {
+    console.log(form.getFieldsValue())
     setIsChangeForm(true)
     setDisableCreateButton(false)
   };
@@ -280,12 +294,12 @@ export default function EditProductPage() {
           >
             <div className="col-input-full-width create-product-page">
               <Row className="grid-container-create-product">
-                <LeftProductDetail form={form} />
+                <LeftProductDetail form={form} productData={productData} />
                 <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} />
               </Row>
               <br />
               <Row>
-                <StockProductTable form={form} productSizes={productSizes} />
+                <StockProductTable form={form} productSizes={productSizes} productData={productData} />
               </Row>
             </div>
           </Form>

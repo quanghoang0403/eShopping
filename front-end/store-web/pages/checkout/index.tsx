@@ -15,6 +15,8 @@ import SEO from '@/components/Layout/SEO'
 import CustomerInfo, { defaultCustomerInfo } from '@/components/Common/Customer/CustomerInfo'
 import SummaryPrice from '@/components/Checkout/SummaryPrice'
 import CartList from '@/components/Checkout/CartList'
+import NcModal from '@/shared/NcModal'
+import CommonDialog from '@/shared/Dialog'
 
 const CheckoutPage = () => {
   const {
@@ -33,11 +35,14 @@ const CheckoutPage = () => {
   const mutation = useAppMutation(
     async (data: ICreateOrderRequest) => trackPromise(OrderService.checkout(data)),
     async (res: ICreateOrderResponse) => {
-      if (res.isSuccess) {
+      if (!res) {
+        toast.error('Không thể tạo đơn hàng, vui lòng liên hệ shop để nhận hỗ trợ!')
+      } else if (res.isSuccess && res.orderId) {
         setOrderResponse(res)
         switch (res.paymentMethodId) {
           case 0: {
             // COD
+            redirectToOrderDetail(res.orderId)
             break
           }
           case 4: {
@@ -59,22 +64,23 @@ const CheckoutPage = () => {
           }
         }
         dispatch(sessionActions.resetCart())
-      } else {
-        toast.error('Tạo đơn hàng thất bại, vui lòng thử lại hoặc liên hệ tổng đài để hỗ trợ')
+      } else if (res.cartItems) {
+        dispatch(sessionActions.updateCartAfterCheckout(res.cartItems))
+        toast.error('Một vài sản phẩm đã không đủ hàng hoặc giá đã thay đổi, chúng tôi đã cập nhật lại giỏ hàng của bạn')
       }
     }
   )
 
-  const redirectToOrderDetail = () => {
-    router.push(`/don-hang/${orderResponse?.orderId}`)
+  const redirectToOrderDetail = (orderId: string) => {
+    router.push(`/order/${orderId}`)
   }
 
   const confirmTransfer = () => {
     const transferConfirm = async () => {
-      if (orderResponse?.orderCode) {
+      if (orderResponse && orderResponse.orderCode && orderResponse.orderId) {
         const res = await OrderService.transferConfirm({ orderCode: orderResponse?.orderCode })
         if (res) {
-          redirectToOrderDetail()
+          redirectToOrderDetail(orderResponse.orderId)
         }
       } else {
         toast.error('Không tìm thấy đơn hàng, vui lòng thanh toán lại hoặc liên hệ tổng đài')
@@ -96,16 +102,16 @@ const CheckoutPage = () => {
           <PaymentMethod register={register} errors={errors} />
           <ButtonPrimary className="mt-8 w-full">Thanh toán</ButtonPrimary>
         </form>
-        {/* <DialogPopup
-          open={isShowDialogPayment}
+        <CommonDialog
+          isOpen={isShowDialogPayment}
           title="Thanh toán qua QR"
           content={contentDialog}
           msgCancel="Hủy"
           msgConfirm="Đã Chuyển khoản"
-          onCancel={() => redirectToOrderDetail()}
+          onCancel={() => orderResponse && orderResponse.orderId && redirectToOrderDetail(orderResponse.orderId)}
           onConfirm={() => confirmTransfer()}
           onHandle={() => setIsShowDialogPayment(false)}
-        /> */}
+        />
       </div>
     )
   }
@@ -132,11 +138,10 @@ const CheckoutPage = () => {
   return (
     <>
       <SEO title="Thanh toán" />
-      {/* <div className="nc-CheckoutPage">
-        <div className="container py-16 lg:pb-28 lg:pt-20 ">{totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào trong giỏ hàng</div>}</div>
-      </div> */}
       <div className="nc-CheckoutPage">
-        <div className="container py-16 lg:pb-28 lg:pt-20 ">{renderPage()}</div>
+        <div className="container py-16 lg:pb-28 lg:pt-20 ">
+          {totalQuantity > 0 ? renderPage() : <div>Không có sản phẩm nào để checkout, mời bạn tiếp tục mua sắm</div>}
+        </div>
       </div>
     </>
   )

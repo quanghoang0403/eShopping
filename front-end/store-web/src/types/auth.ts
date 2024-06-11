@@ -11,12 +11,6 @@ interface ISignInRequest {
   token?: string
 }
 
-interface IForgotPasswordRequest {
-  email: string
-  password: string
-  passwordConfirm: string
-}
-
 interface ISignInResponse {
   token: string
   refreshToken: string

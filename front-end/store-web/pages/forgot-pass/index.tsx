@@ -17,12 +17,8 @@ const ForgotPassPage = ({}) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const query = router.query
-  const [showPassword, setShowPassword] = useState(false)
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
 
-  const handleForgotPassword = useCallback(async (data: IForgotPasswordRequest) => {
+  const handleForgotPassword = useCallback(async (data: { email: string }) => {
     return AuthService.forgotPassword(data)
   }, [])
 
@@ -42,7 +38,7 @@ const ForgotPassPage = ({}) => {
         <h2 className="mt-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
           Quên mật khẩu
         </h2>
-        <span className="block text-sm mt-4 text-neutral-700 sm:text-base dark:text-neutral-200">Đăng nhập để tiếp tục mua sắm</span>
+        <span className="block text-sm mt-4 text-neutral-700 sm:text-base dark:text-neutral-200">Nhập email để chúng mình gửi mật khẩu mới về toàn khoản của bạn nhé!</span>
       </header>
 
       <div className="max-w-md mx-auto space-y-6">
@@ -61,9 +57,7 @@ const ForgotPassPage = ({}) => {
             name="email"
             errors={errors}
           />
-          <Input label="Nhập mật khẩu mới" register={register} patternValidate={{ required: true }} name="password" errors={errors} password />
-          <Input label="Nhập lại mật khẩu mới" register={register} patternValidate={{ required: true }} name="passwordConfirm" errors={errors} password />
-          <ButtonPrimary type="submit">Tiếp tục</ButtonPrimary>
+          <ButtonPrimary type="submit">Xác nhận</ButtonPrimary>
         </form>
 
         {/* ==== */}

@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { formatCurrency } from '@/utils/string.helper'
 import { sessionActions } from '@/redux/features/sessionSlice'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 export default function CartDropdown() {
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
@@ -17,15 +18,12 @@ export default function CartDropdown() {
   const totalPrice = useAppSelector((state) => state.session.totalPrice)
   const dispatch = useAppDispatch()
 
-  const removeCartItem = (productId: string, productPriceId: string) => {
-    dispatch(sessionActions.removeProductFromCart({ productId, productPriceId }))
+  const removeCartItem = (productId: string, productVariantId: string) => {
+    dispatch(sessionActions.removeProductFromCart({ productId, productVariantId }))
   }
 
-  const updateCartItem = (productId: string, productPriceId: string, quantity: number) => {
-    dispatch(sessionActions.updateProductInCart({ productId, productPriceId, quantity }))
-  }
   const renderProduct = (item: ICartItem, index: number, close: () => void) => {
-    const { productName, priceName, priceValue, priceDiscount, thumbnail, productUrl, quantity } = item
+    const { productName, productVariantName, priceValue, priceDiscount, thumbnail, productUrl, quantity } = item
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
@@ -43,7 +41,7 @@ export default function CartDropdown() {
                   </Link>
                 </h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{priceName}</span>
+                  <span>{productVariantName}</span>
                   <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
                   <span>{'XL'}</span>
                 </p>
@@ -56,11 +54,11 @@ export default function CartDropdown() {
 
             <div className="flex">
               <button
-                onClick={() => removeCartItem(item.productId, item.productPriceId)}
+                onClick={() => removeCartItem(item.productId, item.productVariantId)}
                 type="button"
                 className="font-medium text-primary-6000 dark:text-primary-500 "
               >
-                Xoá
+                <TrashIcon className="w-5 h-5" />
               </button>
             </div>
           </div>
