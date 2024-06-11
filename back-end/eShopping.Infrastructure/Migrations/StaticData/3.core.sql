@@ -4,10 +4,10 @@
 
 -- Insert "Size" category into ProductSizeCategory table
 INSERT INTO [dbo].[ProductSizeCategory] (Id, Name, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)
-VALUES (NEWID(), 'Size chữ', NULL, GETDATE(), NULL, GETDATE(), 0);
+VALUES (NEWID(), N'Size chữ', NULL, GETDATE(), NULL, GETDATE(), 0);
 -- Get the Id of the inserted "Size" category
 DECLARE @ProductSizeCategoryId UNIQUEIDENTIFIER;
-SET @ProductSizeCategoryId = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = 'Size chữ');
+SET @ProductSizeCategoryId = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = N'Size chữ');
 -- Insert sizes into ProductSize table
 INSERT INTO [dbo].[ProductSize] (Id, Name, ProductSizeCategoryId, Priority, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)
 VALUES 
@@ -30,10 +30,10 @@ VALUES (NEWID(), 'Free-size', @FreesizeCategoryId, 1, NULL, GETDATE(), NULL, GET
 
 
 INSERT INTO [dbo].[ProductSizeCategory] (Id, Name, CreatedTime, LastSavedTime, IsDeleted)
-VALUES (NEWID(), 'Size số', GETDATE(), GETDATE(), 0);
+VALUES (NEWID(), N'Size số', GETDATE(), GETDATE(), 0);
 -- Get the Id of the "Size số" category
 DECLARE @ProductSizeCategoryIds UNIQUEIDENTIFIER;
-SET @ProductSizeCategoryIdS = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = 'Size số');
+SET @ProductSizeCategoryIdS = (SELECT Id FROM [dbo].[ProductSizeCategory] WHERE Name = N'Size số');
 -- Insert sizes into ProductSize table if not exist
 INSERT INTO [dbo].[ProductSize] (Id, Name, ProductSizeCategoryId, Priority, CreatedUser, CreatedTime, LastSavedUser, LastSavedTime, IsDeleted)
 SELECT NEWID(), Name, @ProductSizeCategoryIdS, Priority, NULL, GETDATE(), NULL, GETDATE(), 0
