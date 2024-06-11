@@ -43,13 +43,7 @@ export const FnbImageSelectComponent = forwardRef((props, ref) => {
     imageSizeTooBig: t('file.imageSizeTooBig'),
     acceptFileImageTypes: t('file.acceptFileImageTypes')
   }
-
-  useEffect(() => {
-    // if(maxNumber === 1 )
-    //   setImageUrl(value)
-    console.log('2: ', value);
-  }, [value])
-
+  
   useEffect(() => {
     setImageUrl(value)
     console.log(value);
