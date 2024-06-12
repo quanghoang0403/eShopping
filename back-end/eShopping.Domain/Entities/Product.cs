@@ -21,17 +21,16 @@ namespace eShopping.Domain.Entities
 
         public bool? IsFeatured { get; set; }
 
-        public bool? IsDiscounted { get { return ProductVariants.Any(p => p.PriceDiscount > 0 && p.PercentNumber > 0 && p.EndDate <= DateTime.Now); } }
+        public bool? IsDiscounted { get; private set; }
 
         public bool? IsNewIn { get { return DateTime.Now.AddDays(-14) < CreatedTime; } }
 
-        public bool? IsSoldOut { get { return ProductStocks.All(p => p.QuantityLeft <= 0); } }
+        public bool? IsSoldOut { get; private set; }
 
         public EnumStatus Status { get; set; }
 
         public EnumGenderProduct GenderProduct { get; set; }
 
-        // Descending
         public int Priority { set; get; }
 
         public string Thumbnail { set; get; }
@@ -63,8 +62,29 @@ namespace eShopping.Domain.Entities
 
         public virtual ProductSizeCategory ProductSizeCategory { get; set; }
 
-        public virtual ICollection<ProductVariant> ProductVariants { get; set; }
+        public ICollection<ProductVariant> _productVariants;
 
-        public virtual ICollection<ProductStock> ProductStocks { get; set; }
+        public virtual ICollection<ProductVariant> ProductVariants
+        {
+            get { return _productVariants; }
+            set
+            {
+                _productVariants = value;
+                IsDiscounted = _productVariants.Any(p => p.PriceDiscount > 0 && p.PercentNumber > 0 && p.EndDate <= DateTime.Now)
+                    || (PriceDiscount > 0 && PercentNumber > 0 && EndDate <= DateTime.Now);
+            }
+        }
+
+        private ICollection<ProductStock> _productStocks;
+
+        public virtual ICollection<ProductStock> ProductStocks
+        {
+            get { return _productStocks; }
+            set
+            {
+                _productStocks = value;
+                IsSoldOut = _productStocks.All(p => p.QuantityLeft <= 0);
+            }
+        }
     }
 }
