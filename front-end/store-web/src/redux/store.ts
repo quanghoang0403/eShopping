@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import counterReducer from './features/commonSlice'
+import commonReducer from './features/commonSlice'
 import sessionReducer from './features/sessionSlice'
 import { createWrapper } from 'next-redux-wrapper'
 import storage from 'redux-persist/lib/storage'
@@ -7,7 +7,7 @@ import { persistReducer, persistStore } from 'redux-persist'
 
 // COMBINING ALL REDUCERS
 const combinedReducer = combineReducers({
-  counter: counterReducer,
+  common: commonReducer,
   session: sessionReducer,
 })
 
