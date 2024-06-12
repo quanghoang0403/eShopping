@@ -10,7 +10,6 @@ function getSearchParam(param: string, url: any) {
 export const withUser: MiddlewareFactory = (next) => {
   return async (request: NextRequest, _next: NextFetchEvent) => {
     const pathname = request.nextUrl.pathname
-    console.log('Middleware withUser processing')
 
     if (['/checkout', '/account', '/order']?.some((path) => pathname.startsWith(path))) {
       const token = request.cookies.get(cookieKeys.TOKEN)

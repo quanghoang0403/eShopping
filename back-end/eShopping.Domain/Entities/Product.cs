@@ -70,8 +70,8 @@ namespace eShopping.Domain.Entities
             set
             {
                 _productVariants = value;
-                IsDiscounted = _productVariants.Any(p => p.PriceDiscount > 0 && p.PercentNumber > 0 && p.EndDate <= DateTime.Now)
-                    || (PriceDiscount > 0 && PercentNumber > 0 && EndDate <= DateTime.Now);
+                IsDiscounted = _productVariants.Any(p => p.PriceDiscount > 0 && p.PercentNumber > 0 && p.EndDate > DateTime.Now && p.StartDate < DateTime.Now)
+                    || (PriceDiscount > 0 && PercentNumber > 0 && EndDate > DateTime.Now && StartDate < DateTime.Now);
             }
         }
 

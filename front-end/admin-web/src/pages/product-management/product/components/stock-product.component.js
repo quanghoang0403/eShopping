@@ -101,6 +101,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
     isUseBasePrice: true,
     stocks: productSizes?.map(size => ({
       productSizeId: size.id,
+      productSizeName: size.name,
       name: size.name,
       quantityLeft: 0
     }))
@@ -469,6 +470,13 @@ export default function StockProductTable({ form, productSizes, productData }) {
                   <Input value={record.productSizeId} />
                 </Form.Item>
                 <Form.Item
+                  className='hidden'
+                  name={['productVariants', index, 'stocks', indexSize, 'productSizeName']}
+                  rules={[]}
+                >
+                  <Input value={record.productSizeName} />
+                </Form.Item>
+                <Form.Item
                   name={['productVariants', index, 'stocks', indexSize, 'quantityLeft']}
                   rules={[]}
                 >
@@ -540,6 +548,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
         ...productVariant,
         stocks: productSizes?.map(size => ({
           productSizeId: size.id,
+          productSizeName: size.name,
           name: size.name,
           quantityLeft: 0
         }))
@@ -575,6 +584,7 @@ export default function StockProductTable({ form, productSizes, productData }) {
       endDate: fields.endDate,
       stocks: productSizes?.map(size => ({
         productSizeId: size.id,
+        productSizeName: size.name,
         name: size.name,
         quantityLeft: 0
       }))

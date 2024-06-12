@@ -247,6 +247,10 @@ export default function LeftProductDetail({ form, productData }) {
                 />
               </div>
             </div>
+
+            <Form.Item hidden name={['isFeatured']} rules={[]}>
+              <Input />
+            </Form.Item>
           </Col>
         </Row>
       </Card>

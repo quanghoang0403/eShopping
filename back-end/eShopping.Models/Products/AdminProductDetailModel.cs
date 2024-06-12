@@ -15,6 +15,10 @@ namespace eShopping.Models.Products
 
         public bool? IsDiscounted { get; set; }
 
+        public bool? IsNewIn { get; set; }
+
+        public bool? IsSoldOut { get; set; }
+
         public EnumStatus Status { get; set; }
 
         public EnumGenderProduct GenderProduct { get; set; }

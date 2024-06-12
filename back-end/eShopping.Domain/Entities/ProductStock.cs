@@ -16,6 +16,10 @@ namespace eShopping.Domain.Entities
         [Key]
         public Guid ProductId { get; set; }
 
+        public string ProductVariantName { get; set; }
+
+        public string ProductSizeName { get; set; }
+
         public int QuantityLeft { get; set; }
 
         public virtual Product Product { get; set; }

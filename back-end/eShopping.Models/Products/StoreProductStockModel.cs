@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace eShopping.Models.Products
 {
@@ -11,6 +9,10 @@ namespace eShopping.Models.Products
         public Guid ProductVariantId { get; set; }
 
         public Guid ProductId { get; set; }
+
+        public string ProductSizeName { get; set; }
+
+        public string ProductVariantName { get; set; }
 
         public int QuantityLeft { get; set; }
     }
