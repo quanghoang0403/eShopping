@@ -209,11 +209,9 @@ export default function CustomerInfo(props: IProps) {
               label="Địa chỉ giao hàng"
               name={isShipping ? 'ShipAddress' : 'Address'}
               register={register}
-              patternValidate={
-                {
-                  required: true,
-                }
-              }
+              patternValidate={{
+                required: true,
+              }}
               errors={errors}
             />
           </div>

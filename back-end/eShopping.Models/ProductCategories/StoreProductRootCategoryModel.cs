@@ -11,6 +11,6 @@ namespace eShopping.Models.ProductCategories
 
         public string UrlSEO { get; set; }
 
-        public List<StoreProductCategoryModel> ProductCategories { get; set; }
+        public IEnumerable<StoreProductCategoryModel> ProductCategories { get; set; }
     }
 }

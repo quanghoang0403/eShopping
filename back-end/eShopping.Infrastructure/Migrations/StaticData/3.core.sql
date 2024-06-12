@@ -67,16 +67,13 @@ VALUES
     (NEWID(), N'Áo thun', NULL, NULL, 'ao-thun', NULL, NULL, NULL, 1, 0, @ProductRootCategoryIdAo, NULL, GETDATE(), NULL, GETDATE(), 0),
     (NEWID(), N'Áo sơ mi', NULL, NULL, 'ao-so-mi', NULL, NULL, NULL, 2, 0, @ProductRootCategoryIdAo, NULL, GETDATE(), NULL, GETDATE(), 0),
     (NEWID(), N'Áo polo', NULL, NULL, 'ao-polo', NULL, NULL, NULL, 3, 0, @ProductRootCategoryIdAo, NULL, GETDATE(), NULL, GETDATE(), 0),
-    (NEWID(), N'Áo thể thao', NULL, NULL, 'ao-the-thao', NULL, NULL, NULL, 4, 0, @ProductRootCategoryIdAo, NULL, GETDATE(), NULL, GETDATE(), 0),
-    (NEWID(), N'Áo croptop', NULL, NULL, 'ao-croptop', NULL, NULL, NULL, 5, 2, @ProductRootCategoryIdAo, NULL, GETDATE(), NULL, GETDATE(), 0),
+    (NEWID(), N'Áo croptop', NULL, NULL, 'ao-croptop', NULL, NULL, NULL, 4, 2, @ProductRootCategoryIdAo, NULL, GETDATE(), NULL, GETDATE(), 0),
 
     -- Categories under "Quần"
     (NEWID(), N'Quần short', NULL, NULL, 'quan-short', NULL, NULL, NULL, 1, 0, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
     (NEWID(), N'Quần jean', NULL, NULL, 'quan-jean', NULL, NULL, NULL, 2, 0, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
     (NEWID(), N'Quần tây', NULL, NULL, 'quan-tay', NULL, NULL, NULL, 3, 0, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
-    (NEWID(), N'Đầm', NULL, NULL, 'dam', NULL, NULL, NULL, 4, 2, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
-    (NEWID(), N'Váy', NULL, NULL, 'vay', NULL, NULL, NULL, 5, 2, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
-    (NEWID(), N'Chân váy', NULL, NULL, 'chan-vay', NULL, NULL, NULL, 6, 2, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
+    (NEWID(), N'Váy', NULL, NULL, 'vay', NULL, NULL, NULL, 4, 2, @ProductRootCategoryIdQuan, NULL, GETDATE(), NULL, GETDATE(), 0),
 
 	(NEWID(), N'Túi', NULL, NULL, 'tui', NULL, NULL, NULL, 1, 0, @ProductRootCategoryIdPhuKien, NULL, GETDATE(), NULL, GETDATE(), 0),
     (NEWID(), N'Kính', NULL, NULL, 'kinh', NULL, NULL, NULL, 2, 0, @ProductRootCategoryIdPhuKien, NULL, GETDATE(), NULL, GETDATE(), 0),

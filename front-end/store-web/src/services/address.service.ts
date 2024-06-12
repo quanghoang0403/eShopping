@@ -12,4 +12,8 @@ export default class AddressService {
   static async getWards(id: number): Promise<IArea[]> {
     return await APIService.get(`/address/get-wards-by-district-id?districtId=${id}`)
   }
+
+  static async getMenu(id: number): Promise<IArea[]> {
+    return await APIService.get(`/address/get-wards-by-district-id?districtId=${id}`)
+  }
 }

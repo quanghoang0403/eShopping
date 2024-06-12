@@ -31,62 +31,60 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetMenuCategoryRequest request, CancellationToken cancellationToken)
         {
-            // Gender Male
-            var maleCategories = await _unitOfWork.ProductRootCategories
-                .Where(x => x.GenderProduct.IsMale())
+            var rootCategories = await _unitOfWork.ProductRootCategories
+                .GetAll()
                 .Include(x => x.ProductCategories)
                 .OrderBy(x => x.Priority)
-                .Select(x => new StoreProductRootCategoryModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    UrlSEO = x.UrlSEO,
-                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories)
-                })
+                .AsNoTracking()
                 .ToListAsync();
 
             // Gender Male
-            var femaleCategories = await _unitOfWork.ProductRootCategories
-                .Where(x => x.GenderProduct.IsFemale())
-                .Include(x => x.ProductCategories)
-                .OrderBy(x => x.Priority)
+            var maleCategories = rootCategories
+                .Where(x => x.GenderProduct.IsMale())
                 .Select(x => new StoreProductRootCategoryModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     UrlSEO = x.UrlSEO,
-                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories)
-                })
-                .ToListAsync();
+                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories.Where(c => c.GenderProduct.IsMale()))
+                });
+
+            // Gender Male
+            var femaleCategories = rootCategories
+                .Where(x => x.GenderProduct.IsFemale())
+                .Select(x => new StoreProductRootCategoryModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSEO = x.UrlSEO,
+                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories.Where(c => c.GenderProduct.IsFemale()))
+                });
 
             // Gender Kid
-            var kidsCategories = await _unitOfWork.ProductRootCategories
-                .Where(x => x.GenderProduct.IsFemale())
-                .Include(x => x.ProductCategories)
-                .OrderBy(x => x.Priority)
+            var kidsCategories = rootCategories
+                .Where(x => x.GenderProduct.IsKid())
                 .Select(x => new StoreProductRootCategoryModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     UrlSEO = x.UrlSEO,
-                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories)
-                })
-                .ToListAsync();
+                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories.Where(c => c.GenderProduct.IsKid()))
+                });
 
             var data = new List<StoreMenuCategoryModel>() {
                 new()
                 {
-                    EnumGenderProduct = EnumGenderProduct.Male,
+                    GenderProduct = EnumGenderProduct.Male,
                     ProductRootCategories = maleCategories
                 },
                 new()
                 {
-                    EnumGenderProduct = EnumGenderProduct.Female,
+                    GenderProduct = EnumGenderProduct.Female,
                     ProductRootCategories = femaleCategories
                 },
                 new()
                 {
-                    EnumGenderProduct = EnumGenderProduct.Kid,
+                    GenderProduct = EnumGenderProduct.Kid,
                     ProductRootCategories = kidsCategories
                 },
             };
