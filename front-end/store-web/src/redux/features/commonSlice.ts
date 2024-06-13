@@ -7,14 +7,14 @@ interface CommonState {
 const initialState: CommonState = {
   menu: [
     {
-      id: EnumGenderProduct.Male,
+      id: 1,
       urlSEO: "/collection",
       name: "Nam",
       type: "dropdown",
       children: []
     },
     {
-      id: EnumGenderProduct.Female,
+      id: 2,
       urlSEO: "/collection",
       name: "Nữ",
       type: "dropdown",
