@@ -118,7 +118,7 @@ export default function EditCustomerPage(props) {
   const [districts, setDistricts] = useState([]);
   const [cities, setCities] = useState([]);
   const [wards, setWards] = useState([]);
-  const [customer, setCustomer] = useState({});
+  const [customer, setCustomer] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [showConfirmLeave, setShowConfirmLeave] = useState(false);
@@ -273,7 +273,7 @@ export default function EditCustomerPage(props) {
   const onDiscardLeaveModal = () => {
     setShowConfirmLeave(false);
   };
-
+  if(!customer) return <p>...Loadming </p>
   return (
     <Form
       autoComplete="off"
