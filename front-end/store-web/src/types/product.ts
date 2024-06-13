@@ -1,9 +1,3 @@
-enum EnumGenderProduct {
-  All = 0,
-  Male = 1,
-  Female = 2,
-  Kid = 3,
-}
 interface IProduct extends ISEO {
   code: number
   thumbnail: string
@@ -40,12 +34,6 @@ interface IProductStock {
   productVariantId: string
   productSizeId: string
   quantityLeft: number
-}
-
-enum EnumSortType {
-  Default = 0,
-  PriceAsc = 1,
-  PriceDesc = 2,
 }
 
 interface IGetProductsRequest extends IPagingRequest {

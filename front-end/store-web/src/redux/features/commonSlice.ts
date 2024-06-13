@@ -1,11 +1,53 @@
+import { ncNanoId } from '@/utils/string.helper'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
 interface CommonState {
-  menu: IMenuLayout | null
+  menu: INavItemType[]
 }
 
 const initialState: CommonState = {
-  menu: null,
+  menu: [
+    {
+      id: EnumGenderProduct.Male,
+      urlSEO: "/collection",
+      name: "Nam",
+      type: "dropdown",
+      children: []
+    },
+    {
+      id: EnumGenderProduct.Female,
+      urlSEO: "/collection",
+      name: "Nữ",
+      type: "dropdown",
+      children: []
+    },
+    {
+      id: ncNanoId(),
+      urlSEO: "/search",
+      name: "Danh mục",
+    },
+    {
+      id: ncNanoId(),
+      name: "Khác",
+      type: "dropdown",
+      children: [
+        {
+          id: ncNanoId(),
+          urlSEO: "/blog",
+          name: "Bài viết",
+        },
+        {
+          id: ncNanoId(),
+          urlSEO: "/about",
+          name: "Về chúng tôi",
+        },
+        {
+          id: ncNanoId(),
+          urlSEO: "/contact",
+          name: "Liên hệ",
+        },
+      ],
+    },
+  ],
 }
 
 const commonSlice = createSlice({
@@ -13,11 +55,28 @@ const commonSlice = createSlice({
   initialState,
   reducers: {
     updateMenu(state, action: PayloadAction<IMenuCategory[]>) {
-      state.menu = {
-        maleCategories: action.payload.find((item) => item.genderProduct === EnumGenderProduct.Male)?.productRootCategories || [],
-        femaleCategories: action.payload.find((item) => item.genderProduct === EnumGenderProduct.Female)?.productRootCategories || [],
-        kidCategories: action.payload.find((item) => item.genderProduct === EnumGenderProduct.Kid)?.productRootCategories || [],
-      }
+      const maleCategories = action.payload.find((item) => item.genderProduct === EnumGenderProduct.Male)?.children || [];
+      const femaleCategories = action.payload.find((item) => item.genderProduct === EnumGenderProduct.Female)?.children || [];
+      const kidCategories = action.payload.find((item) => item.genderProduct === EnumGenderProduct.Kid)?.children || [];
+      state.menu = state.menu.map(menuItem => {
+        if (menuItem.id === EnumGenderProduct.Male) {
+          return {
+            ...menuItem,
+            children: maleCategories
+          };
+        } else if (menuItem.id === EnumGenderProduct.Female) {
+          return {
+            ...menuItem,
+            children: femaleCategories
+          };
+        } else if (menuItem.id === EnumGenderProduct.Kid) {
+          return {
+            ...menuItem,
+            children: kidCategories
+          };
+        }
+        return menuItem;
+      });
     },
   },
 })

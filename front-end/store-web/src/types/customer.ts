@@ -1,9 +1,3 @@
-enum EnumGender {
-  Male = 1,
-  Female = 2,
-  Other = 3,
-}
-
 interface ICustomer {
   id: string
   accountId: string

@@ -23,7 +23,7 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   const [isClient, setIsClient] = useState(false)
-  const menu = useAppSelector((state) => state.common.menu) as IMenuLayout
+  const menu = useAppSelector((state) => state.common.menu) as INavItemType
   const dispatch = useAppDispatch()
 
   useEffect(() => {

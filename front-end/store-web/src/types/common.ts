@@ -44,14 +44,18 @@ interface IPaging {
   total: number
 }
 
-enum HttpStatus {
-  OK = 200,
-  Created = 201,
-  Accepted = 202,
-  BadRequest = 400,
-  Unauthorized = 401,
-  Forbidden = 403,
-  NotFound = 404,
-  MethodNotAllowed = 405,
-  InternalServerError = 500,
+interface IMenuCategory {
+  genderProduct: number
+  children: INavItemType[]
+}
+
+interface INavItemType {
+  id: string | number
+  name: string;
+  isMain?: boolean;
+  urlSEO?: string;
+  targetBlank?: boolean;
+  children?: INavItemType[];
+  type?: "dropdown" | "megaMenu" | "none";
+  isNew?: boolean;
 }

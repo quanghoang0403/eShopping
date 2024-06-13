@@ -7,18 +7,9 @@ import { Route } from "@/routers/types";
 import Link from "next/link";
 import CardCategory3 from "../CardCategory/CardCategory3";
 
-export interface NavItemType {
-  id: string;
-  name: string;
-  href?: Route;
-  targetBlank?: boolean;
-  children?: NavItemType[];
-  type?: "dropdown" | "megaMenu" | "none";
-  isNew?: boolean;
-}
 
 export interface NavigationItemProps {
-  menuItem: NavItemType;
+  menuItem: INavItemType;
 }
 
 const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
@@ -37,7 +28,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   };
 
   // ===================== MENU MEGAMENU =====================
-  const renderMegaMenu = (menu: NavItemType) => {
+  const renderMegaMenu = (menu: INavItemType) => {
     if (!menu.children) {
       return null;
     }
@@ -74,13 +65,13 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     );
   };
 
-  const renderMegaMenuNavlink = (item: NavItemType) => {
+  const renderMegaMenuNavlink = (item: INavItemType) => {
     return (
       <li key={item.id} className={`${item.isNew ? "menuIsNew" : ""}`}>
         <Link
           className="font-normal text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white "
           href={{
-            pathname: item.href || undefined,
+            pathname: item.urlSEO || undefined,
           }}
         >
           {item.name}
@@ -90,14 +81,14 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   };
 
   // ===================== MENU DROPDOW =====================
-  const renderDropdownMenu = (menuDropdown: NavItemType) => {
-    const isHover = menuCurrentHovers.includes(menuDropdown.id);
+  const renderDropdownMenu = (menuDropdown: INavItemType) => {
+    const isHover = menuCurrentHovers.includes(menuDropdown.id.toString());
     return (
       <Popover
         as="li"
         className="menu-item menu-dropdown relative"
-        onMouseEnter={() => onMouseEnterMenu(menuDropdown.id)}
-        onMouseLeave={() => onMouseLeaveMenu(menuDropdown.id)}
+        onMouseEnter={() => onMouseEnterMenu(menuDropdown.id.toString())}
+        onMouseLeave={() => onMouseLeaveMenu(menuDropdown.id.toString())}
       >
         {() => (
           <>
@@ -139,15 +130,15 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     );
   };
 
-  const renderDropdownMenuNavlinkHasChild = (item: NavItemType) => {
-    const isHover = menuCurrentHovers.includes(item.id);
+  const renderDropdownMenuNavlinkHasChild = (item: INavItemType) => {
+    const isHover = menuCurrentHovers.includes(item.id.toString());
     return (
       <Popover
         as="li"
         key={item.id}
         className="menu-item menu-dropdown relative px-2"
-        onMouseEnter={() => onMouseEnterMenu(item.id)}
-        onMouseLeave={() => onMouseLeaveMenu(item.id)}
+        onMouseEnter={() => onMouseEnterMenu(item.id.toString())}
+        onMouseLeave={() => onMouseLeaveMenu(item.id.toString())}
       >
         {() => (
           <>
@@ -189,12 +180,12 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     );
   };
 
-  const renderDropdownMenuNavlink = (item: NavItemType) => {
+  const renderDropdownMenuNavlink = (item: INavItemType) => {
     return (
       <Link
         className="flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
         href={{
-          pathname: item.href || undefined,
+          pathname: item.urlSEO || undefined,
         }}
       >
         {item.name}
@@ -209,13 +200,13 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   };
 
   // ===================== MENU MAIN MENU =====================
-  const renderMainItem = (item: NavItemType) => {
+  const renderMainItem = (item: INavItemType) => {
     return (
       <div className="h-20 flex-shrink-0 flex items-center">
         <Link
           className="inline-flex items-center text-sm lg:text-[15px] font-medium text-slate-700 dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-full hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
           href={{
-            pathname: item.href || undefined,
+            pathname: item.urlSEO || undefined,
           }}
         >
           {item.name}
