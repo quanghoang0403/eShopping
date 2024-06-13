@@ -46,16 +46,15 @@ interface IPaging {
 
 interface IMenuCategory {
   genderProduct: number
-  children: INavItemType[]
+  productRootCategories: INavItemType[]
 }
 
 interface INavItemType {
   id: string | number
-  name: string;
-  isMain?: boolean;
-  urlSEO?: string;
-  targetBlank?: boolean;
-  children?: INavItemType[];
-  type?: "dropdown" | "megaMenu" | "none";
-  isNew?: boolean;
+  name: string
+  urlSEO?: string
+  targetBlank?: boolean
+  children?: INavItemType[]
+  type?: 'dropdown' | 'megaMenu' | 'none'
+  isNew?: boolean
 }

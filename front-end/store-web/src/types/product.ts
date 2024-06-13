@@ -43,5 +43,5 @@ interface IGetProductsRequest extends IPagingRequest {
   isDiscounted?: boolean
   isSoldOut?: boolean
   isNewIn?: boolean
-  sortType: EnumSortType
+  sortType: number
 }

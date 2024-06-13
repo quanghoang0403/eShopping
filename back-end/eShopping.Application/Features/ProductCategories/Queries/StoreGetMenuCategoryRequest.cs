@@ -43,17 +43,17 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 new()
                 {
                     GenderProduct = EnumGenderProduct.Male,
-                    Children = MapMenuModel(rootCategories, EnumGenderProduct.Male)
+                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Male)
                 },
                 new()
                 {
                     GenderProduct = EnumGenderProduct.Female,
-                    Children = MapMenuModel(rootCategories, EnumGenderProduct.Female)
+                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Female)
                 },
                 new()
                 {
                     GenderProduct = EnumGenderProduct.Kid,
-                    Children = MapMenuModel(rootCategories, EnumGenderProduct.Kid)
+                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Kid)
                 },
             };
             return BaseResponseModel.ReturnData(data);
@@ -61,18 +61,16 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         private List<StoreNavigationModel> MapMenuModel(List<ProductRootCategory> productRootCategories, EnumGenderProduct gender)
         {
-            var menuCategories = new List<StoreNavigationModel>();
-            foreach (var rootCategory in productRootCategories.Where(x => x.GenderProduct == EnumGenderProduct.All || x.GenderProduct == gender))
-            {
-                menuCategories.Add(new StoreNavigationModel()
+            var menuCategories = productRootCategories
+                .Where(x => x.GenderProduct == EnumGenderProduct.All || x.GenderProduct == gender)
+                .Select(x => new StoreNavigationModel()
                 {
-                    Id = rootCategory.Id,
-                    Name = rootCategory.Name,
-                    UrlSEO = rootCategory.UrlSEO,
-                    IsMain = true
-                });
-                menuCategories.AddRange(_mapper.Map<List<StoreNavigationModel>>(rootCategory.ProductCategories.Where(c => c.GenderProduct == EnumGenderProduct.All || c.GenderProduct == gender)));
-            }
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSEO = x.UrlSEO,
+                    Type = "megaMenu",
+                    Children = _mapper.Map<List<StoreNavigationModel>>(x.ProductCategories.Where(c => c.GenderProduct == EnumGenderProduct.All || c.GenderProduct == gender))
+                }).ToList();
             return menuCategories;
         }
     }

@@ -1,6 +1,6 @@
 interface IBlogCategory extends ISEO {
   id: string
-  color: EnumColorCategory
+  color: number
 }
 
 interface IBlog extends ISEO {

@@ -8,7 +8,7 @@ namespace eShopping.Models.ProductCategories
     {
         public EnumGenderProduct GenderProduct { get; set; }
 
-        public IEnumerable<StoreNavigationModel> Children { get; set; }
+        public IEnumerable<StoreNavigationModel> ProductRootCategories { get; set; }
     }
 
     public class StoreNavigationModel
@@ -19,7 +19,8 @@ namespace eShopping.Models.ProductCategories
 
         public string UrlSEO { get; set; }
 
-        public bool? IsMain { get; set; }
+        public string Type { get; set; }
 
+        public IEnumerable<StoreNavigationModel> Children { get; set; }
     }
 }

@@ -23,13 +23,13 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   const [isClient, setIsClient] = useState(false)
-  const menu = useAppSelector((state) => state.common.menu) as INavItemType
+  const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     // Ensure the Toaster is rendered only on the client-side
     setIsClient(true)
-    if (!menu) fetchMenuAsync()
+    if (menu.length == 0) fetchMenuAsync()
   }, [])
 
   const fetchMenuAsync = async () => {

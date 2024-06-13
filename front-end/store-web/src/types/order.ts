@@ -1,24 +1,4 @@
-enum EnumOrderStatus {
-  New = 0,
-  Returned = 1,
-  Canceled = 2,
-  Confirmed = 3,
-  Processing = 4,
-  Delivering = 5,
-  Completed = 6,
-}
 
-enum EnumPaymentMethod {
-  COD = 0,
-  MoMo = 1,
-  ZaloPay = 2,
-  ShopeePay = 3,
-  BankTransferVietQR = 4,
-  VNPayQR = 5,
-  PayOS = 6,
-  ATM = 7,
-  CreditDebitCard = 8,
-}
 
 interface IPaymentMethod {
   id: number
@@ -45,7 +25,7 @@ interface ICartItem {
 interface IOrder {
   id: string
   code: string
-  status: EnumOrderStatus
+  status: number
   createdTime: string
   shipFullAddress: string
   statusName: string
@@ -75,7 +55,7 @@ interface IOrderDetail {
   id: string
   createdTime: string
   code: string
-  status: EnumOrderStatus
+  status: number
   statusName: string
   shipName: string
   shipAddress: string
@@ -130,7 +110,7 @@ interface ICreateOrderRequest {
 
 interface ICreateOrderResponse {
   isSuccess: boolean
-  paymentMethodId: EnumPaymentMethod
+  paymentMethodId: number
   orderId?: string
   orderCode?: number
   cartItems?: ICartItem[]

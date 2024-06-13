@@ -12,7 +12,7 @@ interface ICustomer {
   fullName: string
   thumbnail: string
   birthday: string | null
-  gender: EnumGender
+  gender: number
   code: number
 }
 
@@ -23,7 +23,7 @@ interface ICreateCustomerRequest {
   email: string
   thumbnail: string
   birthday?: string
-  gender: EnumGender
+  gender: number
   cityId?: number
   districtId?: number
   wardId?: number
@@ -35,7 +35,7 @@ interface IUpdateCustomerRequest {
   phoneNumber: string
   thumbnail: string
   email: string
-  gender: EnumGender
+  gender: number
   birthday?: string
   address: string
   cityId?: number
