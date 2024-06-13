@@ -19,6 +19,11 @@ const commonSlice = createSlice({
       const kidCategories = action.payload.find((item) => item.genderProduct === EnumGenderProduct.Kid)?.productRootCategories || []
       state.menu = [
         {
+          id: ncNanoId(),
+          urlSEO: '/search',
+          name: 'Danh mục',
+        },
+        {
           id: EnumGenderProduct.Male,
           urlSEO: '/collection',
           name: 'Nam',
@@ -31,11 +36,6 @@ const commonSlice = createSlice({
           name: 'Nữ',
           type: 'megaMenu',
           children: femaleCategories,
-        },
-        {
-          id: ncNanoId(),
-          urlSEO: '/search',
-          name: 'Danh mục',
         },
         {
           id: ncNanoId(),
