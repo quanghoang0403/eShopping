@@ -91,7 +91,8 @@ export default function StockProductTable({ form, productSizes, productData }) {
           validateMessage: t('product.validateEndDate')
         }
       }
-    }
+    },
+    mediaNotExisted: t('product.validateImage')
   }
 
   const defaultProductVariant = [{
@@ -168,6 +169,10 @@ export default function StockProductTable({ form, productSizes, productData }) {
               <Form.Item
                 name={['productVariants', index, 'thumbnail']}
                 className='variant-thumbnail'
+                rules={[{
+                  required: true,
+                  message: pageData.mediaNotExisted
+                }]}
               >
                 <FnbImageSelectComponent
                   isShowBestDisplay={false}
