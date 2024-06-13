@@ -21,9 +21,6 @@ export default function CreateBlogCategory() {
   const [form] = Form.useForm();
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [blockNavigation, setBlockNavigation] = useState(false)
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false);
   const [blogs, setBlogs] = useState([])
   const history = useHistory()
@@ -126,8 +123,7 @@ export default function CreateBlogCategory() {
     form.validateFields().then(async values => {
       const blogCategoryModel = {
         ...values,
-        blogs: values?.blogs?.reduce((acc, blogId) => acc.concat({ id: blogId, position: values.blogs.indexOf(blogId) }), []) || [],
-        keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
+        blogs: values?.blogs?.reduce((acc, blogId) => acc.concat({ id: blogId, position: values.blogs.indexOf(blogId) }), []) || []
       }
       const res = await BlogCategoryDataService.createBlogCategoryAsync(blogCategoryModel)
       if (res.status != 200) {
@@ -140,17 +136,6 @@ export default function CreateBlogCategory() {
         form.setFields(getValidationMessages(errors));
 
       })
-  }
-
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
-  }
-
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
   }
   return (
     <>
@@ -351,37 +336,9 @@ export default function CreateBlogCategory() {
                       </span>
                     </Tooltip>
                   </div>
-
-                  <div>
-                    {
-                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                    }
-
-                    <div className='d-flex mt-3'>
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        value={keywordSEO?.value || ''}
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e => {
-                          if (e.target.value !== '') {
-                            setKeywordSEO({
-                              id: e.target.value,
-                              value: e.target.value
-                            })
-                            setIsKewwordSEOChange(true)
-                          }
-                        }}
-                      />
-                      <ShopAddNewButton
-                        permission={PermissionKeys.ADMIN}
-                        disabled={!isKeywordSEOChange}
-                        text={pageData.SEOInformation.keyword.btnAdd}
-                        className={'mx-4'}
-                        onClick={addSEOKeywords}
-                      />
-                    </div>
-                  </div>
+                  <Form.Item name={'keywordSEO'}>
+                    <BadgeSEOKeyword/>
+                  </Form.Item>
                 </Col>
               </Row>
             </Card>

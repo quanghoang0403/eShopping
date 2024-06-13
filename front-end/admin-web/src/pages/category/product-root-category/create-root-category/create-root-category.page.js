@@ -19,20 +19,8 @@ export default function CreateRootCategory(props) {
   const [t] = useTranslation()
   const history = useHistory();
   const [form] = useForm()
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
-  }
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
-  }
   const pageData = {
     title: t('root-category.createTitle'),
     btnCancel: t('button.cancel'),
@@ -370,36 +358,9 @@ export default function CreateRootCategory(props) {
                       </span>
                     </Tooltip>
                   </div>
-                  <div>
-                    {
-                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                    }
-
-                    <div className='d-flex mt-3'>
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        value={keywordSEO?.value || ''}
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e => {
-                          if (e.target.value !== '') {
-                            setKeywordSEO({
-                              id: e.target.value,
-                              value: e.target.value
-                            })
-                            setIsKewwordSEOChange(true)
-                          }
-                        }}
-                      />
-                      <ShopAddNewButton
-                        permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
-                        disabled={!isKeywordSEOChange}
-                        text={pageData.SEOInformation.keyword.btnAdd}
-                        className={'mx-4'}
-                        onClick={addSEOKeywords}
-                      />
-                    </div>
-                  </div>
+                  <Form.Item name={'keywordSEO'}>
+                    <BadgeSEOKeyword/>
+                  </Form.Item>
                 </Card>
 
               </Col>

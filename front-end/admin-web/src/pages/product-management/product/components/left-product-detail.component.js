@@ -1,13 +1,11 @@
 import { Card, Col, Form, Input, Row, Tooltip } from 'antd';
 import { ExclamationIcon } from 'constants/icons.constants';
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
-import { PermissionKeys } from 'constants/permission-key.constants'
 import React, { useEffect, useState } from 'react'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component';
 import '../edit-product/edit-product.scss'
 import { useTranslation } from 'react-i18next'
 import FnbFroalaEditor from 'components/shop-froala-editor';
-import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 
 export default function LeftProductDetail({ form, productData }) {
@@ -60,33 +58,6 @@ export default function LeftProductDetail({ form, productData }) {
       }
     }
   }
-
-  const [currentKeyword, setCurrentKeyword] = useState('');
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKeywordSEOChange] = useState(false)
-
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKeywordSEOChange(false)
-  }
-
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
-  }
-
-  useEffect(() => {
-    if (productData) {
-      setKeywordSEOList(productData.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
-    }
-  }, [productData])
-
-  useEffect(() => {
-    //setCurrentKeyword(keywordSEOs?.map(kw => kw.value)?.join(','))
-    form.setFieldValue('keywordSEO', keywordSEOs?.map(kw => kw.value)?.join(','))
-  }, [keywordSEOs])
 
   return (
     <Col className="left-create-product" xs={24} sm={24} md={24} lg={24}>
@@ -218,35 +189,9 @@ export default function LeftProductDetail({ form, productData }) {
               </Tooltip>
             </div>
 
-            <Form.Item hidden name={['keywordSEO']} rules={[]}>
-              <Input />
+            <Form.Item name={['keywordSEO']} rules={[]}>
+              <BadgeSEOKeyword/>
             </Form.Item>
-            <div>
-              {keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''}
-              <div className='d-flex mt-3'>
-                <Input
-                  className="shop-input-with-count"
-                  showCount
-                  value={keywordSEO?.value || ''}
-                  placeholder={pageData.SEOInformation.keyword.placeholder}
-                  onChange={e => {
-                    if (e.target.value !== '') {
-                      setKeywordSEO({
-                        id: e.target.value,
-                        value: e.target.value
-                      })
-                      setIsKeywordSEOChange(true)
-                    }
-                  }}
-                />
-                <ShopAddNewButton
-                  disabled={!isKeywordSEOChange}
-                  text={pageData.SEOInformation.keyword.btnAdd}
-                  className={'mx-4'}
-                  onClick={addSEOKeywords}
-                />
-              </div>
-            </div>
           </Col>
         </Row>
       </Card>

@@ -23,9 +23,6 @@ export default function EditBlogCategory() {
   const [t] = useTranslation();
   const [showConfirm, setShowConfirm] = useState(false)
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [title, setTitle] = useState('')
   const history = useHistory()
@@ -111,14 +108,8 @@ export default function EditBlogCategory() {
     const data = await form.validateFields()
     const blogCategoryEditModel = {
       id: match?.params?.blogCategoryId,
-      name: data.name,
-      priority: data.priority,
       blogs: data.blogs?.map(b => { return { id: b, position: data.blogs.indexOf(b) } }),
-      keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null,
-      titleSEO: data.titleSEO,
-      descriptionSEO: data.descriptionSEO,
-      description: data.description,
-      content: data.content
+      ...data
     }
     const res = await BlogCategoryDataService.editBlogCategoryAsync(blogCategoryEditModel)
     try {
@@ -149,7 +140,6 @@ export default function EditBlogCategory() {
             content: blogCategory.content
           })
           setTitle(blogCategory.name)
-          setKeywordSEOList(blogCategory?.keywordSEO?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
         }
       }).catch(err => {
         message.error(err)
@@ -177,16 +167,6 @@ export default function EditBlogCategory() {
     }, DELAYED_TIME)
   }
 
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
-  }
-
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
-  }
   const formatDeleteMessage = (text, name) => {
     const mess = t(text, { name })
     return mess
@@ -418,37 +398,9 @@ export default function EditBlogCategory() {
                       </span>
                     </Tooltip>
                   </div>
-
-                  <div>
-                    {
-                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                    }
-
-                    <div className='d-flex mt-3'>
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        value={keywordSEO?.value || ''}
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e => {
-                          if (e.target.value !== '') {
-                            setKeywordSEO({
-                              id: e.target.value,
-                              value: e.target.value
-                            })
-                            setIsKewwordSEOChange(true)
-                          }
-                        }}
-                      />
-                      <ShopAddNewButton
-                        permission={PermissionKeys.ADMIN}
-                        disabled={!isKeywordSEOChange}
-                        text={pageData.SEOInformation.keyword.btnAdd}
-                        className={'mx-4'}
-                        onClick={addSEOKeywords}
-                      />
-                    </div>
-                  </div>
+                  <Form.Item name={'keywordSEO'}>
+                    <BadgeSEOKeyword/>
+                  </Form.Item>
                 </Col>
               </Row>
             </Card>

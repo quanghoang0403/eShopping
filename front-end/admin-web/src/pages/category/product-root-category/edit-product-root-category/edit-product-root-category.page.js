@@ -26,9 +26,6 @@ export default function EditProductRootCategory() {
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const [t] = useTranslation()
 
   const pageData = {
@@ -110,17 +107,6 @@ export default function EditProductRootCategory() {
     idNotFound: t('common.idNotFound')
   }
 
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
-  }
-
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
-  }
-
   const getEditData = () => {
     const { productRootCategoryId } = match?.params
     if (isGuid(productRootCategoryId)) {
@@ -138,7 +124,6 @@ export default function EditProductRootCategory() {
           form.setFieldsValue({
             ...productCategory
           })
-          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
         }
       })
     }
@@ -158,8 +143,7 @@ export default function EditProductRootCategory() {
     const values = await form.validateFields();
     const updateProductRootCategoryRequestModel = {
       id: match?.params?.productRootCategoryId,
-      ...values,
-      keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
+      ...values
     }
     try {
       const res = await RootCategoryDataService.EditProductRootCategory(updateProductRootCategoryRequestModel)
@@ -450,37 +434,9 @@ export default function EditProductRootCategory() {
                         </span>
                       </Tooltip>
                     </div>
-
-                    <div>
-                      {
-                        keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                      }
-
-                      <div className='d-flex mt-3'>
-                        <Input
-                          className="shop-input-with-count"
-                          showCount
-                          value={keywordSEO?.value || ''}
-                          placeholder={pageData.SEOInformation.keyword.placeholder}
-                          onChange={e => {
-                            if (e.target.value !== '') {
-                              setKeywordSEO({
-                                id: e.target.value,
-                                value: e.target.value
-                              })
-                              setIsKewwordSEOChange(true)
-                            }
-                          }}
-                        />
-                        <ShopAddNewButton
-                          permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
-                          disabled={!isKeywordSEOChange}
-                          text={pageData.SEOInformation.keyword.btnAdd}
-                          className={'mx-4'}
-                          onClick={addSEOKeywords}
-                        />
-                      </div>
-                    </div>
+                    <Form.Item name={'keywordSEO'}>
+                      <BadgeSEOKeyword/>
+                    </Form.Item>
                   </Col>
                 </Row>
               </Card>
