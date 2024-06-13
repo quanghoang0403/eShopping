@@ -1,4 +1,4 @@
-import { EnumGenderProduct } from '@/types/enum'
+import { EnumGenderProduct } from '@/constants/enum'
 import { ncNanoId } from '@/utils/string.helper'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface CommonState {
@@ -40,7 +40,7 @@ const commonSlice = createSlice({
         {
           id: ncNanoId(),
           name: 'Khác',
-          type: 'megaMenu',
+          type: 'dropdown',
           children: [
             {
               id: ncNanoId(),

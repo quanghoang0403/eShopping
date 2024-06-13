@@ -16,7 +16,7 @@ import CustomerInfo, { defaultCustomerInfo } from '@/components/Common/Customer/
 import SummaryPrice from '@/components/Checkout/SummaryPrice'
 import CartList from '@/components/Checkout/CartList'
 import CommonDialog from '@/shared/Dialog'
-import { EnumPaymentMethod } from '@/types/enum'
+import { EnumPaymentMethod } from '@/constants/enum'
 
 const CheckoutPage = () => {
   const {
