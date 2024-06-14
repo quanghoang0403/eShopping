@@ -1,60 +1,39 @@
-import { CustomLink } from "@/data/types";
 import React, { FC } from "react";
 import { twFocusClass } from "@/utils/string.helper";
-import Link from "next/link";
-
-const DEMO_PAGINATION: CustomLink[] = [
-  {
-    label: "1",
-    href: "/",
-  },
-  {
-    label: "2",
-    href: "/",
-  },
-  {
-    label: "3",
-    href: "/",
-  },
-  {
-    label: "4",
-    href: "/",
-  },
-];
 
 export interface PaginationProps {
-  className?: string;
+  pageNumber?: number
+  pageCount?: number
+  setPageNumber?: (value: number) => void;
 }
 
-const Pagination: FC<PaginationProps> = ({ className = "" }) => {
-  const renderItem = (pag: CustomLink, index: number) => {
-    if (index === 0) {
-      return (
-        <span
-          key={index}
-          className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary-6000 text-white ${twFocusClass()}`}
-        >
-          {pag.label}
-        </span>
-      );
-    }
-    // RETURN UNACTIVE PAGINATION
-    return (
-      <Link
-        key={index}
-        className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-6000 dark:text-neutral-400 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 ${twFocusClass()}`}
-        href={pag.href}
-      >
-        {pag.label}
-      </Link>
-    );
-  };
-
+const Pagination: FC<PaginationProps> = ({ pageNumber = 1, pageCount = 1, setPageNumber }) => {
   return (
     <nav
-      className={`nc-Pagination inline-flex space-x-1 text-base font-medium ${className}`}
+      className='nc-Pagination inline-flex space-x-1 text-base font-medium'
     >
-      {DEMO_PAGINATION.map(renderItem)}
+      {[...Array(pageCount)].map((pageIndex) => {
+         const currentPage = pageIndex + 1;
+         if (currentPage === pageNumber) {
+          return (
+            <span
+              key={currentPage}
+              className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary-6000 text-white ${twFocusClass()}`}
+            >
+              {currentPage}
+            </span>
+          );
+        }
+        return (
+          <span
+            key={currentPage}
+            className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-6000 dark:text-neutral-400 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 ${twFocusClass()}`}
+            onClick={() => setPageNumber && setPageNumber(currentPage)}
+          >
+            {currentPage}
+          </span>
+        );
+      })}
     </nav>
   );
 };

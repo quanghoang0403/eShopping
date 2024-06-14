@@ -12,7 +12,7 @@ const AccountSavelist = () => {
         <ProductList />
       </div>
       <div className="flex !mt-20 justify-center items-center">
-        <ButtonSecondary loading>Show me more</ButtonSecondary>
+        <ButtonSecondary loading>Xem thêm</ButtonSecondary>
       </div>
     </div>
   )
