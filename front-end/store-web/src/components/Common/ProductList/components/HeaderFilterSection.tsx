@@ -73,7 +73,7 @@ const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({ className = 'mb-12'
         leaveTo="opacity-0"
       >
         <div className="w-full border-b border-neutral-200 dark:border-neutral-700 my-8"></div>
-        <TabFilter />
+        {/* <TabFilter /> */}
       </Transition>
     </div>
   )
