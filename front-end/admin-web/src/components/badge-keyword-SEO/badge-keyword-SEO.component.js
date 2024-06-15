@@ -25,7 +25,7 @@ export function BadgeSEOKeyword(props) {
   }
   useEffect(()=>{
     setKeywordSEOList(value?.split(',').map(kw => { return { id: kw, value: kw } }) || [])
-  },[])
+  },[value])
 
   const addSEOKeywords = () => {
     if (keywordSEO.value.trim() === '') return; // Prevent adding empty keywords
