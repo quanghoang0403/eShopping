@@ -5,7 +5,6 @@ import SectionHeroSingle from '@/components/Home/SectionHero/SectionHeroSingle'
 import SliderProductList from '@/components/Common/ProductList/SliderProductList'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import { GetServerSideProps } from 'next'
-import { guidIdEmptyValue } from '@/utils/string.helper'
 import { PageSizeConstants } from '@/constants/default.constants'
 import ProductService from '@/services/product.service'
 
@@ -19,7 +18,6 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
     let discountedRequest: IGetProductsRequest = {
       isDiscounted: true,
       isFeatured: false,
-      productCategoryId: guidIdEmptyValue,
       keySearch: '',
       pageNumber: 0,
       pageSize: PageSizeConstants.Default,

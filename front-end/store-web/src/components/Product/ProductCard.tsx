@@ -1,5 +1,5 @@
 'use client'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import LikeButton from './LikeButton'
 import Price from '@/shared/Price'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
@@ -28,6 +28,14 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked })
   const [productStockActive, setProductStockActive] = useState<IProductStock | null>(null)
   const [showModalQuickView, setShowModalQuickView] = useState(false)
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
+
+  useEffect(() => {
+    if (productSizes?.length == 1) setProductSizeActive(productSizes[0])
+  }, [productSizes])
+
+  useEffect(() => {
+    if (productVariants?.length == 1) setProductVariantActive(productVariants[0])
+  }, [productVariants])
 
   const onChangeActiveProductVariant = (variant: IProductVariant) => {
     setProductVariantActive(variant)
@@ -140,10 +148,10 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked })
   const renderGroupButtons = () => {
     return (
       <div className="absolute bottom-10 group-hover:bottom-10 inset-x-1 flex justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-        <ButtonPrimary className="shadow-lg" fontSize="text-xs" sizeClass="py-2 px-4" onClick={handleAddToCart}>
+        {/* <ButtonPrimary className="shadow-lg" fontSize="text-xs" sizeClass="py-2 px-4" onClick={handleAddToCart}>
           <BagIcon className="w-3.5 h-3.5 mb-0.5" />
           <span className="ms-1">Thêm vào giỏ hàng</span>
-        </ButtonPrimary>
+        </ButtonPrimary> */}
         <ButtonSecondary
           className="ms-1.5 bg-white hover:!bg-gray-100 hover:text-slate-900 transition-colors shadow-lg"
           fontSize="text-xs"
@@ -174,12 +182,12 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked })
           </Link>
           <ProductStatus product={product} />
           <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" />
-          {renderProductSizes()}
+          {/* {renderProductSizes()} */}
           {renderGroupButtons()}
         </div>
 
         <div className="space-y-2 px-2.5 pt-5 pb-2.5">
-          {renderProductVariants()}
+          {/* {renderProductVariants()} */}
           <div>
             <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">{name}</h2>
             <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>{description}</p>

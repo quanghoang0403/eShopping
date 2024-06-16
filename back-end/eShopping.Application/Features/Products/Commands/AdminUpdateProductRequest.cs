@@ -166,7 +166,9 @@ namespace eShopping.Application.Features.Products.Commands
                             {
                                 ProductId = productId,
                                 ProductVariantId = variant.Id,
+                                ProductVariantName = variant.Name,
                                 ProductSizeId = stock.ProductSizeId,
+                                ProductSizeName = stock.ProductSizeName,
                                 QuantityLeft = stock.QuantityLeft
                             });
                         }

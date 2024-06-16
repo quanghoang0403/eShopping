@@ -4,28 +4,27 @@ import React from 'react'
 import ButtonClose from '@/shared/Button/ButtonClose'
 import Logo from '@/shared/Logo'
 import { Disclosure } from '@headlessui/react'
-import { NavItemType } from './NavigationItem'
-import { NAVIGATION_DEMO } from '@/data/navigation'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import SocialsListHorizontal from '@/shared/SocialsList'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import SwitchDarkMode from '@/shared/SwitchDarkMode'
 import Link from 'next/link'
+import { useAppSelector } from '@/hooks/useRedux'
 
 export interface NavMobileProps {
-  data?: NavItemType[]
   onClickClose?: () => void
 }
 
-const NavMobile: React.FC<NavMobileProps> = ({ data = NAVIGATION_DEMO, onClickClose }) => {
-  const _renderMenuChild = (item: NavItemType, itemClass = ' pl-3 text-neutral-900 dark:text-neutral-200 font-medium ') => {
+const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
+  const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
+  const _renderMenuChild = (item: INavItemType, itemClass = ' pl-3 text-neutral-900 dark:text-neutral-200 font-medium ') => {
     return (
       <ul className="nav-mobile-sub-menu pl-6 pb-1 text-base">
         {item.children?.map((i, index) => (
           <Disclosure key={index} as="li">
             <Link
               href={{
-                pathname: i.href || undefined,
+                pathname: i.urlSEO || undefined,
               }}
               className={`flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}`}
             >
@@ -47,13 +46,13 @@ const NavMobile: React.FC<NavMobileProps> = ({ data = NAVIGATION_DEMO, onClickCl
     )
   }
 
-  const _renderItem = (item: NavItemType, index: number) => {
+  const _renderItem = (item: INavItemType, index: number) => {
     return (
       <Disclosure key={index} as="li" className="text-slate-900 dark:text-white">
         <Link
           className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
           href={{
-            pathname: item.href || undefined,
+            pathname: item.urlSEO || undefined,
           }}
         >
           <span className={!item.children ? 'block w-full' : ''} onClick={onClickClose}>
@@ -119,7 +118,7 @@ const NavMobile: React.FC<NavMobileProps> = ({ data = NAVIGATION_DEMO, onClickCl
 
         <div className="mt-5">{renderSearchForm()}</div>
       </div>
-      <ul className="flex flex-col py-6 px-2 space-y-1">{data.map(_renderItem)}</ul>
+      <ul className="flex flex-col py-6 px-2 space-y-1">{menu.map(_renderItem)}</ul>
       <div className="flex items-center justify-between py-6 px-5 space-x-2">
         <ButtonPrimary href={'/'} className="!px-10">
           Buy this template

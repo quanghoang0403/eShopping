@@ -26,6 +26,14 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
 
   useEffect(() => {
+    if (productSizes?.length == 1) setProductSizeActive(productSizes[0])
+  }, [productSizes])
+
+  useEffect(() => {
+    if (productVariants?.length == 1) setProductVariantActive(productVariants[0])
+  }, [productVariants])
+
+  useEffect(() => {
     if (productStockActive && cartItems) {
       const cartItem = cartItems.find((x) => x.productVariantId === productStockActive.productVariantId && x.productSizeId === productStockActive.productSizeId)
       if (cartItem) setCartItemActive(cartItem)
@@ -91,28 +99,29 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
           </span>
         </label>
         <div className="flex mt-3">
-          {productVariants.map((productVariant, index) => {
-            const outOfStock = isOutOfStock(productVariant, productSizeActive)
-            return (
-              <div
-                key={index}
-                onClick={() => !outOfStock && onChangeActiveProductVariant(productVariant)}
-                className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2
+          {productVariants.length > 1 &&
+            productVariants.map((productVariant, index) => {
+              const outOfStock = isOutOfStock(productVariant, productSizeActive)
+              return (
+                <div
+                  key={index}
+                  onClick={() => !outOfStock && onChangeActiveProductVariant(productVariant)}
+                  className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2
                 ${productVariant.id === productVariantActive?.id ? ' border-primary-6000 dark:border-primary-500' : ' border-transparent'}
                 ${outOfStock ? ' cursor-not-allowed' : ' cursor-pointer'}`}
-              >
-                {outOfStock && (
-                  <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="text-grey z-20 relative">X</div>
-                  </div>
-                )}
-                <div
-                  className={`absolute inset-0.5 rounded-full overflow-hidden z-0 object-cover bg-cover ${outOfStock ? ' opacity-50' : ''}`}
-                  style={{ backgroundImage: `url(${productVariant.thumbnail ?? ''})` }}
-                ></div>
-              </div>
-            )
-          })}
+                >
+                  {outOfStock && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div className="text-grey z-20 relative">X</div>
+                    </div>
+                  )}
+                  <div
+                    className={`absolute inset-0.5 rounded-full overflow-hidden z-0 object-cover bg-cover ${outOfStock ? ' opacity-50' : ''}`}
+                    style={{ backgroundImage: `url(${productVariant.thumbnail ?? ''})` }}
+                  ></div>
+                </div>
+              )
+            })}
         </div>
       </div>
     )
@@ -123,7 +132,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
       return null
     }
     return (
-      <div className="ml-1">
+      <div>
         <div className="flex justify-between font-medium text-sm">
           <label htmlFor="">
             <span className="">
@@ -136,24 +145,25 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
           </a>
         </div>
         <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
-          {productSizes.map((productSize, index) => {
-            const outOfStock = isOutOfStock(productVariantActive, productSize)
-            return (
-              <div
-                key={index}
-                onClick={() => !outOfStock && onChangeActiveProductSize(productSize)}
-                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0
+          {productSizes.length > 1 &&
+            productSizes.map((productSize, index) => {
+              const outOfStock = isOutOfStock(productVariantActive, productSize)
+              return (
+                <div
+                  key={index}
+                  onClick={() => !outOfStock && onChangeActiveProductSize(productSize)}
+                  className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0
                 ${
                   productSize.id === productSizeActive?.id
                     ? ' bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000'
                     : ' border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700'
                 }
                 ${outOfStock ? ' text-opacity-20 dark:text-opacity-20 cursor-not-allowed' : ' cursor-pointer'}`}
-              >
-                {productSize.name}
-              </div>
-            )
-          })}
+                >
+                  {productSize.name}
+                </div>
+              )
+            })}
         </div>
       </div>
     )
@@ -185,10 +195,10 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
               </div>
             </a>
             <span className="hidden sm:block mx-2.5">·</span>
-            <div className="hidden sm:flex items-center text-sm">
+            {/* <div className="hidden sm:flex items-center text-sm">
               <SparklesIcon className="w-3.5 h-3.5" />
               <span className="ml-1 leading-none">Mới về</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

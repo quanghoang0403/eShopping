@@ -121,5 +121,17 @@ APIService.interceptors.response.use(_configResponse, _configError)
 APIServiceUpload.interceptors.request.use(_configRequest, _configError)
 APIServiceUpload.interceptors.response.use(_configResponse, _configError)
 
+export function buildQueryString(params: Record<string, any>): string {
+  return Object.entries(params)
+    .filter(([_, value]) => value !== undefined && value !== null)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return value.map(v => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`).join('&');
+      }
+      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+    })
+    .join('&');
+}
+
 export { APIServiceUpload }
 export default APIService

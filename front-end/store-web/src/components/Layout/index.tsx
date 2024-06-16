@@ -6,6 +6,9 @@ import { Roboto } from 'next/font/google'
 import { cx } from '@/utils/string.helper'
 import { usePromiseTracker } from 'react-promise-tracker'
 import { useEffect, useState } from 'react'
+import ProductCategoryService from '@/services/productCategory.service'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { commonActions } from '@/redux/features/commonSlice'
 
 const fonts = Roboto({
   subsets: ['latin', 'vietnamese'],
@@ -20,11 +23,21 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   const [isClient, setIsClient] = useState(false)
+  const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     // Ensure the Toaster is rendered only on the client-side
     setIsClient(true)
+    if (menu.length == 0) fetchMenuAsync()
   }, [])
+
+  const fetchMenuAsync = async () => {
+    const res = await ProductCategoryService.getMenuCategory()
+    if (res) {
+      dispatch(commonActions.updateMenu(res))
+    }
+  }
 
   return (
     <main className={fonts.className}>

@@ -36,26 +36,13 @@ interface IProductStock {
   quantityLeft: number
 }
 
-interface IProductCategory {
-  id: string
-  name: string
-  urlSEO: string
-}
-
-interface IProductCategoryDetail extends ISEO {}
-
-enum EnumSortType {
-  Default = 0,
-  PriceAsc = 1,
-  PriceDesc = 2,
-}
-
 interface IGetProductsRequest extends IPagingRequest {
-  productCategoryId?: string
-  productRootCategoryId?: string
+  genderProducts?: number[]
+  productCategoryIds?: string[]
+  productRootCategoryIds?: string[]
   isFeatured?: boolean
   isDiscounted?: boolean
   isSoldOut?: boolean
   isNewIn?: boolean
-  sortType: EnumSortType
+  sortType: number
 }

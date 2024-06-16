@@ -59,6 +59,8 @@ namespace eShopping.Application.Features.Products.Queries
                     .Select(x => new AdminProductVariantStockModel()
                     {
                         ProductSizeId = x.ProductSizeId,
+                        ProductVariantName = x.ProductVariantName,
+                        ProductSizeName = x.ProductSizeName,
                         QuantityLeft = x.QuantityLeft
                     })
                     .ToList();

@@ -22,10 +22,11 @@ namespace eShopping.Application.Features.Products.Queries
         public int PageSize { get; set; }
 
         public string KeySearch { get; set; }
+        public List<EnumGenderProduct> GenderProducts { get; set; }
 
-        public Guid? ProductCategoryId { get; set; }
+        public List<Guid> ProductCategoryIds { get; set; }
 
-        public Guid? ProductRootCategoryId { get; set; }
+        public List<Guid> ProductRootCategoryIds { get; set; }
 
         public bool? IsFeatured { get; set; }
 
@@ -61,14 +62,19 @@ namespace eShopping.Application.Features.Products.Queries
 
             if (products != null)
             {
-                if (request.ProductRootCategoryId != null && request.ProductRootCategoryId != Guid.Empty)
+                if (request.GenderProducts != null && request.GenderProducts.Count > 0)
                 {
-                    products = products.Where(x => x.ProductRootCategoryId == request.ProductRootCategoryId);
+                    products = products.Where(x => request.GenderProducts.Contains(x.GenderProduct) || x.GenderProduct == EnumGenderProduct.All);
                 }
 
-                if (request.ProductCategoryId != null && request.ProductCategoryId != Guid.Empty)
+                if (request.ProductRootCategoryIds != null && request.ProductRootCategoryIds.Count > 0)
                 {
-                    products = products.Where(x => x.ProductCategoryId == request.ProductCategoryId);
+                    products = products.Where(x => request.ProductRootCategoryIds.Contains(x.ProductRootCategoryId));
+                }
+
+                if (request.ProductCategoryIds != null && request.ProductCategoryIds.Count > 0)
+                {
+                    products = products.Where(x => request.ProductCategoryIds.Contains(x.ProductCategoryId));
                 }
 
                 if (!string.IsNullOrEmpty(request.KeySearch))
@@ -92,10 +98,10 @@ namespace eShopping.Application.Features.Products.Queries
                     products = products.Where(g => g.IsFeatured == true);
                 }
 
-                //if (request.IsDiscounted == true)
-                //{
-                //    products = products.Where(g => g.IsDiscounted == true);
-                //}
+                if (request.IsDiscounted == true)
+                {
+                    products = products.Where(g => g.IsDiscounted == true);
+                }
 
                 products = products.Include(p => p.ProductVariants.OrderBy(x => x.Priority).ThenBy(pp => pp.CreatedTime));
                 if (request.SortType == EnumSortType.Default)

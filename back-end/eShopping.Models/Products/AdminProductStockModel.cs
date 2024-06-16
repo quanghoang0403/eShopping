@@ -9,6 +9,10 @@ namespace eShopping.Models.Products
 
         public Guid ProductSizeId { get; set; }
 
+        public string ProductSizeName { get; set; }
+
+        public string ProductVariantName { get; set; }
+
         public int QuantityLeft { get; set; }
 
     }

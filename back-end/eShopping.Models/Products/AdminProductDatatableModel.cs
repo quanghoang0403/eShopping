@@ -24,5 +24,11 @@ namespace eShopping.Models.Products
 
         public bool? IsFeatured { get; set; }
 
+        public bool? IsNewIn { get; set; }
+
+        public bool? IsSoldOut { get; set; }
+
+        public bool? IsDiscounted { get; set; }
+
     }
 }

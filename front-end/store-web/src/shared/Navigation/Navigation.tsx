@@ -1,11 +1,12 @@
 import React from "react";
 import NavigationItem from "./NavigationItem";
-import { NAVIGATION_DEMO } from "@/data/navigation";
+import { useAppSelector } from "@/hooks/useRedux";
 
 function Navigation() {
+  const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
   return (
     <ul className="nc-Navigation flex items-center">
-      {NAVIGATION_DEMO.map((item) => (
+      {menu.map((item) => (
         <NavigationItem key={item.id} menuItem={item} />
       ))}
     </ul>

@@ -107,7 +107,7 @@ export default function CartDropdown() {
               <path d="M9 8H21" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
 
-            <Link className="block md:hidden absolute inset-0" href={'/cart'} />
+            <Link className="block md:hidden absolute inset-0" href={'/checkout'} />
           </Popover.Button>
           <Transition
             as={Fragment}
@@ -134,7 +134,7 @@ export default function CartDropdown() {
                       <span className="">{formatCurrency(totalPrice)}</span>
                     </p>
                     <div className="flex space-x-2 mt-5">
-                      <ButtonSecondary href="/cart" className="flex-1 border border-slate-200 dark:border-slate-700" onClick={close}>
+                      <ButtonSecondary href="/checkout" className="flex-1 border border-slate-200 dark:border-slate-700" onClick={close}>
                         Xem giỏ hàng
                       </ButtonSecondary>
                       <ButtonPrimary href="/checkout" onClick={close} className="flex-1">

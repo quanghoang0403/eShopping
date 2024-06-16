@@ -143,7 +143,7 @@ const SliderCategoryList: FC<SliderCategoryListProps> = ({
                         ></path>
                       </svg>
                     </div>
-                    <span className="text-sm mt-1 text-slate-800">Show me more</span>
+                    <span className="text-sm mt-1 text-slate-800">Xem thêm</span>
                   </div>
                 </div>
                 <Link href={'/collection'} className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-black bg-opacity-10 transition-opacity"></Link>

@@ -1,12 +1,28 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import TabFilter from '@/shared/Filter/TabFilter'
+import TabFilter, { Filter } from '@/shared/Filter/TabFilter'
 import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import ProductList from '@/components/Common/ProductList/components/ProductList'
+import { EnumGenderProduct, EnumSortType } from '@/constants/enum'
 
 const PageCollection = ({}) => {
+  const [productRootCategories, setProductRootCategories] = useState<IProductRootCategory[]>([])
+  const [productCategories, setProductCategories] = useState<IProductCategory[]>([])
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageCount, setPageCount] = useState(1)
+  const [filter, setFilter] = useState<Filter>({
+    isNewIn: false,
+    isDiscounted: false,
+    isFeatured: false,
+    sortType: EnumSortType.Default,
+    genderProducts: [EnumGenderProduct.All],
+    productRootCategoryIds: [],
+    productCategoryIds: [],
+    keySearch: ''
+  })
+
   return (
     <div className={`nc-PageCollection`}>
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28">
@@ -22,7 +38,7 @@ const PageCollection = ({}) => {
           <hr className="border-slate-200 dark:border-slate-700" />
           <div>
             {/* TABS FILTER */}
-            <TabFilter />
+            <TabFilter filter={filter} setFilter={setFilter} productRootCategories={productRootCategories} productCategories={productCategories}/>
 
             {/* LOOP ITEMS */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
@@ -31,8 +47,8 @@ const PageCollection = ({}) => {
 
             {/* PAGINATION */}
             <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-              <Pagination />
-              <ButtonPrimary loading>Show me more</ButtonPrimary>
+              <Pagination pageNumber={pageNumber} pageCount={pageCount} setPageNumber={setPageNumber}/>
+              <ButtonPrimary loading>Xem thêm</ButtonPrimary>
             </div>
           </div>
         </div>

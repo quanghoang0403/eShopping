@@ -44,6 +44,7 @@ export default function CreateProductPage() {
     fields.productVariants?.forEach(productVariant => {
       productVariant.stocks = fields.productSizes?.map(size => ({
         productSizeId: size.id,
+        productSizeName: size.name,
         name: size.name,
         quantityLeft: 0
       }))

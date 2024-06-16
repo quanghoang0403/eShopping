@@ -60,7 +60,7 @@ const NotifyAddToCart: FC<Props> = ({ product, productVariantActive, productSize
           <div className="flex flex-1 items-end justify-between text-sm">
             <p className="text-gray-500 dark:text-slate-400">Số lượng: {quantity}</p>
             <div className="flex">
-              <Link href="/cart" type="button" className="font-medium text-primary-6000 dark:text-primary-500 ">
+              <Link href="/checkout" type="button" className="font-medium text-primary-6000 dark:text-primary-500 ">
                 Xem giỏ hàng
               </Link>
             </div>

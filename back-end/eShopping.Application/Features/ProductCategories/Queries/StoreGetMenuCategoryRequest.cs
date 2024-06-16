@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Models;
+using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
@@ -31,66 +32,46 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetMenuCategoryRequest request, CancellationToken cancellationToken)
         {
-            // Gender Male
-            var maleCategories = await _unitOfWork.ProductRootCategories
-                .Where(x => x.GenderProduct.IsMale())
+            var rootCategories = await _unitOfWork.ProductRootCategories
+                .GetAll()
                 .Include(x => x.ProductCategories)
                 .OrderBy(x => x.Priority)
-                .Select(x => new StoreProductRootCategoryModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    UrlSEO = x.UrlSEO,
-                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories)
-                })
-                .ToListAsync();
-
-            // Gender Male
-            var femaleCategories = await _unitOfWork.ProductRootCategories
-                .Where(x => x.GenderProduct.IsFemale())
-                .Include(x => x.ProductCategories)
-                .OrderBy(x => x.Priority)
-                .Select(x => new StoreProductRootCategoryModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    UrlSEO = x.UrlSEO,
-                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories)
-                })
-                .ToListAsync();
-
-            // Gender Kid
-            var kidsCategories = await _unitOfWork.ProductRootCategories
-                .Where(x => x.GenderProduct.IsFemale())
-                .Include(x => x.ProductCategories)
-                .OrderBy(x => x.Priority)
-                .Select(x => new StoreProductRootCategoryModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    UrlSEO = x.UrlSEO,
-                    ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(x.ProductCategories)
-                })
+                .AsNoTracking()
                 .ToListAsync();
 
             var data = new List<StoreMenuCategoryModel>() {
                 new()
                 {
-                    EnumGenderProduct = EnumGenderProduct.Male,
-                    ProductRootCategories = maleCategories
+                    GenderProduct = EnumGenderProduct.Male,
+                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Male)
                 },
                 new()
                 {
-                    EnumGenderProduct = EnumGenderProduct.Female,
-                    ProductRootCategories = femaleCategories
+                    GenderProduct = EnumGenderProduct.Female,
+                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Female)
                 },
                 new()
                 {
-                    EnumGenderProduct = EnumGenderProduct.Kid,
-                    ProductRootCategories = kidsCategories
+                    GenderProduct = EnumGenderProduct.Kid,
+                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Kid)
                 },
             };
             return BaseResponseModel.ReturnData(data);
+        }
+
+        private List<StoreNavigationModel> MapMenuModel(List<ProductRootCategory> productRootCategories, EnumGenderProduct gender)
+        {
+            var menuCategories = productRootCategories
+                .Where(x => x.GenderProduct == EnumGenderProduct.All || x.GenderProduct == gender)
+                .Select(x => new StoreNavigationModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSEO = x.UrlSEO,
+                    Type = "megaMenu",
+                    Children = _mapper.Map<List<StoreNavigationModel>>(x.ProductCategories.Where(c => c.GenderProduct == EnumGenderProduct.All || c.GenderProduct == gender))
+                }).ToList();
+            return menuCategories;
         }
     }
 }

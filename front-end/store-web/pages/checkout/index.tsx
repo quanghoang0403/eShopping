@@ -15,8 +15,8 @@ import SEO from '@/components/Layout/SEO'
 import CustomerInfo, { defaultCustomerInfo } from '@/components/Common/Customer/CustomerInfo'
 import SummaryPrice from '@/components/Checkout/SummaryPrice'
 import CartList from '@/components/Checkout/CartList'
-import NcModal from '@/shared/NcModal'
 import CommonDialog from '@/shared/Dialog'
+import { EnumPaymentMethod } from '@/constants/enum'
 
 const CheckoutPage = () => {
   const {
@@ -40,22 +40,19 @@ const CheckoutPage = () => {
       } else if (res.isSuccess && res.orderId) {
         setOrderResponse(res)
         switch (res.paymentMethodId) {
-          case 0: {
-            // COD
+          case EnumPaymentMethod.COD: {
             redirectToOrderDetail(res.orderId)
             break
           }
-          case 4: {
-            // QR Code
+          case EnumPaymentMethod.BankTransferVietQR: {
             setContentDialog(<Image className="mx-auto" alt="" src={res.paymentInfo.paymentUrl} width={450} height={582} />)
             setIsShowDialogPayment(true)
             break
           }
-          case 5: // VnPay
-          case 6: // PayOS
-          case 7: // ATM
-          case 8: {
-            // Card
+          case EnumPaymentMethod.VNPayQR:
+          case EnumPaymentMethod.PayOS:
+          case EnumPaymentMethod.ATM:
+          case EnumPaymentMethod.CreditDebitCard: {
             router.push(res.paymentInfo.paymentUrl)
             break
           }
