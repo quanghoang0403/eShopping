@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -58,7 +59,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             {
                 return RequestValidation(request);
             }
-            var blog = await _unitOfWork.Blogs.Where(b => b.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
+            var blog = await _unitOfWork.Blogs.Where(b => b.Id == request.Id).Include(b => b.BlogInCategories).AsNoTracking().FirstOrDefaultAsync();
             if (blog == null)
             {
                 return BaseResponseModel.ReturnError("Cannot find specific blog");
@@ -72,7 +73,16 @@ namespace eShopping.Application.Features.Blogs.Commands
             modifiedBlog.LastSavedUser = loggedUser.AccountId.Value;
             modifiedBlog.LastSavedTime = DateTime.Now;
             modifiedBlog.UrlSEO = StringHelpers.UrlEncode(modifiedBlog.Name);
-            var result = await _unitOfWork.Blogs.UpdateBlogAsync(modifiedBlog, request.BlogCategoryId, cancellationToken);
+            List<Guid> newBlogCategoryIds = new List<Guid>(blog.BlogInCategories.Select(b => b.BlogCategoryId));
+            foreach (var blogCategory in request.BlogCategoryId)
+            {
+                var isBlogCategoryExisted = newBlogCategoryIds.Contains(blogCategory);
+                if (!isBlogCategoryExisted)
+                {
+                    newBlogCategoryIds.Add(blogCategory);
+                }
+            }
+            var result = await _unitOfWork.Blogs.UpdateBlogAsync(modifiedBlog, newBlogCategoryIds, cancellationToken);
             if (result == null)
                 return BaseResponseModel.ReturnError("Error updating Blog");
 
