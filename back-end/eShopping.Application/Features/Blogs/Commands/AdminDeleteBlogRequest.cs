@@ -31,29 +31,14 @@ namespace eShopping.Application.Features.Blogs.Commands
             {
                 return BaseResponseModel.ReturnError("No blog is found");
             }
-            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
-            {
-                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-                try
-                {
-                    var blogInCategory = _unitOfWork.BlogInCategories.Where(bic => bic.BlogId == blog.Id);
-                    await _unitOfWork.BlogInCategories.RemoveRangeAsync(blogInCategory);
+            var blogInCategory = _unitOfWork.BlogInCategories.Where(bic => bic.BlogId == blog.Id);
+            await _unitOfWork.BlogInCategories.RemoveRangeAsync(blogInCategory);
 
-                    blog.IsDeleted = true;
-                    blog.LastSavedUser = loggedUser.AccountId.Value;
-                    blog.LastSavedTime = DateTime.Now;
-                    await _unitOfWork.SaveChangesAsync();
-                    // Complete this transaction, data will be saved.
-                    await createTransaction.CommitAsync(cancellationToken);
-
-                }
-                catch (Exception err)
-                {
-                    await createTransaction.RollbackAsync(cancellationToken);
-                    return BaseResponseModel.ReturnError(err.Message);
-                }
-                return BaseResponseModel.ReturnData();
-            });
+            blog.IsDeleted = true;
+            blog.LastSavedUser = loggedUser.AccountId.Value;
+            blog.LastSavedTime = DateTime.Now;
+            await _unitOfWork.SaveChangesAsync();
+            return BaseResponseModel.ReturnData();
         }
     }
 }
