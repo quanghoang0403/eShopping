@@ -188,7 +188,7 @@ export default function BlogForm({setShowConfirm, showConfirm, isChangeForm,user
                     {pageData.generalInformation.category.label} <span className="text-danger">*</span>
                   </h4>
                   <Form.Item
-                    name={'blogCategoryId'}
+                    name={'blogCategoryIds'}
                     rules={[
                       {
                         required: pageData.generalInformation.category.required,
