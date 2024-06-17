@@ -32,7 +32,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         public string DescriptionSEO { get; set; }
 
         public string Description { get; set; }
-        public List<Guid> BlogCategoryId { get; set; }
+        public List<Guid> BlogCategoryIds { get; set; }
         public string Author { get; set; }
         public string Thumbnail { get; set; }
     }
@@ -74,7 +74,7 @@ namespace eShopping.Application.Features.Blogs.Commands
             modifiedBlog.LastSavedTime = DateTime.Now;
             modifiedBlog.UrlSEO = StringHelpers.UrlEncode(modifiedBlog.Name);
             List<Guid> newBlogCategoryIds = new List<Guid>(blog.BlogInCategories.Select(b => b.BlogCategoryId));
-            foreach (var blogCategory in request.BlogCategoryId)
+            foreach (var blogCategory in request.BlogCategoryIds)
             {
                 var isBlogCategoryExisted = newBlogCategoryIds.Contains(blogCategory);
                 if (!isBlogCategoryExisted)
