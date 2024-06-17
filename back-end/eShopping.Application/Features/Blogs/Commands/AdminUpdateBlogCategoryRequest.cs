@@ -80,11 +80,9 @@ namespace eShopping.Application.Features.Blogs.Commands
                 try
                 {
                     var blogIds = request.Blogs.Select(b => b.Id);
-                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.BlogId) || b.BlogCategoryId == blogCategory.Id);
-                    _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
-                    var newBlogInCategory = new List<BlogInCategory>();
                     if (request.Blogs != null && request.Blogs.Any())
                     {
+                        var newBlogInCategory = new List<BlogInCategory>();
                         request.Blogs.ForEach(b =>
                         {
                             var newBlog = new BlogInCategory

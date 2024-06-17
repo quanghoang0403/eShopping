@@ -3,10 +3,8 @@ import {
   Col,
   DatePicker,
   Form,
-  Image,
   Input,
   message,
-  Modal,
   Radio,
   Row
 } from 'antd';
@@ -19,7 +17,6 @@ import PageTitle from 'components/page-title';
 import { CustomerGenderConstant } from 'constants/customer.constant';
 import { DELAYED_TIME } from 'constants/default.constants';
 import { CalendarNewIcon } from 'constants/icons.constants';
-import { images } from 'constants/images.constants';
 import { PermissionKeys } from 'constants/permission-key.constants';
 import { DateFormat } from 'constants/string.constants';
 import moment from 'moment';
@@ -35,13 +32,12 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import customerDataService from 'data-services/customer/customer-data.service';
 import AddressDataService from 'data-services/address/address-data.service';
+import CustomerForm from '../components/customer-form.component';
 
-export default function EditCustomerPage(props) {
+export default function EditCustomerPage() {
   const [t] = useTranslation()
   const history = useHistory()
   const match = useRouteMatch()
-  const shopImageSelectRef = React.useRef();
-
   const pageData = {
     title: t('customer.titleEdit'),
     generalInformation: t('customer.titleInfo'),
@@ -95,6 +91,15 @@ export default function EditCustomerPage(props) {
     totalOrder: t('dashboard.totalOrder'),
     totalMoney: t('dashboard.totalMoney'),
 
+    media: {
+      title: t('blog.media'),
+      bannerTitle: t('blog.bannerTitle'),
+      textNonImage: t('file.textNonImage'),
+      uploadImage: t('file.uploadImage'),
+      // addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('blog.bestDisplayImage')
+    },
+
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
@@ -106,13 +111,9 @@ export default function EditCustomerPage(props) {
 
   const [form] = Form.useForm();
   const [isChangeForm, setIsChangeForm] = useState(false);
-  const [districts, setDistricts] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [wards, setWards] = useState([]);
-  const [customer, setCustomer] = useState({});
+  const [customer, setCustomer] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
   const [customerName, setCustomerName] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
   const [showConfirmLeave, setShowConfirmLeave] = useState(false);
   useEffect(() => {
     getInitDataAsync();
@@ -120,22 +121,22 @@ export default function EditCustomerPage(props) {
 
   const getInitDataAsync = () => {
     const promises = [];
+    let tempCustomer ;
     promises.push(
       customerDataService.getCustomerByIdAsync(match?.params?.customerId),
     );
-    promises.push(AddressDataService.getAllCitiesAsync())
     const customerResponse = Promise.all(promises)
       .then(value=>{
-        const [customer,cities] = value
-        setCities(cities);
+        const [customer] = value
         const initField = {
           ...customer,
           birthDay: customer?.birthday
             ? moment.utc(customer?.birthday).local()
-            : null,
-          phone: customer?.phoneNumber
+            : null
         };
         form.setFieldsValue(initField);
+        tempCustomer = customer
+        setCustomer(customer)
         const wardAndDistrictPromises = []
         wardAndDistrictPromises.push(AddressDataService.getDistrictsByCityId(customer.cityId))
         wardAndDistrictPromises.push(AddressDataService.getWardsByDistrictId(customer.districtId))
@@ -144,61 +145,20 @@ export default function EditCustomerPage(props) {
       })
       .then(wardAndDistrict=>{
         const [districts,wards] = wardAndDistrict;
-        setDistricts(districts);
-        setWards(wards)
-
+        const customerDistrict = districts.find(district=>district?.id === tempCustomer?.districtId)
+        const customerWard = wards.find(ward=>ward?.id === tempCustomer?.wardId)
+        form.setFieldValue('wardId',customerWard?.id)
+        form.setFieldValue('districtId',customerDistrict?.id)
       }).catch(error=>{
         console.error(error)
       });
-    // let cityId = null;
-    // let districtId = null;
-    // let wardId = null;
-    // /// Set customer data
-    // if (customerResponse) {
-    //   const { customer } = customerResponse;
-    //   cityId = customer?.cityId;
-    //   districtId = customer?.districtId;
-    //   wardId = customer?.wardId;
-
-    //   setCustomer(customer);
-
-    //   setCustomerName(customer?.firstName);
-    //   const initField = {
-    //     ...customer,
-    //     birthDay: customer?.birthday
-    //       ? moment.utc(customer?.birthday).local()
-    //       : null,
-    //     phone: customer?.phoneNumber
-    //   };
-    //   form.setFieldsValue(initField);
-
-    //   const districtsFilteredByCity =
-    //     districts?.filter((item) => item.cityId === cityId) ?? [];
-    //   setDistrictsByCityId(districtsFilteredByCity);
-
-    //   const wardsFilteredByCity =
-    //     wards?.filter((item) => item.districtId === districtId) ?? [];
-    //   setWardsByDistrictId(wardsFilteredByCity);
-
-    if (shopImageSelectRef && shopImageSelectRef.current) {
-      shopImageSelectRef.current.setImageUrl(
-          customer?.thumbnail ?? images.imgDefault
-      );
-      setSelectedImage(customer?.thumbnail ?? images.imgDefault);
-    }
-    // }
   };
 
   const onFinish = async (values) => {
     const editUserRequestModel = {
       id: match?.params?.customerId,
-      ...values,
-      thumbnail:
-        shopImageSelectRef.current.getImageUrl() === images.imgDefault
-          ? null
-          : shopImageSelectRef.current.getImageUrl()
+      ...values
     };
-    console.log(editUserRequestModel)
     customerDataService
       .updateCustomerAsync(editUserRequestModel)
       .then((res) => {
@@ -212,25 +172,6 @@ export default function EditCustomerPage(props) {
       .catch((errs) => {
         form.setFields(getValidationMessages(errs));
       });
-  };
-
-
-  const onChangeCity = async(event) => {
-    const districts = await AddressDataService.getDistrictsByCityId(event)
-    setDistricts(districts)
-
-    const formValue = form.getFieldsValue();
-    formValue.districtId = null;
-    formValue.wardId = null;
-    form.setFieldsValue(formValue);
-  };
-
-  const onChangeDistrict = async (event) => {
-    const wards = await AddressDataService.getWardsByDistrictId(event)
-    setWards(wards)
-    const formValue = form.getFieldsValue();
-    formValue.wardId = null;
-    form.setFieldsValue(formValue);
   };
 
   // Insert the name into the message
@@ -277,7 +218,7 @@ export default function EditCustomerPage(props) {
   const onDiscardLeaveModal = () => {
     setShowConfirmLeave(false);
   };
-
+  if(!customer) return <p>...Loadming </p>
   return (
     <Form
       autoComplete="off"
@@ -340,246 +281,7 @@ export default function EditCustomerPage(props) {
           </Col>
         </Row>
         <div className="clearfix"></div>
-        <div className="customer-edit-card">
-          <div className="title-session">
-            <span>{pageData.generalInformation}</span>
-          </div>
-          <Row>
-            <Col sm={24} xs={24} lg={8}>
-              <div className="left-card">
-                <div className="left-card-image">
-                  <FnbImageSelectComponent
-                    ref={shopImageSelectRef}
-                    messageTooBigSize={pageData.fileSizeLimit}
-                  />
-                </div>
-                <div className="info-container">
-                  <div className="other-info-box">
-                    <div className="total">
-                      <span className="text-left">{pageData.totalOrder}</span>
-                      <span className="total-amount">
-                        <b>{formatNumber(customer?.totalOrder)}</b>
-                      </span>
-                    </div>
-                    <div className="total">
-                      <span className="text-left">{pageData.totalMoney}</span>
-                      <span className="total-amount">
-                        <b>{formatCurrency(customer?.totalMoney)}</b>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col
-              sm={24}
-              xs={24}
-              lg={16}
-              className="customer-edit-card-right-padding"
-            >
-              <Row style={{ display: 'grid' }}>
-                <Row gutter={[25, 25]} className="form-row">
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">
-                      {pageData.name} <span className="text-danger">*</span>
-                    </h4>
-                    <Form.Item
-                      name={'fullName'}
-                      rules={[
-                        {
-                          required: true,
-                          message: pageData.nameValidation
-                        },
-                        { type: 'string', warningOnly: true },
-                        {
-                          validator: (_, value) =>
-                            value?.length > 0 && value.trim() === ''
-                              ? Promise.reject()
-                              : Promise.resolve(),
-                          message: `${pageData.name} ${pageData.mustBeBetweenOneAndHundredCharacters}`
-                        },
-                        {
-                          type: 'string',
-                          max: 100,
-                          min: 1,
-                          message: `${pageData.name} ${pageData.mustBeBetweenOneAndHundredCharacters}`
-                        }
-                      ]}
-                    >
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        maxLength={100}
-                        size="large"
-                        onChange={(event) => {
-                          setCustomerName(event.target.value);
-                        }}
-                        placeholder={pageData.namePlaceholder}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={[25, 25]} className="form-row">
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">
-                      {pageData.phone}
-                      <span className="text-danger"> *</span>
-                    </h4>
-                    <Form.Item
-                      name={'phoneNumber'}
-                      rules={[
-                        {
-                          required: true,
-                          message: pageData.phoneValidation
-                        },
-                        {
-                          pattern:
-                            /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im,
-                          message: pageData.validPhonePattern
-                        }
-                      ]}
-                    >
-                      <Input
-                        maxLength={15}
-                        className="shop-input-addon-before shop-input"
-                        size="large"
-                        placeholder={pageData.phonePlaceholder}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">{pageData.address}</h4>
-                    <Form.Item name={['address']}>
-                      <Input
-                        className="shop-input"
-                        size="large"
-                        placeholder={pageData.addressPlaceholder}
-                        maxLength={255}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={[25, 25]} className="form-row">
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">{pageData.email}</h4>
-                    <Form.Item
-                      name={'email'}
-                      rules={[
-                        {
-                          type: 'email',
-                          message: pageData.emailInvalidEmail
-                        }
-                      ]}
-                    >
-                      <Input
-                        className="shop-input"
-                        size="large"
-                        placeholder={pageData.emailPlaceholder}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">{pageData.city}</h4>
-                    <Form.Item name={[ 'cityId']}>
-                      <FnbSelectSingle
-                        size="large"
-                        placeholder={pageData.selectCity}
-                        onChange={onChangeCity}
-                        showSearch
-                        autoComplete="none"
-                        option={cities}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={[25, 25]} className="form-row">
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">{pageData.birthday}</h4>
-                    <Form.Item name={'birthDay'}>
-                      <DatePicker
-                        suffixIcon={<CalendarNewIcon />}
-                        className="shop-date-picker w-100"
-                        format={DateFormat.DD_MM_YYYY}
-                        placeholder={pageData.birthdayPlaceholder}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">{pageData.district}</h4>
-                    <Form.Item name={['districtId']}>
-                      <FnbSelectSingle
-                        size="large"
-                        placeholder={pageData.selectDistrict}
-                        onChange={onChangeDistrict}
-                        showSearch
-                        autoComplete="none"
-                        option={districts}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={[25, 25]} className="form-row">
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">{pageData.gender}</h4>
-                    <Form.Item name={'gender'} className="form-gender-customer-edit">
-                      <Radio.Group>
-                        <Row gutter={[16, 8]}>
-                          <Col sm={24} xs={24} lg={8}>
-                            <Radio value={CustomerGenderConstant.Female}>
-                              {pageData.female}
-                            </Radio>
-                          </Col>
-                          <Col sm={24} xs={24} lg={8}>
-                            <Radio value={CustomerGenderConstant.Male}>
-                              {pageData.male}
-                            </Radio>
-                          </Col>
-                          <Col sm={24} xs={24} lg={8}>
-                            <Radio value={CustomerGenderConstant.Other}>
-                              {pageData.other}
-                            </Radio>
-                          </Col>
-                        </Row>
-                      </Radio.Group>
-                    </Form.Item>
-                  </Col>
-                  <Col sm={24} xs={24} lg={12}>
-                    <h4 className="shop-form-label">
-                      {pageData.ward}
-                    </h4>
-                    <Form.Item name={['wardId']}>
-                      <FnbSelectSingle
-                        placeholder={pageData.selectWard}
-                        option={wards}
-                        showSearch
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={[25, 25]}>
-                  <Col sm={24} xs={24} lg={24} className="form-row">
-                    <h4 className="shop-form-label">{pageData.note}</h4>
-                    <Form.Item
-                      name={'note'}
-                      rules={[
-                        {
-                          max: 1000,
-                          message: pageData.descriptionMaximum
-                        }
-                      ]}
-                    >
-                      <FnbTextArea
-                        showCount
-                        maxLength={1000}
-                        rows={4}
-                      ></FnbTextArea>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Row>
-            </Col>
-          </Row>
-        </div>
+        <CustomerForm form={form}/>
       </div>
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmDelete}

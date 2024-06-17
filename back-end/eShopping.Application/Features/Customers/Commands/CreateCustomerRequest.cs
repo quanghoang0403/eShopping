@@ -91,6 +91,7 @@ namespace eShopping.Application.Features.Customers.Commands
                         IsActivated = true,/// bypass email confirm, will be remove in the feature
                         FullName = request.FullName,
                         Birthday = request.Birthday,
+                        Thumbnail = request.Thumbnail,
                         Gender = request.Gender,
                         LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now

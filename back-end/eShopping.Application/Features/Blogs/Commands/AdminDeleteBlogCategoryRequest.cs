@@ -34,11 +34,14 @@ namespace eShopping.Application.Features.Blogs.Commands
             {
                 return BaseResponseModel.ReturnError("No blog category is found");
             }
+            var blogInCategory = _unitOfWork.BlogInCategories.Where(bic => bic.BlogId == blogCategory.Id);
+            await _unitOfWork.BlogInCategories.RemoveRangeAsync(blogInCategory);
             blogCategory.IsDeleted = true;
             blogCategory.LastSavedUser = loggedUser.AccountId.Value;
             blogCategory.LastSavedTime = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
             return BaseResponseModel.ReturnData();
+
         }
     }
 }

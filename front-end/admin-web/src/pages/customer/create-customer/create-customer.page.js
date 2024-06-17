@@ -1,25 +1,20 @@
-import { Card, Col, DatePicker, Form, Input, message, Radio, Row, Space } from 'antd'
-import { Content } from 'antd/lib/layout/layout'
+import { Form, message, Row, Space } from 'antd'
 import ActionButtonGroup from 'components/action-button-group/action-button-group.component'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { ShopAddNewButton } from 'components/shop-add-new-button/shop-add-new-button'
-import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import PageTitle from 'components/page-title'
-import { CustomerGenderConstant } from 'constants/customer.constant'
 import { DELAYED_TIME } from 'constants/default.constants'
-import { CalendarNewIcon } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { DateFormat } from 'constants/string.constants'
 import customerDataService from 'data-services/customer/customer-data.service'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { getValidationMessages } from 'utils/helpers'
 import './create-customer.page.scss'
-import AddressDataService from 'data-services/address/address-data.service'
-
-export default function CreateCustomerPage(props) {
+import CustomerForm from '../components/customer-form.component'
+export default function CreateCustomerPage() {
   const [t] = useTranslation()
   const history = useHistory()
   const pageData = {
@@ -62,6 +57,14 @@ export default function CreateCustomerPage(props) {
     labelAddress: t('form.address'),
     inputAddress: t('form.inputAddress'),
     validAddress: t('form.validAddress'),
+    media: {
+      title: t('blog.media'),
+      bannerTitle: t('blog.bannerTitle'),
+      textNonImage: t('file.textNonImage'),
+      uploadImage: t('file.uploadImage'),
+      // addFromUrl: t('file.addFromUrl'),
+      bestDisplayImage: t('blog.bestDisplayImage')
+    },
     leaveDialog: {
       confirmLeaveTitle: t('dialog.confirmLeaveTitle'),
       confirmLeaveContent: t('dialog.confirmLeaveContent'),
@@ -71,35 +74,8 @@ export default function CreateCustomerPage(props) {
 
   const [form] = Form.useForm()
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [genderSelected, setGenderSelected] = useState(CustomerGenderConstant.Male)
-  const [address, setAddress] = useState('')
-  const [cities, setCities] = useState([])
-  const [wardsByDistrictId, setWardsByDistrictId] = useState([])
-  const [districtsByCityId, setDistrictsByCityId] = useState([])
   const [showConfirm, setShowConfirm] = useState(false)
 
-  useEffect(() => {
-    // Call API
-    getCitiesInfo();
-  }, [])
-  const getCitiesInfo = async () => {
-    const cities = await AddressDataService.getAllCitiesAsync();
-    if (cities) {
-      setCities(cities)
-    }
-  }
-  const getWardsInfo = async districtId => {
-    const wards = await AddressDataService.getWardsByDistrictId(districtId);
-    if (wards) {
-      setWardsByDistrictId(wards)
-    }
-  }
-  const getDistrictsInfo = async cityId => {
-    const districts = await AddressDataService.getDistrictsByCityId(cityId)
-    if (districts) {
-      setDistrictsByCityId(districts)
-    }
-  }
   const clickCancel = () => {
     if (isChangeForm) {
       setShowConfirm(true)
@@ -130,9 +106,6 @@ export default function CreateCustomerPage(props) {
     })
   }
 
-  const onGenderChange = (e) => {
-    setGenderSelected(e.target.value)
-  }
 
   const onDiscard = () => {
     setShowConfirm(false)
@@ -143,89 +116,6 @@ export default function CreateCustomerPage(props) {
     setTimeout(() => {
       return history.push('/customer')
     }, DELAYED_TIME)
-  }
-
-  const onChangeCity = async (cityId) => {
-    await getDistrictsInfo(cityId)
-
-    const formValue = form.getFieldsValue()
-    // formValue.address.districtId = null
-    // formValue.address.wardId = null
-    formValue.districtId = null
-    formValue.wardId = null
-    form.setFieldsValue(formValue)
-  }
-
-  const onChangeDistrict = async (districtId) => {
-    await getWardsInfo(districtId)
-
-    const formValue = form.getFieldsValue()
-    // formValue.address.wardId = null
-    formValue.wardId = null
-    form.setFieldsValue(formValue)
-  }
-
-  const renderAddress = () => {
-    return (
-      <>
-        <Row gutter={[25, 25]} className="form-row">
-          <Col sm={24} md={24} className="w-100">
-            <h4 className="shop-form-label">{pageData.address}</h4>
-            <Form.Item className="form-create-customer" name={['address']}>
-              <Input className="shop-input" size="large" placeholder={pageData.addressPlaceholder} maxLength={255} />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={[25, 25]} className="form-row">
-          <Col sm={24} md={8} className="w-100">
-            <h4 className="shop-form-label">{pageData.city}</h4>
-            <Form.Item name={['cityId']} className="last-item">
-              <FnbSelectSingle
-                size="large"
-                placeholder={pageData.selectCity}
-                onChange={onChangeCity}
-                showSearch
-                autoComplete="none"
-                option={cities?.map((item, index) => ({
-                  id: item.id,
-                  name: item.name
-                }))}
-              />
-            </Form.Item>
-          </Col>
-          <Col sm={24} md={8} className="w-100">
-            <h4 className="shop-form-label">{pageData.district}</h4>
-            <Form.Item name={['districtId']} className="last-item">
-              <FnbSelectSingle
-                size="large"
-                placeholder={pageData.selectDistrict}
-                onChange={onChangeDistrict}
-                showSearch
-                autoComplete="none"
-                option={districtsByCityId?.map((item, index) => ({
-                  id: item.id,
-                  name: item.name
-                }))}
-              />
-            </Form.Item>
-          </Col>
-          <Col sm={24} md={8} className="w-100">
-            <h4 className="shop-form-label">{pageData.ward}</h4>
-            <Form.Item name={['wardId']} className="last-item">
-              <FnbSelectSingle
-                size="large"
-                placeholder={pageData.selectWard}
-                showSearch
-                option={wardsByDistrictId?.map((item, index) => ({
-                  id: item.id,
-                  name: item.name
-                }))}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </>
-    )
   }
 
   return (
@@ -278,131 +168,7 @@ export default function CreateCustomerPage(props) {
         }}
         form={form}
       >
-        <Content>
-          <Card className="shop-card">
-            <Row>
-              <Col span={24}>
-                <h5 className="title-group">{pageData.generalInformation}</h5>
-              </Col>
-            </Row>
-            <Row style={{ display: 'grid' }}>
-              <Row gutter={[25, 25]} className="form-row">
-                <Col sm={24} md={8} className="w-100">
-                  <h4 className="shop-form-label">
-                    {pageData.name} <span className="text-danger">*</span>
-                  </h4>
-                  <Form.Item
-                    className="last-item"
-                    name={'fullName'}
-                    rules={[
-                      {
-                        required: true,
-                        message: pageData.nameValidation,
-                        validator: (_, value) => (value.trim() !== '' ? Promise.resolve() : Promise.reject())
-                      },
-                      { type: 'string', warningOnly: true },
-                      {
-                        type: 'string',
-                        max: 100,
-                        min: 1
-                      }
-                    ]}
-                  >
-                    <Input
-                      className="shop-input-with-count"
-                      showCount
-                      maxLength={100}
-                      size="large"
-                      placeholder={pageData.namePlaceholder}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[25, 25]} className="form-row">
-                <Col sm={24} md={12} className="w-100">
-                  <h4 className="shop-form-label">
-                    {pageData.phone}
-                    <span className="text-danger">*</span>
-                  </h4>
-                  <Form.Item
-                    className="last-item"
-                    name={'phoneNumber'}
-                    rules={[
-                      {
-                        required: true,
-                        message: pageData.phoneValidation
-                      },
-                      {
-                        pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
-                        message: pageData.validPhonePattern
-                      }
-                    ]}
-                  >
-                    <Input
-                      className="shop-input-addon-before shop-input"
-                      size="large"
-                      placeholder={pageData.phonePlaceholder}
-                      // addonBefore={prefixSelector}
-                      maxLength={15}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col sm={24} md={12} className="w-100">
-                  <h4 className="shop-form-label">{pageData.email}</h4>
-                  <Form.Item
-                    className="form-create-customer"
-                    name={'email'}
-                    rules={[
-                      {
-                        required: false,
-                        message: pageData.emailValidation
-                      },
-                      {
-                        type: 'email',
-                        message: pageData.emailInvalidEmail
-                      }
-                    ]}
-                  >
-                    <Input className="shop-input" size="large" placeholder={pageData.emailPlaceholder} />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[25, 25]} className="form-row">
-                <Col sm={24} md={12} className="w-100">
-                  <h4 className="shop-form-label">{pageData.birthday}</h4>
-                  <Form.Item name={'birthDay'} className="last-item">
-                    <DatePicker
-                      suffixIcon={<CalendarNewIcon />}
-                      className="shop-date-picker w-100"
-                      format={DateFormat.DD_MM_YYYY}
-                      // onChange={(date) => setStartDate(date)}
-                      placeholder={pageData.birthdayPlaceholder}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col sm={24} md={12} className="w-100">
-                  <h4 className="shop-form-label">{pageData.gender}</h4>
-                  <Form.Item
-                    name={'gender'}
-                    className="form-create-customer form-gender"
-                    style={{ marginBottom: '34.14px !important' }}
-                  >
-                    <Radio.Group defaultValue={genderSelected}>
-                      <Radio value={CustomerGenderConstant.Female}>{pageData.female}</Radio>
-                      <Radio className="last-gender-option" value={CustomerGenderConstant.Male}>
-                        {pageData.male}
-                      </Radio>
-                      <Radio className="last-gender-option" value={CustomerGenderConstant.Other}>
-                        {pageData.other}
-                      </Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                </Col>
-              </Row>
-              {renderAddress()}
-            </Row>
-          </Card>
-        </Content>
+        <CustomerForm form={form}/>
       </Form>
     </>
   )

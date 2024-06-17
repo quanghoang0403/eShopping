@@ -44,12 +44,9 @@ namespace eShopping.Application.Features.Blogs.Commands
                 using var createTransaction = await _unitOfWork.BeginTransactionAsync();
                 try
                 {
-                    var blogInCategory = _unitOfWork.BlogInCategories.Find(b => request.BlogIds.Any(bid => bid == b.BlogId) || b.BlogCategoryId == blogCategory.Id);
-                    _unitOfWork.BlogInCategories.RemoveRange(blogInCategory);
-                    var newBlogInCategory = new List<BlogInCategory>();
                     if (request.BlogIds != null && request.BlogIds.Any())
                     {
-
+                        var newBlogInCategory = new List<BlogInCategory>();
                         foreach (var id in request.BlogIds)
                         {
                             var newBlog = new BlogInCategory
@@ -59,9 +56,9 @@ namespace eShopping.Application.Features.Blogs.Commands
                             };
                             newBlogInCategory.Add(newBlog);
                         }
-
+                        _unitOfWork.BlogInCategories.AddRange(newBlogInCategory);
                     }
-                    _unitOfWork.BlogInCategories.AddRange(newBlogInCategory);
+
                     blogCategory.LastSavedUser = loggedUser.AccountId.Value;
                     blogCategory.LastSavedTime = DateTime.UtcNow;
 

@@ -11,10 +11,9 @@ import { images } from 'constants/images.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import { useEffect, useState } from 'react'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
-import { getValidationMessages, randomGuid } from 'utils/helpers';
+import { getValidationMessages} from 'utils/helpers';
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import '../index.scss'
-import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 
 export default function FormNewProductCategory(props) {
@@ -23,7 +22,6 @@ export default function FormNewProductCategory(props) {
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const [showConfirm, setShowConfirm] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const [form] = Form.useForm()
 
   const pageData = {
@@ -235,15 +233,10 @@ export default function FormNewProductCategory(props) {
   const onSubmitForm = () => {
     form.validateFields().then(async (values) => {
       const createProductCategoryRequestModel = {
-        name: values.name,
-        products: dataSelectedProducts,
-        priority: values.priority,
-        content: values.content,
-        titleSEO: values.titleSEO,
-        descriptionSEO: values.descriptionSEO,
-        description: values.description,
-        keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
+        ...values,
+        products: dataSelectedProducts
       }
+      console.log(createProductCategoryRequestModel)
       productCategoryDataService
         .createProductCategoryAsync(createProductCategoryRequestModel)
         .then((res) => {
@@ -277,17 +270,7 @@ export default function FormNewProductCategory(props) {
       onCompleted()
     }, DELAYED_TIME)
   }
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
-  }
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
-  }
+
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
@@ -501,37 +484,9 @@ export default function FormNewProductCategory(props) {
                       </span>
                     </Tooltip>
                   </div>
-                  <div>
-                    {
-                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                    }
-
-                    <div className='d-flex mt-3'>
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        value={keywordSEO?.value || ''}
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e => {
-                          if (e.target.value !== '') {
-                            setKeywordSEO({
-                              id: randomGuid(),
-                              value: e.target.value
-                            })
-                            setIsKewwordSEOChange(true)
-                          }
-                        }}
-                      />
-                      <ShopAddNewButton
-                        permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
-                        disabled={!isKeywordSEOChange}
-                        text={pageData.SEOInformation.keyword.btnAdd}
-                        className={'mx-4'}
-                        onClick={addSEOKeywords}
-                      />
-                    </div>
-                  </div>
-
+                  <Form.Item name={'keywordSEO'}>
+                    <BadgeSEOKeyword/>
+                  </Form.Item>
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>

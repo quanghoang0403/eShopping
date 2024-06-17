@@ -33,9 +33,6 @@ export default function EditProductCategoryPage(props) {
   const [productCategoryName, setProductCategoryName] = useState('')
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
-  const [keywordSEOs, setKeywordSEOList] = useState([]);
-  const [keywordSEO, setKeywordSEO] = useState({})
-  const [isKeywordSEOChange, setIsKewwordSEOChange] = useState(false)
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -136,17 +133,9 @@ export default function EditProductCategoryPage(props) {
           setCurrentName(productCategory.name)
 
           form.setFieldsValue({
-            id: productCategory.id,
-            name: productCategory.name,
-            priority: productCategory.priority,
-            productIds: productCategory.products?.map((x) => x.id),
-            keywordSEO: productCategory.keywordSEO,
-            titleSEO: productCategory.titleSEO,
-            descriptionSEO: productCategory.descriptionSEO,
-            description: productCategory.description,
-            content: productCategory.content
+            ...productCategory,
+            productIds: productCategory.products?.map((x) => x.id)
           })
-          setKeywordSEOList(list => productCategory.keywordSEO?.split(',').reduce((acc, curr) => acc.concat({ id: curr, value: curr }), []) || [])
         }
       })
     }
@@ -288,15 +277,8 @@ export default function EditProductCategoryPage(props) {
   const onSubmitForm = () => {
     form.validateFields().then((values) => {
       const updateProductCategoryRequestModel = {
-        id: values.id,
-        name: values.name,
-        products: dataSelectedProducts,
-        priority: values.priority,
-        content: values.content,
-        titleSEO: values.titleSEO,
-        descriptionSEO: values.descriptionSEO,
-        description: values.description,
-        keywordSEO: keywordSEOs.map(kw => kw.value)?.join(',') || null
+        ...values,
+        products: dataSelectedProducts
       }
 
       productCategoryDataService
@@ -343,15 +325,7 @@ export default function EditProductCategoryPage(props) {
     const mess = t(pageData.leaveDialog.confirmDeleteMessage, { name })
     return mess
   }
-  const addSEOKeywords = (e) => {
-    e.preventDefault();
-    setKeywordSEOList(list => !list.find(kw => kw.id === keywordSEO.id) && keywordSEO.value !== '' ? [...list, keywordSEO] : [...list]);
-    setKeywordSEO({ id: '', value: '' });
-    setIsKewwordSEOChange(false)
-  }
-  const removeSEOKeyword = (keyword) => {
-    setKeywordSEOList(list => list.filter(kw => kw.id !== keyword.id));
-  }
+
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
@@ -577,37 +551,9 @@ export default function EditProductCategoryPage(props) {
                       </span>
                     </Tooltip>
                   </div>
-
-                  <div>
-                    {
-                      keywordSEOs.length > 0 ? <BadgeSEOKeyword onClose={removeSEOKeyword} keywords={keywordSEOs} /> : ''
-                    }
-
-                    <div className='d-flex mt-3'>
-                      <Input
-                        className="shop-input-with-count"
-                        showCount
-                        value={keywordSEO?.value || ''}
-                        placeholder={pageData.SEOInformation.keyword.placeholder}
-                        onChange={e => {
-                          if (e.target.value !== '') {
-                            setKeywordSEO({
-                              id: e.target.value,
-                              value: e.target.value
-                            })
-                            setIsKewwordSEOChange(true)
-                          }
-                        }}
-                      />
-                      <ShopAddNewButton
-                        permission={PermissionKeys.CREATE_PRODUCT_CATEGORY}
-                        disabled={!isKeywordSEOChange}
-                        text={pageData.SEOInformation.keyword.btnAdd}
-                        className={'mx-4'}
-                        onClick={addSEOKeywords}
-                      />
-                    </div>
-                  </div>
+                  <Form.Item name={'keywordSEO'}>
+                    <BadgeSEOKeyword/>
+                  </Form.Item>
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>

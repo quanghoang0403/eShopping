@@ -61,7 +61,9 @@
         "blogContent": "Nội dung bài viết",
         "blogContentPlaceholder": "Nhập nội dung bài viết...",
         "blogContentValidateMessage": "Vui lòng viết nội dung cho bài viết",
-        "blogCreateFail": "Tạo bài viết thất bại"
+        "blogCreateFail": "Tạo bài viết thất bại",
+        "labelDescription":"Mô tả bài viết",
+        "placeholderDescription":"Nhập mô tả bài viết"
     },
     "blogCategory": {
         "title": "Quản lý danh mục bài viết",

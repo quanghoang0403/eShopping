@@ -11,10 +11,16 @@ import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { formatCurrency, formatNumber } from 'utils/helpers'
 import './detail-customer.scss'
+import { useTranslation } from 'react-i18next'
+import customerDataService from 'data-services/customer/customer-data.service'
+import { useHistory, useRouteMatch } from 'react-router-dom'
+import AddressDataService from 'data-services/address/address-data.service'
 
 export default function DetailCustomerPage (props) {
-  const { t, customerDataService, match, history } = props
-
+  // const { t, customerDataService, match, history } = props
+  const [t] = useTranslation()
+  const match = useRouteMatch()
+  const history = useHistory()
   const pageData = {
     btnEdit: t('button.edit'),
     btnDelete: t('button.delete'),
@@ -50,37 +56,33 @@ export default function DetailCustomerPage (props) {
   const [showConfirm, setShowConfirm] = useState(false)
   const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
 
+  const getInitData = ()=>{
+    let promises = []
+    let tempCustomer;
+    promises.push(customerDataService.getCustomerByIdAsync(match?.params?.customerId))
+    promises.push(AddressDataService.getAllCitiesAsync())
+    Promise.all(promises).then(values=>{
+      const [customer,cities] = values
+      setCustomer(customer)
+      tempCustomer = customer
+      setGender(tempCustomer.gender)
+      const city = cities?.find(c=>c.id === tempCustomer.cityId)
+      setCityName(city?.name)
+      let wardAndDistrictPromises = []
+      wardAndDistrictPromises.push(AddressDataService.getDistrictsByCityId(tempCustomer.cityId))
+      wardAndDistrictPromises.push(AddressDataService.getWardsByDistrictId(tempCustomer.districtId))
+      return Promise.all(wardAndDistrictPromises)
+    }).then(values=>{
+      const [districts,wards] = values
+      const ward = wards?.find(w=>w.id === tempCustomer.wardId)
+      const district = districts?.find(d=>d.id === tempCustomer.districtId)
+      setWardName(ward?.name)
+      setDistrictName(district?.name)
+    })
+  }
+
   useEffect(async () => {
-    // let promises = [];
-    // promises.push(customerDataService.getCustomerByIdAsync(match?.params?.customerId));
-    // let [customerResponse] = await Promise.all(promises);
-    // let cityId = null;
-    // let districtId = null;
-    // let wardId = null;
-    // /// Set customer data
-    // if (customerResponse) {
-    //   const { customer, cities, districts, wards } = customerResponse;
-    //   cityId = customer?.cityId;
-    //   districtId = customer?.districtId;
-    //   wardId = customer?.wardId;
-    //   setCustomer(customer);
-    //   setGender(customer?.gender);
-
-    //   let city = cities?.filter((item) => item.id === cityId) ?? [];
-    //   if (city.length > 0) {
-    //     setCityName(city[0]?.name);
-    //   }
-
-    //   let district = districts?.filter((item) => item.id === districtId) ?? [];
-    //   if (district.length > 0) {
-    //     setDistrictName(district[0]?.name);
-    //   }
-
-    //   let ward = wards?.filter((item) => item.id === wardId) ?? [];
-    //   if (ward.length > 0) {
-    //     setWardName(ward[0]?.name);
-    //   }
-    // }
+    getInitData()
   }, [])
 
   const gotoEditCustomerPage = () => {
@@ -210,7 +212,7 @@ export default function DetailCustomerPage (props) {
                 <div>
                   <p className="text-label">{pageData.phone}</p>
                   <p className="text-detail">
-                    {prefixSelector} {customer?.phoneNumber}
+                    {customer?.phoneNumber}
                   </p>
                 </div>
                 <div>
@@ -293,7 +295,7 @@ export default function DetailCustomerPage (props) {
                         <div>
                           <p className="text-label">{pageData.phone}</p>
                           <p className="text-detail">
-                            {prefixSelector} {customer?.phoneNumber}
+                            {customer?.phoneNumber}
                           </p>
                         </div>
                         <div>

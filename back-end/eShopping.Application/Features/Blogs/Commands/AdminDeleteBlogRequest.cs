@@ -31,6 +31,9 @@ namespace eShopping.Application.Features.Blogs.Commands
             {
                 return BaseResponseModel.ReturnError("No blog is found");
             }
+            var blogInCategory = _unitOfWork.BlogInCategories.Where(bic => bic.BlogId == blog.Id);
+            await _unitOfWork.BlogInCategories.RemoveRangeAsync(blogInCategory);
+
             blog.IsDeleted = true;
             blog.LastSavedUser = loggedUser.AccountId.Value;
             blog.LastSavedTime = DateTime.Now;
