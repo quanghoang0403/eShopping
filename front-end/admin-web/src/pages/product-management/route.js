@@ -1,17 +1,17 @@
 import ProductPage from './product/product.page'
-import { Clothing } from 'constants/icons.constants'
+import { Category, Clothing } from 'constants/icons.constants'
 import { PermissionKeys } from 'constants/permission-key.constants'
 import i18n from 'utils/i18n'
 import CreateProductPage from './product/edit-product/create-product.page'
 import EditProductPage from './product/edit-product/edit-product.page'
 import ProductDetailPage from './product/details/details-product.page'
+import ProductSizePage from './product-size/product-size-category.page'
 
 const { t } = i18n
-// Define the route
 const route = [
   {
     key: 'app.product-management',
-    position: 1,
+    position: 2,
     path: '#',
     icon: <Clothing />,
     name: t('home.menuProduct'),
@@ -68,6 +68,19 @@ const route = [
         auth: true,
         permission: PermissionKeys.VIEW_PRODUCT,
         component: ProductDetailPage,
+        child: []
+      },
+      {
+        key: 'app.product-size',
+        position: 2,
+        path: '/product-size',
+        icon: <Category />,
+        name: t('home.menuProductSize'),
+        isMenu: true,
+        exact: true,
+        auth: true,
+        permission: PermissionKeys.VIEW_PRODUCT,
+        component: ProductSizePage,
         child: []
       }
     ]

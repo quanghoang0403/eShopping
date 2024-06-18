@@ -12,7 +12,7 @@ const { t } = i18n
 const route = [
   {
     key: 'app.product-category-management',
-    position: 2,
+    position: 3,
     path: '#',
     icon: <Category />,
     name: t('home.menuCategory'),
@@ -21,33 +21,8 @@ const route = [
     auth: true,
     child: [
       {
-        key: 'app.product-category',
-        position: 1,
-        path: '/product-category',
-        name: t('home.menuCategory'),
-        isMenu: true,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.VIEW_PRODUCT_CATEGORY,
-        component: CategoryPage,
-        child: []
-      },
-      {
-        key: 'app.product-category.edit',
-        focus: 'app.category',
-        position: 1,
-        path: '/product-category/edit/:productCategoryId',
-        name: 'Category',
-        isMenu: false,
-        exact: true,
-        auth: true,
-        permission: PermissionKeys.EDIT_PRODUCT_CATEGORY,
-        component: EditProductCategoryPage,
-        child: []
-      },
-      {
         key: 'app.product-root-category',
-        position: 2,
+        position: 1,
         path: '/product-root-category',
         name: t('home.menuRootCategory'),
         isMenu: true,
@@ -60,7 +35,7 @@ const route = [
       {
         key: 'app.product-root-category.create',
         focus: 'app.product-root-category',
-        position: 3,
+        position: 2,
         path: '/product-root-category/create',
         isMenu: false,
         exact: true,
@@ -79,6 +54,31 @@ const route = [
         auth: true,
         permission: PermissionKeys.EDIT_PRODUCT_CATEGORY,
         component: EditProductRootCategory,
+        child: []
+      },
+      {
+        key: 'app.product-category',
+        position: 4,
+        path: '/product-category',
+        name: t('home.menuProductCategory'),
+        isMenu: true,
+        exact: true,
+        auth: true,
+        permission: PermissionKeys.VIEW_PRODUCT_CATEGORY,
+        component: CategoryPage,
+        child: []
+      },
+      {
+        key: 'app.product-category.edit',
+        focus: 'app.category',
+        position: 5,
+        path: '/product-category/edit/:productCategoryId',
+        name: 'Category',
+        isMenu: false,
+        exact: true,
+        auth: true,
+        permission: PermissionKeys.EDIT_PRODUCT_CATEGORY,
+        component: EditProductCategoryPage,
         child: []
       }
     ]

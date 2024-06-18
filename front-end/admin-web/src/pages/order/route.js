@@ -9,7 +9,7 @@ const { t } = i18n
 const route = [
   {
     key: 'app.order',
-    position: 3,
+    position: 1,
     path: '/order',
     icon: <Order />,
     name: t('home.menuOrder'),
