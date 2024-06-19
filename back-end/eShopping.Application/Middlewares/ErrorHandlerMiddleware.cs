@@ -1,6 +1,7 @@
 using eShopping.Common.Exceptions;
 using eShopping.Common.Exceptions.ErrorModel;
 using eShopping.Common.Extensions;
+using eShopping.Notify.Line;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -80,6 +81,8 @@ namespace eShopping.Application.Middlewares
             {
                 errors = HtmlEncode(errors);
             }
+
+            NotifyLine.SendNotifyLine(context.Request.Path, stackTrace, exception.Message,);
 
             var result = JsonConvert.SerializeObject(
                 new ErrorModel
