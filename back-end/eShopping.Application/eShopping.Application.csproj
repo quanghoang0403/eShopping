@@ -21,7 +21,6 @@
     <ProjectReference Include="..\eShopping.Interfaces\eShopping.Interfaces.csproj" />
     <ProjectReference Include="..\eShopping.MemoryCaching\eShopping.MemoryCaching.csproj" />
     <ProjectReference Include="..\eShopping.Models\eShopping.Models.csproj" />
-    <ProjectReference Include="..\eShopping.Notify\eShopping.Notify.csproj" />
     <ProjectReference Include="..\eShopping.Payment\eShopping.Payment.csproj" />
     <ProjectReference Include="..\eShopping.Services\eShopping.Services.csproj" />
     <ProjectReference Include="..\eShopping.Storage\eShopping.Storage.csproj" />

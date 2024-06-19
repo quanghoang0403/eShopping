@@ -3,13 +3,15 @@ import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import { StarIcon } from '@heroicons/react/24/solid'
 import BagIcon from '@/shared/Icon/BagIcon'
 import NcInputNumber from '@/shared/NcInputNumber'
-import { SparklesIcon } from '@heroicons/react/24/outline'
+import { NoSymbolIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import Price from '@/shared/Price'
 import toast from 'react-hot-toast'
 import NotifyAddToCart from '@/components/Product/NotifyAddToCart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
 import Policy from './Policy'
 import { useAppSelector } from '@/hooks/useRedux'
+import ButtonSecondary from '@/shared/Button/ButtonSecondary'
+import ButtonThird from '@/shared/Button/ButtonThird'
 
 export interface ProductInfoProps {
   product: IProduct
@@ -208,20 +210,26 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
       {renderProductSizes()}
 
       {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
-      <div className="flex space-x-3.5">
-        <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
-          <NcInputNumber
-            defaultValue={quantitySelected}
-            max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft}
-            onChange={setQuantitySelected}
-          />
-        </div>
-        <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
-          <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
-          <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
+      {product.isSoldOut ? (
+        <ButtonPrimary className="flex-1 flex-shrink-0">
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-3">ĐÃ HẾT HÀNG</span>
         </ButtonPrimary>
-      </div>
-
+      ) : (
+        <div className="flex space-x-3.5">
+          <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+            <NcInputNumber
+              defaultValue={quantitySelected}
+              max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft}
+              onChange={setQuantitySelected}
+            />
+          </div>
+          <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
+            <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
+            <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
+          </ButtonPrimary>
+        </div>
+      )}
       {/*  */}
       <hr className=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
       {/*  */}
