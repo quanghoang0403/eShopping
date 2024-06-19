@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using System.Diagnostics;
 
 namespace eShopping.Application.Middlewares
 {
@@ -40,11 +41,11 @@ namespace eShopping.Application.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                await HandleExceptionAsync(context, ex, _hostingEnvironment, false);
+                await HandleExceptionAsync(context, ex, _hostingEnvironment);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception, IWebHostEnvironment hostingEnvironment, bool htmlEncode)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, IWebHostEnvironment hostingEnvironment)
         {
             var httpStatusCode = HttpStatusCode.InternalServerError; // 500 if unexpected
             string message = string.Empty;
@@ -77,19 +78,21 @@ namespace eShopping.Application.Middlewares
                 message = exception?.Message;
             }
 
-            if (errors != null && htmlEncode)
-            {
-                errors = HtmlEncode(errors);
-            }
+            // Get the method name where the exception occurred
+            string methodName = GetMethodNameFromException(exception);
 
-            NotifyLine.SendNotifyLine(context.Request.Path, stackTrace, exception.Message,);
+            // Construct the full request URL
+            string requestUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}";
+
+
+            NotifyLine.SendNotifyLine(requestUrl, methodName, message, stackTrace);
 
             var result = JsonConvert.SerializeObject(
                 new ErrorModel
                 {
                     Error = "An error occurred.",
                     ErrorTime = DateTime.Now,
-                    Message = htmlEncode ? HttpUtility.HtmlEncode(message) : message,
+                    Message = message,
                     StackTrace = stackTrace,
                     Errors = errors,
                 },
@@ -109,6 +112,19 @@ namespace eShopping.Application.Middlewares
                     Type = HttpUtility.HtmlEncode(err.Type),
                     Message = HttpUtility.HtmlEncode(err.Message)
                 }).ToList();
+        }
+
+        private static string GetMethodNameFromException(Exception exception)
+        {
+            var st = new StackTrace(exception, true);
+            foreach (var frame in st.GetFrames())
+            {
+                if (frame.GetMethod().DeclaringType != typeof(ErrorHandlingMiddleware))
+                {
+                    return frame.GetMethod().Name;
+                }
+            }
+            return "UnknownMethod";
         }
     }
 }

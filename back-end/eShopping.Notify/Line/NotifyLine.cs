@@ -9,14 +9,15 @@ namespace eShopping.Notify.Line
 {
     public static class NotifyLine
     {
-        public static void SendNotifyLine(string method, string exception, string message = "", string token = "")
+        public static void SendNotifyLine(string requestUrl, string method, string exception, string message = "", string token = "")
         {
             try
             {
                 // Construct the message post
-                var messagePost = (string.IsNullOrEmpty(method) ? "" : "`Method:` *" + method + "*\n") +
-                                  (string.IsNullOrEmpty(exception) ? "" : "`Exception:` *" + exception + "*\n") +
-                                  (string.IsNullOrEmpty(message) ? "" : "`Message:` *" + message + "*\n");
+                var messagePost = (string.IsNullOrEmpty(requestUrl) ? "" : "`Request:` *" + requestUrl + "*\n") +
+                                  (string.IsNullOrEmpty(method) ? "" : "`Method:` *" + method + "*\n") +
+                                  (string.IsNullOrEmpty(message) ? "" : "`Message:` *" + message + "*\n") +
+                                  (string.IsNullOrEmpty(exception) ? "" : "`Exception:` *" + exception + "*\n");
 
                 var options = new RestClientOptions("https://notify-api.line.me/api")
                 {
