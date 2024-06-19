@@ -1,4 +1,4 @@
-import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import { NoSymbolIcon, SparklesIcon, StarIcon } from '@heroicons/react/24/outline'
 import React, { FC } from 'react'
 import DiscountIcon from '@/shared/Icon/DiscountIcon'
 
@@ -42,7 +42,7 @@ const ProductStatus: FC<Props> = ({
     if (product.isFeatured) {
       return (
         <div className={className}>
-          <ClockIcon className="w-3.5 h-3.5" />
+          <StarIcon className="w-3.5 h-3.5" />
           <span className="ms-1 leading-none">Nổi bật</span>
         </div>
       )

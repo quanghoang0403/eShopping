@@ -17,7 +17,7 @@ const PageCollection = ({}) => {
     isDiscounted: false,
     isFeatured: false,
     sortType: EnumSortType.Default,
-    genderProducts: [EnumGenderProduct.All],
+    genderProducts: [],
     productRootCategoryIds: [],
     productCategoryIds: [],
     keySearch: ''
