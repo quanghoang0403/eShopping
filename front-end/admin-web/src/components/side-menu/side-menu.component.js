@@ -78,7 +78,7 @@ function SideMenu(props) {
           return (
             <>
               <SubMenu
-                onTitleClick={() => onFocusFirstItem(childs)}
+                //onTitleClick={() => onFocusFirstItem(childs)}
                 key={item.key}
                 icon={item.icon}
                 title={item.name}
@@ -93,6 +93,7 @@ function SideMenu(props) {
                       </Menu.Item>
                     )
                   }
+                  return null
                 })}
               </SubMenu>
             </>
