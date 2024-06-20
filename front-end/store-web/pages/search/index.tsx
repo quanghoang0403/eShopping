@@ -1,7 +1,6 @@
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import HeaderFilterSearchPage from '@/components/Search/HeaderFilterSearchPage'
 import ButtonCircle from '@/shared/Button/ButtonCircle'
 import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
