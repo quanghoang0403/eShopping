@@ -174,7 +174,7 @@ namespace eShopping.WebApi
             app.UseResponseCaching();
 
             app.UseMiddleware(typeof(AuthenticationMiddleware));
-            //app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
 
