@@ -181,7 +181,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
     console.log('rerender')
     if (product.isSoldOut) {
       return (
-        <ButtonPrimary className="flex-1 flex-shrink-0">
+        <ButtonPrimary className="flex-1 flex-shrink-0 cursor-not-allowed">
           <NoSymbolIcon className="w-3.5 h-3.5" />
           <span className="ml-3">ĐÃ HẾT HÀNG</span>
         </ButtonPrimary>
@@ -189,9 +189,17 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
     }
     if (maxQuantity == 0) {
       return (
-        <ButtonPrimary className="flex-1 flex-shrink-0">
+        <ButtonPrimary className="flex-1 flex-shrink-0 cursor-not-allowed">
           <NoSymbolIcon className="w-3.5 h-3.5" />
           <span className="ml-3">ĐÃ THÊM SỐ LƯỢNG TỐI ĐA VÀO GIỎ HÀNG</span>
+        </ButtonPrimary>
+      )
+    }
+    if (productStockActive) {
+      return (
+        <ButtonPrimary className="flex-1 flex-shrink-0 cursor-not-allowed">
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-3">VUI LÒNG CHỌN SIZE VÀ MÀU</span>
         </ButtonPrimary>
       )
     }
