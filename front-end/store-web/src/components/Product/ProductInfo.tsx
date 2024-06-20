@@ -215,7 +215,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
           <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
             <NcInputNumber
               defaultValue={quantitySelected}
-              max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft}
+              max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft ?? 1}
               onChange={setQuantitySelected}
             />
           </div>
