@@ -2,11 +2,11 @@ interface IProductRootCategory {
   id: string
   name: string
   urlSEO: string
-  productCategories: IProductCategory[]
 }
 
 interface IProductCategory {
   id: string
+  productRootCategoryId: string
   name: string
   urlSEO: string
 }
@@ -23,6 +23,7 @@ interface ICollectionDataResponse {
   keywordSEO?: string
   descriptionSEO?: string
   products: IProduct[],
+  productRootCategories: IProductRootCategory[],
   productCategories: IProductCategory[],
 }
 

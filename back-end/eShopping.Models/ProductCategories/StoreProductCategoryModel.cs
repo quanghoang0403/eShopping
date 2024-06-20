@@ -7,6 +7,8 @@ namespace eShopping.Models.ProductCategories
     {
         public Guid Id { get; set; }
 
+        public Guid ProductRootCategoryId { get; set; }
+
         public string Name { get; set; }
 
         public EnumGenderProduct GenderProduct { get; set; }

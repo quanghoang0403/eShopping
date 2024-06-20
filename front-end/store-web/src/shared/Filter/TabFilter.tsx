@@ -36,7 +36,7 @@ export interface TabFilterProps {
 }
 
 const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategories, productCategories }) => {
-  const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds, keySearch } = filter
+  const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds } = filter
   const [isOpenMoreFilter, setIsOpenMoreFilter] = useState(false)
   const [rangePrices, setRangePrices] = useState([100, 500])
   const [colorsState, setColorsState] = useState<string[]>([])
@@ -46,9 +46,11 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
   const openModalMoreFilter = () => setIsOpenMoreFilter(true)
 
   useEffect(() => {
-    const newProductCategoryIds = productCategoryIds.filter((id) => productRootCategoryIds.includes(id))
+    const newProductCategoryIds = productCategoryIds.filter((id) =>
+      productCategories.some(category => category.id === id)
+    );
     setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: newProductCategoryIds }))
-  }, [productRootCategoryIds])
+  }, [productCategories])
 
 
   const handleChangeRootCategories = (checked: boolean, id: string) => {

@@ -31,6 +31,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         public string DescriptionSEO { get; set; }
         public string KeywordSEO { get; set; }
         public List<StoreProductModel> Products { get; set; }
+        public List<StoreProductRootCategoryModel> ProductRootCategories { get; set; }
         public List<StoreProductCategoryModel> ProductCategories { get; set; }
     }
 
@@ -115,15 +116,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 res.TitleSEO = productRootCategory.TitleSEO;
                 res.DescriptionSEO = productRootCategory.DescriptionSEO;
                 res.KeywordSEO = productRootCategory.KeywordSEO;
-                res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productRootCategory.ProductCategories);
-            }
-            else
-            {
-                var productCategories = await _unitOfWork.ProductCategories
-                    .Where(c => c.GenderProduct == genderProduct || c.GenderProduct == EnumGenderProduct.All)
-                    .OrderBy(x => x.Priority)
-                    .ToListAsync();
-                res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);
             }
 
             if (slugProductCategory != null)
@@ -137,6 +129,17 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 res.DescriptionSEO = productCategory.DescriptionSEO;
                 res.KeywordSEO = productCategory.KeywordSEO;
             }
+            var productRootCategories = await _unitOfWork.ProductRootCategories
+                .Where(c => c.GenderProduct == genderProduct || c.GenderProduct == EnumGenderProduct.All)
+                .OrderBy(x => x.Priority)
+                .ToListAsync();
+            res.ProductRootCategories = _mapper.Map<List<StoreProductRootCategoryModel>>(productRootCategories);
+
+            var productCategories = await _unitOfWork.ProductCategories
+                .Where(c => c.GenderProduct == genderProduct || c.GenderProduct == EnumGenderProduct.All)
+                .OrderBy(x => x.Priority)
+                .ToListAsync();
+            res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);
 
             var productPaging = await products.ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
             res.Products = _mapper.Map<List<StoreProductModel>>(productPaging.Result);
