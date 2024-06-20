@@ -6,8 +6,8 @@ interface IProduct extends ISEO {
   priceDiscount?: number
   isFeatured?: boolean
   isDiscounted?: boolean
-  IsNewIn?: boolean
-  IsSoldOut?: boolean
+  isNewIn?: boolean
+  isSoldOut?: boolean
   gallery?: string[]
   productCategory?: IProductCategory
   productRootCategory?: IProductCategory

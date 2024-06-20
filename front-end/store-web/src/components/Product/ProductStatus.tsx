@@ -15,11 +15,11 @@ const ProductStatus: FC<Props> = ({
     if (!product) {
       return null
     }
-    if (product.IsNewIn) {
+    if (product.isSoldOut) {
       return (
         <div className={className}>
-          <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">Mới về</span>
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ms-1 leading-none">Hết hàng</span>
         </div>
       )
     }
@@ -31,11 +31,11 @@ const ProductStatus: FC<Props> = ({
         </div>
       )
     }
-    if (product.IsSoldOut) {
+    if (product.isNewIn) {
       return (
         <div className={className}>
-          <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ms-1 leading-none">Hết hàng</span>
+          <SparklesIcon className="w-3.5 h-3.5" />
+          <span className="ms-1 leading-none">Mới về</span>
         </div>
       )
     }
