@@ -3,15 +3,13 @@ import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import { StarIcon } from '@heroicons/react/24/solid'
 import BagIcon from '@/shared/Icon/BagIcon'
 import NcInputNumber from '@/shared/NcInputNumber'
-import { NoSymbolIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import { NoSymbolIcon } from '@heroicons/react/24/outline'
 import Price from '@/shared/Price'
 import toast from 'react-hot-toast'
 import NotifyAddToCart from '@/components/Product/NotifyAddToCart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
 import Policy from './Policy'
 import { useAppSelector } from '@/hooks/useRedux'
-import ButtonSecondary from '@/shared/Button/ButtonSecondary'
-import ButtonThird from '@/shared/Button/ButtonThird'
 
 export interface ProductInfoProps {
   product: IProduct
@@ -22,7 +20,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   const { productVariants, productSizes, productStocks } = product
   const [productVariantActive, setProductVariantActive] = useState<IProductVariant | null>(null)
   const [productSizeActive, setProductSizeActive] = useState<IProductSize | null>(null)
-  const [productStockActive, setProductStockActive] = useState<IProductStock | null>(null)
+  const [productStockActive, setProductStockActive] = useState<IProductStock | null | undefined>(null)
   const [quantitySelected, setQuantitySelected] = useState(1)
   const [cartItemActive, setCartItemActive] = useState<ICartItem | null>(null)
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
@@ -36,6 +34,13 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   }, [productVariants])
 
   useEffect(() => {
+    if (productVariantActive && productSizeActive && !isOutOfStock(productVariantActive, productSizeActive)) { 
+      setQuantitySelected(1)
+      setProductStockActive(productStocks.find((x) => x.productSizeId === productSizeActive.id && x.productVariantId === productVariantActive.id))
+    }
+  }, [productVariantActive, productSizeActive])
+
+  useEffect(() => {
     if (productStockActive && cartItems) {
       const cartItem = cartItems.find((x) => x.productVariantId === productStockActive.productVariantId && x.productSizeId === productStockActive.productSizeId)
       if (cartItem) setCartItemActive(cartItem)
@@ -44,22 +49,12 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
 
   const onChangeActiveProductVariant = (variant: IProductVariant) => {
     setProductVariantActive(variant)
-    const productStock = productStocks?.find((x) => x.productVariantId === variant.id && x.productSizeId)
-    if (!productStock || productStock.quantityLeft <= 0) setProductSizeActive(null)
-    else {
-      setQuantitySelected(1)
-      setProductStockActive(productStock)
-    }
+    if (isOutOfStock(variant, productSizeActive)) setProductSizeActive(null)
   }
 
   const onChangeActiveProductSize = (size: IProductSize) => {
     setProductSizeActive(size)
-    const productStock = productStocks?.find((x) => x.productSizeId === size.id && x.productVariantId === productVariantActive?.id)
-    if (!productStock || productStock.quantityLeft <= 0) setProductVariantActive(null)
-    else {
-      setQuantitySelected(1)
-      setProductStockActive(productStock)
-    }
+    if (isOutOfStock(productVariantActive, size)) setProductVariantActive(null)
   }
 
   const isOutOfStock = (productVariant: IProductVariant | null, productSize: IProductSize | null): boolean => {
