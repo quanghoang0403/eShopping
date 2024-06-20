@@ -82,7 +82,8 @@ const CollectionPage = ({ res }: IProps) => {
               {/* TABS FILTER */}
               <TabFilter 
                 filter={filter} 
-                setFilter={setFilter} 
+                setFilter={setFilter}
+                onApply={fetchProducts} 
                 productRootCategories={res.productRootCategories} 
                 productCategories={res.productCategories.filter(c => filter.productRootCategoryIds.includes(c.productRootCategoryId))}/>
 

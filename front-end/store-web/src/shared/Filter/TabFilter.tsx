@@ -23,9 +23,10 @@ export interface TabFilterProps {
   productRootCategories: IProductRootCategory[];
   productCategories: IProductCategory[];
   setFilter: React.Dispatch<React.SetStateAction<IGetProductsRequest>>;
+  onApply: () => Promise<void>;
 }
 
-const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategories, productCategories }) => {
+const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, onApply, productRootCategories, productCategories }) => {
   const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds } = filter
   const [isOpenMoreFilter, setIsOpenMoreFilter] = useState(false)
   const [rangePrices, setRangePrices] = useState([100, 500])
@@ -101,6 +102,10 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
     )
   }
 
+  const renderApplyButton = () => {
+
+  }
+
   const renderTabRootCategories = () => {
     return (
       <Popover className="relative">
@@ -174,7 +179,12 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary 
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }} 
+                      sizeClass="px-4 py-2 sm:px-5">
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -260,7 +270,12 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary 
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }} 
+                      sizeClass="px-4 py-2 sm:px-5">
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -352,7 +367,12 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary 
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }} 
+                      sizeClass="px-4 py-2 sm:px-5">
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -408,7 +428,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                 />
               </svg>
 
-              <span className="ml-2">Colors</span>
+              <span className="ml-2">Màu sắc</span>
               {!colorsState.length ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => setColorsState([])}>{renderXClear()}</span>}
             </Popover.Button>
             <Transition
@@ -442,10 +462,15 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                       }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
-                      Clear
+                      Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
-                      Apply
+                    <ButtonPrimary 
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }} 
+                      sizeClass="px-4 py-2 sm:px-5">
+                      Áp dụng
                     </ButtonPrimary>
                   </div>
                 </div>
@@ -515,7 +540,12 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary 
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }} 
+                      sizeClass="px-4 py-2 sm:px-5">
                       Áp dụng
                     </ButtonPrimary>
                   </div>
