@@ -7,7 +7,7 @@ import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryL
 import ProductList from '@/components/Common/ProductList/components/ProductList'
 import { EnumGenderProduct, EnumSortType } from '@/constants/enum'
 
-const PageCollection = ({}) => {
+const CollectionPage = ({}) => {
   const [productRootCategories, setProductRootCategories] = useState<IProductRootCategory[]>([])
   const [productCategories, setProductCategories] = useState<IProductCategory[]>([])
   const [pageNumber, setPageNumber] = useState(1)
@@ -24,7 +24,7 @@ const PageCollection = ({}) => {
   })
 
   return (
-    <div className={`nc-PageCollection`}>
+    <div className={`nc-CollectionPage`}>
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28">
         <div className="space-y-10 lg:space-y-14">
           {/* HEADING */}
@@ -66,4 +66,4 @@ const PageCollection = ({}) => {
   )
 }
 
-export default PageCollection
+export default CollectionPage

@@ -170,7 +170,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                         <Checkbox
                           name={item.name}
                           label={item.name}
-                          defaultChecked={genderProducts.includes(item.id)}
+                          checked={genderProducts.includes(item.id)}
                           onChange={(checked) => handleChangeGenderProduct(checked, item.id)}
                         />
                       </div>
@@ -256,7 +256,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                         <Checkbox
                           name={item.name}
                           label={item.name}
-                          defaultChecked={productRootCategoryIds.includes(item.id)}
+                          checked={productRootCategoryIds.includes(item.id)}
                           onChange={(checked) => handleChangeRootCategories(checked, item.id)}
                         />
                       </div>
@@ -342,7 +342,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                         <Checkbox
                           name={item.name}
                           label={item.name}
-                          defaultChecked={productCategoryIds.includes(item.id)}
+                          checked={productCategoryIds.includes(item.id)}
                           onChange={(checked) => handleChangeCategories(checked, item.id)}
                         />
                       </div>
