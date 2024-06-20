@@ -15,7 +15,6 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 const SearchPage = ({}) => {
   const [isOpen, setIsOpen] = useState(true)
-  const [tabActive, setTabActive] = useState('All items')
   const [productRootCategories, setProductRootCategories] = useState<IProductRootCategory[]>([])
   const [productCategories, setProductCategories] = useState<IProductCategory[]>([])
   const [pageNumber, setPageNumber] = useState(1)
