@@ -166,6 +166,61 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
     )
   }
 
+  const renderButtonAddToCart = () => {
+    {product.isSoldOut ? (
+      <ButtonPrimary className="flex-1 flex-shrink-0">
+        <NoSymbolIcon className="w-3.5 h-3.5" />
+        <span className="ml-3">ĐÃ HẾT HÀNG</span>
+      </ButtonPrimary>
+    ) : (
+      <div className="flex space-x-3.5">
+        <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+          <NcInputNumber
+            defaultValue={quantitySelected}
+            max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft ?? 1}
+            onChange={setQuantitySelected}
+          />
+        </div>
+        <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
+          <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
+          <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
+        </ButtonPrimary>
+      </div>
+    )}
+    if (product.isSoldOut) {
+      return (
+        <ButtonPrimary className="flex-1 flex-shrink-0">
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-3">ĐÃ HẾT HÀNG</span>
+        </ButtonPrimary>
+      )
+    }
+    const quantityLeft = cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft ?? 1
+    if (quantityLeft == 0) {
+      return (
+        <ButtonPrimary className="flex-1 flex-shrink-0">
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-3">ĐÃ THÊM SỐ LƯỢNG TỐI ĐA VÀO GIỎ HÀNG</span>
+        </ButtonPrimary>
+      )
+    }
+    return (
+      <div className="flex space-x-3.5">
+        <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+          <NcInputNumber
+            defaultValue={quantitySelected}
+            max={quantityLeft}
+            onChange={setQuantitySelected}
+          />
+        </div>
+        <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
+          <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
+          <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
+        </ButtonPrimary>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-7 2xl:space-y-8">
       {/* ---------- 1 HEADING ----------  */}
@@ -205,26 +260,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
       {renderProductSizes()}
 
       {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
-      {product.isSoldOut ? (
-        <ButtonPrimary className="flex-1 flex-shrink-0">
-          <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ml-3">ĐÃ HẾT HÀNG</span>
-        </ButtonPrimary>
-      ) : (
-        <div className="flex space-x-3.5">
-          <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
-            <NcInputNumber
-              defaultValue={quantitySelected}
-              max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft ?? 1}
-              onChange={setQuantitySelected}
-            />
-          </div>
-          <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
-            <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
-            <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
-          </ButtonPrimary>
-        </div>
-      )}
+      {renderButtonAddToCart()}
       {/*  */}
       <hr className=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
       {/*  */}

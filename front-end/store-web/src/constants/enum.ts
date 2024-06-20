@@ -48,6 +48,7 @@ export const EnumPaymentMethod = {
 }
 
 export const mappingProductGender = [
+  { id: EnumGenderProduct.All, name: 'Tất cả' },
   { id: EnumGenderProduct.Male, name: 'Nam' },
   { id: EnumGenderProduct.Female, name: 'Nữ' },
   { id: EnumGenderProduct.Kid, name: 'Trẻ em' },

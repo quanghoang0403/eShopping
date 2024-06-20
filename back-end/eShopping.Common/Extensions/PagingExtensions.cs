@@ -10,7 +10,7 @@ namespace eShopping.Common.Extensions
     {
         public static PagingResult<T> ToPagination<T>(this IList<T> query, int currentPage, int pageSize)
         {
-            if (currentPage == 0) currentPage = PageSetting.Page;
+            if (currentPage == 0) currentPage = PageSetting.FirstPage;
             if (pageSize == 0) pageSize = PageSetting.PageSize;
 
             int skip = (currentPage - 1) * pageSize;
@@ -22,7 +22,7 @@ namespace eShopping.Common.Extensions
 
         public static async Task<PagingResult<T>> ToPaginationAsync<T>(this IQueryable<T> query, int currentPage, int pageSize)
         {
-            if (currentPage == 0) currentPage = PageSetting.Page;
+            if (currentPage == 0) currentPage = PageSetting.FirstPage;
             if (pageSize == 0) pageSize = PageSetting.PageSize;
 
             int skip = (currentPage - 1) * pageSize;
@@ -66,9 +66,9 @@ namespace eShopping.Common.Extensions
 
         public static class PageSetting
         {
-            public static int Page { get; set; } = 1;
+            public static int FirstPage { get; set; } = 1;
 
-            public static int PageSize { get; set; } = 20;
+            public static int PageSize { get; set; } = 12;
         }
     }
 }

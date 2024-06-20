@@ -44,11 +44,6 @@ interface IPaging {
   total: number
 }
 
-interface IMenuCategory {
-  genderProduct: number
-  productRootCategories: INavItemType[]
-}
-
 interface INavItemType {
   id: string | number
   name: string

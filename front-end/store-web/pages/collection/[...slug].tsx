@@ -7,6 +7,29 @@ import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryL
 import ProductList from '@/components/Common/ProductList/components/ProductList'
 import { EnumGenderProduct, EnumSortType } from '@/constants/enum'
 
+// export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
+//   const { params, req } = context
+//   try {
+//     const productDetail = await ProductService.getProductByUrl(params?.slug as string)
+//     if (!productDetail) {
+//       return {
+//         notFound: true,
+//       }
+//     }
+//     return {
+//       props: {
+//         productDetail: productDetail,
+//         productRelated: productRelated?.result,
+//       },
+//     }
+//   } catch (error) {
+//     console.error('Error fetching product:', error)
+//     return {
+//       notFound: true,
+//     }
+//   }
+// }
+
 const CollectionPage = ({}) => {
   const [productRootCategories, setProductRootCategories] = useState<IProductRootCategory[]>([])
   const [productCategories, setProductCategories] = useState<IProductCategory[]>([])
@@ -17,7 +40,7 @@ const CollectionPage = ({}) => {
     isDiscounted: false,
     isFeatured: false,
     sortType: EnumSortType.Default,
-    genderProducts: [],
+    genderProduct: EnumGenderProduct.All,
     productRootCategoryIds: [],
     productCategoryIds: [],
     keySearch: ''

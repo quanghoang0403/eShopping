@@ -22,7 +22,8 @@ namespace eShopping.Application.Features.Products.Queries
         public int PageSize { get; set; }
 
         public string KeySearch { get; set; }
-        public List<EnumGenderProduct> GenderProducts { get; set; }
+
+        public EnumGenderProduct GenderProduct { get; set; }
 
         public List<Guid> ProductCategoryIds { get; set; }
 
@@ -62,9 +63,9 @@ namespace eShopping.Application.Features.Products.Queries
 
             if (products != null)
             {
-                if (request.GenderProducts != null && request.GenderProducts.Count > 0)
+                if (request.GenderProduct != EnumGenderProduct.All)
                 {
-                    products = products.Where(x => request.GenderProducts.Contains(x.GenderProduct) || x.GenderProduct == EnumGenderProduct.All);
+                    products = products.Where(x => request.GenderProduct == x.GenderProduct || x.GenderProduct == EnumGenderProduct.All);
                 }
 
                 if (request.ProductRootCategoryIds != null && request.ProductRootCategoryIds.Count > 0)

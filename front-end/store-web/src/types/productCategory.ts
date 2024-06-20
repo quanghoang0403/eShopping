@@ -11,6 +11,21 @@ interface IProductCategory {
   urlSEO: string
 }
 
+interface IMenuCategory {
+  genderProduct: number
+  productRootCategories: INavItemType[]
+}
+
+interface ICollectionDataResponse {
+  name: string,
+  description: string,
+  titleSEO?: string
+  keywordSEO?: string
+  descriptionSEO?: string
+  products: IProduct[],
+  productCategories: IProductCategory[],
+}
+
 interface IProductCategoryDetail extends ISEO {}
 
 interface IProductRootCategoryDetail extends ISEO {}

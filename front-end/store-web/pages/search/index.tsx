@@ -7,7 +7,7 @@ import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryL
 import Input from '@/shared/Controller/Input'
 import ProductList from '@/components/Common/ProductList/components/ProductList'
 import TabFilter, { Filter } from '@/shared/Filter/TabFilter'
-import { EnumSortType, mappingProductGender } from '@/constants/enum'
+import { EnumGenderProduct, EnumSortType, mappingProductGender } from '@/constants/enum'
 import Nav from '@/shared/Nav'
 import NavItem from '@/shared/NavItem'
 import { Transition } from '@headlessui/react'
@@ -24,22 +24,11 @@ const SearchPage = ({}) => {
     isDiscounted: false,
     isFeatured: false,
     sortType: EnumSortType.Default,
-    genderProducts: [],
+    genderProduct: EnumGenderProduct.All,
     productRootCategoryIds: [],
     productCategoryIds: [],
     keySearch: ''
   })
-
-  const handleCheckAllGenders = () => {
-    if (filter.genderProducts.length == mappingProductGender.length) 
-      setFilter((prevFilter) => ({ ...prevFilter, genderProducts: mappingProductGender.map((i) => i.id) })) 
-    else setFilter((prevFilter) => ({ ...prevFilter, genderProducts: [] }))
-  }
-
-  const handleChangeGenderProduct = (id: number) => {
-    const newGenderProducts = !filter.genderProducts.includes(id) ? [...filter.genderProducts, id] : filter.genderProducts.filter((i) => i !== id)
-    setFilter((prevFilter) => ({ ...prevFilter, genderProducts: newGenderProducts }))
-  }
 
   return (
     <div className={`nc-SearchPage`} data-nc-id="SearchPage">
@@ -76,11 +65,8 @@ const SearchPage = ({}) => {
           <div className='flex flex-col relative mb-12'>
             <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-6 lg:space-y-0 lg:space-x-2 ">
               <Nav className="sm:space-x-2" containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar">
-                <NavItem isActive={filter.genderProducts.length == mappingProductGender.length} onClick={() => handleCheckAllGenders()}>
-                  Tất cả giới tính
-                </NavItem>
                 {mappingProductGender.map((item, index) => (
-                  <NavItem key={index} isActive={filter.genderProducts.includes(item.id)} onClick={() => handleChangeGenderProduct(item.id)}>
+                  <NavItem key={index} isActive={filter.genderProduct == item.id} onClick={() => setFilter((prevFilter) => ({ ...prevFilter, genderProduct: item.id }))}>
                     {item.name}
                   </NavItem>
                 ))}

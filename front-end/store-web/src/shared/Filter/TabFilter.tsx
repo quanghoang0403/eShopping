@@ -9,7 +9,7 @@ import Checkbox from '@/shared/Controller/Checkbox'
 import Slider from 'rc-slider'
 import Radio from '@/shared/Controller/Radio'
 import MySwitch from './MySwitch'
-import { EnumSortType, mappingProductGender, mappingSortType } from '@/constants/enum'
+import { EnumSortType, mappingSortType } from '@/constants/enum'
 import DiscountIcon from '../Icon/DiscountIcon'
 
 const DATA_colors = [{ name: 'White' }, { name: 'Beige' }, { name: 'Blue' }, { name: 'Black' }, { name: 'Brown' }, { name: 'Green' }, { name: 'Navy' }]
@@ -21,7 +21,7 @@ export interface Filter {
   isNewIn: boolean;
   isDiscounted: boolean;
   isFeatured: boolean;
-  genderProducts: number[];
+  genderProduct: number;
   productRootCategoryIds: string[];
   productCategoryIds: string[];
   keySearch: string;
@@ -36,7 +36,7 @@ export interface TabFilterProps {
 }
 
 const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategories, productCategories }) => {
-  const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds, genderProducts, keySearch } = filter
+  const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds, keySearch } = filter
   const [isOpenMoreFilter, setIsOpenMoreFilter] = useState(false)
   const [rangePrices, setRangePrices] = useState([100, 500])
   const [colorsState, setColorsState] = useState<string[]>([])
@@ -45,24 +45,20 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
   const closeModalMoreFilter = () => setIsOpenMoreFilter(false)
   const openModalMoreFilter = () => setIsOpenMoreFilter(true)
 
-  const handleChangeGenderProduct = (checked: boolean, value: number) => {
-    const newGenderProducts = checked ? [...genderProducts, value] : genderProducts.filter((i) => i !== value)
-    setFilter((prevFilter) => ({ ...prevFilter, genderProducts: newGenderProducts }))
-  }
+  useEffect(() => {
+    const newProductCategoryIds = productCategoryIds.filter((id) => productRootCategoryIds.includes(id))
+    setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: newProductCategoryIds }))
+  }, [productRootCategoryIds])
+
 
   const handleChangeRootCategories = (checked: boolean, id: string) => {
-    const newProductCategoryIds = checked ? [...productRootCategoryIds, id] : productRootCategoryIds.filter((i) => i !== id)
-    setFilter((prevFilter) => ({ ...prevFilter, productRootCategoryIds: newProductCategoryIds }))
+    const newProductRootCategoryIds = checked ? [...productRootCategoryIds, id] : productRootCategoryIds.filter((i) => i !== id)
+    setFilter((prevFilter) => ({ ...prevFilter, productRootCategoryIds: newProductRootCategoryIds }))
   }
 
   const handleChangeCategories = (checked: boolean, id: string) => {
     const newProductCategoryIds = checked ? [...productCategoryIds, id] : productCategoryIds.filter((i) => i !== id)
     setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: newProductCategoryIds }))
-  }
-
-  const handleCheckAllGenders = (checked: boolean) => {
-    if (checked) setFilter((prevFilter) => ({ ...prevFilter, genderProducts: mappingProductGender.map((i) => i.id) })) 
-    else setFilter((prevFilter) => ({ ...prevFilter, genderProducts: [] }))
   }
 
   const handleCheckAllRootCategories = (checked: boolean) => {
@@ -110,92 +106,6 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
           />
         </svg>
       </span>
-    )
-  }
-
-  const renderTabGenders = () => {
-    return (
-      <Popover className="relative">
-        {({ open, close }) => (
-          <>
-            <Popover.Button
-              className={`flex items-center justify-center px-4 py-2 text-sm rounded-full border focus:outline-none select-none
-               ${open ? '!border-primary-500 ' : 'border-neutral-300 dark:border-neutral-700'}
-                ${
-                  !!genderProducts.length
-                    ? '!border-primary-500 bg-primary-50 text-primary-900'
-                    : 'border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500'
-                }
-                `}
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 2V5" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M16 2V5" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M7 13H15" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M7 17H12" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                <path
-                  d="M16 3.5C19.33 3.68 21 4.95 21 9.65V15.83C21 19.95 20 22.01 15 22.01H9C4 22.01 3 19.95 3 15.83V9.65C3 4.95 4.67 3.69 8 3.5H16Z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-
-              <span className="ml-2">Giới tính</span>
-              {!genderProducts.length ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => handleCheckAllGenders(false)}>{renderXClear()}</span>}
-            </Popover.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 translate-y-1"
-              enterTo="opacity-100 translate-y-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-1"
-            >
-              <Popover.Panel className="absolute z-40 w-screen max-w-sm px-4 mt-3 left-0 sm:px-0 lg:max-w-md">
-                <div className="overflow-hidden rounded-2xl shadow-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
-                  <div className="relative flex flex-col px-5 py-6 space-y-5">
-                    <Checkbox
-                      name="Tất cả giới tính"
-                      label="Tất cả giới tính"
-                      checked={genderProducts.length == mappingProductGender.length}
-                      onChange={(checked) => handleCheckAllGenders(checked)}
-                    />
-                    <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
-                    {mappingProductGender.map((item) => (
-                      <div key={item.name} className="">
-                        <Checkbox
-                          name={item.name}
-                          label={item.name}
-                          checked={genderProducts.includes(item.id)}
-                          onChange={(checked) => handleChangeGenderProduct(checked, item.id)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
-                    <ButtonThird
-                      onClick={() => {
-                        close()
-                        handleCheckAllGenders(false)
-                      }}
-                      sizeClass="px-4 py-2 sm:px-5"
-                    >
-                      Bỏ chọn
-                    </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
-                      Áp dụng
-                    </ButtonPrimary>
-                  </div>
-                </div>
-              </Popover.Panel>
-            </Transition>
-          </>
-        )}
-      </Popover>
     )
   }
 
@@ -894,12 +804,6 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                       {/* --------- */}
                       {/* ---- */}
                       <div className="py-7">
-                        <h3 className="text-xl font-medium">Giới tính</h3>
-                        <div className="mt-6 relative ">{renderMoreFilterItem(mappingProductGender)}</div>
-                      </div>
-                      {/* --------- */}
-                      {/* ---- */}
-                      <div className="py-7">
                         <h3 className="text-xl font-medium">Loại</h3>
                         <div className="mt-6 relative ">{renderMoreFilterItem(productCategories)}</div>
                       </div>
@@ -1049,7 +953,6 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
       {/* FOR DESKTOP */}
       <div className="hidden lg:flex flex-1 space-x-4">
         {renderTabPriceRange()}
-        {renderTabGenders()}
         {renderTabRootCategories()}
         {renderTabCategories()}
         {/* {renderTabColor()} */}
