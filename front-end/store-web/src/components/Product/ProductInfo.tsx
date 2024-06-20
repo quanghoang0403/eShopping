@@ -9,7 +9,8 @@ import toast from 'react-hot-toast'
 import NotifyAddToCart from '@/components/Product/NotifyAddToCart'
 import AccordionInfo from '@/components/Product/AccordionInfo'
 import Policy from './Policy'
-import { useAppSelector } from '@/hooks/useRedux'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { sessionActions } from '@/redux/features/sessionSlice'
 
 export interface ProductInfoProps {
   product: IProduct
@@ -18,12 +19,14 @@ export interface ProductInfoProps {
 
 const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   const { productVariants, productSizes, productStocks } = product
+  const [cartUpdated, setCartUpdated] = useState(false)
+  const [maxQuantity, setMaxQuantity] = useState(1)
   const [productVariantActive, setProductVariantActive] = useState<IProductVariant | null>(null)
   const [productSizeActive, setProductSizeActive] = useState<IProductSize | null>(null)
   const [productStockActive, setProductStockActive] = useState<IProductStock | null | undefined>(null)
   const [quantitySelected, setQuantitySelected] = useState(1)
-  const [cartItemActive, setCartItemActive] = useState<ICartItem | null>(null)
   const cartItems = useAppSelector((state) => state.session.cartItems) as ICartItem[]
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (productSizes?.length == 1) setProductSizeActive(productSizes[0])
@@ -34,18 +37,20 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   }, [productVariants])
 
   useEffect(() => {
-    if (productVariantActive && productSizeActive && !isOutOfStock(productVariantActive, productSizeActive)) { 
+    if (productVariantActive && productSizeActive && !isOutOfStock(productVariantActive, productSizeActive)) {
       setQuantitySelected(1)
       setProductStockActive(productStocks.find((x) => x.productSizeId === productSizeActive.id && x.productVariantId === productVariantActive.id))
     }
   }, [productVariantActive, productSizeActive])
 
   useEffect(() => {
-    if (productStockActive && cartItems) {
+    if (productStockActive) {
       const cartItem = cartItems.find((x) => x.productVariantId === productStockActive.productVariantId && x.productSizeId === productStockActive.productSizeId)
-      if (cartItem) setCartItemActive(cartItem)
+      if (cartItem) {
+        setMaxQuantity(cartItem.quantityLeft - cartItem.quantity)
+      } else setMaxQuantity(productStockActive.quantityLeft)
     }
-  }, [productStockActive])
+  }, [productStockActive, cartUpdated])
 
   const onChangeActiveProductVariant = (variant: IProductVariant) => {
     setProductVariantActive(variant)
@@ -64,19 +69,25 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
 
   const handleAddToCart = () => {
     if (productVariantActive && productSizeActive && productStockActive) {
-      toast.custom(
-        (t) => (
-          <NotifyAddToCart
-            product={product}
-            productVariantActive={productVariantActive}
-            productSizeActive={productSizeActive}
-            productStockActive={productStockActive}
-            quantity={quantitySelected}
-            show={t.visible}
-          />
-        ),
-        { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
-      )
+      const cartItem: ICartItem = {
+        productId: product.id,
+        productName: product.name,
+        productUrl: product.urlSEO,
+        productSizeId: productSizeActive.id,
+        productSizeName: productSizeActive.name,
+        productVariantId: productVariantActive.id,
+        productVariantName: productVariantActive.name,
+        priceValue: productVariantActive.priceValue,
+        priceDiscount: productVariantActive.priceDiscount,
+        percentNumber: productVariantActive.percentNumber,
+        thumbnail: productVariantActive.thumbnail ?? product.thumbnail,
+        quantity: quantitySelected,
+        quantityLeft: productStockActive.quantityLeft,
+      }
+      dispatch(sessionActions.addProductToCart(cartItem))
+      setQuantitySelected(1)
+      setCartUpdated(!cartUpdated) // Trigger re-render
+      toast.custom((t) => <NotifyAddToCart cartItem={cartItem} show={t.visible} />, { position: 'top-right', id: 'nc-product-notify', duration: 3000 })
     } else {
       toast.error('Vui lòng chọn size và màu sắc')
     }
@@ -167,26 +178,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   }
 
   const renderButtonAddToCart = () => {
-    {product.isSoldOut ? (
-      <ButtonPrimary className="flex-1 flex-shrink-0">
-        <NoSymbolIcon className="w-3.5 h-3.5" />
-        <span className="ml-3">ĐÃ HẾT HÀNG</span>
-      </ButtonPrimary>
-    ) : (
-      <div className="flex space-x-3.5">
-        <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
-          <NcInputNumber
-            defaultValue={quantitySelected}
-            max={cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft ?? 1}
-            onChange={setQuantitySelected}
-          />
-        </div>
-        <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
-          <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
-          <span className="ml-3">THÊM VÀO GIỎ HÀNG</span>
-        </ButtonPrimary>
-      </div>
-    )}
+    console.log('rerender')
     if (product.isSoldOut) {
       return (
         <ButtonPrimary className="flex-1 flex-shrink-0">
@@ -195,8 +187,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
         </ButtonPrimary>
       )
     }
-    const quantityLeft = cartItemActive ? cartItemActive.quantityLeft - cartItemActive.quantity : productStockActive?.quantityLeft ?? 1
-    if (quantityLeft == 0) {
+    if (maxQuantity == 0) {
       return (
         <ButtonPrimary className="flex-1 flex-shrink-0">
           <NoSymbolIcon className="w-3.5 h-3.5" />
@@ -207,11 +198,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
     return (
       <div className="flex space-x-3.5">
         <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
-          <NcInputNumber
-            defaultValue={quantitySelected}
-            max={quantityLeft}
-            onChange={setQuantitySelected}
-          />
+          <NcInputNumber defaultValue={quantitySelected} max={maxQuantity} onChange={setQuantitySelected} />
         </div>
         <ButtonPrimary className="flex-1 flex-shrink-0" onClick={handleAddToCart}>
           <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
