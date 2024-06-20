@@ -1,20 +1,30 @@
 import React, { FC } from "react";
 import { twFocusClass } from "@/utils/string.helper";
 
-export interface PaginationProps {
-  pageNumber?: number
-  pageCount?: number
-  setPageNumber?: (value: number) => void;
+export interface TabFilterProps {
+  filter: IGetProductsRequest;
+  productRootCategories: IProductRootCategory[];
+  productCategories: IProductCategory[];
+  setFilter: React.Dispatch<React.SetStateAction<IGetProductsRequest>>;
 }
 
-const Pagination: FC<PaginationProps> = ({ pageNumber = 1, pageCount = 1, setPageNumber }) => {
+export interface PaginationProps {
+  pageCount: number
+  filter: IGetProductsRequest;
+  setFilter: React.Dispatch<React.SetStateAction<IGetProductsRequest>>;
+}
+
+const Pagination: FC<PaginationProps> = ({ pageCount = 1, filter, setFilter }) => {
+  const setPageNumber = (pageNumber: number) => {
+    setFilter((prevFilter) => ({ ...prevFilter, pageNumber: pageNumber }))
+  }
   return (
     <nav
       className='nc-Pagination inline-flex space-x-1 text-base font-medium'
     >
       {[...Array(pageCount)].map((pageIndex) => {
          const currentPage = pageIndex + 1;
-         if (currentPage === pageNumber) {
+         if (currentPage === filter.pageNumber) {
           return (
             <span
               key={currentPage}

@@ -17,22 +17,12 @@ const DATA_colors = [{ name: 'White' }, { name: 'Beige' }, { name: 'Blue' }, { n
 const DATA_sizes = [{ name: 'XXS' }, { name: 'XS' }, { name: 'S' }, { name: 'M' }, { name: 'L' }, { name: 'XL' }, { name: '2XL' }]
 
 const PRICE_RANGE = [1, 500]
-export interface Filter {
-  isNewIn: boolean;
-  isDiscounted: boolean;
-  isFeatured: boolean;
-  genderProduct: number;
-  productRootCategoryIds: string[];
-  productCategoryIds: string[];
-  keySearch: string;
-  sortType: number;
-}
 
 export interface TabFilterProps {
-  filter: Filter;
+  filter: IGetProductsRequest;
   productRootCategories: IProductRootCategory[];
   productCategories: IProductCategory[];
-  setFilter: React.Dispatch<React.SetStateAction<Filter>>;
+  setFilter: React.Dispatch<React.SetStateAction<IGetProductsRequest>>;
 }
 
 const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategories, productCategories }) => {

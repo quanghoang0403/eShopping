@@ -25,12 +25,15 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
     public class StoreGetCollectionPageByUrlResponse
     {
+        public EnumGenderProduct GenderProduct { get; set; }
+        public Guid? ProductRootCategoryId { get; set; }
+        public Guid? ProductCategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string TitleSEO { get; set; }
         public string DescriptionSEO { get; set; }
         public string KeywordSEO { get; set; }
-        public List<StoreProductModel> Products { get; set; }
+        public PagingResult<StoreProductModel> Data { get; set; }
         public List<StoreProductRootCategoryModel> ProductRootCategories { get; set; }
         public List<StoreProductCategoryModel> ProductCategories { get; set; }
     }
@@ -64,10 +67,9 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
             var res = new StoreGetCollectionPageByUrlResponse();
 
-            var genderProduct = EnumGenderProduct.All;
             if (slugGender == "nam")
             {
-                genderProduct = EnumGenderProduct.Male;
+                res.GenderProduct = EnumGenderProduct.Male;
                 res.Name = "Thời trang nam";
                 res.Description = "Năng động, khoẻ khoắn, lịch thiệp";
                 res.TitleSEO = "Thời trang nam | Mua sắm thời trang nam trực tuyến";
@@ -76,7 +78,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             }
             else if (slugGender == "nu")
             {
-                genderProduct = EnumGenderProduct.Female;
+                res.GenderProduct = EnumGenderProduct.Female;
                 res.Name = "Thời trang nữ";
                 res.Description = "Tự tin khoe cá tính";
                 res.TitleSEO = "Thời trang nữ | Mua sắm thời trang nữ trực tuyến";
@@ -85,7 +87,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             }
             else if (slugGender == "kid")
             {
-                genderProduct = EnumGenderProduct.Kid;
+                res.GenderProduct = EnumGenderProduct.Kid;
                 res.Name = "Thời trang trẻ em";
                 res.Description = "Cho bé thoả sức vui chơi";
                 res.TitleSEO = "Thời trang trẻ em | Mua sắm thời trang trẻ em trực tuyến";
@@ -104,7 +106,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 .Include(p => p.ProductRootCategory)
                 .Include(p => p.ProductSizeCategory.ProductSizes)
                 .Include(p => p.ProductStocks)
-                .Where(p => genderProduct == p.GenderProduct || p.GenderProduct == EnumGenderProduct.All);
+                .Where(p => res.GenderProduct == p.GenderProduct || p.GenderProduct == EnumGenderProduct.All);
 
             if (slugProductRootCategory != null)
             {
@@ -130,19 +132,20 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 res.KeywordSEO = productCategory.KeywordSEO;
             }
             var productRootCategories = await _unitOfWork.ProductRootCategories
-                .Where(c => c.GenderProduct == genderProduct || c.GenderProduct == EnumGenderProduct.All)
+                .Where(c => c.GenderProduct == res.GenderProduct || c.GenderProduct == EnumGenderProduct.All)
                 .OrderBy(x => x.Priority)
                 .ToListAsync();
             res.ProductRootCategories = _mapper.Map<List<StoreProductRootCategoryModel>>(productRootCategories);
 
             var productCategories = await _unitOfWork.ProductCategories
-                .Where(c => c.GenderProduct == genderProduct || c.GenderProduct == EnumGenderProduct.All)
+                .Where(c => c.GenderProduct == res.GenderProduct || c.GenderProduct == EnumGenderProduct.All)
                 .OrderBy(x => x.Priority)
                 .ToListAsync();
             res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);
 
             var productPaging = await products.ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
-            res.Products = _mapper.Map<List<StoreProductModel>>(productPaging.Result);
+            var productModel = _mapper.Map<List<StoreProductModel>>(productPaging.Result);
+            res.Data = new PagingResult<StoreProductModel>(productModel, productPaging.Paging); ;
             return BaseResponseModel.ReturnData(res);
         }
     }

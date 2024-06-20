@@ -16,6 +16,8 @@ interface HomePageProps {
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
     let discountedRequest: IGetProductsRequest = {
+      productRootCategoryIds: [],
+      productCategoryIds: [],
       isDiscounted: true,
       isFeatured: false,
       keySearch: '',

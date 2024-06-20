@@ -6,7 +6,7 @@ import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import Input from '@/shared/Controller/Input'
 import ProductList from '@/components/Common/ProductList/components/ProductList'
-import TabFilter, { Filter } from '@/shared/Filter/TabFilter'
+import TabFilter from '@/shared/Filter/TabFilter'
 import { EnumGenderProduct, EnumSortType, mappingProductGender } from '@/constants/enum'
 import Nav from '@/shared/Nav'
 import NavItem from '@/shared/NavItem'
@@ -19,16 +19,16 @@ const SearchPage = ({}) => {
   const [productCategories, setProductCategories] = useState<IProductCategory[]>([])
   const [pageNumber, setPageNumber] = useState(1)
   const [pageCount, setPageCount] = useState(1)
-  const [filter, setFilter] = useState<Filter>({
-    isNewIn: false,
-    isDiscounted: false,
-    isFeatured: false,
-    sortType: EnumSortType.Default,
-    genderProduct: EnumGenderProduct.All,
-    productRootCategoryIds: [],
-    productCategoryIds: [],
-    keySearch: ''
-  })
+  // const [filter, setFilter] = useState<IGetProductsRequest>({
+  //   isNewIn: false,
+  //   isDiscounted: false,
+  //   isFeatured: false,
+  //   sortType: EnumSortType.Default,
+  //   genderProduct: EnumGenderProduct.All,
+  //   productRootCategoryIds: [],
+  //   productCategoryIds: [],
+  //   keySearch: ''
+  // })
 
   return (
     <div className={`nc-SearchPage`} data-nc-id="SearchPage">
@@ -64,13 +64,13 @@ const SearchPage = ({}) => {
           {/* FILTER */}
           <div className='flex flex-col relative mb-12'>
             <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-6 lg:space-y-0 lg:space-x-2 ">
-              <Nav className="sm:space-x-2" containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar">
+              {/* <Nav className="sm:space-x-2" containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar">
                 {mappingProductGender.map((item, index) => (
                   <NavItem key={index} isActive={filter.genderProduct == item.id} onClick={() => setFilter((prevFilter) => ({ ...prevFilter, genderProduct: item.id }))}>
                     {item.name}
                   </NavItem>
                 ))}
-              </Nav>
+              </Nav> */}
               <span className="block flex-shrink-0 text-right">
                 <ButtonPrimary
                   className="w-auto !pr-16"
@@ -115,7 +115,7 @@ const SearchPage = ({}) => {
               leaveTo="opacity-0"
             >
               <div className="w-full border-b border-neutral-200/70 dark:border-neutral-700 my-8"></div>
-              <TabFilter filter={filter} setFilter={setFilter} productRootCategories={productRootCategories} productCategories={productCategories}/>
+              {/* <TabFilter filter={filter} setFilter={setFilter} productRootCategories={productRootCategories} productCategories={productCategories}/> */}
             </Transition>
           </div>
 
@@ -126,7 +126,7 @@ const SearchPage = ({}) => {
 
           {/* PAGINATION */}
           <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-            <Pagination pageNumber={pageNumber} pageCount={pageCount} setPageNumber={setPageNumber}/>
+            {/* <Pagination pageNumber={pageNumber} pageCount={pageCount} setPageNumber={setPageNumber}/> */}
             <ButtonPrimary loading>Xem thêm</ButtonPrimary>
           </div>
         </div>

@@ -17,12 +17,15 @@ interface IMenuCategory {
 }
 
 interface ICollectionDataResponse {
+  genderProduct: number
+  productRootCategoryId?: string
+  productCategoryId?: string
   name: string,
   description: string,
   titleSEO?: string
   keywordSEO?: string
   descriptionSEO?: string
-  products: IProduct[],
+  data: IPagingResponse<IProduct>,
   productRootCategories: IProductRootCategory[],
   productCategories: IProductCategory[],
 }

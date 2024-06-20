@@ -37,12 +37,12 @@ interface IProductStock {
 }
 
 interface IGetProductsRequest extends IPagingRequest {
-  genderProducts?: number[]
-  productCategoryIds?: string[]
-  productRootCategoryIds?: string[]
-  isFeatured?: boolean
-  isDiscounted?: boolean
-  isSoldOut?: boolean
-  isNewIn?: boolean
-  sortType: number
+  isNewIn?: boolean;
+  isDiscounted?: boolean;
+  isFeatured?: boolean;
+  genderProduct?: number;
+  productRootCategoryIds: string[];
+  productCategoryIds: string[];
+  keySearch: string;
+  sortType?: number;
 }
