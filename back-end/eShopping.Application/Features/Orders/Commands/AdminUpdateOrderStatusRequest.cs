@@ -35,40 +35,55 @@ namespace eShopping.Application.Features.Orders.Commands
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             var accountId = loggedUser.AccountId.Value;
             var order = await _unitOfWork.Orders.Find(order => order.Id == request.OrderId).Include(o => o.OrderItems).FirstOrDefaultAsync(cancellationToken);
-            using var createTransaction = await _unitOfWork.BeginTransactionAsync();
-            if (order != null)
+            return await _unitOfWork.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                order.Status = request.Status;
-
-                foreach (var item in order.OrderItems)
+                using var createTransaction = await _unitOfWork.BeginTransactionAsync();
+                try
                 {
-                    var stock = await _unitOfWork.ProductStocks
-                        .Where(x => item.ProductId == x.ProductId && item.ProductSizeId == x.ProductSizeId && item.ProductVariantId == x.ProductVariantId)
-                        .FirstOrDefaultAsync();
-                    if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
+                    if (order != null)
                     {
-                        stock.QuantityLeft += item.Quantity;
+                        foreach (var item in order.OrderItems)
+                        {
+                            var stock = await _unitOfWork.ProductStocks
+                                .Where(x => item.ProductId == x.ProductId && item.ProductSizeId == x.ProductSizeId && item.ProductVariantId == x.ProductVariantId)
+                                .FirstOrDefaultAsync();
+                            if (request.Status == EnumOrderStatus.Returned || request.Status == EnumOrderStatus.Canceled)
+                            {
+                                stock.QuantityLeft += item.Quantity;
+                            }
+                            else if (order.Status == EnumOrderStatus.Canceled && request.Status == EnumOrderStatus.Confirmed)
+                            {
+                                stock.QuantityLeft -= item.Quantity;
+                            }
+                            item.LastSavedTime = DateTime.UtcNow;
+                            item.LastSavedUser = accountId;
+                        }
+                        order.Status = request.Status;
+                        order.LastSavedUser = accountId;
+                        order.LastSavedTime = DateTime.Now;
                     }
-                    item.LastSavedTime = DateTime.UtcNow;
-                    item.LastSavedUser = accountId;
+
+                    // Add order history
+                    var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
+                    {
+                        OrderId = order.Id,
+                        ActionType = EnumOrderActionType.CANCEL,
+                        Note = request.Note,
+                        CreatedTime = DateTime.Now,
+                        CreatedUser = accountId,
+                    });
+
+                    await _unitOfWork.SaveChangesAsync();
+                    await createTransaction.CommitAsync(cancellationToken);
+
                 }
-                order.LastSavedUser = accountId;
-                order.LastSavedTime = DateTime.Now;
-            }
-
-            // Add order history
-            var orderHistory = await _unitOfWork.OrderHistories.AddAsync(new OrderHistory()
-            {
-                OrderId = order.Id,
-                ActionType = EnumOrderActionType.CANCEL,
-                Note = request.Note,
-                CreatedTime = DateTime.Now,
-                CreatedUser = accountId,
+                catch (Exception err)
+                {
+                    await createTransaction.RollbackAsync(cancellationToken);
+                    return BaseResponseModel.ReturnError(err.Message);
+                }
+                return BaseResponseModel.ReturnData();
             });
-
-            await _unitOfWork.SaveChangesAsync();
-            await createTransaction.CommitAsync(cancellationToken);
-            return BaseResponseModel.ReturnData();
         }
     }
 }
