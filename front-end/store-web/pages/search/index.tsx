@@ -13,12 +13,34 @@ import NavItem from '@/shared/NavItem'
 import { Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import ProductService from '@/services/product.service'
+import ProductCategoryService from '@/services/productCategory.service'
+import { GetServerSideProps } from 'next'
 
-interface IProps {
+interface ISearchProps {
   res: ISearchDataResponse
 }
 
-const SearchPage = ({ res }: IProps) => {
+export const getServerSideProps: GetServerSideProps<ISearchProps> = async (context) => {
+  const { params, req } = context
+  try {
+    const res = await ProductCategoryService.getSearchPage(params?.slug as string)
+    if (!res) {
+      return {
+        notFound: true,
+      }
+    }
+    return {
+      props: { res },
+    }
+  } catch (error) {
+    console.error('Error fetching search page:', error)
+    return {
+      notFound: true,
+    }
+  }
+}
+
+const SearchPage = ({ res }: ISearchProps) => {
   const [isOpen, setIsOpen] = useState(true)
   const [products, setProducts] = useState(res.data.result)
   const [pageCount, setPageCount] = useState(1)

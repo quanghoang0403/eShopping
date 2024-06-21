@@ -11,11 +11,11 @@ import ProductCategoryService from '@/services/productCategory.service'
 import SEO from '@/components/Layout/SEO'
 import ProductService from '@/services/product.service'
 
-interface IProps {
+interface ICollectionProps {
   res: ICollectionDataResponse
 }
 
-export const getServerSideProps: GetServerSideProps<IProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (context) => {
   const { params, req } = context
   try {
     const res = await ProductCategoryService.getCollectionPageByUrl(params?.slug as string)
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (context) =>
   }
 }
 
-const CollectionPage = ({ res }: IProps) => {
+const CollectionPage = ({ res }: ICollectionProps) => {
   const [products, setProducts] = useState(res.data.result)
   const [pageCount, setPageCount] = useState(res.data.paging.pageCount)
   const [filter, setFilter] = useState<IGetProductsRequest>({
