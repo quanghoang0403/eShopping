@@ -49,8 +49,8 @@ const commonSlice = createSlice({
             },
             {
               id: ncNanoId(),
-              urlSEO: '/about',
-              name: 'Về chúng tôi',
+              urlSEO: '/policy',
+              name: 'Chính sách',
             },
             {
               id: ncNanoId(),

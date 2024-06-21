@@ -3,6 +3,7 @@ using eShopping.Common.Extensions;
 using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.MemoryCaching;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -43,18 +44,18 @@ namespace eShopping.Application.Features.Products.Queries
 
     public class StoreGetProductsRequestHandler : IRequestHandler<StoreGetProductsRequest, BaseResponseModel>
     {
-        private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMemoryCachingService _memoryCachingService;
 
         public StoreGetProductsRequestHandler(
-            IUserProvider userProvider,
             IUnitOfWork unitOfWork,
+            IMemoryCachingService memoryCachingService,
             IMapper mapper)
         {
-            _userProvider = userProvider;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _memoryCachingService = memoryCachingService;
         }
 
         public async Task<BaseResponseModel> Handle(StoreGetProductsRequest request, CancellationToken cancellationToken)

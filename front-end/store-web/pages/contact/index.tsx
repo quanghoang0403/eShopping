@@ -9,25 +9,25 @@ import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 
 const info = [
   {
-    title: '🗺 ADDRESS',
-    desc: 'Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter',
+    title: '🗺 ĐỊA CHỈ',
+    desc: '198 Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP.HCM',
   },
   {
     title: '💌 EMAIL',
-    desc: 'nc.example@example.com',
+    desc: 'cuchoami.store@gmail.com',
   },
   {
-    title: '☎ PHONE',
-    desc: '000-123-456-7890',
+    title: '☎ ĐIỆN THOẠI/ZALO',
+    desc: '0946 290 739',
   },
 ]
 
 const ContactPage = ({}) => {
   return (
     <div className={`nc-ContactPage overflow-hidden`}>
-      <div className="">
+      <div className="pb-24 lg:pb-32">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
-          Contact
+          Liên hệ với chúng mình
         </h2>
         <div className="container max-w-7xl mx-auto">
           <div className="flex-shrink-0 grid grid-cols-1 md:grid-cols-2 gap-12 ">
@@ -39,7 +39,7 @@ const ContactPage = ({}) => {
                 </div>
               ))}
               <div>
-                <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">🌏 SOCIALS</h3>
+                <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">🌏 MẠNG XÃ HỘI</h3>
                 <SocialsListHorizontal className="mt-2" />
               </div>
             </div>
@@ -63,14 +63,6 @@ const ContactPage = ({}) => {
               </form>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* OTHER SECTIONS */}
-      <div className="container">
-        <div className="relative my-24 lg:my-32 py-24 lg:py-32">
-          <BackgroundSection />
-          <PromoBanner1 />
         </div>
       </div>
     </div>

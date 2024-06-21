@@ -7,6 +7,7 @@ import SectionFounder from '@/components/About/SectionFounder'
 import SectionClientSay from '@/components/About/SectionClientSay'
 import SectionStatistic from '@/components/About/SectionStatistic'
 import PromoBanner3 from '@/components/Common/Banner/PromoBanner3'
+import { ClockIcon, ArrowPathIcon, ExclamationCircleIcon, HandRaisedIcon, BeakerIcon, FireIcon } from '@heroicons/react/24/outline'
 
 const PageAbout = ({}) => {
   return (
@@ -17,20 +18,14 @@ const PageAbout = ({}) => {
       <div className="container py-16 lg:py-28 space-y-16 lg:space-y-28">
         <SectionHero
           rightImg={rightImg}
-          heading="👋 About Us."
+          heading="👋 Về Cúc Hoạ Mi."
           btnText=""
-          subHeading="We’re impartial and independent, and every day we create distinctive, world-class programmes and content which inform, educate and entertain millions of people in the around the world."
+          subHeading="Cúc Hoạ Mi là project thời trang cao cấp nửa cổ điển nửa hiện đại mà tụi mình hay gọi với cái tên thân thuộc Parisian Chic được làm bằng sự chân
+              thành và tử tế của Team. Nếu bạn yêu thích phong cách này hãy cùng tiệm trải nghiệm những items thời thượng này nhé!"
         />
 
-        <SectionFounder />
-        <div className="relative py-16">
-          <BackgroundSection />
-          <SectionClientSay />
-        </div>
-
-        <SectionStatistic />
-
-        <PromoBanner3 />
+        {/* <SectionFounder /> */}
+        {/* <SectionStatistic /> */}
       </div>
     </div>
   )

@@ -51,8 +51,6 @@ namespace eShopping.WebApi
                 );
             });
 
-            //services.AddSingleton<IDictionary<string, UserConnectionModel>>(opts => new Dictionary<string, UserConnectionModel>());
-
             services.AddOptions();
             services.AddControllers();
             services.AddHealthChecks();
