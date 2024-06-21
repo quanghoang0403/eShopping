@@ -1,4 +1,4 @@
-import rightImg from '@/images/hero-right1.png'
+import rightImg from '@/assets/images/hero-right1.png'
 import React from 'react'
 import BgGlassmorphism from '@/shared/Background/BgGlassmorphism'
 import SectionHero from '@/components/About/SectionHero'

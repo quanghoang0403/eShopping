@@ -1,6 +1,6 @@
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import React from 'react'
-import I404Png from '@/images/404.png'
+import I404Png from '@/assets/images/404.png'
 import NcImage from '@/shared/NcImage'
 import Link from 'next/link'
 

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import googleSvg from '@/images/Google.svg'
+import googleSvg from '@/assets/images/Google.svg'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Image from 'next/image'
 import Link from 'next/link'
