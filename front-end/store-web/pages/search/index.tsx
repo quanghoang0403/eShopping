@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Pagination from '@/shared/Pagination'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonCircle from '@/shared/Button/ButtonCircle'
@@ -12,23 +12,40 @@ import Nav from '@/shared/Nav'
 import NavItem from '@/shared/NavItem'
 import { Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import ProductService from '@/services/product.service'
 
-const SearchPage = ({}) => {
+interface IProps {
+  res: ISearchDataResponse
+}
+
+const SearchPage = ({ res }: IProps) => {
   const [isOpen, setIsOpen] = useState(true)
-  const [productRootCategories, setProductRootCategories] = useState<IProductRootCategory[]>([])
-  const [productCategories, setProductCategories] = useState<IProductCategory[]>([])
-  const [pageNumber, setPageNumber] = useState(1)
+  const [products, setProducts] = useState(res.data.result)
   const [pageCount, setPageCount] = useState(1)
-  // const [filter, setFilter] = useState<IGetProductsRequest>({
-  //   isNewIn: false,
-  //   isDiscounted: false,
-  //   isFeatured: false,
-  //   sortType: EnumSortType.Default,
-  //   genderProduct: EnumGenderProduct.All,
-  //   productRootCategoryIds: [],
-  //   productCategoryIds: [],
-  //   keySearch: ''
-  // })
+  const [filter, setFilter] = useState<IGetProductsRequest>({
+    pageNumber: 1,
+    pageSize: 12,
+    isNewIn: false,
+    isDiscounted: false,
+    isFeatured: false,
+    sortType: EnumSortType.Default,
+    genderProduct: EnumGenderProduct.All,
+    productRootCategoryIds: [],
+    productCategoryIds: [],
+    keySearch: res.keySearch
+  })
+
+  const fetchProducts = async () => { 
+    const resFilter = await ProductService.getProducts(filter)
+    if (resFilter) {
+      setProducts(resFilter.result)
+      setPageCount(resFilter.paging.pageCount)
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [filter.pageNumber])
 
   return (
     <div className={`nc-SearchPage`} data-nc-id="SearchPage">
@@ -38,7 +55,7 @@ const SearchPage = ({}) => {
           <form className="relative w-full " method="post">
             <label htmlFor="search-input" className="text-neutral-500 dark:text-neutral-300">
               <span className="sr-only">Tìm kiếm</span>
-              <Input className="shadow-lg border-0 dark:border" placeholder="Type your keywords" sizeClass="pl-14 py-5 pr-5 md:pl-16" rounded="rounded-full" />
+              <Input className="shadow-lg border-0 dark:border" placeholder="Nhập từ khoá" sizeClass="pl-14 py-5 pr-5 md:pl-16" rounded="rounded-full" />
               <ButtonCircle className="absolute right-2.5 top-1/2 transform -translate-y-1/2" size=" w-11 h-11" type="submit">
                 <i className="las la-arrow-right text-xl"></i>
               </ButtonCircle>
@@ -64,13 +81,13 @@ const SearchPage = ({}) => {
           {/* FILTER */}
           <div className='flex flex-col relative mb-12'>
             <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-6 lg:space-y-0 lg:space-x-2 ">
-              {/* <Nav className="sm:space-x-2" containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar">
+              <Nav className="sm:space-x-2" containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar">
                 {mappingProductGender.map((item, index) => (
                   <NavItem key={index} isActive={filter.genderProduct == item.id} onClick={() => setFilter((prevFilter) => ({ ...prevFilter, genderProduct: item.id }))}>
                     {item.name}
                   </NavItem>
                 ))}
-              </Nav> */}
+              </Nav>
               <span className="block flex-shrink-0 text-right">
                 <ButtonPrimary
                   className="w-auto !pr-16"
@@ -115,19 +132,24 @@ const SearchPage = ({}) => {
               leaveTo="opacity-0"
             >
               <div className="w-full border-b border-neutral-200/70 dark:border-neutral-700 my-8"></div>
-              {/* <TabFilter filter={filter} setFilter={setFilter} productRootCategories={productRootCategories} productCategories={productCategories}/> */}
+              <TabFilter 
+                filter={filter} 
+                setFilter={setFilter}
+                onApply={fetchProducts} 
+                productRootCategories={res.productRootCategories} 
+                productCategories={res.productCategories.filter(c => filter.productRootCategoryIds.includes(c.productRootCategoryId))}/>
             </Transition>
           </div>
 
           {/* LOOP ITEMS */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
-            <ProductList />
+            <ProductList data={products}/>
           </div>
 
           {/* PAGINATION */}
           <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-            {/* <Pagination pageNumber={pageNumber} pageCount={pageCount} setPageNumber={setPageNumber}/> */}
-            <ButtonPrimary loading>Xem thêm</ButtonPrimary>
+            <Pagination pageCount={pageCount} filter={filter} setFilter={setFilter} />
+            <ButtonPrimary onClick={() => setFilter((prevFilter) => ({ ...prevFilter, pageNumber: filter.pageNumber + 1 }))} loading>Xem thêm</ButtonPrimary>
           </div>
         </div>
 

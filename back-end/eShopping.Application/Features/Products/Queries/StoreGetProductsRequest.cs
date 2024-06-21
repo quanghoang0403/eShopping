@@ -125,6 +125,7 @@ namespace eShopping.Application.Features.Products.Queries
                 .Include(p => p.ProductSizeCategory.ProductSizes)
                 .Include(p => p.ProductStocks)
                 .AsNoTracking()
+                .OrderBy(p => p.Priority)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProducts.Result;
             var productResponse = _mapper.Map<List<StoreProductModel>>(pagingResult);

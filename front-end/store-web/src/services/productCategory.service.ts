@@ -7,4 +7,7 @@ export default class ProductCategoryService {
   static async getCollectionPageByUrl(url: string): Promise<ICollectionDataResponse> {
     return await APIService.get(`/productRootCategory/get-collection-page-by-url?url=${url}`)
   }
+  static async getSearchPage(keySearch: string): Promise<ICollectionDataResponse> {
+    return await APIService.get(`/productRootCategory/get-search-page?keySearch=${keySearch}`)
+  }
 }

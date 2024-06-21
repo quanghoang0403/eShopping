@@ -30,6 +30,13 @@ interface ICollectionDataResponse {
   productCategories: IProductCategory[],
 }
 
+interface ISearchDataResponse {
+  keySearch: string
+  data: IPagingResponse<IProduct>,
+  productRootCategories: IProductRootCategory[],
+  productCategories: IProductCategory[],
+}
+
 interface IProductCategoryDetail extends ISEO {}
 
 interface IProductRootCategoryDetail extends ISEO {}

@@ -21,6 +21,14 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpGet]
+        [Route("get-search-page")]
+        public async Task<IActionResult> GetSearchPage([FromQuery] StoreGetSearchPageRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("get-product-root-category-by-url")]
         public async Task<IActionResult> GetProductRootCategoryByUrlAsync([FromQuery] StoreGetProductRootCategoryByUrlRequest request)
         {

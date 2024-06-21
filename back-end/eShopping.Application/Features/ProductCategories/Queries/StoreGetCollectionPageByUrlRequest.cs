@@ -143,7 +143,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 .ToListAsync();
             res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);
 
-            var productPaging = await products.ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
+            var productPaging = await products.OrderBy(x => x.Priority).ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
             var productModel = _mapper.Map<List<StoreProductModel>>(productPaging.Result);
             res.Data = new PagingResult<StoreProductModel>(productModel, productPaging.Paging); ;
             return BaseResponseModel.ReturnData(res);
