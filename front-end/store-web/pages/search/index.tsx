@@ -55,7 +55,13 @@ const SearchPage = ({ res }: IProps) => {
           <form className="relative w-full " method="post">
             <label htmlFor="search-input" className="text-neutral-500 dark:text-neutral-300">
               <span className="sr-only">Tìm kiếm</span>
-              <Input className="shadow-lg border-0 dark:border" placeholder="Nhập từ khoá" sizeClass="pl-14 py-5 pr-5 md:pl-16" rounded="rounded-full" />
+              <Input 
+                value={filter.keySearch}
+                onChange={(event) => setFilter((prevFilter) => ({ ...prevFilter, keySearch: event.target.value }))} 
+                className="shadow-lg border-0 dark:border" 
+                placeholder="Nhập từ khoá" 
+                sizeClass="pl-14 py-5 pr-5 md:pl-16" 
+                rounded="rounded-full" />
               <ButtonCircle className="absolute right-2.5 top-1/2 transform -translate-y-1/2" size=" w-11 h-11" type="submit">
                 <i className="las la-arrow-right text-xl"></i>
               </ButtonCircle>
