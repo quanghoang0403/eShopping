@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using eShopping.Application.Features.Products.Queries;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
@@ -20,7 +18,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 {
     public class StoreGetCollectionPageByUrlRequest : IRequest<BaseResponseModel>
     {
-        public string Url { get; set; }
+        public List<string> Slugs { get; set; }
     }
 
     public class StoreGetCollectionPageByUrlResponse
@@ -54,16 +52,14 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetCollectionPageByUrlRequest request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(request.Url))
+            if (request.Slugs == null || request.Slugs.Count == 0)
             {
                 return BaseResponseModel.ReturnError("Không tìm thấy trang");
             }
 
-            var segments = request.Url.Trim('/').Split('/');
-
-            var slugGender = segments.Length > 0 ? segments[0] : null;
-            var slugProductRootCategory = segments.Length > 1 ? segments[1] : null;
-            var slugProductCategory = segments.Length > 2 ? segments[2] : null;
+            var slugGender = request.Slugs.Count > 0 ? request.Slugs[0] : null;
+            var slugProductRootCategory = request.Slugs.Count > 1 ? request.Slugs[1] : null;
+            var slugProductCategory = request.Slugs.Count > 2 ? request.Slugs[2] : null;
 
             var res = new StoreGetCollectionPageByUrlResponse();
 

@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
-using eShopping.Application.Features.Products.Queries;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Entities;
-using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -47,22 +43,16 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetSearchPageRequest request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(request.KeySearch))
-            {
-                return BaseResponseModel.ReturnError("Không tìm thấy trang");
-            }
 
             var res = new StoreGetSearchPageResponse() { KeySearch = request.KeySearch };
-            string keySearch = request.KeySearch.Trim().ToLower();
 
-            var products = _unitOfWork.Products.GetAll()
-                .AsNoTracking()
-                .Include(p => p.ProductVariants)
-                .Include(p => p.ProductCategory)
-                .Include(p => p.ProductRootCategory)
-                .Include(p => p.ProductSizeCategory.ProductSizes)
-                .Include(p => p.ProductStocks)
-                .Where(p => p.Name.ToLower().Contains(keySearch));
+            var products = _unitOfWork.Products.GetAll();
+
+            if (!string.IsNullOrEmpty(request.KeySearch))
+            {
+                string keySearch = request.KeySearch.Trim().ToLower();
+                products = products.Where(p => p.Name.ToLower().Contains(keySearch));
+            }
 
             var productRootCategories = await _unitOfWork.ProductRootCategories
                 .GetAll()
@@ -76,7 +66,16 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 .ToListAsync();
             res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);
 
-            var productPaging = await products.OrderBy(x => x.Priority).ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
+            var productPaging = await products
+                .AsNoTracking()
+                .Include(p => p.ProductVariants)
+                .Include(p => p.ProductCategory)
+                .Include(p => p.ProductRootCategory)
+                .Include(p => p.ProductSizeCategory.ProductSizes)
+                .Include(p => p.ProductStocks)
+                .OrderBy(x => x.Priority)
+                .ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
+
             var productModel = _mapper.Map<List<StoreProductModel>>(productPaging.Result);
             res.Data = new PagingResult<StoreProductModel>(productModel, productPaging.Paging); ;
             return BaseResponseModel.ReturnData(res);

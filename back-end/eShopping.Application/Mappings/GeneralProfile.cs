@@ -52,7 +52,6 @@ namespace eShopping.Application.Mappings
             CreateMap<ProductCategory, StoreProductCategoryDetailModel>();
             CreateMap<ProductCategory, AdminProductCategoryModel>();
             CreateMap<ProductCategory, StoreProductCategoryModel>();
-            CreateMap<ProductCategory, StoreNavigationModel>();
 
             CreateMap<ProductRootCategory, AdminProductRootCategoryDetailModel>();
             CreateMap<ProductRootCategory, StoreProductRootCategoryDetailModel>();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eShopping.Common.Extensions;
 using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
@@ -67,9 +68,11 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    UrlSEO = x.UrlSEO,
+                    UrlSEO = $"/collection/{gender.GetDescription()}/{x.UrlSEO}",
                     Type = "megaMenu",
-                    Children = _mapper.Map<List<StoreNavigationModel>>(x.ProductCategories.Where(c => c.GenderProduct == EnumGenderProduct.All || c.GenderProduct == gender))
+                    Children = x.ProductCategories
+                        .Where(c => c.GenderProduct == EnumGenderProduct.All || c.GenderProduct == gender)
+                        .Select(c => new StoreNavigationModel() { Id = c.Id, Name = c.Name, UrlSEO = $"/collection/{gender.GetDescription()}/{x.UrlSEO}/{c.UrlSEO}" })
                 }).ToList();
             return menuCategories;
         }
