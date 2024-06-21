@@ -4,20 +4,22 @@ import Label from '@/shared/Controller/Label'
 import Input from '@/shared/Controller/Input'
 import Textarea from '@/shared/Controller/Textarea'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
-import BackgroundSection from '@/shared/Background/BackgroundSection'
-import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
+import { GlobeAltIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline'
 
 const info = [
   {
-    title: '🗺 ĐỊA CHỈ',
+    icon: <MapPinIcon className='w-5 h-5 mr-1.5'/>,
+    title: 'ĐỊA CHỈ',
     desc: '198 Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP.HCM',
   },
   {
-    title: '💌 EMAIL',
+    icon: <GlobeAltIcon className='w-5 h-5 mr-1.5'/>,
+    title: 'EMAIL',
     desc: 'cuchoami.store@gmail.com',
   },
   {
-    title: '☎ ĐIỆN THOẠI/ZALO',
+    icon: <PhoneIcon className='w-5 h-5 mr-1.5'/>,
+    title: 'ĐIỆN THOẠI',
     desc: '0946 290 739',
   },
 ]
@@ -34,12 +36,13 @@ const ContactPage = ({}) => {
             <div className="max-w-sm space-y-8">
               {info.map((item, index) => (
                 <div key={index}>
-                  <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">{item.title}</h3>
+                  <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider flex align-center">{item.icon} {item.title}</h3>
                   <span className="block mt-2 text-neutral-500 dark:text-neutral-400">{item.desc}</span>
                 </div>
               ))}
               <div>
-                <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider">🌏 MẠNG XÃ HỘI</h3>
+                <h3 className="uppercase font-semibold text-sm dark:text-neutral-200 tracking-wider flex align-center">
+                  <GlobeAltIcon className='w-5 h-5 mr-1.5'/> MẠNG XÃ HỘI</h3>
                 <SocialsListHorizontal className="mt-2" />
               </div>
             </div>

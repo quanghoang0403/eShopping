@@ -2,6 +2,7 @@ import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import React from 'react'
 import I404Png from '@/images/404.png'
 import NcImage from '@/shared/NcImage'
+import Link from 'next/link'
 
 const Custom404 = () => (
   <div className="nc-Page404">
@@ -13,7 +14,9 @@ const Custom404 = () => (
           {`TRANG BẠN TÌM KIẾM KHÔNG TỒN TẠI `}
         </span>
         <div className="pt-8">
-          <ButtonPrimary href="/">Trở về trang chủ</ButtonPrimary>
+          <ButtonPrimary>
+            <Link href='/'>Trở về trang chủ</Link>
+          </ButtonPrimary>
         </div>
       </header>
     </div>

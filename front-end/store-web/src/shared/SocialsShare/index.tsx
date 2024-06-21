@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 export interface SocialsShareProps {
   className?: string;
@@ -7,15 +7,13 @@ export interface SocialsShareProps {
 
 export interface SocialType {
   name: string;
-  icon: string;
+  icon: ReactNode;
   href: string;
 }
 
 const socials: SocialType[] = [
-  { name: "Facebook", icon: "lab la-facebook-f", href: "#" },
-  { name: "Twitter", icon: "lab la-twitter", href: "#" },
-  { name: "Linkedin", icon: "lab la-linkedin-in", href: "#" },
-  { name: "Instagram", icon: "lab la-instagram", href: "#" },
+  { name: "Facebook", icon: <i className="lab la-facebook-f"></i>, href: "#" },
+  { name: "Instagram", icon: <i className="lab la-instagram"></i>, href: "#" },
 ];
 
 const SocialsShare: FC<SocialsShareProps> = ({
@@ -30,7 +28,7 @@ const SocialsShare: FC<SocialsShareProps> = ({
         className={`rounded-full leading-none flex items-center justify-center bg-white text-neutral-6000 ${itemClass}`}
         title={`Share on ${item.name}`}
       >
-        <i className={item.icon}></i>
+        {item.icon}
       </a>
     );
   };
