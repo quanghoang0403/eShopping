@@ -18,7 +18,7 @@ interface ICollectionProps {
 export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (context) => {
   const { params, req } = context
   try {
-    const res = await ProductCategoryService.getCollectionPageByUrl(params?.slug as string)
+    const res = await ProductCategoryService.getCollectionPageByUrl(params?.slug as string[])
     if (!res) {
       return {
         notFound: true,
