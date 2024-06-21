@@ -1,6 +1,4 @@
 import React, { FC, useState } from 'react'
-import facebookSvg from '@/images/Facebook.svg'
-import twitterSvg from '@/images/Twitter.svg'
 import googleSvg from '@/images/Google.svg'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Image from 'next/image'
@@ -15,16 +13,6 @@ import AuthService from '@/services/auth.service'
 import Input from '@/shared/Controller/Input'
 
 // const loginSocials = [
-//   {
-//     name: 'Continue with Facebook',
-//     href: '#',
-//     icon: facebookSvg,
-//   },
-//   {
-//     name: 'Continue with Twitter',
-//     href: '#',
-//     icon: twitterSvg,
-//   },
 //   {
 //     name: 'Continue with Google',
 //     href: '#',

@@ -1,6 +1,4 @@
 import React, { FC, useCallback, useState } from 'react'
-import facebookSvg from '@/images/Facebook.svg'
-import twitterSvg from '@/images/Twitter.svg'
 import googleSvg from '@/images/Google.svg'
 import Input from '@/shared/Controller/Input'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
@@ -13,16 +11,6 @@ import AuthService from '@/services/auth.service'
 import { useAppMutation } from '@/hooks/useQuery'
 
 // const loginSocials = [
-//   {
-//     name: 'Continue with Facebook',
-//     href: '#',
-//     icon: facebookSvg,
-//   },
-//   {
-//     name: 'Continue with Twitter',
-//     href: '#',
-//     icon: twitterSvg,
-//   },
 //   {
 //     name: 'Continue with Google',
 //     href: '#',
