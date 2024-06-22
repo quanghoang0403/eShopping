@@ -1,17 +1,20 @@
 @import '../../stylesheets/variable';
 .ant-segmented-item{
-    background: $color-A5ABDE;
+    background: $color-purple;
     width:150px;
     font-size: medium;
     color: white;
     margin: 0 1px;
+    &:hover{
+      color:white;
+    }
 }
 .ant-segmented-item-selected{
-    background-color: $color-ECF1F9;
+    background-color: $color-A5ABDE;
     border-radius: 10px;
-    color:$color-light-purple-2;
+    color: white;
     &:hover{
-        color:$color-light-purple-2;
+        color:white;
     }
     .ant-segmented-item-label > *{
         background: transparent;

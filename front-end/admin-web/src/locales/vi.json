@@ -298,12 +298,19 @@
     },
     "order": {
         "title": "Quản lý đơn hàng",
+        "titleDetail":"Chi tiết đơn hàng",
         "orderName": "Đơn hàng",
-        "totalBill": "Tổng tiền",
-        "createTime": "Ngày tạo đơn",
+        "totalBill": "Tổng số tiền",
+        "totalDiscount":"Tổng số tiền khuyễn mãi",
+        "shippingFee":"Phí ship",
+        "totalFinalBill":"Tổng giá trị đơn hàng",
         "location": "Địa chỉ",
+        "receiver":"Tên người nhận",
+        "receiverEmail":"Email người nhận",
+        "receiverPhone":"Số điện thoại người nhận",
         "payment": "Phương thức thanh toán",
         "paymentStatus": "Trạng thái thanh toán",
+        "status":"Trạng thái",
         "statusNew": "Mới",
         "statusReturn": "Hoàn trả",
         "statusCancel": "Hủy",
@@ -314,7 +321,16 @@
         "statusDraft": "Draft",
         "updateSuccess": "Cập nhật đơn hàng thành công",
         "orderCancelationPlaceholder": "Lí do hủy",
-        "orderCancelationRequire": "Vui lòng nêu lí do hủy"
+        "orderCancelationRequire": "Vui lòng nêu lí do hủy",
+        "note":"Ghi chú",
+        "orderId":"Mã vận đơn",
+        "orderCreateDate":"Ngày tạo đơn",
+        "orderCustomerInfoTitle":"Thông tin khách hàng",
+        "messageCustomerFetchFail":"Lấy thông tin khách hàng thất bại",
+        "paymentInfoTitle":"Thông tin thanh toán",
+        "shippingDetailTitle":"Thông tin giao hàng",
+        "product":"Sản phẩm",
+        "noNote":"Không có ghi chú"
     },
     "product": {
         "addProduct": "Thêm sản phẩm",
@@ -557,6 +573,7 @@
         "staffDeleteFail": "Xóa nhân viên thất bại"
     },
     "table": {
+        "quantity":"SỐ LƯỢNG",
         "no": "STT",
         "id": "ID",
         "name": "TÊN",

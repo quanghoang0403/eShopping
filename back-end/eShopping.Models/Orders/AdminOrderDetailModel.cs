@@ -39,18 +39,18 @@ namespace eShopping.Models.Orders
 
         public string Note { get; set; }
 
-        public decimal TotalQuantity { get; set; }
+        public int TotalQuantity { get; set; }
 
-        
+
         public decimal DeliveryFee { get; set; }
 
-        
+
         public decimal TotalPriceOrigin { get; set; }
 
-        
+
         public decimal TotalPrice { get; set; }
 
-        
+
         public decimal TotalAmount { get; set; }
 
         public decimal Profit { get; set; }

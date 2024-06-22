@@ -1,8 +1,8 @@
-﻿using eShopping.Common.Attributes.Permission;
+﻿using eShopping.Application.Features.Orders.Commands;
+using eShopping.Application.Features.Orders.Queries;
+using eShopping.Common.Attributes.Permission;
 using eShopping.Domain.Enums;
 using eShopping.WebApi.Controllers.Base;
-using eShopping.Application.Features.Orders.Commands;
-using eShopping.Application.Features.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,7 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         [HttpGet]
         [Route("get-order-by-id/{id}")]
         [HasPermission(EnumPermission.VIEW_ORDER)]
-        public async Task<IActionResult> GetOrderByIdAsync([FromHeader] AdminGetOrderByIdRequest request)
+        public async Task<IActionResult> GetOrderByIdAsync([FromRoute] AdminGetOrderByIdRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);

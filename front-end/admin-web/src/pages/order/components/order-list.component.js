@@ -1,20 +1,21 @@
 import { Col, Image, Row, Card, Button, message } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { DeliveryGuy } from 'constants/icons.constants';
-import './OrderList.component.scss'
-import { hasPermission } from 'utils/helpers';
+import './order-list.component.scss'
+import { formatTextNumber, getCurrency, hasPermission } from 'utils/helpers';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OrderStatus, OrderStatusColor } from 'constants/order-status.constants';
-import OrderDataService from 'data-services/order/order-data.service';
+import { useHistory } from 'react-router-dom';
 export default function OrderList(props) {
   const { dataSource, permission, status, onConfirm, onConfirmCancel } = props
+  const history = useHistory()
   const [t] = useTranslation();
   const pageData = {
+    titleDetail:t('order.titleDetail'),
     title: t('order.orderName'),
     location: t('order.location'),
-    createTime: t('order.createTime'),
+    createTime: t('order.orderCreateDate'),
     totalBill: t('order.totalBill'),
     payment: t('order.payment'),
     paymentStatus: t('order.paymentStatus'),
@@ -33,6 +34,7 @@ export default function OrderList(props) {
     return (
       hasPermission(permission) && status != 4 &&
       <div>
+        <Button type='primary' onClick={()=> history?.push(`order/detail/${id}`)} className='my-2'>{pageData.titleDetail}</Button>
         <Button type="primary" onClick={() => onConfirm(id, status === OrderStatus.Canceled ? OrderStatus.ToConfirm : status + 1, '')} >
           {status === pageData.status.length - 1 ? pageData.status[1] : pageData.status[status + 1]}
         </Button>
@@ -53,7 +55,7 @@ export default function OrderList(props) {
               <div className={`${OrderStatusColor[status]} mt-3 order-card-content`}>
                 <div className="w-100 order-content">
                   <b>{pageData.totalBill}:</b>
-                  <p className="">{data?.totalPrice}</p>
+                  <p className="">{formatTextNumber(data?.totalPrice) + getCurrency()}</p>
                 </div>
                 <div className="w-100 order-content">
                   <b>{pageData.createTime}:</b>
