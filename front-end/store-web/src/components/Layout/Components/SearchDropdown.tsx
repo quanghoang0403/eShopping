@@ -46,7 +46,7 @@ const SearchDropdown: FC<Props> = ({ className = '' }) => {
               >
                 <Popover.Panel static className="absolute right-0 z-10 w-screen max-w-sm mt-3">
                   <form action="" method="POST">
-                    <Input ref={inputRef} placeholder="Type and press enter" />
+                    <Input ref={inputRef} placeholder="Nhập từ khoá và tìm kiếm" />
                     <input type="submit" hidden value="" />
                   </form>
                 </Popover.Panel>

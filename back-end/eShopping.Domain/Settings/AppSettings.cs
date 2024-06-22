@@ -7,6 +7,8 @@
         public EmailSettings Elastic { get; set; }
 
         public PaymentSettings PaymentSettings { get; set; }
+
+        public CacheSettings CacheSettings { get; set; }
     }
 
     public class AzureStorageSettings
@@ -29,6 +31,11 @@
         public string Email { get; set; }
 
         public string ApiKey { get; set; }
+    }
+
+    public class CacheSettings
+    {
+        public bool IsUseCache { get; set; }
     }
 
     public class PaymentSettings

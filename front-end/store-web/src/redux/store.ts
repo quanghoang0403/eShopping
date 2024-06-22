@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import commonReducer from './features/commonSlice'
 import sessionReducer from './features/sessionSlice'
+import productReducer from './features/productSlice'
 import { createWrapper } from 'next-redux-wrapper'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 
 // COMBINING ALL REDUCERS
 const combinedReducer = combineReducers({
+  product: productReducer,
   common: commonReducer,
   session: sessionReducer,
 })

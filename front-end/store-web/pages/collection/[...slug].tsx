@@ -1,15 +1,15 @@
-import React, { FC, use, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import Pagination from '@/shared/Pagination'
-import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import TabFilter from '@/shared/Filter/TabFilter'
 import PromoBanner1 from '@/components/Common/Banner/PromoBanner1'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import ProductList from '@/components/Common/ProductList/components/ProductList'
-import { EnumGenderProduct, EnumSortType } from '@/constants/enum'
 import { GetServerSideProps } from 'next'
 import ProductCategoryService from '@/services/productCategory.service'
 import SEO from '@/components/Layout/SEO'
 import ProductService from '@/services/product.service'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { productActions } from '@/redux/features/productSlice'
 
 interface ICollectionProps {
   res: ICollectionDataResponse
@@ -38,21 +38,11 @@ export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (c
 const CollectionPage = ({ res }: ICollectionProps) => {
   const [products, setProducts] = useState(res.data.result)
   const [pageCount, setPageCount] = useState(res.data.paging.pageCount)
-  const [filter, setFilter] = useState<IGetProductsRequest>({
-    pageNumber: 1,
-    pageSize: 12,
-    isNewIn: false,
-    isDiscounted: false,
-    isFeatured: false,
-    sortType: EnumSortType.Default,
-    genderProduct: res.genderProduct,
-    productRootCategoryIds: res.productRootCategoryId ? [res.productRootCategoryId] : [],
-    productCategoryIds: res.productCategoryId ? [res.productCategoryId] : [],
-    keySearch: ''
-  })
+  const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
+  const dispatch = useAppDispatch()
 
-  const fetchProducts = async () => { 
-    const resFilter = await ProductService.getProducts(filter)
+  const fetchProducts = async () => {
+    const resFilter = await ProductService.getProducts(getProductRequest)
     if (resFilter) {
       setProducts(resFilter.result)
       setPageCount(resFilter.paging.pageCount)
@@ -60,8 +50,15 @@ const CollectionPage = ({ res }: ICollectionProps) => {
   }
 
   useEffect(() => {
-    fetchProducts()
-  }, [filter.pageNumber])
+    dispatch(
+      productActions.updateRequest({
+        ...getProductRequest,
+        genderProduct: res.genderProduct,
+        productRootCategoryIds: res.productRootCategoryId ? [res.productRootCategoryId] : [],
+        productCategoryIds: res.productCategoryId ? [res.productCategoryId] : [],
+      })
+    )
+  }, [])
 
   return (
     <>
@@ -72,31 +69,32 @@ const CollectionPage = ({ res }: ICollectionProps) => {
             {/* HEADING */}
             <div className="max-w-screen-sm">
               <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">{res.name}</h2>
-              <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">
-                {res.description}
-              </span>
+              <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">{res.description}</span>
             </div>
 
             <hr className="border-slate-200 dark:border-slate-700" />
             <div>
               {/* TABS FILTER */}
-              <TabFilter 
-                filter={filter} 
-                setFilter={setFilter}
-                onApply={fetchProducts} 
-                productRootCategories={res.productRootCategories} 
-                productCategories={res.productCategories.filter(c => filter.productRootCategoryIds.includes(c.productRootCategoryId))}/>
+              <TabFilter
+                onApply={fetchProducts}
+                productRootCategories={res.productRootCategories}
+                productCategories={res.productCategories.filter((c) => getProductRequest.productRootCategoryIds.includes(c.productRootCategoryId))}
+              />
 
               {/* LOOP ITEMS */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
-                <ProductList data={products}/>
+                <ProductList data={products} />
               </div>
 
               {/* PAGINATION */}
-              <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-                <Pagination pageCount={pageCount} filter={filter} setFilter={setFilter} />
-                <ButtonPrimary onClick={() => setFilter((prevFilter) => ({ ...prevFilter, pageNumber: filter.pageNumber + 1 }))} loading>Xem thêm</ButtonPrimary>
-              </div>
+              {pageCount > 1 && (
+                <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
+                  <Pagination onApply={fetchProducts} pageCount={pageCount} />
+                  {/* <ButtonPrimary onClick={() => setFilter((prevFilter) => ({ ...prevFilter, pageNumber: filter.pageNumber + 1 }))} loading>
+                    Xem thêm
+                  </ButtonPrimary> */}
+                </div>
+              )}
             </div>
           </div>
 

@@ -116,6 +116,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     var productRootCategory = await _unitOfWork.ProductRootCategories.GetProductRootCategoryDetailByUrlAsync(slugProductRootCategory);
                     if (productRootCategory == null) return BaseResponseModel.ReturnError("Không tìm thấy trang");
                     products = products.Where(x => x.ProductRootCategory.UrlSEO == slugProductRootCategory);
+                    res.ProductRootCategoryId = productRootCategory.Id;
                     res.Name = $"Bộ sưu tập {productRootCategory.Name}";
                     res.Description = productRootCategory.Description;
                     res.TitleSEO = productRootCategory.TitleSEO;
@@ -128,6 +129,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     var productCategory = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(slugProductCategory);
                     if (productCategory == null) return BaseResponseModel.ReturnError("Không tìm thấy trang");
                     products = products.Where(x => x.ProductCategory.UrlSEO == slugProductCategory);
+                    res.ProductCategoryId = productCategory.Id;
                     res.Name = $"Bộ sưu tập {productCategory.Name}";
                     res.Description = productCategory.Description;
                     res.TitleSEO = productCategory.TitleSEO;

@@ -16,6 +16,8 @@ import ProductService from '@/services/product.service'
 import ProductCategoryService from '@/services/productCategory.service'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/navigation'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { productActions } from '@/redux/features/productSlice'
 
 interface ISearchProps {
   res: ISearchDataResponse
@@ -47,21 +49,11 @@ const SearchPage = ({ res }: ISearchProps) => {
   const [isOpen, setIsOpen] = useState(true)
   const [products, setProducts] = useState(res.data.result)
   const [pageCount, setPageCount] = useState(1)
-  const [filter, setFilter] = useState<IGetProductsRequest>({
-    pageNumber: 1,
-    pageSize: 12,
-    isNewIn: false,
-    isDiscounted: false,
-    isFeatured: false,
-    sortType: EnumSortType.Default,
-    genderProduct: EnumGenderProduct.All,
-    productRootCategoryIds: [],
-    productCategoryIds: [],
-    keySearch: res.keySearch ?? '',
-  })
+  const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
+  const dispatch = useAppDispatch()
 
   const fetchProducts = async () => {
-    const resFilter = await ProductService.getProducts(filter)
+    const resFilter = await ProductService.getProducts(getProductRequest)
     if (resFilter) {
       setProducts(resFilter.result)
       setPageCount(resFilter.paging.pageCount)
@@ -69,8 +61,13 @@ const SearchPage = ({ res }: ISearchProps) => {
   }
 
   useEffect(() => {
-    fetchProducts()
-  }, [filter.pageNumber])
+    dispatch(
+      productActions.updateRequest({
+        ...getProductRequest,
+        keySearch: res.keySearch,
+      })
+    )
+  }, [])
 
   return (
     <div className={`nc-SearchPage`} data-nc-id="SearchPage">
@@ -81,14 +78,14 @@ const SearchPage = ({ res }: ISearchProps) => {
             className="relative w-full"
             onSubmit={(e) => {
               e.preventDefault()
-              router.push(`/search?keySearch=${encodeURIComponent(filter.keySearch)}`)
+              router.push(`/search?keySearch=${encodeURIComponent(getProductRequest.keySearch)}`)
             }}
           >
             <label htmlFor="search-input" className="text-neutral-500 dark:text-neutral-300">
               <span className="sr-only">Tìm kiếm</span>
               <Input
-                value={filter.keySearch}
-                onChange={(event) => setFilter((prevFilter) => ({ ...prevFilter, keySearch: event.target.value }))}
+                value={getProductRequest.keySearch}
+                onChange={(event) => dispatch(productActions.updateRequest({ ...getProductRequest, keySearch: event.target.value }))}
                 className="shadow-lg border-0 dark:border"
                 placeholder="Nhập từ khoá"
                 sizeClass="pl-14 py-5 pr-5 md:pl-16"
@@ -123,8 +120,8 @@ const SearchPage = ({ res }: ISearchProps) => {
                 {mappingProductGender.map((item, index) => (
                   <NavItem
                     key={index}
-                    isActive={filter.genderProduct == item.id}
-                    onClick={() => setFilter((prevFilter) => ({ ...prevFilter, genderProduct: item.id }))}
+                    isActive={getProductRequest.genderProduct == item.id}
+                    onClick={() => dispatch(productActions.updateRequest({ ...getProductRequest, genderProduct: item.id }))}
                   >
                     {item.name}
                   </NavItem>
@@ -175,11 +172,9 @@ const SearchPage = ({ res }: ISearchProps) => {
             >
               <div className="w-full border-b border-neutral-200/70 dark:border-neutral-700 my-8"></div>
               <TabFilter
-                filter={filter}
-                setFilter={setFilter}
                 onApply={fetchProducts}
                 productRootCategories={res.productRootCategories}
-                productCategories={res.productCategories.filter((c) => filter.productRootCategoryIds.includes(c.productRootCategoryId))}
+                productCategories={res.productCategories.filter((c) => getProductRequest.productRootCategoryIds.includes(c.productRootCategoryId))}
               />
             </Transition>
           </div>
@@ -190,12 +185,14 @@ const SearchPage = ({ res }: ISearchProps) => {
           </div>
 
           {/* PAGINATION */}
-          <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-            <Pagination pageCount={pageCount} filter={filter} setFilter={setFilter} />
-            <ButtonPrimary onClick={() => setFilter((prevFilter) => ({ ...prevFilter, pageNumber: filter.pageNumber + 1 }))} loading>
-              Xem thêm
-            </ButtonPrimary>
-          </div>
+          {pageCount > 1 && (
+            <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
+              <Pagination onApply={fetchProducts} pageCount={pageCount} />
+              {/* <ButtonPrimary onClick={() => setFilter((prevFilter) => ({ ...prevFilter, pageNumber: filter.pageNumber + 1 }))} loading>
+                Xem thêm
+              </ButtonPrimary> */}
+            </div>
+          )}
         </div>
 
         {/* === SECTION 5 === */}
