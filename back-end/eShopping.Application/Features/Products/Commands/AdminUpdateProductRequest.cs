@@ -126,9 +126,6 @@ namespace eShopping.Application.Features.Products.Commands
                     var oldProductVariants = await _unitOfWork.ProductVariants
                         .Where(x => x.ProductId == request.Id)
                         .ToListAsync(cancellationToken: cancellationToken);
-                    //Get ordering items variants
-                    var oldProductVariantIds = oldProductVariants.Select(pv => pv.Id).ToList();
-                    var orderedItems = await _unitOfWork.OrderItems.Where(oi => oldProductVariantIds.Contains(oi.ProductVariantId)).ToListAsync(cancellationToken);
                     _unitOfWork.ProductVariants.RemoveRange(oldProductVariants);
 
                     // Update gallery
@@ -157,16 +154,6 @@ namespace eShopping.Application.Features.Products.Commands
                         Thumbnail = x.Thumbnail
                     }).ToList();
                     await _unitOfWork.ProductVariants.AddRangeAsync(newProductVariants);
-                    //update variants
-                    if (orderedItems.Count > 0)
-                    {
-                        foreach (var item in orderedItems)
-                        {
-                            item.ProductVariantId = newProductVariants.Where(pv => pv.ProductId == item.ProductId).Select(p => p.Id).FirstOrDefault();
-                        }
-                    }
-
-                    await _unitOfWork.OrderItems.UpdateRangeAsync(orderedItems);
 
                     // Update product stocks
                     var newProductStocks = new List<ProductStock>();
