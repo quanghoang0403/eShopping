@@ -8,11 +8,9 @@
     flex-direction: column;
     margin-top: 0;
     b{
-      text-transform: uppercase;
       display: block;
     }
     p:nth-child(odd){
-      color: lightgray;
       display: inline;
     }
     p:not(:nth-child(odd)){
@@ -21,7 +19,6 @@
     } 
   }
   .ant-image{
-    width: 80px !important;
-    height: 80px !important;
+    width: 100px !important;
   }
 }
