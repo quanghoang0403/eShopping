@@ -79,7 +79,8 @@ const SearchPage = ({ res }: ISearchProps) => {
             className="relative w-full"
             onSubmit={(e) => {
               e.preventDefault()
-              router.push(`/search?keySearch=${encodeURIComponent(getProductRequest.keySearch)}`)
+              const query = getProductRequest.keySearch ? `?keySearch=${encodeURIComponent(getProductRequest.keySearch)}` : ''
+              router.push(`/search${query}`)
             }}
           >
             <label htmlFor="search-input" className="text-neutral-500 dark:text-neutral-300">

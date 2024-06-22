@@ -43,7 +43,8 @@ export default function SiteHeader() {
           e.preventDefault()
           const searchValue = inputRef.current?.value
           dispatch(productActions.resetRequest())
-          router.push(`/search?keySearch=${encodeURIComponent(searchValue ?? '')}`)
+          const query = searchValue ? `?keySearch=${encodeURIComponent(searchValue)}` : ''
+          router.push(`/search${query}`)
           inputRef.current?.blur()
         }}
       >
