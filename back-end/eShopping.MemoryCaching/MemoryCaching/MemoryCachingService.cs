@@ -14,21 +14,22 @@ namespace eShopping.MemoryCaching
 
         public T GetCache<T>(string key)
         {
-            var value = _memoryCache.Get<T>(key);
+            var keyCache = $"{KeyCacheConstants.Prefix}_{key}";
+            var value = _memoryCache.Get<T>(keyCache);
 
             return value ?? default;
         }
 
         public void SetCache<T>(string key, T data)
         {
-            var cacheEntryOptions = new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromMinutes(5) };
-            _memoryCache.Set(key, data, cacheEntryOptions);
+            SetCache(key, data, TimeCacheConstants.DateDay);
         }
 
-        public void SetCache<T>(string key, T data, int slidingExpirationFromMinutes)
+        public void SetCache<T>(string key, T data, TimeSpan timeExpried)
         {
-            var cacheEntryOptions = new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromMinutes(slidingExpirationFromMinutes) };
-            _memoryCache.Set(key, data, cacheEntryOptions);
+            var keyCache = $"{KeyCacheConstants.Prefix}_{key}";
+            var cacheEntryOptions = new MemoryCacheEntryOptions { SlidingExpiration = timeExpried };
+            _memoryCache.Set(keyCache, data, cacheEntryOptions);
         }
     }
 }

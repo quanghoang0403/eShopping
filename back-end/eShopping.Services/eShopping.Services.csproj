@@ -27,6 +27,7 @@
     <ProjectReference Include="..\eShopping.EventBus\eShopping.EventBus.csproj" />
     <ProjectReference Include="..\eShopping.Infrastructure\eShopping.Infrastructure.csproj" />
     <ProjectReference Include="..\eShopping.Loging\eShopping.Loging.csproj" />
+    <ProjectReference Include="..\eShopping.MemoryCaching\eShopping.MemoryCaching.csproj" />
     <ProjectReference Include="..\eShopping.RedisCaching\eShopping.RedisCaching.csproj" />
   </ItemGroup>
   <ItemGroup>

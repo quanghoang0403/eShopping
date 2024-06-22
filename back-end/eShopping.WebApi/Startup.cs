@@ -80,6 +80,7 @@ namespace eShopping.WebApi
             services.AddScoped<IJWTService, JWTService>();
 
             services.AddScoped<IUserProvider, HttpUserProvider>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IPayOSService, PayOSService>();

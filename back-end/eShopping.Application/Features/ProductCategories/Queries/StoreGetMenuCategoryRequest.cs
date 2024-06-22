@@ -4,6 +4,7 @@ using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.MemoryCaching;
 using eShopping.Models.ProductCategories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,43 +22,50 @@ namespace eShopping.Application.Features.ProductCategories.Queries
     public class StoreGetMenuCategoryRequestHandler : IRequestHandler<StoreGetMenuCategoryRequest, BaseResponseModel>
     {
         private readonly IUserProvider _userProvider;
+        private readonly IMemoryCachingService _memoryCachingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public StoreGetMenuCategoryRequestHandler(IUserProvider userProvider, IUnitOfWork unitOfWork, IMapper mapper)
+        public StoreGetMenuCategoryRequestHandler(IUserProvider userProvider, IMemoryCachingService memoryCachingService, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _userProvider = userProvider;
+            _memoryCachingService = memoryCachingService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<BaseResponseModel> Handle(StoreGetMenuCategoryRequest request, CancellationToken cancellationToken)
         {
-            var rootCategories = await _unitOfWork.ProductRootCategories
+            var res = _memoryCachingService.GetCache<List<StoreMenuCategoryModel>>(KeyCacheConstants.Menu);
+            if (res == null)
+            {
+                var rootCategories = await _unitOfWork.ProductRootCategories
                 .GetAll()
                 .Include(x => x.ProductCategories)
                 .OrderBy(x => x.Priority)
                 .AsNoTracking()
                 .ToListAsync();
 
-            var data = new List<StoreMenuCategoryModel>() {
-                new()
-                {
-                    GenderProduct = EnumGenderProduct.Male,
-                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Male)
-                },
-                new()
-                {
-                    GenderProduct = EnumGenderProduct.Female,
-                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Female)
-                },
-                new()
-                {
-                    GenderProduct = EnumGenderProduct.Kid,
-                    ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Kid)
-                },
-            };
-            return BaseResponseModel.ReturnData(data);
+                res = new List<StoreMenuCategoryModel>() {
+                    new()
+                    {
+                        GenderProduct = EnumGenderProduct.Male,
+                        ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Male)
+                    },
+                    new()
+                    {
+                        GenderProduct = EnumGenderProduct.Female,
+                        ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Female)
+                    },
+                    new()
+                    {
+                        GenderProduct = EnumGenderProduct.Kid,
+                        ProductRootCategories = MapMenuModel(rootCategories, EnumGenderProduct.Kid)
+                    },
+                };
+                _memoryCachingService.SetCache(KeyCacheConstants.Menu, res, TimeCacheConstants.DateMonth);
+            }
+            return BaseResponseModel.ReturnData(res);
         }
 
         private List<StoreNavigationModel> MapMenuModel(List<ProductRootCategory> productRootCategories, EnumGenderProduct gender)
