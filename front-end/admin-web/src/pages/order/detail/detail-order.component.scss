@@ -1,0 +1,65 @@
+@import '../../../stylesheets/variable.scss';
+.order-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-light-white-purple;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-top: 20px;
+}
+.attribute{
+  color: gray;
+  margin: 0;
+  line-height: 25px;
+}
+.order-info-title{
+  font-size: large;
+}
+.order-info{
+  >*:not(.order-info-title){
+    font-size: small;
+  }
+}
+.order-status{
+  display: inline-block;
+  margin-left: 5px;
+  background-color: $color-primary;
+  padding: 5px 20px;
+  border-radius: 20px;
+  color:white;
+  margin-top: 5px;
+}
+.order-code{
+  font-size: x-large;
+  color:$color-purple;
+}
+.order-header{
+  border-right: 2px solid $color-light-white-purple;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+}
+.order-time{
+  background-color: $color-primary;
+  width: 200px;
+  text-align: center;
+  padding: 5px;
+  font-size: medium;
+  color:white;
+  border-radius: 20px;
+  margin-top: 5px;
+}
+.general-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  *{
+    flex: 1;
+  }
+  b{
+    text-align: right;
+  }
+}

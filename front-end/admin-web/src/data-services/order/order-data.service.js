@@ -7,8 +7,12 @@ const GetOrdersAsync = (data) => {
 const ChangeOrderStatusAsync = (data) => {
   return http.put(`/${controller}/update-order-status`, data)
 }
+const GetOrderDetailAsync = id =>{
+  return http.get(`/${controller}/get-order-by-id/${id}`)
+}
 const OrderDataService = {
   GetOrdersAsync,
-  ChangeOrderStatusAsync
+  ChangeOrderStatusAsync,
+  GetOrderDetailAsync
 }
 export default OrderDataService

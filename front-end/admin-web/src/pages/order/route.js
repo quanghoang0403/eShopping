@@ -22,8 +22,9 @@ const route = [
   },
   {
     key: 'app.order.detail',
+    focus:'app.order',
     position: 5,
-    path: '/order/detail/:id',
+    path: '/order/detail/:orderId',
     name: 'OrderDetail',
     isMenu: false,
     exact: true,

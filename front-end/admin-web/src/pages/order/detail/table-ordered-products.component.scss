@@ -1,0 +1,27 @@
+.ordered-products-table{
+  .price-discount + .price-value{
+    text-decoration: line-through;
+    color: lightgray;
+  }
+  .product-info{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    b{
+      text-transform: uppercase;
+      display: block;
+    }
+    p:nth-child(odd){
+      color: lightgray;
+      display: inline;
+    }
+    p:not(:nth-child(odd)){
+      display: inline;
+      margin-left: 5px;
+    } 
+  }
+  .ant-image{
+    width: 80px !important;
+    height: 80px !important;
+  }
+}
