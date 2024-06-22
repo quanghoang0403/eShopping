@@ -112,11 +112,11 @@ namespace eShopping.Application.Features.Products.Queries
                 }
                 else if (request.SortType == EnumSortType.PriceAsc)
                 {
-                    products = products.OrderBy(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
+                    products = products.OrderBy(p => p.PriceValue);
                 }
                 else if (request.SortType == EnumSortType.PriceDesc)
                 {
-                    products = products.OrderByDescending(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
+                    products = products.OrderByDescending(p => p.PriceValue);
                 }
             }
             var allProducts = await products

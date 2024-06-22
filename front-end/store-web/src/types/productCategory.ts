@@ -20,21 +20,19 @@ interface ICollectionDataResponse {
   genderProduct: number
   productRootCategoryId?: string
   productCategoryId?: string
-  name: string,
-  description: string,
+  name: string
+  description: string
   titleSEO?: string
   keywordSEO?: string
   descriptionSEO?: string
-  data: IPagingResponse<IProduct>,
-  productRootCategories: IProductRootCategory[],
-  productCategories: IProductCategory[],
+  productRootCategories: IProductRootCategory[]
+  productCategories: IProductCategory[]
 }
 
 interface ISearchDataResponse {
   keySearch: string
-  data: IPagingResponse<IProduct>,
-  productRootCategories: IProductRootCategory[],
-  productCategories: IProductCategory[],
+  productRootCategories: IProductRootCategory[]
+  productCategories: IProductCategory[]
 }
 
 interface IProductCategoryDetail extends ISEO {}

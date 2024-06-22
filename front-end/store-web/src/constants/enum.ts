@@ -52,10 +52,10 @@ export const mappingProductGender = [
   { id: EnumGenderProduct.Male, name: 'Nam' },
   { id: EnumGenderProduct.Female, name: 'Nữ' },
   { id: EnumGenderProduct.Kid, name: 'Trẻ em' },
-];
+]
 
 export const mappingSortType = [
   { id: EnumSortType.Default, name: 'Mới nhất' },
   { id: EnumSortType.PriceAsc, name: 'Giá tăng dần' },
-  { id: EnumSortType.PriceAsc, name: 'Giá giảm dần' }
-];
+  { id: EnumSortType.PriceDesc, name: 'Giá giảm dần' },
+]

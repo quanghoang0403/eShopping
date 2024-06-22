@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<ISearchProps> = async (conte
 const SearchPage = ({ res }: ISearchProps) => {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(true)
-  const [products, setProducts] = useState(res.data.result)
+  const [products, setProducts] = useState<IProduct[]>([])
   const [pageCount, setPageCount] = useState(1)
   const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
   const dispatch = useAppDispatch()
@@ -61,6 +61,7 @@ const SearchPage = ({ res }: ISearchProps) => {
   }
 
   useEffect(() => {
+    fetchProducts()
     dispatch(
       productActions.updateRequest({
         ...getProductRequest,

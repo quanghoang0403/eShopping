@@ -36,8 +36,8 @@ export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (c
 }
 
 const CollectionPage = ({ res }: ICollectionProps) => {
-  const [products, setProducts] = useState(res.data.result)
-  const [pageCount, setPageCount] = useState(res.data.paging.pageCount)
+  const [products, setProducts] = useState<IProduct[]>([])
+  const [pageCount, setPageCount] = useState(1)
   const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
   const dispatch = useAppDispatch()
 
@@ -50,6 +50,7 @@ const CollectionPage = ({ res }: ICollectionProps) => {
   }
 
   useEffect(() => {
+    fetchProducts()
     dispatch(
       productActions.updateRequest({
         ...getProductRequest,

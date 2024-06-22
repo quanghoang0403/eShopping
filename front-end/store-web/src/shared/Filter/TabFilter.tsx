@@ -355,7 +355,7 @@ const TabFilter: FC<TabFilterProps> = ({ onApply, productRootCategories, product
                 />
               </svg>
 
-              <span className="ml-2">{sortType ? mappingSortType.filter((i) => i.id === sortType)[0].name : 'Sắp xếp'}</span>
+              <span className="ml-2">{sortType ? mappingSortType.filter((i) => i.id == sortType)[0].name : 'Sắp xếp'}</span>
               {!sortType ? (
                 <ChevronDownIcon className="w-4 h-4 ml-3" />
               ) : (
@@ -387,7 +387,7 @@ const TabFilter: FC<TabFilterProps> = ({ onApply, productRootCategories, product
                         key={item.id}
                         name="radioNameSort"
                         label={item.name}
-                        defaultChecked={sortType === item.id}
+                        defaultChecked={sortType == item.id}
                         onChange={handleChangeSortType}
                       />
                     ))}

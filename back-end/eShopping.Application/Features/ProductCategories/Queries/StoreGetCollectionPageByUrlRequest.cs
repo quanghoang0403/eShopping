@@ -5,7 +5,6 @@ using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.MemoryCaching;
 using eShopping.Models.ProductCategories;
-using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static eShopping.Common.Extensions.PagingExtensions;
 
 namespace eShopping.Application.Features.ProductCategories.Queries
 {
@@ -32,7 +30,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
         public string TitleSEO { get; set; }
         public string DescriptionSEO { get; set; }
         public string KeywordSEO { get; set; }
-        public PagingResult<StoreProductModel> Data { get; set; }
         public List<StoreProductRootCategoryModel> ProductRootCategories { get; set; }
         public List<StoreProductCategoryModel> ProductCategories { get; set; }
     }
@@ -102,20 +99,10 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     return BaseResponseModel.ReturnError("Không tìm thấy trang");
                 }
 
-                var products = _unitOfWork.Products.GetAll()
-                    .AsNoTracking()
-                    .Include(p => p.ProductVariants)
-                    .Include(p => p.ProductCategory)
-                    .Include(p => p.ProductRootCategory)
-                    .Include(p => p.ProductSizeCategory.ProductSizes)
-                    .Include(p => p.ProductStocks)
-                    .Where(p => res.GenderProduct == p.GenderProduct || p.GenderProduct == EnumGenderProduct.All);
-
                 if (slugProductRootCategory != null)
                 {
                     var productRootCategory = await _unitOfWork.ProductRootCategories.GetProductRootCategoryDetailByUrlAsync(slugProductRootCategory);
                     if (productRootCategory == null) return BaseResponseModel.ReturnError("Không tìm thấy trang");
-                    products = products.Where(x => x.ProductRootCategory.UrlSEO == slugProductRootCategory);
                     res.ProductRootCategoryId = productRootCategory.Id;
                     res.Name = $"Bộ sưu tập {productRootCategory.Name}";
                     res.Description = productRootCategory.Description;
@@ -128,7 +115,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 {
                     var productCategory = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(slugProductCategory);
                     if (productCategory == null) return BaseResponseModel.ReturnError("Không tìm thấy trang");
-                    products = products.Where(x => x.ProductCategory.UrlSEO == slugProductCategory);
                     res.ProductCategoryId = productCategory.Id;
                     res.Name = $"Bộ sưu tập {productCategory.Name}";
                     res.Description = productCategory.Description;
@@ -147,11 +133,6 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     .OrderBy(x => x.Priority)
                     .ToListAsync();
                 res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);
-
-                var productPaging = await products.OrderBy(x => x.Priority).ToPaginationAsync(PageSetting.FirstPage, PageSetting.PageSize);
-                var productModel = _mapper.Map<List<StoreProductModel>>(productPaging.Result);
-                res.Data = new PagingResult<StoreProductModel>(productModel, productPaging.Paging);
-
                 _memoryCachingService.SetCache(keyCache, res);
             }
 
