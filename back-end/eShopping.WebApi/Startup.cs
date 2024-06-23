@@ -51,8 +51,6 @@ namespace eShopping.WebApi
                 );
             });
 
-            //services.AddSingleton<IDictionary<string, UserConnectionModel>>(opts => new Dictionary<string, UserConnectionModel>());
-
             services.AddOptions();
             services.AddControllers();
             services.AddHealthChecks();
@@ -82,6 +80,7 @@ namespace eShopping.WebApi
             services.AddScoped<IJWTService, JWTService>();
 
             services.AddScoped<IUserProvider, HttpUserProvider>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IPayOSService, PayOSService>();
@@ -174,7 +173,7 @@ namespace eShopping.WebApi
             app.UseResponseCaching();
 
             app.UseMiddleware(typeof(AuthenticationMiddleware));
-            //app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
 

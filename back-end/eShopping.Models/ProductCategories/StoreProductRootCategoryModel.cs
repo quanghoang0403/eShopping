@@ -13,7 +13,5 @@ namespace eShopping.Models.ProductCategories
         public EnumGenderProduct GenderProduct { get; set; }
 
         public string UrlSEO { get; set; }
-
-        public IEnumerable<StoreProductCategoryModel> ProductCategories { get; set; }
     }
 }

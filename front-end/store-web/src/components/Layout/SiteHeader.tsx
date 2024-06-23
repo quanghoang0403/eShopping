@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation'
 import { useThemeMode } from '@/hooks/useThemeMode'
 import AvatarDropdown from './Components/AvatarDropdown'
 import CartDropdown from './Components/CartDropdown'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { productActions } from '@/redux/features/productSlice'
 
 export interface SiteHeaderProps {}
 
@@ -16,6 +18,7 @@ export default function SiteHeader() {
   const inputRef = createRef<HTMLInputElement>()
   const [showSearchForm, setShowSearchForm] = useState(false)
   const router = useRouter()
+  const dispatch = useAppDispatch()
   useThemeMode()
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -38,7 +41,10 @@ export default function SiteHeader() {
         className="flex-1 py-2 text-slate-900 dark:text-slate-100"
         onSubmit={(e) => {
           e.preventDefault()
-          router.push('/search')
+          const searchValue = inputRef.current?.value
+          dispatch(productActions.resetRequest())
+          const query = searchValue ? `?keySearch=${encodeURIComponent(searchValue)}` : ''
+          router.push(`/search${query}`)
           inputRef.current?.blur()
         }}
       >
@@ -47,7 +53,7 @@ export default function SiteHeader() {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Type and press enter"
+            placeholder="Nhập từ khoá và tìm kiếm"
             className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-base"
             autoFocus
           />

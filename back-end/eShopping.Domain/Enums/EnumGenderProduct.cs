@@ -1,20 +1,19 @@
 ﻿using System.ComponentModel;
-using System.Reflection.Metadata.Ecma335;
 
 namespace eShopping.Domain.Enums
 {
     public enum EnumGenderProduct
     {
-        [Description("All")]
+        [Description("all")]
         All = 0,
 
-        [Description("Male")]
+        [Description("nam")]
         Male = 1,
 
-        [Description("Female")]
+        [Description("nu")]
         Female = 2,
 
-        [Description("Kid")]
+        [Description("tre-em")]
         Kid = 3,
     }
 

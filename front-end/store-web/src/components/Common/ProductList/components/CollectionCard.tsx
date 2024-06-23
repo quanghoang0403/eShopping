@@ -1,5 +1,4 @@
 import { StarIcon } from '@heroicons/react/24/solid'
-import { productImgs } from '@/constants/fakeData'
 import React, { FC } from 'react'
 import NcImage from '@/shared/NcImage'
 import Price from '@/shared/Price'
@@ -16,7 +15,7 @@ export interface CollectionCardProps {
 
 const CollectionCard: FC<CollectionCardProps> = ({
   className,
-  imgs = [productImgs[9], productImgs[10], productImgs[11], productImgs[8]],
+  imgs = [],
   name = 'Product Name',
   description = 'Product Description',
   price

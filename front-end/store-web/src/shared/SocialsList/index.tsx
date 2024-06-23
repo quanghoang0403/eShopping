@@ -1,10 +1,7 @@
 import React, { FC } from 'react'
-import facebook from '@/images/socials/facebook.svg'
-import twitter from '@/images/socials/twitter.svg'
-import telegram from '@/images/socials/telegram.svg'
-import youtube from '@/images/socials/youtube.svg'
-import Image from 'next/image'
 import { SocialType } from '../SocialsShare'
+import FacebookIcon from '@/shared/Icon/FacebookIcon'
+import InstagramIcon from '../Icon/InstagramIcon'
 
 export interface SocialsListProps {
   className?: string
@@ -13,10 +10,8 @@ export interface SocialsListProps {
 }
 
 const socials: SocialType[] = [
-  { name: 'Facebook', icon: facebook, href: '#' },
-  { name: 'Youtube', icon: youtube, href: '#' },
-  { name: 'Telegram', icon: telegram, href: '#' },
-  { name: 'Twitter', icon: twitter, href: '#' },
+  { name: 'Facebook', icon: <FacebookIcon className='dark:fill-neutral-200'/>, href: '#' },
+  { name: 'Instagram', icon: <InstagramIcon className='dark:fill-neutral-200' />, href: '#' },
 ]
 
 const SocialsList: FC<SocialsListProps> = ({ className = '', itemClass = 'block w-6 h-6', vertical = false }) => {
@@ -25,7 +20,7 @@ const SocialsList: FC<SocialsListProps> = ({ className = '', itemClass = 'block 
       <nav className={`nc-SocialsList flex space-x-2.5 text-2xl text-neutral-6000 dark:text-neutral-300 ${className}`}>
         {socials.map((item, i) => (
           <a key={i} className={`${itemClass}`} href={item.href} target="_blank" rel="noopener noreferrer" title={item.name}>
-            <Image sizes="40px" src={item.icon} alt="" />
+            {item.icon}
           </a>
         ))}
       </nav>
@@ -41,7 +36,7 @@ const SocialsList: FC<SocialsListProps> = ({ className = '', itemClass = 'block 
           key={index}
         >
           <div className="flex-shrink-0 w-5 ">
-            <Image sizes="40px" src={item.icon} alt="" />
+            {item.icon}
           </div>
           <span className="hidden lg:block text-sm">{item.name}</span>
         </a>

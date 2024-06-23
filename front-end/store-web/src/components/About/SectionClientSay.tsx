@@ -5,15 +5,9 @@ import Glide from '@glidejs/glide/dist/glide.esm'
 import Heading from '@/shared/Heading'
 import React, { FC, useId, useRef, useState } from 'react'
 import { useEffect } from 'react'
-import clientSayMain from '@/images/clientSayMain.png'
-import clientSay1 from '@/images/clientSay1.png'
-import clientSay2 from '@/images/clientSay2.png'
-import clientSay3 from '@/images/clientSay3.png'
-import clientSay4 from '@/images/clientSay4.png'
-import clientSay5 from '@/images/clientSay5.png'
-import clientSay6 from '@/images/clientSay6.png'
-import quotationImg from '@/images/quotation.png'
-import quotationImg2 from '@/images/quotation2.png'
+import clientSayMain from '@/assets/images/clientSayMain.png'
+import quotationImg from '@/assets/images/quotation.png'
+import quotationImg2 from '@/assets/images/quotation2.png'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import { DEMO_DATA } from './data'
@@ -45,12 +39,12 @@ const SectionClientSay: FC<SectionClientSayProps> = ({ className = '' }) => {
   const renderBg = () => {
     return (
       <div className="hidden md:block">
-        <Image sizes="100px" className="absolute top-9 -left-20" src={clientSay1} alt="" />
+        {/* <Image sizes="100px" className="absolute top-9 -left-20" src={clientSay1} alt="" />
         <Image sizes="100px" className="absolute bottom-[100px] right-full mr-40" src={clientSay2} alt="" />
         <Image sizes="100px" className="absolute top-full left-[140px]" src={clientSay3} alt="" />
         <Image sizes="100px" className="absolute -bottom-10 right-[140px]" src={clientSay4} alt="" />
         <Image sizes="100px" className="absolute left-full ml-32 bottom-[80px]" src={clientSay5} alt="" />
-        <Image sizes="100px" className="absolute -right-10 top-10 " src={clientSay6} alt="" />
+        <Image sizes="100px" className="absolute -right-10 top-10 " src={clientSay6} alt="" /> */}
       </div>
     )
   }

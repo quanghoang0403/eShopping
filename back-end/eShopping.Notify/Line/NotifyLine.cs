@@ -22,14 +22,13 @@ namespace eShopping.Notify.Line
                 var options = new RestClientOptions("https://notify-api.line.me/api")
                 {
                     ThrowOnAnyError = true,
-                    Timeout = TimeSpan.FromSeconds(1),
                 };
                 var client = new RestClient(options);
                 var request = new RestRequest("notify", Method.Post);
 
                 if (string.IsNullOrEmpty(token))
                 {
-                    token = "59fBWdsJpp4evTUUho5sgiGlepSlO8eldfFlMuU9rAY";
+                    token = "4TekRT5BAriwS2VE63cnNzFaAgtwFFoFKUx7E3QNkKP";
                 }
                 request.AddHeader("Authorization", "Bearer " + token);
                 request.AddParameter("message", messagePost);

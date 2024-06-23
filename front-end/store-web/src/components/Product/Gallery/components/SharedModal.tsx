@@ -13,7 +13,6 @@ import { variants } from "@/utils/animation-variants.helper";
 import downloadPhoto from "../utils/downloadPhoto";
 import { range } from "../utils/range";
 import type { ListingGalleryImage } from "../utils/types";
-import Twitter from "./Icons/Twitter";
 
 interface SharedModalProps {
   index: number;
@@ -141,7 +140,6 @@ export default function SharedModal({
                     title="Open fullsize version"
                     rel="noreferrer"
                   >
-                    <Twitter className="h-5 w-5" />
                   </a>
                 )}
               </div>

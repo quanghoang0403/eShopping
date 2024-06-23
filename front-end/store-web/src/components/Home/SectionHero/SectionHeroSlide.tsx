@@ -1,7 +1,7 @@
 'use client'
 
 import React, { FC, useState } from 'react'
-import backgroundLineSvg from '@/images/Moon.svg'
+import backgroundLineSvg from '@/assets/svgs/moon.svg'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Next from '@/shared/NextPrev/Next'
 import Prev from '@/shared/NextPrev/Prev'

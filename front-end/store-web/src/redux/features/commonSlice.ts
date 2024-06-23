@@ -25,14 +25,14 @@ const commonSlice = createSlice({
         },
         {
           id: EnumGenderProduct.Male,
-          urlSEO: '/collection',
+          urlSEO: '/collection/nam',
           name: 'Nam',
           type: 'megaMenu',
           children: maleCategories,
         },
         {
           id: EnumGenderProduct.Female,
-          urlSEO: '/collection',
+          urlSEO: '/collection/nu',
           name: 'Nữ',
           type: 'megaMenu',
           children: femaleCategories,
@@ -49,8 +49,8 @@ const commonSlice = createSlice({
             },
             {
               id: ncNanoId(),
-              urlSEO: '/about',
-              name: 'Về chúng tôi',
+              urlSEO: '/policy',
+              name: 'Chính sách',
             },
             {
               id: ncNanoId(),

@@ -2,11 +2,11 @@ interface IProductRootCategory {
   id: string
   name: string
   urlSEO: string
-  productCategories: IProductCategory[]
 }
 
 interface IProductCategory {
   id: string
+  productRootCategoryId: string
   name: string
   urlSEO: string
 }
@@ -17,13 +17,22 @@ interface IMenuCategory {
 }
 
 interface ICollectionDataResponse {
-  name: string,
-  description: string,
+  genderProduct: number
+  productRootCategoryId?: string
+  productCategoryId?: string
+  name: string
+  description: string
   titleSEO?: string
   keywordSEO?: string
   descriptionSEO?: string
-  products: IProduct[],
-  productCategories: IProductCategory[],
+  productRootCategories: IProductRootCategory[]
+  productCategories: IProductCategory[]
+}
+
+interface ISearchDataResponse {
+  keySearch: string
+  productRootCategories: IProductRootCategory[]
+  productCategories: IProductCategory[]
 }
 
 interface IProductCategoryDetail extends ISEO {}

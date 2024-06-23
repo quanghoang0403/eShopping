@@ -2,6 +2,7 @@
 using eShopping.Common.Extensions;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.MemoryCaching;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace eShopping.Services.User
     public class UserPermissionService : IUserPermissionService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMemoryCachingService _memoryCachingService;
 
-        public UserPermissionService(IUnitOfWork unitOfWork)
+        public UserPermissionService(IUnitOfWork unitOfWork, IMemoryCachingService memoryCachingService)
         {
             _unitOfWork = unitOfWork;
+            _memoryCachingService = memoryCachingService;
         }
 
         public async Task<bool> CheckPermissionForUserAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<EnumPermission> requirementPermission)
@@ -38,15 +41,20 @@ namespace eShopping.Services.User
                 }
                 else
                 {
-                    // Get all permission assigned to user and check
-                    var permissionIds = _unitOfWork
-                        .StaffPermission
-                        .GetAll()
-                        .AsNoTracking()
-                        .Where(s => s.StaffId == userId)
-                        .Include(s => s.Permission)
-                        .Select(g => g.Permission.Id)
-                        .ToList();
+                    var keyCache = string.Format(KeyCacheConstants.Permission, userId);
+                    var permissionIds = _memoryCachingService.GetCache<List<Guid>>(keyCache);
+                    if (permissionIds != null)
+                    {
+                        permissionIds = await _unitOfWork
+                            .StaffPermission
+                            .GetAll()
+                            .AsNoTracking()
+                            .Where(s => s.StaffId == userId)
+                            .Include(s => s.Permission)
+                            .Select(g => g.Permission.Id)
+                            .ToListAsync();
+                        _memoryCachingService.SetCache(keyCache, permissionIds);
+                    }
 
                     //If user has ADMIN role. No need to check anymore
                     if (permissionIds.Contains(EnumPermission.ADMIN.ToGuid()))

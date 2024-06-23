@@ -11,64 +11,59 @@ import Radio from '@/shared/Controller/Radio'
 import MySwitch from './MySwitch'
 import { EnumSortType, mappingSortType } from '@/constants/enum'
 import DiscountIcon from '../Icon/DiscountIcon'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { productActions } from '@/redux/features/productSlice'
 
 const DATA_colors = [{ name: 'White' }, { name: 'Beige' }, { name: 'Blue' }, { name: 'Black' }, { name: 'Brown' }, { name: 'Green' }, { name: 'Navy' }]
 
 const DATA_sizes = [{ name: 'XXS' }, { name: 'XS' }, { name: 'S' }, { name: 'M' }, { name: 'L' }, { name: 'XL' }, { name: '2XL' }]
 
 const PRICE_RANGE = [1, 500]
-export interface Filter {
-  isNewIn: boolean;
-  isDiscounted: boolean;
-  isFeatured: boolean;
-  genderProduct: number;
-  productRootCategoryIds: string[];
-  productCategoryIds: string[];
-  keySearch: string;
-  sortType: number;
-}
 
 export interface TabFilterProps {
-  filter: Filter;
-  productRootCategories: IProductRootCategory[];
-  productCategories: IProductCategory[];
-  setFilter: React.Dispatch<React.SetStateAction<Filter>>;
+  productRootCategories: IProductRootCategory[]
+  productCategories: IProductCategory[]
+  onApply: () => Promise<void>
 }
 
-const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategories, productCategories }) => {
-  const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds, keySearch } = filter
+const TabFilter: FC<TabFilterProps> = ({ onApply, productRootCategories, productCategories }) => {
+  const dispatch = useAppDispatch()
+  const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
+  const { isNewIn, isDiscounted, isFeatured, sortType, productRootCategoryIds, productCategoryIds } = getProductRequest
   const [isOpenMoreFilter, setIsOpenMoreFilter] = useState(false)
   const [rangePrices, setRangePrices] = useState([100, 500])
   const [colorsState, setColorsState] = useState<string[]>([])
   const [sizesState, setSizesState] = useState<string[]>([])
-
   const closeModalMoreFilter = () => setIsOpenMoreFilter(false)
   const openModalMoreFilter = () => setIsOpenMoreFilter(true)
 
   useEffect(() => {
-    const newProductCategoryIds = productCategoryIds.filter((id) => productRootCategoryIds.includes(id))
-    setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: newProductCategoryIds }))
-  }, [productRootCategoryIds])
+    onApply()
+  }, [getProductRequest.genderProduct, getProductRequest.isNewIn, getProductRequest.isDiscounted, getProductRequest.isFeatured])
 
+  useEffect(() => {
+    const newProductCategoryIds = productCategoryIds.filter((id) => productCategories.some((category) => category.id === id))
+    dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: newProductCategoryIds }))
+  }, [productRootCategoryIds])
 
   const handleChangeRootCategories = (checked: boolean, id: string) => {
     const newProductRootCategoryIds = checked ? [...productRootCategoryIds, id] : productRootCategoryIds.filter((i) => i !== id)
-    setFilter((prevFilter) => ({ ...prevFilter, productRootCategoryIds: newProductRootCategoryIds }))
+    dispatch(productActions.updateRequest({ ...getProductRequest, productRootCategoryIds: newProductRootCategoryIds }))
   }
 
   const handleChangeCategories = (checked: boolean, id: string) => {
     const newProductCategoryIds = checked ? [...productCategoryIds, id] : productCategoryIds.filter((i) => i !== id)
-    setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: newProductCategoryIds }))
+    dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: newProductCategoryIds }))
   }
 
   const handleCheckAllRootCategories = (checked: boolean) => {
-    if (checked) setFilter((prevFilter) => ({ ...prevFilter, productRootCategoryIds: productRootCategories.map((i) => i.id) })) 
-    else setFilter((prevFilter) => ({ ...prevFilter, productRootCategoryIds: [] }))
+    if (checked) dispatch(productActions.updateRequest({ ...getProductRequest, productRootCategoryIds: productRootCategories.map((i) => i.id) }))
+    else dispatch(productActions.updateRequest({ ...getProductRequest, productRootCategoryIds: [] }))
   }
 
   const handleCheckAllCategories = (checked: boolean) => {
-    if (checked) setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: productCategories.map((i) => i.id) })) 
-    else setFilter((prevFilter) => ({ ...prevFilter, productCategoryIds: [] }))
+    if (checked) dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: productCategories.map((i) => i.id) }))
+    else dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: [] }))
   }
 
   const handleChangeColors = (checked: boolean, name: string) => {
@@ -80,19 +75,19 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
   }
 
   const handleChangeSortType = (value: number) => {
-    setFilter((prevFilter) => ({ ...prevFilter, sortType: value}))
+    dispatch(productActions.updateRequest({ ...getProductRequest, sortType: value }))
   }
 
   const handleChangeNewIn = (value: boolean) => {
-    setFilter((prevFilter) => ({ ...prevFilter, isNewIn: value}))
+    dispatch(productActions.updateRequest({ ...getProductRequest, isNewIn: value }))
   }
 
   const handleChangeDiscounted = (value: boolean) => {
-    setFilter((prevFilter) => ({ ...prevFilter, isDiscounted: value}))
+    dispatch(productActions.updateRequest({ ...getProductRequest, isDiscounted: value }))
   }
 
   const handleChangeFeatured = (value: boolean) => {
-    setFilter((prevFilter) => ({ ...prevFilter, isFeatured: value}))
+    dispatch(productActions.updateRequest({ ...getProductRequest, isFeatured: value }))
   }
 
   const renderXClear = () => {
@@ -140,7 +135,18 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
               </svg>
 
               <span className="ml-2">Loại</span>
-              {!productRootCategoryIds.length ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => handleCheckAllRootCategories(false)}>{renderXClear()}</span>}
+              {!productRootCategoryIds.length ? (
+                <ChevronDownIcon className="w-4 h-4 ml-3" />
+              ) : (
+                <span
+                  onClick={() => {
+                    handleCheckAllRootCategories(false)
+                    onApply()
+                  }}
+                >
+                  {renderXClear()}
+                </span>
+              )}
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -157,7 +163,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     <Checkbox
                       name="Tất cả loại"
                       label="Tất cả loại"
-                      checked={productRootCategoryIds.length == productRootCategories.length}
+                      checked={productRootCategoryIds.length == productRootCategories.length && productRootCategories.length > 0}
                       onChange={(checked) => handleCheckAllRootCategories(checked)}
                     />
                     <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
@@ -175,6 +181,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                   <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
+                        onApply()
                         close()
                         handleCheckAllRootCategories(false)
                       }}
@@ -182,7 +189,13 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }}
+                      sizeClass="px-4 py-2 sm:px-5"
+                    >
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -226,7 +239,18 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
               </svg>
 
               <span className="ml-2">Danh mục</span>
-              {!productCategoryIds.length ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => handleCheckAllCategories(false)}>{renderXClear()}</span>}
+              {!productCategoryIds.length ? (
+                <ChevronDownIcon className="w-4 h-4 ml-3" />
+              ) : (
+                <span
+                  onClick={() => {
+                    handleCheckAllCategories(false)
+                    onApply()
+                  }}
+                >
+                  {renderXClear()}
+                </span>
+              )}
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -243,7 +267,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     <Checkbox
                       name="Tất cả danh mục"
                       label="Tất cả danh mục"
-                      checked={productCategoryIds.length == productCategories.length}
+                      checked={productCategoryIds.length == productCategories.length && productCategories.length > 0}
                       onChange={(checked) => handleCheckAllCategories(checked)}
                     />
                     <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
@@ -261,6 +285,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                   <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
+                        onApply()
                         close()
                         handleCheckAllCategories(false)
                       }}
@@ -268,7 +293,13 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }}
+                      sizeClass="px-4 py-2 sm:px-5"
+                    >
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -324,8 +355,19 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                 />
               </svg>
 
-              <span className="ml-2">{sortType ? mappingSortType.filter((i) => i.id === sortType)[0].name : 'Sắp xếp'}</span>
-              {!sortType ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => handleChangeSortType(EnumSortType.Default)}>{renderXClear()}</span>}
+              <span className="ml-2">{sortType ? mappingSortType.filter((i) => i.id == sortType)[0].name : 'Sắp xếp'}</span>
+              {!sortType ? (
+                <ChevronDownIcon className="w-4 h-4 ml-3" />
+              ) : (
+                <span
+                  onClick={() => {
+                    handleChangeSortType(EnumSortType.Default)
+                    onApply()
+                  }}
+                >
+                  {renderXClear()}
+                </span>
+              )}
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -345,7 +387,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                         key={item.id}
                         name="radioNameSort"
                         label={item.name}
-                        defaultChecked={sortType === item.id}
+                        defaultChecked={sortType == item.id}
                         onChange={handleChangeSortType}
                       />
                     ))}
@@ -353,6 +395,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                   <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
+                        onApply()
                         close()
                         handleChangeSortType(EnumSortType.Default)
                       }}
@@ -360,7 +403,13 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }}
+                      sizeClass="px-4 py-2 sm:px-5"
+                    >
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -416,8 +465,19 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                 />
               </svg>
 
-              <span className="ml-2">Colors</span>
-              {!colorsState.length ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => setColorsState([])}>{renderXClear()}</span>}
+              <span className="ml-2">Màu sắc</span>
+              {!colorsState.length ? (
+                <ChevronDownIcon className="w-4 h-4 ml-3" />
+              ) : (
+                <span
+                  onClick={() => {
+                    setColorsState([])
+                    onApply()
+                  }}
+                >
+                  {renderXClear()}
+                </span>
+              )}
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -445,15 +505,22 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                   <div className="p-5 bg-slate-50 dark:bg-slate-900 dark:border-t dark:border-slate-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
+                        onApply()
                         close()
                         setColorsState([])
                       }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
-                      Clear
+                      Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
-                      Apply
+                    <ButtonPrimary
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }}
+                      sizeClass="px-4 py-2 sm:px-5"
+                    >
+                      Áp dụng
                     </ButtonPrimary>
                   </div>
                 </div>
@@ -488,7 +555,18 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
               </svg>
 
               <span className="ml-2">Size</span>
-              {!sizesState.length ? <ChevronDownIcon className="w-4 h-4 ml-3" /> : <span onClick={() => setSizesState([])}>{renderXClear()}</span>}
+              {!sizesState.length ? (
+                <ChevronDownIcon className="w-4 h-4 ml-3" />
+              ) : (
+                <span
+                  onClick={() => {
+                    setSizesState([])
+                    onApply()
+                  }}
+                >
+                  {renderXClear()}
+                </span>
+              )}
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -516,6 +594,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                   <div className="p-5 bg-slate-50 dark:bg-slate-900 dark:border-t dark:border-slate-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
+                        onApply()
                         close()
                         setSizesState([])
                       }}
@@ -523,7 +602,13 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     >
                       Bỏ chọn
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }}
+                      sizeClass="px-4 py-2 sm:px-5"
+                    >
                       Áp dụng
                     </ButtonPrimary>
                   </div>
@@ -564,7 +649,14 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
 
               <span className="ml-2 min-w-[90px]">{`${rangePrices[0]}$ - ${rangePrices[1]}$`}</span>
               {rangePrices[0] === PRICE_RANGE[0] && rangePrices[1] === PRICE_RANGE[1] ? null : (
-                <span onClick={() => setRangePrices(PRICE_RANGE)}>{renderXClear()}</span>
+                <span
+                  onClick={() => {
+                    setRangePrices(PRICE_RANGE)
+                    onApply()
+                  }}
+                >
+                  {renderXClear()}
+                </span>
               )}
             </Popover.Button>
             <Transition
@@ -580,7 +672,7 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                 <div className="overflow-hidden rounded-2xl shadow-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
                   <div className="relative flex flex-col px-5 py-6 space-y-8">
                     <div className="space-y-5">
-                      <span className="font-medium">Price range</span>
+                      <span className="font-medium">Giá</span>
                       <Slider
                         range
                         min={PRICE_RANGE[0]}
@@ -631,13 +723,20 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
                     <ButtonThird
                       onClick={() => {
                         setRangePrices(PRICE_RANGE)
+                        onApply()
                         close()
                       }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Clear
                     </ButtonThird>
-                    <ButtonPrimary onClick={close} sizeClass="px-4 py-2 sm:px-5">
+                    <ButtonPrimary
+                      onClick={() => {
+                        onApply()
+                        close()
+                      }}
+                      sizeClass="px-4 py-2 sm:px-5"
+                    >
                       Apply
                     </ButtonPrimary>
                   </div>
@@ -969,4 +1068,4 @@ const TabFilter : FC<TabFilterProps>  = ({ filter, setFilter, productRootCategor
   )
 }
 
-export default TabFilter
+export default React.memo(TabFilter)

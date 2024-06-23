@@ -52,7 +52,7 @@ const sessionSlice = createSlice({
         if (currentQuantity == maxQuantity) {
           //notifyInfo(`${action.payload.productName} - ${action.payload.productVariantName} chỉ còn ${maxQuantity} sản phẩm`)
         } else {
-          state.cartItems[existingItemIndex].quantity = currentQuantity + 1
+          state.cartItems[existingItemIndex].quantity = currentQuantity + action.payload.quantity
         }
       } else {
         state.cartItems.push(action.payload)

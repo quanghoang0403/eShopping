@@ -1,18 +1,12 @@
 import React from "react";
-import logoImg from "@/images/logo.svg";
-import logoLightImg from "@/images/logo-light.svg";
 import Link from "next/link";
 import Image from "next/image";
-
+import logoRound from "@/assets/images/logos/round.png";
 export interface LogoProps {
-  img?: string;
-  imgLight?: string;
   className?: string;
 }
 
 const Logo: React.FC<LogoProps> = ({
-  img = logoImg,
-  imgLight = logoLightImg,
   className = "flex-shrink-0",
 }) => {
   return (
@@ -20,30 +14,14 @@ const Logo: React.FC<LogoProps> = ({
       href="/"
       className={`ttnc-logo inline-block text-slate-600 ${className}`}
     >
-      {/* THIS USE FOR MY CLIENT */}
-      {/* PLEASE UN COMMENT BELLOW CODE AND USE IT */}
-      {img ? (
-        <Image
-          className={`block h-8 sm:h-10 w-auto ${
-            imgLight ? "dark:hidden" : ""
-          }`}
-          src={img}
-          alt="Logo"
-          sizes="200px"
-          priority
-        />
-      ) : (
-        "Logo Here"
-      )}
-      {imgLight && (
-        <Image
-          className="hidden h-8 sm:h-10 w-auto dark:block"
-          src={imgLight}
-          alt="Logo-Light"
-          sizes="200px"
-          priority
-        />
-      )}
+        <div className="items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl flex dark:hidden">
+          <Image src={logoRound} width={44} height={44} alt="Cúc Hoạ Mi logo" className="mr-3" sizes="200px" priority/>
+          Cúc Hoạ Mi
+        </div>
+        <div className="items-center tracking-wide no-underline hover:no-underline font-bold text-neutral-200 text-xl hidden dark:flex">
+          <Image src={logoRound} width={44} height={44} alt="Cúc Hoạ Mi logo" className="mr-3" sizes="200px" priority/>
+          Cúc Hoạ Mi
+        </div>
     </Link>
   );
 };

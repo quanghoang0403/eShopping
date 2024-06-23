@@ -1,6 +1,7 @@
 using eShopping.Common.Exceptions;
 using eShopping.Common.Exceptions.ErrorModel;
 using eShopping.Common.Extensions;
+using eShopping.Notify.Line;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -84,7 +85,7 @@ namespace eShopping.Application.Middlewares
             string requestUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}";
 
 
-            //NotifyLine.SendNotifyLine(requestUrl, methodName, message, stackTrace);
+            NotifyLine.SendNotifyLine(requestUrl, methodName, message, stackTrace);
 
             var result = JsonConvert.SerializeObject(
                 new ErrorModel

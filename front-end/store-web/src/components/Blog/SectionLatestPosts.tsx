@@ -24,7 +24,7 @@ const SectionLatestPosts: FC<SectionLatestPostsProps> = ({ postCardName = 'card3
             ))}
           </div>
           <div className="flex flex-col mt-12 md:mt-20 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
-            <Pagination />
+            {/* <Pagination /> */}
             <ButtonPrimary>Xem thêm</ButtonPrimary>
           </div>
         </div>

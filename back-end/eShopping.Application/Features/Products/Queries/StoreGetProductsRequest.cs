@@ -3,6 +3,7 @@ using eShopping.Common.Extensions;
 using eShopping.Common.Models;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.MemoryCaching;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -43,18 +44,18 @@ namespace eShopping.Application.Features.Products.Queries
 
     public class StoreGetProductsRequestHandler : IRequestHandler<StoreGetProductsRequest, BaseResponseModel>
     {
-        private readonly IUserProvider _userProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMemoryCachingService _memoryCachingService;
 
         public StoreGetProductsRequestHandler(
-            IUserProvider userProvider,
             IUnitOfWork unitOfWork,
+            IMemoryCachingService memoryCachingService,
             IMapper mapper)
         {
-            _userProvider = userProvider;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _memoryCachingService = memoryCachingService;
         }
 
         public async Task<BaseResponseModel> Handle(StoreGetProductsRequest request, CancellationToken cancellationToken)
@@ -111,11 +112,11 @@ namespace eShopping.Application.Features.Products.Queries
                 }
                 else if (request.SortType == EnumSortType.PriceAsc)
                 {
-                    products = products.OrderBy(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
+                    products = products.OrderBy(p => p.PriceValue);
                 }
                 else if (request.SortType == EnumSortType.PriceDesc)
                 {
-                    products = products.OrderByDescending(p => p.ProductVariants.FirstOrDefault().PriceDiscount ?? p.ProductVariants.FirstOrDefault().PriceValue);
+                    products = products.OrderByDescending(p => p.PriceValue);
                 }
             }
             var allProducts = await products
@@ -125,6 +126,7 @@ namespace eShopping.Application.Features.Products.Queries
                 .Include(p => p.ProductSizeCategory.ProductSizes)
                 .Include(p => p.ProductStocks)
                 .AsNoTracking()
+                .OrderBy(p => p.Priority)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);
             var pagingResult = allProducts.Result;
             var productResponse = _mapper.Map<List<StoreProductModel>>(pagingResult);

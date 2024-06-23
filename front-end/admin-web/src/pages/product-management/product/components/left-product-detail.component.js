@@ -190,7 +190,12 @@ export default function LeftProductDetail({ form, productData }) {
             </div>
 
             <Form.Item name={['keywordSEO']} rules={[]}>
-              <BadgeSEOKeyword/>
+              <BadgeSEOKeyword />
+            </Form.Item>
+            <Form.Item hidden
+              name={['isFeatured']}
+              rules={[]}
+            >
             </Form.Item>
           </Col>
         </Row>

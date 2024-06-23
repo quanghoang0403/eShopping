@@ -59,26 +59,26 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked })
 
   const handleAddToCart = () => {
     if (productVariantActive && productSizeActive && productStockActive) {
-      const cartItemExisted = cartItems.find(
-        (x) => x.productVariantId === productStockActive.productVariantId && x.productSizeId === productStockActive.productSizeId
-      )
-      if (cartItemExisted && cartItemExisted.quantity == productStockActive.quantityLeft) {
-        toast.error(`Xin lỗi bạn, sản phẩm ${product.name} - Màu ${productVariantActive.name} - Size ${productSizeActive.name} không còn hàng tồn`)
-      } else {
-        toast.custom(
-          (t) => (
-            <NotifyAddToCart
-              product={product}
-              productVariantActive={productVariantActive}
-              productSizeActive={productSizeActive}
-              productStockActive={productStockActive}
-              quantity={1}
-              show={t.visible}
-            />
-          ),
-          { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
-        )
-      }
+      // const cartItemExisted = cartItems.find(
+      //   (x) => x.productVariantId === productStockActive.productVariantId && x.productSizeId === productStockActive.productSizeId
+      // )
+      // if (cartItemExisted && cartItemExisted.quantity == productStockActive.quantityLeft) {
+      //   toast.error(`Xin lỗi bạn, sản phẩm ${product.name} - Màu ${productVariantActive.name} - Size ${productSizeActive.name} không còn hàng tồn`)
+      // } else {
+      //   toast.custom(
+      //     (t) => (
+      //       <NotifyAddToCart
+      //         product={product}
+      //         productVariantActive={productVariantActive}
+      //         productSizeActive={productSizeActive}
+      //         productStockActive={productStockActive}
+      //         quantity={1}
+      //         show={t.visible}
+      //       />
+      //     ),
+      //     { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
+      //   )
+      // }
     } else {
       toast.error('Vui lòng chọn size và màu sắc')
     }
