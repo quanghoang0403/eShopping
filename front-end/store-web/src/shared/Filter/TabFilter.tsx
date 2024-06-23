@@ -1,6 +1,6 @@
 'use client'
 import { ChevronDownIcon, SparklesIcon, StarIcon } from '@heroicons/react/24/outline'
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import ButtonThird from '@/shared/Button/ButtonThird'
@@ -36,8 +36,13 @@ const TabFilter: FC<TabFilterProps> = ({ onApply, productRootCategories, product
   const [sizesState, setSizesState] = useState<string[]>([])
   const closeModalMoreFilter = () => setIsOpenMoreFilter(false)
   const openModalMoreFilter = () => setIsOpenMoreFilter(true)
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false // After the first render, set the flag to false
+      return // Skip the rest of the useEffect logic on the first render
+    }
     onApply()
   }, [getProductRequest.genderProduct, getProductRequest.isNewIn, getProductRequest.isDiscounted, getProductRequest.isFeatured])
 

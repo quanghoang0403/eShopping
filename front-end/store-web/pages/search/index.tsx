@@ -52,8 +52,8 @@ const SearchPage = ({ res }: ISearchProps) => {
   const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
   const dispatch = useAppDispatch()
 
-  const fetchProducts = async () => {
-    const resFilter = await ProductService.getProducts(getProductRequest)
+  const fetchProducts = async (request?: IGetProductsRequest) => {
+    const resFilter = await ProductService.getProducts(request ?? getProductRequest)
     if (resFilter) {
       setProducts(resFilter.result)
       setPageCount(resFilter.paging.pageCount)
@@ -61,14 +61,13 @@ const SearchPage = ({ res }: ISearchProps) => {
   }
 
   useEffect(() => {
-    fetchProducts()
-    dispatch(
-      productActions.updateRequest({
-        ...getProductRequest,
-        keySearch: res.keySearch,
-      })
-    )
-  }, [])
+    const newGetProductRequest = {
+      ...getProductRequest,
+      keySearch: res.keySearch,
+    }
+    dispatch(productActions.updateRequest(newGetProductRequest))
+    fetchProducts(newGetProductRequest)
+  }, [res])
 
   return (
     <div className={`nc-SearchPage`} data-nc-id="SearchPage">

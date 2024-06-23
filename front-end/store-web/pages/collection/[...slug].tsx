@@ -41,8 +41,8 @@ const CollectionPage = ({ res }: ICollectionProps) => {
   const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
   const dispatch = useAppDispatch()
 
-  const fetchProducts = async () => {
-    const resFilter = await ProductService.getProducts(getProductRequest)
+  const fetchProducts = async (request?: IGetProductsRequest) => {
+    const resFilter = await ProductService.getProducts(request ?? getProductRequest)
     if (resFilter) {
       setProducts(resFilter.result)
       setPageCount(resFilter.paging.pageCount)
@@ -50,16 +50,15 @@ const CollectionPage = ({ res }: ICollectionProps) => {
   }
 
   useEffect(() => {
-    fetchProducts()
-    dispatch(
-      productActions.updateRequest({
-        ...getProductRequest,
-        genderProduct: res.genderProduct,
-        productRootCategoryIds: res.productRootCategoryId ? [res.productRootCategoryId] : [],
-        productCategoryIds: res.productCategoryId ? [res.productCategoryId] : [],
-      })
-    )
-  }, [])
+    const newGetProductRequest = {
+      ...getProductRequest,
+      genderProduct: res.genderProduct,
+      productRootCategoryIds: res.productRootCategoryId ? [res.productRootCategoryId] : [],
+      productCategoryIds: res.productCategoryId ? [res.productCategoryId] : [],
+    }
+    dispatch(productActions.updateRequest(newGetProductRequest))
+    fetchProducts(newGetProductRequest)
+  }, [res])
 
   return (
     <>

@@ -41,6 +41,7 @@ export default function SiteHeader() {
         className="flex-1 py-2 text-slate-900 dark:text-slate-100"
         onSubmit={(e) => {
           e.preventDefault()
+          setShowSearchForm(false)
           const searchValue = inputRef.current?.value
           dispatch(productActions.resetRequest())
           const query = searchValue ? `?keySearch=${encodeURIComponent(searchValue)}` : ''

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 enum AccountTab {
   Information = 'account-information',
@@ -86,10 +86,12 @@ const PageAbout = () => {
         </div>
       </div>
       <div className="max-w-4xl mx-auto pt-14 sm:pt-26 pb-24 lg:pb-32">
-        {(!tabId || tabId == AccountTab.Information) && <AccountInformation />}
-        {tabId == AccountTab.Order && <AccountOrder />}
-        {tabId == AccountTab.Savelist && <AccountSavelist />}
-        {tabId == AccountTab.Pass && <AccountPass />}
+        <Suspense fallback={<div>Loading...</div>}>
+          {(!tabId || tabId == AccountTab.Information) && <AccountInformation />}
+          {tabId == AccountTab.Order && <AccountOrder />}
+          {tabId == AccountTab.Savelist && <AccountSavelist />}
+          {tabId == AccountTab.Pass && <AccountPass />}
+        </Suspense>
       </div>
     </div>
   )

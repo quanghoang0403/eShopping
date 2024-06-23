@@ -195,7 +195,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
         </ButtonPrimary>
       )
     }
-    if (productStockActive) {
+    if (!productStockActive) {
       return (
         <ButtonPrimary className="flex-1 flex-shrink-0 cursor-not-allowed">
           <NoSymbolIcon className="w-3.5 h-3.5" />

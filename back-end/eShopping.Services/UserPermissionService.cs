@@ -43,7 +43,7 @@ namespace eShopping.Services.User
                 {
                     var keyCache = string.Format(KeyCacheConstants.Permission, userId);
                     var permissionIds = _memoryCachingService.GetCache<List<Guid>>(keyCache);
-                    if (permissionIds != null)
+                    if (permissionIds == null)
                     {
                         permissionIds = await _unitOfWork
                             .StaffPermission
