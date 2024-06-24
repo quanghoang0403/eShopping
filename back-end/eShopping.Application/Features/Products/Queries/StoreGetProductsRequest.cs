@@ -60,7 +60,7 @@ namespace eShopping.Application.Features.Products.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetProductsRequest request, CancellationToken cancellationToken)
         {
-            var products = _unitOfWork.Products.GetAll();
+            var products = _unitOfWork.Products.Where(p => p.Status == EnumStatus.Active);
 
             if (products != null)
             {

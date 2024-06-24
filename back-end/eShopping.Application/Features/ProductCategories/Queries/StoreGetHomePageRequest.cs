@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
+using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.MemoryCaching;
 using eShopping.Models.ProductCategories;
@@ -49,20 +50,20 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             if (res == null)
             {
                 var discountedProducts = await _unitOfWork.Products
-                    .Where(p => p.IsDiscounted == true)
+                    .Where(p => p.IsDiscounted == true && p.Status == EnumStatus.Active)
                     .OrderByDescending(p => p.PercentNumber)
                     .ThenBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
                 var featuredProducts = await _unitOfWork.Products
-                    .Where(p => p.IsFeatured == true && !discountedProducts.Any(dp => dp.Id == p.Id))
+                    .Where(p => p.IsFeatured == true && p.Status == EnumStatus.Active && !discountedProducts.Any(dp => dp.Id == p.Id))
                     .OrderBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
                 var newInProducts = await _unitOfWork.Products
-                    .Where(p => p.IsNewIn == true && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(dp => dp.Id == p.Id))
+                    .Where(p => p.IsNewIn == true && p.Status == EnumStatus.Active && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(dp => dp.Id == p.Id))
                     .OrderBy(p => p.CreatedTime)
                     .Take(12)
                     .ToListAsync();
