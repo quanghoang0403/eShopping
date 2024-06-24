@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import BgGlassmorphism from '@/shared/Background/BgGlassmorphism'
 import BackgroundSection from '@/shared/Background/BackgroundSection'
-import SectionHero from '@/components/About/SectionHero'
 import SectionFounder from '@/components/About/SectionFounder'
 import SectionClientSay from '@/components/About/SectionClientSay'
 import SectionStatistic from '@/components/About/SectionStatistic'

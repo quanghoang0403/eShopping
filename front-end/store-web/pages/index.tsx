@@ -1,7 +1,7 @@
 import React from 'react'
 import SectionHowItWork from '@/components/Home/SectionHowItWork'
 import SEO from '@/components/Layout/SEO'
-import SectionHeroSingle from '@/components/Home/SectionHero/SectionHeroSingle'
+import SectionHeroSingle from '@/components/Common/SectionHero/SectionHeroSingle'
 import SliderProductList from '@/components/Common/ProductList/SliderProductList'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import { GetServerSideProps } from 'next'
