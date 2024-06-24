@@ -23,8 +23,8 @@ export default function OrderList(props) {
     status: [
       t('order.statusNew'),
       t('order.statusConfirm'),
-      t('order.statusDelivering'),
-      t('order.statusComplete'),
+      t('order.statusDeliveringButton'),
+      t('order.statusCompleteButton'),
       t('order.statusReturn'),
       t('order.statusCancel')
     ]
@@ -33,12 +33,11 @@ export default function OrderList(props) {
   const renderButton = (id) => {
     return (
       hasPermission(permission) && status != 4 &&
-      <div>
-        <Button type='primary' onClick={()=> history?.push(`order/detail/${id}`)} className='my-2'>{pageData.titleDetail}</Button>
-        <Button type="primary" onClick={() => onConfirm(id, status === OrderStatus.Canceled ? OrderStatus.ToConfirm : status + 1, '')} >
+      <div className='btn-container'>
+        <Button type="primary" onClick={(event) => {onConfirm(id, status === OrderStatus.Canceled ? OrderStatus.ToConfirm : status + 1, '');event.stopPropagation()}} >
           {status === pageData.status.length - 1 ? pageData.status[1] : pageData.status[status + 1]}
         </Button>
-        {status !== OrderStatus.Canceled && <Button type="primary" onClick={() => onConfirmCancel(id)} danger>{pageData.cancel}</Button>}
+        {status !== OrderStatus.Canceled && <Button type="primary" onClick={(event) => {onConfirmCancel(id);event.stopPropagation()}} danger>{pageData.cancel}</Button>}
       </div>
 
     );
@@ -49,7 +48,7 @@ export default function OrderList(props) {
       {dataSource?.filter(data => data?.status == status)?.map(data => {
         return (
           <Col xs={24} sm={24} md={8} lg={8}>
-            <Card className="order-card">
+            <Card className="order-card" onClick={()=> history?.push(`order/detail/${data?.id}`)}>
               <Meta avatar={<DeliveryGuy />} title={pageData.title} description={'#' + data?.code} className="mb-4" />
               <hr />
               <div className={`${OrderStatusColor[status]} mt-3 order-card-content`}>
