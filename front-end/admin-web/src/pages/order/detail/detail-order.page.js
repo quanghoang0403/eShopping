@@ -61,8 +61,8 @@ export default function OrderDetail (props) {
     status: [
       t('order.statusNew'),
       t('order.statusConfirm'),
-      t('order.statusDelivering'),
-      t('order.statusComplete'),
+      t('order.statusDeliveringButton'),
+      t('order.statusCompleteButton'),
       t('order.statusReturn'),
       t('order.statusCancel')
     ],
@@ -110,7 +110,7 @@ export default function OrderDetail (props) {
     );
   }
   const renderCancelButton = () => {
-    return order?.status !== 4 && order?.status !== OrderStatus.Canceled && <Button type="primary" onClick={() => setOpenModal(true)} danger>{pageData.cancel}</Button>
+    return order?.status !== 4 && order?.status !== OrderStatus.Canceled && <Button className='cancel-btn' onClick={() => setOpenModal(true)} >{pageData.cancel}</Button>
   }
   const confirmationInput = () => {
     return (
@@ -237,7 +237,7 @@ export default function OrderDetail (props) {
               {moment(order?.createdTime).format('DD/MM/YYYY, h:mm a')}
             </div>
           </Col>
-          <Col span={8}>
+          <Col span={8} className='order-header'>
             <div>{pageData.order.status}:</div>
             <div className='order-status'>{pageData.status[order?.status]}</div>
           </Col>

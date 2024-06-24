@@ -48,17 +48,17 @@ export default function TableOrderedProducts(props){
       width: '35%',
       render: (value, record) => {
         return (
-          <Row className="table-img-box">
-            <div className='d-flex'>
+          <Row className="table-img-box w-100">
+            <div className='d-flex w-100'>
               <Thumbnail
                 // src={getThumbnailUrl(record?.thumbnail, 'mobile')}
                 src={record?.thumbnail}
               />
-              <div className='ml-2 product-info'>
+              <div className='ml-3 product-info'>
                 <b>{record?.productName}</b>
-                <div>
-                  <p>{pageData.product.variantInfo}:</p>
+                <div className='mt-1'>
                   <p>{record?.productVariantName}</p>
+                  <p className={`${!record?.productSizeName && 'd-none'}`}>|{record?.productSizeName}</p>
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@ export default function TableOrderedProducts(props){
       render: (value,record) =>{
         return(
           <>
-            <div className={`grid-price-column-text ${record?.priceDiscount ? 'price-discount' : ''} mt-1`}>{formatTextNumber(record?.priceDiscount)+getCurrency()|| ''}</div>
+            <div className={`grid-price-column-text ${record?.priceDiscount ? 'price-discount' : 'd-none'} mt-1`}>{formatTextNumber(record?.priceDiscount)+getCurrency()|| ''}</div>
             <div className="grid-price-column-text price-value">{formatTextNumber(value)+getCurrency()}</div>
           </>
         );
