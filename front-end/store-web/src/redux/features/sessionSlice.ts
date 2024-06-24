@@ -10,6 +10,7 @@ interface SessionState {
   cartItems: ICartItem[]
   totalQuantity: number
   totalPrice: number
+  wishListIds: string[]
 }
 
 const initialState: SessionState = {
@@ -19,6 +20,7 @@ const initialState: SessionState = {
   cartItems: [],
   totalQuantity: 0,
   totalPrice: 0,
+  wishListIds: [],
 }
 
 const sessionSlice = createSlice({
@@ -94,6 +96,13 @@ const sessionSlice = createSlice({
       state.cartItems = action.payload
       state.totalQuantity = calculateTotalQuantity(state.cartItems)
       state.totalPrice = calculateTotalPrice(state.cartItems)
+    },
+    addOrRemoveWishListProduct(state, action: PayloadAction<string>) {
+      if (state.wishListIds.includes(action.payload)) {
+        state.wishListIds = state.wishListIds.filter((id) => id !== action.payload)
+      } else {
+        state.wishListIds.push(action.payload)
+      }
     },
   },
 })

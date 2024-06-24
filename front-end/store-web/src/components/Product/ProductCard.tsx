@@ -18,10 +18,9 @@ import { useAppSelector } from '@/hooks/useRedux'
 export interface ProductCardProps {
   className?: string
   product: IProduct
-  isLiked?: boolean
 }
 
-const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked }) => {
+const ProductCard: FC<ProductCardProps> = ({ className = '', product }) => {
   const { name, description, priceValue, priceDiscount, urlSEO, productSizes, productVariants, productStocks } = product
   const [productVariantActive, setProductVariantActive] = useState<IProductVariant | null>(null)
   const [productSizeActive, setProductSizeActive] = useState<IProductSize | null>(null)
@@ -181,7 +180,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product, isLiked })
             />
           </Link>
           <ProductStatus product={product} />
-          <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" />
+          <LikeButton productId={product.id} className="absolute top-3 end-3 z-10" />
           {/* {renderProductSizes()} */}
           {renderGroupButtons()}
         </div>

@@ -1,7 +1,7 @@
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import ProductList from '../Common/ProductList/components/ProductList'
 
-const AccountSavelist = () => {
+const AccountWishList = () => {
   return (
     <div className="space-y-10 sm:space-y-12">
       <div>
@@ -18,4 +18,4 @@ const AccountSavelist = () => {
   )
 }
 
-export default AccountSavelist
+export default AccountWishList

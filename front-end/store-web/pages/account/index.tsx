@@ -40,7 +40,7 @@ const tabs = [
 const AccountInformation = React.lazy(() => import('@/components/Account/AccountInformation'))
 const AccountOrder = React.lazy(() => import('@/components/Account/AccountOrder'))
 const AccountPass = React.lazy(() => import('@/components/Account/AccountPass'))
-const AccountSavelist = React.lazy(() => import('@/components/Account/AccountSavelist'))
+const AccountWishList = React.lazy(() => import('@/components/Account/AccountWishList'))
 
 const PageAbout = () => {
   const searchParams = useSearchParams()
@@ -89,7 +89,7 @@ const PageAbout = () => {
         <Suspense fallback={<div>Loading...</div>}>
           {(!tabId || tabId == AccountTab.Information) && <AccountInformation />}
           {tabId == AccountTab.Order && <AccountOrder />}
-          {tabId == AccountTab.Savelist && <AccountSavelist />}
+          {tabId == AccountTab.Savelist && <AccountWishList />}
           {tabId == AccountTab.Pass && <AccountPass />}
         </Suspense>
       </div>
