@@ -29,18 +29,23 @@ namespace eShopping.Models.Orders
 
         public string Reason { get; set; }
 
-        
+
         public decimal DeliveryFee { get; set; }
 
-        
+
         public decimal TotalPriceOrigin { get; set; }
 
-        
+
         public decimal TotalPrice { get; set; }
 
-        
+
         public decimal TotalAmount { get; set; }
 
         public IEnumerable<StoreOrderItemModel> OrderItems { get; set; }
+        public int? ShipCityId { get; set; }
+
+        public int? ShipDistrictId { get; set; }
+
+        public int? ShipWardId { get; set; }
     }
 }
