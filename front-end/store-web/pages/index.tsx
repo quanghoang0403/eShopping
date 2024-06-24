@@ -5,35 +5,19 @@ import SectionHeroSingle from '@/components/Common/SectionHero/SectionHeroSingle
 import SliderProductList from '@/components/Common/ProductList/SliderProductList'
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import { GetServerSideProps } from 'next'
-import { PageSizeConstants } from '@/constants/default.constants'
-import ProductService from '@/services/product.service'
+import ProductCategoryService from '@/services/productCategory.service'
 
-interface HomePageProps {
-  discountedProduct: IProduct[]
-  featuredProduct: IProduct[]
-}
 
-export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<IHomeDataResponse> = async () => {
   try {
-    let discountedRequest: IGetProductsRequest = {
-      productRootCategoryIds: [],
-      productCategoryIds: [],
-      isDiscounted: true,
-      isFeatured: false,
-      keySearch: '',
-      pageNumber: 0,
-      pageSize: PageSizeConstants.Default,
-      sortType: 0,
+    const res = await ProductCategoryService.getHomePage()
+    if (res) {
+      return {
+        props: res,
+      }
     }
-    const discountedRes = await ProductService.getProducts(discountedRequest)
-    const featuredRequest: IGetProductsRequest = { ...discountedRequest, isDiscounted: false, isFeatured: true }
-    const featuredRes = await ProductService.getProducts(featuredRequest)
-    console.log(discountedRes)
     return {
-      props: {
-        discountedProduct: discountedRes.result,
-        featuredProduct: featuredRes.result,
-      },
+      notFound: true,
     }
   } catch (error) {
     console.error('Error fetching product:', error)
@@ -43,15 +27,16 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
   }
 }
 
-export default function HomePage({ discountedProduct, featuredProduct }: HomePageProps) {
+export default function HomePage({ discountedProducts, featuredProducts, newInProducts }: IHomeDataResponse) {
   return (
     <>
       <SEO title={'Trang chủ'} description="Describe the home" />
       <div className="nc-PageHome relative overflow-hidden">
         <SectionHeroSingle />
         <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-          <SliderProductList data={featuredProduct} heading="Sản phẩm nổi bật" subHeading="Trở nên khác biệt" />
-          <SliderProductList data={discountedProduct} heading="Khuyến mãi khủng" subHeading="Tưng bừng mua sắm" />
+          <SliderProductList data={discountedProducts} heading="Khuyến mãi khủng" subHeading="Tưng bừng mua sắm" />
+          <SliderProductList data={featuredProducts} heading="Sản phẩm nổi bật" subHeading="Trở nên khác biệt" />
+          <SliderProductList data={newInProducts} heading="Sản phẩm mới về" subHeading="Tự tin tạo khác biệt" />
           <SliderCategoryList />
           <div className="pt-24 lg:pt-32 border-t border-slate-200 dark:border-slate-700">
             <SectionHowItWork />

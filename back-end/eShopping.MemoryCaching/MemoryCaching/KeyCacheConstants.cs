@@ -13,6 +13,8 @@ namespace eShopping.MemoryCaching
         public const string CollectionPage = "CollectionPage_slugs:{0}";
 
         public const string SearchPage = "SearchPage_keySearch:{0}";
+
+        public const string HomePage = "HomePage";
     }
 
     public class TimeCacheConstants
