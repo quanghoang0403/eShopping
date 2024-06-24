@@ -48,27 +48,27 @@ const TabFilter: FC<TabFilterProps> = ({ onApply, productRootCategories, product
 
   useEffect(() => {
     const newProductCategoryIds = productCategoryIds.filter((id) => productCategories.some((category) => category.id === id))
-    dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: newProductCategoryIds }))
+    dispatch(productActions.updateProductCategoryIds(newProductCategoryIds))
   }, [productRootCategoryIds])
 
   const handleChangeRootCategories = (checked: boolean, id: string) => {
     const newProductRootCategoryIds = checked ? [...productRootCategoryIds, id] : productRootCategoryIds.filter((i) => i !== id)
-    dispatch(productActions.updateRequest({ ...getProductRequest, productRootCategoryIds: newProductRootCategoryIds }))
+    dispatch(productActions.updateProductRootCategoryIds(newProductRootCategoryIds))
   }
 
   const handleChangeCategories = (checked: boolean, id: string) => {
     const newProductCategoryIds = checked ? [...productCategoryIds, id] : productCategoryIds.filter((i) => i !== id)
-    dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: newProductCategoryIds }))
+    dispatch(productActions.updateProductCategoryIds(newProductCategoryIds))
   }
 
   const handleCheckAllRootCategories = (checked: boolean) => {
-    if (checked) dispatch(productActions.updateRequest({ ...getProductRequest, productRootCategoryIds: productRootCategories.map((i) => i.id) }))
-    else dispatch(productActions.updateRequest({ ...getProductRequest, productRootCategoryIds: [] }))
+    if (checked) dispatch(productActions.updateProductRootCategoryIds(productRootCategories.map((i) => i.id)))
+    else dispatch(productActions.updateProductRootCategoryIds([]))
   }
 
   const handleCheckAllCategories = (checked: boolean) => {
-    if (checked) dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: productCategories.map((i) => i.id) }))
-    else dispatch(productActions.updateRequest({ ...getProductRequest, productCategoryIds: [] }))
+    if (checked) dispatch(productActions.updateProductCategoryIds(productCategories.map((i) => i.id)))
+    else dispatch(productActions.updateProductCategoryIds([]))
   }
 
   const handleChangeColors = (checked: boolean, name: string) => {
@@ -80,19 +80,19 @@ const TabFilter: FC<TabFilterProps> = ({ onApply, productRootCategories, product
   }
 
   const handleChangeSortType = (value: number) => {
-    dispatch(productActions.updateRequest({ ...getProductRequest, sortType: value }))
+    dispatch(productActions.updateSoftType(value))
   }
 
   const handleChangeNewIn = (value: boolean) => {
-    dispatch(productActions.updateRequest({ ...getProductRequest, isNewIn: value }))
+    dispatch(productActions.updateIsNewIn(value))
   }
 
   const handleChangeDiscounted = (value: boolean) => {
-    dispatch(productActions.updateRequest({ ...getProductRequest, isDiscounted: value }))
+    dispatch(productActions.updateIsDiscounted(value))
   }
 
   const handleChangeFeatured = (value: boolean) => {
-    dispatch(productActions.updateRequest({ ...getProductRequest, isFeatured: value }))
+    dispatch(productActions.updateIsFeatured(value))
   }
 
   const renderXClear = () => {

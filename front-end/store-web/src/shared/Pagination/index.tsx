@@ -13,7 +13,7 @@ const Pagination: FC<PaginationProps> = ({ pageCount = 1, onApply }) => {
   const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
 
   const setPageNumber = (pageNumber: number) => {
-    dispatch(productActions.updateRequest({ ...getProductRequest, pageNumber: pageNumber }))
+    dispatch(productActions.updatePageNumber(pageNumber))
   }
 
   useEffect(() => {
