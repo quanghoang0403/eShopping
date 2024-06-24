@@ -1,18 +1,18 @@
 import React, { FC } from 'react'
 import NcImage from '@/shared/NcImage'
-import rightImgDemo from '@/assets/images/promo3.png'
 import backgroundLineSvg from '@/assets/svgs/backgroundLine.svg'
 import Badge from '@/shared/Badge'
 import Input from '@/shared/Controller/Input'
 import ButtonCircle from '@/shared/Button/ButtonCircle'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/solid'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 
 export interface PromoBanner3Props {
   className?: string
+  img: string | StaticImageData
 }
 
-const PromoBanner3: FC<PromoBanner3Props> = ({ className = 'lg:pt-10' }) => {
+const PromoBanner3: FC<PromoBanner3Props> = ({ className = 'lg:pt-10', img }) => {
   return (
     <div className={`nc-PromoBanner3 ${className}`}>
       <div className="relative flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-800 rounded-2xl sm:rounded-[40px] p-4 pb-0 sm:p-5 sm:pb-0 lg:p-24">
@@ -50,7 +50,7 @@ const PromoBanner3: FC<PromoBanner3Props> = ({ className = 'lg:pt-10' }) => {
         <NcImage
           alt=""
           containerClassName="relative block lg:absolute lg:right-0 lg:bottom-0 mt-10 lg:mt-0 max-w-lg lg:max-w-[calc(50%-40px)]"
-          src={rightImgDemo}
+          src={img}
           sizes="(max-width: 768px) 100vw, 50vw"
           className=""
         />

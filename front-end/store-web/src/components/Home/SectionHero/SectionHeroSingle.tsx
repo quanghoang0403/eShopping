@@ -1,10 +1,8 @@
 import React, { FC } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import backgroundLineSvg from '@/assets/svgs/moon.svg'
-import imageRightPng2 from '@/assets/images/hero-2-right-1.png'
+import img from '@/assets/images/banners/sectionHero/single.png'
 import Image from 'next/image'
-import ProductService from '@/services/product.service'
-import toast from 'react-hot-toast'
 
 export interface SectionHeroSingleProps {
   className?: string
@@ -32,7 +30,7 @@ const SectionHeroSingle: FC<SectionHeroSingleProps> = ({ className = '' }) => {
               sizes="(max-width: 768px) 100vw, 50vw"
               fill
               className="w-full sm:h-full object-contain object-right-bottom "
-              src={imageRightPng2}
+              src={img}
               alt=""
               priority
             />

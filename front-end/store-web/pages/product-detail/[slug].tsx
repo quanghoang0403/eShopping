@@ -183,9 +183,9 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
             />
 
             {/* SECTION */}
-            <div className="pb-20 xl:pb-28 lg:pt-14">
+            {/* <div className="pb-20 xl:pb-28 lg:pt-14">
               <PromoBanner2 />
-            </div>
+            </div> */}
           </div>
         </div>
 

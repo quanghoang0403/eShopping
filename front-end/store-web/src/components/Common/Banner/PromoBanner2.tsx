@@ -1,16 +1,16 @@
 import React, { FC } from 'react'
 import NcImage from '@/shared/NcImage'
-import rightImgDemo from '@/assets/images/promo2.png'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Logo from '@/shared/Logo'
 import backgroundLineSvg from '@/assets/svgs/moon.svg'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 
 export interface PromoBanner2Props {
   className?: string
+  img: string | StaticImageData
 }
 
-const PromoBanner2: FC<PromoBanner2Props> = ({ className = 'lg:pt-10' }) => {
+const PromoBanner2: FC<PromoBanner2Props> = ({ className = 'lg:pt-10', img }) => {
   return (
     <div className={`nc-PromoBanner2 ${className}`}>
       <div className="relative flex flex-col lg:flex-row lg:justify-end bg-yellow-50 dark:bg-slate-800 rounded-2xl sm:rounded-[40px] p-4 pb-0 sm:p-5 sm:pb-0 lg:p-24">
@@ -37,7 +37,7 @@ const PromoBanner2: FC<PromoBanner2Props> = ({ className = 'lg:pt-10' }) => {
         <NcImage
           alt=""
           containerClassName="relative block lg:absolute lg:left-0 lg:bottom-0 mt-10 lg:mt-0 max-w-xl lg:max-w-[calc(55%-40px)]"
-          src={rightImgDemo}
+          src={img}
           sizes="(max-width: 768px) 100vw, 50vw"
           className=""
         />

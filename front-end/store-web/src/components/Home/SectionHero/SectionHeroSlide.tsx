@@ -8,7 +8,33 @@ import Prev from '@/shared/NextPrev/Prev'
 import useInterval from 'react-use/lib/useInterval'
 import useBoolean from 'react-use/lib/useBoolean'
 import Image from 'next/image'
-import { HERO2_DEMO_DATA as DATA } from '../SectionHero/data'
+import img1 from '@/assets/images/banners/sectionHero/slide1.png'
+import img2 from '@/assets/images/banners/sectionHero/slide2.png'
+import img3 from '@/assets/images/banners/sectionHero/slide3.png'
+
+const DATA = [
+  {
+    image: img1,
+    heading: "Exclusive collection for everyone",
+    subHeading: "In this season, find the best 🔥",
+    btnText: "Explore now",
+    btnLink: "/",
+  },
+  {
+    image: img2,
+    heading: "Exclusive collection for everyone",
+    subHeading: "In this season, find the best 🔥",
+    btnText: "Explore now",
+    btnLink: "/",
+  },
+  {
+    image: img3,
+    heading: "Exclusive collection for everyone",
+    subHeading: "In this season, find the best 🔥",
+    btnText: "Explore now",
+    btnLink: "/",
+  },
+]
 
 export interface SectionHeroSlideProps {
   className?: string

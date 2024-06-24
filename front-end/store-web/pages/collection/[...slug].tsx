@@ -105,7 +105,7 @@ const CollectionPage = ({ res }: ICollectionProps) => {
           <hr className="border-slate-200 dark:border-slate-700" />
 
           {/* SUBCRIBES */}
-          <PromoBanner1 />
+          {/* <PromoBanner1 /> */}
         </div>
       </div>
     </>
