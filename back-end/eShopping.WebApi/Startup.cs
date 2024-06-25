@@ -4,6 +4,7 @@ using eShopping.Application.Middlewares;
 using eShopping.Application.Providers;
 using eShopping.Common.Attributes.Permission;
 using eShopping.Common.AutoWire;
+using eShopping.Common.Constants;
 using eShopping.Domain.Enums;
 using eShopping.Email;
 using eShopping.Infrastructure.Repositories;
@@ -188,7 +189,7 @@ namespace eShopping.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<OrderHub>("/orderHub");
+                endpoints.MapHub<OrderHub>(HubConnectionConstants.OrderHub);
             });
 
             app.UseHealthChecks("/health");
