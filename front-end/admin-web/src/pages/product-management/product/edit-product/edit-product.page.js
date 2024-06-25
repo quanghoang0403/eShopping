@@ -17,6 +17,8 @@ import StockProductTable from '../components/stock-product.component';
 import RightProductDetail from '../components/right-product-detail.component';
 import LeftProductDetail from '../components/left-product-detail.component';
 import moment from 'moment';
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component';
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component';
 
 export default function EditProductPage() {
   const history = useHistory()
@@ -24,14 +26,12 @@ export default function EditProductPage() {
   const { t } = useTranslation()
   const [titleName, setTitleName] = useState('')
   const [form] = Form.useForm()
-  const [activate, setActivate] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [disableCreateButton, setDisableCreateButton] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [titleModal, setTitleModal] = useState('')
   const [preventDeleteProduct, setPreventDeleteProduct] = useState({})
-  const [statusId, setStatusId] = useState(null)
   const [productSizes, setProductSizes] = useState([])
   const [productData, setProductData] = useState()
 
@@ -67,11 +67,7 @@ export default function EditProductPage() {
     table: {
       name: t('table.name'),
       action: t('table.action')
-    },
-    active: t('common.active'),
-    inactive: t('common.inactive'),
-    activate: t('product.activate'),
-    deactivate: t('product.deactivate')
+    }
   }
 
   useEffect(() => {
@@ -117,12 +113,6 @@ export default function EditProductPage() {
       form.setFieldsValue(parsedData)
       setProductData(parsedData)
       setTitleName(parsedData?.name);
-      setStatusId(parsedData?.isActive);
-      if (parsedData?.isActive === ProductStatus.Activate) {
-        setActivate(pageData.deactivate);
-      } else {
-        setActivate(pageData.activate);
-      }
     });
   }
 
@@ -138,8 +128,7 @@ export default function EditProductPage() {
             ...item,
             priority: index
           })),
-          id: match?.params?.id,
-          status: statusId
+          id: match?.params?.id
         }
         productDataService
           .updateProductAsync(payload)
@@ -162,7 +151,6 @@ export default function EditProductPage() {
   }
 
   const onFieldsChange = () => {
-    console.log(form.getFieldsValue())
     setIsChangeForm(true)
     setDisableCreateButton(false)
   };
@@ -187,17 +175,9 @@ export default function EditProductPage() {
     }, DELAYED_TIME)
   }
 
-  const onChangeStatus = async () => {
-    var res = await productDataService.changeStatusAsync(match?.params?.id);
-    if (res) {
-      if (statusId === ProductStatus.Deactivate) {
-        message.success(pageData.productActivatedSuccess);
-      } else {
-        message.success(pageData.productDeactivatedSuccess);
-      }
-      setStatusId(statusId === ProductStatus.Deactivate ? ProductStatus.Activate : ProductStatus.Deactivate)
-      setActivate(!(statusId === ProductStatus.Deactivate) ? pageData.activate : pageData.deactivate)
-    }
+  const onChangeStatus = async (active) => {
+    setProductData(data=>{return {...data,isActive:!data.isActive}})
+    form.setFieldValue('isActive',!active)
   }
 
   const handleDeleteItem = async (productId, productName) => {
@@ -219,73 +199,6 @@ export default function EditProductPage() {
     <>
       {productData ? ( // Check if productData has data
         <>
-          <Row className="shop-row-page-header">
-            <Col xs={24} sm={24} lg={12}>
-              <Row>
-                <p className="card-header">
-                  <PageTitle content={titleName} />
-                </p>
-                {statusId === ProductStatus.Activate && (
-                  <span className="badge-status active ml-3">
-                    <span> {pageData.active}</span>
-                  </span>
-                )}
-                {statusId === ProductStatus.Deactivate && (
-                  <span className="badge-status default ml-3">
-                    <span> {pageData.inactive}</span>
-                  </span>
-                )}
-              </Row>
-            </Col>
-            <Col span={12} xs={24} sm={24} md={24} lg={12} className="shop-form-item-btn">
-              <ActionButtonGroup
-                arrayButton={[
-                  {
-                    action: (
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        disabled={disableCreateButton}
-                        icon={<PlusOutlined className="icon-btn-add-option" />}
-                        className="btn-create-form"
-                        onClick={editProduct}
-                      >
-                        {pageData.btnSave}
-                      </Button>
-                    ),
-                    permission: PermissionKeys.EDIT_PRODUCT
-                  },
-                  {
-                    action: (
-                      <a onClick={() => onCancel()} className="action-cancel">
-                        {pageData.btnCancel}
-                      </a>
-                    ),
-                    permission: null
-                  },
-                  {
-                    action: (
-                      <a
-                        className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
-                        onClick={() => onChangeStatus()}
-                      >
-                        {activate}
-                      </a>
-                    ),
-                    permission: PermissionKeys.EDIT_PRODUCT
-                  },
-                  {
-                    action: (
-                      <a onClick={() => handleOpenDeletePopup()} className="action-delete">
-                        {pageData.btnDelete}
-                      </a>
-                    ),
-                    permission: PermissionKeys.EDIT_PRODUCT
-                  }
-                ]}
-              />
-            </Col>
-          </Row>
           <Form
             form={form}
             name="basic"
@@ -293,6 +206,62 @@ export default function EditProductPage() {
             onFieldsChange={onFieldsChange}
             autoComplete="off"
           >
+            <Row className="shop-row-page-header">
+              <Col xs={24} sm={24} lg={12}>
+                <Row>
+                  <p className="card-header">
+                    <PageTitle content={titleName} />
+                  </p>
+                  <ShopActiveStatus status={productData?.isActive}/>
+                </Row>
+              </Col>
+              <Col span={12} xs={24} sm={24} md={24} lg={12} className="shop-form-item-btn">
+                <ActionButtonGroup
+                  arrayButton={[
+                    {
+                      action: (
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          disabled={disableCreateButton}
+                          icon={<PlusOutlined className="icon-btn-add-option" />}
+                          className="btn-create-form"
+                          onClick={editProduct}
+                        >
+                          {pageData.btnSave}
+                        </Button>
+                      ),
+                      permission: PermissionKeys.EDIT_PRODUCT
+                    },
+                    {
+                      action: (
+                        <a onClick={() => onCancel()} className="action-cancel">
+                          {pageData.btnCancel}
+                        </a>
+                      ),
+                      permission: null
+                    },
+                    {
+                      action: (
+                        <Form.Item name={'isActive'}>
+                          <ChangeStatusButton onClick={onChangeStatus}/>
+                        </Form.Item>
+                      ),
+                      permission: PermissionKeys.EDIT_PRODUCT
+                    },
+                    {
+                      action: (
+                        <a onClick={() => handleOpenDeletePopup()} className="action-delete">
+                          {pageData.btnDelete}
+                        </a>
+                      ),
+                      permission: PermissionKeys.EDIT_PRODUCT
+                    }
+                  ]}
+                />
+              </Col>
+            </Row>
+
             <div className="col-input-full-width create-product-page">
               <Row className="grid-container-create-product">
                 <LeftProductDetail form={form} productData={productData} />
