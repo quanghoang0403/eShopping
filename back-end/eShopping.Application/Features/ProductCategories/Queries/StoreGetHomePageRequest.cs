@@ -50,20 +50,20 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             if (res == null)
             {
                 var discountedProducts = await _unitOfWork.Products
-                    .Where(p => p.IsDiscounted == true && p.Status == EnumStatus.Active)
+                    .Where(p => p.IsDiscounted == true && p.IsActive)
                     .OrderByDescending(p => p.PercentNumber)
                     .ThenBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
                 var featuredProducts = await _unitOfWork.Products
-                    .Where(p => p.IsFeatured == true && p.Status == EnumStatus.Active && !discountedProducts.Any(dp => dp.Id == p.Id))
+                    .Where(p => p.IsFeatured == true && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id))
                     .OrderBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
                 var newInProducts = await _unitOfWork.Products
-                    .Where(p => p.IsNewIn == true && p.Status == EnumStatus.Active && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(dp => dp.Id == p.Id))
+                    .Where(p => p.IsNewIn == true && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(dp => dp.Id == p.Id))
                     .OrderBy(p => p.CreatedTime)
                     .Take(12)
                     .ToListAsync();

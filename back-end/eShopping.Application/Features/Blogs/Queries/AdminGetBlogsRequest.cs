@@ -24,9 +24,10 @@ namespace eShopping.Application.Features.Blogs.Queries
         public string KeySearch { get; set; }
 
         public Guid? BlogCategoryId { get; set; }
-        public string? Author { get; set; }
 
-        public EnumStatus Status { get; set; }
+        public string Author { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
 
@@ -76,7 +77,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             }
             var allBlog = await blogs.
                 AsNoTracking()
-                .Where(b => b.Status.Equals(request.Status))
+                .Where(b => b.IsActive == request.IsActive)
                 .Include(b => b.BlogInCategories)
                 .OrderBy(b => b.CreatedTime)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);

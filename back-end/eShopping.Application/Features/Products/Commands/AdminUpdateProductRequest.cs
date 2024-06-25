@@ -36,7 +36,7 @@ namespace eShopping.Application.Features.Products.Commands
 
         public bool? IsFeatured { get; set; }
 
-        public EnumStatus Status { get; set; }
+        public bool IsActive { get; set; }
 
         public EnumGenderProduct GenderProduct { get; set; }
 
