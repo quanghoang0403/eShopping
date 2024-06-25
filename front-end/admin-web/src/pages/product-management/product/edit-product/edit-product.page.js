@@ -117,8 +117,8 @@ export default function EditProductPage() {
       form.setFieldsValue(parsedData)
       setProductData(parsedData)
       setTitleName(parsedData?.name);
-      setStatusId(parsedData?.status);
-      if (parsedData?.status === ProductStatus.Activate) {
+      setStatusId(parsedData?.isActive);
+      if (parsedData?.isActive === ProductStatus.Activate) {
         setActivate(pageData.deactivate);
       } else {
         setActivate(pageData.activate);
