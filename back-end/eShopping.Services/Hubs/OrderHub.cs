@@ -1,4 +1,5 @@
 ﻿using eShopping.Common.Constants;
+using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -9,21 +10,28 @@ namespace eShopping.Services.Hubs
 {
     public class OrderHub : Hub
     {
-        public async Task SendReceiveOrder(Guid orderId, object orderDetails)
+        public async Task SendCreateOrderByCustomer(object orderDetails)
         {
-            await Clients.All.SendAsync(OrderHubConstants.RECEIVE_ORDER, orderId, orderDetails);
+            await Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, orderDetails);
         }
 
-        public async Task SendUpdateOrder(Guid orderId, object orderDetails)
-        {
-            await Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, orderId, orderDetails);
-        }
-
-        public async Task SendUpdateStatus(Guid orderId, EnumOrderStatus status)
+        public async Task SendUpdateStatusToCustomer(Guid orderId, EnumOrderStatus status)
         {
             await Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, orderId, status);
+        }
+        public async Task SendUpdateOrderToCustomer(object orderDetails)
+        {
+            await Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, orderDetails);
+        }
 
-            await Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, orderId, status);
+        public async Task SendUpdateOrderByStaff(Guid customerId, object orderDetails)
+        {
+            await Clients.Client(customerId.ToString()).SendAsync(OrderHubConstants.UPDATE_ORDER_BY_STAFF, orderDetails);
+        }
+
+        public async Task SendUpdateStatusByStaff(Guid customerId, Guid orderId, EnumOrderStatus status)
+        {
+            await Clients.Client(customerId.ToString()).SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, orderId, status);
         }
     }
 }

@@ -319,7 +319,7 @@ namespace eShopping.Application.Features.Orders.Commands
 
                 await _unitOfWork.SaveChangesAsync();
                 await createTransaction.CommitAsync(cancellationToken);
-                await _hubContext.Clients.All.SendAsync(OrderHubConstants.RECEIVE_ORDER, order.Id, res, cancellationToken);
+                await _hubContext.Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, res, cancellationToken);
                 return BaseResponseModel.ReturnData(res);
             });
 

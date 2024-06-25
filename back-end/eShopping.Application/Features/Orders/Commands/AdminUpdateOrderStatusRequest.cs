@@ -1,8 +1,11 @@
-﻿using eShopping.Common.Models;
+﻿using eShopping.Common.Constants;
+using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
+using eShopping.Services.Hubs;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
@@ -23,11 +26,13 @@ namespace eShopping.Application.Features.Orders.Commands
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
+        private readonly IHubContext<OrderHub> _hubContext;
 
-        public AdminUpdateOrderStatusRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider)
+        public AdminUpdateOrderStatusRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider, IHubContext<OrderHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
+            _hubContext = hubContext;
         }
 
         public async Task<BaseResponseModel> Handle(AdminUpdateOrderStatusRequest request, CancellationToken cancellationToken)
@@ -85,6 +90,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 await createTransaction.RollbackAsync(cancellationToken);
                 return BaseResponseModel.ReturnError(err.Message);
             }
+            await _hubContext.Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, order.CustomerId, order.Id, order.Status, cancellationToken);
             return BaseResponseModel.ReturnData();
         });
         }

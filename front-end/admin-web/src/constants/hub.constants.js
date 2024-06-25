@@ -5,8 +5,8 @@ export const HubConnectionConstants = {
 }
 
 export const OrderHubConstants = {
-  RECEIVE_ORDER: 'ReceiveOrder',
-  UPDATE_STATUS_BY_CUSTOMER: 'UpdateStatusByCustomer',
-  UPDATE_ORDER_BY_CUSTOMER: 'UpdateOrderByCustomer'
+  CREATE_ORDER_BY_CUSTOMER: 'CreateOrderByCustomer',
+  UPDATE_ORDER_BY_CUSTOMER: 'UpdateOrderByCustomer',
+  UPDATE_STATUS_BY_CUSTOMER: 'UpdateStatusByCustomer'
 }
 
