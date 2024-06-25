@@ -8,6 +8,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@fontsource/plus-jakarta-sans": "^4.5.8",
+    "@microsoft/signalr": "^8.0.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.2",
     "antd": "4.24.7",

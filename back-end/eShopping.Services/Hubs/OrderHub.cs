@@ -1,9 +1,7 @@
 ﻿using eShopping.Common.Constants;
-using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace eShopping.Services.Hubs
@@ -15,11 +13,12 @@ namespace eShopping.Services.Hubs
             await Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, orderDetails);
         }
 
-        public async Task SendUpdateStatusToCustomer(Guid orderId, EnumOrderStatus status)
+        public async Task SendUpdateStatusByCustomer(Guid orderId, EnumOrderStatus status)
         {
             await Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, orderId, status);
         }
-        public async Task SendUpdateOrderToCustomer(object orderDetails)
+
+        public async Task SendUpdateOrderByCustomer(object orderDetails)
         {
             await Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, orderDetails);
         }

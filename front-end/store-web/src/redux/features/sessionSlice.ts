@@ -98,6 +98,7 @@ const sessionSlice = createSlice({
       state.totalPrice = calculateTotalPrice(state.cartItems)
     },
     addOrRemoveWishListProduct(state, action: PayloadAction<string>) {
+      if (!state.wishListIds) state.wishListIds
       if (state.wishListIds.includes(action.payload)) {
         state.wishListIds = state.wishListIds.filter((id) => id !== action.payload)
       } else {

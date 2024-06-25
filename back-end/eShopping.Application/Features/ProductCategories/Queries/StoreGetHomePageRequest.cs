@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.MemoryCaching;
-using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -49,30 +47,39 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
             if (res == null)
             {
-                var discountedProducts = await _unitOfWork.Products
+                var query = _unitOfWork.Products
+                    .GetAll()
+                    .Include(x => x.ProductVariants)
+                    .Include(p => p.ProductCategory)
+                    .Include(p => p.ProductRootCategory)
+                    .Include(p => p.ProductSizeCategory.ProductSizes)
+                    .Include(p => p.ProductStocks)
+                    .AsNoTracking();
+
+                var discountedProducts = await query
                     .Where(p => p.IsDiscounted == true && p.IsActive)
                     .OrderByDescending(p => p.PercentNumber)
                     .ThenBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
-                var featuredProducts = await _unitOfWork.Products
-                    .Where(p => p.IsFeatured == true && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id))
+                var featuredProducts = await query
+                    .Where(p => p.IsFeatured == true && p.IsActive)
                     .OrderBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
-                var newInProducts = await _unitOfWork.Products
-                    .Where(p => p.IsNewIn == true && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(dp => dp.Id == p.Id))
-                    .OrderBy(p => p.CreatedTime)
-                    .Take(12)
-                    .ToListAsync();
+                //var newInProducts = await _unitOfWork.Products
+                //    .Where(p => p.IsNewIn == true && p.IsActive)
+                //    .OrderBy(p => p.CreatedTime)
+                //    .Take(12)
+                //    .ToListAsync();
 
                 res = new StoreGetHomePageResponse()
                 {
                     DiscountedProducts = _mapper.Map<List<StoreProductModel>>(discountedProducts),
                     FeaturedProducts = _mapper.Map<List<StoreProductModel>>(featuredProducts),
-                    NewInProducts = _mapper.Map<List<StoreProductModel>>(newInProducts)
+                    //NewInProducts = _mapper.Map<List<StoreProductModel>>(newInProducts)
                 };
                 _memoryCachingService.SetCache(keyCache, res);
             }
