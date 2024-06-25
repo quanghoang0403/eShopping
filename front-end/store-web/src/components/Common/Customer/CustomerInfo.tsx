@@ -38,18 +38,20 @@ export default function CustomerInfo(props: IProps) {
   const [cities, setCities] = useState<IArea[]>([])
   const [districts, setDistricts] = useState<IArea[]>([])
   const [wards, setWards] = useState<IArea[]>([])
+  const [cityId,setCityId] = useState<number>()
+  const [districtId,setDistrictId] = useState<number>()
 
   useEffect(() => {
     fetchCities()
   }, [])
 
   useEffect(() => {
-    fetchDistricts(customer?.cityId)
-  }, [customer])
+    fetchDistricts(cityId as number || customer?.cityId)
+  }, [customer,cityId])
 
   useEffect(() => {
-    fetchWards(customer?.districtId)
-  }, [customer])
+    fetchWards(districtId as number || customer?.districtId)
+  }, [customer,districtId])
 
   const fetchCities = async () => {
     const res = await AddressService.getCities()
@@ -158,6 +160,7 @@ export default function CustomerInfo(props: IProps) {
                 isFullWidth
                 label="Tỉnh/Thành"
                 options={cities}
+                onChange={e=>setCityId(e)}
                 defaultValue={customer?.cityId}
                 name={isShipping ? 'ShipCityId' : 'CityId'}
                 register={register}
@@ -172,6 +175,7 @@ export default function CustomerInfo(props: IProps) {
             <div className="md:w-1/2">
               <Selection
                 isFullWidth
+                onChange={e=>setDistrictId(e)}
                 label="Quận/Huyện"
                 options={districts}
                 defaultValue={customer?.districtId}
