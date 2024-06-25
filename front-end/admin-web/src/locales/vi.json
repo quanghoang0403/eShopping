@@ -132,8 +132,8 @@
         "placeholderGender": "Chọn giới tính"
     },
     "common": {
-        "active": "Đang hoạt động",
-        "inactive": "Không hoạt động",
+        "active": "Kích hoạt",
+        "inactive": "Không kích hoạt",
         "cancelText": "Bỏ qua",
         "okText": "Xác nhận rời",
         "generalInformation": "Thông tin chung",
@@ -383,8 +383,8 @@
         "productDeleteFail": "Xóa sản phẩm thất bại",
         "productActivatedSuccess": "Sản phẩm đã được kích hoạt thành công",
         "productDeactivatedSuccess": "Sản phẩm đã được ngừng bán thành công",
-        "activate": "Bán ngay",
-        "deactivate": "Ngừng bán",
+        "activate": "Kích hoạt",
+        "deactivate": "Ngừng kích hoạt",
         "deleteProductMessage": "Bạn có thực sự muốn xóa sản phẩm <span class='style-text-confirm-delete'>{{name}}</span>.<br/>Thao tác này không thể khôi phục!",
         "startDate": "Ngày bắt đầu",
         "endDate": "Ngày kết thúc",
