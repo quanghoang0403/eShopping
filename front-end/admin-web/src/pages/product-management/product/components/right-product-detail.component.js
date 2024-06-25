@@ -7,9 +7,10 @@ import { FnbSelectSingle } from 'components/shop-select-single/shop-select-singl
 import { ProductGender, ProductGenderList } from 'constants/product-status.constants';
 import ShopParagraph from 'components/shop-paragraph/shop-paragraph';
 import productDataService from 'data-services/product/product-data.service';
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component';
 
 
-export default function RightProductDetail({ form, productSizes, setProductSizes, productData }) {
+export default function RightProductDetail({ form, productSizes, setProductSizes, productData, setProductData }) {
   const { t } = useTranslation()
   const pageData = {
     productCategory: {
@@ -35,7 +36,8 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
     file: {
       title: t('file.title')
     },
-    mediaNotExisted: t('product.validateImage')
+    mediaNotExisted: t('product.validateImage'),
+    activate: t('product.activate')
   }
   const [productRootCategories, setProductRootCategories] = useState([])
   const [productCategories, setProductCategories] = useState([])
@@ -80,10 +82,26 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
     }
   }, [activeProductRootCategoryId])
 
+  const onChangeStatus = (active) => {
+    console.log(active)
+    setProductData(data=>({...data, isActive:!data.isActive}))
+    form.setFieldValue('isActive',!active)
+  }
+
   return (
     <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
       <Row>
         <Col xs={24} sm={24} md={24} lg={24}>
+          <Card className="w-100 shop-card">
+            <div className='d-flex align-items-center'>
+              <h3 className='mr-5'>{pageData.activate}</h3>
+              <Form.Item name={'isActive'}>
+                <ChangeStatusButton onChange={onChangeStatus}/>
+              </Form.Item>
+            </div>
+          </Card>
+        </Col>
+        <Col xs={24} sm={24} md={24} lg={24} className='mt-4'>
           <Card className="w-100 shop-card h-auto">
             <h4 className="title-group">{pageData.file.title}</h4>
             <Form.Item

@@ -175,11 +175,6 @@ export default function EditProductPage() {
     }, DELAYED_TIME)
   }
 
-  const onChangeStatus = async (active) => {
-    setProductData(data=>{return {...data,isActive:!data.isActive}})
-    form.setFieldValue('isActive',!active)
-  }
-
   const handleDeleteItem = async (productId, productName) => {
     var res = await productDataService.deleteProductByIdAsync(productId);
     if (res) {
@@ -243,14 +238,6 @@ export default function EditProductPage() {
                     },
                     {
                       action: (
-                        <Form.Item name={'isActive'}>
-                          <ChangeStatusButton onClick={onChangeStatus}/>
-                        </Form.Item>
-                      ),
-                      permission: PermissionKeys.EDIT_PRODUCT
-                    },
-                    {
-                      action: (
                         <a onClick={() => handleOpenDeletePopup()} className="action-delete">
                           {pageData.btnDelete}
                         </a>
@@ -265,7 +252,7 @@ export default function EditProductPage() {
             <div className="col-input-full-width create-product-page">
               <Row className="grid-container-create-product">
                 <LeftProductDetail form={form} productData={productData} />
-                <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} />
+                <RightProductDetail form={form} productSizes={productSizes} setProductSizes={setProductSizes} productData={productData} setProductData={setProductData} />
               </Row>
               <br />
               <Row>
