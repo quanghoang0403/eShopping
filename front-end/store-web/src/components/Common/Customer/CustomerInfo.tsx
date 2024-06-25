@@ -35,24 +35,23 @@ export const defaultCustomerInfo: ICustomerInfo = {
 
 export default function CustomerInfo(props: IProps) {
   const { isShipping, register, errors, customer } = props
-  const [cityId, setCityId] = useState<number>(customer.cityId)
-  const [districtId, setDistrictId] = useState<number>(customer.districtId)
-
   const [cities, setCities] = useState<IArea[]>([])
   const [districts, setDistricts] = useState<IArea[]>([])
   const [wards, setWards] = useState<IArea[]>([])
+  const [cityId,setCityId] = useState<number>()
+  const [districtId,setDistrictId] = useState<number>()
 
   useEffect(() => {
     fetchCities()
   }, [])
 
   useEffect(() => {
-    fetchDistricts(cityId)
-  }, [cityId])
+    fetchDistricts(cityId as number || customer?.cityId)
+  }, [customer,cityId])
 
   useEffect(() => {
-    fetchWards(districtId)
-  }, [districtId])
+    fetchWards(districtId as number || customer?.districtId)
+  }, [customer,districtId])
 
   const fetchCities = async () => {
     const res = await AddressService.getCities()
@@ -114,7 +113,7 @@ export default function CustomerInfo(props: IProps) {
           <div className="flex flex-col md:flex-row gap-3">
             <div className="md:w-1/2">
               <Input
-                value={customer.name}
+                value={customer?.name}
                 label="Tên"
                 name={isShipping ? 'ShipName' : 'FullName'}
                 register={register}
@@ -124,7 +123,7 @@ export default function CustomerInfo(props: IProps) {
             </div>
             <div className="md:w-1/2">
               <Input
-                value={customer.phoneNumber}
+                value={customer?.phoneNumber}
                 label="Số điện thoại"
                 name={isShipping ? 'ShipPhoneNumber' : 'PhoneNumber'}
                 register={register}
@@ -142,7 +141,7 @@ export default function CustomerInfo(props: IProps) {
           <div className="flex flex-col md:flex-row gap-3">
             <div className="md:w-1/2">
               <Input
-                value={customer.email}
+                value={customer?.email}
                 label="Email"
                 register={register}
                 patternValidate={{
@@ -161,8 +160,8 @@ export default function CustomerInfo(props: IProps) {
                 isFullWidth
                 label="Tỉnh/Thành"
                 options={cities}
-                onChange={(value: any) => setCityId(value)}
-                defaultValue={cityId}
+                onChange={e=>setCityId(e)}
+                defaultValue={customer?.cityId}
                 name={isShipping ? 'ShipCityId' : 'CityId'}
                 register={register}
                 patternValidate={{
@@ -176,10 +175,10 @@ export default function CustomerInfo(props: IProps) {
             <div className="md:w-1/2">
               <Selection
                 isFullWidth
+                onChange={e=>setDistrictId(e)}
                 label="Quận/Huyện"
                 options={districts}
-                onChange={(value: any) => setDistrictId(value)}
-                defaultValue={districtId}
+                defaultValue={customer?.districtId}
                 name={isShipping ? 'ShipDistrictId' : 'DistrictId'}
                 register={register}
                 patternValidate={{
@@ -193,7 +192,7 @@ export default function CustomerInfo(props: IProps) {
                 isFullWidth
                 label="Phường/Xã"
                 options={wards}
-                defaultValue={customer.wardId}
+                defaultValue={customer?.wardId}
                 name={isShipping ? 'ShipWardId' : 'WardId'}
                 register={register}
                 patternValidate={{
@@ -205,7 +204,7 @@ export default function CustomerInfo(props: IProps) {
           </div>
           <div>
             <Input
-              value={customer.address}
+              value={customer?.address}
               label="Địa chỉ giao hàng"
               name={isShipping ? 'ShipAddress' : 'Address'}
               register={register}
@@ -216,7 +215,7 @@ export default function CustomerInfo(props: IProps) {
             />
           </div>
           <div>
-            <Input value={customer.note} register={register} label="Ghi chú" name="Note" />
+            <Input value={customer?.note} register={register} label="Ghi chú" name="Note" />
           </div>
         </div>
       </div>

@@ -62,9 +62,9 @@ interface IOrderDetail {
   shipFullAddress: string
   shipEmail?: string
   shipPhoneNumber: string
-  cityId?: number
-  districtId?: number
-  wardId?: number
+  shipCityId?: number
+  shipDistrictId?: number
+  shipWardId?: number
   note?: string
   reason?: string
   deliveryFee: number

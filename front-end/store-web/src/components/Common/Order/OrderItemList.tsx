@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const OrderItemList = ({ orderItems }: IProps) => {
-  return orderItems.map((item, index) => {
+  return orderItems?.map((item, index) => {
     const { percentNumber, thumbnail, productVariantName, priceValue, priceDiscount, productName, quantity, totalPrice } = item
     return (
       <div key={index} className="flex py-4 sm:py-7 last:pb-0 first:pt-0">
