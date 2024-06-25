@@ -11,11 +11,7 @@ import ProductService from '@/services/product.service'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { productActions } from '@/redux/features/productSlice'
 
-interface ICollectionProps {
-  res: ICollectionDataResponse
-}
-
-export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<ICollectionDataResponse> = async (context) => {
   const { params, req } = context
   try {
     const res = await ProductCategoryService.getCollectionPageByUrl(params?.slug as string[])
@@ -25,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (c
       }
     }
     return {
-      props: { res },
+      props: res,
     }
   } catch (error) {
     console.error('Error fetching collection page:', error)
@@ -35,7 +31,18 @@ export const getServerSideProps: GetServerSideProps<ICollectionProps> = async (c
   }
 }
 
-const CollectionPage = ({ res }: ICollectionProps) => {
+const CollectionPage = ({ 
+  genderProduct, 
+  productRootCategoryId, 
+  productCategoryId,
+  productRootCategories,
+  productCategories,
+  name,
+  description,
+  descriptionSEO,
+  titleSEO,
+  keywordSEO
+}: ICollectionDataResponse) => {
   const [products, setProducts] = useState<IProduct[]>([])
   const [pageCount, setPageCount] = useState(1)
   const getProductRequest = useAppSelector((state) => state.product.getProductRequest as IGetProductsRequest)
@@ -52,24 +59,24 @@ const CollectionPage = ({ res }: ICollectionProps) => {
   useEffect(() => {
     const newGetProductRequest = {
       ...getProductRequest,
-      genderProduct: res.genderProduct,
-      productRootCategoryIds: res.productRootCategoryId ? [res.productRootCategoryId] : [],
-      productCategoryIds: res.productCategoryId ? [res.productCategoryId] : [],
+      genderProduct: genderProduct,
+      productRootCategoryIds: productRootCategoryId ? [productRootCategoryId] : [],
+      productCategoryIds: productCategoryId ? [productCategoryId] : [],
     }
     dispatch(productActions.updateRequest(newGetProductRequest))
     fetchProducts(newGetProductRequest)
-  }, [res])
+  }, [productRootCategoryId, productCategoryId, genderProduct])
 
   return (
     <>
-      <SEO title={res.titleSEO ?? res.name} description={res.descriptionSEO ?? res.description} />
+      <SEO title={titleSEO ?? name} description={descriptionSEO ?? description} />
       <div className={`nc-CollectionPage`}>
         <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28">
           <div className="space-y-10 lg:space-y-14">
             {/* HEADING */}
             <div className="max-w-screen-sm">
-              <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">{res.name}</h2>
-              <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">{res.description}</span>
+              <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">{name}</h2>
+              <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">{description}</span>
             </div>
 
             <hr className="border-slate-200 dark:border-slate-700" />
@@ -77,8 +84,8 @@ const CollectionPage = ({ res }: ICollectionProps) => {
               {/* TABS FILTER */}
               <TabFilter
                 onApply={fetchProducts}
-                productRootCategories={res.productRootCategories}
-                productCategories={res.productCategories.filter((c) => getProductRequest.productRootCategoryIds.includes(c.productRootCategoryId))}
+                productRootCategories={productRootCategories}
+                productCategories={productCategories.filter((c) => getProductRequest.productRootCategoryIds.includes(c.productRootCategoryId))}
               />
 
               {/* LOOP ITEMS */}
@@ -105,7 +112,7 @@ const CollectionPage = ({ res }: ICollectionProps) => {
           <hr className="border-slate-200 dark:border-slate-700" />
 
           {/* SUBCRIBES */}
-          <PromoBanner1 />
+          {/* <PromoBanner1 /> */}
         </div>
       </div>
     </>

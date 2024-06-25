@@ -6,44 +6,44 @@ import { FC } from "react";
 
 const DEMO_DATA = [
   {
-    name: "Description",
+    name: "Mô tả sản phẩm",
     content:
-      "Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.",
+      "Thời trang là một hình thức tự biểu đạt và tự chủ tại một thời điểm và địa điểm cụ thể, trong một ngữ cảnh nhất định, bao gồm quần áo, giày dép, lối sống, phụ kiện, trang điểm, kiểu tóc, và tư thế cơ thể.",
   },
   {
-    name: "Fabric + Care",
+    name: "Vải + Chăm sóc",
     content: `<ul class="list-disc list-inside leading-7">
-    <li>Made from a sheer Belgian power micromesh.</li>
+    <li>Làm từ một loại lưới micromesh mạnh mẽ của Bỉ.</li>
     <li>
     74% Polyamide (Nylon) 26% Elastane (Spandex)
     </li>
     <li>
-    Adjustable hook & eye closure and straps
+    Có thể điều chỉnh móc & mắt và dây đeo
     </li>
     <li>
-    Hand wash in cold water, dry flat
+    Giặt tay trong nước lạnh, phơi phẳng
     </li>
   </ul>`,
   },
 
   {
-    name: "How it Fits",
+    name: "Cách chọn sản phẩm",
     content:
-      "Use this as a guide. Preference is a huge factor — if you're near the top of a size range and/or prefer more coverage, you may want to size up.",
+      "Sở thích và gu thời trang là một yếu tố lớn — nếu bạn là người có gu ăn mặc thoải mái, rộng rãi, bạn có thể muốn chọn kích cỡ lớn hơn.",
   },
   {
-    name: "FAQ",
+    name: "Câu hỏi thường gặp",
     content: `
     <ul class="list-disc list-inside leading-7">
-    <li>All full-priced, unworn items, with tags attached and in their original packaging are eligible for return or exchange within 30 days of placing your order.</li>
+    <li>Tất cả các mặt hàng giá đầy đủ, chưa mặc, với nhãn còn nguyên và trong bao bì gốc đều đủ điều kiện để trả lại hoặc đổi trong vòng 30 ngày kể từ khi đặt hàng.</li>
     <li>
-    Please note, packs must be returned in full. We do not accept partial returns of packs.
+    Xin lưu ý, các gói hàng phải được trả lại đầy đủ. Chúng tôi không chấp nhận trả lại một phần các gói hàng.
     </li>
     <li>
-    Want to know our full returns policies? Here you go.
+    Muốn biết chính sách trả hàng đầy đủ của chúng tôi? Đây bạn.
     </li>
     <li>
-    Want more info about shipping, materials or care instructions? Here!
+    Muốn biết thêm thông tin về vận chuyển, vật liệu hoặc hướng dẫn chăm sóc? Đây!
     </li>
   </ul>
     `,

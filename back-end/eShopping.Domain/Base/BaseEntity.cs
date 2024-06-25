@@ -22,5 +22,7 @@ namespace eShopping.Domain.Base
         /// Mark an object status delete
         /// </summary>
         public bool IsDeleted { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

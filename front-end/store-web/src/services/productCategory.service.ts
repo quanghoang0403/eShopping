@@ -11,4 +11,7 @@ export default class ProductCategoryService {
   static async getSearchPage(keySearch: string): Promise<ISearchDataResponse> {
     return await APIService.get(`/productRootCategory/get-search-page?keySearch=${keySearch}`)
   }
+  static async getHomePage(): Promise<IHomeDataResponse> {
+    return await APIService.get(`/productRootCategory/get-home-page`)
+  }
 }

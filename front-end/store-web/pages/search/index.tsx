@@ -19,11 +19,7 @@ import { useRouter } from 'next/navigation'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { productActions } from '@/redux/features/productSlice'
 
-interface ISearchProps {
-  res: ISearchDataResponse
-}
-
-export const getServerSideProps: GetServerSideProps<ISearchProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<ISearchDataResponse> = async (context) => {
   const { query } = context
   try {
     const keySearch = query.keySearch as string
@@ -34,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<ISearchProps> = async (conte
       }
     }
     return {
-      props: { res },
+      props: res,
     }
   } catch (error) {
     console.error('Error fetching search page:', error)
@@ -44,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<ISearchProps> = async (conte
   }
 }
 
-const SearchPage = ({ res }: ISearchProps) => {
+const SearchPage = ({ keySearch, productRootCategories, productCategories }: ISearchDataResponse) => {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(true)
   const [products, setProducts] = useState<IProduct[]>([])
@@ -63,11 +59,11 @@ const SearchPage = ({ res }: ISearchProps) => {
   useEffect(() => {
     const newGetProductRequest = {
       ...getProductRequest,
-      keySearch: res.keySearch,
+      keySearch: keySearch,
     }
     dispatch(productActions.updateRequest(newGetProductRequest))
     fetchProducts(newGetProductRequest)
-  }, [res])
+  }, [keySearch])
 
   return (
     <div className={`nc-SearchPage`} data-nc-id="SearchPage">
@@ -174,8 +170,8 @@ const SearchPage = ({ res }: ISearchProps) => {
               <div className="w-full border-b border-neutral-200/70 dark:border-neutral-700 my-8"></div>
               <TabFilter
                 onApply={fetchProducts}
-                productRootCategories={res.productRootCategories}
-                productCategories={res.productCategories.filter((c) => getProductRequest.productRootCategoryIds.includes(c.productRootCategoryId))}
+                productRootCategories={productRootCategories}
+                productCategories={productCategories.filter((c) => getProductRequest.productRootCategoryIds.includes(c.productRootCategoryId))}
               />
             </Transition>
           </div>
@@ -202,7 +198,7 @@ const SearchPage = ({ res }: ISearchProps) => {
         <hr className="border-slate-200 dark:border-slate-700" />
 
         {/* SUBCRIBES */}
-        <PromoBanner1 />
+        {/* <PromoBanner1 /> */}
       </div>
     </div>
   )

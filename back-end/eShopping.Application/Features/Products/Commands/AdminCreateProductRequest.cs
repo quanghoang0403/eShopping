@@ -110,7 +110,7 @@ namespace eShopping.Application.Features.Products.Commands
             // Add product
             var product = _mapper.Map<Product>(request);
             var accountId = loggedUser.AccountId.Value;
-            product.Status = EnumStatus.Active;
+            product.IsActive = true;
             product.CreatedUser = accountId;
             product.CreatedTime = DateTime.Now;
             product.UrlSEO = StringHelpers.UrlEncode(product.Name);

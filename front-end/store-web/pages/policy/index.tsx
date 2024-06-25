@@ -1,7 +1,7 @@
-import rightImg from '@/assets/images/hero-right1.png'
+import img from '@/assets/images/banners/sectionHero/about.webp'
 import React from 'react'
 import BgGlassmorphism from '@/shared/Background/BgGlassmorphism'
-import SectionHero from '@/components/About/SectionHero'
+import SectionHeroSimple from '@/components/Common/SectionHero/SectionHeroSimple'
 import { ClockIcon, ArrowPathIcon, ExclamationCircleIcon, HandRaisedIcon, BeakerIcon, FireIcon } from '@heroicons/react/24/outline'
 
 const PolicyPage = ({}) => {
@@ -11,8 +11,8 @@ const PolicyPage = ({}) => {
       <BgGlassmorphism />
 
       <div className="container py-16 lg:py-28 space-y-16 lg:space-y-28">
-        <SectionHero
-          rightImg={rightImg}
+        <SectionHeroSimple
+          rightImg={img}
           heading="👋 Về Cúc Hoạ Mi."
           btnText=""
           subHeading="Cúc Hoạ Mi là project thời trang cao cấp nửa cổ điển nửa hiện đại mà tụi mình hay gọi với cái tên thân thuộc Parisian Chic được làm bằng sự chân

@@ -1,16 +1,17 @@
 import React, { FC } from 'react'
 import NcImage from '@/shared/NcImage'
-import rightImgDemo from '@/assets/images/rightLargeImg.png'
-import rightLargeImgDark from '@/assets/images/rightLargeImgDark.png'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Logo from '@/shared/Logo'
 import ButtonSecondary from '@/shared/Button/ButtonSecondary'
+import { StaticImageData } from 'next/image'
 
 export interface PromoBanner1Props {
   className?: string
+  img: string | StaticImageData
+  darkImg?: string | StaticImageData
 }
 
-const PromoBanner1: FC<PromoBanner1Props> = ({ className = '' }) => {
+const PromoBanner1: FC<PromoBanner1Props> = ({ className = '', img, darkImg = "" }) => {
   return (
     <div className={`nc-PromoBanner1 relative flex flex-col lg:flex-row items-center ${className}`}>
       <div className="relative flex-shrink-0 mb-16 lg:mb-0 lg:mr-10 lg:w-2/5">
@@ -29,8 +30,8 @@ const PromoBanner1: FC<PromoBanner1Props> = ({ className = '' }) => {
         </div>
       </div>
       <div className="relative flex-1 max-w-xl lg:max-w-none">
-        <NcImage alt="" containerClassName="block dark:hidden" src={rightImgDemo} sizes="(max-width: 768px) 100vw, 50vw" className="" />
-        <NcImage alt="" containerClassName="hidden dark:block" src={rightLargeImgDark} sizes="(max-width: 768px) 100vw, 50vw" className="" />
+        <NcImage alt="" containerClassName="block dark:hidden" src={img} sizes="(max-width: 768px) 100vw, 50vw" className="" />
+        {darkImg && <NcImage alt="" containerClassName="hidden dark:block" src={darkImg} sizes="(max-width: 768px) 100vw, 50vw" className="" />}
       </div>
     </div>
   )

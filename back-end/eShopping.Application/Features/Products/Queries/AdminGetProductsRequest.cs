@@ -29,7 +29,7 @@ namespace eShopping.Application.Features.Products.Queries
 
         public Guid? ProductRootCategoryId { get; set; }
 
-        public EnumStatus Status { get; set; }
+        public bool? IsActive { get; set; }
 
         public bool FilterAll { get; set; }
 
@@ -82,7 +82,7 @@ namespace eShopping.Application.Features.Products.Queries
                 }
                 if (!request.FilterAll)
                 {
-                    products = products.Where(p => p.Status == request.Status);
+                    products = products.Where(p => p.IsActive == request.IsActive);
                 }
 
                 if (request.IsSoldOut == true)
@@ -115,9 +115,8 @@ namespace eShopping.Application.Features.Products.Queries
             var productListResponse = _mapper.Map<List<AdminProductDatatableModel>>(pagingResult);
             productListResponse.ForEach(p =>
             {
-                var status = pagingResult.Where(pg => pg.Id == p.Id).FirstOrDefault().Status;
                 p.No = productListResponse.IndexOf(p) + ((request.PageNumber - 1) * request.PageSize) + 1;
-                p.IsActive = Convert.ToBoolean(status.ToInt());
+                p.IsActive = p.IsActive;
             });
 
             var response = new PagingResult<AdminProductDatatableModel>(productListResponse, allProductsInStore.Paging);

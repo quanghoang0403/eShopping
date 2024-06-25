@@ -1,15 +1,15 @@
 import React, { FC } from "react";
-import imgAds from "@/assets/images/ads.png";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 export interface SectionAdsProps {
   className?: string;
+  img: StaticImageData
 }
 
-const SectionAds: FC<SectionAdsProps> = ({ className = "" }) => {
+const SectionAds: FC<SectionAdsProps> = ({ className = "", img }) => {
   return (
     <a href="/#" className={`nc-SectionAds block w-full ${className}`}>
-      <Image alt="ads" className="w-full" src={imgAds} />
+      <Image alt="ads" className="w-full" src={img} />
     </a>
   );
 };

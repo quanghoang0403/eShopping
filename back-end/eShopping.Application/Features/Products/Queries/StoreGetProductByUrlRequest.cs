@@ -37,7 +37,7 @@ namespace eShopping.Application.Features.Products.Queries
         public async Task<BaseResponseModel> Handle(StoreGetProductByUrlRequest request, CancellationToken cancellationToken)
         {
             var productData = await _unitOfWork.Products
-                .Find(p => p.UrlSEO == request.Url)
+                .Find(p => p.UrlSEO == request.Url && p.IsActive)
                 .AsNoTracking()
                 .Include(x => x.ProductVariants)
                 .Include(p => p.ProductCategory)

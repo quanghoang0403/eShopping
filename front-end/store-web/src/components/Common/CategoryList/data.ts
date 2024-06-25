@@ -1,23 +1,17 @@
 import { StaticImageData } from "next/image";
-import explore1Svg from "@/assets/images/collections/explore1.svg";
-import explore2Svg from "@/assets/images/collections/explore2.svg";
-import explore3Svg from "@/assets/images/collections/explore3.svg";
-import explore4Svg from "@/assets/images/collections/explore4.svg";
-import explore5Svg from "@/assets/images/collections/explore5.svg";
-import explore6Svg from "@/assets/images/collections/explore6.svg";
-import explore7Svg from "@/assets/images/collections/explore7.svg";
-import explore8Svg from "@/assets/images/collections/explore8.svg";
-import explore9Svg from "@/assets/images/collections/explore9.svg";
-//
-import explore1Png from "@/assets/images/collections/explore1.png";
-import explore2Png from "@/assets/images/collections/explore2.png";
-import explore3Png from "@/assets/images/collections/explore3.png";
-import explore4Png from "@/assets/images/collections/explore4.png";
-import explore5Png from "@/assets/images/collections/explore5.png";
-import explore6Png from "@/assets/images/collections/explore6.png";
-import explore7Png from "@/assets/images/collections/explore7.png";
-import explore8Png from "@/assets/images/collections/explore8.png";
-import explore9Png from "@/assets/images/collections/explore9.png";
+import explore1Svg from "@/assets/images/categories/grid/explore1.svg";
+import explore2Svg from "@/assets/images/categories/grid/explore2.svg";
+import explore3Svg from "@/assets/images/categories/grid/explore3.svg";
+import explore5Svg from "@/assets/images/categories/grid/explore5.svg";
+import explore6Svg from "@/assets/images/categories/grid/explore6.svg";
+import explore9Svg from "@/assets/images/categories/grid/explore9.svg";
+
+import explore1Png from "@/assets/images/categories/grid/explore1.png";
+import explore2Png from "@/assets/images/categories/grid/explore2.png";
+import explore3Png from "@/assets/images/categories/grid/explore3.png";
+import explore5Png from "@/assets/images/categories/grid/explore5.png";
+import explore6Png from "@/assets/images/categories/grid/explore6.png";
+import explore9Png from "@/assets/images/categories/grid/explore9.png";
 
 export interface ExploreType {
   id: number;
@@ -29,62 +23,7 @@ export interface ExploreType {
   count?: number;
 }
 
-export const DEMO_MORE_EXPLORE_DATA_2: ExploreType[] = [
-  {
-    id: 4,
-    name: "Cycling Shorts",
-    desc: "Manufacturar",
-    image: explore9Png,
-    svgBg: explore9Svg,
-    color: "bg-orange-50",
-    count: 343,
-  },
-  {
-    id: 5,
-    name: "Cycling Jersey",
-    desc: "Manufacturar",
-    image: explore5Png,
-    svgBg: explore5Svg,
-    color: "bg-blue-50",
-    count: 222,
-  },
-  {
-    id: 6,
-    name: "Car Coat",
-    desc: "Manufacturar",
-    image: explore6Png,
-    svgBg: explore6Svg,
-    color: "bg-orange-50",
-    count: 155,
-  },
-  {
-    id: 7,
-    name: "Sunglasses",
-    desc: "Manufacturar",
-    image: explore7Png,
-    svgBg: explore7Svg,
-    color: "bg-stone-100",
-    count: 98,
-  },
-  {
-    id: 8,
-    name: "kid hats",
-    desc: "Manufacturar",
-    image: explore8Png,
-    svgBg: explore8Svg,
-    color: "bg-blue-50",
-    count: 33,
-  },
-  {
-    id: 9,
-    name: "Wool Jacket",
-    desc: "Manufacturar",
-    image: explore4Png,
-    svgBg: explore4Svg,
-    color: "bg-slate-100/80",
-    count: 122,
-  },
-];
+
 export const DEMO_MORE_EXPLORE_DATA: ExploreType[] = [
   {
     id: 1,

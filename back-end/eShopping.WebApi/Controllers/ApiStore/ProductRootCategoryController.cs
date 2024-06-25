@@ -29,6 +29,15 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpGet]
+        [Route("get-home-page")]
+        public async Task<IActionResult> GetHomePage()
+        {
+            var response = await _mediator.Send(new StoreGetHomePageRequest());
+            return Ok(response);
+        }
+
+
+        [HttpGet]
         [Route("get-product-root-category-by-url")]
         public async Task<IActionResult> GetProductRootCategoryByUrlAsync([FromQuery] StoreGetProductRootCategoryByUrlRequest request)
         {

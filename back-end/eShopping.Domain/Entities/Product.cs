@@ -27,8 +27,6 @@ namespace eShopping.Domain.Entities
 
         public bool? IsSoldOut { get; private set; }
 
-        public EnumStatus Status { get; set; }
-
         public EnumGenderProduct GenderProduct { get; set; }
 
         public int Priority { set; get; }

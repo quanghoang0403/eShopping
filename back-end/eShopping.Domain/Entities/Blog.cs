@@ -9,8 +9,6 @@ namespace eShopping.Domain.Entities
     {
         public int ViewCount { set; get; }
 
-        public EnumStatus Status { get; set; }
-
         public DateTime? PublishedTime { get; set; }
 
         public int Priority { set; get; }
