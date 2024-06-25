@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace eShopping.WebApi.Controllers.ApiAdmin
 {
     [Authorize]
-    public class BlogsController : BaseApiAdminController
+    public class BlogController : BaseApiAdminController
     {
-        public BlogsController(IMediator mediator) : base(mediator)
+        public BlogController(IMediator mediator) : base(mediator)
         {
         }
         [HttpGet]
