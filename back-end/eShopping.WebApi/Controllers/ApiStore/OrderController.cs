@@ -6,6 +6,7 @@ using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiStore
@@ -30,9 +31,9 @@ namespace eShopping.WebApi.Controllers.ApiStore
         [HttpGet]
         [Route("get-order-by-id/{id}")]
         [HasPermission(EnumPermission.STORE_WEB)]
-        public async Task<IActionResult> GetOrderByIdAsync([FromHeader] StoreGetOrderByIdRequest request)
+        public async Task<IActionResult> GetOrderByIdAsync(Guid id)
         {
-            var response = await _mediator.Send(request);
+            var response = await _mediator.Send(new StoreGetOrderByIdRequest { Id = id });
             return Ok(response);
         }
 

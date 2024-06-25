@@ -8,7 +8,7 @@ export default class OrderService {
   }
 
   static async getOrderById(id: string): Promise<IOrderDetail> {
-    return await APIService.get(`/order/get-order-by-id?id=${id}`)
+    return await APIService.get(`/order/get-order-by-id/${id}`)
   }
 
   static async updateOrder(request: IUpdateOrderRequest): Promise<boolean> {
