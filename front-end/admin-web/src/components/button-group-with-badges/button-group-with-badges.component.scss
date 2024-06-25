@@ -1,37 +1,40 @@
 @import '../../stylesheets/variable';
-.ant-segmented-item{
-    background: $color-purple;
-    width:150px;
-    font-size: medium;
+.ant-segmented-item {
+  background: $color-purple;
+  width: 150px;
+  font-size: medium;
+  color: white;
+  margin: 0 1px;
+  border-radius: 12px;
+  transition: red 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  &:hover {
     color: white;
-    margin: 0 1px;
-    &:hover{
-      color:white;
-    }
-}
-.ant-segmented-item-selected{
     background-color: $color-A5ABDE;
-    color: white;
-    &:hover{
-        color:white;
-    }
-    .ant-segmented-item-label > *{
-        background: transparent;
-    }
+  }
 }
-.ant-badge-count{
-    background: $color-FC0D1B;
-    box-shadow: none;
+.ant-segmented-item-selected {
+  background-color: $color-A5ABDE;
+  color: white;
+
+  .ant-segmented-item-label > * {
+    background: transparent;
+  }
 }
-.ant-segmented{
-    background-color: transparent;
+.ant-badge-count {
+  background: $color-FC0D1B;
+  box-shadow: none;
 }
-.ant-segmented:not(.ant-segmented-disabled):hover, .ant-segmented:not(.ant-segmented-disabled):focus {
-    background: none;
+.ant-segmented {
+  background-color: transparent;
 }
-.ant-segmented-item-label{
-    padding: 0;
-    border-radius: 10px;
+.ant-segmented:not(.ant-segmented-disabled):hover,
+.ant-segmented:not(.ant-segmented-disabled):focus {
+  background: none;
+}
+.ant-segmented-item-label {
+  padding: 0;
+  border-radius: 10px;
+  transition: none;
 }
 // .new-order-color{
 //     background-color: $color-F9CC66;

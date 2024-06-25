@@ -23,6 +23,7 @@ export default function OrderPage(props) {
   const [note, setNote] = useState('')
   const [orderId, setOrderId] = useState('')
   const [canceling, isCanceling] = useState(false)
+
   const getOrderDataAsync = async () => {
     const data = {
       pageNumber: currentPageNumber,
@@ -45,16 +46,16 @@ export default function OrderPage(props) {
 
 
   }
+
   useEffect(() => {
     getOrderDataAsync()
   }, [])
-  const onOrderStatusChange = (status) => {
-    executeAfter(300, () => {
-      setFilterData(dataSource.filter(data => data.status === status))
-      setStatus(status)
-    })
 
+  const onOrderStatusChange = (status) => {
+    setFilterData(dataSource.filter(data => data.status === status))
+    setStatus(status)
   }
+
   const pageData = {
     title: t('order.title'),
     table: {
@@ -73,9 +74,11 @@ export default function OrderPage(props) {
     cancelationPlaceholder: t('order.orderCancelationPlaceholder'),
     orderCancelationRequire: t('order.orderCancelationRequire')
   }
+
   const tableSettings = {
     pageSize: 20
   }
+
   const onConfirm = async (orderId, status) => {
     const data = {
       orderId: orderId,
@@ -95,10 +98,12 @@ export default function OrderPage(props) {
     }
 
   }
+
   const onOpenModal = (orderId) => {
     setOpenModal(true)
     setOrderId(orderId)
   }
+
   const confirmationInput = () => {
     return (
       <div>
@@ -108,15 +113,15 @@ export default function OrderPage(props) {
           <ExclamationIcon />
           <b className="ml-3">{pageData.orderCancelationRequire}</b>
         </div>
-
       </div>
-
     );
   }
+
   const onCloseModal = () => {
     setOpenModal(false)
     isCanceling(false)
   }
+
   const onConfirmCancel = () => {
     isCanceling(true)
     if (note === '') return;
@@ -136,6 +141,7 @@ export default function OrderPage(props) {
     onConfirm(orderId, newStatus)
     onCloseModal()
   }
+
   return (
     <>
       <Row>
