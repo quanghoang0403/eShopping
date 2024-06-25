@@ -14,11 +14,13 @@ using eShopping.Payment.MoMo;
 using eShopping.Payment.PayOS;
 using eShopping.Payment.VNPay;
 using eShopping.Services;
+using eShopping.Services.Hubs;
 using eShopping.Services.User;
 using eShopping.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,7 +43,7 @@ namespace eShopping.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSignalR();
+            services.AddSignalR();
             services.AddCors();
             services.AddCors(variants =>
             {
@@ -186,6 +188,7 @@ namespace eShopping.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<OrderHub>("/orderHub");
             });
 
             app.UseHealthChecks("/health");

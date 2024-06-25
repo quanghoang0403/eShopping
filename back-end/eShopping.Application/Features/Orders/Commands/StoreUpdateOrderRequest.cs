@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using eShopping.Common.Constants;
 using eShopping.Common.Exceptions;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
 using eShopping.Interfaces;
+using eShopping.Services.Hubs;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,12 +39,14 @@ namespace eShopping.Application.Features.Orders.Commands
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
         private readonly IMapper _mapper;
+        private readonly IHubContext<OrderHub> _hubContext;
 
-        public StoreUpdateOrderRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider, IMapper mapper)
+        public StoreUpdateOrderRequestHandle(IUnitOfWork unitOfWork, IUserProvider userProvider, IMapper mapper, IHubContext<OrderHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
 
         public async Task<BaseResponseModel> Handle(StoreUpdateOrderRequest request, CancellationToken cancellationToken)
@@ -92,6 +97,7 @@ namespace eShopping.Application.Features.Orders.Commands
             order.Note = request.Note;
             order.LastSavedTime = DateTime.Now;
             order.LastSavedUser = accountId;
+            await _hubContext.Clients.All.SendAsync(OrderHubConstants.RECEIVE_ORDER, order.Id, order, cancellationToken);
             return BaseResponseModel.ReturnData();
         }
 

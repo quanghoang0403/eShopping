@@ -8,7 +8,9 @@ using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using eShopping.Payment.VNPay.Enums;
+using eShopping.Services.Hubs;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -66,13 +68,15 @@ namespace eShopping.Application.Features.Orders.Commands
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
         private readonly IMapper _mapper;
+        private readonly IHubContext<OrderHub> _hubContext;
 
-        public StoreCreateOrderRequestHandle(IMediator mediator, IUnitOfWork unitOfWork, IUserProvider userProvider, IMapper mapper)
+        public StoreCreateOrderRequestHandle(IMediator mediator, IUnitOfWork unitOfWork, IUserProvider userProvider, IMapper mapper, IHubContext<OrderHub> hubContext)
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;
             _userProvider = userProvider;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
 
         public async Task<BaseResponseModel> Handle(StoreCreateOrderRequest request, CancellationToken cancellationToken)
@@ -315,7 +319,7 @@ namespace eShopping.Application.Features.Orders.Commands
 
                 await _unitOfWork.SaveChangesAsync();
                 await createTransaction.CommitAsync(cancellationToken);
-
+                await _hubContext.Clients.All.SendAsync(OrderHubConstants.RECEIVE_ORDER, order.Id, res, cancellationToken);
                 return BaseResponseModel.ReturnData(res);
             });
 
