@@ -47,11 +47,11 @@ export default function CustomerInfo(props: IProps) {
 
   useEffect(() => {
     fetchDistricts(cityId as number || customer?.cityId)
-  }, [customer,cityId])
+  }, [customer, cityId])
 
   useEffect(() => {
     fetchWards(districtId as number || customer?.districtId)
-  }, [customer,districtId])
+  }, [customer, districtId])
 
   const fetchCities = async () => {
     const res = await AddressService.getCities()
