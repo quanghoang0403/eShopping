@@ -1,4 +1,5 @@
-import { EnumGenderProduct, EnumSortType } from '@/constants/enum'
+import { EnumSortType } from '@/enums/enumSortType'
+import { EnumGenderProduct } from '@/enums/enumGenderProduct'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface ProductState {
   getProductRequest: IGetProductsRequest

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import ProductCategoryService from '@/services/productCategory.service'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { commonActions } from '@/redux/features/commonSlice'
+import SignalRService from '@/services/signalR.service'
 
 const fonts = Roboto({
   subsets: ['latin', 'vietnamese'],
@@ -23,14 +24,22 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   const [isClient, setIsClient] = useState(false)
-  const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
   const dispatch = useAppDispatch()
+  const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
+  const customerId = useAppSelector((state) => state.session.customerId)
 
   useEffect(() => {
     // Ensure the Toaster is rendered only on the client-side
     setIsClient(true)
     if (menu.length == 0) fetchMenuAsync()
   }, [])
+
+  useEffect(() => {
+    if (customerId) {
+      const signalRService = new SignalRService(customerId);
+      signalRService.startConnection();
+    }
+  }, [customerId])
 
   const fetchMenuAsync = async () => {
     const res = await ProductCategoryService.getMenuCategory()

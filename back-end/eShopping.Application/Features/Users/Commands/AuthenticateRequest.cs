@@ -8,6 +8,7 @@ using eShopping.Models.Permissions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -27,6 +28,10 @@ namespace eShopping.Application.Features.Users.Commands
         public string Token { get; set; }
 
         public string RefreshToken { get; set; }
+
+        public Guid? CustomerId { get; set; }
+
+        public Guid? AccountId { get; set; }
 
         public IEnumerable<AdminPermissionModel> Permissions { get; set; }
     }
@@ -111,6 +116,8 @@ namespace eShopping.Application.Features.Users.Commands
             {
                 Token = token,
                 RefreshToken = refreshToken,
+                CustomerId = user.Id,
+                AccountId = user.AccountId,
                 Permissions = permissions?.Data
             };
 

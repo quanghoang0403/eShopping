@@ -1,4 +1,4 @@
-import { EnumGenderProduct } from '@/constants/enum'
+import { EnumGenderProduct } from '@/enums/enumGenderProduct'
 import { ncNanoId } from '@/utils/string.helper'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface CommonState {

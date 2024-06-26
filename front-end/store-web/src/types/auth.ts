@@ -16,4 +16,5 @@ interface ISignInResponse {
   refreshToken: string
   customerId: string
   accountId: string
+  permissions: IPermission[]
 }

@@ -19,6 +19,12 @@ interface IOption {
   name?: string
 }
 
+interface IPermission {
+  id: string
+  name: string
+  description: string
+}
+
 interface IBaseResponse<T> {
   code: number
   data: T

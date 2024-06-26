@@ -9,10 +9,10 @@ import Checkbox from '@/shared/Controller/Checkbox'
 import Slider from 'rc-slider'
 import Radio from '@/shared/Controller/Radio'
 import MySwitch from './MySwitch'
-import { EnumSortType, mappingSortType } from '@/constants/enum'
 import DiscountIcon from '../Icon/DiscountIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { productActions } from '@/redux/features/productSlice'
+import { EnumSortType, mappingSortType } from '@/enums/enumSortType'
 
 const DATA_colors = [{ name: 'White' }, { name: 'Beige' }, { name: 'Blue' }, { name: 'Black' }, { name: 'Brown' }, { name: 'Green' }, { name: 'Navy' }]
 
