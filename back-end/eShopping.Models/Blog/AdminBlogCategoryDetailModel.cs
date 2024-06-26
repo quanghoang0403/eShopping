@@ -10,6 +10,7 @@ namespace eShopping.Models.Blog
         public int Priority { get; set; }
         public EnumColorCategory Color { get; set; }
         public List<AdminBlogSelectedModel> Blogs { get; set; }
+        public bool isActive { get; set; }
 
         public class AdminBlogSelectedModel
         {

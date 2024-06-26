@@ -1,6 +1,6 @@
 import { guidIdEmptyValue } from 'constants/string.constants';
 import http from 'utils/http-common';
-const controller = 'blogs'
+const controller = 'blog'
 const createBlogAsync = (data) => {
   return http.post(`/${controller}/create-new-blog`, data)
 }

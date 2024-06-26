@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './shop-change-active-status-button.component.scss'
 export default function ChangeStatusButton(props){
-  const {value, onChange, onClick, className} = props
+  const {value, onChange} = props
   const {t} = useTranslation()
   const [activate, setActivate] = useState(null)
   const pageData = {

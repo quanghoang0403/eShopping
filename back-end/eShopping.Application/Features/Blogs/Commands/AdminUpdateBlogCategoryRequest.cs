@@ -16,7 +16,7 @@ namespace eShopping.Application.Features.Blogs.Commands
     public class AdminUpdateBlogCategoryRequest : IRequest<BaseResponseModel>
     {
         public Guid Id { get; set; }
-
+        public bool isActive { get; set; }
         public string Name { get; set; }
 
         public int Priority { get; set; }

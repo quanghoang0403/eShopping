@@ -83,7 +83,6 @@ export default function RightProductDetail({ form, productSizes, setProductSizes
   }, [activeProductRootCategoryId])
 
   const onChangeStatus = (active) => {
-    console.log(active)
     setProductData(data=>({...data, isActive:!data.isActive}))
     form.setFieldValue('isActive',!active)
   }

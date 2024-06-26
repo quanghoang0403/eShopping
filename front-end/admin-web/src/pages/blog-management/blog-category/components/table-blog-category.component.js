@@ -1,4 +1,4 @@
-import { Card, Col, Form, Row, Tooltip, message } from 'antd';
+import { Card, Checkbox, Col, Form, Row, Tooltip, message } from 'antd';
 import { ShopTable } from 'components/shop-table/shop-table';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
@@ -61,6 +61,7 @@ export default function TableBlogCategory() {
       action: t('table.action'),
       fetchFail: t('table.noDataFound')
     },
+    active: t('common.active'),
     updateSuccess: t('blogCategory.categoryUpdateSuccess'),
     updateFail: t('blogCategory.categoryUpdateFail'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
@@ -90,6 +91,12 @@ export default function TableBlogCategory() {
       message.error(formatDeleteMessage(pageData.blogCategoryDeleteSuccess, categoryName))
     }
   }
+  const onBlogCategoryStatusChange = async (id)=>{
+    const res = await BlogCategoryDataService.updateBlogCategoryStatusAsync(id)
+    if(res){
+      message.success(pageData.updateSuccess)
+    }
+  }
   const onEditItem = (record) => {
     history.push(`/blog-category/edit/${record?.id}`)
   }
@@ -112,7 +119,15 @@ export default function TableBlogCategory() {
         key: 'name',
         title: pageData.title,
         dataIndex: 'name',
-        width: '60%'
+        width: '35%'
+      },
+      {
+        key: 'isActive',
+        title: pageData.active,
+        dataIndex: 'isActive',
+        width: '15%',
+        align: 'center',
+        render:(_,record)=> <Checkbox onChange={()=>onBlogCategoryStatusChange(record?.id)} checked={record?.isActive} />
       },
       {
         key: 'priority',
@@ -211,7 +226,7 @@ export default function TableBlogCategory() {
 
   }
   return (
-    <Form>
+    <Form className='mt-4'>
       <Card className="w-100 shop-card-full">
         <Row className="total-cost-amount-row">
           <Col span={24}>

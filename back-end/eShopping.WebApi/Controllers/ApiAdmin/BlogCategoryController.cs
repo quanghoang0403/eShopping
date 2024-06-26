@@ -56,6 +56,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         }
         [HttpPut]
+        [Route("update-active-status/{id}")]
+        public async Task<IActionResult> UpdateBlogCategoryActiveStatus(Guid id)
+        {
+            var response = await _mediator.Send(new AdminUpdateBlogCategoryActiveStatusRequest { Id = id });
+            return Ok(response);
+
+        }
+        [HttpPut]
         [Route("update-blog-list")]
         public async Task<IActionResult> UpdateBlogList([FromBody] AdminUpdateBlogByBlogCategoryRequest request)
         {
