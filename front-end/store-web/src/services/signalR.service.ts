@@ -25,6 +25,16 @@ class SignalRService {
     }
   };
 
+  public stopConnection = async () => {
+    try {
+      this.connection.off(OrderHubConstants.UPDATE_STATUS_BY_STAFF, this.onOrderUpdateStatus);
+      await this.connection.stop();
+      console.log('SignalR disconnected');
+    } catch (err) {
+      console.error('Error while stopping SignalR connection: ', err);
+    }
+  };
+
   private onOrderUpdateStatus = (orderId: string, status: number) => {
     toast.success(`Đơn hàng ${orderId} đã được ${getOrderStatusText(status)}`);
   };

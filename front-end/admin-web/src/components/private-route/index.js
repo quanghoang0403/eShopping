@@ -1,4 +1,4 @@
-import { Layout } from 'antd'
+import { Layout, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -9,6 +9,8 @@ import { hasPermission, tokenExpired } from 'utils/helpers'
 import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
 import SideMenu from '../side-menu'
 import TopBar from '../top-bar/index'
+import signalRService from 'services/signalR.service'
+import { OrderHubConstants } from 'constants/hub.constants'
 
 const { Content } = Layout
 export default function PrivateRoute(props) {
@@ -45,6 +47,31 @@ export default function PrivateRoute(props) {
     // filter menus from routes where isMenu === true
     const menuItems = routes.filter((route) => route.isMenu === true)
     setMenuItems(menuItems)
+  }, [route, routes, history, dispatch])
+
+  useEffect(() => {
+    signalRService.start()
+
+    signalRService.on(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, (orderDetails) => {
+      message.success('New order created!')
+      console.log('Order Created: ', orderDetails)
+    })
+
+    signalRService.on(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, (orderId, status) => {
+      message.success(`Order ${orderId} status updated to ${status}!`)
+      console.log('Order Status Updated: ', orderId, status)
+    })
+
+    signalRService.on(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, (orderDetails) => {
+      message.success('New order created!')
+      console.log('Order Updated: ', orderDetails)
+    })
+
+    return () => {
+      signalRService.off(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER)
+      signalRService.off(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER)
+      signalRService.off(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER)
+    }
   }, [])
 
   return (

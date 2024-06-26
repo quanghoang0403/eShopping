@@ -32,14 +32,18 @@ const Layout: React.FC<ILayout> = ({ children }) => {
     // Ensure the Toaster is rendered only on the client-side
     setIsClient(true)
     if (menu.length == 0) fetchMenuAsync()
-  }, [])
+  }, [menu])
 
   useEffect(() => {
-    if (customerId) {
+    if (isClient && customerId) {
       const signalRService = new SignalRService(customerId);
-      signalRService.startConnection();
+      signalRService.startConnection()
+
+      return () => {
+        signalRService.stopConnection()
+      }
     }
-  }, [customerId])
+  }, [isClient, customerId])
 
   const fetchMenuAsync = async () => {
     const res = await ProductCategoryService.getMenuCategory()
