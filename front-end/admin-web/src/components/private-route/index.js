@@ -71,6 +71,7 @@ export default function PrivateRoute(props) {
       signalRService.off(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER)
       signalRService.off(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER)
       signalRService.off(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER)
+      signalRService.stop()
     }
   }, [])
 

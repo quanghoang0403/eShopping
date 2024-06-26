@@ -1,6 +1,6 @@
 import SiteHeader from '@/components/Layout/SiteHeader'
 import SiteFooter from '@/components/Layout/SiteFooter'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import Loading from '@/shared/Loading'
 import { Roboto } from 'next/font/google'
 import { cx } from '@/utils/string.helper'
@@ -10,6 +10,8 @@ import ProductCategoryService from '@/services/productCategory.service'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { commonActions } from '@/redux/features/commonSlice'
 import SignalRService from '@/services/signalR.service'
+import { OrderHubConstants } from '@/constants/hub.constants'
+import { getOrderStatusText } from '@/enums/enumOrderStatus'
 
 const fonts = Roboto({
   subsets: ['latin', 'vietnamese'],
@@ -39,7 +41,11 @@ const Layout: React.FC<ILayout> = ({ children }) => {
       const signalRService = new SignalRService(customerId);
       signalRService.startConnection()
 
+      signalRService.on(OrderHubConstants.UPDATE_STATUS_BY_STAFF,(orderId: string, status: number) => {
+        toast.success(`Đơn hàng ${orderId} đã được ${getOrderStatusText(status)}`);
+      })
       return () => {
+        signalRService.off(OrderHubConstants.UPDATE_STATUS_BY_STAFF)
         signalRService.stopConnection()
       }
     }

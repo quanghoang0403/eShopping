@@ -13,11 +13,18 @@ class SignalRService {
     this.connection.onclose(this.onClose)
   }
 
-  start() {
+  start () {
     this.connection
       .start()
       .then(() => console.log('SignalR Connected'))
       .catch(err => console.error('SignalR Connection Error: ', err))
+  }
+
+  stop() {
+    this.connection
+      .stop()
+      .then(() => console.log('SignalR Disconnected'))
+      .catch(err => console.error('Error stopping SignalR connection: ', err));
   }
 
   on(event, callback) {

@@ -1,7 +1,5 @@
 import { OrderHubConstants } from '@/constants/hub.constants';
-import { getOrderStatusText } from '@/enums/enumOrderStatus';
 import * as signalR from '@microsoft/signalr';
-import { toast } from 'react-hot-toast';
 
 class SignalRService {
   private connection: signalR.HubConnection;
@@ -18,16 +16,13 @@ class SignalRService {
     try {
       await this.connection.start();
       console.log('SignalR connected');
-      this.connection.on(OrderHubConstants.UPDATE_STATUS_BY_STAFF, this.onOrderUpdateStatus);
     } catch (err) {
       console.error('Error while starting SignalR connection: ', err);
-      setTimeout(this.startConnection, 5000);
     }
   };
 
   public stopConnection = async () => {
     try {
-      this.connection.off(OrderHubConstants.UPDATE_STATUS_BY_STAFF, this.onOrderUpdateStatus);
       await this.connection.stop();
       console.log('SignalR disconnected');
     } catch (err) {
@@ -35,9 +30,17 @@ class SignalRService {
     }
   };
 
-  private onOrderUpdateStatus = (orderId: string, status: number) => {
-    toast.success(`Đơn hàng ${orderId} đã được ${getOrderStatusText(status)}`);
-  };
+  public on(event: string, callback: (...args: any[]) => void) {
+    this.connection.on(event, callback);
+  }
+
+  public off(event: string, callback?: (...args: any[]) => void) {
+    if (callback) {
+      this.connection.off(event, callback);
+    } else {
+      this.connection.off(event);
+    }
+  }
 }
 
 export default SignalRService;
