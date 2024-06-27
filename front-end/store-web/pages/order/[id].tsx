@@ -12,6 +12,7 @@ import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import OrderItemList from '@/components/Common/Order/OrderItemList'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 // const order: IOrderDetail = {
 //   id: '1',
@@ -79,14 +80,9 @@ export default function OrderPage() {
   const router = useRouter()
   const [order,setOrder] = useState<IOrderDetail>()
   const [customerInfo,setCustomerInfo] = useState<ICustomerInfo>()
-  const mutation = useAppMutation(
-    async (data: IUpdateOrderRequest) => OrderService.updateOrder(data),
-    async (res: boolean) => {
-      // Handle after update
-    }
-  )
-  const fetchOrder = async ()=>{
-    try{
+
+  const fetchOrder = async () => {
+    try {
       const res = await OrderService.getOrderById(router?.query?.id as string)
       const customerInfo :ICustomerInfo = {
         name: res.shipName,
@@ -98,21 +94,38 @@ export default function OrderPage() {
         districtId: res?.shipDistrictId as number,
         wardId: res?.shipWardId as number,
       }
-      if(res && customerInfo){
+      if (res && customerInfo) {
         setOrder(res)
         setCustomerInfo(customerInfo)
       }
+      else {
+        router.push('/404')
+      }
     }
-    catch(error){
+    catch (error){
+      router.push('/404')
+      console.error(error)
+    }
+  }
+
+  const updateOrder = async (data: IUpdateOrderRequest) => {
+    try {
+      const res = await OrderService.updateOrder(data)
+      if (res) {
+        toast.success('Cập nhật đơn hàng thành công!')
+      }
+    } catch (error) {
+      toast.error('Cập nhật đơn hàng thất bại!')
       console.error(error)
     }
   }
 
   useEffect(()=>{
     fetchOrder()
-  },[router?.query?.id])
+  }, [router?.query?.id])
   
-  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => updateOrder(data)
+
   return (
     <>
       <SEO title="Paris Long Tee" />
