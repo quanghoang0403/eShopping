@@ -21,7 +21,6 @@ using eShopping.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -188,8 +187,8 @@ namespace eShopping.WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapHub<OrderHub>(HubConnectionConstants.OrderHub);
+                endpoints.MapControllers();
             });
 
             app.UseHealthChecks("/health");

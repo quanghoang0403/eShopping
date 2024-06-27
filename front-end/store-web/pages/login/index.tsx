@@ -35,13 +35,17 @@ const LoginPage = () => {
   const mutation = useAppMutation(
     async (data: ISignInRequest) => trackPromise(AuthService.signIn(data)),
     async (res: ISignInResponse) => {
-      if (res && res.customerId && res.accountId && res.token && res.refreshToken && 
-        res.permissions && res.permissions.length > 0 && res.permissions.some(p => p.id == PermissionIdConstants.STORE_WEB)
+      if (
+        res &&
+        res.customerId &&
+        res.accountId &&
+        res.token &&
+        res.refreshToken
+        // && res.permissions && res.permissions.length > 0 && res.permissions.some(p => p.id == PermissionIdConstants.STORE_WEB)
       ) {
         dispatch(sessionActions.signInSuccess(res))
         router.push(`/${from ?? ''}`)
-      }
-      else {
+      } else {
         toast.error('Đăng nhập thất bại')
       }
     }

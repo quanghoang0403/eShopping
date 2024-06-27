@@ -5,7 +5,7 @@ import { env } from 'env'
 class SignalRService {
   constructor() {
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl(`${env.REACT_APP_ROOT_DOMAIN}/${OrderHubConstants.CONNECTION}`) // replace with your hub URL
+      .withUrl(`${env.REACT_APP_HUB_DOMAIN}/${OrderHubConstants.CONNECTION}`) // replace with your hub URL
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
       .build()
@@ -13,7 +13,7 @@ class SignalRService {
     this.connection.onclose(this.onClose)
   }
 
-  start () {
+  start() {
     this.connection
       .start()
       .then(() => console.log('SignalR Connected'))

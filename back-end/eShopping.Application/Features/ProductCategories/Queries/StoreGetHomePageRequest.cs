@@ -65,13 +65,13 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     .ToListAsync();
 
                 var featuredProducts = await query
-                    .Where(p => p.IsFeatured == true && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id))
+                    .Where(p => p.IsFeatured == true && p.IsActive)
                     .OrderBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
                 var newInProducts = await _unitOfWork.Products
-                    .Where(p => p.CreatedTime > DateTime.Now.AddDays(-14) && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(fp => fp.Id == p.Id))
+                    .Where(p => p.CreatedTime > DateTime.Now.AddDays(-14) && p.IsActive)
                     .OrderBy(p => p.CreatedTime)
                     .Take(12)
                     .ToListAsync();
