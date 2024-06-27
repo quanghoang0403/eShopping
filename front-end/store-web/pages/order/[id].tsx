@@ -13,6 +13,7 @@ import OrderItemList from '@/components/Common/Order/OrderItemList'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
+import { trackPromise } from 'react-promise-tracker'
 
 // const order: IOrderDetail = {
 //   id: '1',
@@ -121,10 +122,12 @@ export default function OrderPage() {
   }
 
   useEffect(()=>{
-    fetchOrder()
+    trackPromise(fetchOrder())
   }, [router?.query?.id])
   
-  const onSubmit: SubmitHandler<FieldValues> = (data: any) => updateOrder(data)
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    trackPromise(updateOrder(data))
+  }
 
   return (
     <>
