@@ -88,9 +88,6 @@ export default function OrderPage() {
   const fetchOrder = async ()=>{
     try{
       const res = await OrderService.getOrderById(router?.query?.id as string)
-      if(!res){
-        router.push('/404')
-      }
       const customerInfo :ICustomerInfo = {
         name: res.shipName,
         phoneNumber: res.shipPhoneNumber,
@@ -108,7 +105,6 @@ export default function OrderPage() {
     }
     catch(error){
       console.error(error)
-      router.push('/404')
     }
   }
 
