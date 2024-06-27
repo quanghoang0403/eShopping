@@ -6,6 +6,7 @@ using eShopping.MemoryCaching;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -64,22 +65,22 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     .ToListAsync();
 
                 var featuredProducts = await query
-                    .Where(p => p.IsFeatured == true && p.IsActive)
+                    .Where(p => p.IsFeatured == true && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id))
                     .OrderBy(p => p.Priority)
                     .Take(12)
                     .ToListAsync();
 
-                //var newInProducts = await _unitOfWork.Products
-                //    .Where(p => p.IsNewIn == true && p.IsActive)
-                //    .OrderBy(p => p.CreatedTime)
-                //    .Take(12)
-                //    .ToListAsync();
+                var newInProducts = await _unitOfWork.Products
+                    .Where(p => p.CreatedTime > DateTime.Now.AddDays(-14) && p.IsActive && !discountedProducts.Any(dp => dp.Id == p.Id) && !featuredProducts.Any(fp => fp.Id == p.Id))
+                    .OrderBy(p => p.CreatedTime)
+                    .Take(12)
+                    .ToListAsync();
 
                 res = new StoreGetHomePageResponse()
                 {
                     DiscountedProducts = _mapper.Map<List<StoreProductModel>>(discountedProducts),
                     FeaturedProducts = _mapper.Map<List<StoreProductModel>>(featuredProducts),
-                    //NewInProducts = _mapper.Map<List<StoreProductModel>>(newInProducts)
+                    NewInProducts = _mapper.Map<List<StoreProductModel>>(newInProducts)
                 };
                 _memoryCachingService.SetCache(keyCache, res);
             }
