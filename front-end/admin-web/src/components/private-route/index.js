@@ -10,8 +10,10 @@ import { getStorage, localStorageKeys } from 'utils/localStorage.helpers'
 import SideMenu from '../side-menu'
 import TopBar from '../top-bar/index'
 import signalRService from 'services/signalR.service'
-import { OrderHubConstants } from 'constants/hub.constants'
+import { OrderHubConstants } from 'constants/signalR.constants'
+import audioNewOrder from 'assets/sounds/new-order-notify.wav';
 
+const audioNewOrderAudio = new Audio(audioNewOrder);
 const { Content } = Layout
 export default function PrivateRoute(props) {
   const history = useHistory()
@@ -53,6 +55,7 @@ export default function PrivateRoute(props) {
     signalRService.start()
 
     signalRService.on(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, () => {
+      audioNewOrderAudio()
       message.success('New order created!')
     })
 

@@ -1,5 +1,5 @@
 import * as signalR from '@microsoft/signalr'
-import { OrderHubConstants } from 'constants/hub.constants'
+import { OrderHubConstants } from 'constants/signalR.constants'
 import { env } from 'env'
 
 class SignalRService {
