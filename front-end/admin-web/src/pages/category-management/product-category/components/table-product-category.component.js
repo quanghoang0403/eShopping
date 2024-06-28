@@ -1,4 +1,4 @@
-import { Form, message, Row, Tooltip } from 'antd'
+import { Checkbox, Form, message, Row, Tooltip } from 'antd'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
 import { ShopTable } from 'components/shop-table/shop-table'
@@ -20,6 +20,7 @@ export default function TableProductCategory() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1)
   const [totalRecords, setTotalRecords] = useState(0)
   const permissions = getAllPermissions()
+  const [keySearch,setKeySearch] = useState('')
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
@@ -49,6 +50,15 @@ export default function TableProductCategory() {
     product: {
       title: t('productCategory.titleProduct'),
       placeholder: t('productCategory.placeholderProduct')
+    },
+    active: t('common.active')
+  }
+
+  const onChangeStatus = async id=>{
+    const res = await productCategoryDataService.updateProductCategoryStatusAsync(id)
+    if(res){
+      message.success(pageData.productCategoryUpdateSuccess)
+      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, keySearch)
     }
   }
 
@@ -71,19 +81,14 @@ export default function TableProductCategory() {
   }
 
   const reload = async () => {
-    console.log(currentPageNumber)
-    await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, '')
+    await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, keySearch)
   }
 
   const mappingRecordToColumns = (item) => {
     return {
+      ...item,
       key: item?.id,
-      index: item?.no,
-      id: item?.id,
-      name: item?.name,
-      priority: item?.priority,
-      numberOfProduct: item?.numberOfProduct,
-      products: item?.products
+      index: item?.no
     }
   }
 
@@ -105,9 +110,9 @@ export default function TableProductCategory() {
       } else {
         message.error(pageData.productCategoryDeleteFail);
       }
-      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, '');
+      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, keySearch);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -183,12 +188,20 @@ export default function TableProductCategory() {
         title: pageData.table.name,
         dataIndex: 'name',
         key: 'name',
-        width: '50%',
+        width: '30%',
         className: 'category-name-column',
         ellipsis: {
           showTitle: false
         },
         render: (_, record) => <Tooltip title={record?.name}>{record?.name}</Tooltip>
+      },
+      {
+        title: pageData.active,
+        dataIndex: 'isActive',
+        key: 'isActive',
+        width: '15%',
+        align: 'center',
+        render: (_, record) => <Checkbox onChange={()=>onChangeStatus(record?.id)} checked={record?.isActive}/>
       },
       {
         title: pageData.table.priority,
@@ -218,7 +231,7 @@ export default function TableProductCategory() {
       {
         title: pageData.table.action,
         key: 'action',
-        width: '10%',
+        width: '15%',
         align: 'center',
         render: (_, record) => {
           return (
@@ -252,6 +265,7 @@ export default function TableProductCategory() {
       await fetchDataTableAsync(page, pageSize, '')
     },
     onSearch: async (keySearch) => {
+      setKeySearch(keySearch)
       executeAfter(500, async () => {
         await fetchDataTableAsync(1, tableConfigs.pageSize, keySearch)
       })

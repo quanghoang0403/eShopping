@@ -5,10 +5,7 @@ using eShopping.Domain.Entities;
 using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -68,6 +65,7 @@ namespace eShopping.Application.Features.ProductCategories.Commands
 
             var newProductCategory = _mapper.Map<ProductCategory>(request);
             var accountId = loggedUser.AccountId.Value;
+            newProductCategory.IsActive = true;
             newProductCategory.CreatedUser = accountId;
             newProductCategory.CreatedTime = DateTime.Now;
             newProductCategory.UrlSEO = newProductCategory.Name.UrlEncode();

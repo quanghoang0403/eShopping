@@ -10,7 +10,6 @@ export default function ChangeStatusButton(props){
     deactivate: t('product.deactivate')
   }
   useEffect(()=>{
-    console.log(value)
     setActivate(value ? pageData.deactivate : pageData.activate)
   },[value])
   return(

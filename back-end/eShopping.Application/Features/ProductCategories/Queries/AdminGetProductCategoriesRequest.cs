@@ -78,7 +78,8 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Name = category.Name,
                     Priority = category.Priority,
                     ProductRootCategoryName = category.ProductRootCategory.Name,
-                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products)
+                    Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products),
+                    isActive = category.IsActive
                 });
             }
 
