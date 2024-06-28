@@ -90,7 +90,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 await createTransaction.RollbackAsync(cancellationToken);
                 return BaseResponseModel.ReturnError(err.Message);
             }
-            await _hubContext.Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, order.CustomerId, order.Id, order.Status, cancellationToken);
+            await _hubContext.Clients.Client(order.CustomerId.ToString()).SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, order.Id, order.Status, cancellationToken);
             return BaseResponseModel.ReturnData();
         });
         }

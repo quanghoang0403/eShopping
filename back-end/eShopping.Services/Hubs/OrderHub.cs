@@ -8,29 +8,44 @@ namespace eShopping.Services.Hubs
 {
     public class OrderHub : Hub
     {
-        public async Task SendCreateOrderByCustomer(object orderDetails)
-        {
-            await Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, orderDetails);
-        }
+        //public async Task SendCreateOrderByCustomer(object orderDetails)
+        //{
+        //    await Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, orderDetails);
+        //}
 
-        public async Task SendUpdateStatusByCustomer(Guid orderId, EnumOrderStatus status)
-        {
-            await Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, orderId, status);
-        }
+        //public async Task SendUpdateStatusByCustomer(Guid orderId, EnumOrderStatus status)
+        //{
+        //    await Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, orderId, status);
+        //}
 
-        public async Task SendUpdateOrderByCustomer(object orderDetails)
-        {
-            await Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, orderDetails);
-        }
+        //public async Task SendUpdateOrderByCustomer(object orderDetails)
+        //{
+        //    await Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, orderDetails);
+        //}
 
-        public async Task SendUpdateOrderByStaff(Guid customerId, object orderDetails)
-        {
-            await Clients.Client(customerId.ToString()).SendAsync(OrderHubConstants.UPDATE_ORDER_BY_STAFF, orderDetails);
-        }
+        //public async Task SendUpdateOrderByStaff(Guid customerId, object orderDetails)
+        //{
+        //    await Clients.Client(customerId.ToString()).SendAsync(OrderHubConstants.UPDATE_ORDER_BY_STAFF, orderDetails);
+        //}
 
-        public async Task SendUpdateStatusByStaff(Guid customerId, Guid orderId, EnumOrderStatus status)
+        //public async Task SendUpdateStatusByStaff(Guid customerId, Guid orderId, EnumOrderStatus status)
+        //{
+        //    await Clients.Client(customerId.ToString()).SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, orderId, status);
+        //}
+
+        public async Task JoinGroup(string groupName) => await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+        public async Task LeaveGroup(string groupName) => await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await Clients.Client(customerId.ToString()).SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, orderId, status);
+            var userId = Context.UserIdentifier;
+            if (userId != null)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
+            }
+
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

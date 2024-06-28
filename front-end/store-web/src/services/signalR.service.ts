@@ -17,7 +17,7 @@ class SignalRService {
   public startConnection = async () => {
     try {
       await this.connection.start()
-      await this.connection.invoke('JoinGroup', this.connectionId)
+      await this.connection.invoke(OrderHubConstants.JOIN_GROUP, this.connectionId)
       console.log('SignalR connected')
     } catch (err) {
       console.error('Error while starting SignalR connection: ', err)
