@@ -2,9 +2,11 @@ import { OrderHubConstants } from '@/constants/hub.constants'
 import * as signalR from '@microsoft/signalr'
 
 class SignalRService {
+  private connectionId: string
   private connection: signalR.HubConnection
 
   constructor(customerId: string) {
+    this.connectionId = customerId
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(`${process.env.NEXT_PUBLIC_HUB}/${OrderHubConstants.CONNECTION}`)
       .withAutomaticReconnect()
@@ -15,6 +17,7 @@ class SignalRService {
   public startConnection = async () => {
     try {
       await this.connection.start()
+      await this.connection.invoke('JoinGroup', this.connectionId)
       console.log('SignalR connected')
     } catch (err) {
       console.error('Error while starting SignalR connection: ', err)
