@@ -13,6 +13,7 @@ import './edit-blog.page.scss'
 import BlogDataService from 'data-services/blog/blog-data.service'
 import BlogForm from '../components/blog-form.component'
 import { useSelector } from 'react-redux'
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component'
 
 export default function EditBlogPage(props) {
   const [t] = useTranslation()
@@ -118,7 +119,7 @@ export default function EditBlogPage(props) {
         // mapping general
         form.setFieldsValue({
           ...res,
-          blogCategoryId: res?.blogCategories.map(b => b.id)
+          blogCategoryIds: res?.blogCategories.map(b => b.id)
         })
         setBlog(res)
       })
@@ -146,7 +147,7 @@ export default function EditBlogPage(props) {
       })
       .catch((errors) => {
         form.setFields(getValidationMessages(errors));
-        message.error(errors.message)
+        console.error(errors)
 
       })
   }
@@ -177,10 +178,11 @@ export default function EditBlogPage(props) {
       {blog ? (
         <>
           <Row className="shop-row-page-header">
-            <Col xs={24} sm={24} lg={12}>
+            <Col xs={24} sm={24} lg={12} className='edit-title'>
               <p className="card-header">
                 <PageTitle content={blog?.name} />
               </p>
+              <ShopActiveStatus status={blog?.isActive}/>
             </Col>
             <Col span={12} xs={24} sm={24} md={24} lg={12}>
               <ActionButtonGroup
@@ -227,6 +229,9 @@ export default function EditBlogPage(props) {
               setShowConfirm={setShowConfirm}
               isChangeForm={isChangeForm}
               onCompleted={onCompleted}
+              isEditing={true}
+              form={form}
+              setBlog={setBlog}
             />
           </Form>
         </>) : <p>Loading ...</p>

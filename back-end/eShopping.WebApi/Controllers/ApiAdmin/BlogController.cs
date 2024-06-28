@@ -50,6 +50,13 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             var response = await _mediator.Send(request);
             return Ok(response);
         }
+        [HttpPut]
+        [Route("update-blog-status/{id}")]
+        public async Task<IActionResult> UpdateBlogActiveStatusAsync(Guid id)
+        {
+            var response = await _mediator.Send(new AdminUpdateBlogActiveStatusRequest { Id = id });
+            return Ok(response);
+        }
         [HttpDelete]
         [Route("delete-blog-by-id/{id}")]
         public async Task<IActionResult> DeletBlogByIdAsync(Guid id)

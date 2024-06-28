@@ -19,12 +19,16 @@ const getBlogByIdAsync = id => {
 const editBlogAsync = data => {
   return http.put(`/${controller}/update-blog`, data)
 }
+const updateActiveStatusAsync = id=>{
+  return http.put(`/${controller}/update-blog-status/${id}`)
+}
 const BlogDataService = {
   createBlogAsync,
   getAllBlogsAsync,
   getBlogManagementsAsync,
   deleteBlogByIdAsync,
   getBlogByIdAsync,
-  editBlogAsync
+  editBlogAsync,
+  updateActiveStatusAsync
 }
 export default BlogDataService

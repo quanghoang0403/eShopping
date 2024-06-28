@@ -35,6 +35,7 @@ namespace eShopping.Application.Features.Blogs.Commands
         public List<Guid> BlogCategoryIds { get; set; }
         public string Author { get; set; }
         public string Thumbnail { get; set; }
+        public bool isActive { get; set; }
     }
     public class AdminUpdateBlogHandler : IRequestHandler<AdminUpdateBlogRequest, BaseResponseModel>
     {

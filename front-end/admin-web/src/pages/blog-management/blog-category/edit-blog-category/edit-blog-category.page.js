@@ -14,7 +14,6 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { executeAfter, getValidationMessages } from 'utils/helpers';
 import BlogCategoryForm from '../components/blog-category-form.component';
 import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component';
-import './edit-blog-category.component.scss'
 export default function EditBlogCategory() {
   const [form] = Form.useForm()
   const match = useRouteMatch()
