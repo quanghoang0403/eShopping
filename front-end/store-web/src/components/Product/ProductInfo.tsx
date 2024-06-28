@@ -178,7 +178,6 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
   }
 
   const renderButtonAddToCart = () => {
-    console.log('rerender')
     if (product.isSoldOut) {
       return (
         <ButtonPrimary className="flex-1 flex-shrink-0 cursor-not-allowed">

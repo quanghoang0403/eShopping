@@ -1,23 +1,21 @@
 export const EnumOrderStatus = {
-    New: 0,
-    Returned: 1,
-    Canceled: 2,
-    Confirmed: 3,
-    Processing: 4,
-    Delivering: 5,
-    Completed: 6,
+  New: 0,
+  Confirmed: 1,
+  Delivering: 2,
+  Completed: 3,
+  Returned: 4,
+  Canceled: 5,
 }
 
 const orderStatusTranslations: Record<number, string> = {
   [EnumOrderStatus.New]: 'Mới',
-  [EnumOrderStatus.Returned]: 'Đã trả lại',
-  [EnumOrderStatus.Canceled]: 'Đã hủy',
-  [EnumOrderStatus.Confirmed]: 'Đã xác nhận',
-  [EnumOrderStatus.Processing]: 'Đang xử lý',
+  [EnumOrderStatus.Confirmed]: 'Đã được xác nhận',
   [EnumOrderStatus.Delivering]: 'Đang giao hàng',
-  [EnumOrderStatus.Completed]: 'Hoàn thành',
+  [EnumOrderStatus.Completed]: 'Đã hoàn thành',
+  [EnumOrderStatus.Returned]: 'Đã được trả lại',
+  [EnumOrderStatus.Canceled]: 'Đã hủy',
 }
 
 export const getOrderStatusText = (status: number): string => {
-  return orderStatusTranslations[status] || 'Trạng thái không xác định';
+  return orderStatusTranslations[status] || 'Trạng thái không xác định'
 }

@@ -8,16 +8,6 @@
         New = 0,
 
         /// <summary>
-        /// Order returned
-        /// </summary>
-        Returned = 4,
-
-        /// <summary>
-        /// Order canceled
-        /// </summary>
-        Canceled = 5,
-
-        /// <summary>
         /// Order confirmed
         /// </summary>
         Confirmed = 1,
@@ -31,6 +21,16 @@
         /// Order completed
         /// </summary>
         Completed = 3,
+
+        /// <summary>
+        /// Order returned
+        /// </summary>
+        Returned = 4,
+
+        /// <summary>
+        /// Order canceled
+        /// </summary>
+        Canceled = 5,
     }
 
     public static class EnumOrderStatusExtensions

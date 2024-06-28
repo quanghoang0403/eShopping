@@ -38,11 +38,13 @@ const Layout: React.FC<ILayout> = ({ children }) => {
 
   useEffect(() => {
     if (isClient && customerId) {
-      const signalRService = new SignalRService(customerId);
+      const signalRService = new SignalRService(customerId)
       signalRService.startConnection()
 
-      signalRService.on(OrderHubConstants.UPDATE_STATUS_BY_STAFF,(orderId: string, status: number) => {
-        toast.success(`Đơn hàng ${orderId} đã được ${getOrderStatusText(status)}`);
+      signalRService.on(OrderHubConstants.UPDATE_STATUS_BY_STAFF, (orderName: string, status: number) => {
+        toast.success(`Đơn hàng ${orderName} ${getOrderStatusText(status)}`, {
+          duration: 5000,
+        })
       })
       return () => {
         signalRService.off(OrderHubConstants.UPDATE_STATUS_BY_STAFF)

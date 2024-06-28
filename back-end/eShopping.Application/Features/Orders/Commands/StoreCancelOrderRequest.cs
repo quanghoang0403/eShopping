@@ -56,7 +56,7 @@ namespace eShopping.Application.Features.Orders.Commands
             });
 
             await _unitOfWork.SaveChangesAsync();
-            await _hubContext.Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, order.Id, EnumOrderActionType.CANCEL);
+            await _hubContext.Clients.All.SendAsync(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, order.Code, EnumOrderActionType.CANCEL);
             return BaseResponseModel.ReturnData();
         }
     }

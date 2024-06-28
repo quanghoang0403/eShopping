@@ -52,19 +52,17 @@ export default function PrivateRoute(props) {
   useEffect(() => {
     signalRService.start()
 
-    signalRService.on(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, (orderDetails) => {
+    signalRService.on(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, () => {
       message.success('New order created!')
-      console.log('Order Created: ', orderDetails)
     })
 
-    signalRService.on(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, (orderId, status) => {
-      message.success(`Order ${orderId} status updated to ${status}!`)
-      console.log('Order Status Updated: ', orderId, status)
+    signalRService.on(OrderHubConstants.UPDATE_STATUS_BY_CUSTOMER, (orderCode, status) => {
+      message.success(`Order ${orderCode} status updated to ${status}!`)
+      console.log('Order Status Updated: ', orderCode, status)
     })
 
-    signalRService.on(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, (orderDetails) => {
-      message.success('New order created!')
-      console.log('Order Updated: ', orderDetails)
+    signalRService.on(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, (orderCode) => {
+      message.success(`Order ${orderCode} updated!`)
     })
 
     return () => {

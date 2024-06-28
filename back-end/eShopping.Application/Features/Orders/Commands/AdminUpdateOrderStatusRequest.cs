@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -90,7 +91,7 @@ namespace eShopping.Application.Features.Orders.Commands
                 await createTransaction.RollbackAsync(cancellationToken);
                 return BaseResponseModel.ReturnError(err.Message);
             }
-            await _hubContext.Clients.Group(order.CustomerId.ToString()).SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, order.Id, order.Status, cancellationToken);
+            await _hubContext.Clients.Group(order.CustomerId.ToString()).SendAsync(OrderHubConstants.UPDATE_STATUS_BY_STAFF, string.Join(",", order.OrderItems.Select(x => x.ProductName)), order.Status, cancellationToken);
             return BaseResponseModel.ReturnData();
         });
         }

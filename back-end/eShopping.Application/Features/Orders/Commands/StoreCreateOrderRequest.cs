@@ -81,6 +81,8 @@ namespace eShopping.Application.Features.Orders.Commands
 
         public async Task<BaseResponseModel> Handle(StoreCreateOrderRequest request, CancellationToken cancellationToken)
         {
+            await _hubContext.Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, cancellationToken);
+
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
             if (RequestValidation(request) != null)
             {
@@ -319,7 +321,7 @@ namespace eShopping.Application.Features.Orders.Commands
 
                 await _unitOfWork.SaveChangesAsync();
                 await createTransaction.CommitAsync(cancellationToken);
-                await _hubContext.Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, res, cancellationToken);
+                await _hubContext.Clients.All.SendAsync(OrderHubConstants.CREATE_ORDER_BY_CUSTOMER, cancellationToken);
                 return BaseResponseModel.ReturnData(res);
             });
 

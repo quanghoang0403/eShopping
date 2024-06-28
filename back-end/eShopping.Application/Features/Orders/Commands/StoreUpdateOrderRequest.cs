@@ -97,7 +97,7 @@ namespace eShopping.Application.Features.Orders.Commands
             order.Note = request.Note;
             order.LastSavedTime = DateTime.Now;
             order.LastSavedUser = accountId;
-            await _hubContext.Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, order, cancellationToken);
+            await _hubContext.Clients.All.SendAsync(OrderHubConstants.UPDATE_ORDER_BY_CUSTOMER, order.Code, cancellationToken);
             return BaseResponseModel.ReturnData();
         }
 
