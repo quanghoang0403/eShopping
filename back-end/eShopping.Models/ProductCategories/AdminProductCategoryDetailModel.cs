@@ -10,7 +10,7 @@ namespace eShopping.Models.ProductCategories
     {
         public int Priority { get; set; }
 
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
         public EnumGenderProduct GenderProduct { get; set; }
 
         public Guid ProductRootCategoryId { get; set; }
