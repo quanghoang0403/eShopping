@@ -19,20 +19,22 @@ import { getValidationMessages } from 'utils/helpers'
 import '../index.scss'
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component'
 import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component'
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component'
+import RootCategoryDataService from 'data-services/product-category/product-root-category-data.service'
+import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 
 export default function EditProductCategoryPage(props) {
   const [t] = useTranslation()
   const history = useHistory()
   const match = useRouteMatch()
   const [form] = Form.useForm()
-  const [products, setProducts] = useState([])
+  const [productRootCategories, setProductRootCategories] = useState([])
   const [showConfirm, setShowConfirm] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [currentName, setCurrentName] = useState('')
-  const [title, setTitle] = useState('')
-  const [productCategoryName, setProductCategoryName] = useState('')
+  const [productCategory, setProductCategory] = useState()
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  const [dataSelectedProducts, setDataSelectedProducts] = useState([])
+  // const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -40,6 +42,7 @@ export default function EditProductCategoryPage(props) {
     btnDelete: t('button.delete'),
     btnDiscard: t('button.discard'),
     generalInformation: {
+      activate: t('product.activate'),
       title: t('productCategory.titleInfo'),
       name: {
         label: t('productCategory.labelName'),
@@ -50,8 +53,8 @@ export default function EditProductCategoryPage(props) {
       }
     },
     product: {
-      title: t('productCategory.titleProduct'),
-      placeholder: t('productCategory.placeholderProduct')
+      title: t('product.labelProductRootCategory'),
+      placeholder: t('product.placeholderProductRootCategory')
     },
     priority: {
       title: t('productCategory.titlePriority'),
@@ -108,7 +111,7 @@ export default function EditProductCategoryPage(props) {
   }
 
   useEffect(() => {
-    getProducts()
+    getProductRootCategories()
     getEditData()
   }, [])
 
@@ -126,75 +129,66 @@ export default function EditProductCategoryPage(props) {
           const productCategory = response
           /// Handle set data
           if (productCategory.products) {
-            setDataSelectedProducts(productCategory.products)
-            setProductCategoryName(productCategory.name)
+            // setDataSelectedProducts(products.filter(p=>p.id === productCategory?.productRootCategoryId))
+            setProductCategory(productCategory)
           }
-          setTitle(productCategory.name)
-          setCurrentName(productCategory.name)
-
           form.setFieldsValue({
-            ...productCategory,
-            productIds: productCategory.products?.map((x) => x.id)
+            ...productCategory
           })
         }
       })
     }
   }
 
-  const getProducts = () => {
-    productDataService.getAllProductsAsync().then((res) => {
+  const getProductRootCategories = () => {
+    productDataService.getPreparedDataProductAsync().then((res) => {
       if (res) {
-        setProducts(res)
+        setProductRootCategories(res.productRootCategories)
       }
     })
   }
 
-  const onSelectProduct = (ids) => {
-    const productIds = ids
-    const productList = [...dataSelectedProducts]
-    productIds.forEach((productId, index) => {
-      const product = products.find((p) => p.id === productId && !productList.find(p => p.id === productId))
-      if (product) {
-        const newProduct = { ...product, position: index + 1 }
-        productList.push(newProduct)
-      }
-    })
-    setDataSelectedProducts(productList)
-  }
+  // const onSelectProduct = (ids) => {
+  //   const productIds = ids
+  //   const productList = [...dataSelectedProducts]
+  //   productIds.forEach((productId, index) => {
+  //     const product = products.find((p) => p.id === productId && !productList.find(p => p.id === productId))
+  //     if (product) {
+  //       const newProduct = { ...product, position: index + 1 }
+  //       productList.push(newProduct)
+  //     }
+  //   })
+  //   setDataSelectedProducts(productList)
+  // }
 
-  const onDeleteSelectedProduct = (productId) => {
-    let restProducts = dataSelectedProducts.filter((o) => o.id !== productId)
-    restProducts = restProducts.map((product, index) => ({
-      ...product,
-      position: index + 1
-    }))
-    setDataSelectedProducts(restProducts)
+  // const onDeleteSelectedProduct = (productId) => {
+  //   let restProducts = dataSelectedProducts.filter((o) => o.id !== productId)
+  //   restProducts = restProducts.map((product, index) => ({
+  //     ...product,
+  //     position: index + 1
+  //   }))
+  //   setDataSelectedProducts(restProducts)
 
-    /// Set form value
-    const formValues = form.getFieldsValue()
-    let { productIds } = formValues
-    productIds = productIds.filter((pid) => pid !== productId)
-    form.setFieldsValue({ ...formValues, productIds })
-  }
+  //   /// Set form value
+  //   const formValues = form.getFieldsValue()
+  //   let { productIds } = formValues
+  //   productIds = productIds.filter((pid) => pid !== productId)
+  //   form.setFieldsValue({ ...formValues, productIds })
+  // }
 
   const renderSelectProduct = () => {
     return (
       <>
         <Col span={24}>
           <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
-          <Form.Item name="products">
-            <FnbSelectMultipleProduct
+          <Form.Item name="productRootCategoryId">
+            <FnbSelectSingle
               showSearch
               allowClear
               placeholder={pageData.product.placeholder}
-              onChange={(value) => onSelectProduct(value)}
               className="w-100"
               listHeight={480}
-              option={products?.filter(p => !dataSelectedProducts.find(sp => sp.id === p.id) && p).map((item) => ({
-                id: item.id,
-                name: item.name,
-                thumbnail: item?.thumbnail
-              }))}
+              option={productRootCategories}
             />
           </Form.Item>
         </Col>
@@ -202,83 +196,82 @@ export default function EditProductCategoryPage(props) {
     )
   }
   // #region Handle drag drop
-  const DragHandle = sortableHandle(({ component }) => {
-    return (
-      <Row gutter={[16, 16]} className="all-scroll">
-        <Col span={1}>
-          <div className="drag-handle">
-            <PolygonIcon />
-          </div>
-        </Col>
-        <Col span={23}>{component()}</Col>
-      </Row>
-    )
-  })
+  // const DragHandle = sortableHandle(({ component }) => {
+  //   return (
+  //     <Row gutter={[16, 16]} className="all-scroll">
+  //       <Col span={1}>
+  //         <div className="drag-handle">
+  //           <PolygonIcon />
+  //         </div>
+  //       </Col>
+  //       <Col span={23}>{component()}</Col>
+  //     </Row>
+  //   )
+  // })
 
-  const renderProductInfo = (product) => {
-    return (
-      <div className="product-info">
-        <div className="product-position">
-          <span>{product?.position}</span>
-        </div>
-        <div className="image-box">
-          <Image src={product?.thumbnail || images.imgDefault} preview={false} />
-        </div>
-        <div className="product-name">
-          <span>{product?.name}</span>
-        </div>
-      </div>
-    )
-  }
+  // const renderProductInfo = (product) => {
+  //   return (
+  //     <div className="product-info">
+  //       {/* <div className="product-position">
+  //         <span>{product?.position}</span>
+  //       </div> */}
+  //       <div className="image-box">
+  //         <Image src={product?.thumbnail || images.imgDefault} preview={false} />
+  //       </div>
+  //       <div className="product-name">
+  //         <span>{product?.name}</span>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
-  const SortableItem = sortableElement(({ product }) => {
-    return (
-      <>
-        <div className="selected-product-card mt-3">
-          <Row>
-            <Col span={22}>
-              <DragHandle component={() => renderProductInfo(product)}></DragHandle>
-            </Col>
-            <Col span={2}>
-              <div className="delete-icon">
-                <TrashFill onClick={() => onDeleteSelectedProduct(product?.id)} />
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </>
-    )
-  })
+  // const SortableItem = sortableElement(({ product }) => {
+  //   return (
+  //     <>
+  //       <div className="selected-product-card mt-3">
+  //         <Row>
+  //           <Col span={22}>
+  //             <DragHandle component={() => renderProductInfo(product)}></DragHandle>
+  //           </Col>
+  //           <Col span={2}>
+  //             <div className="delete-icon">
+  //               <TrashFill onClick={() => onDeleteSelectedProduct(product?.id)} />
+  //             </div>
+  //           </Col>
+  //         </Row>
+  //       </div>
+  //     </>
+  //   )
+  // })
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    let arraySorted = arrayMoveImmutable(dataSelectedProducts, oldIndex, newIndex)
-    arraySorted = arraySorted.map((product, index) => ({
-      ...product,
-      position: index + 1
-    }))
-    setDataSelectedProducts(arraySorted)
-  }
+  // const onSortEnd = ({ oldIndex, newIndex }) => {
+  //   let arraySorted = arrayMoveImmutable(dataSelectedProducts, oldIndex, newIndex)
+  //   arraySorted = arraySorted.map((product, index) => ({
+  //     ...product,
+  //     position: index + 1
+  //   }))
+  //   setDataSelectedProducts(arraySorted)
+  // }
 
-  const SortableList = sortableContainer(({ items }) => {
-    return (
-      <div className="selected-product-width mt-16">
-        {items.map((value, index) => (
-          <SortableItem key={value.id} index={index} product={value} />
-        ))}
-      </div>
-    )
-  })
+  // const SortableList = sortableContainer(({ items }) => {
+  //   return (
+  //     <div className="selected-product-width mt-16">
+  //       {items.map((value, index) => (
+  //         <SortableItem key={value.id} index={index} product={value} />
+  //       ))}
+  //     </div>
+  //   )
+  // })
 
-  const renderSelectedProduct = () => {
-    return <SortableList items={dataSelectedProducts} onSortEnd={onSortEnd} useDragHandle />
-  }
-  // #endregion
+  // const renderSelectedProduct = () => {
+  //   return <SortableList items={dataSelectedProducts} onSortEnd={onSortEnd} useDragHandle />
+  // }
+  // // #endregion
 
   const onSubmitForm = () => {
     form.validateFields().then((values) => {
       const updateProductCategoryRequestModel = {
-        ...values,
-        products: dataSelectedProducts
+        ...values
       }
 
       productCategoryDataService
@@ -326,13 +319,19 @@ export default function EditProductCategoryPage(props) {
     return mess
   }
 
+  const onChangeStatus = active=>{
+    setProductCategory(p=>({...p,isActive:!active}))
+    form.setFieldValue('isActive',!active)
+  }
+
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
         <Row className="shop-row-page-header">
           <Col xs={24} sm={24} lg={12}>
-            <p className="card-header">
-              <PageTitle content={title !== '' ? title : currentName} />
+            <p className="card-header edit-title">
+              <PageTitle content={productCategory?.name || ''} />
+              <ShopActiveStatus status={productCategory?.isActive}/>
             </p>
           </Col>
           <Col xs={24} sm={24} lg={12}>
@@ -380,7 +379,7 @@ export default function EditProductCategoryPage(props) {
             <Card className="shop-card">
               <h2 className="label-information mt-16">{pageData.generalInformation.title}</h2>
               <Row gutter={[24, 24]}>
-                <Col span={24}>
+                <Col sm={24} md={24} lg={12}>
                   <h3 className="shop-form-label mt-16">
                     {pageData.generalInformation.name.label}
                     <span className="text-danger">*</span>
@@ -402,6 +401,16 @@ export default function EditProductCategoryPage(props) {
                       maxLength={pageData.generalInformation.name.maxLength}
                     />
                   </Form.Item>
+                </Col>
+                <Col sm={24} md={24} lg={12}>
+                  <div className='shop-card-status'>
+                    <h3 className="shop-form-label mt-16">
+                      {pageData.generalInformation.activate}
+                    </h3>
+                    <Form.Item name={['isActive']}>
+                      <ChangeStatusButton onChange={onChangeStatus}/>
+                    </Form.Item>
+                  </div>
                 </Col>
               </Row>
               {/* content  */}
@@ -557,7 +566,7 @@ export default function EditProductCategoryPage(props) {
                 </Col>
               </Row>
               <Row>{renderSelectProduct()}</Row>
-              <Row>{renderSelectedProduct()}</Row>
+              {/* <Row>{renderSelectedProduct()}</Row> */}
             </Card>
           </div>
         </Row>
@@ -576,7 +585,7 @@ export default function EditProductCategoryPage(props) {
       />
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmDelete}
-        content={formatDeleteMessage(productCategoryName)}
+        content={formatDeleteMessage(productCategory?.name)}
         okText={pageData.btnDelete}
         cancelText={pageData.btnIgnore}
         skipPermission={true}

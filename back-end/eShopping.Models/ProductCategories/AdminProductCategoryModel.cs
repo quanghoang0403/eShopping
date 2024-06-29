@@ -15,6 +15,8 @@ namespace eShopping.Models.ProductCategories
 
         public EnumGenderProduct GenderProduct { get; set; }
 
+        public bool IsActive { get; set; }
+
         public string ProductRootCategoryName { get; set; }
 
         public int Priority { get; set; }

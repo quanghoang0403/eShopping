@@ -1,4 +1,4 @@
-import { Card, Col, Form, Image, Row, Tooltip, message } from 'antd'
+import { Card, Checkbox, Col, Form, Image, Row, Tooltip, message } from 'antd'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
 import { ShopTable } from 'components/shop-table/shop-table'
@@ -34,11 +34,12 @@ export const TableBlog = () => {
     lastUpdated: t('table.lastUpdated'),
     thumbnail: t('table.thumbnail'),
     searchPlaceholder: t('table.searchPlaceholder'),
-
+    updateBlogSuccess:t('blog.updateBlogSuccess'),
     confirmDelete: t('dialog.confirmDelete'),
     blogConfirmDeleteMessage: t('blog.blogConfirmDeleteMessage'),
     blogDeletedSuccess: t('blog.blogDeletedSuccess'),
-    blogDeletedFailed: t('blog.blogDeletedFailed')
+    blogDeletedFailed: t('blog.blogDeletedFailed'),
+    active: t('common.active')
   }
 
   const [totalBlog, setTotalBlog] = useState(0)
@@ -73,6 +74,19 @@ export const TableBlog = () => {
       }
     })
     setIsLoading(false)
+  }
+
+  const onChangeStatus = async (id)=>{
+    try{
+      const res = await BlogDataService.updateActiveStatusAsync(id)
+      if(res){
+        message.success(pageData.updateBlogSuccess)
+        initDataTableBlogs(currentPageNumber,tableSettings.pageSize,keySearch)
+      }
+    }catch(error){
+      console.error(error)
+    }
+
   }
 
   const onChangePage = (page, pageSize) => {
@@ -147,7 +161,7 @@ export const TableBlog = () => {
       {
         title: pageData.title,
         dataIndex: 'name',
-        width: '30%',
+        width: '20%',
         render: (_, record) => {
           return (
             <div>
@@ -180,6 +194,13 @@ export const TableBlog = () => {
         render: (value) => {
           return <div>{value === guidIdEmptyValue ? '-' : blogCategories.find(b => b.id === value)?.name}</div>
         }
+      },
+      {
+        title: pageData.active,
+        dataIndex: 'isActive',
+        width: '10%',
+        align: 'center',
+        render: (_,record) => <Checkbox onChange={()=>onChangeStatus(record?.id)} checked={record?.isActive}/>
       },
       {
         title: pageData.author,
@@ -306,7 +327,7 @@ export const TableBlog = () => {
           }}
         />
       )
-      : 'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd'
+      : ''
   }
 
   return (

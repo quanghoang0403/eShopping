@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace eShopping.WebApi.Controllers.ApiAdmin
 {
     [Authorize]
-    public class BlogsController : BaseApiAdminController
+    public class BlogController : BaseApiAdminController
     {
-        public BlogsController(IMediator mediator) : base(mediator)
+        public BlogController(IMediator mediator) : base(mediator)
         {
         }
         [HttpGet]
@@ -48,6 +48,13 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateBlogAsync([FromBody] AdminUpdateBlogRequest request)
         {
             var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+        [HttpPut]
+        [Route("update-blog-status/{id}")]
+        public async Task<IActionResult> UpdateBlogActiveStatusAsync(Guid id)
+        {
+            var response = await _mediator.Send(new AdminUpdateBlogActiveStatusRequest { Id = id });
             return Ok(response);
         }
         [HttpDelete]

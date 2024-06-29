@@ -7,10 +7,13 @@ import { ExclamationIcon } from 'constants/icons.constants';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import BlogDataService from 'data-services/blog/blog-data.service';
-export default function BlogCategoryForm(){
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component';
+export default function BlogCategoryForm(props){
+  const {isEditing, form, setBlogCategoryDetail} = props
   const [t] = useTranslation()
   const [blogs, setBlogs] = useState([])
   const pageData = {
+    activate: t('product.activate'),
     title: t('blogCategory.pageTitle'),
     btnDiscard: t('button.discard'),
     createSuccess: t('blogCategory.addBlogCategorySuccess'),
@@ -78,6 +81,10 @@ export default function BlogCategoryForm(){
     }
   }
 
+  const onChangeStatus = active=>{
+    setBlogCategoryDetail(data=>({...data,isActive:!data.isActive}))
+    form.setFieldValue('isActive',!active)
+  }
   useEffect(() => {
     const getInitData = async () => {
       const blogs = await BlogDataService.getAllBlogsAsync();
@@ -246,7 +253,15 @@ export default function BlogCategoryForm(){
         </Card>
       </Col>
       <Col xs={24} sm={24} md={24} lg={8}>
-        <Card className="w-100 shop-card h-auto">
+        <Card className={`w-100 shop-card shop-card-status ${!isEditing && 'd-none'}`}>
+          <div className='d-flex align-items-center'>
+            <h3 className='mr-5'>{pageData.activate}</h3>
+            <Form.Item name={'isActive'}>
+              <ChangeStatusButton onChange={onChangeStatus}/>
+            </Form.Item>
+          </div>
+        </Card>
+        <Card className={`w-100 shop-card h-auto ${isEditing && 'mt-4'}`}>
           <h4 className="title-group">{pageData.generalInformation.blogs.title}</h4>
           <Row className="mb-4">
             <Form.Item

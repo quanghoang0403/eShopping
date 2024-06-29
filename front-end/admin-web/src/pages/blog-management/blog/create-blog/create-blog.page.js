@@ -133,6 +133,7 @@ export default function CreateBlogPage() {
           setShowConfirm={setShowConfirm}
           isChangeForm={isChangeForm}
           onCompleted={onCompleted}
+          isEditing={false}
         />
 
       </Form>

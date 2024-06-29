@@ -12,8 +12,9 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 import FnbCard from 'components/shop-card/shop-card.component';
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
 import { FnbSelectMultiple } from 'components/shop-select-multiple/shop-select-multiple';
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component';
 
-export default function BlogForm({setShowConfirm, showConfirm, isChangeForm,userFullName,onCompleted}){
+export default function BlogForm({setShowConfirm, showConfirm, isChangeForm, userFullName, onCompleted, isEditing, setBlog, form}){
   const [t] = useTranslation();
   const [categories, setCategories] = useState([])
   useEffect(() => {
@@ -33,7 +34,14 @@ export default function BlogForm({setShowConfirm, showConfirm, isChangeForm,user
       setCategories(resCategory)
     }
   }
+
+  const onChangeStatus = active=>{
+    setBlog(blog=>({...blog,isActive:!blog?.isActive}))
+    form.setFieldValue('isActive',!active)
+  }
+
   const pageData = {
+    activate: t('product.activate'),
     priority: {
       title: t('productCategory.titlePriority'),
       placeholder: t('productCategory.placeholderPriority'),
@@ -381,7 +389,15 @@ export default function BlogForm({setShowConfirm, showConfirm, isChangeForm,user
           <Col className="right-create-product" xs={24} sm={24} md={24} lg={24}>
             <Row>
               <Col xs={24} sm={24} md={24} lg={24}>
-                <Card className="w-100 shop-card h-auto">
+                <Card className={`w-100 shop-card shop-card-status ${!isEditing && 'd-none'}`}>
+                  <div className='d-flex align-items-center'>
+                    <h3 className='mr-5'>{pageData.activate}</h3>
+                    <Form.Item name={'isActive'}>
+                      <ChangeStatusButton onChange={onChangeStatus}/>
+                    </Form.Item>
+                  </div>
+                </Card>
+                <Card className={`w-100 shop-card h-auto ${isEditing && 'mt-4'}`}>
                   <h4 className="title-group">{pageData.media.title}</h4>
                   <h4 className="shop-form-label">{pageData.media.bannerTitle}</h4>
                   <Row className={'non-image'}>

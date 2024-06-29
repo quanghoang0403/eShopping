@@ -28,6 +28,7 @@ const route = [
         isMenu: true,
         exact: true,
         auth: true,
+        permission:'public',
         component: BlogPage,
         child: []
       },

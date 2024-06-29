@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { executeAfter, getValidationMessages } from 'utils/helpers';
 import BlogCategoryForm from '../components/blog-category-form.component';
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component';
 export default function EditBlogCategory() {
   const [form] = Form.useForm()
   const match = useRouteMatch()
@@ -21,6 +22,7 @@ export default function EditBlogCategory() {
   const [showConfirm, setShowConfirm] = useState(false)
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [title, setTitle] = useState('')
+  const [blogCategoryDetail,setBlogCategoryDetail] = useState()
   const history = useHistory()
   const pageData = {
     btnCancel: t('button.cancel'),
@@ -125,6 +127,7 @@ export default function EditBlogCategory() {
             blogs:blogCategory.blogs.map(b=>b.id)
           })
           setTitle(blogCategory.name)
+          setBlogCategoryDetail(blogCategory)
         }
       }).catch(err => {
         message.error(err)
@@ -170,8 +173,9 @@ export default function EditBlogCategory() {
     <>
       <Form form={form} onFieldsChange={() => setIsChangeForm(true)}>
         <Row className="shop-row-page-header">
-          <Col xs={24} sm={24} lg={12}>
-            <PageTitle content={title} />
+          <Col xs={24} sm={24} lg={12} className='edit-title'>
+            <PageTitle content={title}/>
+            <ShopActiveStatus status={blogCategoryDetail?.isActive}/>
           </Col>
           <Col xs={24} sm={24} lg={12}>
             <Space className="float-right header-control">
@@ -212,7 +216,7 @@ export default function EditBlogCategory() {
             </Space>
           </Col>
         </Row>
-        <BlogCategoryForm/>
+        <BlogCategoryForm form={form} isEditing={true} setBlogCategoryDetail={setBlogCategoryDetail}/>
       </Form>
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmDelete}

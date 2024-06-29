@@ -6,6 +6,9 @@
 }
 .right-create-product {
   grid-area: rightproduct;
+  .shop-card:first-child{
+    height: 120px;
+  }
 }
 
 .grid-container {

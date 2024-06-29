@@ -76,6 +76,7 @@ namespace eShopping.Application.Features.Blogs.Commands
                     newBlogCategory.CreatedUser = accountId;
                     newBlogCategory.CreatedTime = DateTime.Now;
                     newBlogCategory.UrlSEO = newBlogCategory.Name.UrlEncode();
+                    newBlogCategory.IsActive = true;
                     var blogIds = request.Blogs.Select(b => b.Id);
                     var blogInCategory = _unitOfWork.BlogInCategories.Find(b => blogIds.Any(bid => bid == b.BlogId));
                     if (request.Blogs != null && request.Blogs.Any())
