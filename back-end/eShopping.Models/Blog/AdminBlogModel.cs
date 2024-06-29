@@ -14,5 +14,6 @@ namespace eShopping.Models.Blog
         public string Thumbnail { get; set; }
         public string Author { get; set; }
         public DateTime? LastSavedTime { get; set; }
+        public bool isActive { get; set; }
     }
 }

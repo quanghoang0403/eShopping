@@ -1697,3 +1697,16 @@ div.ant-message-notice-content {
     height: 100%;
   }
 }
+.shop-card-status{
+  height: 100px;
+  .ant-card-body{
+    padding: 12px 50px;
+  }
+}
+.edit-title{
+  display: flex;
+  align-items: center;
+  .shop-title-header{
+    margin: 0;
+  }
+}

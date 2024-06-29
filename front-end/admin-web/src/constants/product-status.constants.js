@@ -1,6 +1,6 @@
 export const ProductStatus = {
-  Activate: 1,
-  Deactivate: 0
+  Activate: true,
+  Deactivate: false
 }
 export const ProductGender = {
   All: 0,

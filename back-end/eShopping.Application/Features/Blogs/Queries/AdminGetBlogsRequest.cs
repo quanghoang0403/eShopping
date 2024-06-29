@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using eShopping.Common.Extensions;
 using eShopping.Common.Models;
-using eShopping.Domain.Enums;
 using eShopping.Interfaces;
 using eShopping.Models.Blog;
 using MediatR;
@@ -77,7 +76,7 @@ namespace eShopping.Application.Features.Blogs.Queries
             }
             var allBlog = await blogs.
                 AsNoTracking()
-                .Where(b => b.IsActive == request.IsActive)
+                //.Where(b => b.IsActive == request.IsActive)
                 .Include(b => b.BlogInCategories)
                 .OrderBy(b => b.CreatedTime)
                 .ToPaginationAsync(request.PageNumber, request.PageSize);

@@ -14,6 +14,7 @@ namespace eShopping.Models.Blog
         public string Name { get; set; }
 
         public int Priority { get; set; }
+        public bool isActive { get; set; }
         public int NumberOfBlogs
         {
             get

@@ -117,7 +117,7 @@ export default function CreateBlogCategory() {
           if (!blockNavigation) setBlockNavigation(true)
         }}
       >
-        <BlogCategoryForm/>
+        <BlogCategoryForm isEditing={false}/>
       </Form>
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmLeaveTitle}

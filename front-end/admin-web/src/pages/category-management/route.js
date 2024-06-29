@@ -70,7 +70,7 @@ const route = [
       },
       {
         key: 'app.product-category.edit',
-        focus: 'app.category',
+        focus: 'app.product-category',
         position: 5,
         path: '/product-category/edit/:productCategoryId',
         name: 'Category',

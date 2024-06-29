@@ -1,6 +1,6 @@
 import { guidIdEmptyValue } from 'constants/string.constants';
 import http from 'utils/http-common';
-const controller = 'blogs'
+const controller = 'blog'
 const createBlogAsync = (data) => {
   return http.post(`/${controller}/create-new-blog`, data)
 }
@@ -19,12 +19,16 @@ const getBlogByIdAsync = id => {
 const editBlogAsync = data => {
   return http.put(`/${controller}/update-blog`, data)
 }
+const updateActiveStatusAsync = id=>{
+  return http.put(`/${controller}/update-blog-status/${id}`)
+}
 const BlogDataService = {
   createBlogAsync,
   getAllBlogsAsync,
   getBlogManagementsAsync,
   deleteBlogByIdAsync,
   getBlogByIdAsync,
-  editBlogAsync
+  editBlogAsync,
+  updateActiveStatusAsync
 }
 export default BlogDataService
