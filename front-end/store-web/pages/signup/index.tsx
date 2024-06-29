@@ -101,7 +101,7 @@ const SignUpPage = () => {
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             Đã có tài khoản? {` `}
-            <Link className="text-green-600" href="/login">
+            <Link className="text-green-600" href="/signin">
               Đăng nhập
             </Link>
           </span>

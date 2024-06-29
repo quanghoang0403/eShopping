@@ -13,7 +13,7 @@ export const withUser: MiddlewareFactory = (next) => {
 
     if (['/checkout', '/account', '/order']?.some((path) => pathname.startsWith(path))) {
       const token = request.cookies.get(cookieKeys.TOKEN)
-      const loginUrl = new URL(`/login?from=${encodeURIComponent(pathname.replace('/', ''))}`, request.url)
+      const loginUrl = new URL(`/signin?from=${encodeURIComponent(pathname.replace('/', ''))}`, request.url)
       // if no token found, redirect to login page
       if (!token || token.value === '') {
         console.log('Token not found')
@@ -25,7 +25,7 @@ export const withUser: MiddlewareFactory = (next) => {
         return NextResponse.redirect(loginUrl)
       }
     }
-    if (['/login', '/register', '/forgot-pass']?.some((path) => pathname.startsWith(path))) {
+    if (['/signin', '/register', '/forgot-pass']?.some((path) => pathname.startsWith(path))) {
       const token = request.cookies.get(cookieKeys.TOKEN)
       if (!token || token.value === '') {
         return next(request, _next)

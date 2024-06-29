@@ -38,7 +38,9 @@ const ForgotPassPage = ({}) => {
         <h2 className="mt-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
           Quên mật khẩu
         </h2>
-        <span className="block text-sm mt-4 text-neutral-700 sm:text-base dark:text-neutral-200">Nhập email để chúng mình gửi mật khẩu mới về toàn khoản của bạn nhé!</span>
+        <span className="block text-sm mt-4 text-neutral-700 sm:text-base dark:text-neutral-200">
+          Nhập email để chúng mình gửi mật khẩu mới về toàn khoản của bạn nhé!
+        </span>
       </header>
 
       <div className="max-w-md mx-auto space-y-6">
@@ -63,7 +65,7 @@ const ForgotPassPage = ({}) => {
         {/* ==== */}
         <span className="block text-center text-neutral-700 dark:text-neutral-300">
           Quay lại {` `}
-          <Link href="/login" className="text-green-600">
+          <Link href="/signin" className="text-green-600">
             Đăng nhập
           </Link>
           {` / `}

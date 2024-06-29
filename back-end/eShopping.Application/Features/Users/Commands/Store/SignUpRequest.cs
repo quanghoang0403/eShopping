@@ -16,9 +16,9 @@ using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Customers.Commands
+namespace eShopping.Application.Features.Users.Commands
 {
-    public class CreateCustomerWithPasswordRequest : IRequest<BaseResponseModel>
+    public class SignUpRequest : IRequest<BaseResponseModel>
     {
         public string FullName { get; set; }
 
@@ -39,13 +39,9 @@ namespace eShopping.Application.Features.Customers.Commands
         public int? WardId { get; set; }
 
         public string Address { get; set; }
-
-        public string Password { get; set; }
-
-        public string ConfirmPassword { get; set; }
     }
 
-    public class CreateCustomerWithPasswordHandler : IRequestHandler<CreateCustomerWithPasswordRequest, BaseResponseModel>
+    public class SignUpHandler : IRequestHandler<SignUpRequest, BaseResponseModel>
     {
         private readonly DomainFE _domainFE;
         private readonly IMediator _mediator;
@@ -53,7 +49,7 @@ namespace eShopping.Application.Features.Customers.Commands
         private readonly IUserProvider _userProvider;
         private readonly IEmailSenderProvider _emailProvider;
 
-        public CreateCustomerWithPasswordHandler(
+        public SignUpHandler(
             IMediator mediator,
             IUnitOfWork unitOfWork,
             IUserProvider userProvider,
@@ -68,10 +64,8 @@ namespace eShopping.Application.Features.Customers.Commands
             _userProvider = userProvider;
         }
 
-        public async Task<BaseResponseModel> Handle(CreateCustomerWithPasswordRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(SignUpRequest request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var accountId = loggedUser.AccountId.Value;
             if (CheckUniqueAndValidation(request) != null)
             {
                 return CheckUniqueAndValidation(request);
@@ -83,16 +77,20 @@ namespace eShopping.Application.Features.Customers.Commands
                 using var createStaffTransaction = await _unitOfWork.BeginTransactionAsync();
                 try
                 {
+                    // Generate the user's password.
+                    var password = StringHelpers.GeneratePassword();
                     var newAccount = new Domain.Entities.Account()
                     {
                         Email = request.Email,
-                        Password = (new PasswordHasher<Domain.Entities.Account>()).HashPassword(null, request.Password),
+                        PhoneNumber = request.PhoneNumber,
+                        Password = (new PasswordHasher<Domain.Entities.Account>()).HashPassword(null, password),
                         EmailConfirmed = true, /// bypass email confirm, will be remove in the feature
                         AccountType = EnumAccountType.Customer,
+                        IsActivated = true,/// bypass email confirm, will be remove in the feature
                         FullName = request.FullName,
                         Birthday = request.Birthday,
+                        Thumbnail = request.Thumbnail,
                         Gender = request.Gender,
-                        LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
 
@@ -103,7 +101,6 @@ namespace eShopping.Application.Features.Customers.Commands
                         DistrictId = request.DistrictId,
                         CityId = request.CityId,
                         Account = newAccount,
-                        LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
 
@@ -112,6 +109,7 @@ namespace eShopping.Application.Features.Customers.Commands
 
                     // Complete this transaction, data will be saved.
                     await createStaffTransaction.CommitAsync(cancellationToken);
+                    await SendEmailPasswordAsync(request.FullName, request.Email, password);
                 }
                 catch (Exception ex)
                 {
@@ -124,7 +122,25 @@ namespace eShopping.Application.Features.Customers.Commands
             });
         }
 
-        private BaseResponseModel CheckUniqueAndValidation(CreateCustomerWithPasswordRequest request)
+        /// <summary>
+        /// This method is used to send a email to the current staff when the data has been saved successfully.
+        /// </summary>
+        /// <param name="emailAddress">Staff's email, for example: staff001@gmail.com</param>
+        /// <param name="password">Staff's temporary password.</param>
+        /// <returns></returns>
+        private async Task SendEmailPasswordAsync(string fullName, string emailAddress, string password)
+        {
+            ResourceManager myManager = new("eShopping.Application.Providers.Email.EmailTemplate", Assembly.GetExecutingAssembly());
+            var link = $"{_domainFE.StoreWeb}/dang-nhap?email={emailAddress?.Trim()}";
+            string subject = $"Chào bạn đến với {EmailTemplates.SHOP_NAME}";
+
+            string htmlFromResource = myManager.GetString(EmailTemplates.REGISTER_NEW_STORE_ACCOUNT);
+            string htmlContext = string.Format(htmlFromResource, EmailTemplates.SHOP_NAME, fullName, emailAddress, password, link);
+
+            await _emailProvider.SendEmailAsync(subject, htmlContext, emailAddress);
+        }
+
+        private BaseResponseModel CheckUniqueAndValidation(SignUpRequest request)
         {
             if (string.IsNullOrEmpty(request.FullName))
             {
@@ -148,18 +164,6 @@ namespace eShopping.Application.Features.Customers.Commands
                 {
                     return BaseResponseModel.ReturnError("Email is existed");
                 }
-            }
-            if (!string.IsNullOrWhiteSpace(request.Password))
-            {
-                return BaseResponseModel.ReturnError("Password is empty");
-            }
-            if (!string.IsNullOrWhiteSpace(request.ConfirmPassword))
-            {
-                return BaseResponseModel.ReturnError("Confirm Password is empty");
-            }
-            if (request.ConfirmPassword != request.Password)
-            {
-                return BaseResponseModel.ReturnError("Password and Confirm Password is not same");
             }
             return null;
         }

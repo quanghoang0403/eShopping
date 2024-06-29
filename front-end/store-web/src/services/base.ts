@@ -6,7 +6,7 @@ import qs from 'qs'
 import toast from 'react-hot-toast'
 
 const _redirectToLoginPage = () => {
-  window.location.href = '/login'
+  window.location.href = '/signin'
 }
 
 const refreshToken = async () => {
@@ -126,11 +126,11 @@ export function buildQueryString(params: Record<string, any>): string {
     .filter(([_, value]) => value !== undefined && value !== null)
     .map(([key, value]) => {
       if (Array.isArray(value)) {
-        return value.map(v => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`).join('&');
+        return value.map((v) => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`).join('&')
       }
-      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     })
-    .join('&');
+    .join('&')
 }
 
 export { APIServiceUpload }

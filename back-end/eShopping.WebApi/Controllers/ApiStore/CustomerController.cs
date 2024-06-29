@@ -27,24 +27,6 @@ namespace eShopping.WebApi.Controllers.ApiStore
             return Ok(response);
         }
 
-        [HttpPost]
-        [Route("create-customer")]
-        [HasPermission(EnumPermission.STORE_WEB)]
-        public async Task<IActionResult> CreateCustomerAsync([FromBody] CreateCustomerRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
-
-        [HttpPost]
-        [Route("create-customer-with-password")]
-        [HasPermission(EnumPermission.STORE_WEB)]
-        public async Task<IActionResult> CreateCustomerWithPasswordAsync([FromBody] CreateCustomerWithPasswordRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
-
         [HttpPut]
         [Route("update-customer")]
         [HasPermission(EnumPermission.STORE_WEB)]

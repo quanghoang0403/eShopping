@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
-import googleSvg from '@/assets/images/Google.svg'
+import googleSvg from '@/assets/svgs/social/google.svg'
+import facebookSvg from '@/assets/svgs/social/facebook.svg'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,14 +14,20 @@ import AuthService from '@/services/auth.service'
 import Input from '@/shared/Controller/Input'
 import toast from 'react-hot-toast'
 import { PermissionIdConstants } from '@/constants/default.constants'
+import { signIn } from 'next-auth/react'
 
-// const loginSocials = [
-//   {
-//     name: 'Continue with Google',
-//     href: '#',
-//     icon: googleSvg,
-//   },
-// ]
+const loginSocials = [
+  {
+    name: 'Đăng nhập bằng Google',
+    key: 'google',
+    icon: googleSvg,
+  },
+  {
+    name: 'Đăng nhập bằng Facebook',
+    key: 'facebook',
+    icon: facebookSvg,
+  },
+]
 
 const LoginPage = () => {
   const {
@@ -59,18 +66,18 @@ const LoginPage = () => {
           Đăng nhập
         </h2>
         <div className="max-w-md mx-auto space-y-6">
-          {/* <div className="grid gap-3">
-            {loginSocials.map((item, index) => (
+          <div className="grid gap-3">
+            {loginSocials.map((item) => (
               <a
-                key={index}
-                href={item.href}
-                className="flex w-full rounded-lg bg-primary-50 dark:bg-neutral-800 px-4 py-3 transform transition-transform sm:px-6 hover:translate-y-[-2px]"
+                key={item.key}
+                onClick={() => signIn(item.key)}
+                className="flex w-full rounded-lg bg-primary-50 dark:bg-neutral-800 px-4 py-3 transform transition-transform sm:px-6 hover:translate-y-[-2px] cursor-pointer"
               >
                 <Image className="flex-shrink-0" src={item.icon} alt={item.name} sizes="40px" />
                 <h3 className="flex-grow text-center text-sm font-medium text-neutral-700 dark:text-neutral-300 sm:text-sm">{item.name}</h3>
               </a>
             ))}
-          </div> */}
+          </div>
           {/* OR */}
           {/* <div className="relative text-center">
             <span className="relative z-10 inline-block px-4 font-medium text-sm bg-white dark:text-neutral-400 dark:bg-neutral-900">Hoặc</span>
