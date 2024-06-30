@@ -1,11 +1,46 @@
 import { jwtDecode } from 'jwt-decode'
+import { cookieKeys, getCookie } from './localStorage.helper'
+import { decode } from 'next-auth/jwt'
+import { ExtendedToken } from '@/types/authNext'
 
-export const getCustomerId = () => {
-  return true
+export const serializeNextAuthToken = async (nextToken: string | undefined) => {
+  if (nextToken) {
+    try {
+      const decoded = (await decode({
+        token: nextToken,
+        secret: process.env.NEXTAUTH_SECRET ?? '',
+      })) as ExtendedToken
+      return decoded
+    } catch (error) {
+      console.error('Error decoding next auth token:', error)
+    }
+  }
 }
 
-export const isAuthorized = () => {
-  return true
+export const getCustomerId = async () => {
+  const customerId = getCookie(cookieKeys.CUSTOMER_ID)
+  if (customerId) {
+    return customerId
+  }
+  const nextToken = getCookie(cookieKeys.NEXT_TOKEN)
+  const decodedToken = await serializeNextAuthToken(nextToken)
+  if (decodedToken) {
+    return decodedToken.customerId
+  }
+}
+
+export const isAuthorized = async (token?: string, nextToken?: string) => {
+  console.log('nextToken', nextToken)
+  const nextTokenCurrent = nextToken ?? getCookie(cookieKeys.NEXT_TOKEN)
+  const tokenCurrent = token ?? getCookie(cookieKeys.TOKEN)
+  console.log('nextTokenCurrent', nextTokenCurrent)
+  if (nextTokenCurrent && !await nextTokenExpired(nextTokenCurrent)) {
+    return true
+  }
+  if (tokenCurrent && !tokenExpired(tokenCurrent)) {
+    return true
+  }
+  return false
 }
 
 export const tokenExpired = (token: string | null) => {
@@ -20,6 +55,11 @@ export const tokenExpired = (token: string | null) => {
     }
   }
   return true
+}
+
+export const nextTokenExpired = async (token: string) => {
+  const decodedToken = await serializeNextAuthToken(token)
+  return decodedToken && decodedToken.accessTokenExpiresAt && decodedToken.accessTokenExpiresAt < Date.now()
 }
 
 export const isSafariBrowser = () => {

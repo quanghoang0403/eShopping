@@ -1,26 +1,13 @@
 import { MiddlewareFactory } from '@/types/system'
-import { tokenExpired } from '@/utils/common.helper'
+import { isAuthorized } from '@/utils/common.helper'
 import { cookieKeys } from '@/utils/localStorage.helper'
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
-import { decode } from 'next-auth/jwt'
-import { ExtendedToken } from '@/types/authNext'
+
 
 async function verifyToken(request: NextRequest) {
   const token = request.cookies.get(cookieKeys.TOKEN)
   const nextToken = request.cookies.get(cookieKeys.NEXT_TOKEN)
-  if (nextToken) {
-    const decoded = (await decode({
-      token: nextToken.value,
-      secret: process.env.NEXTAUTH_SECRET ?? '',
-    })) as ExtendedToken
-    if (decoded && decoded.accessTokenExpiresAt && decoded.accessTokenExpiresAt > Date.now()) {
-      return true
-    }
-  }
-  if (token && !tokenExpired(token.value)) {
-    return true
-  }
-  return false
+  return await isAuthorized(token?.value, nextToken?.value)
 }
 
 export const withUser: MiddlewareFactory = (next) => {

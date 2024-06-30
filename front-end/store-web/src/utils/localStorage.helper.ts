@@ -30,6 +30,7 @@ export const removeCookie = (key: string) => {
 export const resetSession = () => {
   if (typeof window !== 'undefined') {
     removeCookie(cookieKeys.TOKEN)
+    removeCookie(cookieKeys.NEXT_TOKEN)
     removeCookie(cookieKeys.REFRESH_TOKEN)
   }
 }

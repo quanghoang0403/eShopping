@@ -12,6 +12,7 @@ import { commonActions } from '@/redux/features/commonSlice'
 import SignalRService from '@/services/signalR.service'
 import { OrderHubConstants } from '@/constants/hub.constants'
 import { getOrderStatusText } from '@/enums/enumOrderStatus'
+import { getCustomerId } from '@/utils/common.helper'
 
 const fonts = Roboto({
   subsets: ['latin', 'vietnamese'],
@@ -26,15 +27,19 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   const { promiseInProgress } = usePromiseTracker()
   const [isClient, setIsClient] = useState(false)
+  const [customerId, setCustomerId] = useState<string | undefined>()
   const dispatch = useAppDispatch()
   const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
-  const customerId = 'useAppSelector((state) => state.session.customerId)'
 
   useEffect(() => {
     // Ensure the Toaster is rendered only on the client-side
     setIsClient(true)
     if (menu.length == 0) fetchMenuAsync()
   }, [menu])
+
+  useEffect(() => {
+    fetchCustomerId()
+  }, [])
 
   useEffect(() => {
     if (isClient && customerId) {
@@ -52,6 +57,11 @@ const Layout: React.FC<ILayout> = ({ children }) => {
       }
     }
   }, [isClient, customerId])
+
+  const fetchCustomerId = async () => {
+    const customerId =  await getCustomerId()
+    setCustomerId(customerId)
+  }
 
   const fetchMenuAsync = async () => {
     const res = await ProductCategoryService.getMenuCategory()

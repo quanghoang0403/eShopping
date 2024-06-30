@@ -62,7 +62,7 @@ const LoginPage = () => {
             {loginSocials.map((item) => (
               <a
                 key={item.key}
-                onClick={() => signIn(item.key)}
+                onClick={() => signIn(item.key, { callbackUrl: '/' })}
                 className="flex w-full rounded-lg bg-primary-50 dark:bg-neutral-800 px-4 py-3 transform transition-transform sm:px-6 hover:translate-y-[-2px] cursor-pointer"
               >
                 <Image className="flex-shrink-0" src={item.icon} alt={item.name} sizes="40px" />

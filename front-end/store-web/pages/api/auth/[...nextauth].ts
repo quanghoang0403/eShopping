@@ -42,6 +42,15 @@ const sessionCallback: CallbacksOptions['session'] = async ({ session, token }) 
   return session
 }
 
+const redirectCallback: CallbacksOptions['redirect'] = async ({  url, baseUrl }) => {
+  if (url.startsWith('/')) {
+    return `${baseUrl}${url}`
+  } else if (new URL(url).origin === baseUrl) {
+    return url
+  }
+  return baseUrl
+}
+
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -52,5 +61,22 @@ export default NextAuth({
   callbacks: {
     jwt: jwtCallback,
     session: sessionCallback,
+    redirect: redirectCallback,
+  },
+  pages: {
+    signOut: '/signin'
+  },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production'
+      ? `__Secure-next-auth.session-token`
+      : `next-auth.session-token`,
+      options: {
+        httpOnly: false, 
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
   },
 })
