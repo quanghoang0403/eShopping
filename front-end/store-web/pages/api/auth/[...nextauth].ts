@@ -1,7 +1,7 @@
 import AuthService from '@/services/auth.service'
 import NextAuth, { CallbacksOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { ExtendedToken, ProfileGG, TokenError } from '@/types/authNext'
+import { ExtendedToken, TokenError } from '@/types/authNext'
 
 // import { signOut } from 'next-auth/react'
 
@@ -30,39 +30,27 @@ import { ExtendedToken, ProfileGG, TokenError } from '@/types/authNext'
 // }
 
 const jwtCallback: CallbacksOptions['jwt'] = async ({ token, account, user, profile }) => {
-  let extendedToken: ExtendedToken
-  // console.log('Fresh token', { token })
-
-  // User logs in for the first time
   if (account && user && profile) {
-    extendedToken = {
-      ...token,
-      account,
-      user,
-      profile: profile as ProfileGG,
-      accessToken: account.id_token as string,
-      refreshToken: account.refresh_token as string,
-      accessTokenExpiresAt: (account.expires_at as number) * 1000, // converted to ms
-    }
-
-    console.log('FIRST TIME LOGIN, EXTENDED TOKEN: ', extendedToken)
-    // case handle sign up cho user lần đầu login bằng gg login
-
-    const body: ISignUpWithGoogleRequest = {
-      email: extendedToken.email || '',
-      firstName: extendedToken?.profile?.given_name,
-      lastName: extendedToken?.profile?.family_name,
-      name: extendedToken.name || '',
-      thumbnail: extendedToken.picture || '',
+    const body: ISignInWithGoogleRequest = {
+      email: token.email || '',
+      fullName: token.name || '',
+      thumbnail: token.picture || '',
     }
 
     try {
-      await AuthService.signUpWithGoogle(body)
+      const res = await AuthService.signInWithGoogle(body)
+      let extendedToken: ExtendedToken = {
+        ...token,
+        customerId: res.customerId,
+        accessToken: account.id_token as string,
+        refreshToken: account.refresh_token as string,
+        accessTokenExpiresAt: (account.expires_at as number) * 1000, // converted to ms
+      }
+      return extendedToken
     } catch (e) {
       console.log('\n create user error', e)
+      return { ...token, error: TokenError.TokenExpiredError }
     }
-
-    return extendedToken
   }
 
   // Subsequent requests to check auth sessions
@@ -72,7 +60,7 @@ const jwtCallback: CallbacksOptions['jwt'] = async ({ token, account, user, prof
   }
 
   // Access token has expired
-  console.log('ACCESS TOKEN EXPIRED,')
+  // console.log('ACCESS TOKEN EXPIRED,')
   // token = await refreshAccessToken(token)
 
   // signOut()
@@ -82,12 +70,10 @@ const jwtCallback: CallbacksOptions['jwt'] = async ({ token, account, user, prof
 }
 
 const sessionCallback: CallbacksOptions['session'] = async ({ session, token }) => {
-  console.log('SOMETHING WENT WRONG', { token })
   Object.assign(session, {
     accessToken: (token as ExtendedToken).accessToken,
     error: (token as ExtendedToken).error,
   })
-
   return session
 }
 

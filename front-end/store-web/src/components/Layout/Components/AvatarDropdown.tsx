@@ -9,11 +9,13 @@ import SwitchDarkMode from '@/shared/SwitchDarkMode'
 import { sessionActions } from '@/redux/features/sessionSlice'
 import { useAppDispatch } from '@/hooks/useRedux'
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/react'
 
 export default function AvatarDropdown() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const handleLogout = () => {
+    signOut()
     dispatch(sessionActions.logout())
     router.push(`/signin`)
   }

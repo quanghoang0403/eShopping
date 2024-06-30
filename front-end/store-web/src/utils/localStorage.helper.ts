@@ -1,8 +1,8 @@
 import cookie from 'js-cookie'
 
 export const cookieKeys = {
-  COOKIE: 'Cookie',
   TOKEN: 'TOKEN',
+  NEXT_TOKEN: 'next-auth.session-token',
   REFRESH_TOKEN: 'REFRESH_TOKEN',
   PRODUCT_FILTER: 'PRODUCT_FILTER',
 }
@@ -18,6 +18,7 @@ export const getCookie = (key: string) => {
 }
 
 export const setCookie = (key: string, value: string) => {
+  console.log('setCookie', key, value)
   if (typeof window !== 'undefined') cookie.set(key, value)
 }
 

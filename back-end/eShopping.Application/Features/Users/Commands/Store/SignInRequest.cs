@@ -15,14 +15,14 @@ using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Users.Commands
 {
-    public class AuthenticateRequest : IRequest<BaseResponseModel>
+    public class SignInRequest : IRequest<BaseResponseModel>
     {
         public string Email { get; set; }
 
         public string Password { get; set; }
     }
 
-    public class AuthenticateResponse
+    public class SignInResponse
     {
         public string Token { get; set; }
 
@@ -36,20 +36,20 @@ namespace eShopping.Application.Features.Users.Commands
     }
 
 
-    public class Handler : IRequestHandler<AuthenticateRequest, BaseResponseModel>
+    public class SignInRequestHandler : IRequestHandler<SignInRequest, BaseResponseModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJWTService _jwtService;
         private readonly IMediator _mediator;
 
-        public Handler(IUnitOfWork unitOfWork, IJWTService jwtService, IMapper mapper, IMediator mediator)
+        public SignInRequestHandler(IUnitOfWork unitOfWork, IJWTService jwtService, IMapper mapper, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _jwtService = jwtService;
             _mediator = mediator;
         }
 
-        public async Task<BaseResponseModel> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(SignInRequest request, CancellationToken cancellationToken)
         {
             if (request.Email == null)
             {
@@ -69,47 +69,38 @@ namespace eShopping.Application.Features.Users.Commands
             {
                 return BaseResponseModel.ReturnError("Invalid email or password");
             }
+
             PasswordVerificationResult verified = hasher.VerifyHashedPassword(null, account.Password, request.Password);
             if (verified == PasswordVerificationResult.Failed)
             {
                 return BaseResponseModel.ReturnError("login.errorLogin");
             }
 
-            LoggedUserModel user = new();
-            Staff staff = await _unitOfWork.Staffs
-                .Find(s => s.AccountId == account.Id)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-
-            if (staff == null)
-            {
-                Customer customer = await _unitOfWork.Customers
+            Customer customer = await _unitOfWork.Customers
                     .Find(s => s.AccountId == account.Id)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-                if (customer == null)
-                {
-                    return BaseResponseModel.ReturnError("login.errorLogin");
-                }
-                user.Id = customer?.Id;
-            }
-            else
+            if (customer == null)
             {
-                user.Id = staff.Id;
+                return BaseResponseModel.ReturnError("login.errorLogin");
             }
 
-            user.AccountId = account.Id;
-            user.FullName = account.FullName;
-            user.Email = account.Email;
-            user.Password = account.Password;
-            user.AccountType = account.AccountType.GetDescription();
-            user.PhoneNumber = account.PhoneNumber;
-            user.Thumbnail = account.Thumbnail;
+            LoggedUserModel user = new()
+            {
+                Id = customer.Id,
+                AccountId = account.Id,
+                FullName = account.FullName,
+                Email = account.Email,
+                Password = account.Password,
+                AccountType = account.AccountType.GetDescription(),
+                PhoneNumber = account.PhoneNumber,
+                Thumbnail = account.Thumbnail
+            };
 
             var token = _jwtService.GenerateAccessToken(user);
             var refreshToken = await _jwtService.GenerateRefreshToken(account.Id);
             var permissions = await _mediator.Send(new AdminGetPermissionsRequest() { Token = token }, cancellationToken);
-            AuthenticateResponse response = new()
+            SignInResponse response = new()
             {
                 Token = token,
                 RefreshToken = refreshToken,

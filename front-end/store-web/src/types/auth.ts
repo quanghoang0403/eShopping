@@ -5,11 +5,9 @@ interface ISignUpRequest {
   passwordConfirm: string
 }
 
-interface ISignUpWithGoogleRequest {
+interface ISignInWithGoogleRequest {
   email: string
-  firstName: string
-  lastName: string
-  name: string
+  fullName: string
   thumbnail?: string
 }
 

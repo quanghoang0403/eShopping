@@ -1,4 +1,5 @@
 ﻿using eShopping.Application.Features.Users.Commands;
+using eShopping.Application.Features.Users.Commands.Store;
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,8 +31,8 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpPost]
-        [Route("sign-up-with-google")]
-        public async Task<IActionResult> SignUpWithGoogleAsync([FromBody] SignUpWithGoogleRequest request)
+        [Route("sign-in-with-google")]
+        public async Task<IActionResult> SignInWithGoogleAsync([FromBody] SignInWithGoogleRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
@@ -39,15 +40,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
 
         [HttpPost]
         [Route("sign-in")]
-        public async Task<IActionResult> SignInAsync([FromBody] AuthenticateRequest request)
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
-        }
-
-        [HttpPost]
-        [Route("sign-in-with-google")]
-        public async Task<IActionResult> SignInWithGoogleAsync([FromBody] AuthenticateRequest request)
+        public async Task<IActionResult> SignInAsync([FromBody] SignInRequest request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);

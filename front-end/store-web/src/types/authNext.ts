@@ -6,18 +6,11 @@ export enum TokenError {
   TokenExpiredError = 'TokenExpiredError',
 }
 
-export interface ProfileGG extends Profile {
-  given_name: string
-  family_name: string
-}
-
 export interface ExtendedToken extends JWT {
+  customerId: string
   accessToken: string
   refreshToken: string
   accessTokenExpiresAt: number
-  user: User
-  account: Account
-  profile: ProfileGG
   error?: TokenError
 }
 

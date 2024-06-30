@@ -1,26 +1,22 @@
 ﻿using AutoMapper;
-using eShopping.Application.Features.Settings.Queries;
 using eShopping.Application.Providers.Email;
-using eShopping.Common.Extensions;
 using eShopping.Common.Helpers;
 using eShopping.Common.Models;
 using eShopping.Domain.Entities;
 using eShopping.Domain.Settings;
 using eShopping.Email;
 using eShopping.Interfaces;
-using eShopping.Models.Permissions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace eShopping.Application.Features.Users.Commands
+namespace eShopping.Application.Features.Users.Commands.Store
 {
     public class RenewPasswordRequest : IRequest<BaseResponseModel>
     {
