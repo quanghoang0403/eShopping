@@ -5,10 +5,6 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 import { decode } from 'next-auth/jwt'
 import { ExtendedToken } from '@/types/authNext'
 
-function getSearchParam(param: string, url: any) {
-  return url.searchParams.get(param)
-}
-
 async function verifyToken(request: NextRequest) {
   const token = request.cookies.get(cookieKeys.TOKEN)
   const nextToken = request.cookies.get(cookieKeys.NEXT_TOKEN)
@@ -18,7 +14,6 @@ async function verifyToken(request: NextRequest) {
       secret: process.env.NEXTAUTH_SECRET ?? '',
     })) as ExtendedToken
     if (decoded && decoded.accessTokenExpiresAt && decoded.accessTokenExpiresAt > Date.now()) {
-      request.cookies.set(cookieKeys.CUSTOMER_ID, decoded.customerId)
       return true
     }
   }

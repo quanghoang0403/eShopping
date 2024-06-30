@@ -3,32 +3,6 @@ import NextAuth, { CallbacksOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { ExtendedToken, TokenError } from '@/types/authNext'
 
-// import { signOut } from 'next-auth/react'
-
-// const refreshAccessToken = async (tokenObject: any) => {
-//   try {
-//     // Get a new set of tokens with a refreshToken
-//     const tokenResponse = await axios.post(
-//       process.env.NEXTAUTH_URL + 'auth/refreshToken',
-//       {
-//         token: tokenObject.refreshToken,
-//       }
-//     )
-
-//     return {
-//       ...tokenObject,
-//       accessToken: tokenResponse.data.accessToken,
-//       accessTokenExpiry: tokenResponse.data.accessTokenExpiry,
-//       refreshToken: tokenResponse.data.refreshToken,
-//     }
-//   } catch (error) {
-//     return {
-//       ...tokenObject,
-//       error: 'RefreshAccessTokenError',
-//     }
-//   }
-// }
-
 const jwtCallback: CallbacksOptions['jwt'] = async ({ token, account, user, profile }) => {
   if (account && user && profile) {
     const body: ISignInWithGoogleRequest = {
@@ -53,20 +27,11 @@ const jwtCallback: CallbacksOptions['jwt'] = async ({ token, account, user, prof
     }
   }
 
-  // Subsequent requests to check auth sessions
   if (Date.now() < (token as ExtendedToken).accessTokenExpiresAt) {
-    // console.log('ACCESS TOKEN STILL VALID, RETURNING EXTENDED TOKEN: ', token)
     return token
   }
 
-  // Access token has expired
-  // console.log('ACCESS TOKEN EXPIRED,')
-  // token = await refreshAccessToken(token)
-
-  // signOut()
-  // doing something
   return { ...token, error: TokenError.TokenExpiredError }
-  // return token
 }
 
 const sessionCallback: CallbacksOptions['session'] = async ({ session, token }) => {
