@@ -13,7 +13,6 @@ import { sessionActions } from '@/redux/features/sessionSlice'
 import AuthService from '@/services/auth.service'
 import Input from '@/shared/Controller/Input'
 import toast from 'react-hot-toast'
-import { PermissionIdConstants } from '@/constants/default.constants'
 import { signIn } from 'next-auth/react'
 
 const loginSocials = [
@@ -42,14 +41,7 @@ const LoginPage = () => {
   const mutation = useAppMutation(
     async (data: ISignInRequest) => trackPromise(AuthService.signIn(data)),
     async (res: ISignInResponse) => {
-      if (
-        res &&
-        res.customerId &&
-        res.accountId &&
-        res.token &&
-        res.refreshToken
-        // && res.permissions && res.permissions.length > 0 && res.permissions.some(p => p.id == PermissionIdConstants.STORE_WEB)
-      ) {
+      if (res && res.customerId && res.token && res.refreshToken) {
         dispatch(sessionActions.signInSuccess(res))
         router.push(`/${from ?? ''}`)
       } else {

@@ -1,10 +1,8 @@
 // import { notifyInfo, notifySuccess } from '@/components/Common/Notification'
 import { cookieKeys, resetSession, setCookie } from '@/utils/localStorage.helper'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import cookie from 'js-cookie'
 
 interface SessionState {
-  isLoggedIn: boolean
   customerId: string | null
   accountId: string | null
   cartItems: ICartItem[]
@@ -14,7 +12,6 @@ interface SessionState {
 }
 
 const initialState: SessionState = {
-  isLoggedIn: false,
   customerId: null,
   accountId: null,
   cartItems: [],
@@ -30,21 +27,16 @@ const sessionSlice = createSlice({
     signInSuccess(state, action: PayloadAction<ISignInResponse>) {
       setCookie(cookieKeys.TOKEN, action.payload.token)
       setCookie(cookieKeys.REFRESH_TOKEN, action.payload.refreshToken)
-      state.isLoggedIn = true
-      state.customerId = action.payload.customerId
-      state.accountId = action.payload.accountId
+      setCookie(cookieKeys.CUSTOMER_ID, action.payload.customerId)
     },
     logout(state) {
       resetSession()
       state.cartItems = []
       state.totalQuantity = 0
       state.totalPrice = 0
-      state.isLoggedIn = false
       state.customerId = null
-      state.accountId = null
     },
     addProductToCart(state, action: PayloadAction<ICartItem>) {
-      //notifySuccess('Đã thêm sản phẩm vào giỏ hàng')
       const { productId, productVariantId } = action.payload
       const existingItemIndex = state.cartItems.findIndex((item) => item.productId === productId && item.productVariantId === productVariantId)
 
@@ -52,7 +44,6 @@ const sessionSlice = createSlice({
         const currentQuantity = state.cartItems[existingItemIndex].quantity
         const maxQuantity = state.cartItems[existingItemIndex].quantityLeft
         if (currentQuantity == maxQuantity) {
-          //notifyInfo(`${action.payload.productName} - ${action.payload.productVariantName} chỉ còn ${maxQuantity} sản phẩm`)
         } else {
           state.cartItems[existingItemIndex].quantity = currentQuantity + action.payload.quantity
         }

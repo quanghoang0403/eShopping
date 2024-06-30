@@ -18,6 +18,7 @@ async function verifyToken(request: NextRequest) {
       secret: process.env.NEXTAUTH_SECRET ?? '',
     })) as ExtendedToken
     if (decoded && decoded.accessTokenExpiresAt && decoded.accessTokenExpiresAt > Date.now()) {
+      request.cookies.set(cookieKeys.CUSTOMER_ID, decoded.customerId)
       return true
     }
   }

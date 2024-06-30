@@ -4,6 +4,7 @@ export const cookieKeys = {
   TOKEN: 'TOKEN',
   NEXT_TOKEN: 'next-auth.session-token',
   REFRESH_TOKEN: 'REFRESH_TOKEN',
+  CUSTOMER_ID: 'CUSTOMER_ID',
   PRODUCT_FILTER: 'PRODUCT_FILTER',
 }
 

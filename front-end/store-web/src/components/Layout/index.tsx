@@ -28,7 +28,7 @@ const Layout: React.FC<ILayout> = ({ children }) => {
   const [isClient, setIsClient] = useState(false)
   const dispatch = useAppDispatch()
   const menu = useAppSelector((state) => state.common.menu) as INavItemType[]
-  const customerId = useAppSelector((state) => state.session.customerId)
+  const customerId = 'useAppSelector((state) => state.session.customerId)'
 
   useEffect(() => {
     // Ensure the Toaster is rendered only on the client-side
