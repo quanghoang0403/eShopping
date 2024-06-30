@@ -1,6 +1,5 @@
 ﻿using eShopping.Domain.Enums;
 using eShopping.Models.Commons;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +8,8 @@ namespace eShopping.Models.ProductCategories
     public class AdminProductRootCategoryDetailModel : SEOModel
     {
         public int Priority { get; set; }
+
+        public bool IsActive { get; set; }
 
         public EnumGenderProduct GenderProduct { get; set; }
 
