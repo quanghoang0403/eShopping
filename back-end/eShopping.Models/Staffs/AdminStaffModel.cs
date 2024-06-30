@@ -19,5 +19,7 @@ namespace eShopping.Models.Staffs
         public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
