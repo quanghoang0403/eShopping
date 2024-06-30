@@ -12,6 +12,9 @@ const DeleteRootCategoryAsync = id => {
 const EditProductRootCategory = data => {
   return http.put(`${controller}/update-product-root-category`, data)
 }
+const EditProductRootCategoryActiveStatus = id => {
+  return http.put(`${controller}/update-product-root-category-status/${id}`)
+}
 const GetProductRootCatgoryByIdAsync = id => {
   return http.get(`${controller}/get-product-root-category-by-id/${id}`)
 }
@@ -20,6 +23,7 @@ const RootCategoryDataService = {
   GetProductRootCategoriesAsync,
   DeleteRootCategoryAsync,
   EditProductRootCategory,
-  GetProductRootCatgoryByIdAsync
+  GetProductRootCatgoryByIdAsync,
+  EditProductRootCategoryActiveStatus
 }
 export default RootCategoryDataService
