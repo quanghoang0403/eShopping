@@ -33,6 +33,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import customerDataService from 'data-services/customer/customer-data.service';
 import AddressDataService from 'data-services/address/address-data.service';
 import CustomerForm from '../components/customer-form.component';
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component';
 
 export default function EditCustomerPage() {
   const [t] = useTranslation()
@@ -40,6 +41,7 @@ export default function EditCustomerPage() {
   const match = useRouteMatch()
   const pageData = {
     title: t('customer.titleEdit'),
+    active: t('common.active'),
     generalInformation: t('customer.titleInfo'),
     btnCancel: t('button.cancel'),
     btnUpdate: t('button.save'),
@@ -49,7 +51,7 @@ export default function EditCustomerPage() {
     btnDiscard: t('button.discard'),
     btnDelete: t('button.delete'),
     btnIgnore: t('button.ignore'),
-    customerUpdateSuccess: t('dashboard.customerUpdateSuccess'),
+    customerUpdateSuccess: t('customer.customerUpdateSuccess'),
     customerUpdateFail: t('dashboard.customerUpdateFail'),
     customerDeleteSuccess: t('customer.customerDeleteSuccess'),
     customerDeleteFail: t('customer.customerDeleteFail'),
@@ -113,7 +115,6 @@ export default function EditCustomerPage() {
   const [isChangeForm, setIsChangeForm] = useState(false);
   const [customer, setCustomer] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
-  const [customerName, setCustomerName] = useState('');
   const [showConfirmLeave, setShowConfirmLeave] = useState(false);
   useEffect(() => {
     getInitDataAsync();
@@ -191,6 +192,11 @@ export default function EditCustomerPage() {
     });
   };
 
+  const onChangeStatus = active=>{
+    form.setFieldValue('isActive',!active)
+    setCustomer(s=>({...s,isActive:!active}))
+  }
+
   const onDiscard = () => {
     setShowConfirm(false);
   };
@@ -237,10 +243,11 @@ export default function EditCustomerPage() {
     >
       <div>
         <Row className="staff-header-box">
-          <Col xs={24} sm={24} lg={12}>
+          <Col xs={24} sm={24} lg={12} className='edit-title'>
             <p className="card-header">
-              <PageTitle content={customerName} isNormal={true} />
+              <PageTitle content={customer?.fullName} isNormal={true} />
             </p>
+            <ShopActiveStatus status={customer?.isActive}/>
           </Col>
           <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
             <ActionButtonGroup
@@ -281,7 +288,7 @@ export default function EditCustomerPage() {
           </Col>
         </Row>
         <div className="clearfix"></div>
-        <CustomerForm form={form}/>
+        <CustomerForm form={form} isEdit={true} onChangeStatus={onChangeStatus}/>
       </div>
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmDelete}

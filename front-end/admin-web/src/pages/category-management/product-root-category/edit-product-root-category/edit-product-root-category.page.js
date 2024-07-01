@@ -15,6 +15,7 @@ import { isGuid } from 'constants/string.constants'
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
 import { ProductGender } from 'constants/product-status.constants'
 import ProductRootCategoryForm from '../components/form-root-category.component'
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component'
 
 export default function EditProductRootCategory() {
   const history = useHistory()
@@ -22,9 +23,7 @@ export default function EditProductRootCategory() {
   const [form] = Form.useForm()
   const [showConfirm, setShowConfirm] = useState(false)
   const [isChangeForm, setIsChangeForm] = useState(false)
-  const [currentName, setCurrentName] = useState('')
-  const [title, setTitle] = useState('')
-  const [productCategoryName, setProductCategoryName] = useState('')
+  const [productRootCategory,setProductRootCategory] = useState()
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
   const [dataSelectedProducts, setDataSelectedProducts] = useState([])
   const [t] = useTranslation()
@@ -113,17 +112,14 @@ export default function EditProductRootCategory() {
     if (isGuid(productRootCategoryId)) {
       RootCategoryDataService.GetProductRootCatgoryByIdAsync(productRootCategoryId).then((response) => {
         if (response) {
-          const productCategory = response
+          const productRootCategory = response
+          setProductRootCategory(productRootCategory)
           /// Handle set data
-          if (productCategory.products) {
-            setDataSelectedProducts(productCategory.products)
-            setProductCategoryName(productCategory.name)
+          if (productRootCategory.products) {
+            setDataSelectedProducts(productRootCategory.products)
           }
-          setTitle(productCategory.name)
-          setCurrentName(productCategory.name)
-
           form.setFieldsValue({
-            ...productCategory
+            ...productRootCategory
           })
         }
       })
@@ -192,14 +188,20 @@ export default function EditProductRootCategory() {
     getEditData()
   }, [])
 
+  const onChangeStatus = active =>{
+    setProductRootCategory(data=>({...data, isActive: !active}))
+    form.setFieldValue('isActive', !active)
+  }
+
   return (
     <>
       <Form form={form} layout="vertical" autoComplete="off" onFieldsChange={() => setIsChangeForm(true)}>
         <Row className="shop-row-page-header">
-          <Col xs={24} sm={24} lg={12}>
+          <Col xs={24} sm={24} lg={12} className='edit-title'>
             <p className="card-header">
-              <PageTitle content={title !== '' ? title : currentName} />
+              <PageTitle content={productRootCategory?.name} />
             </p>
+            <ShopActiveStatus status={productRootCategory?.isActive}/>
           </Col>
           <Col xs={24} sm={24} lg={12}>
             <Space className="float-right header-control">
@@ -241,7 +243,7 @@ export default function EditProductRootCategory() {
             </Space>
           </Col>
         </Row>
-        <ProductRootCategoryForm/>
+        <ProductRootCategoryForm isEdit={true} onChangeStatus={onChangeStatus}/>
       </Form>
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmLeaveTitle}
@@ -256,7 +258,7 @@ export default function EditProductRootCategory() {
       />
       <DeleteConfirmComponent
         title={pageData.leaveDialog.confirmDelete}
-        content={formatDeleteMessage(productCategoryName)}
+        content={formatDeleteMessage(productRootCategory?.name)}
         okText={pageData.btnDelete}
         cancelText={pageData.btnIgnore}
         skipPermission={true}

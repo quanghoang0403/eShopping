@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Row, Space, message } from 'antd'
+import { Checkbox, Form, Row, Space, message } from 'antd'
 import { executeAfter } from 'utils/helpers'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
@@ -29,6 +29,7 @@ export default function TableStaff(props) {
   const clearFilterFunc = React.useRef(null)
 
   const pageData = {
+    active: t('common.active'),
     searchPlaceholder: t('table.searchPlaceholder'),
     btnFilter: t('button.filter'),
     btnDelete: t('button.delete'),
@@ -43,7 +44,8 @@ export default function TableStaff(props) {
     confirmDelete: t('dialog.confirmDelete'),
     confirmDeleteMessage: t('dialog.confirmDeleteMessage'),
     staffDeleteSuccess: t('staff.staffDeleteSuccess'),
-    staffDeleteFail: t('staff.staffDeleteFail')
+    staffDeleteFail: t('staff.staffDeleteFail'),
+    staffUpdatedSuccessfully: t('staff.staffUpdatedSuccessfully')
   }
   const tableSettings = {
     pageSize: 20,
@@ -52,14 +54,14 @@ export default function TableStaff(props) {
         title: pageData.table.no,
         dataIndex: 'index',
         key: 'index',
-        width: '138px',
+        width: '10%',
         align: 'left'
       },
       {
         title: pageData.table.name,
         dataIndex: 'name',
         key: 'name',
-        width: '238px',
+        width: '30%',
         render: (_, record) => {
           return (
             <div className="width-name text-overflow">
@@ -69,10 +71,18 @@ export default function TableStaff(props) {
         }
       },
       {
+        title: pageData.active,
+        dataIndex: 'isActive',
+        key: 'isActive',
+        width: '10%',
+        align: 'center',
+        render: (_, record) => <Checkbox onChange={()=>onChangeStatus(record?.id)} checked={ record?.isActive }/>
+      },
+      {
         title: pageData.table.phone,
         dataIndex: 'phone',
         key: 'phone',
-        width: '185px',
+        width: '20%',
         render: (_, record) => {
           return (
             <div className="width-phone text-overflow">
@@ -85,7 +95,7 @@ export default function TableStaff(props) {
         title: pageData.table.group,
         dataIndex: 'groupsName',
         key: 'groupsName',
-        width: '375px',
+        width: '20%',
         render: (values, record) => {
           const maxLine = 5
           const renderGroups = values?.map((groupName, index) => {
@@ -116,7 +126,7 @@ export default function TableStaff(props) {
       {
         title: pageData.table.action,
         key: 'action',
-        width: '99px',
+        width: '10%',
         align: 'center',
         render: (_, record) => {
           if (record.isInitialStoreAccount === true) {
@@ -174,6 +184,14 @@ export default function TableStaff(props) {
     await fetchDatableAsync(1, tableSettings.pageSize, keySearch)
   }
 
+  const onChangeStatus = async id=>{
+    const res = await staffDataService.updateStaffStatusAsync(id)
+    if(res){
+      message.success(pageData.staffUpdatedSuccessfully)
+      await fetchDatableAsync(currentPageNumber,tableSettings.pageSize,keySearch)
+    }
+  }
+
   // Insert the name into the message
   const formatDeleteMessage = (name) => {
     const mess = t(pageData.confirmDeleteMessage, { name })
@@ -219,7 +237,8 @@ export default function TableStaff(props) {
       name: staff?.fullName,
       phone: staff?.phoneNumber,
       groups: mappingGroups(staff?.permissions),
-      groupsName: staff?.permissions?.map((g) => g.name || '')
+      groupsName: staff?.permissions?.map((g) => g.name || ''),
+      isActive: staff?.isActive
     }
   }
 

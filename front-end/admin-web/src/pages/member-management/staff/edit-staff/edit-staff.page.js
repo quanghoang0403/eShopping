@@ -17,6 +17,8 @@ import permissionDataService from 'data-services/permission/permission-data.serv
 import staffDataService from 'data-services/staff/staff-data.service'
 import { useTranslation } from 'react-i18next'
 import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image-select.component'
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component'
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component'
 
 const { Content } = Layout
 
@@ -31,6 +33,7 @@ export function EditStaff(props) {
   const shopImageSelectRef = useRef(null)
   // #region Page data
   const pageData = {
+    active: t('common.active'),
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
     btnUpdate: t('button.updateStaff'),
@@ -124,8 +127,8 @@ export function EditStaff(props) {
           t('staff.permissionEditBlog')
         ],
         [
-          t('staff.permissionStoreWeb'),
-        ],
+          t('staff.permissionStoreWeb')
+        ]
       ],
       btnAddGroup: t('staff.btnAddGroupPermission'),
       allGroup: t('staff.allGroupPermission')
@@ -151,6 +154,11 @@ export function EditStaff(props) {
     loadData()
   }, [])
 
+  const onChangeStatus = active=>{
+    form.setFieldValue(['staff','isActive'],!active)
+    setStaff(s=>({...s,isActive:!active}))
+  }
+
   const loadDataToEditStaff = async (staffId, response) => {
     if (staffId) {
       const staff = await staffDataService.getStaffByIdAsync(staffId)
@@ -160,14 +168,10 @@ export function EditStaff(props) {
       setStaff(staff)
       form.setFieldsValue({
         staff: {
+          ...staff,
           staffId: staff.id,
-          fullName: staff.fullName,
-          phoneNumber: staff.phoneNumber,
-          email: staff.email,
           birthday: staff.birthday ? moment.utc(staff.birthday).local() : null,
-          gender: staff.gender,
-          permissionIds: staff.permissions.map(p => p.id),
-          thumbnail: staff.thumbnail
+          permissionIds: staff.permissions.map(p => p.id)
         }
 
       })
@@ -476,10 +480,11 @@ export function EditStaff(props) {
   return (
     <>
       <Row className="shop-row-page-header">
-        <Col xs={24} sm={24} lg={12}>
+        <Col xs={24} sm={24} lg={12} className='edit-title'>
           <p className="card-header">
             <PageTitle content={pageData.editingStaff} />
           </p>
+          <ShopActiveStatus status={staff?.isActive}/>
         </Col>
 
         <Col span={12}>
@@ -572,6 +577,12 @@ export function EditStaff(props) {
                     onChange={(event) => updateDateFields(event)}
                   />
                 </Form.Item>
+                <div className='shop-card-status'>
+                  <h3 className='mr-5'>{pageData.active}</h3>
+                  <Form.Item name={['staff','isActive']}>
+                    <ChangeStatusButton onChange={onChangeStatus}/>
+                  </Form.Item>
+                </div>
               </Col>
 
               <Col xs={24} sm={24} lg={12}>

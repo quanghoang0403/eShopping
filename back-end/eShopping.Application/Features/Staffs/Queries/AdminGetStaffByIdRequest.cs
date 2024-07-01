@@ -62,7 +62,8 @@ namespace eShopping.Application.Features.Staffs.Queries
                 FullName = staff.Account.FullName,
                 PhoneNumber = staff.Account.PhoneNumber,
                 Gender = staff.Account.Gender,
-                Birthday = staff.Account.Birthday
+                Birthday = staff.Account.Birthday,
+                IsActive = staff.IsActive
             };
 
             return BaseResponseModel.ReturnData(staffDetailModel);

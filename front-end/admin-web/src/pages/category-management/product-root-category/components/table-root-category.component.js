@@ -1,4 +1,4 @@
-import { Form, Row, Tooltip, message } from 'antd';
+import { Checkbox, Form, Row, Tooltip, message } from 'antd';
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component';
 import { EditButtonComponent } from 'components/edit-button/edit-button.component';
 import { ShopTable } from 'components/shop-table/shop-table';
@@ -17,9 +17,11 @@ export default function TableRootCategory() {
   const [dataSource, setDataSource] = useState(null)
   const [totalRecords, setTotalRecords] = useState(0)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [keySearch,setKeySearch] = useState('')
   const permissions = getAllPermissions()
   const [t] = useTranslation()
   const pageData = {
+    active: t('common.active'),
     btnFilter: t('button.filter'),
     btnDelete: t('button.delete'),
     btnIgnore: t('button.ignore'),
@@ -55,15 +57,9 @@ export default function TableRootCategory() {
 
   const mappingRecordToColumns = item => {
     return {
+      ...item,
       key: item?.id,
-      index: item?.no,
-      id: item?.id,
-      name: item?.name,
-      priority: item?.priority,
-      numberOfProduct: item?.numberOfProduct,
-      products: item?.products,
-      numberOfProductCategory: item?.numberOfProductCategory,
-      productCategories: item?.productCategories
+      index: item?.no
     }
   }
   useEffect(() => {
@@ -102,6 +98,15 @@ export default function TableRootCategory() {
   const onEditItem = (item) => {
     return history.push(`/product-root-category/edit/${item?.id}`)
   }
+
+  const onChangeStatus = async id=>{
+    const res = await RootCategoryDataService.EditProductRootCategoryActiveStatus(id)
+    if(res){
+      message.success(pageData.productCategoryUpdateSuccess)
+      await fetchDataTableAsync(currentPageNumber, tableConfigs.pageSize, keySearch)
+    }
+  }
+
   const tableConfigs = {
     pageSize: 20,
     columns: [
@@ -116,12 +121,20 @@ export default function TableRootCategory() {
         title: pageData.table.name,
         dataIndex: 'name',
         key: 'name',
-        width: '30%',
+        width: '20%',
         className: 'category-name-column',
         ellipsis: {
           showTitle: false
         },
         render: (_, record) => <Tooltip title={record?.name}>{record?.name}</Tooltip>
+      },
+      {
+        title: pageData.active,
+        dataIndex: 'isActive',
+        key: 'isActive',
+        width: '10%',
+        align: 'center',
+        render: (_, record) => <Checkbox onChange={()=>onChangeStatus(record?.id)} checked={record?.isActive}/>
       },
       {
         title: pageData.table.priority,
@@ -204,6 +217,7 @@ export default function TableRootCategory() {
     },
     onSearch: async (keySearch) => {
       executeAfter(500, async () => {
+        setKeySearch(keySearch)
         await fetchDataTableAsync(1, tableConfigs.pageSize, keySearch)
       })
     }

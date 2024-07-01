@@ -64,6 +64,7 @@ namespace eShopping.Application.Features.ProductCategories.Commands
 
             var newProductRootCategory = _mapper.Map<ProductRootCategory>(request);
             var accountId = loggedUser.AccountId.Value;
+            newProductRootCategory.IsActive = true;
             newProductRootCategory.CreatedUser = accountId;
             newProductRootCategory.CreatedTime = DateTime.Now;
             newProductRootCategory.UrlSEO = newProductRootCategory.Name.UrlEncode();

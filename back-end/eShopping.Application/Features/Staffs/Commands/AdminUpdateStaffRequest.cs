@@ -16,6 +16,8 @@ namespace eShopping.Application.Features.Staffs.Commands
     {
         public Guid StaffId { get; set; }
 
+        public bool IsActive { get; set; }
+
         public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }
@@ -69,6 +71,8 @@ namespace eShopping.Application.Features.Staffs.Commands
             account.Birthday = request.Birthday;
             account.LastSavedUser = loggedUser.AccountId.Value;
             account.LastSavedTime = DateTime.Now;
+            account.IsActive = request.IsActive;
+            staff.IsActive = request.IsActive;
 
             #region Handle update permissions
 
@@ -83,14 +87,14 @@ namespace eShopping.Application.Features.Staffs.Commands
             var newStaffPermissionsToDB = new List<StaffPermission>();
             foreach (var permissionId in newStaffPermissionIds)
             {
-                var newProductVariant = new StaffPermission()
+                var newStaffPermission = new StaffPermission()
                 {
                     StaffId = request.StaffId,
                     PermissionId = permissionId,
                     CreatedUser = loggedUser.AccountId.Value,
                     CreatedTime = DateTime.Now
                 };
-                newStaffPermissionsToDB.Add(newProductVariant);
+                newStaffPermissionsToDB.Add(newStaffPermission);
 
             }
             await _unitOfWork.StaffPermission.AddRangeAsync(newStaffPermissionsToDB);

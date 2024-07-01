@@ -5,9 +5,12 @@ import { FnbTextArea } from 'components/shop-text-area/shop-text-area.component'
 import { ExclamationIcon } from 'constants/icons.constants';
 import { BadgeSEOKeyword } from 'components/badge-keyword-SEO/badge-keyword-SEO.component';
 import { Card, Col, Form, Input, InputNumber, Row, Tooltip, message } from 'antd';
-export default function ProductRootCategoryForm(){
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component';
+export default function ProductRootCategoryForm(props){
+  const {isEdit, onChangeStatus} = props
   const [t] = useTranslation()
   const pageData = {
+    activate: t('product.activate'),
     title: t('root-category.createTitle'),
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -181,7 +184,15 @@ export default function ProductRootCategoryForm(){
             </Card>
           </Col>
           <Col xs={24} sm={24} md={24} lg={8}>
-            <Card className="shop-card">
+            <Card className={`w-100 shop-card shop-card-status ${!isEdit && 'd-none'}`}>
+              <div className='d-flex align-items-center'>
+                <h3 className='mr-5'>{pageData.activate}</h3>
+                <Form.Item name={'isActive'}>
+                  <ChangeStatusButton onChange={onChangeStatus}/>
+                </Form.Item>
+              </div>
+            </Card>
+            <Card className={`shop-card ${isEdit && 'mt-4'}`}>
               <h3>{pageData.gender.genderCategory}</h3>
               <Form.Item
                 name={['genderProduct']}

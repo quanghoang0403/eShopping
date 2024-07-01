@@ -1,4 +1,4 @@
-import { Col, Form, Image, message, Row, Space } from 'antd'
+import { Checkbox, Col, Form, Image, message, Row, Space } from 'antd'
 import Paragraph from 'antd/lib/typography/Paragraph'
 import DeleteConfirmComponent from 'components/delete-confirm/delete-confirm.component'
 import { EditButtonComponent } from 'components/edit-button/edit-button.component'
@@ -23,6 +23,8 @@ export default function TableCustomer(props) {
   const DEFAULT_KEY_SEARCH = ''
 
   const pageData = {
+    active: t('common.active'),
+    customerUpdateSuccess: t('customer.customerUpdateSuccess'),
     btnDelete: t('button.delete'),
     btnIgnore: t('button.ignore'),
     searchPlaceholder: t('table.searchPlaceholder'),
@@ -70,6 +72,14 @@ export default function TableCustomer(props) {
         }
       },
       {
+        title: pageData.active,
+        dataIndex: 'isActive',
+        key: 'isActive',
+        width: '10%',
+        align: 'center',
+        render:(_,record)=><Checkbox onChange={()=>onChangeStatus(record?.id)} checked={ record?.isActive }/>
+      },
+      {
         title: pageData.phone,
         dataIndex: 'phoneNumber',
         key: 'phoneNumber',
@@ -115,7 +125,13 @@ export default function TableCustomer(props) {
       await fetchDatableAsync(page, pageSize, keySearch)
     }
   }
-
+  const onChangeStatus = async id=>{
+    const res = await customerDataService.updateCustomerStatusAsync(id)
+    if(res){
+      message.success(pageData.customerUpdateSuccess)
+      await fetchDatableAsync(currentPageNumber,DEFAULT_PAGE_SIZE,DEFAULT_KEY_SEARCH)
+    }
+  }
   // Insert the name into the message
   const formatDeleteMessage = (name) => {
     const mess = t(pageData.confirmDeleteCustomerMessage, { name })
@@ -155,7 +171,8 @@ export default function TableCustomer(props) {
       id: item?.id,
       name: item?.fullName,
       phoneNumber: item?.phoneNumber,
-      color: item?.color ?? '#efbb00'
+      color: item?.color ?? '#efbb00',
+      isActive: item?.isActive
     }
   }
 
