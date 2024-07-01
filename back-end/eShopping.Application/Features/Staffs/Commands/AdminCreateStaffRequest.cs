@@ -94,7 +94,8 @@ namespace eShopping.Application.Features.Staffs.Commands
                         LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now,
                         PhoneNumber = request.PhoneNumber,
-                        Thumbnail = request.Thumbnail
+                        Thumbnail = request.Thumbnail,
+                        IsActive = true
                     };
                     // await _unitOfWork.Accounts.AddAsync(newStaffAccount);
 
@@ -104,7 +105,8 @@ namespace eShopping.Application.Features.Staffs.Commands
                         // AccountId = newStaffAccount.Id,
                         Account = newStaffAccount,
                         LastSavedUser = accountId,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActive = true
                     };
                     await _unitOfWork.Staffs.AddAsync(newStaff);
 
@@ -118,7 +120,8 @@ namespace eShopping.Application.Features.Staffs.Commands
                             PermissionId = permissionId,
                             CreatedUser = accountId,
                             LastSavedUser = accountId,
-                            LastSavedTime = DateTime.Now
+                            LastSavedTime = DateTime.Now,
+                            IsActive = true
                         };
                         permissionGroups.Add(permissionGroup);
                     }

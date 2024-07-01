@@ -8,13 +8,15 @@ import { useEffect, useState } from 'react'
 import { CustomerGenderConstant } from 'constants/customer.constant'
 import AddressDataService from 'data-services/address/address-data.service'
 import { FnbSelectSingle } from 'components/shop-select-single/shop-select-single'
-export default function CustomerForm({form}){
+import ChangeStatusButton from 'components/shop-change-active-status-button/shop-change-active-status-button.component'
+export default function CustomerForm({form, isEdit, onChangeStatus}){
   const [t] = useTranslation()
   const [genderSelected, setGenderSelected] = useState(CustomerGenderConstant.Male)
   const [cities, setCities] = useState([])
   const [wardsByDistrictId, setWardsByDistrictId] = useState([])
   const [districtsByCityId, setDistrictsByCityId] = useState([])
   const pageData = {
+    active: t('common.active'),
     btnCancel: t('button.cancel'),
     btnSave: t('button.add'),
     btnDiscard: t('button.discard'),
@@ -187,8 +189,16 @@ export default function CustomerForm({form}){
     <Content>
       <Card className="shop-card">
         <Row>
-          <Col span={24}>
+          <Col sm={24} md={24} lg={12}>
             <h5 className="title-group">{pageData.generalInformation}</h5>
+          </Col>
+          <Col sm={24} md={24} lg={12}>
+            <div className={`d-flex shop-card-status ${!isEdit && 'd-none'}`}>
+              <h5 className='mr-5 title-group'>{pageData.active}</h5>
+              <Form.Item name={['isActive']}>
+                <ChangeStatusButton onChange={onChangeStatus}/>
+              </Form.Item>
+            </div>
           </Col>
         </Row>
         <Row style={{ display: 'grid' }}>

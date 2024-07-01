@@ -76,6 +76,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                     Name = category.Name,
                     Priority = category.Priority,
                     GenderProduct = category.GenderProduct,
+                    IsActive = category.IsActive,
                     Products = _mapper.Map<IEnumerable<AdminProductSelectedModel>>(category.Products.OrderBy(x => x.Priority)),
                     ProductCategories = _mapper.Map<IEnumerable<AdminProductCategorySelectedModel>>(category.ProductCategories.OrderBy(x => x.Priority))
                 });

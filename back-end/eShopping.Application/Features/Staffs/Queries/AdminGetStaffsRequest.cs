@@ -89,7 +89,8 @@ namespace eShopping.Application.Features.Staffs.Queries
                     Email = staff.Account.Email,
                     Thumbnail = staff.Account.Thumbnail,
                     FullName = staff.Account.FullName,
-                    PhoneNumber = staff.Account.PhoneNumber
+                    PhoneNumber = staff.Account.PhoneNumber,
+                    IsActive = staff.IsActive
                 };
                 staffsResponse.Add(staffModel);
             });

@@ -74,6 +74,15 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
             return Ok(response);
         }
 
+        [HttpPut]
+        [Route("update-staff-status/{id}")]
+        [HasPermission(EnumPermission.EDIT_STAFF)]
+        public async Task<IActionResult> UpdateStaffStatusAsync(Guid id)
+        {
+            var response = await _mediator.Send(new AdminUpdateStaffStatusRequest { Id = id });
+            return Ok(response);
+        }
+
         [HttpDelete]
         [Route("delete-staff-by-id/{id}")]
         [HasPermission(EnumPermission.EDIT_STAFF)]

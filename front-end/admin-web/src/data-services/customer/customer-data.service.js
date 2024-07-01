@@ -15,11 +15,15 @@ const deleteCustomerAsync = id=>{
 const updateCustomerAsync = data=>{
   return http.put(`${controller}/update-customer`,data)
 }
+const updateCustomerStatusAsync = id=>{
+  return http.put(`${controller}/update-customer-status/${id}`)
+}
 const customerDataService = {
   getCustomersAsync,
   createCustomerAsync,
   getCustomerByIdAsync,
   deleteCustomerAsync,
-  updateCustomerAsync
+  updateCustomerAsync,
+  updateCustomerStatusAsync
 }
 export default customerDataService

@@ -151,7 +151,8 @@ namespace eShopping.Application.Features.Products.Commands
                         PriceDiscount = x.PriceDiscount,
                         PercentNumber = x.PercentNumber,
                         IsUseBasePrice = x.IsUseBasePrice ?? false,
-                        Thumbnail = x.Thumbnail
+                        Thumbnail = x.Thumbnail,
+                        IsActive = x.IsActive
                     }).ToList();
                     await _unitOfWork.ProductVariants.AddRangeAsync(newProductVariants);
 

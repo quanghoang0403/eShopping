@@ -18,11 +18,15 @@ const updateStaffAsync = data => {
 const deleteStaffByIdAsync = id => {
   return http.delete(`/${controller}/delete-staff-by-id/${id}`)
 }
+const updateStaffStatusAsync = id => {
+  return http.put(`/${controller}/update-staff-status/${id}`)
+}
 const staffDataService = {
   createNewStaffAsync,
   getDataStaffManagementAsync,
   getStaffByIdAsync,
   updateStaffAsync,
-  deleteStaffByIdAsync
+  deleteStaffByIdAsync,
+  updateStaffStatusAsync
 }
 export default staffDataService;

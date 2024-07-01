@@ -94,7 +94,8 @@ namespace eShopping.Application.Features.Customers.Commands
                         Thumbnail = request.Thumbnail,
                         Gender = request.Gender,
                         LastSavedUser = accountId,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActive = true
                     };
 
                     var newCustomer = new Customer()
@@ -105,7 +106,8 @@ namespace eShopping.Application.Features.Customers.Commands
                         CityId = request.CityId,
                         Account = newAccount,
                         LastSavedUser = accountId,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActive = true
                     };
 
                     await _unitOfWork.Customers.AddAsync(newCustomer);

@@ -32,5 +32,7 @@ namespace eShopping.Models.Customers
         public int? WardId { get; set; }
 
         public string Address { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

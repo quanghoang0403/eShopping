@@ -6,6 +6,7 @@ using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiAdmin
@@ -50,6 +51,15 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
         public async Task<IActionResult> UpdateCustomerAsync([FromBody] UpdateCustomerRequest request)
         {
             var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("update-customer-status/{id}")]
+        [HasPermission(EnumPermission.EDIT_CUSTOMER)]
+        public async Task<IActionResult> UpdateCustomerStatusAsync(Guid id)
+        {
+            var response = await _mediator.Send(new AdminUpdateCustomerStatusRequest { Id = id });
             return Ok(response);
         }
 
