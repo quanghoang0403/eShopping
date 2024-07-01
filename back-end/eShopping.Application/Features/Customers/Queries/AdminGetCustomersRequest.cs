@@ -76,7 +76,8 @@ namespace eShopping.Application.Features.Customers.Queries
                     Email = customer.Account.Email,
                     Thumbnail = customer.Account.Thumbnail,
                     FullName = customer.Account.FullName,
-                    PhoneNumber = customer.Account.PhoneNumber
+                    PhoneNumber = customer.Account.PhoneNumber,
+                    IsActive = customer.IsActive
                 };
                 customersResponse.Add(customerModel);
             });
