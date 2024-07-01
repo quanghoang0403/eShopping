@@ -26,6 +26,8 @@ namespace eShopping.Models.Products
         public bool? IsUseBasePrice { get; set; }
 
         public int Priority { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
     public class AdminProductVariantWithStockModel : AdminProductVariantModel
@@ -42,5 +44,6 @@ namespace eShopping.Models.Products
         public string ProductVariantName { get; set; }
 
         public int QuantityLeft { get; set; }
+
     }
 }

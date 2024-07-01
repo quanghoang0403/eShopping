@@ -21,6 +21,7 @@ import { FnbImageSelectComponent } from 'components/shop-image-select/shop-image
 export default function StockProductTable({ form, productSizes, productData }) {
   const { t } = useTranslation();
   const pageData = {
+    active: t('common.active'),
     productVariant: {
       title: t('product.variantInfo'),
       addVariant: t('product.addVariant'),
@@ -107,6 +108,12 @@ export default function StockProductTable({ form, productSizes, productData }) {
       quantityLeft: 0
     }))
   }]
+  const onChangeStatus = (index,active)=>{
+    form.setFieldValue(['productVariants', index, 'isActive'],!active)
+    const productVariant = [...productVariants]
+    productVariant[index].isActive = !active
+    setProductVariants(productVariant)
+  }
 
   const [productVariants, setProductVariants] = useState([])
 
@@ -183,6 +190,21 @@ export default function StockProductTable({ form, productSizes, productData }) {
               </Form.Item >
             </>
           )
+        }
+      },
+      {
+        title: pageData.active,
+        dataIndex: 'isActive',
+        position: 'isActive',
+        align: 'center',
+        width: 100,
+        render: (value, record, index) => {
+          return(
+            <Form.Item name={['productVariants', index, 'isActive']}>
+              <Checkbox onChange={()=>onChangeStatus(index,record?.isActive)}  checked={record?.isActive}/>
+            </Form.Item>
+          )
+
         }
       },
       {
