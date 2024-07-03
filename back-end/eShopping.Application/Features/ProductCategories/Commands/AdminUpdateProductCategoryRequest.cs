@@ -7,6 +7,8 @@ using eShopping.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,6 +39,13 @@ namespace eShopping.Application.Features.ProductCategories.Commands
         public EnumGenderProduct GenderProduct { get; set; }
 
         public Guid ProductRootCategoryId { get; set; }
+
+        public List<ProductRequestModel> ProductsInCategory { get; set; }
+    }
+    public class ProductRequestModel
+    {
+        public Guid Id { get; set; }
+        public int Priority { get; set; }
     }
 
 
@@ -76,7 +85,16 @@ namespace eShopping.Application.Features.ProductCategories.Commands
             {
                 return BaseResponseModel.ReturnError("Product category name has already existed");
             }
-
+            var products = _unitOfWork.Products.GetAll();
+            if (request.ProductsInCategory.Count > 0)
+            {
+                foreach (var product in request.ProductsInCategory)
+                {
+                    var modifiedProduct = products.Where(p => p.Id == product.Id).FirstOrDefault();
+                    modifiedProduct.Priority = product.Priority;
+                }
+                await _unitOfWork.Products.UpdateRangeAsync(products);
+            }
             var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
             modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
             modifiedProductCategory.LastSavedTime = DateTime.Now;
