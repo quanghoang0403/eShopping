@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { ExclamationIcon } from 'constants/icons.constants';
 import StockProductTable from '../components/stock-product.component'
 import moment from 'moment'
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component'
 const { Text } = Typography
 
 export default function ProductDetailPage(props) {
@@ -231,72 +232,63 @@ export default function ProductDetailPage(props) {
 
   return (
     <>
-      {product ? (<Form layout="vertical" autoComplete="off" className="product-detail-form" form={form} disabled>
-        <Row className="shop-row-page-header">
-          <Col xs={24} sm={24} lg={12}>
-            <Row>
-              <p className="card-header">
-                <PageTitle content={product?.name} />
-              </p>
-              {statusId === ProductStatus.Activate && (
-                <span className="badge-status active ml-3">
-                  <span> {pageData.active}</span>
-                </span>
-              )}
-              {statusId === ProductStatus.Deactivate && (
-                <span className="badge-status default ml-3">
-                  <span> {pageData.inactive}</span>
-                </span>
-              )}
-            </Row>
-          </Col>
-          <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
-            <ActionButtonGroup
-              arrayButton={[
-                {
-                  action: (
-                    <Button type="primary" onClick={() => onEditItem(product?.id)} className="button-edit">
-                      {pageData.btnEdit}
-                    </Button>
-                  ),
-                  permission: PermissionKeys.EDIT_PRODUCT
-                },
-                {
-                  action: (
-                    <a onClick={() => history.push('/product')} className="action-cancel">
-                      {pageData.btnLeave}
-                    </a>
-                  ),
-                  permission: null
-                },
-                {
-                  action: (
-                    <a
-                      className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
-                      onClick={() => onChangeStatus()}
-                    >
-                      {activate}
-                    </a>
-                  ),
-                  permission: PermissionKeys.EDIT_PRODUCT
-                },
-                {
-                  action: (
-                    <a
-                      className="action-delete"
-                      onClick={() => {
-                        onDeleteItem()
-                      }}
-                    >
-                      {pageData.btnDelete}
-                    </a>
-                  ),
-                  permission: PermissionKeys.EDIT_PRODUCT
-                }
-              ]}
-            />
-          </Col>
-        </Row>
+      <Row className="shop-row-page-header">
+        <Col xs={24} sm={24} lg={12} className='edit-title'>
+          <Row>
+            <p className="card-header">
+              <PageTitle content={product?.name} />
+            </p>
+            <ShopActiveStatus status={product?.isActive}/>
+          </Row>
+        </Col>
+        <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
+          <ActionButtonGroup
+            arrayButton={[
+              {
+                action: (
+                  <Button type="primary" onClick={() => onEditItem(product?.id)} className="button-edit">
+                    {pageData.btnEdit}
+                  </Button>
+                ),
+                permission: PermissionKeys.EDIT_PRODUCT
+              },
+              {
+                action: (
+                  <a onClick={() => history.push('/product')} className="action-cancel">
+                    {pageData.btnLeave}
+                  </a>
+                ),
+                permission: null
+              },
+              {
+                action: (
+                  <a
+                    className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
+                    onClick={() => onChangeStatus()}
+                  >
+                    {activate}
+                  </a>
+                ),
+                permission: PermissionKeys.EDIT_PRODUCT
+              },
+              {
+                action: (
+                  <a
+                    className="action-delete"
+                    onClick={() => {
+                      onDeleteItem()
+                    }}
+                  >
+                    {pageData.btnDelete}
+                  </a>
+                ),
+                permission: PermissionKeys.EDIT_PRODUCT
+              }
+            ]}
+          />
+        </Col>
+      </Row>
+      <Form layout="vertical" autoComplete="off" className="product-detail-form" form={form} disabled>
         <Row className="product-container">
           <div className="product-form-left">
             <div className="card-genaral padding-t-l-b">
@@ -507,7 +499,6 @@ export default function ProductDetailPage(props) {
         />
         <StockProductTable form={form} productSizes={product?.productStocks} productData={product}/>
       </Form>
-      ) : <p>Loadding...</p>}
     </>
   )
 }
