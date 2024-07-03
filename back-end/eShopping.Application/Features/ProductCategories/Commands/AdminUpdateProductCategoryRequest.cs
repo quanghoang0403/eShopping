@@ -70,7 +70,7 @@ namespace eShopping.Application.Features.ProductCategories.Commands
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
 
-            var productCategory = await _unitOfWork.ProductCategories.Where(c => c.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
+            var productCategory = await _unitOfWork.ProductCategories.Where(c => c.Id == request.Id).Include(c => c.Products).FirstOrDefaultAsync();
             if (RequestValidation(request) != null)
             {
                 return RequestValidation(request);
@@ -85,7 +85,7 @@ namespace eShopping.Application.Features.ProductCategories.Commands
             {
                 return BaseResponseModel.ReturnError("Product category name has already existed");
             }
-            var products = _unitOfWork.Products.GetAll();
+            var products = productCategory.Products;
             if (request.ProductsInCategory.Count > 0)
             {
                 foreach (var product in request.ProductsInCategory)
@@ -99,7 +99,6 @@ namespace eShopping.Application.Features.ProductCategories.Commands
             modifiedProductCategory.LastSavedTime = DateTime.Now;
             modifiedProductCategory.UrlSEO = modifiedProductCategory.Name.UrlEncode();
 
-            await _unitOfWork.ProductCategories.UpdateAsync(modifiedProductCategory);
             await _unitOfWork.SaveChangesAsync();
 
             return BaseResponseModel.ReturnData();
