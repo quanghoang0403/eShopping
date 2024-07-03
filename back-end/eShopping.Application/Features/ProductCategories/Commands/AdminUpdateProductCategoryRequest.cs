@@ -93,7 +93,6 @@ namespace eShopping.Application.Features.ProductCategories.Commands
                     var modifiedProduct = products.Where(p => p.Id == product.Id).FirstOrDefault();
                     modifiedProduct.Priority = product.Priority;
                 }
-                await _unitOfWork.Products.UpdateRangeAsync(products);
             }
             var modifiedProductCategory = _mapper.Map<ProductCategory>(request);
             modifiedProductCategory.LastSavedUser = loggedUser.AccountId.Value;
