@@ -399,7 +399,8 @@
         "discountDate": "Ngày khuyến mãi",
         "validateQuantity": "Giá trị phải > 0",
         "validateOriginalOverPrice": "Giá bán phải lớn hơn giá gốc",
-        "validateDiscountOverPrice": "Giá không hợp lệ"
+        "validateDiscountOverPrice": "Giá không hợp lệ",
+        "NoProductCategory": "Không có danh mục"
     },
     "root-category": {
         "title": "Quản lí danh mục gốc",
