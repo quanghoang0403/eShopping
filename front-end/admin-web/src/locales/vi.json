@@ -113,7 +113,7 @@
         "labelName": "Tên danh mục",
         "placeholderName": "Nhập tên danh mục",
         "validateName": "Vui lòng nhập tên danh mục",
-        "titleProduct": "Chọn sản phẩm",
+        "titleProduct": "Danh sách sản phẩm",
         "placeholderProduct": "Chọn sản phẩm",
         "titlePriority": "Độ ưu tiên",
         "placeholderPriority": "Nhập độ ưu tiên",
@@ -399,7 +399,8 @@
         "discountDate": "Ngày khuyến mãi",
         "validateQuantity": "Giá trị phải > 0",
         "validateOriginalOverPrice": "Giá bán phải lớn hơn giá gốc",
-        "validateDiscountOverPrice": "Giá không hợp lệ"
+        "validateDiscountOverPrice": "Giá không hợp lệ",
+        "NoProductCategory": "Không có danh mục"
     },
     "root-category": {
         "title": "Quản lí danh mục gốc",
