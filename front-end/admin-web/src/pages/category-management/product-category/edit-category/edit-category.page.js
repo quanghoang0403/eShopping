@@ -155,20 +155,6 @@ export default function EditProductCategoryPage(props) {
     }
   }
 
-  const onSelectProduct = (productId) => {
-    const productList = [...dataSelectedProducts]
-    const product = dataSelectedProducts?.find(p=>p.id === productId)
-    if(!product){
-      productList.push(product)
-      setDataSelectedProducts(productList)
-    }
-  }
-
-  // const onDeleteSelectedProduct = (productId) => {
-  //   let restProducts = dataSelectedProducts.filter((o) => o.id !== productId)
-  //   setDataSelectedProducts(restProducts)
-  // }
-
   const renderSelectProductRootCategory = () => {
     return (
       <>
@@ -210,12 +196,7 @@ export default function EditProductCategoryPage(props) {
   const DragHandle = sortableHandle(({ component }) => {
     return (
       <Row gutter={[16, 16]} className="all-scroll">
-        <Col span={1}>
-          <div className="drag-handle">
-            <PolygonIcon />
-          </div>
-        </Col>
-        <Col span={23}>{component()}</Col>
+        <Col className='ml-4' span={24}>{component()}</Col>
       </Row>
     )
   })
@@ -226,6 +207,7 @@ export default function EditProductCategoryPage(props) {
         {/* <div className="product-position">
           <span>{product?.position}</span>
         </div> */}
+        <div className="product-position">{product?.priority}</div>
         <div className="image-box">
           <Image src={product?.thumbnail || images.imgDefault} preview={false} />
         </div>
@@ -244,11 +226,6 @@ export default function EditProductCategoryPage(props) {
             <Col span={24}>
               <DragHandle component={() => renderProductInfo(product)}></DragHandle>
             </Col>
-            {/* <Col span={2}>
-              <div className="delete-icon">
-                <TrashFill onClick={() => onDeleteSelectedProduct(product?.id)} />
-              </div>
-            </Col> */}
           </Row>
         </div>
       </>
@@ -257,10 +234,10 @@ export default function EditProductCategoryPage(props) {
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     let arraySorted = arrayMoveImmutable(dataSelectedProducts, oldIndex, newIndex)
-    // arraySorted = arraySorted.map((product, index) => ({
-    //   ...product,
-    //   position: index + 1
-    // }))
+    arraySorted = arraySorted.map((product, index) => ({
+      ...product,
+      priority: index + 1
+    }))
     setDataSelectedProducts(arraySorted)
   }
 
@@ -275,7 +252,12 @@ export default function EditProductCategoryPage(props) {
   })
 
   const renderSelectedProduct = () => {
-    return <SortableList items={dataSelectedProducts} onSortEnd={onSortEnd} useDragHandle />
+    return (
+      <Col span={24}>
+        <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
+        <SortableList items={dataSelectedProducts} onSortEnd={onSortEnd} useDragHandle />
+      </Col>
+    )
   }
   // // #endregion
 
@@ -581,7 +563,6 @@ export default function EditProductCategoryPage(props) {
                 </Col>
               </Row>
               <Row>{renderSelectProductRootCategory()}</Row>
-              <Row>{renderSelectProduct()}</Row>
               <Row>{renderSelectedProduct()}</Row>
             </Card>
           </div>
