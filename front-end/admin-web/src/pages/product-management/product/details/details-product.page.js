@@ -13,18 +13,25 @@ import FnbFroalaEditor from 'components/shop-froala-editor'
 import './index.scss'
 import { useTranslation } from 'react-i18next';
 import { ExclamationIcon } from 'constants/icons.constants';
+import StockProductTable from '../components/stock-product.component'
+import moment from 'moment'
+import ShopActiveStatus from 'components/shop-active-status/shop-active-status.component'
 const { Text } = Typography
 
 export default function ProductDetailPage(props) {
   const history = useHistory()
   const match = useRouteMatch()
-  const [product, setProduct] = useState({})
+  const [product, setProduct] = useState()
   const [activate, setActivate] = useState(null)
   const [statusId, setStatusId] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [titleModal, setTitleModal] = useState()
+  const [productRootCategory,setProductRootCategory] = useState()
+  const [productsizeCategory,setProductSizeCategory] = useState()
+  const [form] = Form.useForm()
   const { t } = useTranslation()
   const pageData = {
+    noProductCategory: t('product.NoProductCategory'),
     btnDelete: t('button.delete'),
     btnEdit: t('button.edit'),
     btnLeave: t('button.leave'),
@@ -87,6 +94,14 @@ export default function ProductDetailPage(props) {
         label: t('productCategory.labelName')
       }
     },
+    productRootCategory:{
+      labelProductRootCategory: t('product.labelProductRootCategory'),
+      name: t('productCategory.labelName')
+    },
+    productSizeCategory:{
+      labelProductSizeCategory: t('product.labelProductSizeCategory'),
+      name: t('productCategory.labelName')
+    },
     content: {
       label: t('product.labelProductContent')
     },
@@ -108,13 +123,33 @@ export default function ProductDetailPage(props) {
   }, [])
 
   const getInitData = async () => {
-    let response = await productDataService.getProductByIdAsync(match?.params?.id);
-    setProduct(response);
-    setStatusId(response?.status);
-    if (response?.status === ProductStatus.Activate) {
-      setActivate(pageData.activate);
-    } else {
-      setActivate(pageData.deactivate);
+    const productResponse = await productDataService.getProductByIdAsync(match?.params?.id);
+    const productPreparedDataResponse =  await productDataService.getPreparedDataProductAsync()
+    if(productResponse){
+      const parsedData = {
+        ...productResponse,
+        productVariants: productResponse?.productVariants.map((productVariant, index) => ({
+          ...productVariant,
+          key: index + 1,
+          startDate: productVariant.startDate ? moment(productVariant.startDate) : null,
+          endDate: productVariant.endDate ? moment(productVariant.endDate) : null
+        })),
+        startDate: productResponse.startDate ? moment(productResponse.startDate) : null,
+        endDate: productResponse.endDate ? moment(productResponse.endDate) : null
+      };
+      form.setFieldsValue(parsedData)
+      setProduct(parsedData);
+      setStatusId(productResponse?.status);
+      if (productResponse?.status === ProductStatus.Activate) {
+        setActivate(pageData.activate);
+      } else {
+        setActivate(pageData.deactivate);
+      }
+      if(productPreparedDataResponse){
+        setProductRootCategory(productPreparedDataResponse?.productRootCategories.find(prc=>prc.id === productResponse?.productRootCategoryId))
+        setProductSizeCategory(productPreparedDataResponse?.productSizeCategories.find(psc=>psc.id === productResponse?.productSizeCategoryId))
+      }
+
     }
   }
 
@@ -197,72 +232,63 @@ export default function ProductDetailPage(props) {
 
   return (
     <>
-      <Form layout="vertical" autoComplete="off" className="product-detail-form">
-        <Row className="shop-row-page-header">
-          <Col xs={24} sm={24} lg={12}>
-            <Row>
-              <p className="card-header">
-                <PageTitle content={product?.name} />
-              </p>
-              {statusId === ProductStatus.Activate && (
-                <span className="badge-status active ml-3">
-                  <span> {pageData.active}</span>
-                </span>
-              )}
-              {statusId === ProductStatus.Deactivate && (
-                <span className="badge-status default ml-3">
-                  <span> {pageData.inactive}</span>
-                </span>
-              )}
-            </Row>
-          </Col>
-          <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
-            <ActionButtonGroup
-              arrayButton={[
-                {
-                  action: (
-                    <Button type="primary" onClick={() => onEditItem(product?.id)} className="button-edit">
-                      {pageData.btnEdit}
-                    </Button>
-                  ),
-                  permission: PermissionKeys.EDIT_PRODUCT
-                },
-                {
-                  action: (
-                    <a onClick={() => history.push('/product')} className="action-cancel">
-                      {pageData.btnLeave}
-                    </a>
-                  ),
-                  permission: null
-                },
-                {
-                  action: (
-                    <a
-                      className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
-                      onClick={() => onChangeStatus()}
-                    >
-                      {activate}
-                    </a>
-                  ),
-                  permission: PermissionKeys.EDIT_PRODUCT
-                },
-                {
-                  action: (
-                    <a
-                      className="action-delete"
-                      onClick={() => {
-                        onDeleteItem()
-                      }}
-                    >
-                      {pageData.btnDelete}
-                    </a>
-                  ),
-                  permission: PermissionKeys.EDIT_PRODUCT
-                }
-              ]}
-            />
-          </Col>
-        </Row>
+      <Row className="shop-row-page-header">
+        <Col xs={24} sm={24} lg={12} className='edit-title'>
+          <Row>
+            <p className="card-header">
+              <PageTitle content={product?.name} />
+            </p>
+            <ShopActiveStatus status={product?.isActive}/>
+          </Row>
+        </Col>
+        <Col xs={24} sm={24} lg={12} className="shop-form-item-btn">
+          <ActionButtonGroup
+            arrayButton={[
+              {
+                action: (
+                  <Button type="primary" onClick={() => onEditItem(product?.id)} className="button-edit">
+                    {pageData.btnEdit}
+                  </Button>
+                ),
+                permission: PermissionKeys.EDIT_PRODUCT
+              },
+              {
+                action: (
+                  <a onClick={() => history.push('/product')} className="action-cancel">
+                    {pageData.btnLeave}
+                  </a>
+                ),
+                permission: null
+              },
+              {
+                action: (
+                  <a
+                    className={activate === pageData.deactivate ? 'action-activate' : 'action-deactivate'}
+                    onClick={() => onChangeStatus()}
+                  >
+                    {activate}
+                  </a>
+                ),
+                permission: PermissionKeys.EDIT_PRODUCT
+              },
+              {
+                action: (
+                  <a
+                    className="action-delete"
+                    onClick={() => {
+                      onDeleteItem()
+                    }}
+                  >
+                    {pageData.btnDelete}
+                  </a>
+                ),
+                permission: PermissionKeys.EDIT_PRODUCT
+              }
+            ]}
+          />
+        </Col>
+      </Row>
+      <Form layout="vertical" autoComplete="off" className="product-detail-form" form={form} disabled>
         <Row className="product-container">
           <div className="product-form-left">
             <div className="card-genaral padding-t-l-b">
@@ -287,109 +313,102 @@ export default function ProductDetailPage(props) {
                 <Text className="text-title">{pageData.pricing.title}</Text>
               </div>
               <div className="product-detail-div">
-                {product?.productPrices?.length > 0 && (
-                  <div className="list-price" style={{ marginLeft: '18px' }}>
-                    {product?.productPrices?.map((item, index) => {
-                      const position = index + 1
-                      return (
-                        <Row key={index} className="price-item mb-4">
-                          <Col span={24} className="col-title">
-                            <div className="m-4 title-center position-text position-mobile">{position + '.'}</div>
-                            <Row className="w-100">
-                              <Col span={24}>
-                                <Row className="box-product-price">
-                                  <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Text className="text-name pr-4" style={{ marginLeft: '30px' }}>
-                                      <li className="pr-5">{item?.priceName} </li>
-                                    </Text>
-                                  </Col>
-                                </Row>
-                              </Col>
-                            </Row>
-                          </Col>
-                          <Row className='w-100'>
-                            <Col xs={24} sm={24} md={24} lg={24}>
-                              <Row className='my-2'>
-                                <Col xs={12} sm={24} md={24} lg={10}>
-                                  <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
-                                    <li className="text-bold">{pageData.pricing.priceOriginal.label} </li>
-                                  </Text>
-                                </Col>
-                                <Col xs={12} sm={24} md={24} lg={10}>
-                                  <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
-                                    <li className="text-bold">{formatNumber(item?.priceOriginal)} </li>
-                                  </Text>
-                                </Col>
-                                <Col xs={12} sm={24} md={24} lg={4}>
-                                  <Text className="text-name" style={{ color: '#9F9F9F' }}>
-                                    <li>{getCurrency()} </li>
-                                  </Text>
-                                </Col>
-                              </Row>
-                              <Row className='my-2'>
-                                <Col xs={12} sm={24} md={24} lg={10}>
-                                  <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
-                                    <li className="text-bold">{pageData.pricing.title} </li>
-                                  </Text>
-                                </Col>
-                                <Col xs={12} sm={24} md={24} lg={10}>
-                                  <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
-                                    <li className="text-bold">{formatNumber(item?.priceValue)} </li>
-                                  </Text>
-                                </Col>
-                                <Col xs={12} sm={24} md={24} lg={4}>
-                                  <Text className="text-name" style={{ color: '#9F9F9F' }}>
-                                    <li>{getCurrency()} </li>
-                                  </Text>
-                                </Col>
-                              </Row>
 
+                <div className="list-price" style={{ marginLeft: '18px' }}>
+                  <Row className="price-item mb-4">
+                    <Col span={24} className="col-title">
+                      <Row className="w-100">
+                        <Col span={24}>
+                          <Row className="box-product-price">
+                            <Col xs={24} sm={24} md={24} lg={24}>
+                              <Text className="text-name pr-4" style={{ marginLeft: '30px' }}>
+                                <li className="pr-5">{product?.priceName} </li>
+                              </Text>
                             </Col>
                           </Row>
-                          <Row className={`${item?.priceDiscount === 0 && item?.percentNumber === 0 ? 'd-none' : 'w-100'}`}>
-                            <Col span={24}>
-                              <Row className='mb-2 w-100'>
-                                <Col xs={24} sm={24} md={24} lg={10} >
-                                  <Text className="text-name text-bold ml-3">{pageData.pricing.discount.numeric.label}</Text>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={10} className='pl-4'>
-                                  <Text className="text-name text-bold pl-5 ml-3">{formatNumber(item?.priceDiscount)}</Text>
-                                </Col>
-                                <Col xs={12} sm={24} md={24} lg={2}>
-                                  <Text className="text-name" style={{ color: '#9F9F9F' }}>
-                                    <li>{getCurrency()} </li>
-                                  </Text>
-                                </Col>
-                              </Row>
-                              <Row className='my-2'>
-                                <Col xs={24} sm={24} md={24} lg={12}>
-                                  <Text className="text-name text-bold ml-3">{pageData.pricing.discount.percentage.label}</Text>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={12}>
-                                  <Text className="text-name text-bold ml-5">{item?.percentNumber}%</Text>
-                                </Col>
-                              </Row>
-                              <Row className='my-2'>
-                                <Col xs={24} sm={24} md={24} lg={9} className='pl-3'>
-                                  <Text className="text-name text-bold">{pageData.pricing.priceDate.discountDate}</Text>
-                                </Col>
-                                <Col xs={11} sm={11} md={11} lg={7} className='pl-4'>
-                                  <Text className="text-name">{item?.startDate?.slice(0, 10).split('-').reverse().join('-') || ''}</Text>
-                                </Col>
-                                <Col span={1}>
-                                  -
-                                </Col>
-                                <Col xs={11} sm={11} md={11} lg={7} className='pr-4'>
-                                  <Text className="text-name text-secondary ">{item?.endDate?.slice(0, 10).split('-').reverse().join('-') || ''}</Text>
-                                </Col>
-                              </Row>
-                            </Col>
-                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Row className='w-100'>
+                      <Col xs={24} sm={24} md={24} lg={24}>
+                        <Row className='my-2'>
+                          <Col xs={12} sm={24} md={24} lg={10}>
+                            <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
+                              <li className="text-bold">{pageData.pricing.priceOriginal.label} </li>
+                            </Text>
+                          </Col>
+                          <Col xs={12} sm={24} md={24} lg={10}>
+                            <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
+                              <li className="text-bold">{formatNumber(product?.priceOriginal)} </li>
+                            </Text>
+                          </Col>
+                          <Col xs={12} sm={24} md={24} lg={4}>
+                            <Text className="text-name" style={{ color: '#9F9F9F' }}>
+                              <li>{getCurrency()} </li>
+                            </Text>
+                          </Col>
                         </Row>
-                      )
-                    })}
-                  </div>
-                )}
+                        <Row className='my-2'>
+                          <Col xs={12} sm={24} md={24} lg={10}>
+                            <Text className="text-name text-bold" style={{ marginLeft: '16px' }}>
+                              <li className="text-bold">{pageData.pricing.title} </li>
+                            </Text>
+                          </Col>
+                          <Col xs={12} sm={24} md={24} lg={10}>
+                            <Text className="text-name text-bold" style={{ marginLeft: '90px' }}>
+                              <li className="text-bold">{formatNumber(product?.priceValue)} </li>
+                            </Text>
+                          </Col>
+                          <Col xs={12} sm={24} md={24} lg={4}>
+                            <Text className="text-name" style={{ color: '#9F9F9F' }}>
+                              <li>{getCurrency()} </li>
+                            </Text>
+                          </Col>
+                        </Row>
+
+                      </Col>
+                    </Row>
+                    <Row className={`${product?.priceDiscount === 0 && product?.percentNumber === 0 ? 'd-none' : 'w-100'}`}>
+                      <Col span={24}>
+                        <Row className='mb-2 w-100'>
+                          <Col xs={24} sm={24} md={24} lg={10} >
+                            <Text className="text-name text-bold ml-3">{pageData.pricing.discount.numeric.label}</Text>
+                          </Col>
+                          <Col xs={24} sm={24} md={24} lg={10} className='pl-4'>
+                            <Text className="text-name text-bold pl-5 ml-3">{formatNumber(product?.priceDiscount)}</Text>
+                          </Col>
+                          <Col xs={12} sm={24} md={24} lg={2}>
+                            <Text className="text-name" style={{ color: '#9F9F9F' }}>
+                              <li>{getCurrency()} </li>
+                            </Text>
+                          </Col>
+                        </Row>
+                        <Row className='my-2'>
+                          <Col xs={24} sm={24} md={24} lg={12}>
+                            <Text className="text-name text-bold ml-3">{pageData.pricing.discount.percentage.label}</Text>
+                          </Col>
+                          <Col xs={24} sm={24} md={24} lg={12}>
+                            <Text className="text-name text-bold ml-5">{product?.percentNumber}%</Text>
+                          </Col>
+                        </Row>
+                        <Row className='my-2'>
+                          <Col xs={24} sm={24} md={24} lg={9} className='pl-3'>
+                            <Text className="text-name text-bold">{pageData.pricing.priceDate.discountDate}</Text>
+                          </Col>
+                          <Col xs={11} sm={11} md={11} lg={7} className='pl-4'>
+                            <Text className="text-name">{product?.startDate.format('DD-MM-YYYY') || ''}</Text>
+                          </Col>
+                          <Col span={1}>
+                                  -
+                          </Col>
+                          <Col xs={11} sm={11} md={11} lg={7} className='pr-4'>
+                            <Text className="text-name text-secondary ">{product?.endDate.format('DD-MM-YYYY') || ''}</Text>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Row>
+                </div>
               </div>
             </div>
             <div className="card-genaral padding-t-l-b">
@@ -448,23 +467,38 @@ export default function ProductDetailPage(props) {
                 <Text className="text-title">{pageData.productCategory.label}</Text>
               </div>
               <div className="product-detail-div">
-                <Text className="text-item">{pageData.productCategory.name.label}</Text>
+                <Text className="text-item">{productRootCategory?.productCategories?.find(pc=>pc.id === product?.productCategoryId)?.name || pageData.noProductCategory}</Text>
               </div>
-              <div className="div-text">
-                {product?.productCategories?.map(pc => {
-                  return <Text className="text-title">{pc.name}</Text>
-                })}
+            </div>
+
+            <div className="form-image padding-t-l-b">
+              <div className="div-title">
+                <Text className="text-title">{pageData.productRootCategory.labelProductRootCategory}</Text>
+              </div>
+              <div className="product-detail-div">
+                <Text className="text-item">{productRootCategory?.name || pageData.noProductCategory}</Text>
+              </div>
+            </div>
+
+            <div className="form-image padding-t-l-b">
+              <div className="div-title">
+                <Text className="text-title">{pageData.productSizeCategory.labelProductSizeCategory}</Text>
+              </div>
+              <div className="product-detail-div">
+                <Text className="text-item">{productsizeCategory?.name || pageData.noProductCategory}</Text>
               </div>
             </div>
           </div>
         </Row>
+
+        <DeleteProductComponent
+          isModalVisible={isModalVisible}
+          titleModal={titleModal}
+          handleCancel={() => handleCancel()}
+          onDelete={handleDeleteItem}
+        />
+        <StockProductTable form={form} productSizes={product?.productStocks} productData={product}/>
       </Form>
-      <DeleteProductComponent
-        isModalVisible={isModalVisible}
-        titleModal={titleModal}
-        handleCancel={() => handleCancel()}
-        onDelete={handleDeleteItem}
-      />
     </>
   )
 }

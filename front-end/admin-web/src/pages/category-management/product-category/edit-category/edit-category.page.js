@@ -34,7 +34,8 @@ export default function EditProductCategoryPage(props) {
   const [isChangeForm, setIsChangeForm] = useState(false)
   const [productCategory, setProductCategory] = useState()
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
-  // const [dataSelectedProducts, setDataSelectedProducts] = useState([])
+  const [dataSelectedProducts, setDataSelectedProducts] = useState([])
+  const [products,setProducts] = useState()
   const pageData = {
     btnCancel: t('button.cancel'),
     btnSave: t('button.save'),
@@ -52,9 +53,13 @@ export default function EditProductCategoryPage(props) {
         validateMessage: t('productCategory.validateName')
       }
     },
-    product: {
+    productRootCategory: {
       title: t('product.labelProductRootCategory'),
       placeholder: t('product.placeholderProductRootCategory')
+    },
+    product:{
+      title: t('productCategory.titleProduct'),
+      placeholder: t('productCategory.placeholderProduct')
     },
     priority: {
       title: t('productCategory.titlePriority'),
@@ -111,7 +116,6 @@ export default function EditProductCategoryPage(props) {
   }
 
   useEffect(() => {
-    getProductRootCategories()
     getEditData()
   }, [])
 
@@ -124,68 +128,43 @@ export default function EditProductCategoryPage(props) {
   const getEditData = () => {
     const { productCategoryId } = match?.params
     if (productCategoryId) {
-      productCategoryDataService.getProductCategoryByIdAsync(productCategoryId).then((response) => {
-        if (response) {
-          const productCategory = response
-          /// Handle set data
+      Promise.all([
+        productCategoryDataService.getProductCategoryByIdAsync(productCategoryId),
+        productDataService.getPreparedDataProductAsync(),
+        productDataService.getAllProductsAsync()
+      ]).then(response =>{
+        const [productCategory,productPreparedData,allProducts] = response
+        if(productCategory){
           if (productCategory.products) {
-            // setDataSelectedProducts(products.filter(p=>p.id === productCategory?.productRootCategoryId))
+            setDataSelectedProducts(productCategory?.products)
             setProductCategory(productCategory)
           }
           form.setFieldsValue({
             ...productCategory
           })
         }
+        if(productPreparedData){
+          setProductRootCategories(productPreparedData.productRootCategories)
+        }
+        if(allProducts){
+          setProducts(allProducts)
+        }
+      }).catch(error=>{
+        console.error(error)
       })
     }
   }
 
-  const getProductRootCategories = () => {
-    productDataService.getPreparedDataProductAsync().then((res) => {
-      if (res) {
-        setProductRootCategories(res.productRootCategories)
-      }
-    })
-  }
-
-  // const onSelectProduct = (ids) => {
-  //   const productIds = ids
-  //   const productList = [...dataSelectedProducts]
-  //   productIds.forEach((productId, index) => {
-  //     const product = products.find((p) => p.id === productId && !productList.find(p => p.id === productId))
-  //     if (product) {
-  //       const newProduct = { ...product, position: index + 1 }
-  //       productList.push(newProduct)
-  //     }
-  //   })
-  //   setDataSelectedProducts(productList)
-  // }
-
-  // const onDeleteSelectedProduct = (productId) => {
-  //   let restProducts = dataSelectedProducts.filter((o) => o.id !== productId)
-  //   restProducts = restProducts.map((product, index) => ({
-  //     ...product,
-  //     position: index + 1
-  //   }))
-  //   setDataSelectedProducts(restProducts)
-
-  //   /// Set form value
-  //   const formValues = form.getFieldsValue()
-  //   let { productIds } = formValues
-  //   productIds = productIds.filter((pid) => pid !== productId)
-  //   form.setFieldsValue({ ...formValues, productIds })
-  // }
-
-  const renderSelectProduct = () => {
+  const renderSelectProductRootCategory = () => {
     return (
       <>
         <Col span={24}>
-          <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
+          <h3 className="shop-form-label mt-16">{pageData.productRootCategory.title}</h3>
           <Form.Item name="productRootCategoryId">
             <FnbSelectSingle
               showSearch
               allowClear
-              placeholder={pageData.product.placeholder}
+              placeholder={pageData.productRootCategory.placeholder}
               className="w-100"
               listHeight={480}
               option={productRootCategories}
@@ -195,83 +174,101 @@ export default function EditProductCategoryPage(props) {
       </>
     )
   }
+  const renderSelectProduct = () => {
+    return (
+      <>
+        <Col span={24}>
+          <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
+          <FnbSelectMultipleProduct
+            disabled
+            placeholder={pageData.product.placeholder}
+            className="w-100"
+            listHeight={480}
+            value={dataSelectedProducts.map(d=>d.name)}
+            // onChange={onSelectProduct}
+            option={products?.filter(p=>!dataSelectedProducts?.find(sp=>sp.id === p.id))}
+          />
+        </Col>
+      </>
+    )
+  }
   // #region Handle drag drop
-  // const DragHandle = sortableHandle(({ component }) => {
-  //   return (
-  //     <Row gutter={[16, 16]} className="all-scroll">
-  //       <Col span={1}>
-  //         <div className="drag-handle">
-  //           <PolygonIcon />
-  //         </div>
-  //       </Col>
-  //       <Col span={23}>{component()}</Col>
-  //     </Row>
-  //   )
-  // })
+  const DragHandle = sortableHandle(({ component }) => {
+    return (
+      <Row gutter={[16, 16]} className="all-scroll">
+        <Col className='ml-4' span={24}>{component()}</Col>
+      </Row>
+    )
+  })
 
-  // const renderProductInfo = (product) => {
-  //   return (
-  //     <div className="product-info">
-  //       {/* <div className="product-position">
-  //         <span>{product?.position}</span>
-  //       </div> */}
-  //       <div className="image-box">
-  //         <Image src={product?.thumbnail || images.imgDefault} preview={false} />
-  //       </div>
-  //       <div className="product-name">
-  //         <span>{product?.name}</span>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  const renderProductInfo = (product) => {
+    return (
+      <div className="product-info">
+        {/* <div className="product-position">
+          <span>{product?.position}</span>
+        </div> */}
+        <div className="product-position">{product?.priority}</div>
+        <div className="image-box">
+          <Image src={product?.thumbnail || images.imgDefault} preview={false} />
+        </div>
+        <div className="product-name">
+          <span>{product?.name}</span>
+        </div>
+      </div>
+    )
+  }
 
-  // const SortableItem = sortableElement(({ product }) => {
-  //   return (
-  //     <>
-  //       <div className="selected-product-card mt-3">
-  //         <Row>
-  //           <Col span={22}>
-  //             <DragHandle component={() => renderProductInfo(product)}></DragHandle>
-  //           </Col>
-  //           <Col span={2}>
-  //             <div className="delete-icon">
-  //               <TrashFill onClick={() => onDeleteSelectedProduct(product?.id)} />
-  //             </div>
-  //           </Col>
-  //         </Row>
-  //       </div>
-  //     </>
-  //   )
-  // })
+  const SortableItem = sortableElement(({ product }) => {
+    return (
+      <>
+        <div className="selected-product-card mt-3">
+          <Row>
+            <Col span={24}>
+              <DragHandle component={() => renderProductInfo(product)}></DragHandle>
+            </Col>
+          </Row>
+        </div>
+      </>
+    )
+  })
 
-  // const onSortEnd = ({ oldIndex, newIndex }) => {
-  //   let arraySorted = arrayMoveImmutable(dataSelectedProducts, oldIndex, newIndex)
-  //   arraySorted = arraySorted.map((product, index) => ({
-  //     ...product,
-  //     position: index + 1
-  //   }))
-  //   setDataSelectedProducts(arraySorted)
-  // }
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    let arraySorted = arrayMoveImmutable(dataSelectedProducts, oldIndex, newIndex)
+    arraySorted = arraySorted.map((product, index) => ({
+      ...product,
+      priority: index + 1
+    }))
+    setDataSelectedProducts(arraySorted)
+  }
 
-  // const SortableList = sortableContainer(({ items }) => {
-  //   return (
-  //     <div className="selected-product-width mt-16">
-  //       {items.map((value, index) => (
-  //         <SortableItem key={value.id} index={index} product={value} />
-  //       ))}
-  //     </div>
-  //   )
-  // })
+  const SortableList = sortableContainer(({ items }) => {
+    return (
+      <div className="selected-product-width mt-16">
+        {items?.map((value, index) => (
+          <SortableItem key={value.id} index={index} product={value} />
+        ))}
+      </div>
+    )
+  })
 
-  // const renderSelectedProduct = () => {
-  //   return <SortableList items={dataSelectedProducts} onSortEnd={onSortEnd} useDragHandle />
-  // }
+  const renderSelectedProduct = () => {
+    return (
+      <Col span={24}>
+        <h3 className="shop-form-label mt-16">{pageData.product.title}</h3>
+        <SortableList items={dataSelectedProducts} onSortEnd={onSortEnd} useDragHandle />
+      </Col>
+    )
+  }
   // // #endregion
 
   const onSubmitForm = () => {
     form.validateFields().then((values) => {
       const updateProductCategoryRequestModel = {
-        ...values
+        ...values,
+        productsInCategory:dataSelectedProducts.map(d=>({
+          id: d.id,
+          priority: dataSelectedProducts.indexOf(d) + 1
+        }))
       }
 
       productCategoryDataService
@@ -565,8 +562,8 @@ export default function EditProductCategoryPage(props) {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>{renderSelectProduct()}</Row>
-              {/* <Row>{renderSelectedProduct()}</Row> */}
+              <Row>{renderSelectProductRootCategory()}</Row>
+              <Row>{renderSelectedProduct()}</Row>
             </Card>
           </div>
         </Row>
