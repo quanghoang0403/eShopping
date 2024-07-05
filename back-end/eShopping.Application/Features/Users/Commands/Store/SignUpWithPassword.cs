@@ -66,8 +66,6 @@ namespace eShopping.Application.Features.Users.Commands
 
         public async Task<BaseResponseModel> Handle(SignUpWithPassword request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var accountId = loggedUser.AccountId.Value;
             if (CheckUniqueAndValidation(request) != null)
             {
                 return CheckUniqueAndValidation(request);
@@ -88,7 +86,6 @@ namespace eShopping.Application.Features.Users.Commands
                         FullName = request.FullName,
                         Birthday = request.Birthday,
                         Gender = request.Gender,
-                        LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
 
@@ -99,7 +96,6 @@ namespace eShopping.Application.Features.Users.Commands
                         DistrictId = request.DistrictId,
                         CityId = request.CityId,
                         Account = newAccount,
-                        LastSavedUser = accountId,
                         LastSavedTime = DateTime.Now
                     };
 

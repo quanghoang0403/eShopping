@@ -32,19 +32,22 @@ const SignUpPage = () => {
     setShowPassword(!showPassword)
   }
 
-  const handleSignUp = useCallback(async (data: ISignUpRequest) => {
-    return AuthService.signUp(data)
-  }, [])
-
-  const mutation = useAppMutation(handleSignUp, async (res: any) => {
-    if (query?.email) {
-      router.push('/')
-    } else {
-      router.push(router.asPath)
+  const handleSignUp = async (data: ISignUpRequest) => {
+    const res = await AuthService.signUp(data)
+    if(res){
+      router.push('/signin')
     }
-  })
+  }
 
-  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
+  // const mutation = useAppMutation(handleSignUp, async (res: any) => {
+  //   if (query?.email) {
+  //     router.push('/')
+  //   } else {
+  //     router.push(router.asPath)
+  //   }
+  // })
+
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => handleSignUp(data)
   return (
     <div className={`nc-SignUpPage `} data-nc-id="SignUpPage">
       <div className="container mb-24 lg:mb-32">
@@ -93,8 +96,21 @@ const SignUpPage = () => {
               name="email"
               errors={errors}
             />
+            <Input
+              label="Số điện thoại"
+              register={register}
+              patternValidate={{
+                required: true,
+                pattern: {
+                  value: /^(?:\+84|0)(?:3[2-9]|5[2689]|7[06-9]|8[1-689]|9\d)(?:\d{7}|\d{8})$/i,
+                  message: 'Số điện thoại không hợp lệ',
+                },
+              }}
+              name="phoneNumber"
+              errors={errors}
+            />
             <Input label="Nhập mật khẩu mới" register={register} patternValidate={{ required: true }} name="password" errors={errors} password />
-            <Input label="Nhập lại mật khẩu mới" register={register} patternValidate={{ required: true }} name="passwordConfirm" errors={errors} password />
+            <Input label="Nhập lại mật khẩu mới" register={register} patternValidate={{ required: true }} name="confirmPassword" errors={errors} password />
             <ButtonPrimary type="submit">Tạo tài khoản</ButtonPrimary>
           </form>
 
