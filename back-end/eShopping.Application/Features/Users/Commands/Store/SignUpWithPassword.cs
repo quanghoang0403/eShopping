@@ -141,13 +141,13 @@ namespace eShopping.Application.Features.Users.Commands
                     return BaseResponseModel.ReturnError("Email is existed");
                 }
             }
-            if (!string.IsNullOrWhiteSpace(request.Password))
+            if (string.IsNullOrWhiteSpace(request.Password))
             {
-                return BaseResponseModel.ReturnError("Password is empty");
+                return BaseResponseModel.ReturnError("Password is empty or has white space");
             }
-            if (!string.IsNullOrWhiteSpace(request.ConfirmPassword))
+            if (string.IsNullOrWhiteSpace(request.ConfirmPassword))
             {
-                return BaseResponseModel.ReturnError("Confirm Password is empty");
+                return BaseResponseModel.ReturnError("Confirm Password is empty or has white space");
             }
             if (request.ConfirmPassword != request.Password)
             {
