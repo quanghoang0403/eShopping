@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createRef, FC, useState } from 'react'
+import React, { createRef, FC, useEffect, useState } from 'react'
 import Logo from '@/shared/Logo'
 import MenuBar from '@/shared/MenuBar'
 import Navigation from '@/shared/Navigation/Navigation'
@@ -11,14 +11,34 @@ import AvatarDropdown from './Components/AvatarDropdown'
 import CartDropdown from './Components/CartDropdown'
 import { useAppDispatch } from '@/hooks/useRedux'
 import { productActions } from '@/redux/features/productSlice'
+import { getCustomerId } from '@/utils/common.helper'
+import CustomerService from '@/services/customer.service'
 
 export interface SiteHeaderProps {}
 
 export default function SiteHeader() {
   const inputRef = createRef<HTMLInputElement>()
   const [showSearchForm, setShowSearchForm] = useState(false)
+  const [customer,setCustomer] = useState<ICustomerGeneral>()
   const router = useRouter()
   const dispatch = useAppDispatch()
+
+  const getCustomer = async()=>{
+    const customerId = await getCustomerId()
+    if(customerId){
+      const res = await CustomerService.getCustomerById(customerId)
+      if(res){
+        const customerData : ICustomerGeneral= {
+          ...res
+        }
+        setCustomer(customerData)
+      }
+    }
+  }
+
+  useEffect(()=>{
+    getCustomer();
+  },[])
   useThemeMode()
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -89,7 +109,7 @@ export default function SiteHeader() {
               {renderMagnifyingGlassIcon()}
             </button>
           )}
-          <AvatarDropdown />
+          <AvatarDropdown customer={customer as ICustomerGeneral} />
           <CartDropdown />
         </div>
       </div>

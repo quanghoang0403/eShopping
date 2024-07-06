@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import AuthService from '@/services/auth.service'
 import { useAppMutation } from '@/hooks/useQuery'
 import Input from '@/shared/Controller/Input'
+import toast from 'react-hot-toast'
 
 const ForgotPassPage = ({}) => {
   const {
@@ -18,9 +19,13 @@ const ForgotPassPage = ({}) => {
   const router = useRouter()
   const query = router.query
 
-  const handleForgotPassword = useCallback(async (data: { email: string }) => {
-    return AuthService.forgotPassword(data)
-  }, [])
+  const handleForgotPassword = async (data: any) => {
+    const res = await AuthService.forgotPassword(data)
+    if(res){
+      toast.success(`Đã gửi mail xác nhận đến ${data.email}`)
+      router.push('./signin')
+    }
+  }
 
   const mutation = useAppMutation(handleForgotPassword, async (res: any) => {
     if (query?.email) {
@@ -31,7 +36,7 @@ const ForgotPassPage = ({}) => {
     console.log(res)
   })
 
-  const onSubmit: SubmitHandler<FieldValues> = (data: any) => mutation.mutate(data)
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => handleForgotPassword(data)
   return (
     <div className="container mb-24 lg:mb-32">
       <header className="text-center max-w-2xl mx-auto - mb-14 sm:mb-16 lg:mb-20">

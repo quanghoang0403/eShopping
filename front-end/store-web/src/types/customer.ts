@@ -16,6 +16,12 @@ interface ICustomer {
   code: number
 }
 
+interface ICustomerGeneral{
+  fullName : string,
+  phoneNumber? : string,
+  thumbnail? : string
+}
+
 interface ICreateCustomerRequest {
   password: string
   fullName: string

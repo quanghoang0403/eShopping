@@ -12,7 +12,11 @@ import { useRouter } from 'next/router'
 import { signOut } from 'next-auth/react'
 import { isAuthorized } from '@/utils/common.helper'
 
-export default function AvatarDropdown() {
+interface IProps{
+  customer: ICustomerGeneral
+}
+
+export default function AvatarDropdown(props: IProps) {
   const dispatch = useAppDispatch()
   const [authorized, setAuthorized] = useState(false)
   const router = useRouter()
@@ -70,11 +74,11 @@ export default function AvatarDropdown() {
                   <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5">
                     <div className="relative grid grid-cols-1 gap-6 bg-white dark:bg-neutral-800 py-7 px-6">
                       <div className="flex items-center space-x-3">
-                        <Avatar imgUrl={avatarImgs[7]} sizeClass="w-12 h-12" />
+                        <Avatar imgUrl={props.customer.thumbnail ?? avatarImgs[7]} sizeClass="w-12 h-12" />
   
                         <div className="flex-grow">
-                          <h4 className="font-semibold">Hoàng Đinh</h4>
-                          <p className="text-xs mt-0.5">0946290739</p>
+                          <h4 className="font-semibold">{props.customer.fullName}</h4>
+                          <p className="text-xs mt-0.5">{props.customer.phoneNumber ?? 'Chưa cập nhật số điện thoại'}</p>
                         </div>
                       </div>
   

@@ -1,8 +1,8 @@
 import APIService from './base'
 
 export default class CustomerService {
-  static async getCustomerById(): Promise<ICustomer> {
-    return await APIService.get(`/customer/get-customer-by-id`)
+  static async getCustomerById(id :any): Promise<ICustomer> {
+    return await APIService.get(`/customer/get-customer-by-id?Id=${id}`)
   }
 
   static async createCustomer(request: ICreateCustomerRequest): Promise<boolean> {

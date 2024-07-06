@@ -9,6 +9,7 @@ import { useAppDispatch } from '@/hooks/useRedux'
 import { useRouter } from 'next/router'
 import AuthService from '@/services/auth.service'
 import { useAppMutation } from '@/hooks/useQuery'
+import toast from 'react-hot-toast'
 
 // const loginSocials = [
 //   {
@@ -35,6 +36,7 @@ const SignUpPage = () => {
   const handleSignUp = async (data: ISignUpRequest) => {
     const res = await AuthService.signUp(data)
     if(res){
+      toast.success('Đăng kí thành công')
       router.push('/signin')
     }
   }
