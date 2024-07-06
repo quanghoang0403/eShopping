@@ -86,7 +86,7 @@ namespace eShopping.Application.Features.Customers.Commands
                     account.Gender = request.Gender;
                     account.LastSavedUser = accountId;
                     account.LastSavedTime = DateTime.Now;
-                    account.IsActive = request.IsActive;
+                    account.PhoneNumber = request.PhoneNumber;
                     await _unitOfWork.Accounts.UpdateAsync(account);
 
                     customer.Address = request.Address;
@@ -95,7 +95,6 @@ namespace eShopping.Application.Features.Customers.Commands
                     customer.CityId = request.CityId;
                     customer.LastSavedUser = loggedUser.AccountId;
                     customer.LastSavedTime = DateTime.Now;
-                    customer.IsActive = request.IsActive;
                     await _unitOfWork.Customers.UpdateAsync(customer);
 
                     await _unitOfWork.SaveChangesAsync();

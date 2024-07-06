@@ -86,7 +86,9 @@ namespace eShopping.Application.Features.Users.Commands
                         FullName = request.FullName,
                         Birthday = request.Birthday,
                         Gender = request.Gender,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActivated = true, /// bypass activation, will be remove in the feature
+                        IsActive = true
                     };
 
                     var newCustomer = new Customer()
@@ -96,7 +98,8 @@ namespace eShopping.Application.Features.Users.Commands
                         DistrictId = request.DistrictId,
                         CityId = request.CityId,
                         Account = newAccount,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActive = true
                     };
 
                     await _unitOfWork.Customers.AddAsync(newCustomer);
