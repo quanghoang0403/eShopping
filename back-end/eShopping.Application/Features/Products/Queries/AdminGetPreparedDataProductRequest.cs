@@ -6,6 +6,7 @@ using eShopping.Models.ProductCategories;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,6 +54,11 @@ namespace eShopping.Application.Features.Products.Queries
                 .AsNoTracking()
                 .ProjectTo<AdminProductSizeCategoryModel>(_mapperConfiguration)
                 .ToListAsync(cancellationToken: cancellationToken);
+
+            foreach (var category in productSizeCategories)
+            {
+                category.ProductSizes = category.ProductSizes.OrderBy(ps => ps.Priority).ToList();
+            }
 
             var res = new AdminPreparedDataProductModel()
             {

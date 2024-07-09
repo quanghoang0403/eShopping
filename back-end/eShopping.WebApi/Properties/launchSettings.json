@@ -10,6 +10,16 @@
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:5001"
     },
+    "eShopping.WebApi Stag": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:5001"
+    },
     "eShopping.WebApi Dev": {
       "commandName": "Project",
       "launchBrowser": true,
@@ -21,5 +31,5 @@
       "applicationUrl": "http://localhost:5001"
     }
   },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "$schema": "http://json.schemastore.org/launchsettings.json"
 }
