@@ -46,8 +46,8 @@ namespace eShopping.Services
             // 3. Create JwtSecurityToken
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypesConstants.ID, user.Id.ToString()),
-                new Claim(ClaimTypesConstants.ACCOUNT_ID, user.AccountId.ToString()),
+                new(ClaimTypesConstants.ID, user.Id.ToString()),
+                new(ClaimTypesConstants.ACCOUNT_ID, user.AccountId.ToString()),
             };
 
             if (!string.IsNullOrWhiteSpace(user.FullName))
@@ -88,30 +88,28 @@ namespace eShopping.Services
             return jwtToken;
         }
 
-        public async Task<string> GenerateRefreshToken(Guid accountId)
+        public async Task<string> GenerateRefreshToken(Guid accountId, string token)
         {
             var refreshToken = await _unitOfWork.RefreshTokens.GetRefreshToken(accountId);
-            if (refreshToken != null && refreshToken.ExpiredDate >= DateTime.Now)
-            {
-                refreshToken.CreatedDate = DateTime.Now;
-                refreshToken.ExpiredDate = DateTime.Now.AddDays(30);
-                refreshToken.Token = Guid.NewGuid().ToString();
-                await _unitOfWork.RefreshTokens.UpdateAsync(refreshToken);
-            }
-            else
+            if (refreshToken == null)
             {
                 refreshToken = new RefreshToken
                 {
                     AccountId = accountId,
-                    Token = Guid.NewGuid().ToString(),
+                    Token = token,
                     IsInvoked = false,
                     CreatedDate = DateTime.Now,
                     ExpiredDate = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpirationInDays)
                 };
                 refreshToken = await _unitOfWork.RefreshTokens.AddAsync(refreshToken);
             }
-            await _unitOfWork.SaveChangesAsync();
-
+            else
+            {
+                refreshToken.CreatedDate = DateTime.Now;
+                refreshToken.ExpiredDate = DateTime.Now.AddDays(30);
+                refreshToken.Token = Guid.NewGuid().ToString();
+                await _unitOfWork.RefreshTokens.UpdateAsync(refreshToken);
+            }
             return refreshToken.Token;
         }
 

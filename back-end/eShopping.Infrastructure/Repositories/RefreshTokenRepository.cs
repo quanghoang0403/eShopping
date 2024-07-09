@@ -14,7 +14,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public async Task<RefreshToken> GetRefreshToken(Guid? accountId)
         {
-            var refreshToken = await dbSet.Where(s => s.AccountId == accountId).FirstOrDefaultAsync();
+            var refreshToken = await dbSet.Where(s => s.AccountId == accountId).AsNoTracking().FirstOrDefaultAsync();
             return refreshToken;
         }
 

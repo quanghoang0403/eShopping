@@ -8,7 +8,7 @@ namespace eShopping.Interfaces
     {
         string GenerateAccessToken(LoggedUserModel user);
 
-        Task<string> GenerateRefreshToken(Guid accountId);
+        Task<string> GenerateRefreshToken(Guid accountId, string token);
 
         bool ValidateToken(string token);
     }

@@ -103,7 +103,7 @@ namespace eShopping.Application.Features.Users.Commands
             user.Thumbnail = account.Thumbnail;
 
             var accessToken = _jwtService.GenerateAccessToken(user);
-            var newRefreshToken = await _jwtService.GenerateRefreshToken(account.Id);
+            var newRefreshToken = await _jwtService.GenerateRefreshToken(account.Id, accessToken);
             var permissions = await _mediator.Send(new AdminGetPermissionsRequest() { Token = accessToken }, cancellationToken);
 
             return BaseResponseModel.ReturnData(new RefreshTokenResponse()

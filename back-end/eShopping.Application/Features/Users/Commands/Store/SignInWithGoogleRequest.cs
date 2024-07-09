@@ -128,7 +128,7 @@ namespace eShopping.Application.Features.Users.Commands
             };
 
             var token = _jwtService.GenerateAccessToken(user);
-            var refreshToken = await _jwtService.GenerateRefreshToken(account.Id);
+            var refreshToken = await _jwtService.GenerateRefreshToken(account.Id, token);
             var permissions = await _mediator.Send(new AdminGetPermissionsRequest() { Token = token }, cancellationToken);
             AuthenticateResponse response = new()
             {
