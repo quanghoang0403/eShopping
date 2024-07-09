@@ -36,7 +36,7 @@ namespace eShopping.WebApi.Controllers.ApiStore
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update-password")]
         [HasPermission(EnumPermission.STORE_WEB)]
         public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request)

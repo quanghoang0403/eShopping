@@ -59,7 +59,8 @@ namespace eShopping.Application.Features.Customers.Queries
                 WardId = customer.WardId,
                 DistrictId = customer.DistrictId,
                 CityId = customer.CityId,
-                IsActive = customer.IsActive
+                IsActive = customer.IsActive,
+                Orders = customer.Orders
             };
 
             return BaseResponseModel.ReturnData(customerDetailModel);
