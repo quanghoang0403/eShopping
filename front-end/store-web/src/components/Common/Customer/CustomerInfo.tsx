@@ -77,9 +77,15 @@ export default function CustomerInfo(props: IProps) {
     }
   }
 
-  // const resetForm = ()=>{
-  //   reset({wardId: 0, districtId : 0})
-  // }
+  const onChangeCity = (cityId: number)=>{
+    setCityId(cityId)
+    props.reset({wardId: 0, districtId : 0})
+  }
+
+  const onChangeDistrict = (districtId: number)=>{
+    setDistrictId(districtId)
+    props.reset({wardsId: 0})
+  }
 
   return (
     <>
@@ -167,7 +173,7 @@ export default function CustomerInfo(props: IProps) {
                 isFullWidth
                 label="Tỉnh/Thành"
                 options={cities}
-                onChange={e=>setCityId(e)}
+                onChange={e=>onChangeCity(e)}
                 name={isShipping ? 'ShipCityId' : 'cityId'}
                 register={register}
                 patternValidate={{
@@ -181,7 +187,7 @@ export default function CustomerInfo(props: IProps) {
             <div className="md:w-1/2">
               <Selection
                 isFullWidth
-                onChange={e=>setDistrictId(e)}
+                onChange={e=>onChangeDistrict(e)}
                 label="Quận/Huyện"
                 options={districts}
                 name={isShipping ? 'ShipDistrictId' : 'districtId'}
