@@ -77,8 +77,8 @@ export default function AvatarDropdown(props: IProps) {
                         <Avatar imgUrl={props.customer?.thumbnail ?? avatarImgs[7]} sizeClass="w-12 h-12" />
   
                         <div className="flex-grow">
-                          <h4 className="font-semibold">{props.customer.fullName}</h4>
-                          <p className="text-xs mt-0.5">{props.customer.phoneNumber ?? 'Chưa cập nhật số điện thoại'}</p>
+                          <h4 className="font-semibold">{props.customer?.fullName}</h4>
+                          <p className="text-xs mt-0.5">{props.customer?.phoneNumber ?? 'Chưa cập nhật số điện thoại'}</p>
                         </div>
                       </div>
   
