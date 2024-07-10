@@ -13,7 +13,8 @@ interface ICustomer {
   thumbnail: string
   birthday: string | null
   gender: number
-  code: number
+  code: number,
+  orders: IOrder[]
 }
 
 interface ICustomerGeneral{

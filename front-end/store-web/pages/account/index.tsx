@@ -25,7 +25,8 @@ const customerContext = createContext<ICustomer>({
   thumbnail: '',
   birthday: null,
   gender: 0,
-  code: 0
+  code: 0,
+  orders: []
 })
 
 enum AccountTab {
