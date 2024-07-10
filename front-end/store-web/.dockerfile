@@ -34,10 +34,14 @@ COPY --from=BUILD /app/yarn.lock ./
 COPY --from=BUILD /app/public ./public
 COPY --from=BUILD /app/next.config.js ./
 
+# Copy .env.production file into the image
+COPY .env.production .env
+
 # Set mode "standalone" in file "next.config.js"
 COPY --from=BUILD /app/.next/standalone ./
 COPY --from=BUILD /app/.next/static ./.next/static
 
-# EXPOSE 3000
+EXPOSE 3000
 
-# CMD ["node", "server.js"]
+CMD ["node", "server.js"]
+# CMD yarn dev
