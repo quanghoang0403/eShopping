@@ -1,16 +1,23 @@
 version: "3.3"
 
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sql_server
-    environment:
-      SA_PASSWORD: "abcd1234@"
-      ACCEPT_EULA: "Y"
+  store-web:
+    build:
+      context: ./front-end/store-web
+      dockerfile: .dockerfile
     ports:
-      - "1433:1433"
+      - "3000:3000"
     volumes:
-      - sqlserver_data:/var/opt/mssql
+      - eshopping:/var/opt/store-web
 
+  admin-web:
+    build:
+      context: ./front-end/admin-web
+      dockerfile: .dockerfile
+    ports:
+      - "4000:4000" 
+    volumes:
+      - eshopping:/var/opt/admin-web
+      
 volumes:
-  sqlserver_data:
+  eshopping:
