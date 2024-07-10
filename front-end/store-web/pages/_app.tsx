@@ -12,6 +12,7 @@ import Router from 'next/router'
 import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../src/utils/i18n'
+// @ts-ignore
 import NProgress from 'nprogress'
 
 NProgress.configure({ showSpinner: true })
