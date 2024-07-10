@@ -15,7 +15,6 @@ interface ICustomer {
   gender: number
   code: number
 }
-
 interface ICreateCustomerRequest {
   password: string
   fullName: string
