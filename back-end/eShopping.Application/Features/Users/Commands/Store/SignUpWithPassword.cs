@@ -88,7 +88,8 @@ namespace eShopping.Application.Features.Users.Commands
                         Gender = request.Gender,
                         LastSavedTime = DateTime.Now,
                         IsActivated = true, /// bypass activation, will be remove in the feature
-                        IsActive = true
+                        IsActive = true,
+                        PhoneNumber = request.PhoneNumber
                     };
 
                     var newCustomer = new Customer()
