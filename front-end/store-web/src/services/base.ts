@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import cookie from 'js-cookie'
 import { tokenExpired } from '@/utils/common.helper'
 import { getCookie, cookieKeys, resetSession, setCookie } from '@/utils/localStorage.helper'
+// @ts-ignore
 import qs from 'qs'
 import toast from 'react-hot-toast'
 
