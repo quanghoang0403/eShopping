@@ -1,9 +1,4 @@
 ﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eShopping.Notify.Line
 {
@@ -16,8 +11,8 @@ namespace eShopping.Notify.Line
                 // Construct the message post
                 var messagePost = (string.IsNullOrEmpty(requestUrl) ? "" : "`Request:` *" + requestUrl + "*\n") +
                                   (string.IsNullOrEmpty(method) ? "" : "`Method:` *" + method + "*\n") +
-                                  (string.IsNullOrEmpty(message) ? "" : "`Message:` *" + message + "*\n") +
-                                  (string.IsNullOrEmpty(exception) ? "" : "`Exception:` *" + exception + "*\n");
+                                  (string.IsNullOrEmpty(exception) ? "" : "`Exception:` *" + exception + "*\n") +
+                                  (string.IsNullOrEmpty(message) ? "" : "`Message:` *" + message + "*\n");
 
                 var options = new RestClientOptions("https://notify-api.line.me/api")
                 {

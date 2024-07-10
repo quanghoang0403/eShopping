@@ -11,18 +11,22 @@ RUN apk add --no-cache git \
     && yarn --frozen-lockfile \
     && yarn cache clean
 
-
 # Build Image
 FROM node:20-alpine AS BUILD
 LABEL author="hoangdq"
 
+# Install node-prune
+RUN wget https://gobinaries.com/tj/node-prune 
+RUN sh node-prune
+
 WORKDIR /app
 COPY --from=BASE /app/node_modules ./node_modules
 COPY . .
+
 RUN apk add --no-cache git curl \
     && yarn build \
     && cd .next/standalone \
-    && node-prune
+    && node-prune 
 
 # Build production
 FROM node:20-alpine AS PRODUCTION
@@ -35,13 +39,13 @@ COPY --from=BUILD /app/public ./public
 COPY --from=BUILD /app/next.config.js ./
 
 # Copy .env.production file into the image
-COPY .env.production .env
+# COPY .env.production .env
 
 # Set mode "standalone" in file "next.config.js"
 COPY --from=BUILD /app/.next/standalone ./
 COPY --from=BUILD /app/.next/static ./.next/static
-
+COPY --from=BUILD /app/.env.production ./
 EXPOSE 3000
-
+ENV NODE_ENV production
 CMD ["node", "server.js"]
 # CMD yarn dev

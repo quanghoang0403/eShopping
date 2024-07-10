@@ -11,6 +11,14 @@ namespace eShopping.WebApi.Controllers.ApiAdmin
 
         }
 
+        [HttpGet("Error")]
+        public IActionResult Error()
+        {
+            var b = 0;
+            var a = 2 / b;
+            return Ok(a);
+        }
+
         [HttpGet("Ping")]
         public IActionResult Ping()
         {
