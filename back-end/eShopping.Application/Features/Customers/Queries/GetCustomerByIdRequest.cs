@@ -38,7 +38,7 @@ namespace eShopping.Application.Features.Customers.Queries
         public async Task<BaseResponseModel> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var customer = await _unitOfWork.Customers.Where(x => x.Id == request.Id).Include(c => c.Orders).ThenInclude(o => o.OrderItems).Include(x => x.Account).FirstOrDefaultAsync();
+            var customer = await _unitOfWork.Customers.Where(x => x.Id == request.Id && x.IsActive).Include(c => c.Orders).ThenInclude(o => o.OrderItems).Include(x => x.Account).FirstOrDefaultAsync();
             if (customer == null)
             {
                 return BaseResponseModel.ReturnError("Cannot find customer information");

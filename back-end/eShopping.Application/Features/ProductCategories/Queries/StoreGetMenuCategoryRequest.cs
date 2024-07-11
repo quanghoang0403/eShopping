@@ -40,7 +40,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
             if (res == null)
             {
                 var rootCategories = await _unitOfWork.ProductRootCategories
-                .GetAll()
+                .GetAll().Where(p => p.IsActive)
                 .Include(x => x.ProductCategories)
                 .OrderBy(x => x.Priority)
                 .AsNoTracking()

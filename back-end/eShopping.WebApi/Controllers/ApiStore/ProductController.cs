@@ -2,7 +2,6 @@
 using eShopping.WebApi.Controllers.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace eShopping.WebApi.Controllers.ApiStore
@@ -30,10 +29,10 @@ namespace eShopping.WebApi.Controllers.ApiStore
         }
 
         [HttpGet]
-        [Route("get-product-by-id/{id}")]
-        public async Task<IActionResult> GetProductWishList(Guid id)
+        [Route("get-product-wish-list")]
+        public async Task<IActionResult> GetProductWishList([FromQuery] StoreGetProductWishListRequest request)
         {
-            var response = await _mediator.Send(new StoreGetProductByIdRequest { Id = id});
+            var response = await _mediator.Send(request);
             return Ok(response);
         }
     }

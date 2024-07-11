@@ -3,6 +3,7 @@ using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.ProductCategories;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetProductCategoryByUrlRequest request, CancellationToken cancellationToken)
         {
-            var productCategoryData = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(request.Url);
+            var productCategoryData = await _unitOfWork.ProductCategories.Where(p => p.UrlSEO == request.Url && p.IsActive).FirstOrDefaultAsync(cancellationToken);
             if (productCategoryData == null)
             {
                 return BaseResponseModel.ReturnError("Cannot find product category information");

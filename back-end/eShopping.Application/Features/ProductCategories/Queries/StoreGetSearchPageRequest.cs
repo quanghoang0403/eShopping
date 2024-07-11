@@ -53,13 +53,13 @@ namespace eShopping.Application.Features.ProductCategories.Queries
                 res = new StoreGetSearchPageResponse() { KeySearch = request.KeySearch };
 
                 var productRootCategories = await _unitOfWork.ProductRootCategories
-                    .GetAll()
+                    .GetAll().Where(p => p.IsActive)
                     .OrderBy(x => x.Priority)
                     .ToListAsync();
                 res.ProductRootCategories = _mapper.Map<List<StoreProductRootCategoryModel>>(productRootCategories);
 
                 var productCategories = await _unitOfWork.ProductCategories
-                    .GetAll()
+                    .GetAll().Where(p => p.IsActive)
                     .OrderBy(x => x.Priority)
                     .ToListAsync();
                 res.ProductCategories = _mapper.Map<List<StoreProductCategoryModel>>(productCategories);

@@ -1,24 +1,21 @@
 ﻿using AutoMapper;
-using DocumentFormat.OpenXml.VariantTypes;
 using eShopping.Common.Models;
 using eShopping.Interfaces;
 using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace eShopping.Application.Features.Products.Queries
 {
-    public class StoreGetProductByIdRequest :IRequest<BaseResponseModel>
+    public class StoreGetProductWishListRequest : IRequest<BaseResponseModel>
     {
-        public Guid Id { get; set; }
+        public List<int> ProductCodes { get; set; }
     }
-    public class StoreGetProductByIdRequestHandler : IRequestHandler<StoreGetProductByIdRequest, BaseResponseModel> {
+    public class StoreGetProductByIdRequestHandler : IRequestHandler<StoreGetProductWishListRequest, BaseResponseModel>
+    {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
         private readonly IMapper _mapper;
@@ -34,14 +31,10 @@ namespace eShopping.Application.Features.Products.Queries
             _mapper = mapper;
         }
 
-        public async Task<BaseResponseModel> Handle(StoreGetProductByIdRequest request, CancellationToken cancellationToken)
+        public async Task<BaseResponseModel> Handle(StoreGetProductWishListRequest request, CancellationToken cancellationToken)
         {
-            var product  = await _unitOfWork.Products.Where(p=> p.Id == request.Id && p.IsActive).FirstOrDefaultAsync(cancellationToken);
-            if (product == null)
-            {
-                BaseResponseModel.ReturnError("cannot find product with id " + request.Id);
-            }
-            var response = _mapper.Map<StoreProductModel>(product);
+            var product = await _unitOfWork.Products.Where(p => request.ProductCodes.Contains(p.Code) && p.IsActive).ToListAsync(cancellationToken);
+            var response = _mapper.Map<List<StoreProductModel>>(product);
             return BaseResponseModel.ReturnData(response);
         }
     }

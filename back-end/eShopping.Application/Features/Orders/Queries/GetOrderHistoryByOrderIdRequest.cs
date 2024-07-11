@@ -34,7 +34,7 @@ namespace eShopping.Application.Features.Orders.Queries
 
             var listAccount = await _unitOfWork.Accounts.GetAll().AsNoTracking().ToListAsync(cancellationToken);
 
-            var orderHistories = await _unitOfWork.OrderHistories.Find(orderHistory => orderHistory.OrderId == request.Id).AsNoTracking().ToListAsync();
+            var orderHistories = await _unitOfWork.OrderHistories.Find(orderHistory => orderHistory.OrderId == request.Id && orderHistory.IsActive).AsNoTracking().ToListAsync();
             var orderHistoryResponse = new List<OrderHistoryModel>();
             if (orderHistories != null)
             {
@@ -48,7 +48,7 @@ namespace eShopping.Application.Features.Orders.Queries
                     var actor = "";
                     if (orderHistory.CreatedUser != null)
                     {
-                        var account = listAccount.FirstOrDefault(x => x.Id == orderHistory.CreatedUser);
+                        var account = listAccount.FirstOrDefault(x => x.Id == orderHistory.CreatedUser && x.IsActive);
                         if (account != null)
                         {
                             actor = account?.FullName;

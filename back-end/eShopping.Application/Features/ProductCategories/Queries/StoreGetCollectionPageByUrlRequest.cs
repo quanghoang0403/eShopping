@@ -101,7 +101,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
                 if (slugProductRootCategory != null)
                 {
-                    var productRootCategory = await _unitOfWork.ProductRootCategories.GetProductRootCategoryDetailByUrlAsync(slugProductRootCategory);
+                    var productRootCategory = await _unitOfWork.ProductRootCategories.Where(p => p.UrlSEO == slugProductRootCategory && p.IsActive).FirstOrDefaultAsync();
                     if (productRootCategory == null) return BaseResponseModel.ReturnError("Không tìm thấy trang");
                     res.ProductRootCategoryId = productRootCategory.Id;
                     res.Name = $"Bộ sưu tập {productRootCategory.Name}";
@@ -113,7 +113,7 @@ namespace eShopping.Application.Features.ProductCategories.Queries
 
                 if (slugProductCategory != null)
                 {
-                    var productCategory = await _unitOfWork.ProductCategories.GetProductCategoryDetailByUrlAsync(slugProductCategory);
+                    var productCategory = await _unitOfWork.ProductCategories.Where(p => p.UrlSEO == slugProductCategory && p.IsActive).FirstOrDefaultAsync();
                     if (productCategory == null) return BaseResponseModel.ReturnError("Không tìm thấy trang");
                     res.ProductCategoryId = productCategory.Id;
                     res.Name = $"Bộ sưu tập {productCategory.Name}";
