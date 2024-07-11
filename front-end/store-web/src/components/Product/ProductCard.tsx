@@ -14,6 +14,7 @@ import NcImage from '@/shared/NcImage'
 import ModalQuickView from './ModalQuickView'
 import NotifyAddToCart from './NotifyAddToCart'
 import { useAppSelector } from '@/hooks/useRedux'
+import { getRandomReviews, getRandomStarRating } from '@/utils/string.helper'
 
 export interface ProductCardProps {
   className?: string
@@ -192,13 +193,13 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product }) => {
             <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>{description}</p>
           </div>
 
-          <div className="flex justify-between items-center ">
+          {/* <div className="flex justify-between items-center ">
             <Price priceValue={priceValue} priceDiscount={priceDiscount} />
             <div className="flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
-              <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">4 (5 reviews)</span>
+              <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">{getRandomStarRating()} ({getRandomReviews()} đánh giá)</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <ModalQuickView product={product} show={showModalQuickView} onCloseModalQuickView={() => setShowModalQuickView(false)} />

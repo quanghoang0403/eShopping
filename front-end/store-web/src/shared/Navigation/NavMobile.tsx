@@ -103,7 +103,7 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
       <div className="py-6 px-5">
         <Logo />
         <div className="flex flex-col mt-5 text-slate-600 dark:text-slate-300 text-sm">
-          <span>Discover the most outstanding articles on all topics of life. Write your stories and share them</span>
+          <span>Khám phá những sản phẩm thời trang, tô thêm sắc màu cho bạn!</span>
 
           <div className="flex justify-between items-center mt-4">
             <SocialsListHorizontal itemClass="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl" />
@@ -119,11 +119,11 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
         <div className="mt-5">{renderSearchForm()}</div>
       </div>
       <ul className="flex flex-col py-6 px-2 space-y-1">{menu.map(_renderItem)}</ul>
-      <div className="flex items-center justify-between py-6 px-5 space-x-2">
+      {/* <div className="flex items-center justify-between py-6 px-5 space-x-2">
         <ButtonPrimary href={'/'} className="!px-10">
           Buy this template
         </ButtonPrimary>
-      </div>
+      </div> */}
     </div>
   )
 }

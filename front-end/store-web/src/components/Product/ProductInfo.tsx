@@ -229,7 +229,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
             priceDiscount={productVariantActive ? productVariantActive.priceDiscount : product.priceDiscount}
           />
 
-          <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
+          {/* <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
 
           <div className="flex items-center">
             <a href="#reviews" className="flex items-center text-sm font-medium">
@@ -241,11 +241,11 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
               </div>
             </a>
             <span className="hidden sm:block mx-2.5">·</span>
-            {/* <div className="hidden sm:flex items-center text-sm">
+            <div className="hidden sm:flex items-center text-sm">
               <SparklesIcon className="w-3.5 h-3.5" />
               <span className="ml-1 leading-none">Mới về</span>
-            </div> */}
-          </div>
+            </div>
+          </div> */}
         </div>
       </div>
 

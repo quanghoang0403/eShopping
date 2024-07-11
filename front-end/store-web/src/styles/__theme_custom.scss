@@ -268,6 +268,7 @@ input[type='time']::-webkit-calendar-picker-indicator {
 // content of product detail
 .product-content * {
   font-family: 'Roboto', sans-serif !important;
+  width: 100% !important;
 
   h3 {
     font-size: 17px !important;
