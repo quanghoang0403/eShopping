@@ -76,6 +76,7 @@ export default function OrderPage() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
   const router = useRouter()
@@ -170,7 +171,7 @@ export default function OrderPage() {
             </div>
             <hr className="my-4" />
             <form onSubmit={handleSubmit(onSubmit)}>
-              <CustomerInfo register={register} errors={errors} isShipping customer={customerInfo as ICustomerInfo} />
+              <CustomerInfo reset={reset} register={register} errors={errors} isShipping customer={customerInfo as ICustomerInfo} />
             </form>
             {order?.reason && (
               <div className="mt-4">
