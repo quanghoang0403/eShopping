@@ -32,7 +32,7 @@ const GridBanner = () => {
       </Heading>
       <div className="relative grid grid-cols-3 gap-8">
         {CATS_DISCOVER.map((item, index) => (
-          <CardCategory2 key={index} name={item.name} desc={item.desc} featuredImage={item.featuredImage} />
+          <CardCategory2 key={index} name={item.name} desc={item.desc} featuredImage={item.featuredImage} href="/collection" />
         ))}
       </div>
     </div>
