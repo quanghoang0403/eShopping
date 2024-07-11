@@ -38,7 +38,7 @@ namespace eShopping.Application.Features.Customers.Queries
         public async Task<BaseResponseModel> Handle(GetCustomerByIdRequest request, CancellationToken cancellationToken)
         {
             var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var customer = await _unitOfWork.Customers.Find(x => x.Id == request.Id).Include(x => x.Account).FirstOrDefaultAsync();
+            var customer = await _unitOfWork.Customers.Where(x => x.Id == request.Id).Include(c => c.Orders).ThenInclude(o => o.OrderItems).Include(x => x.Account).FirstOrDefaultAsync();
             if (customer == null)
             {
                 return BaseResponseModel.ReturnError("Cannot find customer information");
@@ -59,7 +59,8 @@ namespace eShopping.Application.Features.Customers.Queries
                 WardId = customer.WardId,
                 DistrictId = customer.DistrictId,
                 CityId = customer.CityId,
-                IsActive = customer.IsActive
+                IsActive = customer.IsActive,
+                Orders = customer.Orders
             };
 
             return BaseResponseModel.ReturnData(customerDetailModel);

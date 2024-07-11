@@ -1,5 +1,7 @@
-﻿using eShopping.Domain.Enums;
+﻿using eShopping.Domain.Entities;
+using eShopping.Domain.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace eShopping.Models.Customers
@@ -34,5 +36,7 @@ namespace eShopping.Models.Customers
         public string Address { get; set; }
 
         public bool IsActive { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

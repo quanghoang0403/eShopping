@@ -66,8 +66,6 @@ namespace eShopping.Application.Features.Users.Commands
 
         public async Task<BaseResponseModel> Handle(SignUpWithPassword request, CancellationToken cancellationToken)
         {
-            var loggedUser = await _userProvider.ProvideAsync(cancellationToken);
-            var accountId = loggedUser.AccountId.Value;
             if (CheckUniqueAndValidation(request) != null)
             {
                 return CheckUniqueAndValidation(request);
@@ -88,8 +86,10 @@ namespace eShopping.Application.Features.Users.Commands
                         FullName = request.FullName,
                         Birthday = request.Birthday,
                         Gender = request.Gender,
-                        LastSavedUser = accountId,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActivated = true, /// bypass activation, will be remove in the feature
+                        IsActive = true,
+                        PhoneNumber = request.PhoneNumber
                     };
 
                     var newCustomer = new Customer()
@@ -99,8 +99,8 @@ namespace eShopping.Application.Features.Users.Commands
                         DistrictId = request.DistrictId,
                         CityId = request.CityId,
                         Account = newAccount,
-                        LastSavedUser = accountId,
-                        LastSavedTime = DateTime.Now
+                        LastSavedTime = DateTime.Now,
+                        IsActive = true
                     };
 
                     await _unitOfWork.Customers.AddAsync(newCustomer);
@@ -145,13 +145,13 @@ namespace eShopping.Application.Features.Users.Commands
                     return BaseResponseModel.ReturnError("Email is existed");
                 }
             }
-            if (!string.IsNullOrWhiteSpace(request.Password))
+            if (string.IsNullOrWhiteSpace(request.Password))
             {
-                return BaseResponseModel.ReturnError("Password is empty");
+                return BaseResponseModel.ReturnError("Password is empty or has white space");
             }
-            if (!string.IsNullOrWhiteSpace(request.ConfirmPassword))
+            if (string.IsNullOrWhiteSpace(request.ConfirmPassword))
             {
-                return BaseResponseModel.ReturnError("Confirm Password is empty");
+                return BaseResponseModel.ReturnError("Confirm Password is empty or has white space");
             }
             if (request.ConfirmPassword != request.Password)
             {

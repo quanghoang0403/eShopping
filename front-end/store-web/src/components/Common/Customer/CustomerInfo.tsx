@@ -1,14 +1,16 @@
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
+import { FieldErrors, FieldValues, UseFormRegister, UseFormReset } from 'react-hook-form'
 import AddressService from '@/services/address.service'
 import { useEffect, useState } from 'react'
 import Input from '@/shared/Controller/Input'
 import Selection from '@/shared/Controller/Selection'
+import { useCustomerContext } from '../../../../pages/account'
 
 interface IProps {
   isShipping?: boolean
   register: UseFormRegister<FieldValues>
   errors: FieldErrors<FieldValues>
   customer: ICustomerInfo
+  reset : UseFormReset<FieldValues>
 }
 
 export interface ICustomerInfo {
@@ -40,18 +42,19 @@ export default function CustomerInfo(props: IProps) {
   const [wards, setWards] = useState<IArea[]>([])
   const [cityId,setCityId] = useState<number>()
   const [districtId,setDistrictId] = useState<number>()
+  const customerInfo: ICustomer = useCustomerContext()
 
   useEffect(() => {
     fetchCities()
   }, [])
 
   useEffect(() => {
-    fetchDistricts(cityId as number || customer?.cityId)
-  }, [customer, cityId])
+    fetchDistricts(cityId as number ?? customerInfo?.cityId as number)
+  }, [customerInfo, cityId])
 
   useEffect(() => {
-    fetchWards(districtId as number || customer?.districtId)
-  }, [customer, districtId])
+    fetchWards(districtId as number ?? customerInfo?.districtId as number)
+  }, [customerInfo, districtId])
 
   const fetchCities = async () => {
     const res = await AddressService.getCities()
@@ -72,6 +75,16 @@ export default function CustomerInfo(props: IProps) {
     if (res) {
       setWards(res)
     }
+  }
+
+  const onChangeCity = (cityId: number)=>{
+    setCityId(cityId)
+    props.reset({wardId: 0, districtId : 0})
+  }
+
+  const onChangeDistrict = (districtId: number)=>{
+    setDistrictId(districtId)
+    props.reset({wardsId: 0})
   }
 
   return (
@@ -113,9 +126,9 @@ export default function CustomerInfo(props: IProps) {
           <div className="flex flex-col md:flex-row gap-3">
             <div className="md:w-1/2">
               <Input
-                value={customer?.name}
+                
                 label="Tên"
-                name={isShipping ? 'ShipName' : 'FullName'}
+                name={isShipping ? 'ShipName' : 'fullName'}
                 register={register}
                 patternValidate={{ required: true }}
                 errors={errors}
@@ -123,9 +136,9 @@ export default function CustomerInfo(props: IProps) {
             </div>
             <div className="md:w-1/2">
               <Input
-                value={customer?.phoneNumber}
+                
                 label="Số điện thoại"
-                name={isShipping ? 'ShipPhoneNumber' : 'PhoneNumber'}
+                name={isShipping ? 'ShipPhoneNumber' : 'phoneNumber'}
                 register={register}
                 patternValidate={{
                   required: true,
@@ -141,7 +154,7 @@ export default function CustomerInfo(props: IProps) {
           <div className="flex flex-col md:flex-row gap-3">
             <div className="md:w-1/2">
               <Input
-                value={customer?.email}
+                
                 label="Email"
                 register={register}
                 patternValidate={{
@@ -151,7 +164,7 @@ export default function CustomerInfo(props: IProps) {
                     message: 'Email không hợp lệ',
                   },
                 }}
-                name={isShipping ? 'ShipEmail' : 'Email'}
+                name={isShipping ? 'ShipEmail' : 'email'}
                 errors={errors}
               />
             </div>
@@ -160,9 +173,8 @@ export default function CustomerInfo(props: IProps) {
                 isFullWidth
                 label="Tỉnh/Thành"
                 options={cities}
-                onChange={e=>setCityId(e)}
-                defaultValue={customer?.cityId}
-                name={isShipping ? 'ShipCityId' : 'CityId'}
+                onChange={e=>onChangeCity(e)}
+                name={isShipping ? 'ShipCityId' : 'cityId'}
                 register={register}
                 patternValidate={{
                   required: true,
@@ -175,11 +187,10 @@ export default function CustomerInfo(props: IProps) {
             <div className="md:w-1/2">
               <Selection
                 isFullWidth
-                onChange={e=>setDistrictId(e)}
+                onChange={e=>onChangeDistrict(e)}
                 label="Quận/Huyện"
                 options={districts}
-                defaultValue={customer?.districtId}
-                name={isShipping ? 'ShipDistrictId' : 'DistrictId'}
+                name={isShipping ? 'ShipDistrictId' : 'districtId'}
                 register={register}
                 patternValidate={{
                   required: true,
@@ -192,8 +203,7 @@ export default function CustomerInfo(props: IProps) {
                 isFullWidth
                 label="Phường/Xã"
                 options={wards}
-                defaultValue={customer?.wardId}
-                name={isShipping ? 'ShipWardId' : 'WardId'}
+                name={isShipping ? 'ShipWardId' : 'wardId'}
                 register={register}
                 patternValidate={{
                   required: true,
@@ -204,9 +214,8 @@ export default function CustomerInfo(props: IProps) {
           </div>
           <div>
             <Input
-              value={customer?.address}
               label="Địa chỉ giao hàng"
-              name={isShipping ? 'ShipAddress' : 'Address'}
+              name={isShipping ? 'ShipAddress' : 'address'}
               register={register}
               patternValidate={{
                 required: true,
@@ -215,7 +224,7 @@ export default function CustomerInfo(props: IProps) {
             />
           </div>
           <div>
-            <Input value={customer?.note} register={register} label="Ghi chú" name="Note" />
+            <Input value={customerInfo?.note} register={register} label="Ghi chú" name="note" />
           </div>
         </div>
       </div>

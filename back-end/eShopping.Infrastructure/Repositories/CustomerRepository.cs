@@ -21,7 +21,7 @@ namespace eShopping.Infrastructure.Repositories
 
         public async Task<Customer> GetCustomerById(Guid id)
         {
-            var customer = await dbSet.FirstOrDefaultAsync(c => c.Id == id);
+            var customer = await dbSet.Include(c => c.Account).FirstOrDefaultAsync(c => c.Id == id);
             return customer;
         }
     }

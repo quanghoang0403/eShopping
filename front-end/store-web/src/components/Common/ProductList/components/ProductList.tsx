@@ -7,10 +7,10 @@ export interface ProductListProps {
   data?: IProduct[]
 }
 
-const ProductList: FC<ProductListProps> = ({ data = PRODUCTS }) => {
+const ProductList: FC<ProductListProps> = ({ data }) => {
   return (
     <>
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <ProductCard product={item} key={index} />
       ))}
     </>

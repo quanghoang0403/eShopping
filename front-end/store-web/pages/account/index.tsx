@@ -1,11 +1,33 @@
 'use client'
 
 import { Route } from '@/routers/types'
+import AddressService from '@/services/address.service'
+import CustomerService from '@/services/customer.service'
+import { getCustomerId } from '@/utils/common.helper'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
-import React, { Suspense } from 'react'
+import React, { createContext, Suspense, useContext, useEffect, useState } from 'react'
+
+const customerContext = createContext<ICustomer>({
+  id: '',
+  accountId: '',
+  cityId: null,
+  districtId: null,
+  wardId: null,
+  address: '',
+  note: '',
+  email: '',
+  emailConfirmed: false,
+  phoneNumber: '',
+  fullName: '',
+  thumbnail: '',
+  birthday: null,
+  gender: 0,
+  code: 0,
+  orders: []
+})
 
 enum AccountTab {
   Information = 'account-information',
@@ -48,6 +70,26 @@ const PageAbout = () => {
   const pathname = usePathname()
   const router = useRouter()
   const thisPathname = usePathname()
+  const [customer,setCustomer] = useState<ICustomer>()
+  const [city,setCity] = useState<string>('')
+
+  const getCustomer = async()=>{
+    const cities = await AddressService.getCities()
+    const customerId = await getCustomerId()
+    if(customerId){
+      const res = await CustomerService.getCustomerById(customerId)
+      if(res){
+        setCustomer(res)
+      }
+    }
+    if(cities && customer?.cityId){
+      setCity(cities.find(c=>c.id === customer?.cityId)?.name as string)
+    }
+  }
+
+  useEffect(()=>{
+    getCustomer();
+  },[])
 
   const handleOnChangeTab = (tab: string) => {
     router.push(`${thisPathname}/?tab=${tab}` as Route)
@@ -60,7 +102,7 @@ const PageAbout = () => {
           <div className="max-w-2xl">
             <h2 className="text-3xl xl:text-4xl font-semibold">Tài khoản của tôi</h2>
             <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-base sm:text-lg">
-              <span className="text-slate-900 dark:text-slate-200 font-semibold">Hoàng Đinh Quang,</span> quanghoang0403@gmail.com · Tp. Hồ Chí Minh
+              <span className="text-slate-900 dark:text-slate-200 font-semibold">{customer?.fullName},</span> {customer?.email} · {city}
             </span>
           </div>
           <hr className="mt-10 border-slate-200 dark:border-slate-700"></hr>
@@ -87,14 +129,16 @@ const PageAbout = () => {
       </div>
       <div className="max-w-4xl mx-auto pt-14 sm:pt-26 pb-24 lg:pb-32">
         <Suspense fallback={<div>Loading...</div>}>
-          {(!tabId || tabId == AccountTab.Information) && <AccountInformation />}
-          {tabId == AccountTab.Order && <AccountOrder />}
-          {tabId == AccountTab.Savelist && <AccountWishList />}
-          {tabId == AccountTab.Pass && <AccountPass />}
+          <customerContext.Provider value={customer as ICustomer}>
+            {(!tabId || tabId == AccountTab.Information) && <AccountInformation/>}
+            {tabId == AccountTab.Order && <AccountOrder />}
+            {tabId == AccountTab.Savelist && <AccountWishList />}
+            {tabId == AccountTab.Pass && <AccountPass />}
+          </customerContext.Provider>
         </Suspense>
       </div>
     </div>
   )
 }
-
+export const useCustomerContext = () => useContext(customerContext)
 export default PageAbout

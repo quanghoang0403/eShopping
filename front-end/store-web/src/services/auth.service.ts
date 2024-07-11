@@ -14,6 +14,6 @@ export default class AuthService {
   }
 
   static forgotPassword(body: { email: string }): Promise<boolean> {
-    return APIService.post('/auth/forgot-password', body)
+    return APIService.post('/auth/renew-password', body)
   }
 }

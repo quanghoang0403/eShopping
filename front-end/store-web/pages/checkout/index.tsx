@@ -22,6 +22,7 @@ const CheckoutPage = () => {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
   const router = useRouter()
@@ -95,7 +96,7 @@ const CheckoutPage = () => {
     return (
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
+          <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} reset={reset}/>
           <PaymentMethod register={register} errors={errors} />
           <ButtonPrimary className="mt-8 w-full">Thanh toán</ButtonPrimary>
         </form>

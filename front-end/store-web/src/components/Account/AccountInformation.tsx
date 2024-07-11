@@ -1,5 +1,5 @@
 import Label from '@/shared/Controller/Label'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import ButtonPrimary from '@/shared/Button/ButtonPrimary'
 import Textarea from '@/shared/Controller/Textarea'
 import { avatarImgs } from '@/constants/fakeData'
@@ -11,15 +11,29 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useAppDispatch } from '@/hooks/useRedux'
 import CustomerService from '@/services/customer.service'
+import toast from 'react-hot-toast'
+import { getCustomerId } from '@/utils/common.helper'
+import { useCustomerContext } from '../../../pages/account'
 
 const AccountInformation = () => {
+  const customer = useCustomerContext()
   const {
     handleSubmit: handleSubmitUpdateProfile,
     register,
+    reset,
     formState: { errors },
-  } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
-  const mutationUpdateProfile = useAppMutation(async (data: IUpdateCustomerRequest) => CustomerService.updateCustomer(data))
-  const onSubmitUpdateProfile: SubmitHandler<FieldValues> = (data: any) => mutationUpdateProfile.mutate(data)
+  } = useForm({ mode: 'onBlur', criteriaMode: 'all'})
+  const seftUpdateAsync = async (data :any)=>{
+    data.id = await getCustomerId()
+    const res = await CustomerService.updateCustomer(data)
+    if(res){
+      toast.success('Cập nhật thông tin thành công')
+    }
+  }
+  useEffect(()=>{
+    reset({...customer})
+  },[customer])
+  const onSubmitUpdateProfile: SubmitHandler<FieldValues> = (data: any) => seftUpdateAsync(data)
   return (
     <div className={`nc-AccountPage `}>
       <div className="space-y-10 sm:space-y-12">
@@ -47,7 +61,7 @@ const AccountInformation = () => {
           </div>
           <div className="flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6">
             <form onSubmit={handleSubmitUpdateProfile(onSubmitUpdateProfile)}>
-              <CustomerInfo register={register} errors={errors} isShipping customer={defaultCustomerInfo} />
+              <CustomerInfo reset={reset} register={register} errors={errors} customer={defaultCustomerInfo} />
               <ButtonPrimary className="mt-8 w-full">Cập nhật thông tin</ButtonPrimary>
             </form>
           </div>

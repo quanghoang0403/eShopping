@@ -13,7 +13,14 @@ interface ICustomer {
   thumbnail: string
   birthday: string | null
   gender: number
-  code: number
+  code: number,
+  orders: IOrder[]
+}
+
+interface ICustomerGeneral{
+  fullName : string,
+  phoneNumber? : string,
+  thumbnail? : string
 }
 interface ICreateCustomerRequest {
   password: string

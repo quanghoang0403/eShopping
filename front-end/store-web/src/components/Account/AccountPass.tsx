@@ -5,16 +5,24 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useAppMutation } from '@/hooks/useQuery'
 import CustomerService from '@/services/customer.service'
 import Input from '@/shared/Controller/Input'
+import toast from 'react-hot-toast'
 
 const AccountPass = () => {
   const {
     handleSubmit: handleSubmitUpdatePassword,
     register,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onBlur', criteriaMode: 'all' })
 
-  const mutationUpdatePassword = useAppMutation(async (data: IUpdatePasswordRequest) => CustomerService.updatePassword(data))
-  const onSubmitUpdatePassword: SubmitHandler<FieldValues> = (data: any) => mutationUpdatePassword.mutate(data)
+  const mutationUpdatePassword = async (data: IUpdatePasswordRequest) =>{
+    const res = await CustomerService.updatePassword(data)
+    if(res){
+      toast.success('Cập nhật mật khẩu thành công')
+      reset()
+    }
+  }
+  const onSubmitUpdatePassword: SubmitHandler<FieldValues> = (data: any) => mutationUpdatePassword(data)
   return (
     <div className="space-y-10 sm:space-y-12 flex items-center flex-col">
       {/* HEADING */}
@@ -37,7 +45,7 @@ const AccountPass = () => {
             <Input
               label="Mật khẩu mới"
               password
-              name="currentPassword"
+              name="newPassword"
               register={register}
               patternValidate={{
                 required: true,
