@@ -60,22 +60,24 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
     return (
       <div className="">
         <h2 className="text-2xl font-semibold">Chi tiết sản phẩm</h2>
-        <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7">
-          <p>
-            Sản phẩm đẹp với chất liệu vải dệt Arrowhead gỗ sồi 18 inch, tạo nên sản phẩm càng chắc chắn và thoải mái hơn bao giờ hết. Bạn không thể mua được
-            sản phẩm nào mang lại hài lòng cao hơn.
-          </p>
-          <p>
-            Công ty St. Louis Meramec được thành lập bởi Alfred Wickett vào năm 1922. Wickett đã từng làm việc cho Old Town Canoe Co từ năm 1900 đến 1914. Việc
-            sản xuất các sản phẩm cổ điển tại Valley Park, Missouri đã ngừng vào năm 1978.
-          </p>
-          <ul>
-            <li>Váy phù hợp, áo thun trung bình</li>
-            <li>Màu tự nhiên, 100% bông hữu cơ cao cấp được sử dụng sau khi lông được tẩy lông</li>
-            <li>Bông cotton chất lượng được trồng không sử dụng thuốc diệt cỏ hoặc thuốc trừ sâu - được chứng nhận GOTS</li>
-            <li>Được in mực nước mềm mại tại Mỹ</li>
-          </ul>
-        </div>
+        {productDetail.content && (
+          <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7" dangerouslySetInnerHTML={{ __html: productDetail.content }}>
+            {/* <p>
+                  Sản phẩm đẹp với chất liệu vải dệt Arrowhead gỗ sồi 18 inch, tạo nên sản phẩm càng chắc chắn và thoải mái hơn bao giờ hết. Bạn không thể mua được
+                  sản phẩm nào mang lại hài lòng cao hơn.
+                </p>
+                <p>
+                  Công ty St. Louis Meramec được thành lập bởi Alfred Wickett vào năm 1922. Wickett đã từng làm việc cho Old Town Canoe Co từ năm 1900 đến 1914. Việc
+                  sản xuất các sản phẩm cổ điển tại Valley Park, Missouri đã ngừng vào năm 1978.
+                </p>
+                <ul>
+                  <li>Váy phù hợp, áo thun trung bình</li>
+                  <li>Màu tự nhiên, 100% bông hữu cơ cao cấp được sử dụng sau khi lông được tẩy lông</li>
+                  <li>Bông cotton chất lượng được trồng không sử dụng thuốc diệt cỏ hoặc thuốc trừ sâu - được chứng nhận GOTS</li>
+                  <li>Được in mực nước mềm mại tại Mỹ</li>
+                </ul> */}
+          </div>
+        )}
       </div>
     )
   }
