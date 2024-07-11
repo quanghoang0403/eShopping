@@ -61,7 +61,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
       <div className="">
         <h2 className="text-2xl font-semibold">Chi tiết sản phẩm</h2>
         {productDetail.content && (
-          <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7" dangerouslySetInnerHTML={{ __html: productDetail.content }}>
+          <div className="product-content prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7" dangerouslySetInnerHTML={{ __html: productDetail.content }}>
             {/* <p>
                   Sản phẩm đẹp với chất liệu vải dệt Arrowhead gỗ sồi 18 inch, tạo nên sản phẩm càng chắc chắn và thoải mái hơn bao giờ hết. Bạn không thể mua được
                   sản phẩm nào mang lại hài lòng cao hơn.

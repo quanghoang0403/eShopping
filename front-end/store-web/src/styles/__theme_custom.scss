@@ -20,7 +20,6 @@
 }
 
 .customScrollBar {
-
   /* width */
   &::-webkit-scrollbar {
     height: 8px;
@@ -47,7 +46,7 @@
 //
 
 .menu-item.menu-megamenu:hover {
-  >.sub-menu {
+  > .sub-menu {
     @apply visible;
   }
 }
@@ -77,8 +76,8 @@
 
 //
 .menuIsNew_lv1 {
-  >a::before {
-    content: "New!";
+  > a::before {
+    content: 'New!';
     position: absolute;
     top: -2px;
     right: 0;
@@ -94,8 +93,8 @@
 }
 
 .menuIsNew {
-  >a::after {
-    content: "New!";
+  > a::after {
+    content: 'New!';
     display: inline-block;
     padding: 0 5px;
     line-height: 15px;
@@ -110,7 +109,7 @@
 //
 .nc-PostCardCommentBtn,
 .nc-PostCardLikeAction,
-.nc-CommentCardLikeReply>button {
+.nc-CommentCardLikeReply > button {
   &:hover {
     span {
       color: inherit;
@@ -160,7 +159,7 @@ button.gm-control-active.gm-fullscreen-control {
 
 //
 .nc-FiveStartIconForRate {
-  svg:hover~svg {
+  svg:hover ~ svg {
     @apply text-neutral-300;
   }
 }
@@ -245,11 +244,11 @@ button.gm-control-active.gm-fullscreen-control {
 }
 
 //
-input[type="time"]::-webkit-calendar-picker-indicator {
+input[type='time']::-webkit-calendar-picker-indicator {
   @apply dark:bg-neutral-500 rounded-md;
 }
 
-[type="button"] {
+[type='button'] {
   -webkit-appearance: none !important;
 }
 
@@ -264,6 +263,16 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   animation-name: ncSlideRight;
   animation-duration: 300ms;
   animation-timing-function: ease-in-out;
+}
+
+// content of product detail
+.product-content * {
+  font-family: 'Roboto', sans-serif !important;
+
+  h3 {
+    font-size: 17px !important;
+    font-weight: 600 !important;
+  }
 }
 
 @keyframes ncSlideLeft {
@@ -491,7 +500,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
-  img[loading="lazy"] {
+  img[loading='lazy'] {
     clip-path: inset(0.6px);
   }
 }
