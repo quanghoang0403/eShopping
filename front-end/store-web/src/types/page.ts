@@ -9,7 +9,7 @@ interface ICollectionDataResponse {
     descriptionSEO?: string
     productRootCategories: IProductRootCategory[]
     productCategories: IProductCategory[]
-  }
+}
   
 interface ISearchDataResponse {
     keySearch: string

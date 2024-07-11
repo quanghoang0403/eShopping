@@ -17,31 +17,36 @@ export interface CardCategoryData {
   desc: string
   img: string | StaticImageData
   color?: string
+  href: string
 }
 const CATS: CardCategoryData[] = [
   {
-    name: 'Travel Kits',
-    desc: '20+ categories',
+    name: 'Thời trang nam',
+    desc: '50+ sản phẩm',
     img: department1Png,
     color: 'bg-indigo-100',
+    href: '/collection/nam'
   },
   {
-    name: 'Beauty Products',
-    desc: '10+ categories',
+    name: 'Thời trang nữ',
+    desc: '50+ sản phẩm',
     img: department2Png,
     color: 'bg-slate-100',
+    href: '/collection/nu'
   },
   {
-    name: 'Sport Kits',
-    desc: '34+ categories',
+    name: 'Phụ kiện nam',
+    desc: '20+ sản phẩm',
     img: department3Png,
     color: 'bg-sky-100',
+    href: '/collection/nam/phu-kien'
   },
   {
-    name: 'Pets Food',
-    desc: '12+ categories',
+    name: 'Phụ kiện nữ',
+    desc: '23+ sản phẩm',
     img: department4Png,
     color: 'bg-orange-100',
+    href: '/collection/nu/phu-kien'
   },
 ]
 export interface SliderCategoryListProps {
@@ -53,7 +58,7 @@ export interface SliderCategoryListProps {
 }
 
 const SliderCategoryList: FC<SliderCategoryListProps> = ({
-  heading = 'Shop by department',
+  heading = 'Khám phá danh mục',
   subHeading = '',
   className = '',
   itemClassName = '',

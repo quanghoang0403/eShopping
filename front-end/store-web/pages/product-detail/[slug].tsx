@@ -59,22 +59,20 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
   const renderDetailSection = () => {
     return (
       <div className="">
-        <h2 className="text-2xl font-semibold">Product Details</h2>
+        <h2 className="text-2xl font-semibold">Chi tiết sản phẩm</h2>
         <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7">
-          <p>
-            The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy
-            a canoe that will afford greater satisfaction.
-          </p>
-          <p>
-            The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to
-            1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.
-          </p>
-          <ul>
-            <li>Regular fit, mid-weight t-shirt</li>
-            <li>Natural color, 100% premium combed organic cotton</li>
-            <li>Quality cotton grown without the use of herbicides or pesticides - GOTS certified</li>
-            <li>Soft touch water based printed in the USA</li>
-          </ul>
+        <p>
+            Sản phẩm đẹp với chất liệu vải dệt Arrowhead gỗ sồi 18 inch, tạo nên sản phẩm càng chắc chắn và thoải mái hơn bao giờ hết. Bạn không thể mua được sản phẩm nào mang lại hài lòng cao hơn.
+        </p>
+        <p>
+            Công ty St. Louis Meramec được thành lập bởi Alfred Wickett vào năm 1922. Wickett đã từng làm việc cho Old Town Canoe Co từ năm 1900 đến 1914. Việc sản xuất các sản phẩm cổ điển tại Valley Park, Missouri đã ngừng vào năm 1978.
+        </p>
+        <ul>
+            <li>Váy phù hợp, áo thun trung bình</li>
+            <li>Màu tự nhiên, 100% bông hữu cơ cao cấp được sử dụng sau khi lông được tẩy lông</li>
+            <li>Bông cotton chất lượng được trồng không sử dụng thuốc diệt cỏ hoặc thuốc trừ sâu - được chứng nhận GOTS</li>
+            <li>Được in mực nước mềm mại tại Mỹ</li>
+        </ul>
         </div>
       </div>
     )
@@ -86,7 +84,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
         {/* HEADING */}
         <h2 className="text-2xl font-semibold flex items-center">
           <StarIcon className="w-7 h-7 mb-0.5" />
-          <span className="ml-1.5"> 4,87 · 142 Reviews</span>
+          <span className="ml-1.5"> 4,87 · 142 Đánh giá</span>
         </h2>
 
         {/* comment */}
@@ -169,7 +167,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
 
             <hr className="border-slate-200 dark:border-slate-700" />
 
-            {renderReviews()}
+            {/* {renderReviews()} */}
 
             <hr className="border-slate-200 dark:border-slate-700" />
 

@@ -53,7 +53,7 @@ const ModalViewAllReviews: FC<ModalViewAllReviewsProps> = ({ show, onCloseModalV
                 <div className="px-8 my-5 flex justify-between flex-wrap">
                   <h2 className="text-xl sm:text-2xl font-semibold flex items-center">
                     <StarIcon className="w-7 h-7 mb-0.5" />
-                    <span className="ml-1.5"> 4,87 · 142 Reviews</span>
+                    <span className="ml-1.5"> 4,87 · 142 đánh giá</span>
                   </h2>
                   <SortOrderFilter
                     className="my-2"

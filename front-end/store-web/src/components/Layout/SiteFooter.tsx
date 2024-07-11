@@ -87,7 +87,7 @@ export default function SiteFooter() {
             <SocialsList vertical className="flex items-center space-x-2 lg:space-x-0 lg:flex-col lg:space-y-3 lg:items-start" />
           </div>
         </div>
-        {widgetMenus.map(renderWidgetMenuItem)}
+        {/* {widgetMenus.map(renderWidgetMenuItem)} */}
       </div>
     </div>
   )
