@@ -4,10 +4,10 @@ import React, { FC, useEffect, useId, useRef, useState } from 'react'
 import Heading from '@/shared/Heading'
 // @ts-ignore
 import Glide from '@glidejs/glide/dist/glide.esm'
-import department1Png from '@/assets/images/categories/slider/department1.png'
-import department2Png from '@/assets/images/categories/slider/department2.png'
-import department3Png from '@/assets/images/categories/slider/department3.png'
-import department4Png from '@/assets/images/categories/slider/department4.png'
+import aothun from '@/assets/images/categories/slider/aothun.jpg'
+import polo from '@/assets/images/categories/slider/polo.jpg'
+import vay from '@/assets/images/categories/slider/vay.jpg'
+import tui from '@/assets/images/categories/slider/tui.jpg'
 import { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import CardCategory2 from '@/shared/CardCategory/CardCategory2'
@@ -21,32 +21,32 @@ export interface CardCategoryData {
 }
 const CATS: CardCategoryData[] = [
   {
-    name: 'Thời trang nam',
+    name: 'Áo thun',
     desc: '50+ sản phẩm',
-    img: department1Png,
+    img: aothun,
     color: 'bg-indigo-100',
-    href: '/collection/nam'
+    href: '/collection/nam/ao/ao-thun',
   },
   {
-    name: 'Thời trang nữ',
+    name: 'Áo polo',
     desc: '50+ sản phẩm',
-    img: department2Png,
+    img: polo,
     color: 'bg-slate-100',
-    href: '/collection/nu'
+    href: '/collection/nam/ao/ao-polo',
   },
   {
-    name: 'Phụ kiện nam',
+    name: 'Váy',
     desc: '20+ sản phẩm',
-    img: department3Png,
+    img: vay,
     color: 'bg-sky-100',
-    href: '/collection/nam/phu-kien'
+    href: '/collection/nu/quan/vay',
   },
   {
-    name: 'Phụ kiện nữ',
+    name: 'Phụ kiện',
     desc: '23+ sản phẩm',
-    img: department4Png,
+    img: tui,
     color: 'bg-orange-100',
-    href: '/collection/nu/phu-kien'
+    href: '/collection/nu/phu-kien',
   },
 ]
 export interface SliderCategoryListProps {
@@ -115,7 +115,7 @@ const SliderCategoryList: FC<SliderCategoryListProps> = ({
           <ul className="glide__slides">
             {data.map((item, index) => (
               <li key={index} className={`glide__slide ${itemClassName}`}>
-                <CardCategory2 featuredImage={item.img} name={item.name} desc={item.desc} bgClass={item.color} />
+                <CardCategory2 featuredImage={item.img} name={item.name} desc={item.desc} bgClass={item.color} href={item.href} />
               </li>
             ))}
             <li className={`glide__slide ${itemClassName}`}>
@@ -151,7 +151,7 @@ const SliderCategoryList: FC<SliderCategoryListProps> = ({
                     <span className="text-sm mt-1 text-slate-800">Xem thêm</span>
                   </div>
                 </div>
-                <Link href={'/collection'} className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-black bg-opacity-10 transition-opacity"></Link>
+                <Link href={'/search'} className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-black bg-opacity-10 transition-opacity"></Link>
               </div>
             </li>
           </ul>

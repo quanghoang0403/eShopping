@@ -237,7 +237,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product, showPolicy }) => {
               <div className="ml-1.5 flex">
                 <span>4.9</span>
                 <span className="block mx-2">·</span>
-                <span className="text-slate-600 dark:text-slate-400 underline">142 reviews</span>
+                <span className="text-slate-600 dark:text-slate-400 underline">142 đánh giá</span>
               </div>
             </a>
             <span className="hidden sm:block mx-2.5">·</span>

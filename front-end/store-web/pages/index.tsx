@@ -6,7 +6,8 @@ import SliderProductList from '@/components/Common/ProductList/SliderProductList
 import SliderCategoryList from '@/components/Common/CategoryList/SliderCategoryList'
 import { GetServerSideProps } from 'next'
 import ProductCategoryService from '@/services/productCategory.service'
-
+import SectionHeroSimple from '@/components/Common/SectionHero/SectionHeroSimple'
+import SectionHeroSlide from '@/components/Common/SectionHero/SectionHeroSlide'
 
 export const getServerSideProps: GetServerSideProps<IHomeDataResponse> = async () => {
   try {

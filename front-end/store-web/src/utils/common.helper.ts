@@ -30,10 +30,10 @@ export const getCustomerId = async () => {
 }
 
 export const isAuthorized = async (token?: string, nextToken?: string) => {
-  console.log('nextToken', nextToken)
+
   const nextTokenCurrent = nextToken ?? getCookie(cookieKeys.NEXT_TOKEN)
   const tokenCurrent = token ?? getCookie(cookieKeys.TOKEN)
-  console.log('nextTokenCurrent', nextTokenCurrent)
+
   if (nextTokenCurrent && !await nextTokenExpired(nextTokenCurrent)) {
     return true
   }
