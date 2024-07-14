@@ -180,7 +180,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', product }) => {
             />
           </Link>
           <ProductStatus product={product} />
-          <LikeButton productId={product.id} className="absolute top-3 end-3 z-10" />
+          <LikeButton productCode={product.code} className="absolute top-3 end-3 z-10" />
           {/* {renderProductSizes()} */}
           {renderGroupButtons()}
         </div>

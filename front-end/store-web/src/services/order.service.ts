@@ -1,9 +1,10 @@
-import APIService from './base'
+import APIService, { buildQueryString } from './base'
 
 export default class OrderService {
   static async getOrders(request: IGetOrdersRequest): Promise<IPagingResponse<IOrder>> {
+    const queryParams = buildQueryString(request);
     return await APIService.get(
-      `/order/get-orders?pageNumber=${request.pageNumber}&pageSize=${request.pageSize}&keySearch=${request.keySearch}&startDate=${request.startDate}&endDate=${request.endDate}`
+      `/order/get-orders?${queryParams}`
     )
   }
 

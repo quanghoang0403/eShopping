@@ -4,30 +4,11 @@ import { Route } from '@/routers/types'
 import AddressService from '@/services/address.service'
 import CustomerService from '@/services/customer.service'
 import { getCustomerId } from '@/utils/common.helper'
-import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
-import React, { createContext, Suspense, useContext, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 
-const customerContext = createContext<ICustomer>({
-  id: '',
-  accountId: '',
-  cityId: null,
-  districtId: null,
-  wardId: null,
-  address: '',
-  note: '',
-  email: '',
-  emailConfirmed: false,
-  phoneNumber: '',
-  fullName: '',
-  thumbnail: '',
-  birthday: null,
-  gender: 0,
-  code: 0,
-  orders: []
-})
 
 enum AccountTab {
   Information = 'account-information',
@@ -73,7 +54,7 @@ const PageAbout = () => {
   const [customer,setCustomer] = useState<ICustomer>()
   const [city,setCity] = useState<string>('')
 
-  const getCustomer = async()=>{
+  const getAccountInfo = async()=>{
     const cities = await AddressService.getCities()
     const customerId = await getCustomerId()
     if(customerId){
@@ -88,7 +69,7 @@ const PageAbout = () => {
   }
 
   useEffect(()=>{
-    getCustomer();
+    getAccountInfo();
   },[])
 
   const handleOnChangeTab = (tab: string) => {
@@ -129,16 +110,13 @@ const PageAbout = () => {
       </div>
       <div className="max-w-4xl mx-auto pt-14 sm:pt-26 pb-24 lg:pb-32">
         <Suspense fallback={<div>Loading...</div>}>
-          <customerContext.Provider value={customer as ICustomer}>
-            {(!tabId || tabId == AccountTab.Information) && <AccountInformation/>}
+            {(!tabId || tabId == AccountTab.Information) && <AccountInformation customer={customer as ICustomer}/>}
             {tabId == AccountTab.Order && <AccountOrder />}
             {tabId == AccountTab.Savelist && <AccountWishList />}
             {tabId == AccountTab.Pass && <AccountPass />}
-          </customerContext.Provider>
         </Suspense>
       </div>
     </div>
   )
 }
-export const useCustomerContext = () => useContext(customerContext)
 export default PageAbout

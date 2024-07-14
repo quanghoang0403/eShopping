@@ -149,7 +149,7 @@ const ProductDetailPage = ({ productDetail, productRelated }: IProps) => {
                   className="w-full rounded-2xl object-cover"
                   alt="product detail 1"
                 /> */}
-                <LikeButton className="absolute right-3 top-3 " productId={productDetail.id}/>
+                <LikeButton className="absolute right-3 top-3 " productCode={productDetail.code}/>
               </div>
             </div>
 

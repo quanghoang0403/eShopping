@@ -13,10 +13,11 @@ import { useAppDispatch } from '@/hooks/useRedux'
 import CustomerService from '@/services/customer.service'
 import toast from 'react-hot-toast'
 import { getCustomerId } from '@/utils/common.helper'
-import { useCustomerContext } from '../../../pages/account'
 
-const AccountInformation = () => {
-  const customer = useCustomerContext()
+interface IProps{
+  customer: ICustomer
+}
+const AccountInformation = ({customer}: IProps) => {
   const {
     handleSubmit: handleSubmitUpdateProfile,
     register,
@@ -33,6 +34,9 @@ const AccountInformation = () => {
   useEffect(()=>{
     reset({...customer})
   },[customer])
+  const onUploadImage = (e)=>{
+    console.log(e)
+  }
   const onSubmitUpdateProfile: SubmitHandler<FieldValues> = (data: any) => seftUpdateAsync(data)
   return (
     <div className={`nc-AccountPage `}>
@@ -56,12 +60,12 @@ const AccountInformation = () => {
                 </svg>
                 <span className="mt-1 text-xs">Cập nhật ảnh đại diện</span>
               </div>
-              <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" />
+              <input onChange={e=>onUploadImage(e)} type="file" className="absolute inset-0 opacity-0 cursor-pointer" />
             </div>
           </div>
           <div className="flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6">
             <form onSubmit={handleSubmitUpdateProfile(onSubmitUpdateProfile)}>
-              <CustomerInfo reset={reset} register={register} errors={errors} customer={defaultCustomerInfo} />
+              <CustomerInfo reset={reset} register={register} errors={errors} customer={customer} />
               <ButtonPrimary className="mt-8 w-full">Cập nhật thông tin</ButtonPrimary>
             </form>
           </div>

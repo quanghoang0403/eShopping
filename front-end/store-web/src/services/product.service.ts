@@ -7,8 +7,9 @@ export default class ProductService {
       `/product/get-products?${queryParams}`
     )
   }
-  static async getProductById(id: string): Promise<IProduct> {
-    return await APIService.get(`/product/get-product-by-id/${id}`)
+  static async getProductWishList(request: any): Promise<IProduct[]> {
+    const queryParams = buildQueryString(request)
+    return await APIService.get(`/product/get-product-wish-list?${queryParams}`)
   }
   static async getProductByUrl(url: string): Promise<IProduct> {
     return await APIService.get(`/product/get-product-by-url?url=${url}`)

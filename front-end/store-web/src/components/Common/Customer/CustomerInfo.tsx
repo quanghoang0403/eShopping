@@ -3,13 +3,12 @@ import AddressService from '@/services/address.service'
 import { useEffect, useState } from 'react'
 import Input from '@/shared/Controller/Input'
 import Selection from '@/shared/Controller/Selection'
-import { useCustomerContext } from '../../../../pages/account'
 
 interface IProps {
   isShipping?: boolean
   register: UseFormRegister<FieldValues>
   errors: FieldErrors<FieldValues>
-  customer: ICustomerInfo
+  customer: ICustomer
   reset : UseFormReset<FieldValues>
 }
 
@@ -42,19 +41,18 @@ export default function CustomerInfo(props: IProps) {
   const [wards, setWards] = useState<IArea[]>([])
   const [cityId,setCityId] = useState<number>()
   const [districtId,setDistrictId] = useState<number>()
-  const customerInfo: ICustomer = useCustomerContext()
 
   useEffect(() => {
     fetchCities()
   }, [])
 
   useEffect(() => {
-    fetchDistricts(cityId as number ?? customerInfo?.cityId as number)
-  }, [customerInfo, cityId])
+    fetchDistricts(cityId as number ?? customer?.cityId as number)
+  }, [customer, cityId])
 
   useEffect(() => {
-    fetchWards(districtId as number ?? customerInfo?.districtId as number)
-  }, [customerInfo, districtId])
+    fetchWards(districtId as number ?? customer?.districtId as number)
+  }, [customer, districtId])
 
   const fetchCities = async () => {
     const res = await AddressService.getCities()
@@ -224,7 +222,7 @@ export default function CustomerInfo(props: IProps) {
             />
           </div>
           <div>
-            <Input value={customerInfo?.note} register={register} label="Ghi chú" name="note" />
+            <Input value={customer?.note} register={register} label="Ghi chú" name="note" />
           </div>
         </div>
       </div>

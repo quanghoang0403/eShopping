@@ -5,16 +5,17 @@ import { useEffect, useState } from 'react'
 import ProductService from '@/services/product.service'
 
 const AccountWishList = () => {
-  const wishListIds = useAppSelector(state=>state.session.wishListIds)
+  const wishListCodes = useAppSelector(state => state.session.wishListCodes)
   const [product,setProduct] = useState<IProduct[]>([])
+  const getProductWishList = async ()=>{
+    const res = await ProductService.getProductWishList({productCodes: wishListCodes})
+    if(res){
+      setProduct(res)
+    }
+  }
   useEffect(()=>{
-    var promises = wishListIds.map((id:string)=> ProductService.getProductById(id))
-    Promise.all(promises).then(products=>{
-      setProduct(products)
-    }).catch(err=>{
-      console.error(err)
-    })
-  },[wishListIds])
+    getProductWishList()
+  },[wishListCodes])
   return (
     <div className="space-y-10 sm:space-y-12">
       <div>

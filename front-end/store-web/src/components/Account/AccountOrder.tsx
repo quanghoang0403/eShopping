@@ -3,7 +3,8 @@ import ButtonSecondary from '@/shared/Button/ButtonSecondary'
 import Image from 'next/image'
 import { formatCurrency } from '@/utils/string.helper'
 import OrderItemList from '../Common/Order/OrderItemList'
-import { useCustomerContext } from '../../../pages/account'
+import OrderService from '@/services/order.service'
+import { useEffect, useState } from 'react'
 
 const orderList: IOrder[] = [
   {
@@ -66,7 +67,23 @@ const orderList: IOrder[] = [
 ]
 
 const AccountOrder = () => {
-  const customer = useCustomerContext()
+  const [orders, setOrders] = useState<IOrder[]>()
+
+  const getOrders = async ()=>{
+    const request: IGetOrdersRequest = {
+      pageNumber: 1,
+      pageSize: 20,
+      keySearch: ''
+    }
+    const res = await OrderService.getOrders(request)
+    if(res){
+      setOrders(res.result)
+    }
+  }
+
+  useEffect(()=>{
+    getOrders()
+  },[])
   const renderOrder = (order: IOrder) => {
     return (
       <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden z-0">
@@ -101,7 +118,7 @@ const AccountOrder = () => {
     <div className="space-y-10 sm:space-y-12">
       {/* HEADING */}
       <h2 className="text-2xl sm:text-3xl font-semibold">Lịch sử đơn hàng</h2>
-      {customer?.orders.map((order) => renderOrder(order))}
+      {orders?.map((order) => renderOrder(order))}
     </div>
   )
 }

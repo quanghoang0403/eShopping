@@ -83,8 +83,8 @@ interface IOrderHistory {
 }
 
 interface IGetOrdersRequest extends IPagingRequest {
-  startDate: Date
-  endDate: Date
+  startDate?: Date
+  endDate?: Date
 }
 
 interface IUpdateOrderRequest {
