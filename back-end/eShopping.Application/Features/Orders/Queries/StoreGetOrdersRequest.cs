@@ -70,8 +70,8 @@ namespace eShopping.Application.Features.Orders.Queries
             var listOrderOrdered = listOrderCurrent.OrderByDescending(o => o.CreatedTime);
             int pageNumber = request.PageNumber > 0 ? request.PageNumber : 1;
             int pageSize = request.PageSize > 0 ? request.PageSize : 10;
-            var listOrderByPaging = await listOrderOrdered.ToPaginationAsync(pageNumber, pageSize);
-            var listOrderModels = _mapper.Map<IEnumerable<StoreOrderModel>>(listOrderByPaging.Result);
+            var listOrderByPaging = await listOrderOrdered.Include(o => o.OrderItems).ToPaginationAsync(pageNumber, pageSize);
+            var listOrderModels = _mapper.Map<List<StoreOrderModel>>(listOrderByPaging.Result);
             var response = new PagingResult<StoreOrderModel>(listOrderModels, listOrderByPaging.Paging);
             return BaseResponseModel.ReturnData(response);
 

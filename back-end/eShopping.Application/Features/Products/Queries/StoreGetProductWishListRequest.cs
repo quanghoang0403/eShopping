@@ -5,6 +5,7 @@ using eShopping.Models.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,6 +34,10 @@ namespace eShopping.Application.Features.Products.Queries
 
         public async Task<BaseResponseModel> Handle(StoreGetProductWishListRequest request, CancellationToken cancellationToken)
         {
+            if (request.ProductCodes == null || !request.ProductCodes.Any())
+            {
+                return BaseResponseModel.ReturnData(new List<StoreProductModel>());
+            }
             var product = await _unitOfWork.Products.Where(p => request.ProductCodes.Contains(p.Code) && p.IsActive).ToListAsync(cancellationToken);
             var response = _mapper.Map<List<StoreProductModel>>(product);
             return BaseResponseModel.ReturnData(response);

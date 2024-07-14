@@ -1,6 +1,7 @@
 ﻿using eShopping.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace eShopping.Models.Orders
 {
@@ -21,24 +22,40 @@ namespace eShopping.Models.Orders
 
         public int TotalQuantity { get; set; }
 
-        
+
         public decimal DeliveryFee { get; set; }
 
-        
+
         public decimal TotalPriceValue { get; set; }
 
-        
+
         public decimal TotalAmount { get; set; }
 
-        public OrderItemDto OrderItems { get; set; }
+        public List<OrderItemDto> OrderItems { get; set; }
 
         public class OrderItemDto
         {
             public int Quantity { get; set; }
 
-            public int ProductVariantName { get; set; }
+            public string ProductVariantName { get; set; }
 
             public string Thumbnail { get; set; }
+            public decimal PriceOrigin { get; set; }
+
+
+            public decimal PriceValue { get; set; }
+
+
+            public decimal? PriceDiscount { get; set; }
+
+            public decimal TotalPriceOrigin { get; set; }
+
+            public decimal TotalPriceValue { get; set; }
+
+            public decimal TotalPriceDiscount { get; set; }
+
+            public decimal TotalPrice { get; set; }
+            public string ProductName { get; set; }
         }
     }
 }
