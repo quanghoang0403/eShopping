@@ -16,7 +16,7 @@
 ## 2. Frontend
 
 ### 2.1 Admin Web Frontend
-- Framework: ReactJS
+- Framework: ReactJS, Redux, Redux-toolkit
 - UI: Ant-Design, Bootstrap, SCSS
 - Locales: i18
 - Install package: npm i -f
@@ -25,7 +25,7 @@
 - [https://eshopping-store-web.vercel.app/](https://eshopping-admin-web.vercel.app/)
 
 ### 2.2 Store Web Frontend
-- Framework: NextJS 
+- Framework: NextJS, Typescript, Redux, Redux-toolkit
 - UI: Tailwind, Material-Tailwind, SCSS
 - Locales: i18
 - Install package: npm i -f
@@ -104,23 +104,3 @@ code --install-extension xabikos.ReactSnippets
 - Create merge request & waiting to approve + merge
 - After merged => merge main branch into current branch/ Create new branch base on latest main 
 - Continue...
-
-### 4.2 Task
-- Map Backend API to UI and complete the feature
-- Check & fix api if has error
-
-### 4.3 To do
-#### 18/3 -> 24/3
-- [ ] Explain business (store + admin)
-- [ ] Explain architechture (FE + BE)
-- [ ] Run full flow
-- [ ] Dump data + update DB
-- [ ] Using swagger
-- [ ] Using debug browser
-- [ ] Test git work flow
-- [ ] Note naming Admin and demo one feature
-#### 25/3 -> 31/3
-- [ ] ProductCategory
-
-#### 1/4 -> 7/4
-- [ ] Product
